@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 1 Struktur Data: Pengenalan bahasa pemrograman C</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Lab Praktikum Departemen Matematika FMIPA UI</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../praktikum.html">
+ <span class="menu-text">Praktikum</span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a></li>
+  <li><a href="#mengapa-bahasa-pemrograman-c-untuk-struktur-data" id="toc-mengapa-bahasa-pemrograman-c-untuk-struktur-data" class="nav-link" data-scroll-target="#mengapa-bahasa-pemrograman-c-untuk-struktur-data">Mengapa bahasa pemrograman C untuk Struktur Data?</a></li>
+  <li><a href="#hello-world---komponen-dasar-program-c" id="toc-hello-world---komponen-dasar-program-c" class="nav-link" data-scroll-target="#hello-world---komponen-dasar-program-c">Hello world! - komponen dasar program C</a></li>
+  <li><a href="#kompilasi-compilation-dan-eksekusi-execution-atau-running" id="toc-kompilasi-compilation-dan-eksekusi-execution-atau-running" class="nav-link" data-scroll-target="#kompilasi-compilation-dan-eksekusi-execution-atau-running">Kompilasi (<em>compilation</em>) dan eksekusi (<em>execution</em> atau <em>running</em>)</a></li>
+  <li><a href="#perhitungan-variabel-dan-tipe-data-bilangan" id="toc-perhitungan-variabel-dan-tipe-data-bilangan" class="nav-link" data-scroll-target="#perhitungan-variabel-dan-tipe-data-bilangan">Perhitungan, variabel, dan tipe data bilangan</a>
+  <ul class="collapse">
+  <li><a href="#output-selain-string-format-specifier" id="toc-output-selain-string-format-specifier" class="nav-link" data-scroll-target="#output-selain-string-format-specifier"><em>Output</em> selain <em>string</em>: <em>format specifier</em></a></li>
+  <li><a href="#escape-sequence-untuk-string" id="toc-escape-sequence-untuk-string" class="nav-link" data-scroll-target="#escape-sequence-untuk-string"><em>Escape sequence</em> untuk <em>string</em></a></li>
+  <li><a href="#comment" id="toc-comment" class="nav-link" data-scroll-target="#comment"><em>Comment</em></a></li>
+  <li><a href="#variabel-dan-tipe-data-bilangan" id="toc-variabel-dan-tipe-data-bilangan" class="nav-link" data-scroll-target="#variabel-dan-tipe-data-bilangan">Variabel dan tipe data bilangan</a></li>
+  <li><a href="#operasi-dasar" id="toc-operasi-dasar" class="nav-link" data-scroll-target="#operasi-dasar">Operasi dasar</a></li>
+  <li><a href="#konstanta" id="toc-konstanta" class="nav-link" data-scroll-target="#konstanta">Konstanta</a></li>
+  <li><a href="#ukuran-data-dengan-sizeof-dan-size_t" id="toc-ukuran-data-dengan-sizeof-dan-size_t" class="nav-link" data-scroll-target="#ukuran-data-dengan-sizeof-dan-size_t">Ukuran data dengan <code>sizeof</code> dan <code>size_t</code></a></li>
+  <li><a href="#format-specifier" id="toc-format-specifier" class="nav-link" data-scroll-target="#format-specifier"><em>Format specifier</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modul 1 Struktur Data: Pengenalan bahasa pemrograman C</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Kembali ke <a href="../../2023/strukdat/strukdat2023.html">Struktur Data</a></p>
+<p>Selamat datang di praktikum Struktur Data!</p>
+<section id="outline" class="level1">
+<h1>Outline</h1>
+<ul>
+<li>Mengapa bahasa pemrograman C untuk Struktur Data?</li>
+<li>Hello world! - komponen dasar program C</li>
+<li>Kompilasi (<em>compilation</em>) dan eksekusi (<em>execution</em> atau <em>running</em>)</li>
+<li>Perhitungan, variabel, dan tipe data bilangan
+<ul>
+<li><em>Output</em> selain <em>string</em>: <em>format specifier</em></li>
+<li><em>Escape sequence</em> untuk <em>string</em></li>
+<li><em>Comment</em></li>
+<li>Variabel dan tipe data bilangan</li>
+<li>Operasi dasar</li>
+<li>Konstanta</li>
+<li>Ukuran data dengan <code>sizeof</code> dan <code>size_t</code></li>
+<li><em>Format specifier</em></li>
+</ul></li>
+<li>Pernyataan kondisional (bersyarat)
+<ul>
+<li>Tipe data <em>boolean</em></li>
+<li><code>if</code>, <code>else</code></li>
+<li><code>switch case</code></li>
+</ul></li>
+<li><em>Looping</em> (pernyataan berulang)
+<ul>
+<li><code>while</code> loop</li>
+<li><code>for</code> loop</li>
+<li><code>do while</code> loop</li>
+</ul></li>
+</ul>
+</section>
+<section id="mengapa-bahasa-pemrograman-c-untuk-struktur-data" class="level1">
+<h1>Mengapa bahasa pemrograman C untuk Struktur Data?</h1>
+<p>Sejauh ini, bahasa pemrograman utama yang digunakan selama berbagai praktikum adalah Python. Khusus Struktur Data, praktikum akan dilaksanakan menggunakan bahasa pemrograman C, karena <strong>ada fitur pemrograman yang dipelajari di Struktur Data tetapi tidak ada di Python.</strong> Fitur tersebut sangat krusial dalam pembelajaran Struktur Data, yaitu <strong><em>pointer</em></strong>. Hampir semua struktur data yang akan kita pelajari di mata kuliah Struktur Data membutuhkan <em>pointer</em>.</p>
+<p>(<em>Advanced note:</em> memang betul, kita bisa memanfaatkan fitur <code>class</code> di Python daripada menggunakan <code>struct</code> dan <em>pointer</em> di bahasa pemrograman C. Sebenarnya, fitur <em>pointer</em> tersirat di dalam beberapa keanehan Python, seperti ketika membuat <code>list</code> baru dari <code>list</code> lain menggunakan <em>assignment</em> (padahal harusnya <code>.copy()</code>), dan perubahan pada salah satu <code>list</code> juga mengubah <code>list</code> yang satunya lagi. Hal tersebut bisa terjadi karena sebenarnya Python menggunakan <em>pointer</em> untuk <code>list</code>. Lagipula, bahasa pemrograman Python dibuat menggunakan C.<sup><a href="https://en.wikipedia.org/wiki/CPython">[1]</a></sup> <sup><a href="https://www.scaler.com/topics/in-which-language-python-is-written/">[2]</a></sup> Sayangnya, kita tidak bisa secara eksplisit menggunakan <em>pointer</em> di Python. Sehingga, apabila kita mempelajari Struktur Data menggunakan Python, kita harus bergantung pada keanehan Python, terutama sifat <code>class</code> yang memiliki keanehan yang sama dengan <code>list</code>. Dengan langsung menggunakan bahasa C, lebih jelas bagian mana pada kode yang menggunakan <em>pointer</em> dan bagian mana yang tidak.)</p>
+<p>Tentu saja, karena kita pindah ke bahasa pemrograman C, kita harus mempelajari terlebih dahulu dasar-dasar pemrograman C dari awal, sekaligus <em>review</em> materi pemrograman dasar.</p>
+</section>
+<section id="hello-world---komponen-dasar-program-c" class="level1">
+<h1>Hello world! - komponen dasar program C</h1>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>helloworld.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>    printf<span class="op">(</span><span class="st">"Hello, world!"</span><span class="op">);</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Program di atas melakukan… terdiri dari…</p>
+<p>Coba save di folder… kemudian pencet run (code runner)…</p>
+<p>Beberapa variasi…</p>
+</section>
+<section id="kompilasi-compilation-dan-eksekusi-execution-atau-running" class="level1">
+<h1>Kompilasi (<em>compilation</em>) dan eksekusi (<em>execution</em> atau <em>running</em>)</h1>
+<p>Perhatikan folder di mana kode Anda tersimpan. Apakah ada <em>file</em> baru dengan nama yang sama seperti nama program, tetapi dengan <em>file extension</em> (akhiran) yang berbeda? Sebenarnya, <em>file</em> itulah yang dibuka oleh komputer Anda.</p>
+<p>Tidak seperti Python yang bersifat <em>interpreted</em>, bahasa pemrograman C adalah bahasa pemrograman yang bersifat <em>compiled</em>. Artinya, ketika ingin menguji coba program C yang telah kita buat, ada dua tahapan:</p>
+<ul>
+<li>Kompilasi (<em>compilation</em>), yaitu mengkonversi program C menjadi bahasa mesin (<em>machine language</em>, bahasa yang langsung bisa dipahami oleh <strong>prosesor</strong> di komputer Anda, yaitu komponen yang fungsinya adalah menjalankan program). Proses kompilasi ini menghasilkan <em>file</em> baru.</li>
+<li>Eksekusi (<em>execution</em> atau <em>running</em>), yaitu komputer (lebih tepatnya prosesor) langsung menjalankan program yang telah dikompilasi ke dalam bahasa mesin (yaitu <em>file</em> baru tersebut).</li>
+</ul>
+<p>Sedangkan, pada bahasa pemrograman yang <em>interpreted</em>, ketika komputer menjalankan program, komputer melakukannya per baris; artinya, untuk tiap baris, komputer perlu memahaminya terlebih dahulu, kemudian melakukan perintah pada baris tersebut. Bolak-balik antara memahami dan melakukan perintah itu dilakukan per baris, dan selalu dilakukan tiap kali program dijalankan. Oleh karena itu, program yang dibuat dengan bahasa pemrograman <em>interpreted</em> seperti Python cenderung lebih pelan daripada yang dibuat dengan bahasa pemrograman <em>compiled</em> seperti C.</p>
+<p>Proses kompilasi dilakukan oleh <em>compiler</em>. <em>Compiler</em> untuk bahasa pemrograman C yang paling terkenal adalah <strong>gcc</strong> (GNU Compiler Collection), yang bisa tersambung langsung dengan Visual Studio Code melalui <em>extension</em> seperti “C/C++” dan “Code Runner”. Dengan <em>extension</em> Code Runner, Anda tinggal menekan tombol <em>run</em> (▶) di sekitar ujung kanan atas aplikasi, lalu gcc akan langsung mengkompilasi program Anda.</p>
+<p>Proses kompilasi menghasilkan suatu <em>file</em> yang bisa langsung dijalankan oleh komputer Anda. Untuk model dan merek proseor yang berbeda, bisa jadi ada variasi dalam <em>file</em> hasil <em>compile</em> tersebut, tergantung bahasa mesin yang dipahami oleh prosesor. Untungnya, gcc juga bisa mengkompilasi program ke dalam <em>file format</em> seperti .exe (aplikasi Windows), sehingga hanya bergantung sistem operasi (<em>operating system</em>).</p>
+<p><strong>Tiap kali Anda ingin menjalankan suatu program C, proses kompilasi selalu harus dilakukan terlebih dahulu</strong> sebelum eksekusi, tidak seperti bahasa pemrograman yang <em>interpreted</em>.</p>
+<p><em>Fun fact:</em> biasanya <em>compiler</em> tidak sekedar mengkompilasi, tetapi juga mencoba melakukan optimisasi (<em>optimization</em>), yaitu mempersingkat dan menyederhanakan program, menghemat semua penggunaan memori dan sebagainya agar program menjadi lebih kecil dan lebih cepat dijalankan tetapi tetap melakukan hal yang sama persis.</p>
+</section>
+<section id="perhitungan-variabel-dan-tipe-data-bilangan" class="level1">
+<h1>Perhitungan, variabel, dan tipe data bilangan</h1>
+<section id="output-selain-string-format-specifier" class="level2">
+<h2 class="anchored" data-anchor-id="output-selain-string-format-specifier"><em>Output</em> selain <em>string</em>: <em>format specifier</em></h2>
+<p>Tentu saja, kemampuan C bukan sekedar mengeluarkan <em>output</em> berupa <em>string</em>. Program C juga bisa mengeluarkan <em>output</em> berupa <em>integer</em> (bilangan bulat), dengan <em>syntax</em> (sintaks; cara penulisan) seperti berikut:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>helloint.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>    printf<span class="op">(</span><span class="st">"%d"</span><span class="op">,</span> <span class="dv">98</span><span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pada contoh program <code>helloint.c</code> di atas, <em>output</em> yang dikeluarkan adalah suatu bilangan bulat yaitu 98. Adanya tulisan <code>"%d"</code> adalah bentuk <strong><em>string formatting</em></strong>, di mana huruf “d” melambangkan tipe data bilangan bulat dalam bentuk desimal (base 10). Artinya, bilangan bulat di sampingnya itu disisipkan ke dalam <em>string</em>, sehingga kita bisa melihat <em>output</em> berupa bilangan bulat tersebut.</p>
+<p>Lambang seperti <code>%d</code> disebut <strong><em>format specifier</em></strong>.</p>
+<p><em>Fun fact:</em> huruf “f” dalam istilah <code>printf</code> artinya <em>“formatted”</em>.</p>
+<p>Tentu saja, kita dapat menuliskan apapun sebelum dan sesudah <em>format specifier</em> <code>%d</code> tersebut:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>helloint2.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>    printf<span class="op">(</span><span class="st">"Anda memasukkan %d yaitu bilangan bulat"</span><span class="op">,</span> <span class="dv">98</span><span class="op">);</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Bilangan bulat tersebut akan disisipkan di dalam <em>string</em>, sesuai dengan posisi <code>%d</code>.</p>
+<p>Bilangan bulat juga bisa negatif:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>helloint3.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    printf<span class="op">(</span><span class="st">"Anda memasukkan %d yaitu bilangan bulat"</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Selain “d” yang berarti bilangan bulat, huruf “f” artinya <em>float</em>, atau <em>floating-point number</em>. Singkat cerita, tipe data <em>float</em> adalah bilangan yang bisa berupa desimal, sehingga tidak terbatas bilangan bulat saja. (Kalau penasaran detilnya dan mengapa namanya demikian, kalian bisa <em>review</em> kembali materi pertemuan pertama kuliah Metode Numerik, tentang <em>floating-point arithmetic</em>.) Kita dapat membuat program seperti berikut:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellofloat.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>    printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="fl">3.14</span><span class="op">);</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>dan kita akan menerima <em>output</em> berupa <em>float</em> yang kita tuliskan, yaitu 3.14. Tentu saja, tipe data <em>float</em> juga bisa negatif:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellofloat2.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>    printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.618</span><span class="op">);</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kita bisa menyisipkan lebih dari satu bilangan:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellonum.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>    printf<span class="op">(</span><span class="st">"%d %f %f"</span><span class="op">,</span> <span class="dv">98</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.618</span><span class="op">,</span> <span class="fl">3.14</span><span class="op">);</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Perhatikan bahwa tiap bilangan di dalam <em>string</em> di atas dipisah dengan spasi. Sehingga, pada <em>output</em>, tiap bilangan akan dipisah dengan spasi.</p>
+<p>Perhatikan apa yang terjadi kalau kita memisahkan proses print menjadi satu bilangan saja per <code>printf</code>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellonum2.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>    printf<span class="op">(</span><span class="st">"%d"</span><span class="op">,</span> <span class="dv">98</span><span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>    printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.618</span><span class="op">);</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>    printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="fl">3.14</span><span class="op">);</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(Catatan: <code>return 0;</code> tidak harus selalu menempel dengan baris-baris sebelumnya. Bahkan, tidak ada baris yang harus saling menempel.)</p>
+<p>Ternyata, semua <em>output</em> tetap di baris yang sama. Bahkan, tidak ada spasi yang memisahkan (karena tidak kita tulis). Ada kode khusus untuk membuat baris baru (<em>new line</em>), yaitu <code>\n</code>. Perhatikan:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellonum3.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>    printf<span class="op">(</span><span class="st">"%d</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="dv">98</span><span class="op">);</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>    printf<span class="op">(</span><span class="st">"%f</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.618</span><span class="op">);</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>    printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="fl">3.14</span><span class="op">);</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a></span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tiap kali ada <code>\n</code>, dikeluarkan “<em>output</em>” berupa baris baru. Sehingga, <em>output</em> selanjutnya akan mulai dari baris baru tersebut. Kalau mau, kita bisa memisahkan pembuatan baris baru, seperti berikut:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellonum4.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  printf<span class="op">(</span><span class="st">"%d"</span><span class="op">,</span> <span class="dv">98</span><span class="op">);</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>  printf<span class="op">(</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>  printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.618</span><span class="op">);</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>  printf<span class="op">(</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  printf<span class="op">(</span><span class="st">"%f"</span><span class="op">,</span> <span class="fl">3.14</span><span class="op">);</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="escape-sequence-untuk-string" class="level2">
+<h2 class="anchored" data-anchor-id="escape-sequence-untuk-string"><em>Escape sequence</em> untuk <em>string</em></h2>
+<p><code>\n</code> adalah contoh <em>escape sequence</em>, yaitu kode khusus untuk mem-<em>print</em> hal-hal yang tidak bisa kita ketik begitu saja. Contoh lain, bagaimana caranya kita mem-<em>print</em> <em>output</em> <code>"Hello world"</code> <strong>dengan tanda kutip</strong>? Masalahnya, tanda kutip sudah digunakan untuk menandakan awal dan akhir <em>string</em>, sehingga tidak bisa kita ketik begitu saja. Solusinya, kita gunakan <em>escape sequence</em> lain yaitu <code>\"</code> seperti berikut.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>escapequote.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>    printf<span class="op">(</span><span class="st">"Kita coba print </span><span class="sc">\"</span><span class="st">Hello world!</span><span class="sc">\"</span><span class="st"> apakah berhasil?"</span><span class="op">);</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Perhatikan kalimat berikut.</p>
+<blockquote class="blockquote">
+<p>Sejauh ini, kita sudah mempelajari \n dan \” yaitu dua contoh escape sequence.</p>
+</blockquote>
+<p>Bagaimana caranya kita mem-<em>print</em> keseluruhan kalimat tersebut di C, misalnya tanpa membuat baris baru? Masalanhya ada pada tanda <em>backslash</em> <code>\</code> yang memang sudah menjadi ciri khas untuk <em>escape sequence</em>. Kita ingin menampilkan <em>escape sequence</em> tersebut tanpa mengaktifkannya. Solusinya, bahkan tanda <em>backslash</em> itu sendiri bisa “dinonaktifkan” dengan menuliskan <code>\\</code> seperti berikut:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>escapebackslash.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>    printf<span class="op">(</span><span class="st">"Sejauh ini, kita sudah mempelajari </span><span class="sc">\\</span><span class="st">n dan </span><span class="sc">\\\"</span><span class="st"> yaitu dua contoh escape sequence."</span><span class="op">);</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Perhatikan bahwa, untuk <code>\n</code>, hanya diperlukan satu <em>backslash</em> agar bisa ditampilkan. Sedangkan, diperlukan dua <em>backslash</em> untuk menampilkan <code>\"</code>. Seandainya hanya digunakan satu <em>backslash</em>, yaitu mengetik <code>\\"</code>, maka <em>output</em> nya akan menjadi seperti berikut,</p>
+<blockquote class="blockquote">
+<p>Sejauh ini, kita sudah mempelajari \n dan \</p>
+</blockquote>
+<p>karena, melihat <code>\\"</code>, tanda kutip tersebut <strong>dianggap sebagai penutup <em>string</em></strong>. Anggapan tersebut bisa kita nonaktifkan menggunakan <em>backslash</em> juga (yang ditambahkan tepat sebelum tanda kutip tersebut), sehingga kita ketik <code>\\\"</code>.</p>
+<p>Ada banyak <em>escape sequence</em> lainnya yang tidak dibahas di sini (bisa dicari di Google).</p>
+</section>
+<section id="comment" class="level2">
+<h2 class="anchored" data-anchor-id="comment"><em>Comment</em></h2>
+<p>Dalam pemrograman, <em>comment</em> adalah semacam catatan yang tidak diperhatikan oleh komputer sama sekali; gunanya hanya untuk memudahkan manusia memahami kode. Pada bahasa pemrograman C, ada dua jenis <em>comment</em>, yaitu:</p>
+<ul>
+<li><em>single-line</em> (satu baris), yang diawali dengan <code>//</code> dan bisa dituliskan di mana saja. Penggunaan <code>//</code> pada C sama persis dengan penggunaan <code>#</code> pada Python.</li>
+<li><em>multi-line</em> (banyak baris), yang diawali dengan <code>/*</code> dan diakhiri dengan <code>*/</code>, dan juga bisa ditempatkan di mana saja. Penggunaan ini bahkan lebih fleksibel daripada <code>"""</code> di Python.</li>
+</ul>
+<p>Perhatikan program berikut.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>hellocomment.c</strong></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource c number-lines code-with-copy"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co">// comment tidak harus di dalam main()</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>    <span class="co">// ini comment</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>    printf<span class="op">(</span><span class="st">"Hello world!</span><span class="sc">\n</span><span class="st">"</span><span class="op">);</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="co">/* ini</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="co">    juga</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="co">    comment */</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a>    <span class="co">/*</span></span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="co">    bisa</span></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="co">    seperti</span></span>
+<span id="cb13-15"><a href="#cb13-15"></a><span class="co">    ini</span></span>
+<span id="cb13-16"><a href="#cb13-16"></a><span class="co">    */</span></span>
+<span id="cb13-17"><a href="#cb13-17"></a></span>
+<span id="cb13-18"><a href="#cb13-18"></a>    printf<span class="op">(</span><span class="st">"%d adalah bilangan bulat.</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="dv">22</span><span class="op">);</span></span>
+<span id="cb13-19"><a href="#cb13-19"></a>    printf<span class="op">(</span><span class="co">/* penyusup */</span> <span class="st">"%f</span><span class="sc">\n</span><span class="st">"</span><span class="op">,</span> <span class="co">/* tes */</span> <span class="op">-</span><span class="fl">273.15</span><span class="op">);</span></span>
+<span id="cb13-20"><a href="#cb13-20"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sesuai kegunaannya, semua <em>comment</em> diabaikan oleh C; kode tetap diijalankan seolah-olah tidak ada <em>comment</em> sama sekali.</p>
+</section>
+<section id="variabel-dan-tipe-data-bilangan" class="level2">
+<h2 class="anchored" data-anchor-id="variabel-dan-tipe-data-bilangan">Variabel dan tipe data bilangan</h2>
+<p>blabla</p>
+</section>
+<section id="operasi-dasar" class="level2">
+<h2 class="anchored" data-anchor-id="operasi-dasar">Operasi dasar</h2>
+<p>blabla</p>
+</section>
+<section id="konstanta" class="level2">
+<h2 class="anchored" data-anchor-id="konstanta">Konstanta</h2>
+<p>blabla</p>
+</section>
+<section id="ukuran-data-dengan-sizeof-dan-size_t" class="level2">
+<h2 class="anchored" data-anchor-id="ukuran-data-dengan-sizeof-dan-size_t">Ukuran data dengan <code>sizeof</code> dan <code>size_t</code></h2>
+<p>nitip https://stackoverflow.com/questions/19732319/difference-between-size-t-and-unsigned-int</p>
+<p>blabla</p>
+</section>
+<section id="format-specifier" class="level2">
+<h2 class="anchored" data-anchor-id="format-specifier"><em>Format specifier</em></h2>
+<p>Sebelumnya, kita sudah menggunakan beberapa <strong><em>format specifier</em></strong> seperti <code>%d</code>, <code>%f</code>, dan <code>%lf</code>. <em>Format specifier</em> lainnya bisa dilihat di link berikut:</p>
+<p>https://www.tutorialspoint.com/format-specifiers-in-c</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
