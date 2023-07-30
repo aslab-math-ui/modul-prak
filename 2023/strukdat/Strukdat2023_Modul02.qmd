@@ -12,8 +12,11 @@ Kembali ke [Struktur Data](strukdat2023.qmd)
 * Tentang *function* (fungsi)
 * Menampilkan semua elemen pada *array*
 * `struct` ("struktur" atau struktur data)
+* Mendalami proses kompilasi program
 * *Preprocessor directive* dan *header file* (.h)
-* *Header file* untuk Modul 2 Praktikum: `prakmodul2.h`
+* *Build system* `make`: kompilasi otomatis dengan Makefile
+* Referensi tambahan: CMake
+* *Header file* untuk Modul 2 Praktikum: `prakmodul2.h` dan `prakmodul2.c`
 
 # *Array* (larik)
 
@@ -49,16 +52,54 @@ void array_int_print(int arr[], int arr_length) {
 
 blabla
 
+# Mendalami proses kompilasi program
+
+blabla
+
 # *Preprocessor directive* dan *header file* (.h)
 
 blabla
 
-# *Header file* untuk Modul 2 Praktikum: `prakmodul2.h`
+# *Build system* `make`: kompilasi otomatis dengan Makefile
 
-```{.c filename="prakmodul2.h" code-line-numbers="true"}
+blabla
+
+# Referensi tambahan: CMake
+
+Kita telah belajar cara membuat Makefile secara manual dan menggunakannya. Sejauh ini, Makefile yang kita buat melibatkan beberapa variabel yang perlu kita *setting* secara manual. Untuk program dan proyek skala kecil seperti di mata kuliah Struktur Data, itu tidak masalah.
+
+Sebenarnya, sudah ada *software* untuk membuat Makefile secara otomatis, yaitu CMake. Bahkan, CMake bisa menghasilkan Makefile untuk berbagai sistem operasi yang memiliki berbagai macam ketergantungan yang berbeda-beda. Namun, cara penggunaannya bisa agak sulit, sehingga tidak kami ajarkan di praktikum untuk menghemat waktu. Anda bisa membaca lebih lanjut tentang CMake di internet, seperti di link berikut:
+
+https://earthly.dev/blog/cmake-vs-make-diff/
+
+# *Header file* untuk Modul 2 Praktikum: `prakmodul2.h` dan `prakmodul2.c`
+
+Di Modul 2 Praktikum Struktur Data ini, kita telah mendefinisikan fungsi, seperti `array_int_print`. Tentunya, fungsi ini bisa saja diperlukan untuk praktikum ke depannya ataupun untuk proyek lainnya. Oleh karena itu, berikut ini tercantum kode  *header file* yang memiliki fungsi penting seperti `array_int_print`, yang bisa kalian libatkan ke dalam apapun proyek yang kalian buat dengan bahasa pemrograman C, melalui Makefile, seperti yang sudah kita praktekkan kali ini. Untuk modul-modul praktikum ke depannya, kode untuk *header file* juga akan tercantum di bagian paling bawah seperti di sini.
+
+::: {.panel-tabset}
+
+## `prakmodul2.h`
+
+```{.c code-line-numbers="true"}
+#ifndef PRAKMODUL2_H
+#define PRAKMODUL2_H
+
+void array_int_print(int arr[], int arr_length);
+
+#endif
+```
+
+## `prakmodul2.c`
+
+```{.c code-line-numbers="true"}
+#include <stdio.h>
+#include "prakmodul2.h"
+
 void array_int_print(int arr[], int arr_length) {
     for (int i = 0; i < arr_length; i++) {
         printf("%d ", arr[i]);
     }
 }
 ```
+
+:::
