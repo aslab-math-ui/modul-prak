@@ -21,9 +21,9 @@ Selamat datang di praktikum Struktur Data!
   - Ukuran data dengan `sizeof` dan `size_t`
   - *Format specifier*
 * Pernyataan kondisional (bersyarat)
-  - Tipe data *boolean*
   - `if`, `else`
-  - `switch case`
+  - Tipe data *boolean*
+  - `switch case` dan `enum`
 * *Looping* (pernyataan berulang)
   - `while` loop
   - `for` loop
@@ -293,3 +293,166 @@ blabla
 Sebelumnya, kita sudah menggunakan beberapa ***format specifier*** seperti `%d`, `%f`, dan `%lf`. *Format specifier* lainnya bisa dilihat di link berikut:
 
 https://www.tutorialspoint.com/format-specifiers-in-c
+
+# Pernyataan kondisional (bersyarat)
+
+blabla
+
+## `if`, `else`
+
+blabla
+
+## Tipe data *boolean*
+
+|Data                       |Diartikan sebagai|
+|:--------------------------|----------------:|
+|0 (nol), NULL, `\0`        |False (salah)    |
+|apapun data lainnya        |True (benar)     |
+
+: Pengartian data sebagai nilai kebenaran di bahasa pemrograman C
+
+Ada juga istilah ***falsy value*** dan ***truthy value*** untuk mengkategorikan jenis data yang diartikan sebagai False dan yang diartikan sebagai True. Dalam hal ini, nol, NULL, dan `\0` adalah *falsy values*, dan semua data lainnya adalah *truthy values*.
+
+(Kita akan berjumpa dengan NULL dan `\0` di sesi praktikum yang akan datang.)
+
+Perlu diingat, klasifikasi antara data yang termasuk *falsy values* dan yang termasuk *truthy values* bisa berbeda-beda antara beberapa bahasa pemrograman. Oleh karena itu, ada semacam "standar" untuk data `boolean` di bahasa pemrgoraman C, di mana didefinisikan variabel `false=0` dan `true=1`. Untuk menggunakan kedua variabel ini, kita perlu `#include <stdbool.h>`, yang juga akan memperkenalkan tipe data baru, yaitu `bool`, sebagai tipe data *boolean*. (Sudah menjadi standar untuk melakukan `include` tersebut daripada mendefinisikan kedua variabel secara manual.)
+
+(kode include stdbool)
+
+## `switch case` dan `enum`
+
+blabla
+
+(contoh switch case)
+
+Sayangnya, bagian `case` hanya bisa menggunakan bilangan bulat dan huruf. Untungnya, bahasa pemrograman C memiliki fitur `enum` (dibaca "inam") atau *enumeration* yang bisa digunakan untuk membuat tipe data baru yang sebenarnya merupakan bilangan bulat tetapi bisa dituliskan sebagai semacam variabel. Dengan demikian, kita seolah-olah bisa menggunakan `switch case` dengan variabel yang tidak terlihat seperti bilangan bulat, atau setidaknya kita bisa mendefinisikan beberapa bilangan bulat sekaligus yang merupakan bilangan bulat untuk digunakan dengan `switch case`.
+
+Contohnya, kita bisa membuat `enum` untuk tipe data baru bernama "Hari" seperti berikut.
+
+```{.c}
+enum Hari = {
+    Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu
+}
+```
+
+Kemudian, `enum` bisa digunakan dengan `switch case`, karena `Senin`, `Selasa`, `Rabu`, `Kamis`, `Jumat`, `Sabtu`, dan `Minggu` sudah menjadi semacam variabel konstanta yang mengandung bilangan bulat yang berbeda-beda (dan berurut).
+
+```{.c filename="enumhari.c" code-line-numbers="true"}
+#include <stdio.h>
+
+enum Hari = {
+    Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu
+}
+
+int main() {
+    enum Hari sekarang = Rabu;
+
+    switch (sekarang) {
+        case Senin:
+        case Rabu:
+        case Kamis:
+            puts("Toko buka");
+            printf("Urutan: %d\n", sekarang);
+            break;
+        case Selasa:
+        case Jumat:
+        case Sabtu:
+        case Minggu:
+            puts("Toko tutup");
+            printf("Urutan: %d\n", sekarang);
+            break;
+        default:
+            puts("Hari tidak jelas");
+            printf("Urutan: %d\n", sekarang);
+    }
+
+    return 0;
+}
+```
+
+Tentu saja, kegunaan `enum` tidak sebatas `switch case`. Meskipun cukup jarang dijumpai, `enum` bisa digunakan dalam kondisi apapun yang mengharuskan penggunaan bilangan bulat. Selain itu, dengan sifat `enum` yang selalu memasang nilai bilangan bulat secara terurut, `enum` bisa digunakan ketika ada variabel (atau ingin membuat tipe data baru) yang diharapkan hanya memiliki beberapa kemungkinan nilai (misalnya `enum Hari` di atas hanya memiliki 7 kemungkinan nilai), apalagi ketika urutan itu penting (walaupun tidak masalah juga menggunakan `enum` ketika urutan tidak penting).
+
+Bahkan, kalau mau, kita bisa memasang nilai bilangan bulat tertentu untuk beberapa "konstanta" di dalam suatu `enum`, dan "konstanta" berikutnya akan selalu lebih besar daripada yang sebelumnya.
+
+```{.c}
+enum KategoriUsia {
+    batita, balita=4, anak, remaja=13, dewasa=19, quarterlifecrisis, lansia=60
+};
+```
+
+Kita bisa melihat semua nilai yang dipasang:
+
+```{.c filename="enumusia.c" code-line-numbers="true"}
+#include <stdio.h>
+
+enum KategoriUsia {
+    batita, balita=4, anak, remaja=13, dewasa=19, quarterlifecrisis, lansia=60
+};
+
+int main() {
+    printf(
+        "%d %d %d %d %d %d %d",
+        batita, balita, anak, remaja, dewasa, quarterlifecrisis, lansia
+    );
+    // output: 0 4 5 13 19 20 60
+
+    return 0;
+}
+```
+
+Kita juga bisa memaksakan agar beberapa "konstanta" memiliki nilai yang sama atau bahkan lebih rendah:
+
+```{.c}
+enum Warna {
+    merah=100, putih=100, ungu=0, hijau, kuning, kelabu=1, biru
+};
+```
+
+Karena `enum` merupakan bilangan bulat, kita bahkan bisa membandingkan apakah suatu bilangan bulat (ataupun suatu `enum`) itu sama dengan, lebih besar dari, atau lebih kecil dari suatu "konstanta" dalam `enum`.
+
+```{.c filename="enumwarna.c" code-line-numbers="true"}
+#include <stdio.h>
+
+enum Warna {
+    merah=100, putih=100, ungu=0, hijau, kuning, kelabu=1, biru
+};
+
+int main() {
+    printf(
+        "%d %d %d %d %d %d %d",
+        merah, putih, ungu, hijau, kuning, kelabu, biru
+    );
+    // output: 100 100 0 1 2 1 
+    
+    if (merah==putih) {
+        puts("Merah dan putih setara");
+    } else {
+        puts("Merah dan putih tidak setara");
+    }
+
+    enum Warna warna_saya = biru;
+    if (warna_saya < hijau) {
+        puts("warna_saya < hijau");
+    } else {
+        puts("warna_saya >= hijau");
+    }
+
+    return 0;
+}
+```
+
+# *Looping* (pernyataan berulang)
+
+blabla
+
+## `while` loop
+
+blabla
+
+## `for` loop
+
+blabla
+
+## `do while` loop
+
+blabla
