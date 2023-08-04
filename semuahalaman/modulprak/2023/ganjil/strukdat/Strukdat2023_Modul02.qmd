@@ -62,6 +62,103 @@ blabla
 
 # *Build system* `make`: kompilasi otomatis dengan Makefile
 
+Sumber referensi yang digunakan untuk materi pada bagian ini:
+
+*   How to Create a Simple Makefile - Introduction to Makefiles
+
+    https://www.youtube.com/watch?v=_r7i5X0rXJk
+
+*   Makefiles: 95% of what you need to know
+
+    https://www.youtube.com/watch?v=DtGrdB8wQ_8
+
+    https://github.com/gwu-cs-os/evening_os_hour/tree/master/f19/10.2-makefiles
+
+Contoh Makefile 1 (tanpa variabel):
+
+```makefile
+# this is a comment
+
+## general format:
+
+# target: its dependencies
+# 	command to build target from its dependencies
+
+## ^ tab character
+
+# if you only type "make",
+# it's going to execute the top most command,
+# which, in here, happens to be "all"
+all: helloworld
+
+helloworld: helloworld.o dothing.o
+	gcc helloworld.o dothing.o -o helloworld
+
+helloworld.o: helloworld.c
+	gcc -c helloworld.c
+
+dothing.o: dothing.c
+	gcc -c dothing.c
+
+clean:
+	rm helloworld *.o
+
+cleano:
+	rm *.o
+```
+
+Contoh Makefile 2 (dengan variabel):
+
+```makefile
+# this is a comment
+
+# === VARIABLES ===
+
+## general format:
+
+# VARNAME=word1 word2 word3
+# no space before NOR after the equal sign!
+# make sure NOT A SINGLE LINE ends with a trailing space!!
+# the variables will later be accessed with $(VARNAME)
+
+##
+
+COMPILER=gcc
+
+CFILES=helloworld.c dothing.c
+OBJFILES=helloworld.o dothing.o
+BINARYNAME=helloworld
+
+# === COMMANDS ===
+
+## general format:
+
+# target: dependency
+# 	command
+
+## ^ tab character
+
+# $@ refers to the target
+# $^ refers to the dependency
+
+# if you only type "make",
+# it's going to execute the top most command,
+# which, in here, happens to be "all"
+all: $(BINARYNAME)
+
+$(BINARYNAME): $(OBJFILES)
+	$(COMPILER) $(OBJFILES) -o $(BINARYNAME)
+
+%.o: %.c
+	$(COMPILER) -c $^ -o $@
+
+clean:
+	rm $(BINARYNAME) $(OBJFILES)
+
+cleano:
+	rm $(OBJFILES)
+```
+
 blabla
 
 # Referensi tambahan: CMake
