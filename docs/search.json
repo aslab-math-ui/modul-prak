@@ -200,7 +200,7 @@
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/strukdat2023.html#part-1-sebelum-uts",
     "title": "Praktikum Struktur Data 2023 Ganjil",
     "section": "Part 1: Sebelum UTS",
-    "text": "Part 1: Sebelum UTS\nPsst… UTS Struktur Data itu “jenis” soalnya sama seperti ujian Alprog: ada beberapa soal pilihan ganda serta satu/dua soal esai berupa menulis pseudocode. Kalau kalian lancar di praktikum, mungkin UTS kalian akan lancar jaya~ aamiin.\n\nModul 0: Instalasi dan konfigurasi software\nModul 1: Pengenalan 1, bahasa pemrograman C\nModul 2: Pengenalan 2, bahasa pemrograman C\nModul 3: Operasi array, algoritma searching dan sorting\nModul 4: Modul 4: Pointer, memori, CodeChef, input dan manipulasi string\n\nModul 4a (opsional): ASCII, Unicode, inttypes.h, dan manipulasi text file\nModul 4b (opsional): membuat command-line interface (CLI) dengan argv\n\nModul 5: Linked-list dengan struct dan pointer\n\nModul 5a (opsional): Visualisasi berbagai jenis linked-list dengan graphviz"
+    "text": "Part 1: Sebelum UTS\nPsst… UTS Struktur Data itu “jenis” soalnya sama seperti ujian Alprog: ada beberapa soal pilihan ganda serta satu/dua soal esai berupa menulis pseudocode. Kalau kalian lancar di praktikum, mungkin UTS kalian akan lancar jaya~ aamiin.\n\nModul 0: Instalasi dan konfigurasi software\nModul 1: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika\nModul 2: Array, fungsi, struct, dan proses kompilasi / build system\nModul 3: Operasi array, algoritma searching dan sorting\nModul 4: Pointer, memori, CodeChef, input dan manipulasi string\n\nModul 4a (opsional): ASCII, Unicode, inttypes.h, dan manipulasi text file\nModul 4b (opsional): membuat command-line interface (CLI) dengan argv\n\nModul 5: Linked-list dengan struct dan pointer\n\nModul 5a (opsional): Visualisasi berbagai jenis linked-list dengan graphviz"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/strukdat2023.html#part-2-setelah-uts",
@@ -373,7 +373,7 @@
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html",
-    "title": "Modul 2 Struktur Data: Pengenalan 2, bahasa pemrograman C",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi / build system",
     "section": "",
     "text": "Kembali ke Struktur Data\n\nOutline\n\nArray (larik)\nchar (huruf), putchar, dan getchar\nstring, puts, fgets, strlen, dan strcmp/strncmp\nTentang function (fungsi)\nMenampilkan semua elemen pada array\nstruct (“struktur” atau struktur data)\nMendalami proses kompilasi program\nPreprocessor directive dan header file (.h)\nBuild system make: kompilasi otomatis dengan Makefile\nReferensi tambahan: CMake\nHeader file untuk Modul 2 Praktikum: prakmodul2.h dan prakmodul2.c\n\n\n\nArray (larik)\nblabla\n(jangan lupa ukuran array dengan sizeof)\n\n\nchar (huruf), putchar, dan getchar\nblabla\n\n\nstring, puts, fgets, strlen, dan strcmp/strncmp\nblabla\n\n\nTentang function (fungsi)\nblabla\n\n\nMenampilkan semua elemen pada array\nUntuk menampilkan semua elemen yang ada di dalam suatu array, kita perlu melakukan iterasi pada tiap elemen di array, lalu menggunakan printf pada tiap iterasi. Agar mengetahui batasan for loop, kita perlu mengetahui panjang array. Kita bisa membuat fungsi yang mem-print satu per satu elemen suatu array sampai panjang array tersebut.\nvoid array_int_print(int arr[], int arr_length) {\n    for (int i = 0; i < arr_length; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}\n\n\nstruct (“struktur” atau struktur data)\nblabla\n\n\nMendalami proses kompilasi program\nblabla\n\n\nPreprocessor directive dan header file (.h)\nblabla\n\n\nBuild system make: kompilasi otomatis dengan Makefile\nSumber referensi yang digunakan untuk materi pada bagian ini:\n\nHow to Create a Simple Makefile - Introduction to Makefiles\nhttps://www.youtube.com/watch?v=_r7i5X0rXJk\nMakefiles: 95% of what you need to know\nhttps://www.youtube.com/watch?v=DtGrdB8wQ_8\nhttps://github.com/gwu-cs-os/evening_os_hour/tree/master/f19/10.2-makefiles\n\nContoh Makefile 1 (tanpa variabel):\n# this is a comment\n\n## general format:\n\n# target: its dependencies\n#   command to build target from its dependencies\n\n## ^ tab character\n\n# if you only type \"make\",\n# it's going to execute the top most command,\n# which, in here, happens to be \"all\"\nall: helloworld\n\nhelloworld: helloworld.o dothing.o\n    gcc helloworld.o dothing.o -o helloworld\n\nhelloworld.o: helloworld.c\n    gcc -c helloworld.c\n\ndothing.o: dothing.c\n    gcc -c dothing.c\n\nclean:\n    rm helloworld *.o\n\ncleano:\n    rm *.o\nContoh Makefile 2 (dengan variabel):\n# this is a comment\n\n# === VARIABLES ===\n\n## general format:\n\n# VARNAME=word1 word2 word3\n# no space before NOR after the equal sign!\n# make sure NOT A SINGLE LINE ends with a trailing space!!\n# the variables will later be accessed with $(VARNAME)\n\n##\n\nCOMPILER=gcc\n\nCFILES=helloworld.c dothing.c\nOBJFILES=helloworld.o dothing.o\nBINARYNAME=helloworld\n\n# === COMMANDS ===\n\n## general format:\n\n# target: dependency\n#   command\n\n## ^ tab character\n\n# $@ refers to the target\n# $^ refers to the dependency\n\n# if you only type \"make\",\n# it's going to execute the top most command,\n# which, in here, happens to be \"all\"\nall: $(BINARYNAME)\n\n$(BINARYNAME): $(OBJFILES)\n    $(COMPILER) $(OBJFILES) -o $(BINARYNAME)\n\n%.o: %.c\n    $(COMPILER) -c $^ -o $@\n\nclean:\n    rm $(BINARYNAME) $(OBJFILES)\n\ncleano:\n    rm $(OBJFILES)\nblabla\n\n\nReferensi tambahan: CMake\nKita telah belajar cara membuat Makefile secara manual dan menggunakannya. Sejauh ini, Makefile yang kita buat melibatkan beberapa variabel yang perlu kita setting secara manual. Untuk program dan proyek skala kecil seperti di mata kuliah Struktur Data, itu tidak masalah.\nSebenarnya, sudah ada software untuk membuat Makefile secara otomatis, yaitu CMake. Bahkan, CMake bisa menghasilkan Makefile untuk berbagai sistem operasi yang memiliki berbagai macam ketergantungan yang berbeda-beda. Namun, cara penggunaannya bisa agak sulit, sehingga tidak kami ajarkan di praktikum untuk menghemat waktu. Anda bisa membaca lebih lanjut tentang CMake di internet, seperti di link berikut:\nhttps://earthly.dev/blog/cmake-vs-make-diff/\n\n\nHeader file untuk Modul 2 Praktikum: prakmodul2.h dan prakmodul2.c\nDi Modul 2 Praktikum Struktur Data ini, kita telah mendefinisikan fungsi, seperti array_int_print. Tentunya, fungsi ini bisa saja diperlukan untuk praktikum ke depannya ataupun untuk proyek lainnya. Oleh karena itu, berikut ini tercantum kode header file yang memiliki fungsi penting seperti array_int_print, yang bisa kalian libatkan ke dalam apapun proyek yang kalian buat dengan bahasa pemrograman C, melalui Makefile, seperti yang sudah kita praktekkan kali ini. Untuk modul-modul praktikum ke depannya, kode untuk header file juga akan tercantum di bagian paling bawah seperti di sini.\n\nprakmodul2.hprakmodul2.c\n\n\n#ifndef PRAKMODUL2_H\n#define PRAKMODUL2_H\n\nvoid array_int_print(int arr[], int arr_length);\n\n#endif\n\n\n#include <stdio.h>\n#include \"prakmodul2.h\"\n\nvoid array_int_print(int arr[], int arr_length) {\n    for (int i = 0; i < arr_length; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}"
   },
@@ -443,56 +443,56 @@
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "",
     "text": "Kembali ke Struktur Data\nSelamat datang di praktikum Struktur Data!"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#output-selain-string-format-specifier",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#output-selain-string-format-specifier",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Output selain string: format specifier",
     "text": "Output selain string: format specifier\nTentu saja, kemampuan C bukan sekedar mengeluarkan output berupa string. Program C juga bisa mengeluarkan output berupa integer (bilangan bulat), dengan syntax (sintaks; cara penulisan) seperti berikut:\n\n\nhelloint.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"%d\", 98);\n    return 0;\n}\n\nPada contoh program helloint.c di atas, output yang dikeluarkan adalah suatu bilangan bulat yaitu 98. Adanya tulisan \"%d\" adalah bentuk string formatting, di mana huruf “d” melambangkan tipe data bilangan bulat dalam bentuk desimal (base 10). Artinya, bilangan bulat di sampingnya itu disisipkan ke dalam string, sehingga kita bisa melihat output berupa bilangan bulat tersebut.\nLambang seperti %d disebut format specifier.\nFun fact: huruf “f” dalam istilah printf artinya “formatted”.\nTentu saja, kita dapat menuliskan apapun sebelum dan sesudah format specifier %d tersebut:\n\n\nhelloint2.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"Anda memasukkan %d yaitu bilangan bulat\", 98);\n    return 0;\n}\n\nBilangan bulat tersebut akan disisipkan di dalam string, sesuai dengan posisi %d.\nBilangan bulat juga bisa negatif:\n\n\nhelloint3.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"Anda memasukkan %d yaitu bilangan bulat\", -5);\n    return 0;\n}\n\nSelain “d” yang berarti bilangan bulat, huruf “f” artinya float, atau floating-point number. Singkat cerita, tipe data float adalah bilangan yang bisa berupa desimal, sehingga tidak terbatas bilangan bulat saja. (Kalau penasaran detilnya dan mengapa namanya demikian, kalian bisa review kembali materi pertemuan pertama kuliah Metode Numerik, tentang floating-point arithmetic.) Kita dapat membuat program seperti berikut:\n\n\nhellofloat.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"%f\", 3.14);\n    return 0;\n}\n\ndan kita akan menerima output berupa float yang kita tuliskan, yaitu 3.14. Tentu saja, tipe data float juga bisa negatif:\n\n\nhellofloat2.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"%f\", -0.618);\n    return 0;\n}\n\nKita bisa menyisipkan lebih dari satu bilangan:\n\n\nhellonum.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"%d %f %f\", 98, -0.618, 3.14);\n    return 0;\n}\n\nPerhatikan bahwa tiap bilangan di dalam string di atas dipisah dengan spasi. Sehingga, pada output, tiap bilangan akan dipisah dengan spasi.\nPerhatikan apa yang terjadi kalau kita memisahkan proses print menjadi satu bilangan saja per printf:\n\n\nhellonum2.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"%d\", 98);\n    printf(\"%f\", -0.618);\n    printf(\"%f\", 3.14);\n\n    return 0;\n}\n\n(Catatan: return 0; tidak harus selalu menempel dengan baris-baris sebelumnya. Bahkan, tidak ada baris yang harus saling menempel.)\nTernyata, semua output tetap di baris yang sama. Bahkan, tidak ada spasi yang memisahkan (karena tidak kita tulis). Ada kode khusus untuk membuat baris baru (new line), yaitu \\n. Perhatikan:\n\n\nhellonum3.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"%d\\n\", 98);\n    printf(\"%f\\n\", -0.618);\n    printf(\"%f\", 3.14);\n\n    return 0;\n}\n\nTiap kali ada \\n, dikeluarkan “output” berupa baris baru. Sehingga, output selanjutnya akan mulai dari baris baru tersebut. Kalau mau, kita bisa memisahkan pembuatan baris baru, seperti berikut:\n\n\nhellonum4.c\n\n#include <stdio.h>\n\nint main() {\n  printf(\"%d\", 98);\n  printf(\"\\n\");\n  printf(\"%f\", -0.618);\n  printf(\"\\n\");\n  printf(\"%f\", 3.14);\n\n  return 0;\n}"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#escape-sequence-untuk-string",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#escape-sequence-untuk-string",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Escape sequence untuk string",
     "text": "Escape sequence untuk string\n\\n adalah contoh escape sequence, yaitu kode khusus untuk mem-print hal-hal yang tidak bisa kita ketik begitu saja. Contoh lain, bagaimana caranya kita mem-print output \"Hello world\" dengan tanda kutip? Masalahnya, tanda kutip sudah digunakan untuk menandakan awal dan akhir string, sehingga tidak bisa kita ketik begitu saja. Solusinya, kita gunakan escape sequence lain yaitu \\\" seperti berikut.\n\n\nescapequote.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"Kita coba print \\\"Hello world!\\\" apakah berhasil?\");\n    return 0;\n}\n\nPerhatikan kalimat berikut.\n\nSejauh ini, kita sudah mempelajari \\n dan \\” yaitu dua contoh escape sequence.\n\nBagaimana caranya kita mem-print keseluruhan kalimat tersebut di C, misalnya tanpa membuat baris baru? Masalanhya ada pada tanda backslash \\ yang memang sudah menjadi ciri khas untuk escape sequence. Kita ingin menampilkan escape sequence tersebut tanpa mengaktifkannya. Solusinya, bahkan tanda backslash itu sendiri bisa “dinonaktifkan” dengan menuliskan \\\\ seperti berikut:\n\n\nescapebackslash.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"Sejauh ini, kita sudah mempelajari \\\\n dan \\\\\\\" yaitu dua contoh escape sequence.\");\n    return 0;\n}\n\nPerhatikan bahwa, untuk \\n, hanya diperlukan satu backslash agar bisa ditampilkan. Sedangkan, diperlukan dua backslash untuk menampilkan \\\". Seandainya hanya digunakan satu backslash, yaitu mengetik \\\\\", maka output nya akan menjadi seperti berikut,\n\nSejauh ini, kita sudah mempelajari \\n dan \\\n\nkarena, melihat \\\\\", tanda kutip tersebut dianggap sebagai penutup string. Anggapan tersebut bisa kita nonaktifkan menggunakan backslash juga (yang ditambahkan tepat sebelum tanda kutip tersebut), sehingga kita ketik \\\\\\\".\nAda banyak escape sequence lainnya yang tidak dibahas di sini (bisa dicari di Google)."
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#comment",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#comment",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Comment",
     "text": "Comment\nDalam pemrograman, comment adalah semacam catatan yang tidak diperhatikan oleh komputer sama sekali; gunanya hanya untuk memudahkan manusia memahami kode. Pada bahasa pemrograman C, ada dua jenis comment, yaitu:\n\nsingle-line (satu baris), yang diawali dengan // dan bisa dituliskan di mana saja. Penggunaan // pada C sama persis dengan penggunaan # pada Python.\nmulti-line (banyak baris), yang diawali dengan /* dan diakhiri dengan */, dan juga bisa ditempatkan di mana saja. Penggunaan ini bahkan lebih fleksibel daripada \"\"\" di Python.\n\nPerhatikan program berikut.\n\n\nhellocomment.c\n\n#include <stdio.h>\n\n// comment tidak harus di dalam main()\n\nint main() {\n    // ini comment\n    printf(\"Hello world!\\n\");\n    /* ini\n    juga\n    comment */\n\n    /*\n    bisa\n    seperti\n    ini\n    */\n\n    printf(\"%d adalah bilangan bulat.\\n\", 22);\n    printf(/* penyusup */ \"%f\\n\", /* tes */ -273.15);\n}\n\nSesuai kegunaannya, semua comment diabaikan oleh C; kode tetap diijalankan seolah-olah tidak ada comment sama sekali."
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#variabel-dan-tipe-data-bilangan",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#variabel-dan-tipe-data-bilangan",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Variabel dan tipe data bilangan",
     "text": "Variabel dan tipe data bilangan\nblabla"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#operasi-dasar",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#operasi-dasar",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Operasi dasar",
     "text": "Operasi dasar\nblabla"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#konstanta",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#konstanta",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Konstanta",
     "text": "Konstanta\nblabla"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#ukuran-data-dengan-sizeof-dan-size_t",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#ukuran-data-dengan-sizeof-dan-size_t",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Ukuran data dengan sizeof dan size_t",
     "text": "Ukuran data dengan sizeof dan size_t\nnitip https://stackoverflow.com/questions/19732319/difference-between-size-t-and-unsigned-int\nblabla"
   },
@@ -506,42 +506,42 @@
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#if-else",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#if-else",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "if, else",
     "text": "if, else\nblabla"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#tipe-data-boolean",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#tipe-data-boolean",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Tipe data boolean",
     "text": "Tipe data boolean\n\nPengartian data sebagai nilai kebenaran di bahasa pemrograman C\n\n\nData\nDiartikan sebagai\n\n\n\n\n0 (nol), NULL, \\0\nFalse (salah)\n\n\napapun data lainnya\nTrue (benar)\n\n\n\nAda juga istilah falsy value dan truthy value untuk mengkategorikan jenis data yang diartikan sebagai False dan yang diartikan sebagai True. Dalam hal ini, nol, NULL, dan \\0 adalah falsy values, dan semua data lainnya adalah truthy values.\n(Kita akan berjumpa dengan NULL dan \\0 di sesi praktikum yang akan datang.)\nPerlu diingat, klasifikasi antara data yang termasuk falsy values dan yang termasuk truthy values bisa berbeda-beda antara beberapa bahasa pemrograman. Oleh karena itu, ada semacam “standar” untuk data boolean di bahasa pemrgoraman C, di mana didefinisikan variabel false=0 dan true=1. Untuk menggunakan kedua variabel ini, kita perlu #include <stdbool.h>, yang juga akan memperkenalkan tipe data baru, yaitu bool, sebagai tipe data boolean. (Sudah menjadi standar untuk melakukan include tersebut daripada mendefinisikan kedua variabel secara manual.)\n(kode include stdbool)"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#switch-case-dan-enum",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#switch-case-dan-enum",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "switch case dan enum",
     "text": "switch case dan enum\nblabla\n(contoh switch case)\nSayangnya, bagian case hanya bisa menggunakan bilangan bulat dan huruf. Untungnya, bahasa pemrograman C memiliki fitur enum (dibaca “inam”) atau enumeration yang bisa digunakan untuk membuat tipe data baru yang sebenarnya merupakan bilangan bulat tetapi bisa dituliskan sebagai semacam variabel. Dengan demikian, kita seolah-olah bisa menggunakan switch case dengan variabel yang tidak terlihat seperti bilangan bulat, atau setidaknya kita bisa mendefinisikan beberapa bilangan bulat sekaligus yang merupakan bilangan bulat untuk digunakan dengan switch case.\nContohnya, kita bisa membuat enum untuk tipe data baru bernama “Hari” seperti berikut.\nenum Hari = {\n    Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu\n}\nKemudian, enum bisa digunakan dengan switch case, karena Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, dan Minggu sudah menjadi semacam variabel konstanta yang mengandung bilangan bulat yang berbeda-beda (dan berurut).\n\n\nenumhari.c\n\n#include <stdio.h>\n\nenum Hari = {\n    Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu\n}\n\nint main() {\n    enum Hari sekarang = Rabu;\n\n    switch (sekarang) {\n        case Senin:\n        case Rabu:\n        case Kamis:\n            puts(\"Toko buka\");\n            printf(\"Urutan: %d\\n\", sekarang);\n            break;\n        case Selasa:\n        case Jumat:\n        case Sabtu:\n        case Minggu:\n            puts(\"Toko tutup\");\n            printf(\"Urutan: %d\\n\", sekarang);\n            break;\n        default:\n            puts(\"Hari tidak jelas\");\n            printf(\"Urutan: %d\\n\", sekarang);\n    }\n\n    return 0;\n}\n\nTentu saja, kegunaan enum tidak sebatas switch case. Meskipun cukup jarang dijumpai, enum bisa digunakan dalam kondisi apapun yang mengharuskan penggunaan bilangan bulat. Selain itu, dengan sifat enum yang selalu memasang nilai bilangan bulat secara terurut, enum bisa digunakan ketika ada variabel (atau ingin membuat tipe data baru) yang diharapkan hanya memiliki beberapa kemungkinan nilai (misalnya enum Hari di atas hanya memiliki 7 kemungkinan nilai), apalagi ketika urutan itu penting (walaupun tidak masalah juga menggunakan enum ketika urutan tidak penting).\nBahkan, kalau mau, kita bisa memasang nilai bilangan bulat tertentu untuk beberapa “konstanta” di dalam suatu enum, dan “konstanta” berikutnya akan selalu lebih besar daripada yang sebelumnya.\nenum KategoriUsia {\n    batita, balita=4, anak, remaja=13, dewasa=19, quarterlifecrisis, lansia=60\n};\nKita bisa melihat semua nilai yang dipasang:\n\n\nenumusia.c\n\n#include <stdio.h>\n\nenum KategoriUsia {\n    batita, balita=4, anak, remaja=13, dewasa=19, quarterlifecrisis, lansia=60\n};\n\nint main() {\n    printf(\n        \"%d %d %d %d %d %d %d\",\n        batita, balita, anak, remaja, dewasa, quarterlifecrisis, lansia\n    );\n    // output: 0 4 5 13 19 20 60\n\n    return 0;\n}\n\nKita juga bisa memaksakan agar beberapa “konstanta” memiliki nilai yang sama atau bahkan lebih rendah:\nenum Warna {\n    merah=100, putih=100, ungu=0, hijau, kuning, kelabu=1, biru\n};\nKarena enum merupakan bilangan bulat, kita bahkan bisa membandingkan apakah suatu bilangan bulat (ataupun suatu enum) itu sama dengan, lebih besar dari, atau lebih kecil dari suatu “konstanta” dalam enum.\n\n\nenumwarna.c\n\n#include <stdio.h>\n\nenum Warna {\n    merah=100, putih=100, ungu=0, hijau, kuning, kelabu=1, biru\n};\n\nint main() {\n    printf(\n        \"%d %d %d %d %d %d %d\",\n        merah, putih, ungu, hijau, kuning, kelabu, biru\n    );\n    // output: 100 100 0 1 2 1 \n    \n    if (merah==putih) {\n        puts(\"Merah dan putih setara\");\n    } else {\n        puts(\"Merah dan putih tidak setara\");\n    }\n\n    enum Warna warna_saya = biru;\n    if (warna_saya < hijau) {\n        puts(\"warna_saya < hijau\");\n    } else {\n        puts(\"warna_saya >= hijau\");\n    }\n\n    return 0;\n}"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#while-loop",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#while-loop",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "while loop",
     "text": "while loop\nblabla"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#for-loop",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#for-loop",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "for loop",
     "text": "for loop\nblabla"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#do-while-loop",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#do-while-loop",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "do while loop",
     "text": "do while loop\nblabla"
   },
@@ -625,21 +625,21 @@
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#hello-world---komponen-dasar-program-c",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#hello-world---komponen-dasar-program-c",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Hello world! - komponen dasar program C",
     "text": "Hello world! - komponen dasar program C\n\n\nhelloworld.c\n\n#include <stdio.h>\n\nint main() {\n    printf(\"Hello, world!\");\n    return 0;\n}\n\nProgram di atas melakukan… terdiri dari…\nCoba save di folder… kemudian pencet run (code runner)…\nBeberapa variasi…"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#kompilasi-compilation-dan-eksekusi-execution-atau-running",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#kompilasi-compilation-dan-eksekusi-execution-atau-running",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Kompilasi (compilation) dan eksekusi (execution atau running)",
     "text": "Kompilasi (compilation) dan eksekusi (execution atau running)\nPerhatikan folder di mana kode Anda tersimpan. Apakah ada file baru dengan nama yang sama seperti nama program, tetapi dengan file extension (akhiran) yang berbeda? Sebenarnya, file itulah yang dibuka oleh komputer Anda.\nTidak seperti Python yang bersifat interpreted, bahasa pemrograman C adalah bahasa pemrograman yang bersifat compiled. Artinya, ketika ingin menguji coba program C yang telah kita buat, ada dua tahapan:\n\nKompilasi (compilation), yaitu mengkonversi program C menjadi bahasa mesin (machine language, bahasa yang langsung bisa dipahami oleh prosesor di komputer Anda, yaitu komponen yang gunanya adalah menjalankan program). Proses kompilasi ini menghasilkan file baru.\nEksekusi (execution atau running), yaitu komputer (lebih tepatnya prosesor) langsung menjalankan program yang telah dikompilasi ke dalam bahasa mesin (yaitu file baru tersebut).\n\nSedangkan, pada bahasa pemrograman yang interpreted, ketika komputer menjalankan program, komputer melakukannya per baris; artinya, untuk tiap baris, komputer perlu memahaminya terlebih dahulu, kemudian melakukan perintah pada baris tersebut. Bolak-balik antara memahami dan melakukan perintah itu dilakukan per baris, dan selalu dilakukan tiap kali program dijalankan. Oleh karena itu, program yang dibuat dengan bahasa pemrograman interpreted seperti Python cenderung lebih pelan daripada yang dibuat dengan bahasa pemrograman compiled seperti C.\nProses kompilasi dilakukan oleh compiler. Compiler untuk bahasa pemrograman C yang paling terkenal adalah gcc (GNU Compiler Collection), yang bisa tersambung langsung dengan Visual Studio Code melalui extension seperti “C/C++” dan “Code Runner”. Dengan extension Code Runner, Anda tinggal menekan tombol run (▶) di sekitar ujung kanan atas aplikasi, lalu gcc akan langsung mengkompilasi program Anda.\nProses kompilasi menghasilkan suatu file yang bisa langsung dijalankan oleh komputer Anda. Untuk model dan merek proseor yang berbeda, bisa jadi ada variasi dalam file hasil compile tersebut, tergantung bahasa mesin yang dipahami oleh prosesor. Untungnya, gcc juga bisa mengkompilasi program ke dalam file format seperti .exe (aplikasi Windows), sehingga hanya bergantung sistem operasi (operating system).\nTiap kali Anda ingin menjalankan suatu program C, proses kompilasi selalu harus dilakukan terlebih dahulu sebelum eksekusi, tidak seperti bahasa pemrograman yang interpreted.\nFun fact: biasanya compiler tidak sekedar mengkompilasi, tetapi juga mencoba melakukan optimisasi (optimization), yaitu mempersingkat dan menyederhanakan program, menghemat semua penggunaan memori dan sebagainya agar program menjadi lebih kecil dan lebih cepat dijalankan tetapi tetap melakukan hal yang sama persis."
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#format-specifier-lainnya",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul01.html#format-specifier-lainnya",
-    "title": "Modul 1 Struktur Data: Pengenalan bahasa pemrograman C",
+    "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Format specifier lainnya",
     "text": "Format specifier lainnya\nSebelumnya, kita sudah menggunakan beberapa format specifier seperti %d, %f, dan %lf. Format specifier lainnya bisa dilihat di link berikut:\nhttps://www.tutorialspoint.com/format-specifiers-in-c"
   }
