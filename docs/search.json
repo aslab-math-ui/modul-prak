@@ -200,7 +200,7 @@
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/strukdat2023.html#part-1-sebelum-uts",
     "title": "Praktikum Struktur Data 2023 Ganjil",
     "section": "Part 1: Sebelum UTS",
-    "text": "Part 1: Sebelum UTS\nPsst… UTS Struktur Data itu “jenis” soalnya sama seperti ujian Alprog: ada beberapa soal pilihan ganda serta satu/dua soal esai berupa menulis pseudocode. Kalau kalian lancar di praktikum, mungkin UTS kalian akan lancar jaya~ aamiin.\n\nModul 0: Instalasi dan konfigurasi software\nModul 1: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika\nModul 2: Array, fungsi, struct, dan proses kompilasi / build system\nModul 3: Operasi array, algoritma searching dan sorting\nModul 4: Pointer, memori, CodeChef, input dan manipulasi string\n\nModul 4a (opsional): ASCII, Unicode, inttypes.h, dan manipulasi text file\nModul 4b (opsional): membuat command-line interface (CLI) dengan argv\n\nModul 5: Linked-list dengan struct dan pointer\n\nModul 5a (opsional): Visualisasi berbagai jenis linked-list dengan graphviz"
+    "text": "Part 1: Sebelum UTS\nPsst… UTS Struktur Data itu “jenis” soalnya sama seperti ujian Alprog: ada beberapa soal pilihan ganda serta satu/dua soal esai berupa menulis pseudocode. Kalau kalian lancar di praktikum, mungkin UTS kalian akan lancar jaya~ aamiin.\n\nModul 0: Instalasi dan konfigurasi software\nModul 1: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika\nModul 2: Array, fungsi, struct, dan proses kompilasi\nModul 3: Operasi array, algoritma searching dan sorting\nModul 4: Pointer, memori, CodeChef, input dan manipulasi string\n\nModul 4a (opsional): ASCII, Unicode, inttypes.h, dan manipulasi text file\nModul 4b (opsional): membuat command-line interface (CLI) dengan argv\n\nModul 5: Linked-list dengan struct dan pointer\n\nModul 5a (opsional): Visualisasi berbagai jenis linked-list dengan graphviz"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/strukdat2023.html#part-2-setelah-uts",
@@ -373,9 +373,9 @@
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html",
     "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html",
-    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi / build system",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
     "section": "",
-    "text": "Kembali ke Struktur Data\n\nOutline\n\nArray (larik)\nchar (huruf), putchar, dan getchar\nstring, puts, fgets, strlen, dan strcmp/strncmp\nTentang function (fungsi)\nMenampilkan semua elemen pada array\nstruct (“struktur” atau struktur data)\nMendalami proses kompilasi program\nPreprocessor directive dan header file (.h)\nBuild system make: kompilasi otomatis dengan Makefile\nReferensi tambahan: CMake\nHeader file untuk Modul 2 Praktikum: prakmodul2.h dan prakmodul2.c\n\n\n\nArray (larik)\nblabla\n(jangan lupa ukuran array dengan sizeof)\n\n\nchar (huruf), putchar, dan getchar\nblabla\n\n\nstring, puts, fgets, strlen, dan strcmp/strncmp\nblabla\n\n\nTentang function (fungsi)\nblabla\n\n\nMenampilkan semua elemen pada array\nUntuk menampilkan semua elemen yang ada di dalam suatu array, kita perlu melakukan iterasi pada tiap elemen di array, lalu menggunakan printf pada tiap iterasi. Agar mengetahui batasan for loop, kita perlu mengetahui panjang array. Kita bisa membuat fungsi yang mem-print satu per satu elemen suatu array sampai panjang array tersebut.\nvoid array_int_print(int arr[], int arr_length) {\n    for (int i = 0; i < arr_length; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}\n\n\nstruct (“struktur” atau struktur data)\nblabla\n\n\nMendalami proses kompilasi program\nblabla\n\n\nPreprocessor directive dan header file (.h)\nblabla\n\n\nBuild system make: kompilasi otomatis dengan Makefile\nSumber referensi yang digunakan untuk materi pada bagian ini:\n\nHow to Create a Simple Makefile - Introduction to Makefiles\nhttps://www.youtube.com/watch?v=_r7i5X0rXJk\nMakefiles: 95% of what you need to know\nhttps://www.youtube.com/watch?v=DtGrdB8wQ_8\nhttps://github.com/gwu-cs-os/evening_os_hour/tree/master/f19/10.2-makefiles\n\nContoh Makefile 1 (tanpa variabel):\n# this is a comment\n\n## general format:\n\n# target: its dependencies\n#   command to build target from its dependencies\n\n## ^ tab character\n\n# if you only type \"make\",\n# it's going to execute the top most command,\n# which, in here, happens to be \"all\"\nall: helloworld\n\nhelloworld: helloworld.o dothing.o\n    gcc helloworld.o dothing.o -o helloworld\n\nhelloworld.o: helloworld.c\n    gcc -c helloworld.c\n\ndothing.o: dothing.c\n    gcc -c dothing.c\n\nclean:\n    rm helloworld *.o\n\ncleano:\n    rm *.o\nContoh Makefile 2 (dengan variabel):\n# this is a comment\n\n# === VARIABLES ===\n\n## general format:\n\n# VARNAME=word1 word2 word3\n# no space before NOR after the equal sign!\n# make sure NOT A SINGLE LINE ends with a trailing space!!\n# the variables will later be accessed with $(VARNAME)\n\n##\n\nCOMPILER=gcc\n\nCFILES=helloworld.c dothing.c\nOBJFILES=helloworld.o dothing.o\nBINARYNAME=helloworld\n\n# === COMMANDS ===\n\n## general format:\n\n# target: dependency\n#   command\n\n## ^ tab character\n\n# $@ refers to the target\n# $^ refers to the dependency\n\n# if you only type \"make\",\n# it's going to execute the top most command,\n# which, in here, happens to be \"all\"\nall: $(BINARYNAME)\n\n$(BINARYNAME): $(OBJFILES)\n    $(COMPILER) $(OBJFILES) -o $(BINARYNAME)\n\n%.o: %.c\n    $(COMPILER) -c $^ -o $@\n\nclean:\n    rm $(BINARYNAME) $(OBJFILES)\n\ncleano:\n    rm $(OBJFILES)\nblabla\n\n\nReferensi tambahan: CMake\nKita telah belajar cara membuat Makefile secara manual dan menggunakannya. Sejauh ini, Makefile yang kita buat melibatkan beberapa variabel yang perlu kita setting secara manual. Untuk program dan proyek skala kecil seperti di mata kuliah Struktur Data, itu tidak masalah.\nSebenarnya, sudah ada software untuk membuat Makefile secara otomatis, yaitu CMake. Bahkan, CMake bisa menghasilkan Makefile untuk berbagai sistem operasi yang memiliki berbagai macam ketergantungan yang berbeda-beda. Namun, cara penggunaannya bisa agak sulit, sehingga tidak kami ajarkan di praktikum untuk menghemat waktu. Anda bisa membaca lebih lanjut tentang CMake di internet, seperti di link berikut:\nhttps://earthly.dev/blog/cmake-vs-make-diff/\n\n\nHeader file untuk Modul 2 Praktikum: prakmodul2.h dan prakmodul2.c\nDi Modul 2 Praktikum Struktur Data ini, kita telah mendefinisikan fungsi, seperti array_int_print. Tentunya, fungsi ini bisa saja diperlukan untuk praktikum ke depannya ataupun untuk proyek lainnya. Oleh karena itu, berikut ini tercantum kode header file yang memiliki fungsi penting seperti array_int_print, yang bisa kalian libatkan ke dalam apapun proyek yang kalian buat dengan bahasa pemrograman C, melalui Makefile, seperti yang sudah kita praktekkan kali ini. Untuk modul-modul praktikum ke depannya, kode untuk header file juga akan tercantum di bagian paling bawah seperti di sini.\n\nprakmodul2.hprakmodul2.c\n\n\n#ifndef PRAKMODUL2_H\n#define PRAKMODUL2_H\n\nvoid array_int_print(int arr[], int arr_length);\n\n#endif\n\n\n#include <stdio.h>\n#include \"prakmodul2.h\"\n\nvoid array_int_print(int arr[], int arr_length) {\n    for (int i = 0; i < arr_length; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}"
+    "text": "Kembali ke Struktur Data"
   },
   {
     "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul03.html",
@@ -642,5 +642,61 @@
     "title": "Modul 1 Struktur Data: Pengenalan bahasa C: data, ekspresi, pernyataan, dan alur logika",
     "section": "Format specifier lainnya",
     "text": "Format specifier lainnya\nSebelumnya, kita sudah menggunakan beberapa format specifier seperti %d, %f, dan %lf. Format specifier lainnya bisa dilihat di link berikut:\nhttps://www.tutorialspoint.com/format-specifiers-in-c"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#array",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#array",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "Array",
+    "text": "Array\nblabla\n(jangan lupa ukuran array dengan sizeof)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#char-huruf-putchar-dan-getchar",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#char-huruf-putchar-dan-getchar",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "char (huruf), putchar, dan getchar",
+    "text": "char (huruf), putchar, dan getchar\nblabla"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#string-puts-fgets-strlen-dan-strcmpstrncmp",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#string-puts-fgets-strlen-dan-strcmpstrncmp",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "string, puts, fgets, strlen, dan strcmp/strncmp",
+    "text": "string, puts, fgets, strlen, dan strcmp/strncmp\nblabla"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#menampilkan-semua-elemen-pada-array",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#menampilkan-semua-elemen-pada-array",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "Menampilkan semua elemen pada array",
+    "text": "Menampilkan semua elemen pada array\nUntuk menampilkan semua elemen yang ada di dalam suatu array, kita perlu melakukan iterasi pada tiap elemen di array, lalu menggunakan printf pada tiap iterasi. Agar mengetahui batasan for loop, kita perlu mengetahui panjang array. Kita bisa membuat fungsi yang mem-print satu per satu elemen suatu array sampai panjang array tersebut.\nvoid array_int_print(int arr[], int arr_length) {\n    for (int i = 0; i < arr_length; i++) {\n        printf(\"%d \", arr[i]);\n    }\n}"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#mendalami-proses-kompilasi-program",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#mendalami-proses-kompilasi-program",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "Mendalami proses kompilasi program",
+    "text": "Mendalami proses kompilasi program\n(diagram, empat langkah, caranya satu-satu di gcc)\nblabla"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#preprocessor-directive-dan-header-file-.h",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#preprocessor-directive-dan-header-file-.h",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "Preprocessor directive dan header file (.h)",
+    "text": "Preprocessor directive dan header file (.h)\nblabla"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#build-system-make-kompilasi-otomatis-dengan-makefile",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#build-system-make-kompilasi-otomatis-dengan-makefile",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "Build system make: kompilasi otomatis dengan Makefile",
+    "text": "Build system make: kompilasi otomatis dengan Makefile\nSumber referensi yang digunakan untuk materi pada bagian ini:\n\nHow to Create a Simple Makefile - Introduction to Makefiles\nhttps://www.youtube.com/watch?v=_r7i5X0rXJk\nMakefiles: 95% of what you need to know\nhttps://www.youtube.com/watch?v=DtGrdB8wQ_8\nhttps://github.com/gwu-cs-os/evening_os_hour/tree/master/f19/10.2-makefiles\n\nContoh Makefile 1 (tanpa variabel):\n# this is a comment\n\n## general format:\n\n# target: its dependencies\n#   command to build target from its dependencies\n\n## ^ tab character\n\n# if you only type \"make\",\n# it's going to execute the top most command,\n# which, in here, happens to be \"all\"\nall: helloworld\n\nhelloworld: helloworld.o dothing.o\n    gcc helloworld.o dothing.o -o helloworld\n\nhelloworld.o: helloworld.c\n    gcc -c helloworld.c\n\ndothing.o: dothing.c\n    gcc -c dothing.c\n\nclean:\n    rm helloworld *.o\n\ncleano:\n    rm *.o\nContoh Makefile 2 (dengan variabel):\n# this is a comment\n\n# === VARIABLES ===\n\n## general format:\n\n# VARNAME=word1 word2 word3\n# no space before NOR after the equal sign!\n# make sure NOT A SINGLE LINE ends with a trailing space!!\n# the variables will later be accessed with $(VARNAME)\n\n##\n\nCOMPILER=gcc\n\nCFILES=helloworld.c dothing.c\nOBJFILES=helloworld.o dothing.o\nBINARYNAME=helloworld\n\n# === COMMANDS ===\n\n## general format:\n\n# target: dependency\n#   command\n\n## ^ tab character\n\n# $@ refers to the target\n# $^ refers to the dependency\n\n# if you only type \"make\",\n# it's going to execute the top most command,\n# which, in here, happens to be \"all\"\nall: $(BINARYNAME)\n\n$(BINARYNAME): $(OBJFILES)\n    $(COMPILER) $(OBJFILES) -o $(BINARYNAME)\n\n%.o: %.c\n    $(COMPILER) -c $^ -o $@\n\nclean:\n    rm $(BINARYNAME) $(OBJFILES)\n\ncleano:\n    rm $(OBJFILES)\nblabla"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#referensi-tambahan-cmake",
+    "href": "semuahalaman/modulprak/2023/ganjil/strukdat/Strukdat2023_Modul02.html#referensi-tambahan-cmake",
+    "title": "Modul 2 Struktur Data: Array, fungsi, struct, dan proses kompilasi",
+    "section": "Referensi tambahan: CMake",
+    "text": "Referensi tambahan: CMake\nKita telah belajar cara membuat Makefile secara manual dan menggunakannya. Sejauh ini, Makefile yang kita buat melibatkan beberapa variabel yang perlu kita setting secara manual. Untuk program dan proyek skala kecil seperti di mata kuliah Struktur Data, itu tidak masalah.\nSebenarnya, sudah ada software untuk membuat Makefile secara otomatis, yaitu CMake. Bahkan, CMake bisa menghasilkan Makefile untuk berbagai sistem operasi yang memiliki berbagai macam ketergantungan yang berbeda-beda. Namun, cara penggunaannya bisa agak sulit, sehingga tidak kami ajarkan di praktikum untuk menghemat waktu. Anda bisa membaca lebih lanjut tentang CMake di internet, seperti di link berikut:\nhttps://earthly.dev/blog/cmake-vs-make-diff/"
   }
 ]
