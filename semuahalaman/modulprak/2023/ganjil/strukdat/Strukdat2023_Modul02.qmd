@@ -178,14 +178,13 @@ Sebenarnya, sudah ada *software* untuk membuat Makefile secara otomatis, yaitu C
 
 https://earthly.dev/blog/cmake-vs-make-diff/
 
-## FAQ seputar pembuatan aplikasi: CLI, GUI, dan sebagainya
+## FAQ seputar pembuatan aplikasi: CLI, GUI, *installer*
 
 Sampai sini, kita sudah bisa mengkompilasi program C ke dalam bentuk *executable*, hingga menggabungkan beberapa *file* yang berbeda dengan bantuan *header file*. Bahkan, kita sudah mempelajari penggunaan *build system* seperti `make` agar proses kompilasi bisa dilakukan secara otomatis.
 
 Sejauh ini, semua program yang kita buat melibatkan *command line* (juga disebut *command prompt* atau *terminal*), karena perlu menampilkan *output* dan menerima input. Bisa dikatakan, tampilan seperti itu adalah semacam "perantara", atau istilahnya "antarmuka" (*interface*), agar kita bisa "berkomunikasi" dengan program atau aplikasi tersebut. Antarmuka seperti itu disebut ***command line interface* (CLI)**.
 
 ::: {.callout-note}
-
 ## Apakah ada program tanpa antarmuka?
 
 Iya, ada, tidak mustahil. Mungkin terdengar aneh, program yang tidak memberikan *output* di *command line* maupun menerima input, dan terdengar tidak berguna. Biasanya, program seperti itu melakukan beberapa hal (seperti urusan membuat, mengubah, maupun menghapus *file*, yang dibahas di [Modul opsional 4a](./Strukdat2023_Modul04a.qmd)) yang sudah ditentukan dan sudah dibuat kodenya sehingga tidak perlu menerima informasi tambahan apapun (sehingga tidak memerlukan input), dan tidak perlu memberikan informasi apapun (sehingga tidak memberikan *output*).
@@ -208,7 +207,7 @@ Untuk itu, Anda perlu menginstal "*library*" (kumpulan kode yang dibuat oleh ora
 
 Selama praktikum Struktur Data, tidak ada pembahasan tentang cara membuat GUI. Namun, kita akan menggunakan *library* seperti SQLite untuk kegunaan lainnya (cara menginstal ada di [Modul 0](./Strukdat2023_Modul00.qmd)).
 
-2. Di macOS, setelah kompilasi, hasilnya adalah suatu *executable* atau program yang bisa dijalankan, tetapi tampaknya tidak seperti aplikasi yang biasa saya gunakan. (Sedangkan, di Windows, hasil kompilasi sudah berupa *file* `.exe` seperti aplikasi yang biasa digunakan.) Mengapa ya?
+2. Di macOS, setelah kompilasi, hasilnya adalah suatu *executable* atau program yang bisa dijalankan, tetapi tampaknya tidak seperti aplikasi yang biasa saya gunakan. (Sedangkan, di Windows, hasil kompilasi sudah berupa *file* `.exe` seperti aplikasi yang biasa digunakan.) Mengapa demikian?
 
 Yup betul, memang ada sedikit perbedaan antara Windows dan macOS dalam hal ini. Aplikasi yang biasa digunakan di macOS (dan bisa diinstal dari App Store) berupa *file* `.app` (juga disebut *app bundle*), sedangkan hasil kompilasi gcc berupa *executable file* yang... tidak memiliki akhiran/*extension*. Namun, *app bundle* bisa dibuat secara manual, karena sebenarnya *app bundle* adalah semacam *file* `.zip` yang isinya terdiri dari beberapa folder, dan di dalamnya terdiri dari *executable* juga.
 
@@ -219,6 +218,27 @@ Berikut video yang membahas cara membuat *app bundle* secara manual.
 [https://www.youtube.com/watch?v=ny1Na1oOsb8](https://www.youtube.com/watch?v=ny1Na1oOsb8)
 
 3. Bagaimana cara membuat *installer*?
+
+::: {callout-note collapse="true"}
+## TL;DR / ringkasan
+Pelajari dulu cara menggunakan CMake, lalu ikuti petunjuk di *link* berikut:
+
+[https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html)
+
+:::
+
+Bisa dikatakan, sebenarnya `Makefile` sudah termasuk semacam *installer*. Bahkan, beberapa program di macOS (dan Linux) lazim diinstal menggunakan *command* `./configure` lalu `make` lalu `make install`, yang memanfaatkan Makefile. Ini sering ditemukan di proyek *open source* yang ada di GitHub misalnya.
+
+Namun, *installer* yang sering dijumpai bisa berupa
+
+1. `.exe` atau `.msi` di Windows
+2. `.pkg` di macOS
+
+(*File* `.dmg` atau DMG lebih sering ditemukan di macOS daripada `.pkg`, tetapi DMG sebenarnya hanyalah sejenis `.zip` yang dikhususkan untuk penyimpanan aplikasi. Meskipun demikian, isi suatu DMG bisa berupa `.app` maupun `.pkg`, sehingga DMG juga terkadang disebut *installer*.)
+
+Seperti pembuatan GUI, pembuatan *installer* sudah di luar cakupan praktikum Struktur Data. Salah satu cara membuat *installer* adalah melalui CMake, dengan salah satu fiturnya yang bernama CPack, yang bisa membuat berbagai jenis *installer* seperti `.exe`, `.pkg`, dan `.dmg`. Anda bisa mempelajarinya lebih lanjut di *link* berikut:
+
+[https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html)
 
 # *Header file* untuk Modul 2 Praktikum: `prakmodul2.h` dan `prakmodul2.c`
 
