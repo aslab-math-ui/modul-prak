@@ -761,6 +761,8 @@ semuanya
 <pre><code>[10 -5  2 17]</code></pre>
 </div>
 </div>
+<p>Perhatikan bahwa <code>array4</code> yang sudah kita buat ini berisi bilangan bulat semua. Setelah membuat <em>array</em> tersebut, <strong>ukurannya sudah tetap dan tipe datanya juga sudah tetap (dan harus seragam)</strong>.</p>
+<p>Seandainya kita mencoba memasang <code>float</code> ke <em>array</em> bilangan bulat, akan dipaksakan menjadi bilangan bulat:</p>
 <div class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>array4[<span class="dv">3</span>] <span class="op">=</span> <span class="fl">3.14</span></span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -768,6 +770,7 @@ semuanya
 <pre><code>[10 -5  2  3]</code></pre>
 </div>
 </div>
+<p>Seandainya mencoba memasang <code>str</code> ke <em>array</em> bilangan bulat, Python menyerah dan menjadi error:</p>
 <div class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>array4[<span class="dv">3</span>] <span class="op">=</span> <span class="st">"string"</span></span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -775,6 +778,7 @@ semuanya
 <pre><code>ValueError: invalid literal for int() with base 10: 'string'</code></pre>
 </div>
 </div>
+<p>Bagaimana kalau kita ingin membuat <em>array</em> <code>float</code> meskipun data kita kebetulan bilangan bulat semua? Salah satu caranya adalah menambahkan <code>.0</code> ke salah satu elemennya:</p>
 <div class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>array5 <span class="op">=</span> np.array([<span class="fl">10.0</span>, <span class="op">-</span><span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">17</span>])</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -782,6 +786,7 @@ semuanya
 <pre><code>[10. -5.  2. 17.]</code></pre>
 </div>
 </div>
+<p>Dengan demikian, kita bisa memasang <code>float</code>:</p>
 <div class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>array5[<span class="dv">3</span>] <span class="op">=</span> <span class="fl">3.14</span></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -789,6 +794,7 @@ semuanya
 <pre><code>[10.   -5.    2.    3.14]</code></pre>
 </div>
 </div>
+<p>Cara lain adalah dengan memberitahu <code>numpy</code>, melalui <code>dtype</code> yaitu tipe data yang kita tentukan. Perhatikan, untuk <code>dtype</code>, di sini kita menggunakan nama yang dikenal oleh Python. Misalnya, <code>float</code> untuk koma-komaan dan <code>int</code> untuk bilangan bulat.</p>
 <div class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>array6 <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="op">-</span><span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">17</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -796,6 +802,7 @@ semuanya
 <pre><code>[10. -5.  2. 17.]</code></pre>
 </div>
 </div>
+<p>Kita bahkan bisa membuat <em>array</em> berisi <em>string</em> yaitu <code>str</code></p>
 <div class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>array7 <span class="op">=</span> np.array([<span class="st">'p'</span>, <span class="st">'r'</span>, <span class="st">'a'</span>, <span class="st">'k'</span>], dtype<span class="op">=</span><span class="bu">str</span>)</span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -803,6 +810,7 @@ semuanya
 <pre><code>['p' 'r' 'a' 'k']</code></pre>
 </div>
 </div>
+<p>Namun, ingat bahwa <em>array</em> bersifat <strong><em>fixed size</em></strong>. Bahkan, di sini kita sudah terlanjur membuat <em>array</em> berisi 4 <em>string</em> dan masing-masing satu huruf. Maka, <em>array</em> ini sudah terlanjur hanya bisa menampung 4 <em>string</em> dengan masing-masing <em>string</em> hanya sebesar satu karakter.</p>
 <div class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>array7[<span class="dv">3</span>] <span class="op">=</span> <span class="st">"praktikum"</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -810,6 +818,19 @@ semuanya
 <pre><code>['p' 'r' 'a' 'p']</code></pre>
 </div>
 </div>
+<p>Terakhir, tentang deklarasi menggunakan <code>numpy.empty</code>. Kalau kita hanya melakukan deklarasi, kita hanya menyatakan ukurannya, tanpa memberitahu isinya apa. Dengan demikian, komputer kita akan mencari memori yang sedang tidak digunakan, lalu langsung menggunakannya untuk <em>array</em> baru kita. <strong>Kemungkinan besar, memori yang sudah ditemukan itu tadinya bekas data lain yang sudah terhapus.</strong></p>
+<p>Cara menggunakan <code>numpy.empty</code> serupa dengan <code>numpy.ones</code> atau <code>numpy.zeros</code>:</p>
+<div class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>array8 <span class="op">=</span> np.empty(<span class="dv">8</span>)</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[3.10503618e+231 1.49457044e-154 3.95252517e-323 0.00000000e+000
+ 0.00000000e+000 0.00000000e+000 3.10503618e+231 3.10503618e+231]</code></pre>
+</div>
+</div>
+<p>Lho, muncul angka-angka ga jelas. Mungkin di kalian akan berbeda. Inilah bekas dari data yang sudah terhapus.</p>
+<p>Tahukah kalian, ketika kalian menghapus <em>file</em>, sebenarnya data itu belum tentu benar-benar terhapus? Datanya hanya <strong>diberi tanda “terhapus”</strong>, bukan benar-benar dihilangkan. Data bekas seperti itu disebut <strong><em>garbage value</em></strong>.</p>
+<p>Biasanya, ketika kita membuat <em>file</em> baru, barulah komputer mencari memori yang “kosong”, yaitu <strong>berisi <em>garbage value</em></strong>, kemudian komputer menimpa data yang baru di atas data yang lama (<em>garbage value</em>) tersebut.</p>
 </section>
 <section id="selanjutnya-bahas-apa" class="level2">
 <h2 class="anchored" data-anchor-id="selanjutnya-bahas-apa">Selanjutnya bahas apa?</h2>
