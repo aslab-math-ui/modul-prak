@@ -572,37 +572,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="merge-sort" class="level3">
 <h3 class="anchored" data-anchor-id="merge-sort">Merge Sort</h3>
 <p>Merge sort melakukan sort dengan memecah list menjadi dua secara rekursif. Lalu sorting dilakukan dengan melakukan merge pada hasil pecahan list. Merge adalah proses pada dua list yang menyatukan dua list terurut menjadi satu list terurut. Merge dilakukan hingga list utuh kembali.</p>
-<div class="cell" data-execution_count="42">
+<div class="cell" data-execution_count="80">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_sort(A):</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(A) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> n<span class="op">//</span><span class="dv">2</span></span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>        A1 <span class="op">=</span> A[:m]</span>
-<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        A2 <span class="op">=</span> A[m:]</span>
-<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        merge_sort(A1)</span>
-<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>        merge_sort(A2)</span>
-<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> j <span class="op">=</span> k <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> i <span class="op">&lt;</span> <span class="bu">len</span>(A1) <span class="kw">and</span> j <span class="op">&lt;</span> <span class="bu">len</span>(A2):</span>
-<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> A1[i] <span class="op">&lt;=</span> A2[j]:</span>
-<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>                A[k] <span class="op">=</span> A1[i]</span>
-<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>                i <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>                A[k] <span class="op">=</span> A2[j]</span>
-<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>                j <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Checking if any element was left</span></span>
-<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> i <span class="op">&lt;</span> <span class="bu">len</span>(A1):</span>
-<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>            A[k] <span class="op">=</span> A1[i]</span>
-<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>            i <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> j <span class="op">&lt;</span> <span class="bu">len</span>(A2):</span>
-<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>            A[k] <span class="op">=</span> A2[j]</span>
-<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>            j <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Seandainya hanya berisi satu elemen, tidak perlu dilakukan apa-apa</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(A) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># indeks middle (elemen tengah)</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> <span class="bu">int</span>(n<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Array A dipisah menjadi A1 (sebelah kiri) dan A2 (sebelah kanan)</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>        A1 <span class="op">=</span> A[:m]</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>        A2 <span class="op">=</span> A[m:]</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Lakukan merge sort pada keduanya</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>        merge_sort(A1)</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>        merge_sort(A2)</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Di bawah ini adalah proses penggabungan dari A1 dan A2 yang</span></span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># masing-masing sudah terurut</span></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> <span class="dv">0</span> <span class="co"># indeks untuk A1</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>        j <span class="op">=</span> <span class="dv">0</span> <span class="co"># indeks untuk A2</span></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> <span class="dv">0</span> <span class="co"># indeks untuk array/list baru yang nantinya sudah terurut</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Loop selama kedua array masih punya elemen yang</span></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># belum dimasukkan ke array/list baru</span></span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> i <span class="op">&lt;</span> <span class="bu">len</span>(A1) <span class="kw">and</span> j <span class="op">&lt;</span> <span class="bu">len</span>(A2):</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Kalau ternyata elemen pada A1 yang lebih kecil...</span></span>
+<span id="cb65-25"><a href="#cb65-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> A1[i] <span class="op">&lt;=</span> A2[j]:</span>
+<span id="cb65-26"><a href="#cb65-26" aria-hidden="true" tabindex="-1"></a>                <span class="co"># ... maka itulah yang dimasukkan ke array/list baru</span></span>
+<span id="cb65-27"><a href="#cb65-27" aria-hidden="true" tabindex="-1"></a>                A[k] <span class="op">=</span> A1[i]</span>
+<span id="cb65-28"><a href="#cb65-28" aria-hidden="true" tabindex="-1"></a>                i <span class="op">+=</span> <span class="dv">1</span> <span class="co"># lanjut ke elemen berikutnya untuk A1</span></span>
+<span id="cb65-29"><a href="#cb65-29" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Selain itu, berarti elemen pada A2 yang lebih kecil...</span></span>
+<span id="cb65-30"><a href="#cb65-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb65-31"><a href="#cb65-31" aria-hidden="true" tabindex="-1"></a>                <span class="co"># ... maka itulah yang dimasukkan</span></span>
+<span id="cb65-32"><a href="#cb65-32" aria-hidden="true" tabindex="-1"></a>                A[k] <span class="op">=</span> A2[j]</span>
+<span id="cb65-33"><a href="#cb65-33" aria-hidden="true" tabindex="-1"></a>                j <span class="op">+=</span> <span class="dv">1</span> <span class="co"># lanjut ke elemen berikutnya untuk A2</span></span>
+<span id="cb65-34"><a href="#cb65-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Ukuran array baru sudah bertambah satu</span></span>
+<span id="cb65-35"><a href="#cb65-35" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb65-36"><a href="#cb65-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Keluar loop, berarti salah satu array sudah habis</span></span>
+<span id="cb65-37"><a href="#cb65-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ada dua kemungkinan, yaitu A1 yang belum habis, atau A2 yang belum.</span></span>
+<span id="cb65-38"><a href="#cb65-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sehingga keduanya perlu "dihabiskan"</span></span>
+<span id="cb65-39"><a href="#cb65-39" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb65-40"><a href="#cb65-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Menghabiskan A1 kalau belum habis</span></span>
+<span id="cb65-41"><a href="#cb65-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> i <span class="op">&lt;</span> <span class="bu">len</span>(A1):</span>
+<span id="cb65-42"><a href="#cb65-42" aria-hidden="true" tabindex="-1"></a>            A[k] <span class="op">=</span> A1[i]</span>
+<span id="cb65-43"><a href="#cb65-43" aria-hidden="true" tabindex="-1"></a>            i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb65-44"><a href="#cb65-44" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb65-45"><a href="#cb65-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb65-46"><a href="#cb65-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Menghabiskan A2 kalau belum habis</span></span>
+<span id="cb65-47"><a href="#cb65-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> j <span class="op">&lt;</span> <span class="bu">len</span>(A2):</span>
+<span id="cb65-48"><a href="#cb65-48" aria-hidden="true" tabindex="-1"></a>            A[k] <span class="op">=</span> A2[j]</span>
+<span id="cb65-49"><a href="#cb65-49" aria-hidden="true" tabindex="-1"></a>            j <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb65-50"><a href="#cb65-50" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="43">
+<div class="cell" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>merge_sort(A)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
