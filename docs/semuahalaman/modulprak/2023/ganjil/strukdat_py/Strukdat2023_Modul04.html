@@ -277,7 +277,9 @@ Index = 6</code></pre>
 </ul>
 <section id="bubble-sort" class="level3">
 <h3 class="anchored" data-anchor-id="bubble-sort">Bubble Sort</h3>
-<p>Bubble sort adalah algoritma sorting yang cara kerjanya adalah dengan membandingkan elemen yang bersebelahan secara berurutan, lalu ditukar jika urutannya salah.</p>
+<p>Bubble sort adalah algoritma sorting yang cara kerjanya adalah dengan membandingkan elemen yang bersebelahan secara berurutan, lalu ditukar jika urutannya salah. Bubble sort melibatkan beberapa kali “pass”, yaitu beberapa kali melihat <em>array</em> dari awal sampai akhir.</p>
+<p>Tentunya, bubble sort akan berhenti ketika <em>array</em> sudah terurut. Namun, bagaimana cara mengetahui apakah <em>array</em> sudah terurut? Salah satu caranya, di tiap <em>pass</em>, kita bisa menganggap <em>array</em> sudah terurut (ditandai dengan variabel <em>boolean</em>), lalu melakukan <em>bubble sort</em>, dan apabila ada elemen yang masih belum terurut, maka ketika ditukar, kita menandai <em>array</em> tersebut belum terurut.</p>
+<p>Bisa menggunakan for loop:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bubble_sort(A):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
@@ -301,14 +303,18 @@ Index = 6</code></pre>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insertion_sort(A):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        j <span class="op">=</span> i</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> A[j] <span class="op">&lt;</span> A[j<span class="op">-</span><span class="dv">1</span>]:</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            A[j], A[j<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> A[j<span class="op">-</span><span class="dv">1</span>], A[j]</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            j <span class="op">-=</span> <span class="dv">1</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> j <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Untuk tiap elemen di array... (kecuali elemen paling pertama, indeks 0)</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        j <span class="op">=</span> i</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Selama elemen itu lebih kecil daripada elemen di sebelah kirinya,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># tukar (geser elemen itu ke sebelah kirinya) agar menjadi terurut</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> A[j] <span class="op">&lt;</span> A[j<span class="op">-</span><span class="dv">1</span>]:</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            A[j], A[j<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> A[j<span class="op">-</span><span class="dv">1</span>], A[j]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            j <span class="op">-=</span> <span class="dv">1</span> <span class="co"># j berkurang karena bergeser ke kiri</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Kalau elemen sudah di ujung kiri array,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># udah ga ada elemen di sebelah kirinya lagi, jadi keluar aja</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> j <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
@@ -324,15 +330,23 @@ Index = 6</code></pre>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> selection_sort(A):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span> <span class="op">=</span> A[i]</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        mindx <span class="op">=</span> i</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, n):</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> A[j] <span class="op">&lt;</span> <span class="bu">min</span>:</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                <span class="bu">min</span> <span class="op">=</span> A[j]</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                mindx <span class="op">=</span> j</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        A[i], A[mindx] <span class="op">=</span> A[mindx], A[i]</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Untuk tiap elemen ke-i, akan ditukarkan dengan elemen minimum yang</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ada di sebelah kanannya</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Asumsi awal: elemen yang sedang dilihat (elemen ke-i) adalah minimum</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        min_idx <span class="op">=</span> i</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        min_val <span class="op">=</span> A[min_idx]</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Periksa masing-masing elemen selanjutnya...</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i<span class="op">+</span><span class="dv">1</span>, n):</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Kalau ternyata ketemu elemen yang lebih kecil lagi...</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> A[j] <span class="op">&lt;</span> min_val:</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                <span class="co"># ... maka itu menjadi minimum yang terbaru</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                min_val <span class="op">=</span> A[j]</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                min_idx <span class="op">=</span> j</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ketika keluar for loop, sudah diperoleh elemen minimum sesungguhnya</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Tukar elemen minimum dengan elemen ke-i</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        A[i], A[min_idx] <span class="op">=</span> A[min_idx], A[i]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
@@ -400,45 +414,161 @@ Index = 6</code></pre>
 <li>Lakukan <em>quicksort</em> pada sebelah kiri pivot dan pada sebelah kanan pivot.</li>
 </ol>
 <p>Untuk proses “partisi”, ada dua cara utama untuk melakukannya (algoritma partisi), yaitu algoritma partisi Hoare dan algoritma partisi Lomuto.</p>
-<div class="cell">
+<section id="quicksort-dengan-partisi-hoare" class="level4">
+<h4 class="anchored" data-anchor-id="quicksort-dengan-partisi-hoare">Quicksort dengan partisi Hoare</h4>
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition_hoare(A, left_idx, right_idx):</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition_lomuto(A, left_idx, right_idx):</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    pivot_val <span class="op">=</span> A[left_idx]</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    sep <span class="op">=</span> left_idx <span class="op">-</span> <span class="dv">1</span> <span class="co"># "separator" atau "garis pemisah"</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(left_idx, right_idx):</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> A[j] <span class="op">&lt;=</span> pivot_val:</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>            sep <span class="op">=</span> sep <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>            <span class="co"># tukar elemen yang seharusnya di sebelah kiri pivot,</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>            <span class="co"># agar menjadi di sebelah kiri pemisah</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>            A[sep], A[j] <span class="op">=</span> A[j], A[sep]</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tukar elemen pivot dengan elemen apapun yang sedang di garis pemisah,</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># agar pivot berada di garis pemisah</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    A[sep<span class="op">+</span><span class="dv">1</span>], A[left_idx] <span class="op">=</span> A[left_idx], A[sep<span class="op">+</span><span class="dv">1</span>]</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sep<span class="op">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quicksort_lomuto(A, left_idx<span class="op">=</span><span class="dv">0</span>, right_idx<span class="op">=</span><span class="bu">len</span>(A)<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_idx <span class="op">&lt;</span> right_idx:</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        pivot_idx <span class="op">=</span> partition_lomuto(A, left_idx, right_idx)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        quicksort_lomuto(A, left_idx, pivot_idx <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        quicksort_lomuto(A, pivot_idx <span class="op">+</span> <span class="dv">1</span>, right_idx)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>NameError: name 'A' is not defined</code></pre>
-</div>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Buat "pointer" low dan high (simpan indeksnya saja)</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    low_idx <span class="op">=</span> left_idx</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    high_idx <span class="op">=</span> right_idx</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Diasumsikan array sudah terpartisi dengan baik (padahal belom hehe),</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># - tugas low adalah memeriksa dari kiri (apakah benar sudah dipartisi),</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># - tugas high adalah memeriksa dari kanan.</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sudah terpartisi artinya:</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># - sebelah kiri pivot adalah yang lebih kecil dari pivot</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># - sebelah kanan pivot adalah yang lebih besar dari pivot</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pilih indeks pivot, bebas, misal elemen paling pertama (paling kiri)</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    pivot_idx <span class="op">=</span> left_idx</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    pivot_val <span class="op">=</span> A[pivot_idx]</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop selama low belum melewati high</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (syarat ini sangat penting, hingga diperiksa berkali-kali)</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> low_idx <span class="op">&lt;=</span> high_idx:</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># low lanjut ke kanan hingga menemukan elemen yang posisinya salah,</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># yaitu elemen yang nilainya lebih besar dari pivot</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (low_idx <span class="op">&lt;=</span> high_idx) <span class="kw">and</span> <span class="kw">not</span> (A[low_idx] <span class="op">&gt;</span> pivot_val):</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>            low_idx <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># high lanjut ke kiri hingga menemukan elemen yang posisinya salah,</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># yaitu elemen yang nilainya lebih kecil dari pivot</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (low_idx <span class="op">&lt;=</span> high_idx) <span class="kw">and</span> <span class="kw">not</span> (A[high_idx] <span class="op">&lt;</span> pivot_val):</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>            high_idx <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># low dan high sama-sama menunjuk pada elemen yang posisinya salah,</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># keduanya akan menjadi benar kalau posisinya ditukar</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> low_idx <span class="op">&lt;=</span> high_idx:</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>            A[low_idx], A[high_idx] <span class="op">=</span> A[high_idx], A[low_idx]</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Apabila elemen pivot ternyata ikut ditukar,</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>            <span class="co"># pastikan data posisinya (pivot_idx) di-update.</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> pivot_idx <span class="op">==</span> low_idx: <span class="co"># Apabila tadinya pivot di low,</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>                pivot_idx <span class="op">=</span> high_idx <span class="co"># maka sekarang pivot di high.</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> pivot_idx <span class="op">==</span> high_idx: <span class="co"># Namun apabila tadinya pivot di high,</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>                pivot_idx <span class="op">=</span> low_idx <span class="co"># maka sekarang pivot di low.</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kalau sudah keluar loop, berarti low sudah melewati high;</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sudah ketemu garis baginya, yaitu antara low dan high.</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Saat ini, sebelah kiri garis bagi sudah lebih kecil dari pivot,</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dan sebelah kanan garis bagi sudah lebih besar dari pivot.</span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sekarang kita tinggal menempatkan pivot pada garis bagi tersebut</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tukar pivot dengan high kalau pivot di sebelah kiri high,</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pivot_idx <span class="op">&lt;=</span> high_idx:</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>        A[pivot_idx], A[high_idx] <span class="op">=</span> A[high_idx], A[pivot_idx]</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>        pivot_idx <span class="op">=</span> high_idx</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># atau tukar pivot dengan low kalau pivot di sebelah kanan low</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>        A[pivot_idx], A[low_idx] <span class="op">=</span> A[low_idx], A[pivot_idx]</span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>        pivot_idx <span class="op">=</span> low_idx</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Partisi sudah selesai, return posisi pivot</span></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># supaya jadi tahu di mana garis baginya</span></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pivot_idx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>quicksort(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quicksort_hoare(A, left_idx<span class="op">=</span><span class="va">None</span>, right_idx<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kalau left_idx dan right_idx tidak diinput, otomatis menjadi None</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dan kalau begitu, berarti sebenarnya quicksort mau dilakukan pada</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keseluruhan array, sehingga ujung kiri adalah indeks 0 dan</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ujung kanan adalah indeks terakhir (n-1 di mana n adalah panjang array)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_idx <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        left_idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> right_idx <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        right_idx <span class="op">=</span> <span class="bu">len</span>(A) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ada if statement untuk memastikan ujung kiri dan ujung kanan masih wajar.</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_idx <span class="op">&lt;</span> right_idx:</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        pivot_idx <span class="op">=</span> partition_hoare(A, left_idx, right_idx)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        quicksort_hoare(A, left_idx, pivot_idx<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        quicksort_hoare(A, pivot_idx<span class="op">+</span><span class="dv">1</span>, right_idx)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kalau sewaktu-waktu menjadi tidak wajar, berarti array kosong, berarti</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># quicksort sudah selesai dan tidak perlu dilakukan apa-apa lagi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>quicksort_hoare(A)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code></pre>
 </div>
 </div>
+</section>
+<section id="quicksort-dengan-partisi-lomuto" class="level4">
+<h4 class="anchored" data-anchor-id="quicksort-dengan-partisi-lomuto">Quicksort dengan partisi Lomuto</h4>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition_lomuto(A, left_idx, right_idx):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pilih elemen pivot, sepertinya untuk Lomuto harus elemen terakhir</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    pivot_idx <span class="op">=</span> right_idx</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    pivot_val <span class="op">=</span> A[pivot_idx]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Asumsi awal: semua elemen lebih besar dari nilai pivot,</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># sehingga "separator" atau "garis pemisah" ada di ujung kiri,</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bahkan di sebelah kiri elemen pertama</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    sep <span class="op">=</span> left_idx <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Periksa tiap elemen...</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(left_idx, right_idx):</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Kalau ternyata ada elemen yang tidak lebih besar dari pivot...</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> A[j] <span class="op">&lt;=</span> pivot_val:</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Majukan garis pemisah...</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>            sep <span class="op">=</span> sep <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Lalu tukar elemen itu (yang seharusnya di sebelah kiri pivot),</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>            <span class="co"># agar menjadi di (sebelah kiri) garis pemisah</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>            A[sep], A[j] <span class="op">=</span> A[j], A[sep]</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Nantinya, pivot akan diletakkan di posisi indeks sep+1.</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Data indeks "sep" menunjuk pada indeks terakhir yang</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>            <span class="co"># elemennya lebih kecil dari pivot.</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Keluar for loop, sekarang semua elemen sudah diperiksa,</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># indeks sep menunjuk pada elemen terakhir yang lebih kecil dari pivot.</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Maka, pivot bisa diletakkan di posisi sep+1.</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tukar elemen pivot dengan elemen apapun yang sedang di sep+1.</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    A[sep<span class="op">+</span><span class="dv">1</span>], A[pivot_idx] <span class="op">=</span> A[pivot_idx], A[sep<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sekarang, pivot ada di sep+1</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    pivot_idx <span class="op">=</span> sep<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Partisi sudah selesai, return posisi pivot</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># supaya jadi tahu di mana garis baginya</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pivot_idx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quicksort_lomuto(A, left_idx<span class="op">=</span><span class="va">None</span>, right_idx<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_idx <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        left_idx <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> right_idx <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        right_idx <span class="op">=</span> <span class="bu">len</span>(A) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_idx <span class="op">&lt;</span> right_idx:</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        pivot_idx <span class="op">=</span> partition_lomuto(A, left_idx, right_idx)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        quicksort_lomuto(A, left_idx, pivot_idx <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        quicksort_lomuto(A, pivot_idx <span class="op">+</span> <span class="dv">1</span>, right_idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>quicksort_lomuto(A)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code></pre>
+</div>
+</div>
+<p>Perhatikan bahwa, meskipun algoritma partisi Hoare dan partisi Lomuto sangat berbeda, ketika di fungsi <code>quicksort</code> (<code>quicksort_hoare</code> dan <code>quicksort_lomuto</code>), kodenya sama, hanya berbeda di fungsi partisi yang digunakan.</p>
 
 
+</section>
 </section>
 </section>
 
