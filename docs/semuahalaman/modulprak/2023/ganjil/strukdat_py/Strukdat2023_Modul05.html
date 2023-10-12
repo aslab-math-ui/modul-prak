@@ -513,20 +513,33 @@ GHI-&gt;F
 <li><code>Graf ke kanan.gv.svg</code></li>
 </ol>
 <p><em>File</em> pertama adalah <em>file</em> <code>.gv</code> (Graphviz) yang mengandung bahasa DOT yang disusun sebelum diolah menjadi gambar. <em>File</em> kedua adalah <em>file</em> gambar yang diolah, dalam format sesuai dengan yang kita tentukan.</p>
-<p>Perhatikan bahwa nama <em>file</em> nya sesuai dengan nama graf yang kita tentukan ketika membuat objek <code>graf11</code> tadi. Kalau lupa, kita bisa memeriksa nama graf melalui atribut <code>.nama</code></p>
+<p>Kita bisa membaca isi <code>Graf ke kanan.gv</code> sebagaimana kita membaca isi <em>text file</em>:</p>
+<div class="cell" data-execution_count="97">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"Graf ke kanan.gv"</span>, <span class="st">"r"</span>) <span class="im">as</span> isi:</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(isi.read())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>digraph "Graf ke kanan" {
+    graph [rankdir=LR]
+    A -&gt; B
+    B -&gt; C
+}
+</code></pre>
+</div>
+</div>
+<p>Selain itu, perhatikan bahwa nama <em>file</em> nya sesuai dengan nama graf yang kita tentukan ketika membuat objek <code>graf11</code> tadi. Kalau lupa, kita bisa memeriksa nama graf melalui atribut <code>.nama</code></p>
 <div class="cell" data-execution_count="86">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Graf ke kanan</code></pre>
 </div>
 </div>
 <p>Dengan atribut itu pula, kita bisa mengubah nama grafnya:</p>
 <div class="cell" data-execution_count="93">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>graf11.name <span class="op">=</span> <span class="st">"Nama baru"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>graf11.name <span class="op">=</span> <span class="st">"Nama baru"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Sehingga, ketika misalnya Graphviz menyusun bahasa DOT, akan digunakan nama yang baru:</p>
 <div class="cell" data-execution_count="94">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.source)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.source)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>digraph "Nama baru" {
     graph [rankdir=LR]
@@ -539,10 +552,237 @@ GHI-&gt;F
 </section>
 <section id="variasi-node-dengan-html-like-labels" class="level3">
 <h3 class="anchored" data-anchor-id="variasi-node-dengan-html-like-labels">Variasi <em>node</em> dengan <em>HTML-like labels</em></h3>
+<p>Ingat atribut <code>label</code> yang bisa dipasang ketika membuat suatu <em>node</em>? Sebenarnya, kita bisa memanfaatkan atribut tersebut untuk membuat bentuk <em>node</em> sesuka hati kita, lho! Terutama, kita bisa membuat <em>node</em> dengan bentuk seperti tabel.</p>
+<p>Penulisan <code>label</code> seperti tabel ini mirip seperti struktur bahasa HTML, sehingga disebut <strong><em>HTML-like labels</em></strong>.</p>
+<p>Perhatikan <em>syntax</em> (penulisan) berikut.</p>
+<div class="cell" data-execution_count="127">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>graf13 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>graf13.node(<span class="st">"A"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"""&lt;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;TABLE&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;P&lt;/TD&gt;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;Q&lt;/TD&gt;</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;R&lt;/TD&gt;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;S&lt;/TD&gt;</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/TABLE&gt;</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;"""</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>graf13.node(<span class="st">"B"</span>) <span class="co"># node biasa</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>graf13.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="128">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>display(graf13)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-38-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Perhatikan,</p>
+<ol type="1">
+<li>Ketika membuat <em>node</em> yang ingin berbentuk tabel, ditambahkan atribut <code>shape="none"</code> (bukan <code>None</code>) di samping menulis <code>label</code> nya.</li>
+<li><code>label</code> berupa <em>long string</em>, sehingga diawali dan diakhiri dengan tiga tanda kutip.</li>
+<li>Karakter pertama dari <em>long string</em> tersebut haruslah <code>&lt;</code> dan karakter terakhir haruslah <code>&gt;</code></li>
+<li>Kemudian, penulisan tabel diawali dengan penulisan <code>&lt;TABLE&gt;</code>, kemudian <code>&lt;TR&gt;</code> (<em>table row</em>) untuk tiap baris, lalu <code>&lt;TD&gt;</code> (<em>table data</em>) untuk tiap sel. Masing-masing selalu ditutup dengan <code>&lt;/TD&gt;</code>, <code>&lt;/TR&gt;</code>, dan <code>&lt;/TABLE&gt;</code>, bagaikan keberadaan <code>endif</code>, <code>endfor</code>, <code>endwhile</code> dan sebagainya di <em>pseudocode</em>.</li>
+</ol>
+<p>Agar lebih bagus, di bagian <code>&lt;TABLE&gt;</code> kita bisa menambahkan:</p>
+<p><code>BORDER="0" CELLBORDER="1" CELLSPACING="0"</code></p>
+<p>Seperti berikut:</p>
+<div class="cell" data-execution_count="129">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>graf14 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>graf14.node(<span class="st">"A"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"""&lt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;P&lt;/TD&gt;</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;Q&lt;/TD&gt;</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;R&lt;/TD&gt;</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;S&lt;/TD&gt;</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/TABLE&gt;</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;"""</span>)</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>graf14.node(<span class="st">"B"</span>)</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>graf14.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="130">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>display(graf14)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-40-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Bagaimana kalau misalnya kita ingin panahnya seperti “berasal” dari sel tertentu? Caranya, kita bisa membuat yang namanya <code>port</code>, misalnya di sel R, kemudian <em>edge</em> yang dibuat akan kita sambung dari port tersebut, seperti berikut:</p>
+<div class="cell" data-execution_count="131">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>graf15 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>graf15.node(<span class="st">"A"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"""&lt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;P&lt;/TD&gt;</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;Q&lt;/TD&gt;</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD PORT="port1"&gt;R&lt;/TD&gt;</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;S&lt;/TD&gt;</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/TABLE&gt;</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;"""</span>)</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>graf15.node(<span class="st">"B"</span>)</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>graf15.edge(<span class="st">"A:port1"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="132">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>display(graf15)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-42-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Kalau di Microsoft Excel atau Google Sheets, kita bisa melakukan <em>merge</em> beberapa sel, entah secara horizontal atau vertikal atau bahkan dua-duanya. Ketika menyusun <em>HTML-like labels</em>, kita bisa menggunakan <code>COLSPAN</code> (merentang beberapa kolom) dan <code>ROWSPAN</code> (merentang beberapa baris) untuk membuat efek seperti di-<em>merge</em>.</p>
+<div class="cell" data-execution_count="141">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>graf16 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>graf16.node(<span class="st">"A"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"""&lt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD ROWSPAN="2"&gt;P&lt;/TD&gt;</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD COLSPAN="2"&gt;Q&lt;/TD&gt;</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;TR&gt;</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;R&lt;/TD&gt;</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="st">        &lt;TD&gt;S&lt;/TD&gt;</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/TR&gt;</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/TABLE&gt;</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="st">&gt;"""</span>)</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>graf16.node(<span class="st">"B"</span>)</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>graf16.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="142">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>display(graf16)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-44-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
 </section>
 </section>
 <section id="singly-linked-list" class="level2">
 <h2 class="anchored" data-anchor-id="singly-linked-list"><em>(Singly) Linked List</em></h2>
+<p><em>Linked list</em> terdiri dari <em>node</em>, di mana tiap <em>node</em> berisi kurang lebih 2 <em>value</em>, yaitu data dan <em>pointer</em> ke <em>node</em> lain.</p>
+<p>Pertama akan dibuat <em>node</em> terlebih dahulu menggunakan <code>class</code>.</p>
+<div class="cell" data-execution_count="148">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLNode:</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, <span class="bu">next</span><span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">next</span> <span class="op">=</span> <span class="bu">next</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Selanjutnya akan dibuat <code>class</code> untuk <em>linked list</em>.</p>
+<div class="cell" data-execution_count="158">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLList:</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.size <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">len</span>(<span class="va">self</span>):</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.size</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_front(<span class="va">self</span>, data):</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> SLNode(data, <span class="va">None</span>)</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>        newnode.<span class="bu">next</span> <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> newnode</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_end(<span class="va">self</span>, data):</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> SLNode(data, <span class="va">None</span>)</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>        temp.<span class="bu">next</span> <span class="op">=</span> newnode</span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_front(<span class="va">self</span>):</span>
+<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: linked list sudah kosong"</span>)</span>
+<span id="cb50-29"><a href="#cb50-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb50-30"><a href="#cb50-30" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.head.<span class="bu">next</span></span>
+<span id="cb50-31"><a href="#cb50-31" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> <span class="va">self</span>.head</span>
+<span id="cb50-32"><a href="#cb50-32" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.head <span class="op">=</span> temp</span>
+<span id="cb50-33"><a href="#cb50-33" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.size <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb50-34"><a href="#cb50-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-35"><a href="#cb50-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_end(<span class="va">self</span>):</span>
+<span id="cb50-36"><a href="#cb50-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb50-37"><a href="#cb50-37" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: linked list sudah kosong"</span>)</span>
+<span id="cb50-38"><a href="#cb50-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb50-39"><a href="#cb50-39" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb50-40"><a href="#cb50-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp.<span class="bu">next</span>.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb50-41"><a href="#cb50-41" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb50-42"><a href="#cb50-42" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> temp.<span class="bu">next</span></span>
+<span id="cb50-43"><a href="#cb50-43" aria-hidden="true" tabindex="-1"></a>            temp.<span class="bu">next</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb50-44"><a href="#cb50-44" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.size <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb50-45"><a href="#cb50-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-46"><a href="#cb50-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_all(<span class="va">self</span>):</span>
+<span id="cb50-47"><a href="#cb50-47" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb50-48"><a href="#cb50-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb50-49"><a href="#cb50-49" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" -&gt; "</span>)</span>
+<span id="cb50-50"><a href="#cb50-50" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb50-51"><a href="#cb50-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb50-52"><a href="#cb50-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_digraph(<span class="va">self</span>):</span>
+<span id="cb50-53"><a href="#cb50-53" aria-hidden="true" tabindex="-1"></a>        new_digraph <span class="op">=</span> gv.Digraph(graph_attr<span class="op">=</span>{<span class="st">"rankdir"</span>: <span class="st">"LR"</span>})</span>
+<span id="cb50-54"><a href="#cb50-54" aria-hidden="true" tabindex="-1"></a>        current <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb50-55"><a href="#cb50-55" aria-hidden="true" tabindex="-1"></a>        counter <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb50-56"><a href="#cb50-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> current <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb50-57"><a href="#cb50-57" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Alamat yang tersimpan pada current.next</span></span>
+<span id="cb50-58"><a href="#cb50-58" aria-hidden="true" tabindex="-1"></a>            next_id <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb50-59"><a href="#cb50-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb50-60"><a href="#cb50-60" aria-hidden="true" tabindex="-1"></a>                next_id <span class="op">=</span> <span class="bu">hex</span>(<span class="bu">id</span>(current.<span class="bu">next</span>))</span>
+<span id="cb50-61"><a href="#cb50-61" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb50-62"><a href="#cb50-62" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Persiapan label</span></span>
+<span id="cb50-63"><a href="#cb50-63" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">=</span> <span class="st">"&lt;"</span></span>
+<span id="cb50-64"><a href="#cb50-64" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TABLE BORDER=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st"> CELLBORDER=</span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> CELLSPACING=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st">&gt;"</span></span>
+<span id="cb50-65"><a href="#cb50-65" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(current.data) <span class="op">+</span> <span class="st">"&lt;/TD&gt;"</span></span>
+<span id="cb50-66"><a href="#cb50-66" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TD PORT=</span><span class="ch">\"</span><span class="st">next</span><span class="ch">\"</span><span class="st">&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(next_id) <span class="op">+</span> <span class="st">"&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb50-67"><a href="#cb50-67" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD PORT=</span><span class="ch">\"</span><span class="st">id</span><span class="ch">\"</span><span class="st"> COLSPAN=</span><span class="ch">\"</span><span class="st">2</span><span class="ch">\"</span><span class="st">&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">hex</span>(<span class="bu">id</span>(current)))</span>
+<span id="cb50-68"><a href="#cb50-68" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;/TD&gt;&lt;/TR&gt;&lt;/TABLE&gt;"</span></span>
+<span id="cb50-69"><a href="#cb50-69" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&gt;"</span></span>
+<span id="cb50-70"><a href="#cb50-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-71"><a href="#cb50-71" aria-hidden="true" tabindex="-1"></a>            new_digraph.node(<span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter), shape<span class="op">=</span><span class="st">"none"</span>, label <span class="op">=</span> str_label)</span>
+<span id="cb50-72"><a href="#cb50-72" aria-hidden="true" tabindex="-1"></a>            new_digraph.edge(</span>
+<span id="cb50-73"><a href="#cb50-73" aria-hidden="true" tabindex="-1"></a>                <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter) <span class="op">+</span> <span class="st">":next"</span>,</span>
+<span id="cb50-74"><a href="#cb50-74" aria-hidden="true" tabindex="-1"></a>                <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter<span class="op">+</span><span class="dv">1</span>) <span class="op">+</span> <span class="st">":id"</span></span>
+<span id="cb50-75"><a href="#cb50-75" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb50-76"><a href="#cb50-76" aria-hidden="true" tabindex="-1"></a>            counter <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb50-77"><a href="#cb50-77" aria-hidden="true" tabindex="-1"></a>            current <span class="op">=</span> current.<span class="bu">next</span></span>
+<span id="cb50-78"><a href="#cb50-78" aria-hidden="true" tabindex="-1"></a>        new_digraph.node(<span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter), shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"None"</span>)</span>
+<span id="cb50-79"><a href="#cb50-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> new_digraph</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="159">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> SLList()</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>test.ins_front(<span class="dv">5</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>test.ins_front(<span class="dv">15</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>test.ins_front(<span class="dv">25</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>test.ins_front(<span class="dv">35</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>test.ins_front(<span class="dv">45</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="160">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>test.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>45 -&gt; 35 -&gt; 25 -&gt; 15 -&gt; 5 -&gt; </code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="161">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>myviz <span class="op">=</span> test.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="162">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>display(myviz)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: node node5, port id unrecognized</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-50-output-2.svg" class="img-fluid"></p>
+</div>
+</div>
 </section>
 <section id="doubly-linked-list" class="level2">
 <h2 class="anchored" data-anchor-id="doubly-linked-list"><em>Doubly Linked List</em></h2>
