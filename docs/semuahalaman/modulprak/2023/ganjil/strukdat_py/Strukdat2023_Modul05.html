@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#instalasi-graphviz" id="toc-instalasi-graphviz" class="nav-link" data-scroll-target="#instalasi-graphviz">Instalasi Graphviz</a></li>
   <li><a href="#mengenal-graphviz-node-dan-edge" id="toc-mengenal-graphviz-node-dan-edge" class="nav-link" data-scroll-target="#mengenal-graphviz-node-dan-edge">Mengenal Graphviz: <em>node</em> dan <em>edge</em></a></li>
-  <li><a href="#importexport-gambar-bahasa-dot-file-.gv" id="toc-importexport-gambar-bahasa-dot-file-.gv" class="nav-link" data-scroll-target="#importexport-gambar-bahasa-dot-file-.gv">Import/export gambar, bahasa DOT, file <code>.gv</code></a></li>
+  <li><a href="#importexport-bahasa-dot-file-.gv" id="toc-importexport-bahasa-dot-file-.gv" class="nav-link" data-scroll-target="#importexport-bahasa-dot-file-.gv">Import/export, bahasa DOT, file <code>.gv</code></a></li>
   <li><a href="#variasi-node-dengan-html-like-labels" id="toc-variasi-node-dengan-html-like-labels" class="nav-link" data-scroll-target="#variasi-node-dengan-html-like-labels">Variasi <em>node</em> dengan <em>HTML-like labels</em></a></li>
   </ul></li>
   <li><a href="#singly-linked-list" id="toc-singly-linked-list" class="nav-link" data-scroll-target="#singly-linked-list"><em>(Singly) Linked List</em></a></li>
@@ -446,7 +446,7 @@ GHI-&gt;F
 </div>
 </div>
 <p>Coba letakkan <em>mouse</em> kalian pada gambarnya selama beberapa detik. Akan muncul tulisan “Nama graf”. (Kalau tidak muncul, coba klik kanan dulu, pencet “Open image in New Tab” atau semacamnya.)</p>
-<p>Apabila kita ingin menentukan misalnya <code>rankdir</code>, tuliskan setelah nama grafnya.</p>
+<p>Apabila kalian ingin menentukan misalnya <code>rankdir</code>, tuliskan setelah nama grafnya.</p>
 <div class="cell" data-execution_count="79">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>graf11 <span class="op">=</span> gv.Digraph(<span class="st">"Graf ke kanan"</span>, graph_attr<span class="op">=</span>{<span class="st">"rankdir"</span>: <span class="st">"LR"</span>})</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>graf11.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
@@ -459,8 +459,83 @@ GHI-&gt;F
 </div>
 </div>
 </section>
-<section id="importexport-gambar-bahasa-dot-file-.gv" class="level3">
-<h3 class="anchored" data-anchor-id="importexport-gambar-bahasa-dot-file-.gv">Import/export gambar, bahasa DOT, file <code>.gv</code></h3>
+<section id="importexport-bahasa-dot-file-.gv" class="level3">
+<h3 class="anchored" data-anchor-id="importexport-bahasa-dot-file-.gv">Import/export, bahasa DOT, file <code>.gv</code></h3>
+<p>Sebenarnya, Graphviz melibatkan yang namanya bahasa DOT (dibaca “dot”), yaitu semacam “bahasa komputer” untuk mendeskripsikan graf, yang kemudian diolah oleh Graphviz menjadi gambar.</p>
+<p>(Sebenarnya, bahasa DOT mudah dipahami dan bisa kalian pelajari sendiri kalo iseng :D)</p>
+<p>Tiap kali kita membuat graf baru dengan Graphviz melalui Python ini, Graphviz selalu menyusun bahasa DOT terlebih dahulu, baru mengolah bahasa DOT tersebut menjadi gambar.</p>
+<p>Kita bisa melihat bahasa DOT untuk tiap graf melalui atribut <code>.source</code> seperti berikut:</p>
+<div class="cell" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.source)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>digraph "Graf ke kanan" {
+    graph [rankdir=LR]
+    A -&gt; B
+    B -&gt; C
+}
+</code></pre>
+</div>
+</div>
+<p>Kemudian, kita bisa memasukkan bahasa DOT tersebut ke dalam semacam <em>software</em> yang bisa mengolah bahasa DOT menjadi gambar. Contohnya adalah <em>link</em> berikut:</p>
+<p><a href="https://dreampuf.github.io/GraphvizOnline/">https://dreampuf.github.io/GraphvizOnline/</a></p>
+<p>Sebaliknya, dari bahasa DOT, Graphviz juga bisa membuat objek <code>Digraph</code> misalnya, menggunakan <code>graphviz.Source()</code> seperti berikut:</p>
+<div class="cell" data-execution_count="82">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>graf12 <span class="op">=</span> gv.Source(<span class="st">"""</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">digraph "Graf ke kanan" {</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="st">    graph [rankdir=LR]</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="st">    A -&gt; B</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="st">    B -&gt; C</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="83">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>display(graf12)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-31-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Selain import seperti itu, baik bahasa DOT maupun gambar yang dibuat oleh Graphviz bisa di-<em>export</em> dengan menetapkan <code>.format</code> terlebih dahulu (misalnya “svg” atau “png”), lalu menggunakan <code>.render()</code> sebagai berikut:</p>
+<div class="cell" data-execution_count="85">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>graf11.<span class="bu">format</span> <span class="op">=</span> <span class="st">"svg"</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>graf11.render()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="85">
+<pre><code>'Graf ke kanan.gv.svg'</code></pre>
+</div>
+</div>
+<p>Seperti di <a href="../../../../../semuahalaman/modulprak/2023/ganjil/strukdat_py/Strukdat2023_Modul03.html">Modul 3</a> kemarin ketika membahas I/O, ada <em>file</em> baru yang muncul.</p>
+<ul>
+<li>Apabila menggunakan Google Colaboratory, silakan tekan tombol folder di sebelah kiri.</li>
+<li>Apabila menggunakan Jupyter Notebook, silakan periksa folder yang di dalamnya ada <em>file</em> <code>.ipynb</code> yang sedang kalian gunakan.</li>
+</ul>
+<p>Akan muncul dua <em>file</em> baru, yaitu:</p>
+<ol type="1">
+<li><code>Graf ke kanan.gv</code></li>
+<li><code>Graf ke kanan.gv.svg</code></li>
+</ol>
+<p><em>File</em> pertama adalah <em>file</em> <code>.gv</code> (Graphviz) yang mengandung bahasa DOT yang disusun sebelum diolah menjadi gambar. <em>File</em> kedua adalah <em>file</em> gambar yang diolah, dalam format sesuai dengan yang kita tentukan.</p>
+<p>Perhatikan bahwa nama <em>file</em> nya sesuai dengan nama graf yang kita tentukan ketika membuat objek <code>graf11</code> tadi. Kalau lupa, kita bisa memeriksa nama graf melalui atribut <code>.nama</code></p>
+<div class="cell" data-execution_count="86">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Graf ke kanan</code></pre>
+</div>
+</div>
+<p>Dengan atribut itu pula, kita bisa mengubah nama grafnya:</p>
+<div class="cell" data-execution_count="93">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>graf11.name <span class="op">=</span> <span class="st">"Nama baru"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sehingga, ketika misalnya Graphviz menyusun bahasa DOT, akan digunakan nama yang baru:</p>
+<div class="cell" data-execution_count="94">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(graf11.source)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>digraph "Nama baru" {
+    graph [rankdir=LR]
+    A -&gt; B
+    B -&gt; C
+}
+</code></pre>
+</div>
+</div>
 </section>
 <section id="variasi-node-dengan-html-like-labels" class="level3">
 <h3 class="anchored" data-anchor-id="variasi-node-dengan-html-like-labels">Variasi <em>node</em> dengan <em>HTML-like labels</em></h3>
