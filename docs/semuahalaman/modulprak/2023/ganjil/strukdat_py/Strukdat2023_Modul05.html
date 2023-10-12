@@ -146,8 +146,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#graphviz" id="toc-graphviz" class="nav-link active" data-scroll-target="#graphviz">Graphviz</a>
   <ul class="collapse">
   <li><a href="#instalasi-graphviz" id="toc-instalasi-graphviz" class="nav-link" data-scroll-target="#instalasi-graphviz">Instalasi Graphviz</a></li>
-  <li><a href="#mengenal-graphviz" id="toc-mengenal-graphviz" class="nav-link" data-scroll-target="#mengenal-graphviz">Mengenal Graphviz</a></li>
+  <li><a href="#mengenal-graphviz-node-dan-edge" id="toc-mengenal-graphviz-node-dan-edge" class="nav-link" data-scroll-target="#mengenal-graphviz-node-dan-edge">Mengenal Graphviz: <em>node</em> dan <em>edge</em></a></li>
+  <li><a href="#importexport-gambar-bahasa-dot-file-.gv" id="toc-importexport-gambar-bahasa-dot-file-.gv" class="nav-link" data-scroll-target="#importexport-gambar-bahasa-dot-file-.gv">Import/export gambar, bahasa DOT, file <code>.gv</code></a></li>
+  <li><a href="#variasi-node-dengan-html-like-labels" id="toc-variasi-node-dengan-html-like-labels" class="nav-link" data-scroll-target="#variasi-node-dengan-html-like-labels">Variasi <em>node</em> dengan <em>HTML-like labels</em></a></li>
   </ul></li>
+  <li><a href="#singly-linked-list" id="toc-singly-linked-list" class="nav-link" data-scroll-target="#singly-linked-list"><em>(Singly) Linked List</em></a></li>
+  <li><a href="#doubly-linked-list" id="toc-doubly-linked-list" class="nav-link" data-scroll-target="#doubly-linked-list"><em>Doubly Linked List</em></a></li>
   </ul>
 </nav>
     </div>
@@ -282,15 +286,193 @@ GHI-&gt;F
 <li><p>Untuk penulisan <code>pip</code>, ada kemungkinan kalian perlu mengetik <code>!pip</code> dengan tanda seru di awal. Biasanya tidak perlu, tapi kalau menjadi <em>error</em>, boleh dicoba dengan tanda seru.</p></li>
 </ul>
 </section>
-<section id="mengenal-graphviz" class="level3">
-<h3 class="anchored" data-anchor-id="mengenal-graphviz">Mengenal Graphviz</h3>
+<section id="mengenal-graphviz-node-dan-edge" class="level3">
+<h3 class="anchored" data-anchor-id="mengenal-graphviz-node-dan-edge">Mengenal Graphviz: <em>node</em> dan <em>edge</em></h3>
 <p>Setelah instalasi selesai, kita bisa import:</p>
-<div class="cell">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> graphviz <span class="im">as</span> gv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-
-
+<p>Dengan Graphviz, ada dua jenis gambar graf yang bisa kita buat:</p>
+<ul>
+<li><code>Digraph</code> (graf berarah, yaitu tiap <em>edge</em> bisa berupa panah maupun garis biasa)</li>
+<li><code>Graph</code> (graf sederhana, yaitu tiap <em>edge</em> hanya bisa berupa garis biasa, bukan panah)</li>
+</ul>
+<p>Karena <code>Digraph</code> lebih banyak fiturnya, kita akan membuat <code>Digraph</code> saja.</p>
+<p>Sebagai contoh sederhana, kita bisa membuat <code>Digraph</code> yang terdiri dari dua <em>node</em> yaitu A dan B, dengan <em>edge</em> berupa panah yang menghubungkan A ke B. Kita buat objek <code>Digraph</code> terlebih dahulu:</p>
+<div class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>graf1 <span class="op">=</span> gv.Digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kemudian, kita bisa menambahkan <em>node</em> A dan B sebagai berikut:</p>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>graf1.node(<span class="st">"A"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>graf1.node(<span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Selanjutnya, kita bisa membuat/menambahkan suatu <em>edge</em> dari A ke B, seperti berikut:</p>
+<div class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>graf1.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sekarang kita bisa lihat grafnya:</p>
+<div class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>display(graf1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-6-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Note: apabila fungsi <code>display</code> tidak dikenal, silakan import:</p>
+<p><code>from IPython.display import display</code></p>
+<p>Sebenarnya, kita bisa saja menambahkan <em>edge</em> baru tanpa membuat <em>node</em> terlebih dahulu. Contohnya, menambahkan <em>edge</em> dari A ke C (suatu <em>node</em> baru):</p>
+<div class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>graf1.edge(<span class="st">"A"</span>, <span class="st">"C"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kita bisa lihat lagi:</p>
+<div class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>display(graf1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-8-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Bahkan, kita bisa membuat ulang graf di atas dengan cara seperti berikut:</p>
+<div class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>graf2 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>graf2.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>graf2.edge(<span class="st">"A"</span>, <span class="st">"C"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>display(graf2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-10-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Menariknya, kita bisa saja membuat panah yang menunjuk ke dirinya sendiri.</p>
+<div class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>graf3 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>graf3.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>graf3.edge(<span class="st">"B"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>display(graf3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-12-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Kita juga bisa membuat dua panah berlawanan arah di antara dua <em>node</em> seperti berikut:</p>
+<div class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>graf4 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>graf4.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>graf4.edge(<span class="st">"B"</span>, <span class="st">"A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>display(graf4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-14-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Membuat satu panah yang dua arah juga bisa, dengan menentukan <code>dir</code> atau <em>direction</em> dari <em>edge</em> tersebut menjadi <code>"both"</code> seperti berikut:</p>
+<div class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>graf5 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>graf5.edge(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="bu">dir</span><span class="op">=</span><span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>display(graf5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-16-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Daripada panah, kita juga bisa membuat <em>edge</em> berupa garis biasa, dengan <code>dir="none"</code> (bukan <code>None</code> ya!)</p>
+<div class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>graf6 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>graf6.edge(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="bu">dir</span><span class="op">=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>display(graf6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-18-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Sejauh ini, grafnya selalu cenderung “dari atas ke bawah”. Daripada seperti itu, kita bisa mengubahnya menjadi kiri ke kanan untuk keseluruhan graf. Caranya, kita memasang <code>graph_attr</code> atau atribut graf, berbentuk <code>dict</code>, dan di dalamnya kita buat <code>"rankdir": "LR"</code> (<em>left-right</em>) seperti di bawah ini.</p>
+<p>Setelah objek <code>Digraph</code> dibuat, barulah tiap <em>edge</em> yang kita tambahkan akan dari kiri ke kanan.</p>
+<div class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>graf7 <span class="op">=</span> gv.Digraph(graph_attr<span class="op">=</span>{<span class="st">"rankdir"</span>: <span class="st">"LR"</span>})</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>graf7.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="68">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>display(graf7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-20-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Selain <em>node</em> diberi nama, <em>edge</em> juga bisa diberi keterangan, lho! Caranya, pasang nilai <code>label</code> ketika membuat <em>edge</em> baru:</p>
+<div class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>graf8 <span class="op">=</span> gv.Digraph(graph_attr<span class="op">=</span>{<span class="st">"rankdir"</span>: <span class="st">"LR"</span>})</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>graf8.edge(<span class="st">"A"</span>, <span class="st">"B"</span>, label<span class="op">=</span><span class="st">"test"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>display(graf8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-22-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Sebenarnya, di dalam suatu <em>node</em>, ada yang namanya <code>name</code> (atau ID) dan ada juga yang disebut <code>label</code>.</p>
+<ul>
+<li><code>label</code> adalah tulisan yang tampil di gambar pada <em>node</em> tersebut</li>
+<li><code>name</code> atau ID adalah sebutan yang dikenal oleh Graphviz ketika misalnya ingin membuat <em>edge</em></li>
+</ul>
+<p>Selama ini, yang kita tentukan adalah <code>name</code>. Kebetulan, khusus <em>node</em>, apabila <code>label</code> tidak ditentukan, maka otomatis akan diambil dari <code>name</code>.</p>
+<p>Berikut ini, kita bisa coba menentukan <code>name</code> dan <code>label</code> sekaligus ketika membuat <em>node</em>:</p>
+<div class="cell" data-execution_count="75">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>graf9 <span class="op">=</span> gv.Digraph()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>graf9.node(<span class="st">"matkul1"</span>, label<span class="op">=</span><span class="st">"Alprog"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>graf9.node(<span class="st">"matkul2"</span>, label<span class="op">=</span><span class="st">"Strukdat"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>graf9.edge(<span class="st">"matkul1"</span>, <span class="st">"matkul2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>display(graf9)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-24-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Perlu dicatat, apabila kita menambahkan <em>edge</em> sekaligus membuat <em>node</em> baru, kita tidak bisa memasang <code>label</code> untuk <em>node</em> baru tersebut.</p>
+<p>Sehingga, apabila kalian ingin membuat <em>node</em> dengan <code>label</code> tertentu, yang nantinya akan disambung ke <em>node</em> lain dengan <em>edge</em>, maka sebaiknya <em>node</em> baru tersebut dibuat dengan <code>.node()</code> terlebih dahulu, barulah <code>name</code> nya digunakan ketika membuat <code>.edge()</code></p>
+<p>Selain itu, bahkan graf itu sendiri juga bisa memiliki nama, yang ditentukan ketika membuat objek grafnya.</p>
+<div class="cell" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>graf10 <span class="op">=</span> gv.Digraph(<span class="st">"Nama graf"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>graf10.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>graf10.edge(<span class="st">"B"</span>, <span class="st">"C"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>display(graf10)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-26-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>Coba letakkan <em>mouse</em> kalian pada gambarnya selama beberapa detik. Akan muncul tulisan “Nama graf”. (Kalau tidak muncul, coba klik kanan dulu, pencet “Open image in New Tab” atau semacamnya.)</p>
+<p>Apabila kita ingin menentukan misalnya <code>rankdir</code>, tuliskan setelah nama grafnya.</p>
+<div class="cell" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>graf11 <span class="op">=</span> gv.Digraph(<span class="st">"Graf ke kanan"</span>, graph_attr<span class="op">=</span>{<span class="st">"rankdir"</span>: <span class="st">"LR"</span>})</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>graf11.edge(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>graf11.edge(<span class="st">"B"</span>, <span class="st">"C"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="80">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>display(graf11)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-28-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
 </section>
+<section id="importexport-gambar-bahasa-dot-file-.gv" class="level3">
+<h3 class="anchored" data-anchor-id="importexport-gambar-bahasa-dot-file-.gv">Import/export gambar, bahasa DOT, file <code>.gv</code></h3>
+</section>
+<section id="variasi-node-dengan-html-like-labels" class="level3">
+<h3 class="anchored" data-anchor-id="variasi-node-dengan-html-like-labels">Variasi <em>node</em> dengan <em>HTML-like labels</em></h3>
+</section>
+</section>
+<section id="singly-linked-list" class="level2">
+<h2 class="anchored" data-anchor-id="singly-linked-list"><em>(Singly) Linked List</em></h2>
+</section>
+<section id="doubly-linked-list" class="level2">
+<h2 class="anchored" data-anchor-id="doubly-linked-list"><em>Doubly Linked List</em></h2>
+
+
 </section>
 
 </main> <!-- /main -->
