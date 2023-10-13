@@ -1101,7 +1101,7 @@ GHI-&gt;F
 <span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">next</span> <span class="op">=</span> <span class="bu">next</span></span>
 <span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.prev <span class="op">=</span> prev</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-execution_count="122">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DLList:</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> <span class="va">None</span></span>
@@ -1133,102 +1133,276 @@ GHI-&gt;F
 <span id="cb103-29"><a href="#cb103-29" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
 <span id="cb103-30"><a href="#cb103-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Khusus node terakhir:</span></span>
 <span id="cb103-31"><a href="#cb103-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (temp <span class="op">!=</span> <span class="va">None</span>) <span class="kw">and</span> (temp.<span class="bu">next</span> <span class="op">==</span> <span class="va">None</span>):</span>
-<span id="cb103-32"><a href="#cb103-32" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" -&gt; "</span>)</span>
-<span id="cb103-33"><a href="#cb103-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"None"</span>)</span>
+<span id="cb103-32"><a href="#cb103-32" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" &lt;- "</span>)</span>
+<span id="cb103-33"><a href="#cb103-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"tail"</span>)</span>
 <span id="cb103-34"><a href="#cb103-34" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb103-35"><a href="#cb103-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_front(<span class="va">self</span>, newdata):</span>
 <span id="cb103-36"><a href="#cb103-36" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> DLNode(newdata)</span>
 <span id="cb103-37"><a href="#cb103-37" aria-hidden="true" tabindex="-1"></a>        newnode.<span class="bu">next</span> <span class="op">=</span> <span class="va">self</span>.head</span>
-<span id="cb103-38"><a href="#cb103-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head.prev <span class="op">=</span> newnode</span>
-<span id="cb103-39"><a href="#cb103-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> newnode</span>
-<span id="cb103-40"><a href="#cb103-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.tail <span class="op">==</span> <span class="va">None</span>: <span class="co"># jika tadinya doubly linked list kosong,</span></span>
-<span id="cb103-41"><a href="#cb103-41" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka newnode menjadi node pertama, ditunjuk oleh head dan tail</span></span>
-<span id="cb103-42"><a href="#cb103-42" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.tail <span class="op">=</span> newnode</span>
-<span id="cb103-43"><a href="#cb103-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-44"><a href="#cb103-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Berbeda dengan singly linked list, tinggal insert di tail;</span></span>
-<span id="cb103-45"><a href="#cb103-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tidak perlu traversal</span></span>
-<span id="cb103-46"><a href="#cb103-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_end(<span class="va">self</span>, newdata):</span>
-<span id="cb103-47"><a href="#cb103-47" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> DLNode(newdata)</span>
-<span id="cb103-48"><a href="#cb103-48" aria-hidden="true" tabindex="-1"></a>        newnode.prev <span class="op">=</span> <span class="va">self</span>.tail</span>
-<span id="cb103-49"><a href="#cb103-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tail.<span class="bu">next</span> <span class="op">=</span> newnode</span>
-<span id="cb103-50"><a href="#cb103-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tail <span class="op">=</span> newnode</span>
-<span id="cb103-51"><a href="#cb103-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.head <span class="op">==</span> <span class="va">None</span>: <span class="co"># jika tadinya doubly linked list kosong,</span></span>
-<span id="cb103-52"><a href="#cb103-52" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka newnode menjadi node pertama, ditunjuk oleh head dan tail</span></span>
-<span id="cb103-53"><a href="#cb103-53" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.head <span class="op">=</span> newnode</span>
-<span id="cb103-54"><a href="#cb103-54" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb103-55"><a href="#cb103-55" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_pos(<span class="va">self</span>, newdata, pos):</span>
-<span id="cb103-56"><a href="#cb103-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb103-57"><a href="#cb103-57" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ins_front(newdata)</span>
-<span id="cb103-58"><a href="#cb103-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
-<span id="cb103-59"><a href="#cb103-59" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.get_size()</span>
-<span id="cb103-60"><a href="#cb103-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> n:</span>
-<span id="cb103-61"><a href="#cb103-61" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ins_end(newdata)</span>
-<span id="cb103-62"><a href="#cb103-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> pos <span class="op">&gt;</span> n:</span>
-<span id="cb103-63"><a href="#cb103-63" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: posisi melebihi panjang linked list"</span>)</span>
-<span id="cb103-64"><a href="#cb103-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb103-65"><a href="#cb103-65" aria-hidden="true" tabindex="-1"></a>            current_pos <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb103-66"><a href="#cb103-66" aria-hidden="true" tabindex="-1"></a>            current <span class="op">=</span> <span class="va">self</span>.head</span>
-<span id="cb103-67"><a href="#cb103-67" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (current_pos <span class="op">!=</span> pos<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb103-68"><a href="#cb103-68" aria-hidden="true" tabindex="-1"></a>                current <span class="op">=</span> current.<span class="bu">next</span></span>
-<span id="cb103-69"><a href="#cb103-69" aria-hidden="true" tabindex="-1"></a>                current_pos <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb103-70"><a href="#cb103-70" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Keluar loop berarti current_pos == pos-1</span></span>
-<span id="cb103-71"><a href="#cb103-71" aria-hidden="true" tabindex="-1"></a>            newnode <span class="op">=</span> DLNode(newdata)</span>
-<span id="cb103-72"><a href="#cb103-72" aria-hidden="true" tabindex="-1"></a>            newnode.prev <span class="op">=</span> current</span>
-<span id="cb103-73"><a href="#cb103-73" aria-hidden="true" tabindex="-1"></a>            newnode.<span class="bu">next</span> <span class="op">=</span> current.<span class="bu">next</span></span>
-<span id="cb103-74"><a href="#cb103-74" aria-hidden="true" tabindex="-1"></a>            current.<span class="bu">next</span> <span class="op">=</span> newnode</span>
-<span id="cb103-75"><a href="#cb103-75" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Sudah pasti newnode.next != None,</span></span>
-<span id="cb103-76"><a href="#cb103-76" aria-hidden="true" tabindex="-1"></a>            <span class="co"># karena kasus pos == n sudah ditangani</span></span>
-<span id="cb103-77"><a href="#cb103-77" aria-hidden="true" tabindex="-1"></a>            newnode.<span class="bu">next</span>.prev <span class="op">=</span> newnode</span>
-<span id="cb103-78"><a href="#cb103-78" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb103-79"><a href="#cb103-79" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_front(<span class="va">self</span>):</span>
-<span id="cb103-80"><a href="#cb103-80" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb103-81"><a href="#cb103-81" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: linked list sudah kosong"</span>)</span>
-<span id="cb103-82"><a href="#cb103-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb103-83"><a href="#cb103-83" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.head.<span class="bu">next</span></span>
-<span id="cb103-84"><a href="#cb103-84" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> <span class="va">self</span>.head</span>
-<span id="cb103-85"><a href="#cb103-85" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.head <span class="op">=</span> temp</span>
-<span id="cb103-86"><a href="#cb103-86" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb103-87"><a href="#cb103-87" aria-hidden="true" tabindex="-1"></a>                temp.prev <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb103-88"><a href="#cb103-88" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: <span class="co"># jika temp == None, maka self.head == None,</span></span>
-<span id="cb103-89"><a href="#cb103-89" aria-hidden="true" tabindex="-1"></a>                <span class="co"># berarti sekarang doubly linkd list kosong,</span></span>
-<span id="cb103-90"><a href="#cb103-90" aria-hidden="true" tabindex="-1"></a>                <span class="co"># sehingga tail juga menunjuk ke None</span></span>
-<span id="cb103-91"><a href="#cb103-91" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.tail <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb103-92"><a href="#cb103-92" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb103-93"><a href="#cb103-93" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_end(<span class="va">self</span>):</span>
-<span id="cb103-94"><a href="#cb103-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb103-95"><a href="#cb103-95" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: linked list sudah kosong"</span>)</span>
-<span id="cb103-96"><a href="#cb103-96" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb103-97"><a href="#cb103-97" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.tail.prev</span>
-<span id="cb103-98"><a href="#cb103-98" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> <span class="va">self</span>.tail</span>
-<span id="cb103-99"><a href="#cb103-99" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.tail <span class="op">=</span> temp</span>
-<span id="cb103-100"><a href="#cb103-100" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb103-101"><a href="#cb103-101" aria-hidden="true" tabindex="-1"></a>                temp.<span class="bu">next</span> <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb103-102"><a href="#cb103-102" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: <span class="co"># jika temp == None, maka self.tail == None,</span></span>
-<span id="cb103-103"><a href="#cb103-103" aria-hidden="true" tabindex="-1"></a>                <span class="co"># berarti sekarang doubly linkd list kosong,</span></span>
-<span id="cb103-104"><a href="#cb103-104" aria-hidden="true" tabindex="-1"></a>                <span class="co"># sehingga head juga menunjuk ke None</span></span>
-<span id="cb103-105"><a href="#cb103-105" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.head <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb103-106"><a href="#cb103-106" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb103-107"><a href="#cb103-107" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_pos(<span class="va">self</span>, pos):</span>
-<span id="cb103-108"><a href="#cb103-108" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb103-109"><a href="#cb103-109" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.del_front()</span>
-<span id="cb103-110"><a href="#cb103-110" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
-<span id="cb103-111"><a href="#cb103-111" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.get_size()</span>
-<span id="cb103-112"><a href="#cb103-112" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> n<span class="op">-</span><span class="dv">1</span>:</span>
-<span id="cb103-113"><a href="#cb103-113" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.del_end()</span>
-<span id="cb103-114"><a href="#cb103-114" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> pos <span class="op">&gt;</span> n<span class="op">-</span><span class="dv">1</span>:</span>
-<span id="cb103-115"><a href="#cb103-115" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: posisi melebihi panjang linked list"</span>)</span>
-<span id="cb103-116"><a href="#cb103-116" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb103-117"><a href="#cb103-117" aria-hidden="true" tabindex="-1"></a>            current_pos <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb103-118"><a href="#cb103-118" aria-hidden="true" tabindex="-1"></a>            current <span class="op">=</span> <span class="va">self</span>.head</span>
-<span id="cb103-119"><a href="#cb103-119" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (current_pos <span class="op">!=</span> pos<span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb103-120"><a href="#cb103-120" aria-hidden="true" tabindex="-1"></a>                current <span class="op">=</span> current.<span class="bu">next</span></span>
-<span id="cb103-121"><a href="#cb103-121" aria-hidden="true" tabindex="-1"></a>                current_pos <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb103-122"><a href="#cb103-122" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> current.<span class="bu">next</span>.<span class="bu">next</span></span>
-<span id="cb103-123"><a href="#cb103-123" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> current.<span class="bu">next</span></span>
-<span id="cb103-124"><a href="#cb103-124" aria-hidden="true" tabindex="-1"></a>            current.<span class="bu">next</span> <span class="op">=</span> temp</span>
-<span id="cb103-125"><a href="#cb103-125" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Sudah pasti temp != None,</span></span>
-<span id="cb103-126"><a href="#cb103-126" aria-hidden="true" tabindex="-1"></a>            <span class="co"># karena kasus pos == (n-1) sudah ditangani</span></span>
-<span id="cb103-127"><a href="#cb103-127" aria-hidden="true" tabindex="-1"></a>            temp.prev <span class="op">=</span> current</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb103-38"><a href="#cb103-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.head <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-39"><a href="#cb103-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.head.prev <span class="op">=</span> newnode</span>
+<span id="cb103-40"><a href="#cb103-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> newnode</span>
+<span id="cb103-41"><a href="#cb103-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.tail <span class="op">==</span> <span class="va">None</span>: <span class="co"># jika tadinya doubly linked list kosong,</span></span>
+<span id="cb103-42"><a href="#cb103-42" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka newnode menjadi node pertama, ditunjuk oleh head dan tail</span></span>
+<span id="cb103-43"><a href="#cb103-43" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.tail <span class="op">=</span> newnode</span>
+<span id="cb103-44"><a href="#cb103-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-45"><a href="#cb103-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Berbeda dengan singly linked list, tinggal insert di tail;</span></span>
+<span id="cb103-46"><a href="#cb103-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tidak perlu traversal</span></span>
+<span id="cb103-47"><a href="#cb103-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_end(<span class="va">self</span>, newdata):</span>
+<span id="cb103-48"><a href="#cb103-48" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> DLNode(newdata)</span>
+<span id="cb103-49"><a href="#cb103-49" aria-hidden="true" tabindex="-1"></a>        newnode.prev <span class="op">=</span> <span class="va">self</span>.tail</span>
+<span id="cb103-50"><a href="#cb103-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.tail <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-51"><a href="#cb103-51" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.tail.<span class="bu">next</span> <span class="op">=</span> newnode</span>
+<span id="cb103-52"><a href="#cb103-52" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tail <span class="op">=</span> newnode</span>
+<span id="cb103-53"><a href="#cb103-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.head <span class="op">==</span> <span class="va">None</span>: <span class="co"># jika tadinya doubly linked list kosong,</span></span>
+<span id="cb103-54"><a href="#cb103-54" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka newnode menjadi node pertama, ditunjuk oleh head dan tail</span></span>
+<span id="cb103-55"><a href="#cb103-55" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.head <span class="op">=</span> newnode</span>
+<span id="cb103-56"><a href="#cb103-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb103-57"><a href="#cb103-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ins_pos(<span class="va">self</span>, newdata, pos):</span>
+<span id="cb103-58"><a href="#cb103-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb103-59"><a href="#cb103-59" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ins_front(newdata)</span>
+<span id="cb103-60"><a href="#cb103-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
+<span id="cb103-61"><a href="#cb103-61" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.get_size()</span>
+<span id="cb103-62"><a href="#cb103-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> n:</span>
+<span id="cb103-63"><a href="#cb103-63" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ins_end(newdata)</span>
+<span id="cb103-64"><a href="#cb103-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> pos <span class="op">&gt;</span> n:</span>
+<span id="cb103-65"><a href="#cb103-65" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: posisi melebihi panjang linked list"</span>)</span>
+<span id="cb103-66"><a href="#cb103-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb103-67"><a href="#cb103-67" aria-hidden="true" tabindex="-1"></a>            current_pos <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb103-68"><a href="#cb103-68" aria-hidden="true" tabindex="-1"></a>            current <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb103-69"><a href="#cb103-69" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (current_pos <span class="op">!=</span> pos<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb103-70"><a href="#cb103-70" aria-hidden="true" tabindex="-1"></a>                current <span class="op">=</span> current.<span class="bu">next</span></span>
+<span id="cb103-71"><a href="#cb103-71" aria-hidden="true" tabindex="-1"></a>                current_pos <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb103-72"><a href="#cb103-72" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Keluar loop berarti current_pos == pos-1</span></span>
+<span id="cb103-73"><a href="#cb103-73" aria-hidden="true" tabindex="-1"></a>            newnode <span class="op">=</span> DLNode(newdata)</span>
+<span id="cb103-74"><a href="#cb103-74" aria-hidden="true" tabindex="-1"></a>            newnode.prev <span class="op">=</span> current</span>
+<span id="cb103-75"><a href="#cb103-75" aria-hidden="true" tabindex="-1"></a>            newnode.<span class="bu">next</span> <span class="op">=</span> current.<span class="bu">next</span></span>
+<span id="cb103-76"><a href="#cb103-76" aria-hidden="true" tabindex="-1"></a>            current.<span class="bu">next</span> <span class="op">=</span> newnode</span>
+<span id="cb103-77"><a href="#cb103-77" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Sudah pasti newnode.next != None,</span></span>
+<span id="cb103-78"><a href="#cb103-78" aria-hidden="true" tabindex="-1"></a>            <span class="co"># karena kasus pos == n sudah ditangani</span></span>
+<span id="cb103-79"><a href="#cb103-79" aria-hidden="true" tabindex="-1"></a>            newnode.<span class="bu">next</span>.prev <span class="op">=</span> newnode</span>
+<span id="cb103-80"><a href="#cb103-80" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb103-81"><a href="#cb103-81" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_front(<span class="va">self</span>):</span>
+<span id="cb103-82"><a href="#cb103-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb103-83"><a href="#cb103-83" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: linked list sudah kosong"</span>)</span>
+<span id="cb103-84"><a href="#cb103-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb103-85"><a href="#cb103-85" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.head.<span class="bu">next</span></span>
+<span id="cb103-86"><a href="#cb103-86" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> <span class="va">self</span>.head</span>
+<span id="cb103-87"><a href="#cb103-87" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.head <span class="op">=</span> temp</span>
+<span id="cb103-88"><a href="#cb103-88" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-89"><a href="#cb103-89" aria-hidden="true" tabindex="-1"></a>                temp.prev <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-90"><a href="#cb103-90" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: <span class="co"># jika temp == None, maka self.head == None,</span></span>
+<span id="cb103-91"><a href="#cb103-91" aria-hidden="true" tabindex="-1"></a>                <span class="co"># berarti sekarang doubly linkd list kosong,</span></span>
+<span id="cb103-92"><a href="#cb103-92" aria-hidden="true" tabindex="-1"></a>                <span class="co"># sehingga tail juga menunjuk ke None</span></span>
+<span id="cb103-93"><a href="#cb103-93" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.tail <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-94"><a href="#cb103-94" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb103-95"><a href="#cb103-95" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_end(<span class="va">self</span>):</span>
+<span id="cb103-96"><a href="#cb103-96" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb103-97"><a href="#cb103-97" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: linked list sudah kosong"</span>)</span>
+<span id="cb103-98"><a href="#cb103-98" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb103-99"><a href="#cb103-99" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.tail.prev</span>
+<span id="cb103-100"><a href="#cb103-100" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> <span class="va">self</span>.tail</span>
+<span id="cb103-101"><a href="#cb103-101" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.tail <span class="op">=</span> temp</span>
+<span id="cb103-102"><a href="#cb103-102" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-103"><a href="#cb103-103" aria-hidden="true" tabindex="-1"></a>                temp.<span class="bu">next</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-104"><a href="#cb103-104" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: <span class="co"># jika temp == None, maka self.tail == None,</span></span>
+<span id="cb103-105"><a href="#cb103-105" aria-hidden="true" tabindex="-1"></a>                <span class="co"># berarti sekarang doubly linkd list kosong,</span></span>
+<span id="cb103-106"><a href="#cb103-106" aria-hidden="true" tabindex="-1"></a>                <span class="co"># sehingga head juga menunjuk ke None</span></span>
+<span id="cb103-107"><a href="#cb103-107" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.head <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-108"><a href="#cb103-108" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb103-109"><a href="#cb103-109" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> del_pos(<span class="va">self</span>, pos):</span>
+<span id="cb103-110"><a href="#cb103-110" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb103-111"><a href="#cb103-111" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.del_front()</span>
+<span id="cb103-112"><a href="#cb103-112" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
+<span id="cb103-113"><a href="#cb103-113" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="va">self</span>.get_size()</span>
+<span id="cb103-114"><a href="#cb103-114" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pos <span class="op">==</span> n<span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb103-115"><a href="#cb103-115" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.del_end()</span>
+<span id="cb103-116"><a href="#cb103-116" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> pos <span class="op">&gt;</span> n<span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb103-117"><a href="#cb103-117" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error: posisi melebihi panjang linked list"</span>)</span>
+<span id="cb103-118"><a href="#cb103-118" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb103-119"><a href="#cb103-119" aria-hidden="true" tabindex="-1"></a>            current_pos <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb103-120"><a href="#cb103-120" aria-hidden="true" tabindex="-1"></a>            current <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb103-121"><a href="#cb103-121" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (current_pos <span class="op">!=</span> pos<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb103-122"><a href="#cb103-122" aria-hidden="true" tabindex="-1"></a>                current <span class="op">=</span> current.<span class="bu">next</span></span>
+<span id="cb103-123"><a href="#cb103-123" aria-hidden="true" tabindex="-1"></a>                current_pos <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb103-124"><a href="#cb103-124" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> current.<span class="bu">next</span>.<span class="bu">next</span></span>
+<span id="cb103-125"><a href="#cb103-125" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> current.<span class="bu">next</span></span>
+<span id="cb103-126"><a href="#cb103-126" aria-hidden="true" tabindex="-1"></a>            current.<span class="bu">next</span> <span class="op">=</span> temp</span>
+<span id="cb103-127"><a href="#cb103-127" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Sudah pasti temp != None,</span></span>
+<span id="cb103-128"><a href="#cb103-128" aria-hidden="true" tabindex="-1"></a>            <span class="co"># karena kasus pos == (n-1) sudah ditangani</span></span>
+<span id="cb103-129"><a href="#cb103-129" aria-hidden="true" tabindex="-1"></a>            temp.prev <span class="op">=</span> current</span>
+<span id="cb103-130"><a href="#cb103-130" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb103-131"><a href="#cb103-131" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Method untuk memperoleh digraph yang menggambarkan linked list nya :D</span></span>
+<span id="cb103-132"><a href="#cb103-132" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_digraph(<span class="va">self</span>):</span>
+<span id="cb103-133"><a href="#cb103-133" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Buat digraph baru yang sifatnya dari kiri ke kanan</span></span>
+<span id="cb103-134"><a href="#cb103-134" aria-hidden="true" tabindex="-1"></a>        new_digraph <span class="op">=</span> gv.Digraph(graph_attr<span class="op">=</span>{<span class="st">"rankdir"</span>: <span class="st">"LR"</span>})</span>
+<span id="cb103-135"><a href="#cb103-135" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb103-136"><a href="#cb103-136" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Pointer untuk menunjuk ke tiap node, mulai dari node pertama</span></span>
+<span id="cb103-137"><a href="#cb103-137" aria-hidden="true" tabindex="-1"></a>        <span class="co"># (akan dilakukan traversal)</span></span>
+<span id="cb103-138"><a href="#cb103-138" aria-hidden="true" tabindex="-1"></a>        current <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb103-139"><a href="#cb103-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-140"><a href="#cb103-140" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Untuk menghitung node ke-sekian untuk nama node di Graphviz,</span></span>
+<span id="cb103-141"><a href="#cb103-141" aria-hidden="true" tabindex="-1"></a>        <span class="co"># sehingga head menunjuk ke node0, lalu node0 menunjuk ke node1, dst</span></span>
+<span id="cb103-142"><a href="#cb103-142" aria-hidden="true" tabindex="-1"></a>        counter <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb103-143"><a href="#cb103-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-144"><a href="#cb103-144" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Memperoleh alamat yang sedang disimpan di head</span></span>
+<span id="cb103-145"><a href="#cb103-145" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - asumsi awal: tidak ada alamat (None)</span></span>
+<span id="cb103-146"><a href="#cb103-146" aria-hidden="true" tabindex="-1"></a>        next_id <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-147"><a href="#cb103-147" aria-hidden="true" tabindex="-1"></a>        next_name <span class="op">=</span> <span class="st">"node0"</span> <span class="co"># ini nanti untuk nama node berikutnya di Graphviz</span></span>
+<span id="cb103-148"><a href="#cb103-148" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - kalau ternyata ada alamat...</span></span>
+<span id="cb103-149"><a href="#cb103-149" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-150"><a href="#cb103-150" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka simpan alamat tersebut</span></span>
+<span id="cb103-151"><a href="#cb103-151" aria-hidden="true" tabindex="-1"></a>            next_id <span class="op">=</span> <span class="bu">hex</span>(<span class="bu">id</span>(current))</span>
+<span id="cb103-152"><a href="#cb103-152" aria-hidden="true" tabindex="-1"></a>            <span class="co"># kita buat lebih spesifik untuk node berikutnya, tunjuk ke port id</span></span>
+<span id="cb103-153"><a href="#cb103-153" aria-hidden="true" tabindex="-1"></a>            next_name <span class="op">=</span> <span class="st">"node0:id"</span></span>
+<span id="cb103-154"><a href="#cb103-154" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb103-155"><a href="#cb103-155" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Label (tabel) untuk pointer head</span></span>
+<span id="cb103-156"><a href="#cb103-156" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - pembuka tabel</span></span>
+<span id="cb103-157"><a href="#cb103-157" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">=</span> <span class="st">"&lt;"</span></span>
+<span id="cb103-158"><a href="#cb103-158" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;TABLE BORDER=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st"> CELLBORDER=</span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> CELLSPACING=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st">&gt;"</span></span>
+<span id="cb103-159"><a href="#cb103-159" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - baris head</span></span>
+<span id="cb103-160"><a href="#cb103-160" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD&gt;head&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb103-161"><a href="#cb103-161" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - baris alamat (sekalian membuat port namanya "contents")</span></span>
+<span id="cb103-162"><a href="#cb103-162" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD PORT=</span><span class="ch">\"</span><span class="st">contents</span><span class="ch">\"</span><span class="st">&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(next_id) <span class="op">+</span> <span class="st">"&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb103-163"><a href="#cb103-163" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - penutup tabel</span></span>
+<span id="cb103-164"><a href="#cb103-164" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;/TABLE&gt;"</span></span>
+<span id="cb103-165"><a href="#cb103-165" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&gt;"</span></span>
+<span id="cb103-166"><a href="#cb103-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-167"><a href="#cb103-167" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Membuat node head, membuat edge dari head ke node berikutnya</span></span>
+<span id="cb103-168"><a href="#cb103-168" aria-hidden="true" tabindex="-1"></a>        new_digraph.node(<span class="st">"head"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span>str_label)</span>
+<span id="cb103-169"><a href="#cb103-169" aria-hidden="true" tabindex="-1"></a>        new_digraph.edge(<span class="st">"head:contents"</span>, next_name)</span>
+<span id="cb103-170"><a href="#cb103-170" aria-hidden="true" tabindex="-1"></a>        <span class="co"># dari port "contents" ke node berikutnya, yang namanya next_name</span></span>
+<span id="cb103-171"><a href="#cb103-171" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb103-172"><a href="#cb103-172" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Selama node yang ditunjuk bukan None, buatlah node nya di Graphviz,</span></span>
+<span id="cb103-173"><a href="#cb103-173" aria-hidden="true" tabindex="-1"></a>        <span class="co"># lalu lanjut ke node selanjutnya (ini traversal)</span></span>
+<span id="cb103-174"><a href="#cb103-174" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> current <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-175"><a href="#cb103-175" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Alamat yang tersimpan pada current.next</span></span>
+<span id="cb103-176"><a href="#cb103-176" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - asumsi awal: tidak ada alamat; current adalah node terakhir</span></span>
+<span id="cb103-177"><a href="#cb103-177" aria-hidden="true" tabindex="-1"></a>            next_id <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-178"><a href="#cb103-178" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - kalau ternyata ada alamat...</span></span>
+<span id="cb103-179"><a href="#cb103-179" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-180"><a href="#cb103-180" aria-hidden="true" tabindex="-1"></a>                <span class="co"># maka simpan alamat tersebut</span></span>
+<span id="cb103-181"><a href="#cb103-181" aria-hidden="true" tabindex="-1"></a>                next_id <span class="op">=</span> <span class="bu">hex</span>(<span class="bu">id</span>(current.<span class="bu">next</span>))</span>
+<span id="cb103-182"><a href="#cb103-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-183"><a href="#cb103-183" aria-hidden="true" tabindex="-1"></a>            <span class="co"># serupa untuk prev</span></span>
+<span id="cb103-184"><a href="#cb103-184" aria-hidden="true" tabindex="-1"></a>            prev_id <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-185"><a href="#cb103-185" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current.prev <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-186"><a href="#cb103-186" aria-hidden="true" tabindex="-1"></a>                prev_id <span class="op">=</span> <span class="bu">hex</span>(<span class="bu">id</span>(current.prev))</span>
+<span id="cb103-187"><a href="#cb103-187" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb103-188"><a href="#cb103-188" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Persiapan label (tabel) untuk node</span></span>
+<span id="cb103-189"><a href="#cb103-189" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - pembuka tabel</span></span>
+<span id="cb103-190"><a href="#cb103-190" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">=</span> <span class="st">"&lt;"</span></span>
+<span id="cb103-191"><a href="#cb103-191" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TABLE BORDER=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st"> CELLBORDER=</span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> CELLSPACING=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st">&gt;"</span></span>
+<span id="cb103-192"><a href="#cb103-192" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - baris tulisan "prev", "data", "next"</span></span>
+<span id="cb103-193"><a href="#cb103-193" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD&gt;prev&lt;/TD&gt;&lt;TD&gt;data&lt;/TD&gt;&lt;TD&gt;next&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb103-194"><a href="#cb103-194" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - baris untuk isi prev, isi data, dan isi next</span></span>
+<span id="cb103-195"><a href="#cb103-195" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;"</span></span>
+<span id="cb103-196"><a href="#cb103-196" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TD PORT=</span><span class="ch">\"</span><span class="st">prev</span><span class="ch">\"</span><span class="st">&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(prev_id) <span class="op">+</span> <span class="st">"&lt;/TD&gt;"</span></span>
+<span id="cb103-197"><a href="#cb103-197" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TD&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(current.data) <span class="op">+</span> <span class="st">"&lt;/TD&gt;"</span></span>
+<span id="cb103-198"><a href="#cb103-198" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TD PORT=</span><span class="ch">\"</span><span class="st">next</span><span class="ch">\"</span><span class="st">&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(next_id) <span class="op">+</span> <span class="st">"&lt;/TD&gt;"</span></span>
+<span id="cb103-199"><a href="#cb103-199" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;/TR&gt;"</span></span>
+<span id="cb103-200"><a href="#cb103-200" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - baris tulisan "alamat node", merentang dua kolom</span></span>
+<span id="cb103-201"><a href="#cb103-201" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD COLSPAN=</span><span class="ch">\"</span><span class="st">3</span><span class="ch">\"</span><span class="st">&gt;alamat node&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb103-202"><a href="#cb103-202" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - baris untuk isi alamat node, merentang dua kolom</span></span>
+<span id="cb103-203"><a href="#cb103-203" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;"</span></span>
+<span id="cb103-204"><a href="#cb103-204" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;TD PORT=</span><span class="ch">\"</span><span class="st">id</span><span class="ch">\"</span><span class="st"> COLSPAN=</span><span class="ch">\"</span><span class="st">3</span><span class="ch">\"</span><span class="st">&gt;"</span></span>
+<span id="cb103-205"><a href="#cb103-205" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="bu">str</span>(<span class="bu">hex</span>(<span class="bu">id</span>(current)))</span>
+<span id="cb103-206"><a href="#cb103-206" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;/TD&gt;"</span></span>
+<span id="cb103-207"><a href="#cb103-207" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;/TR&gt;"</span></span>
+<span id="cb103-208"><a href="#cb103-208" aria-hidden="true" tabindex="-1"></a>            <span class="co"># - penutup tabel</span></span>
+<span id="cb103-209"><a href="#cb103-209" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&lt;/TABLE&gt;"</span></span>
+<span id="cb103-210"><a href="#cb103-210" aria-hidden="true" tabindex="-1"></a>            str_label <span class="op">+=</span> <span class="st">"&gt;"</span></span>
+<span id="cb103-211"><a href="#cb103-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-212"><a href="#cb103-212" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Membuat node baru di Graphviz dengan label (tabel) tersebut</span></span>
+<span id="cb103-213"><a href="#cb103-213" aria-hidden="true" tabindex="-1"></a>            new_digraph.node(<span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter), shape<span class="op">=</span><span class="st">"none"</span>, label <span class="op">=</span> str_label)</span>
+<span id="cb103-214"><a href="#cb103-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-215"><a href="#cb103-215" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Menentukan nama dua port yang bakal disambung dengan edge,</span></span>
+<span id="cb103-216"><a href="#cb103-216" aria-hidden="true" tabindex="-1"></a>            <span class="co"># yaitu (node saat ini):next disambung ke node(berikutnya):id</span></span>
+<span id="cb103-217"><a href="#cb103-217" aria-hidden="true" tabindex="-1"></a>            <span class="co"># yaitu bagian "next" disambung ke bagian alamat di node berikutnya</span></span>
+<span id="cb103-218"><a href="#cb103-218" aria-hidden="true" tabindex="-1"></a>            nama_node_next <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter) <span class="op">+</span> <span class="st">":next"</span></span>
+<span id="cb103-219"><a href="#cb103-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-220"><a href="#cb103-220" aria-hidden="true" tabindex="-1"></a>            <span class="co"># tambahan untuk doubly linked list</span></span>
+<span id="cb103-221"><a href="#cb103-221" aria-hidden="true" tabindex="-1"></a>            nama_node_prev <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter) <span class="op">+</span> <span class="st">":prev"</span></span>
+<span id="cb103-222"><a href="#cb103-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-223"><a href="#cb103-223" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-224"><a href="#cb103-224" aria-hidden="true" tabindex="-1"></a>                nama_alamat_node_berikutnya <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter<span class="op">+</span><span class="dv">1</span>) <span class="op">+</span> <span class="st">":id"</span></span>
+<span id="cb103-225"><a href="#cb103-225" aria-hidden="true" tabindex="-1"></a>            <span class="co"># atau ke node(berikutnya) saja tanpa id kalau itu ternyata None,</span></span>
+<span id="cb103-226"><a href="#cb103-226" aria-hidden="true" tabindex="-1"></a>            <span class="co"># karena None tidak akan memiliki port id</span></span>
+<span id="cb103-227"><a href="#cb103-227" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb103-228"><a href="#cb103-228" aria-hidden="true" tabindex="-1"></a>                nama_alamat_node_berikutnya <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb103-229"><a href="#cb103-229" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb103-230"><a href="#cb103-230" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Menyambung keduanya</span></span>
+<span id="cb103-231"><a href="#cb103-231" aria-hidden="true" tabindex="-1"></a>            new_digraph.edge(nama_node_next, nama_alamat_node_berikutnya)</span>
+<span id="cb103-232"><a href="#cb103-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-233"><a href="#cb103-233" aria-hidden="true" tabindex="-1"></a>            <span class="co"># tambahan untuk doubly linked list</span></span>
+<span id="cb103-234"><a href="#cb103-234" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current.prev <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-235"><a href="#cb103-235" aria-hidden="true" tabindex="-1"></a>                nama_alamat_node_sebelumnya <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter<span class="op">-</span><span class="dv">1</span>) <span class="op">+</span> <span class="st">":id"</span></span>
+<span id="cb103-236"><a href="#cb103-236" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb103-237"><a href="#cb103-237" aria-hidden="true" tabindex="-1"></a>                nama_alamat_node_sebelumnya <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb103-238"><a href="#cb103-238" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> current <span class="op">==</span> <span class="va">self</span>.head:</span>
+<span id="cb103-239"><a href="#cb103-239" aria-hidden="true" tabindex="-1"></a>                new_digraph.node(<span class="st">"node-1"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"None"</span>)</span>
+<span id="cb103-240"><a href="#cb103-240" aria-hidden="true" tabindex="-1"></a>            new_digraph.edge(nama_node_prev, nama_alamat_node_sebelumnya)</span>
+<span id="cb103-241"><a href="#cb103-241" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb103-242"><a href="#cb103-242" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Lanjut ke node selanjutnya</span></span>
+<span id="cb103-243"><a href="#cb103-243" aria-hidden="true" tabindex="-1"></a>            current <span class="op">=</span> current.<span class="bu">next</span></span>
+<span id="cb103-244"><a href="#cb103-244" aria-hidden="true" tabindex="-1"></a>            counter <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb103-245"><a href="#cb103-245" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Kalau sudah keluar loop, artinya current menunjuk ke None</span></span>
+<span id="cb103-246"><a href="#cb103-246" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Berarti tinggal membuat "node" terakhir berisi tulisan None</span></span>
+<span id="cb103-247"><a href="#cb103-247" aria-hidden="true" tabindex="-1"></a>        <span class="co"># (karena sambungannya sudah dibuat di dalam loop, tinggal node nya)</span></span>
+<span id="cb103-248"><a href="#cb103-248" aria-hidden="true" tabindex="-1"></a>        new_digraph.node(<span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter), shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span><span class="st">"None"</span>)</span>
+<span id="cb103-249"><a href="#cb103-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-250"><a href="#cb103-250" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Tambah pointer tail</span></span>
+<span id="cb103-251"><a href="#cb103-251" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - asumsi awal: tidak ada alamat (None)</span></span>
+<span id="cb103-252"><a href="#cb103-252" aria-hidden="true" tabindex="-1"></a>        tail_id <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb103-253"><a href="#cb103-253" aria-hidden="true" tabindex="-1"></a>        tail_name <span class="op">=</span> <span class="st">"node"</span> <span class="op">+</span> <span class="bu">str</span>(counter<span class="op">-</span><span class="dv">1</span>) <span class="co"># ini nanti untuk nama node tail</span></span>
+<span id="cb103-254"><a href="#cb103-254" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - kalau ternyata ada alamat...</span></span>
+<span id="cb103-255"><a href="#cb103-255" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.tail <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb103-256"><a href="#cb103-256" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka simpan alamat tersebut</span></span>
+<span id="cb103-257"><a href="#cb103-257" aria-hidden="true" tabindex="-1"></a>            tail_id <span class="op">=</span> <span class="bu">hex</span>(<span class="bu">id</span>(<span class="va">self</span>.tail))</span>
+<span id="cb103-258"><a href="#cb103-258" aria-hidden="true" tabindex="-1"></a>            <span class="co"># kita buat lebih spesifik untuk node berikutnya, tunjuk ke port id</span></span>
+<span id="cb103-259"><a href="#cb103-259" aria-hidden="true" tabindex="-1"></a>            tail_name <span class="op">+=</span> <span class="st">":id"</span></span>
+<span id="cb103-260"><a href="#cb103-260" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb103-261"><a href="#cb103-261" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Label (tabel) untuk pointer tail</span></span>
+<span id="cb103-262"><a href="#cb103-262" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - pembuka tabel</span></span>
+<span id="cb103-263"><a href="#cb103-263" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">=</span> <span class="st">"&lt;"</span></span>
+<span id="cb103-264"><a href="#cb103-264" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;TABLE BORDER=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st"> CELLBORDER=</span><span class="ch">\"</span><span class="st">1</span><span class="ch">\"</span><span class="st"> CELLSPACING=</span><span class="ch">\"</span><span class="st">0</span><span class="ch">\"</span><span class="st">&gt;"</span></span>
+<span id="cb103-265"><a href="#cb103-265" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - baris head</span></span>
+<span id="cb103-266"><a href="#cb103-266" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD&gt;tail&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb103-267"><a href="#cb103-267" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - baris alamat (sekalian membuat port namanya "contents")</span></span>
+<span id="cb103-268"><a href="#cb103-268" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;TR&gt;&lt;TD PORT=</span><span class="ch">\"</span><span class="st">contents</span><span class="ch">\"</span><span class="st">&gt;"</span> <span class="op">+</span> <span class="bu">str</span>(tail_id) <span class="op">+</span> <span class="st">"&lt;/TD&gt;&lt;/TR&gt;"</span></span>
+<span id="cb103-269"><a href="#cb103-269" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - penutup tabel</span></span>
+<span id="cb103-270"><a href="#cb103-270" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&lt;/TABLE&gt;"</span></span>
+<span id="cb103-271"><a href="#cb103-271" aria-hidden="true" tabindex="-1"></a>        str_label <span class="op">+=</span> <span class="st">"&gt;"</span></span>
+<span id="cb103-272"><a href="#cb103-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-273"><a href="#cb103-273" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Membuat node tail, membuat edge dari tail ke node nya</span></span>
+<span id="cb103-274"><a href="#cb103-274" aria-hidden="true" tabindex="-1"></a>        new_digraph.node(<span class="st">"tail"</span>, shape<span class="op">=</span><span class="st">"none"</span>, label<span class="op">=</span>str_label)</span>
+<span id="cb103-275"><a href="#cb103-275" aria-hidden="true" tabindex="-1"></a>        new_digraph.edge(<span class="st">"tail:contents"</span>, tail_name)</span>
+<span id="cb103-276"><a href="#cb103-276" aria-hidden="true" tabindex="-1"></a>        <span class="co"># dari port "contents" ke node yang ditunjuk tail, namanya tail_name</span></span>
+<span id="cb103-277"><a href="#cb103-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-278"><a href="#cb103-278" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Digraph sudah jadi</span></span>
+<span id="cb103-279"><a href="#cb103-279" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> new_digraph</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="123">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>testDL <span class="op">=</span> DLList()</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>testDL.ins_front(<span class="dv">5</span>)</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>testDL.ins_front(<span class="dv">15</span>)</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>testDL.ins_front(<span class="dv">25</span>)</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>testDL.ins_front(<span class="dv">35</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="124">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>testDL.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>head -&gt; 35 &lt;-&gt; 25 &lt;-&gt; 15 &lt;-&gt; 5 &lt;- tail</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="125">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>gambarDL <span class="op">=</span> testDL.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="126">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>display(gambarDL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Strukdat2023_Modul05_files/figure-html/cell-83-output-1.svg" class="img-fluid"></p>
+</div>
 </div>
 
 
