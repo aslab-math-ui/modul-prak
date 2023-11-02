@@ -94,6 +94,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
@@ -151,6 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#urusan-notasi-prefix-infix-dan-postfix-dengan-stack" id="toc-urusan-notasi-prefix-infix-dan-postfix-dengan-stack" class="nav-link" data-scroll-target="#urusan-notasi-prefix-infix-dan-postfix-dengan-stack">Urusan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> dengan <em>stack</em></a>
   <ul class="collapse">
+  <li><a href="#tokenisasi" id="toc-tokenisasi" class="nav-link" data-scroll-target="#tokenisasi">Tokenisasi</a></li>
   <li><a href="#notasi-infix-menjadi-postfix" id="toc-notasi-infix-menjadi-postfix" class="nav-link" data-scroll-target="#notasi-infix-menjadi-postfix">Notasi <em>infix</em> menjadi <em>postfix</em></a></li>
   <li><a href="#notasi-infix-menjadi-prefix" id="toc-notasi-infix-menjadi-prefix" class="nav-link" data-scroll-target="#notasi-infix-menjadi-prefix">Notasi <em>infix</em> menjadi <em>prefix</em></a></li>
   <li><a href="#evaluasi-notasi-prefix" id="toc-evaluasi-notasi-prefix" class="nav-link" data-scroll-target="#evaluasi-notasi-prefix">Evaluasi notasi <em>prefix</em></a></li>
@@ -741,8 +744,70 @@ abc</code></pre>
 </section>
 <section id="urusan-notasi-prefix-infix-dan-postfix-dengan-stack" class="level2">
 <h2 class="anchored" data-anchor-id="urusan-notasi-prefix-infix-dan-postfix-dengan-stack">Urusan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> dengan <em>stack</em></h2>
+<p>Notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> adalah tiga jenis notasi (cara penulisan) untuk menuliskan operasi aritmetika seperti penjumlahan, perkalian, dan sebagainya.</p>
+<p>Misalnya, kita bisa menuliskan penjumlahan <code>3 + 5</code>, di mana dua angka, 3 dan 5, dioperasikan oleh suatu “operator” yaitu + (plus). Perhatikan bahwa operator berada di tengah, di atnara kedua angka. Penulisan seperti ini disebut notasi <em>infix</em>, dan inilah penulisan yang biasa kita kenal.</p>
+<p>Ada juga cara penulisan di mana operator ditempatkan sebelum kedua angka, disebut notasi <em>prefix</em>, seperti berikut: <code>+ 3 5</code></p>
+<p>Walaupun terlihat agak aneh, kita bisa saja mendefinisikan fungsi seperti <em>pseuducode</em> berikut:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>function add(x, y)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    return x+y</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Kemudian penggunaannya adalah <code>add(3, 5)</code>, secara tidak langsung menggunakan notasi <em>prefix</em> :)</p>
+<p>Selain <em>prefix</em> untuk di awal dan <em>infix</em> untuk di tengah, kita juga bisa menempatkan operator setelah kedua angka, disebut notasi <em>postfix</em>. Contohnya: <code>3 5 +</code></p>
+<p>Notasi <em>postfix</em> sebenarnya tidak terlalu asing, karena misalnya untuk menuliskan faktorial itu biasanya menggunakan tanda seru <strong>setelah</strong> angkanya, lagi-lagi secara tidak langsung menggunakan notasi <em>postfix</em>, seperti: <code>4!</code></p>
+<p>Salah satu keuntungan menggunakan notasi <em>prefix</em> maupun <em>postfix</em> adalah bisa menghilangkan kurung tanpa menyebabkan ambigu. Contohnya, dalam notasi <em>infix</em> kita bisa menuliskan <code>5 * (6 + 7)</code> agar penjumlahan dilakukan terlebih dahulu. Sedangkan, notasi <em>prefix</em> maupun <em>postfix</em> dijamin tidak membutuhkan kurung:</p>
+<ul>
+<li><em>Prefix</em>: <code>* 5 + 6 7</code></li>
+<li><em>Postfix</em>: <code>6 7 + 5 *</code></li>
+</ul>
+<p><em>Stack</em> bisa sangat membantu untuk mengubah antara notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em>.</p>
+<section id="tokenisasi" class="level3">
+<h3 class="anchored" data-anchor-id="tokenisasi">Tokenisasi</h3>
+<p>Sebelum membahas notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em>, kita perlu membahas sebentar mengenai “tokenisasi” (<em>tokenization</em>), yaitu proses “memecah” suatu string yang utuh menjadi “bagian-bagiannya”.</p>
+<p>Misalnya, kalau kita punya notasi <em>infix</em> dalam <em>string</em> <code>"3 + 5"</code>, kita bisa melakukan <em>tokenization</em> untuk memecahnya menjadi <code>["3", "+", "5"]</code>.</p>
+<p>Cara mudah untuk melakukan tokenisasi, bisa dengan sekedar menganggap tiap “bagian” atau tiap “token” terpisahkan oleh spasi, sehingga bisa di-<em>split</em> begitu saja:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenize(string_utuh):</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> string_utuh.split(<span class="st">" "</span>) <span class="co"># string berisi satu spasi</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenize(<span class="st">"3 + 5"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['3', '+', '5']</code></pre>
+</div>
+</div>
+<p>Agar cara mudah ini berhasil (terutama untuk notasi <em>infix</em>), bahkan antara kurung buka/tutup juga harus diberi spasi, ya!</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenize(<span class="st">"5 * ( 6 + 7 )"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['5', '*', '(', '6', '+', '7', ')']</code></pre>
+</div>
+</div>
+</section>
 <section id="notasi-infix-menjadi-postfix" class="level3">
 <h3 class="anchored" data-anchor-id="notasi-infix-menjadi-postfix">Notasi <em>infix</em> menjadi <em>postfix</em></h3>
+<p>Setelah tokenisasi, berikut langkah mengubah notasi <em>infix</em> menjadi <em>postfix</em>.</p>
+<p>Siapkan suatu <em>stack</em> kosong, serta tempat (misal <em>string</em> kosong) untuk menyimpan hasil infix. Lalu, <em>scanning</em> (melihat satu-per-satu) tiap token dari kiri ke kanan, dan ikuti ketentuan berikut:</p>
+<ol type="1">
+<li><p>Apabila token adalah operand/angka, langsung tambahkan ke hasil infix</p></li>
+<li><p>Apabila <em>stack</em> kosong, atau apabila elemen teratas pada <em>stack</em> adalah kurung kiri, maka push token tersebut ke dalam <em>stack</em></p></li>
+<li><p>Apabila token adalah kurung kiri yaitu “(”, push ke dalam <em>stack</em></p></li>
+<li><p>Apabila token adalah kurung kanan yaitu “)”, lakukan while loop: lakukan pop pada stack, masukkan hasil pop tersebut ke hasil infix, hentikan while loop apabila hasil pop tersebut adalah kurung kiri.</p></li>
+<li><p>Apabila token memiliki <em>precedence</em> yang lebih tinggi daripada elemen teratas pada <em>stack</em>, maka push token tersebut ke dalam <em>stack</em>.</p></li>
+<li><p>Apabila token memiliki <em>precedence</em> yang lebih rendah daripada elemen teratas pada <em>stack</em>, lakukan langkah berikut: lakukan pop pada stack, lalu masukkan hasil pop tersebut ke hasil infix.</p></li>
+<li><p>Apabila token memiliki <em>precedence</em> yang setara dengan elemen teratas pada <em>stack</em>, perhatikan <em>associativity</em> dari operator tersebut, lalu:</p>
+<ol type="a">
+<li><p>Apabila untuk operator tersebut bersifat left-to-right (atau apabila urutan tidak berpengaruh / bersifat asosiatif): lakukan pop pada stack, masukkan hasil pop ke hasil infix, lalu push token</p></li>
+<li><p>Sedangkan apabila bersifat right-to-left: push token tersebut ke dalam stack</p></li>
+</ol></li>
+</ol>
+<p>Setelah suatu token teratasi, tentunya langsung lanjut melihat token berikutnya. Apabila semua token sudah teratasi sedangkan stack belum kosong, maka ulangi sampai stack kosong: lakukan pop, masukkan hasil pop ke hasil infix.</p>
+<p><em>Note</em>: <em>associativity</em> adalah urutan pengoperasian yang biasa dilakukan apabila ada tiga bilangan yang di antaranya dilakukan dua operasi yang sama. Misalnya, perpangkatan memiliki <em>associativity</em> right-to-left karena</p>
+<p><span class="math display">\[a^{b^c} = a^{(b^c)}\]</span></p>
+<p>Sedangkan, misalnya untuk penjumlahan, itu dianggap left-to-right yaitu</p>
+<p><span class="math display">\[a+b+c = (a+b)+c\]</span></p>
+<p>walaupun kebetulan untuk penjumlahan itu sama saja (karena sifat asosiatif).</p>
+<p>Secara umum, apabila suatu operator memang memenuhi sifat asosiatif, itu dianggap left-to-right.</p>
 </section>
 <section id="notasi-infix-menjadi-prefix" class="level3">
 <h3 class="anchored" data-anchor-id="notasi-infix-menjadi-prefix">Notasi <em>infix</em> menjadi <em>prefix</em></h3>
@@ -765,54 +830,54 @@ abc</code></pre>
 <p><em>Stack</em> menganut paham LIFO, jadi yang terakhir dimasukin, kalo ada perintah keluar, yang itu yang keluar.</p>
 <p>Di Python, implementasi <em>stack</em> pake <em>array</em> udah agak <em>redundant</em> karena banyaknya <em>method</em> buat <em>array</em>, jadi sekarang dikasih implementasinya buat <em>linked list</em> yang udah kita bikin tadi.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Stack:</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> <span class="st">"None"</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.size <span class="op">==</span> <span class="dv">0</span></span>
-<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">len</span>(<span class="va">self</span>):</span>
-<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.size</span>
-<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> push(<span class="va">self</span>, data):</span>
-<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>        new <span class="op">=</span> Node(data, <span class="st">"None"</span>)</span>
-<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>        new.<span class="bu">next</span> <span class="op">=</span> <span class="va">self</span>.head</span>
-<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> new</span>
-<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pop(<span class="va">self</span>):</span>
-<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Stack is already empty"</span>)</span>
-<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
-<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> <span class="va">self</span>.head.<span class="bu">next</span></span>
-<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">-=</span> <span class="dv">1</span></span>
-<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> top(<span class="va">self</span>):</span>
-<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Stack is empty."</span>)</span>
-<span id="cb63-28"><a href="#cb63-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
-<span id="cb63-29"><a href="#cb63-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.head.data</span>
-<span id="cb63-30"><a href="#cb63-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-31"><a href="#cb63-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">print</span>(<span class="va">self</span>):</span>
-<span id="cb63-32"><a href="#cb63-32" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.head</span>
-<span id="cb63-33"><a href="#cb63-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> temp <span class="op">!=</span> <span class="st">"None"</span>:</span>
-<span id="cb63-34"><a href="#cb63-34" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data)</span>
-<span id="cb63-35"><a href="#cb63-35" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Stack:</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> <span class="st">"None"</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.size <span class="op">==</span> <span class="dv">0</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">len</span>(<span class="va">self</span>):</span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.size</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> push(<span class="va">self</span>, data):</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>        new <span class="op">=</span> Node(data, <span class="st">"None"</span>)</span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a>        new.<span class="bu">next</span> <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> new</span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pop(<span class="va">self</span>):</span>
+<span id="cb69-19"><a href="#cb69-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Stack is already empty"</span>)</span>
+<span id="cb69-21"><a href="#cb69-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
+<span id="cb69-22"><a href="#cb69-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.head <span class="op">=</span> <span class="va">self</span>.head.<span class="bu">next</span></span>
+<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.size <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> top(<span class="va">self</span>):</span>
+<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Stack is empty."</span>)</span>
+<span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span></span>
+<span id="cb69-29"><a href="#cb69-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.head.data</span>
+<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">print</span>(<span class="va">self</span>):</span>
+<span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.head</span>
+<span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> temp <span class="op">!=</span> <span class="st">"None"</span>:</span>
+<span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data)</span>
+<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> Stack()</span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>test.top()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> Stack()</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>test.top()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Stack is empty.</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>test.push(<span class="dv">5</span>)</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>test.push(<span class="dv">80</span>)</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>test.push(<span class="dv">100</span>)</span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>test.<span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>test.push(<span class="dv">5</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>test.push(<span class="dv">80</span>)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>test.push(<span class="dv">100</span>)</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>test.<span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>100
 80
@@ -820,17 +885,17 @@ abc</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>test.pop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>test.pop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>test.<span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>test.<span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>80
 5</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>test.<span class="bu">len</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>test.<span class="bu">len</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>2</code></pre>
 </div>
