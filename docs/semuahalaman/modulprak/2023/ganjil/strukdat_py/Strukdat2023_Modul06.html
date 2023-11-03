@@ -151,9 +151,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#implementasi-stack-dengan-singly-inked-list" id="toc-implementasi-stack-dengan-singly-inked-list" class="nav-link" data-scroll-target="#implementasi-stack-dengan-singly-inked-list">Implementasi <em>stack</em> dengan <em>singly-inked list</em></a></li>
   <li><a href="#contoh-sederhana-reverse-suatu-string-list-atau-array" id="toc-contoh-sederhana-reverse-suatu-string-list-atau-array" class="nav-link" data-scroll-target="#contoh-sederhana-reverse-suatu-string-list-atau-array">Contoh sederhana: <em>reverse</em> suatu <em>string</em>, <em>list</em>, atau <em>array</em></a></li>
   </ul></li>
-  <li><a href="#urusan-notasi-prefix-infix-dan-postfix-dengan-stack" id="toc-urusan-notasi-prefix-infix-dan-postfix-dengan-stack" class="nav-link" data-scroll-target="#urusan-notasi-prefix-infix-dan-postfix-dengan-stack">Urusan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> dengan <em>stack</em></a>
+  <li><a href="#notasi-prefix-infix-dan-postfix" id="toc-notasi-prefix-infix-dan-postfix" class="nav-link" data-scroll-target="#notasi-prefix-infix-dan-postfix">Notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em></a>
   <ul class="collapse">
   <li><a href="#tokenisasi" id="toc-tokenisasi" class="nav-link" data-scroll-target="#tokenisasi">Tokenisasi</a></li>
+  <li><a href="#precedence-dan-associativity" id="toc-precedence-dan-associativity" class="nav-link" data-scroll-target="#precedence-dan-associativity"><em>Precedence</em> dan <em>associativity</em></a></li>
+  </ul></li>
+  <li><a href="#urusan-notasi-prefix-infix-dan-postfix-dengan-stack" id="toc-urusan-notasi-prefix-infix-dan-postfix-dengan-stack" class="nav-link" data-scroll-target="#urusan-notasi-prefix-infix-dan-postfix-dengan-stack">Urusan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> dengan <em>stack</em></a>
+  <ul class="collapse">
   <li><a href="#notasi-infix-menjadi-postfix" id="toc-notasi-infix-menjadi-postfix" class="nav-link" data-scroll-target="#notasi-infix-menjadi-postfix">Notasi <em>infix</em> menjadi <em>postfix</em></a></li>
   <li><a href="#notasi-infix-menjadi-prefix" id="toc-notasi-infix-menjadi-prefix" class="nav-link" data-scroll-target="#notasi-infix-menjadi-prefix">Notasi <em>infix</em> menjadi <em>prefix</em></a></li>
   <li><a href="#evaluasi-notasi-prefix" id="toc-evaluasi-notasi-prefix" class="nav-link" data-scroll-target="#evaluasi-notasi-prefix">Evaluasi notasi <em>prefix</em></a></li>
@@ -742,10 +746,10 @@ abc</code></pre>
 </div>
 </section>
 </section>
-<section id="urusan-notasi-prefix-infix-dan-postfix-dengan-stack" class="level2">
-<h2 class="anchored" data-anchor-id="urusan-notasi-prefix-infix-dan-postfix-dengan-stack">Urusan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> dengan <em>stack</em></h2>
+<section id="notasi-prefix-infix-dan-postfix" class="level2">
+<h2 class="anchored" data-anchor-id="notasi-prefix-infix-dan-postfix">Notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em></h2>
 <p>Notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> adalah tiga jenis notasi (cara penulisan) untuk menuliskan operasi aritmetika seperti penjumlahan, perkalian, dan sebagainya.</p>
-<p>Misalnya, kita bisa menuliskan penjumlahan <code>3 + 5</code>, di mana dua angka, 3 dan 5, dioperasikan oleh suatu “operator” yaitu + (plus). Perhatikan bahwa operator berada di tengah, di atnara kedua angka. Penulisan seperti ini disebut notasi <em>infix</em>, dan inilah penulisan yang biasa kita kenal.</p>
+<p>Misalnya, kita bisa menuliskan penjumlahan <code>3 + 5</code>, di mana dua angka, 3 dan 5, dioperasikan oleh suatu “operator” yaitu + (plus). Perhatikan bahwa operator berada di tengah, di antara kedua angka. Penulisan seperti ini disebut notasi <em>infix</em>, dan inilah penulisan yang biasa kita kenal.</p>
 <p>Ada juga cara penulisan di mana operator ditempatkan sebelum kedua angka, disebut notasi <em>prefix</em>, seperti berikut: <code>+ 3 5</code></p>
 <p>Walaupun terlihat agak aneh, kita bisa saja mendefinisikan fungsi seperti <em>pseuducode</em> berikut:</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>function add(x, y)</span>
@@ -762,7 +766,7 @@ abc</code></pre>
 <p><em>Stack</em> bisa sangat membantu untuk mengubah antara notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em>.</p>
 <section id="tokenisasi" class="level3">
 <h3 class="anchored" data-anchor-id="tokenisasi">Tokenisasi</h3>
-<p>Sebelum membahas notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em>, kita perlu membahas sebentar mengenai “tokenisasi” (<em>tokenization</em>), yaitu proses “memecah” suatu string yang utuh menjadi “bagian-bagiannya”.</p>
+<p>Sebelum membahas konversi antara notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em>, kita perlu membahas sebentar mengenai “tokenisasi” (<em>tokenization</em>), yaitu proses “memecah” suatu string yang utuh menjadi “bagian-bagiannya”.</p>
 <p>Misalnya, kalau kita punya notasi <em>infix</em> dalam <em>string</em> <code>"3 + 5"</code>, kita bisa melakukan <em>tokenization</em> untuk memecahnya menjadi <code>["3", "+", "5"]</code>.</p>
 <p>Cara mudah untuk melakukan tokenisasi, bisa dengan sekedar menganggap tiap “bagian” atau tiap “token” terpisahkan oleh spasi, sehingga bisa di-<em>split</em> begitu saja:</p>
 <div class="cell" data-execution_count="1">
@@ -784,6 +788,67 @@ abc</code></pre>
 </div>
 </div>
 </section>
+<section id="precedence-dan-associativity" class="level3">
+<h3 class="anchored" data-anchor-id="precedence-dan-associativity"><em>Precedence</em> dan <em>associativity</em></h3>
+<p>Sebelumnya, telah disebutkan bahwa salah satu keuntungan notasi <em>prefix</em> maupun <em>postfix</em> dibandingkan notasi <em>infix</em> adalah penulisan yang tidak ambigu tanpa diperlukannya kurung. Agar bisa mengubah notasi <em>infix</em> menjadi notasi <em>prefix</em> ataupun notasi <em>postfix</em>, tentunya kita harus bisa membaca notasi <em>infix</em> secara tidak ambigu. Artinya, kita harus kenal dengan aturan <strong>urutan pengoperasian</strong>.</p>
+<p>Urusan urutan pengoperasian terbagi menjadi dua:</p>
+<ul>
+<li><em>Precedence</em>, semacam tingkatan prioritas antara operasi yang berbeda, yang mana yang dilakukan duluan (apalagi kalau tidak ada tanda kurung)</li>
+<li><em>Associativity</em>, urutan pengoperasian antara dua operasi yang <em>precedence</em> nya sama, apakah dari kiri ke kanan atau kanan ke kiri</li>
+</ul>
+<p>Misalkan ada penulisan notasi <em>infix</em>: <code>9 + 8 * 7</code></p>
+<p>Tentunya perkalian dilakukan terlebih dahulu, barulah penjumlahan. Artinya, perkalian memiliki <strong><em>higher precedence</em></strong> (atau <em>precedence</em> yang lebih tinggi) daripada penjumlahan; bisa juga dikatakan, penjumlahan memiliki <strong><em>lower precedence</em></strong> (atau <em>precedence</em> yang lebih rendah) daripada perkalian.</p>
+<p>Sedangkan, misal ada penulisan notasi <em>infix</em>: <code>8 / 4 * 2</code> dan <code>8 * 4 / 2</code></p>
+<p>Keduanya dilakukan dari kiri ke kanan. Artinya:</p>
+<ul>
+<li>Tidak ada prioritas yang lebih utama antara pembagian maupun perkalian, sehingga keduanya memiliki <strong><em>equal precedence</em></strong> (atau <em>precedence</em> yang sama).</li>
+<li><em>Associativity</em> dari pembagian maupun perkalian bersifat <em>left-to-right</em>.</li>
+</ul>
+<p><em>Precedence</em> dan <em>associativity</em> dari beberapa operator bisa didata:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><em>Precedence</em></th>
+<th style="text-align: center;">Operator</th>
+<th style="text-align: center;"><em>Associativity</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><code>^</code></td>
+<td style="text-align: center;"><em>right-to-left</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><code>*</code> <code>/</code></td>
+<td style="text-align: center;"><em>left-to-right</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><code>+</code> <code>-</code></td>
+<td style="text-align: center;"><em>left-to-right</em></td>
+</tr>
+</tbody>
+</table>
+<p>Perhatikan:</p>
+<ul>
+<li><p>Perpangkatan bersifat <em>right-to-left</em> karena <span class="math inline">\(a^{b^c} = a^{\left(b^c\right)}\)</span>.</p></li>
+<li><p>Pembagian maupun pengurangan bersifat <em>left-to-right</em> karena</p>
+<p><span class="math inline">\(a/b/c = \left(a/b\right)/c\)</span> dan</p>
+<p><span class="math inline">\(a-b-c = (a-b)-c\)</span>.</p></li>
+<li><p>Kebetulan, perkalian maupun penjumlahan memiliki sifat asosiatif, yaitu</p>
+<p><span class="math inline">\((a*b)*c = a*(b*c)\)</span></p>
+<p><span class="math inline">\((a+b)+c = a+(b+c)\)</span></p>
+<p>sehingga perkalian maupun penjumlahan sebenarnya bersifat <em>left-to-right</em> maupun <em>right-to-left</em> sekaligus, yaitu</p>
+<p><span class="math inline">\(a*b*c = (a*b)*c = a*(b*c)\)</span></p>
+<p><span class="math inline">\(a+b+c = (a+b)+c = a+(b+c)\)</span></p>
+<p>Namun, untuk mempermudah klasifikasi, kita bisa mengkategorikan perkalian dan penjumlahan bersifat <em>left-to-right</em>.</p></li>
+</ul>
+</section>
+</section>
+<section id="urusan-notasi-prefix-infix-dan-postfix-dengan-stack" class="level2">
+<h2 class="anchored" data-anchor-id="urusan-notasi-prefix-infix-dan-postfix-dengan-stack">Urusan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em> dengan <em>stack</em></h2>
 <section id="notasi-infix-menjadi-postfix" class="level3">
 <h3 class="anchored" data-anchor-id="notasi-infix-menjadi-postfix">Notasi <em>infix</em> menjadi <em>postfix</em></h3>
 <p>Setelah tokenisasi, berikut langkah mengubah notasi <em>infix</em> menjadi <em>postfix</em>.</p>
