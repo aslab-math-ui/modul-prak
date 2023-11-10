@@ -144,8 +144,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#implementasi-linear-queue-dengan-array" id="toc-implementasi-linear-queue-dengan-array" class="nav-link active" data-scroll-target="#implementasi-linear-queue-dengan-array">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>array</em></a></li>
-  <li><a href="#implementasi-linear-queue-dengan-linked-list" id="toc-implementasi-linear-queue-dengan-linked-list" class="nav-link" data-scroll-target="#implementasi-linear-queue-dengan-linked-list">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>linked list</em></a></li>
   <li><a href="#implementasi-circular-queue-dengan-array" id="toc-implementasi-circular-queue-dengan-array" class="nav-link" data-scroll-target="#implementasi-circular-queue-dengan-array">Implementasi <em>circular queue</em> dengan <em>array</em></a></li>
+  <li><a href="#implementasi-linear-queue-dengan-linked-list" id="toc-implementasi-linear-queue-dengan-linked-list" class="nav-link" data-scroll-target="#implementasi-linear-queue-dengan-linked-list">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>linked list</em></a></li>
   <li><a href="#todo-pengayaan-deque-atau-double-ended-queue-deq" id="toc-todo-pengayaan-deque-atau-double-ended-queue-deq" class="nav-link" data-scroll-target="#todo-pengayaan-deque-atau-double-ended-queue-deq">(TODO) Pengayaan: <em>Deque</em> atau <em>double-ended queue</em> (DEQ)</a></li>
   <li><a href="#todo-implementasi-circular-queue-dengan-linked-list" id="toc-todo-implementasi-circular-queue-dengan-linked-list" class="nav-link" data-scroll-target="#todo-implementasi-circular-queue-dengan-linked-list">(TODO) Implementasi <em>circular queue</em> dengan <em>linked list</em></a></li>
   </ul>
@@ -482,553 +482,553 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="implementasi-linear-queue-dengan-linked-list" class="level2">
-<h2 class="anchored" data-anchor-id="implementasi-linear-queue-dengan-linked-list">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>linked list</em></h2>
-<div class="cell" data-execution_count="69">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLNode:</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, <span class="bu">next</span><span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">next</span> <span class="op">=</span> <span class="bu">next</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="70">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLLinQueue:</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># head=front, tail=rear</span></span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.front <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rear <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> <span class="va">None</span>:</span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_size(<span class="va">self</span>):</span>
-<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>        size <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.front</span>
-<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (temp <span class="op">!=</span> <span class="va">None</span>):</span>
-<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>            size <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
-<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> size</span>
-<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># insert di akhir linked list</span></span>
-<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> enqueue(<span class="va">self</span>, newdata):</span>
-<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> SLNode(newdata)</span>
-<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> newnode</span>
-<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> newnode</span>
-<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear.<span class="bu">next</span> <span class="op">=</span> newnode</span>
-<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> newnode</span>
-<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
-<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error peek: queue sedang kosong"</span>)</span>
-<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.front.data</span>
-<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># hapus di awal linked list</span></span>
-<span id="cb68-39"><a href="#cb68-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dequeue(<span class="va">self</span>):</span>
-<span id="cb68-40"><a href="#cb68-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb68-41"><a href="#cb68-41" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error dequeue: queue sudah kosong sebelumnya"</span>)</span>
-<span id="cb68-42"><a href="#cb68-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb68-43"><a href="#cb68-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb68-44"><a href="#cb68-44" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.front.data</span>
-<span id="cb68-45"><a href="#cb68-45" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
-<span id="cb68-46"><a href="#cb68-46" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> <span class="va">self</span>.front.<span class="bu">next</span></span>
-<span id="cb68-47"><a href="#cb68-47" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> temp</span>
-<span id="cb68-48"><a href="#cb68-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
-<span id="cb68-49"><a href="#cb68-49" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb68-50"><a href="#cb68-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_queue(<span class="va">self</span>):</span>
-<span id="cb68-51"><a href="#cb68-51" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front : "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb68-52"><a href="#cb68-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb68-53"><a href="#cb68-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"(tidak ada data) : rear"</span>)</span>
-<span id="cb68-54"><a href="#cb68-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb68-55"><a href="#cb68-55" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
-<span id="cb68-56"><a href="#cb68-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb68-57"><a href="#cb68-57" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb68-58"><a href="#cb68-58" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" | "</span>)</span>
-<span id="cb68-59"><a href="#cb68-59" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb68-60"><a href="#cb68-60" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb68-61"><a href="#cb68-61" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
-<span id="cb68-62"><a href="#cb68-62" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">" : rear"</span>)</span>
-<span id="cb68-63"><a href="#cb68-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-64"><a href="#cb68-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_storage(<span class="va">self</span>):</span>
-<span id="cb68-65"><a href="#cb68-65" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front -&gt; "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb68-66"><a href="#cb68-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb68-67"><a href="#cb68-67" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"None &lt;- rear"</span>)</span>
-<span id="cb68-68"><a href="#cb68-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb68-69"><a href="#cb68-69" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
-<span id="cb68-70"><a href="#cb68-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb68-71"><a href="#cb68-71" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb68-72"><a href="#cb68-72" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" -&gt; "</span>)</span>
-<span id="cb68-73"><a href="#cb68-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
-<span id="cb68-74"><a href="#cb68-74" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" &lt;- "</span>)</span>
-<span id="cb68-75"><a href="#cb68-75" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
-<span id="cb68-76"><a href="#cb68-76" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"rear"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>sllinqueue <span class="op">=</span> SLLinQueue()</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>front : (tidak ada data) : rear
-front -&gt; None &lt;- rear</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.enqueue(<span class="dv">10</span>)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>front : 10 : rear
-front -&gt; 10 &lt;- rear</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.enqueue(<span class="dv">98</span>)</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>front : 10 | 98 : rear
-front -&gt; 10 -&gt; 98 &lt;- rear</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.enqueue(<span class="op">-</span><span class="dv">43</span>)</span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>front : 10 | 98 | -43 : rear
-front -&gt; 10 -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sllinqueue.peek())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>10</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>front : 10 | 98 | -43 : rear
-front -&gt; 10 -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sllinqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>10</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>front : 98 | -43 : rear
-front -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
-</div>
-</div>
-</section>
 <section id="implementasi-circular-queue-dengan-array" class="level2">
 <h2 class="anchored" data-anchor-id="implementasi-circular-queue-dengan-array">Implementasi <em>circular queue</em> dengan <em>array</em></h2>
 <div class="cell" data-execution_count="72">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ArrayCircQueue:</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dtype, <span class="bu">max</span>):</span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dtype <span class="op">=</span> dtype</span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">max</span> <span class="op">=</span> <span class="bu">max</span></span>
-<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.array <span class="op">=</span> np.empty(<span class="bu">max</span>, dtype<span class="op">=</span>dtype)</span>
-<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.front <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rear <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
-<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>:</span>
-<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_full(<span class="va">self</span>):</span>
-<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> (<span class="va">self</span>.rear <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span>:</span>
-<span id="cb85-17"><a href="#cb85-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb85-18"><a href="#cb85-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-19"><a href="#cb85-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb85-20"><a href="#cb85-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-21"><a href="#cb85-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_size(<span class="va">self</span>):</span>
-<span id="cb85-22"><a href="#cb85-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb85-23"><a href="#cb85-23" aria-hidden="true" tabindex="-1"></a>            size <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb85-24"><a href="#cb85-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="va">self</span>.front <span class="op">&lt;=</span> <span class="va">self</span>.rear:</span>
-<span id="cb85-25"><a href="#cb85-25" aria-hidden="true" tabindex="-1"></a>            size <span class="op">=</span> (<span class="va">self</span>.rear <span class="op">-</span> <span class="va">self</span>.front) <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb85-26"><a href="#cb85-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-27"><a href="#cb85-27" aria-hidden="true" tabindex="-1"></a>            size <span class="op">=</span> <span class="va">self</span>.<span class="bu">max</span> <span class="op">-</span> (<span class="va">self</span>.front <span class="op">-</span> <span class="va">self</span>.rear <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb85-28"><a href="#cb85-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> size</span>
-<span id="cb85-29"><a href="#cb85-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-30"><a href="#cb85-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_capacity(<span class="va">self</span>):</span>
-<span id="cb85-31"><a href="#cb85-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.<span class="bu">max</span></span>
-<span id="cb85-32"><a href="#cb85-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb85-33"><a href="#cb85-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> enqueue(<span class="va">self</span>, newdata):</span>
-<span id="cb85-34"><a href="#cb85-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_full():</span>
-<span id="cb85-35"><a href="#cb85-35" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error enqueue: queue sudah penuh sebelumnya"</span>)</span>
-<span id="cb85-36"><a href="#cb85-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="va">self</span>.front <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>:</span>
-<span id="cb85-37"><a href="#cb85-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb85-38"><a href="#cb85-38" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb85-39"><a href="#cb85-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.array[<span class="va">self</span>.rear] <span class="op">=</span> newdata</span>
-<span id="cb85-40"><a href="#cb85-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-41"><a href="#cb85-41" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> (<span class="va">self</span>.rear <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span> <span class="co"># hanya berbeda di sini</span></span>
-<span id="cb85-42"><a href="#cb85-42" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.array[<span class="va">self</span>.rear] <span class="op">=</span> newdata</span>
-<span id="cb85-43"><a href="#cb85-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb85-44"><a href="#cb85-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Masih sama persis</span></span>
-<span id="cb85-45"><a href="#cb85-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
-<span id="cb85-46"><a href="#cb85-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb85-47"><a href="#cb85-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error peek: queue sedang kosong"</span>)</span>
-<span id="cb85-48"><a href="#cb85-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-49"><a href="#cb85-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.array[<span class="va">self</span>.front]</span>
-<span id="cb85-50"><a href="#cb85-50" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb85-51"><a href="#cb85-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dequeue(<span class="va">self</span>):</span>
-<span id="cb85-52"><a href="#cb85-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb85-53"><a href="#cb85-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error dequeue: queue sudah kosong sebelumnya"</span>)</span>
-<span id="cb85-54"><a href="#cb85-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb85-55"><a href="#cb85-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> (<span class="va">self</span>.get_size() <span class="op">==</span> <span class="dv">1</span>):</span>
-<span id="cb85-56"><a href="#cb85-56" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Jika di queue hanya ada satu elemen, dan ingin di-dequeue,</span></span>
-<span id="cb85-57"><a href="#cb85-57" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka queue akan kosong setelah itu</span></span>
-<span id="cb85-58"><a href="#cb85-58" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.array[<span class="va">self</span>.front]</span>
-<span id="cb85-59"><a href="#cb85-59" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb85-60"><a href="#cb85-60" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb85-61"><a href="#cb85-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
-<span id="cb85-62"><a href="#cb85-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-63"><a href="#cb85-63" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.array[<span class="va">self</span>.front]</span>
-<span id="cb85-64"><a href="#cb85-64" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> (<span class="va">self</span>.front <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span> <span class="co"># hanya berbeda di sini</span></span>
-<span id="cb85-65"><a href="#cb85-65" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
-<span id="cb85-66"><a href="#cb85-66" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb85-67"><a href="#cb85-67" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_storage(<span class="va">self</span>):</span>
-<span id="cb85-68"><a href="#cb85-68" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.array)</span>
-<span id="cb85-69"><a href="#cb85-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-70"><a href="#cb85-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_queue(<span class="va">self</span>):</span>
-<span id="cb85-71"><a href="#cb85-71" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front : "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb85-72"><a href="#cb85-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
-<span id="cb85-73"><a href="#cb85-73" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"(tidak ada data) : rear"</span>)</span>
-<span id="cb85-74"><a href="#cb85-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb85-75"><a href="#cb85-75" aria-hidden="true" tabindex="-1"></a>            <span class="co"># i = front, ..., rear-1 (kurang lebih begitu)</span></span>
-<span id="cb85-76"><a href="#cb85-76" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> <span class="va">self</span>.front</span>
-<span id="cb85-77"><a href="#cb85-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> i <span class="op">!=</span> <span class="va">self</span>.rear:</span>
-<span id="cb85-78"><a href="#cb85-78" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="va">self</span>.array[i], end<span class="op">=</span><span class="st">" | "</span>)</span>
-<span id="cb85-79"><a href="#cb85-79" aria-hidden="true" tabindex="-1"></a>                i <span class="op">=</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span></span>
-<span id="cb85-80"><a href="#cb85-80" aria-hidden="true" tabindex="-1"></a>            <span class="co"># untuk i = rear</span></span>
-<span id="cb85-81"><a href="#cb85-81" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="va">self</span>.array[<span class="va">self</span>.rear], end<span class="op">=</span><span class="st">""</span>) </span>
-<span id="cb85-82"><a href="#cb85-82" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">" : rear"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ArrayCircQueue:</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dtype, <span class="bu">max</span>):</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dtype <span class="op">=</span> dtype</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">max</span> <span class="op">=</span> <span class="bu">max</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.array <span class="op">=</span> np.empty(<span class="bu">max</span>, dtype<span class="op">=</span>dtype)</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.front <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rear <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_full(<span class="va">self</span>):</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> (<span class="va">self</span>.rear <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span>:</span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_size(<span class="va">self</span>):</span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>            size <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="va">self</span>.front <span class="op">&lt;=</span> <span class="va">self</span>.rear:</span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>            size <span class="op">=</span> (<span class="va">self</span>.rear <span class="op">-</span> <span class="va">self</span>.front) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>            size <span class="op">=</span> <span class="va">self</span>.<span class="bu">max</span> <span class="op">-</span> (<span class="va">self</span>.front <span class="op">-</span> <span class="va">self</span>.rear <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> size</span>
+<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-30"><a href="#cb67-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_capacity(<span class="va">self</span>):</span>
+<span id="cb67-31"><a href="#cb67-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.<span class="bu">max</span></span>
+<span id="cb67-32"><a href="#cb67-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb67-33"><a href="#cb67-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> enqueue(<span class="va">self</span>, newdata):</span>
+<span id="cb67-34"><a href="#cb67-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_full():</span>
+<span id="cb67-35"><a href="#cb67-35" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error enqueue: queue sudah penuh sebelumnya"</span>)</span>
+<span id="cb67-36"><a href="#cb67-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="va">self</span>.front <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb67-37"><a href="#cb67-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb67-38"><a href="#cb67-38" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb67-39"><a href="#cb67-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.array[<span class="va">self</span>.rear] <span class="op">=</span> newdata</span>
+<span id="cb67-40"><a href="#cb67-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-41"><a href="#cb67-41" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> (<span class="va">self</span>.rear <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span> <span class="co"># hanya berbeda di sini</span></span>
+<span id="cb67-42"><a href="#cb67-42" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.array[<span class="va">self</span>.rear] <span class="op">=</span> newdata</span>
+<span id="cb67-43"><a href="#cb67-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb67-44"><a href="#cb67-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Masih sama persis</span></span>
+<span id="cb67-45"><a href="#cb67-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
+<span id="cb67-46"><a href="#cb67-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb67-47"><a href="#cb67-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error peek: queue sedang kosong"</span>)</span>
+<span id="cb67-48"><a href="#cb67-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-49"><a href="#cb67-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.array[<span class="va">self</span>.front]</span>
+<span id="cb67-50"><a href="#cb67-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb67-51"><a href="#cb67-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dequeue(<span class="va">self</span>):</span>
+<span id="cb67-52"><a href="#cb67-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb67-53"><a href="#cb67-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error dequeue: queue sudah kosong sebelumnya"</span>)</span>
+<span id="cb67-54"><a href="#cb67-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb67-55"><a href="#cb67-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> (<span class="va">self</span>.get_size() <span class="op">==</span> <span class="dv">1</span>):</span>
+<span id="cb67-56"><a href="#cb67-56" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Jika di queue hanya ada satu elemen, dan ingin di-dequeue,</span></span>
+<span id="cb67-57"><a href="#cb67-57" aria-hidden="true" tabindex="-1"></a>            <span class="co"># maka queue akan kosong setelah itu</span></span>
+<span id="cb67-58"><a href="#cb67-58" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.array[<span class="va">self</span>.front]</span>
+<span id="cb67-59"><a href="#cb67-59" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb67-60"><a href="#cb67-60" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb67-61"><a href="#cb67-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
+<span id="cb67-62"><a href="#cb67-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-63"><a href="#cb67-63" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.array[<span class="va">self</span>.front]</span>
+<span id="cb67-64"><a href="#cb67-64" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> (<span class="va">self</span>.front <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span> <span class="co"># hanya berbeda di sini</span></span>
+<span id="cb67-65"><a href="#cb67-65" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
+<span id="cb67-66"><a href="#cb67-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb67-67"><a href="#cb67-67" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_storage(<span class="va">self</span>):</span>
+<span id="cb67-68"><a href="#cb67-68" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="va">self</span>.array)</span>
+<span id="cb67-69"><a href="#cb67-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-70"><a href="#cb67-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_queue(<span class="va">self</span>):</span>
+<span id="cb67-71"><a href="#cb67-71" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front : "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb67-72"><a href="#cb67-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb67-73"><a href="#cb67-73" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"(tidak ada data) : rear"</span>)</span>
+<span id="cb67-74"><a href="#cb67-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb67-75"><a href="#cb67-75" aria-hidden="true" tabindex="-1"></a>            <span class="co"># i = front, ..., rear-1 (kurang lebih begitu)</span></span>
+<span id="cb67-76"><a href="#cb67-76" aria-hidden="true" tabindex="-1"></a>            i <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb67-77"><a href="#cb67-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> i <span class="op">!=</span> <span class="va">self</span>.rear:</span>
+<span id="cb67-78"><a href="#cb67-78" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="va">self</span>.array[i], end<span class="op">=</span><span class="st">" | "</span>)</span>
+<span id="cb67-79"><a href="#cb67-79" aria-hidden="true" tabindex="-1"></a>                i <span class="op">=</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> <span class="va">self</span>.<span class="bu">max</span></span>
+<span id="cb67-80"><a href="#cb67-80" aria-hidden="true" tabindex="-1"></a>            <span class="co"># untuk i = rear</span></span>
+<span id="cb67-81"><a href="#cb67-81" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="va">self</span>.array[<span class="va">self</span>.rear], end<span class="op">=</span><span class="st">""</span>) </span>
+<span id="cb67-82"><a href="#cb67-82" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">" : rear"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="142">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue <span class="op">=</span> ArrayCircQueue(<span class="bu">int</span>, <span class="dv">5</span>)</span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue <span class="op">=</span> ArrayCircQueue(<span class="bu">int</span>, <span class="dv">5</span>)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : (tidak ada data) : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="145">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[4607182418800017408 4613374868287651840 4618441417868443648
  4622241330054037504 4625478292286210048]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="146">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">65</span>)</span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">11</span>)</span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">43</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">65</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">11</span>)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">43</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="147">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 65 | -11 | 43 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="148">
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[                 65                 -11                  43
  4622241330054037504 4625478292286210048]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="149">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0
 2</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="150">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">97</span>)</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">97</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="151">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 65 | -11 | 43 | 97 | -12 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="152">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">41</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">41</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error enqueue: queue sudah penuh sebelumnya</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="153">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 65 -11  43  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="154">
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0
 4</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="155">
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.peek())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.peek())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>65</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="156">
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 65 | -11 | 43 | 97 | -12 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="157">
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>65</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="158">
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : -11 | 43 | 97 | -12 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="159">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 65 -11  43  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="160">
-<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1
 4</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="161">
-<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-11
 43</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="162">
-<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 97 | -12 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="163">
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3
 4</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="164">
-<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 65 -11  43  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="165">
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">74</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">74</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="166">
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 97 | -12 | -74 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="167">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74 -11  43  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="169">
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3
 0</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="170">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="171">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 97 | -12 | -74 | 19 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="172">
-<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74  19  43  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="173">
-<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3
 1</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="174">
-<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">85</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">85</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="175">
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 97 | -12 | -74 | 19 | 85 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="176">
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74  19  85  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="177">
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3
 2</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="178">
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">31</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="op">-</span><span class="dv">31</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Error enqueue: queue sudah penuh sebelumnya</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="179">
-<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>97</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="180">
-<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : -12 | -74 | 19 | 85 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="181">
-<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74  19  85  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="182">
-<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4
 2</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="183">
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-12</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="184">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : -74 | 19 | 85 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="185">
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74  19  85  97 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="186">
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0
 2</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="187">
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">27</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.enqueue(<span class="dv">27</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="188">
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : -74 | 19 | 85 | 27 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="189">
-<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74  19  85  27 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="190">
-<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb170-2"><a href="#cb170-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0
 3</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="191">
-<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-74</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="192">
-<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_queue()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>front : 19 | 85 | 27 : rear</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="193">
-<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>arraycircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[-74  19  85  27 -12]</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="194">
-<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
-<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.front)</span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(arraycircqueue.rear)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1
 3</code></pre>
+</div>
+</div>
+</section>
+<section id="implementasi-linear-queue-dengan-linked-list" class="level2">
+<h2 class="anchored" data-anchor-id="implementasi-linear-queue-dengan-linked-list">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>linked list</em></h2>
+<div class="cell" data-execution_count="69">
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLNode:</span>
+<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, <span class="bu">next</span><span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
+<span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">next</span> <span class="op">=</span> <span class="bu">next</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLLinQueue:</span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># head=front, tail=rear</span></span>
+<span id="cb163-4"><a href="#cb163-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.front <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb163-5"><a href="#cb163-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rear <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb163-6"><a href="#cb163-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb163-7"><a href="#cb163-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
+<span id="cb163-8"><a href="#cb163-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb163-9"><a href="#cb163-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb163-10"><a href="#cb163-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb163-11"><a href="#cb163-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb163-12"><a href="#cb163-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb163-13"><a href="#cb163-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_size(<span class="va">self</span>):</span>
+<span id="cb163-14"><a href="#cb163-14" aria-hidden="true" tabindex="-1"></a>        size <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb163-15"><a href="#cb163-15" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb163-16"><a href="#cb163-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (temp <span class="op">!=</span> <span class="va">None</span>):</span>
+<span id="cb163-17"><a href="#cb163-17" aria-hidden="true" tabindex="-1"></a>            size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb163-18"><a href="#cb163-18" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb163-19"><a href="#cb163-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> size</span>
+<span id="cb163-20"><a href="#cb163-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-21"><a href="#cb163-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># insert di akhir linked list</span></span>
+<span id="cb163-22"><a href="#cb163-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> enqueue(<span class="va">self</span>, newdata):</span>
+<span id="cb163-23"><a href="#cb163-23" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> SLNode(newdata)</span>
+<span id="cb163-24"><a href="#cb163-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb163-25"><a href="#cb163-25" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> newnode</span>
+<span id="cb163-26"><a href="#cb163-26" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> newnode</span>
+<span id="cb163-27"><a href="#cb163-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb163-28"><a href="#cb163-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear.<span class="bu">next</span> <span class="op">=</span> newnode</span>
+<span id="cb163-29"><a href="#cb163-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> newnode</span>
+<span id="cb163-30"><a href="#cb163-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb163-31"><a href="#cb163-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
+<span id="cb163-32"><a href="#cb163-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb163-33"><a href="#cb163-33" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error peek: queue sedang kosong"</span>)</span>
+<span id="cb163-34"><a href="#cb163-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb163-35"><a href="#cb163-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb163-36"><a href="#cb163-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.front.data</span>
+<span id="cb163-37"><a href="#cb163-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-38"><a href="#cb163-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># hapus di awal linked list</span></span>
+<span id="cb163-39"><a href="#cb163-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dequeue(<span class="va">self</span>):</span>
+<span id="cb163-40"><a href="#cb163-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb163-41"><a href="#cb163-41" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error dequeue: queue sudah kosong sebelumnya"</span>)</span>
+<span id="cb163-42"><a href="#cb163-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb163-43"><a href="#cb163-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb163-44"><a href="#cb163-44" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.front.data</span>
+<span id="cb163-45"><a href="#cb163-45" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb163-46"><a href="#cb163-46" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> <span class="va">self</span>.front.<span class="bu">next</span></span>
+<span id="cb163-47"><a href="#cb163-47" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> temp</span>
+<span id="cb163-48"><a href="#cb163-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
+<span id="cb163-49"><a href="#cb163-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb163-50"><a href="#cb163-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_queue(<span class="va">self</span>):</span>
+<span id="cb163-51"><a href="#cb163-51" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front : "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb163-52"><a href="#cb163-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb163-53"><a href="#cb163-53" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"(tidak ada data) : rear"</span>)</span>
+<span id="cb163-54"><a href="#cb163-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb163-55"><a href="#cb163-55" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb163-56"><a href="#cb163-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb163-57"><a href="#cb163-57" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb163-58"><a href="#cb163-58" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" | "</span>)</span>
+<span id="cb163-59"><a href="#cb163-59" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb163-60"><a href="#cb163-60" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb163-61"><a href="#cb163-61" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb163-62"><a href="#cb163-62" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">" : rear"</span>)</span>
+<span id="cb163-63"><a href="#cb163-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-64"><a href="#cb163-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_storage(<span class="va">self</span>):</span>
+<span id="cb163-65"><a href="#cb163-65" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front -&gt; "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb163-66"><a href="#cb163-66" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb163-67"><a href="#cb163-67" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"None &lt;- rear"</span>)</span>
+<span id="cb163-68"><a href="#cb163-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb163-69"><a href="#cb163-69" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb163-70"><a href="#cb163-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb163-71"><a href="#cb163-71" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb163-72"><a href="#cb163-72" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" -&gt; "</span>)</span>
+<span id="cb163-73"><a href="#cb163-73" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb163-74"><a href="#cb163-74" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" &lt;- "</span>)</span>
+<span id="cb163-75"><a href="#cb163-75" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb163-76"><a href="#cb163-76" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"rear"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>sllinqueue <span class="op">=</span> SLLinQueue()</span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
+<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : (tidak ada data) : rear
+front -&gt; None &lt;- rear</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.enqueue(<span class="dv">10</span>)</span>
+<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
+<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : 10 : rear
+front -&gt; 10 &lt;- rear</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.enqueue(<span class="dv">98</span>)</span>
+<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
+<span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : 10 | 98 : rear
+front -&gt; 10 -&gt; 98 &lt;- rear</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.enqueue(<span class="op">-</span><span class="dv">43</span>)</span>
+<span id="cb170-2"><a href="#cb170-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
+<span id="cb170-3"><a href="#cb170-3" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : 10 | 98 | -43 : rear
+front -&gt; 10 -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sllinqueue.peek())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
+<span id="cb174-2"><a href="#cb174-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : 10 | 98 | -43 : rear
+front -&gt; 10 -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sllinqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_queue()</span>
+<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>sllinqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : 98 | -43 : rear
+front -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
 </div>
 </div>
 </section>
