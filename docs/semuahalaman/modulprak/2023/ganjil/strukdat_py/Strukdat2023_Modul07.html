@@ -146,8 +146,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#implementasi-linear-queue-dengan-array" id="toc-implementasi-linear-queue-dengan-array" class="nav-link active" data-scroll-target="#implementasi-linear-queue-dengan-array">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>array</em></a></li>
   <li><a href="#implementasi-circular-queue-dengan-array" id="toc-implementasi-circular-queue-dengan-array" class="nav-link" data-scroll-target="#implementasi-circular-queue-dengan-array">Implementasi <em>circular queue</em> dengan <em>array</em></a></li>
   <li><a href="#implementasi-linear-queue-dengan-linked-list" id="toc-implementasi-linear-queue-dengan-linked-list" class="nav-link" data-scroll-target="#implementasi-linear-queue-dengan-linked-list">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>linked list</em></a></li>
+  <li><a href="#implementasi-circular-queue-dengan-circular-linked-list" id="toc-implementasi-circular-queue-dengan-circular-linked-list" class="nav-link" data-scroll-target="#implementasi-circular-queue-dengan-circular-linked-list">Implementasi <em>circular queue</em> dengan (<em>circular</em>) <em>linked list</em></a></li>
   <li><a href="#todo-pengayaan-deque-atau-double-ended-queue-deq" id="toc-todo-pengayaan-deque-atau-double-ended-queue-deq" class="nav-link" data-scroll-target="#todo-pengayaan-deque-atau-double-ended-queue-deq">(TODO) Pengayaan: <em>Deque</em> atau <em>double-ended queue</em> (DEQ)</a></li>
-  <li><a href="#todo-implementasi-circular-queue-dengan-linked-list" id="toc-todo-implementasi-circular-queue-dengan-linked-list" class="nav-link" data-scroll-target="#todo-implementasi-circular-queue-dengan-linked-list">(TODO) Implementasi <em>circular queue</em> dengan <em>linked list</em></a></li>
   </ul>
 </nav>
     </div>
@@ -883,7 +883,7 @@ None</code></pre>
 </section>
 <section id="implementasi-linear-queue-dengan-linked-list" class="level2">
 <h2 class="anchored" data-anchor-id="implementasi-linear-queue-dengan-linked-list">Implementasi (<em>linear</em>) <em>queue</em> dengan <em>linked list</em></h2>
-<div class="cell" data-execution_count="69">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb162"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLNode:</span>
 <span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, <span class="bu">next</span><span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
@@ -1032,11 +1032,160 @@ front -&gt; 98 -&gt; -43 &lt;- rear</code></pre>
 </div>
 </div>
 </section>
+<section id="implementasi-circular-queue-dengan-circular-linked-list" class="level2">
+<h2 class="anchored" data-anchor-id="implementasi-circular-queue-dengan-circular-linked-list">Implementasi <em>circular queue</em> dengan (<em>circular</em>) <em>linked list</em></h2>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb180"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLCircQueue:</span>
+<span id="cb180-2"><a href="#cb180-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb180-3"><a href="#cb180-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># head=front, tail=rear</span></span>
+<span id="cb180-4"><a href="#cb180-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.front <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb180-5"><a href="#cb180-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.rear <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb180-6"><a href="#cb180-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb180-7"><a href="#cb180-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_empty(<span class="va">self</span>):</span>
+<span id="cb180-8"><a href="#cb180-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.front <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb180-9"><a href="#cb180-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb180-10"><a href="#cb180-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-11"><a href="#cb180-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb180-12"><a href="#cb180-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb180-13"><a href="#cb180-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_size(<span class="va">self</span>):</span>
+<span id="cb180-14"><a href="#cb180-14" aria-hidden="true" tabindex="-1"></a>        size <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb180-15"><a href="#cb180-15" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb180-16"><a href="#cb180-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> temp <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb180-17"><a href="#cb180-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> size</span>
+<span id="cb180-18"><a href="#cb180-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-19"><a href="#cb180-19" aria-hidden="true" tabindex="-1"></a>            size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb180-20"><a href="#cb180-20" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb180-21"><a href="#cb180-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (temp <span class="op">!=</span> <span class="va">self</span>.front):</span>
+<span id="cb180-22"><a href="#cb180-22" aria-hidden="true" tabindex="-1"></a>            size <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb180-23"><a href="#cb180-23" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb180-24"><a href="#cb180-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> size</span>
+<span id="cb180-25"><a href="#cb180-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-26"><a href="#cb180-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> enqueue(<span class="va">self</span>, newdata):</span>
+<span id="cb180-27"><a href="#cb180-27" aria-hidden="true" tabindex="-1"></a>        newnode <span class="op">=</span> SLNode(newdata)</span>
+<span id="cb180-28"><a href="#cb180-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb180-29"><a href="#cb180-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> newnode</span>
+<span id="cb180-30"><a href="#cb180-30" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> newnode</span>
+<span id="cb180-31"><a href="#cb180-31" aria-hidden="true" tabindex="-1"></a>            newnode.<span class="bu">next</span> <span class="op">=</span> newnode</span>
+<span id="cb180-32"><a href="#cb180-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-33"><a href="#cb180-33" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear.<span class="bu">next</span> <span class="op">=</span> newnode</span>
+<span id="cb180-34"><a href="#cb180-34" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> newnode</span>
+<span id="cb180-35"><a href="#cb180-35" aria-hidden="true" tabindex="-1"></a>            newnode.<span class="bu">next</span> <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb180-36"><a href="#cb180-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb180-37"><a href="#cb180-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># masih sama persis</span></span>
+<span id="cb180-38"><a href="#cb180-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> peek(<span class="va">self</span>):</span>
+<span id="cb180-39"><a href="#cb180-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb180-40"><a href="#cb180-40" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error peek: queue sedang kosong"</span>)</span>
+<span id="cb180-41"><a href="#cb180-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb180-42"><a href="#cb180-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-43"><a href="#cb180-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.front.data</span>
+<span id="cb180-44"><a href="#cb180-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-45"><a href="#cb180-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> dequeue(<span class="va">self</span>):</span>
+<span id="cb180-46"><a href="#cb180-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb180-47"><a href="#cb180-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Error dequeue: queue sudah kosong sebelumnya"</span>)</span>
+<span id="cb180-48"><a href="#cb180-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb180-49"><a href="#cb180-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> (<span class="va">self</span>.front <span class="op">==</span> <span class="va">self</span>.rear): <span class="co"># sama saja self.get_size() == 1</span></span>
+<span id="cb180-50"><a href="#cb180-50" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> <span class="va">self</span>.front</span>
+<span id="cb180-51"><a href="#cb180-51" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb180-52"><a href="#cb180-52" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb180-53"><a href="#cb180-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-54"><a href="#cb180-54" aria-hidden="true" tabindex="-1"></a>            output <span class="op">=</span> <span class="va">self</span>.front.data</span>
+<span id="cb180-55"><a href="#cb180-55" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb180-56"><a href="#cb180-56" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.front <span class="op">=</span> <span class="va">self</span>.front.<span class="bu">next</span></span>
+<span id="cb180-57"><a href="#cb180-57" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> temp</span>
+<span id="cb180-58"><a href="#cb180-58" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.rear.<span class="bu">next</span> <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb180-59"><a href="#cb180-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> output</span>
+<span id="cb180-60"><a href="#cb180-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb180-61"><a href="#cb180-61" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_queue(<span class="va">self</span>):</span>
+<span id="cb180-62"><a href="#cb180-62" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front : "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb180-63"><a href="#cb180-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb180-64"><a href="#cb180-64" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"(tidak ada data) : rear"</span>)</span>
+<span id="cb180-65"><a href="#cb180-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-66"><a href="#cb180-66" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb180-67"><a href="#cb180-67" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">self</span>.front:</span>
+<span id="cb180-68"><a href="#cb180-68" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" | "</span>)</span>
+<span id="cb180-69"><a href="#cb180-69" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb180-70"><a href="#cb180-70" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb180-71"><a href="#cb180-71" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">" : rear"</span>)</span>
+<span id="cb180-72"><a href="#cb180-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb180-73"><a href="#cb180-73" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> print_storage(<span class="va">self</span>):</span>
+<span id="cb180-74"><a href="#cb180-74" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"front -&gt; "</span>, end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb180-75"><a href="#cb180-75" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.is_empty():</span>
+<span id="cb180-76"><a href="#cb180-76" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"None (&lt;- rear)"</span>)</span>
+<span id="cb180-77"><a href="#cb180-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb180-78"><a href="#cb180-78" aria-hidden="true" tabindex="-1"></a>            temp <span class="op">=</span> <span class="va">self</span>.front</span>
+<span id="cb180-79"><a href="#cb180-79" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> temp.<span class="bu">next</span> <span class="op">!=</span> <span class="va">self</span>.front:</span>
+<span id="cb180-80"><a href="#cb180-80" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">" -&gt; "</span>)</span>
+<span id="cb180-81"><a href="#cb180-81" aria-hidden="true" tabindex="-1"></a>                temp <span class="op">=</span> temp.<span class="bu">next</span></span>
+<span id="cb180-82"><a href="#cb180-82" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(temp.data, end <span class="op">=</span> <span class="st">""</span>)</span>
+<span id="cb180-83"><a href="#cb180-83" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">" (&lt;- rear) -&gt; front"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a>slcircqueue <span class="op">=</span> SLCircQueue()</span>
+<span id="cb181-2"><a href="#cb181-2" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_queue()</span>
+<span id="cb181-3"><a href="#cb181-3" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : (tidak ada data) : rear
+front -&gt; None (&lt;- rear)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>slcircqueue.enqueue(<span class="op">-</span><span class="dv">91</span>)</span>
+<span id="cb183-2"><a href="#cb183-2" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_queue()</span>
+<span id="cb183-3"><a href="#cb183-3" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : -91 : rear
+front -&gt; -91 (&lt;- rear) -&gt; front</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>slcircqueue.enqueue(<span class="dv">14</span>)</span>
+<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_queue()</span>
+<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : -91 | 14 : rear
+front -&gt; -91 -&gt; 14 (&lt;- rear) -&gt; front</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb187"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a>slcircqueue.enqueue(<span class="dv">30</span>)</span>
+<span id="cb187-2"><a href="#cb187-2" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_queue()</span>
+<span id="cb187-3"><a href="#cb187-3" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : -91 | 14 | 30 : rear
+front -&gt; -91 -&gt; 14 -&gt; 30 (&lt;- rear) -&gt; front</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb189"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>slcircqueue.peek()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>-91</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb191"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_queue()</span>
+<span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : -91 | 14 | 30 : rear
+front -&gt; -91 -&gt; 14 -&gt; 30 (&lt;- rear) -&gt; front</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb193"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(slcircqueue.dequeue())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-91</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb195"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_queue()</span>
+<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a>slcircqueue.print_storage()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>front : 14 | 30 : rear
+front -&gt; 14 -&gt; 30 (&lt;- rear) -&gt; front</code></pre>
+</div>
+</div>
+</section>
 <section id="todo-pengayaan-deque-atau-double-ended-queue-deq" class="level2">
 <h2 class="anchored" data-anchor-id="todo-pengayaan-deque-atau-double-ended-queue-deq">(TODO) Pengayaan: <em>Deque</em> atau <em>double-ended queue</em> (DEQ)</h2>
-</section>
-<section id="todo-implementasi-circular-queue-dengan-linked-list" class="level2">
-<h2 class="anchored" data-anchor-id="todo-implementasi-circular-queue-dengan-linked-list">(TODO) Implementasi <em>circular queue</em> dengan <em>linked list</em></h2>
 
 
 </section>
