@@ -186,26 +186,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> graphviz <span class="im">as</span> gv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Kali ini, kita juga memerlukan kode dari beberapa modul sebelumnya, terlampir di bagian Lampiran di akhir modul ini.</p>
+<p>Kali ini, kita juga memerlukan kode dari modul sebelumnya, terlampir di bagian Lampiran di akhir modul ini.</p>
 <section id="implementasi-heap-tree-dengan-array" class="level2">
 <h2 class="anchored" data-anchor-id="implementasi-heap-tree-dengan-array">Implementasi <em>Heap Tree</em> dengan <em>array</em></h2>
 <p><em>Heap tree</em> adalah sejenis <em>binary tree</em> dengan beberapa sifat tambahan tertentu. <em>Heap tree</em> terbagi lagi menjadi dua jenis, yaitu <em>max heap</em> dan <em>min heap</em>.</p>
 <ul>
 <li><p><em>Max heap</em> adalah <em>binary tree</em> dengan sifat tambahan berikut:</p>
 <ul>
-<li>merupakan <em>tree</em> yang <em>complete</em> (terkadang disebut <em>almost complete</em>), yaitu tiap level (kecuali level terakhir) harus terisi penuh, sedangkan pengisian <em>node</em> di level terakhir harus dari paling kiri.</li>
-<li><strong><em>(Max Heap Property)</em></strong> Untuk tiap <em>node</em>, nilai data yang tersimpan di <em>node</em> tersebut harus <strong>lebih besar</strong> daripada (atau sama dengan) nilai data yang tersimpan di tiap <em>child</em> nya.</li>
+<li><p>merupakan <em>tree</em> yang <em>complete</em> (terkadang disebut <em>almost complete</em>), yaitu tiap level (kecuali level terakhir) harus terisi penuh, sedangkan pengisian <em>node</em> di level terakhir harus dari paling kiri.</p></li>
+<li><p><strong><em>(Max Heap Property)</em></strong> Untuk tiap <em>node</em>, nilai data yang tersimpan di <em>node</em> tersebut harus <strong>lebih besar</strong> daripada (atau sama dengan) nilai data yang tersimpan di tiap <em>child</em> nya.</p></li>
 </ul>
 <p>Dengan demikian, pada <em>max heap</em>, data dengan nilai <strong>terbesar</strong> ada di <em>root</em>.</p></li>
 <li><p><em>Min heap</em> adalah <em>binary tree</em> dengan sifat tambahan berikut:</p>
 <ul>
-<li>merupakan <em>tree</em> yang <em>complete</em> (terkadang disebut <em>almost complete</em>)</li>
-<li><strong><em>(Min Heap Property)</em></strong> Untuk tiap <em>node</em>, nilai data yang tersimpan di <em>node</em> tersebut harus <strong>lebih kecil</strong> daripada (atau sama dengan) nilai data yang tersimpan di tiap <em>child</em> nya.</li>
+<li><p>merupakan <em>tree</em> yang <em>complete</em> (terkadang disebut <em>almost complete</em>)</p></li>
+<li><p><strong><em>(Min Heap Property)</em></strong> Untuk tiap <em>node</em>, nilai data yang tersimpan di <em>node</em> tersebut harus <strong>lebih kecil</strong> daripada (atau sama dengan) nilai data yang tersimpan di tiap <em>child</em> nya.</p></li>
 </ul>
 <p>Dengan demikian, pada <em>min heap</em>, data dengan nilai <strong>terkecil</strong> ada di <em>root</em>.</p></li>
 </ul>
-<p>Beberapa hal lain tentang <em>heap tree</em>: * Ketika membahas <em>deletion</em>, yang dihapus sudah pasti <em>root</em>, dan nilai yang dihapus juga di-<code>return</code> (seperti operasi <code>pop</code> di <em>stack</em>). * <em>Insertion</em> selalu dilakukan di level paling dalam, tepat di sebelah kanan dari <em>node</em> yang sudah ada (agar <em>tree</em> tetap beersifat <em>complete</em>).</p>
-<p>Selama berurusan dengan <em>heap tree</em>, ada (sekumpulan) operasi bernama <em>heapify</em>, yang tujuannya adalah memastikan bahwa <em>heap tree</em> memang memenuhi sifat <em>max/min heap property</em>. Beberapa variasi <em>heapify</em> adalah: * <em>bottom-up</em>: dimulai dari suatu <em>leaf node</em> yang ditentukan, periksa dengan parentnya. Kemudian, periksa parent tersebut dengan parent dari parent tersebut. Terus ke atas hingga mencapai <em>root</em>. * <em>top-down</em>: dimulai dari <em>root</em>, - untuk <em>max heap</em>: periksa dengan yang <strong>terbesar</strong> di antara semua <em>child</em> nya. Kemudian, periksa <em>child</em> tersebut dengan yang <strong>terbesar</strong> di antara semua <em>child</em> nya. Terus ke bawah, berhenti ketika sudah mencapai suatu <em>leaf node</em>. - untuk <em>min heap</em>: periksa dengan yang <strong>terkecil</strong> di antara semua <em>child</em> nya. Kemudian, periksa <em>child</em> tersebut dengan yang <strong>terkecil</strong> di antara semua <em>child</em> nya. Terus ke bawah, berhenti ketika sudah mencapai suatu <em>leaf node</em>. * <em>heapify all</em>: periksa tiap <em>node</em> dengan parentnya, dimulai dari level terdalam, dimulai dari <em>node</em> paling kanan. Lanjut ke tiap <em>node</em> yang ada di sebelah kirinya, hingga level tersebut sudah diperiksa semua. Kemudian, lanjut ke level di atasnya, dimulai dari <em>node</em> yang paling kanan. Lanjut terus hingga mencapai <em>root</em>.</p>
+<p>Beberapa hal lain tentang <em>heap tree</em>:</p>
+<ul>
+<li><p>Ketika membahas <em>deletion</em>, yang dihapus sudah pasti <em>root</em>, dan nilai yang dihapus juga di-<code>return</code> (seperti operasi <code>pop</code> di <em>stack</em>).</p></li>
+<li><p><em>Insertion</em> selalu dilakukan di level paling dalam, tepat di sebelah kanan dari <em>node</em> yang sudah ada (agar <em>tree</em> tetap beersifat <em>complete</em>).</p></li>
+</ul>
+<p>Selama berurusan dengan <em>heap tree</em>, ada (sekumpulan) operasi bernama <em>heapify</em>, yang tujuannya adalah memastikan bahwa <em>heap tree</em> memang memenuhi sifat <em>max/min heap property</em>. Beberapa variasi <em>heapify</em> adalah:</p>
+<ul>
+<li><p><em>bottom-up</em>: dimulai dari suatu <em>leaf node</em> yang ditentukan, periksa dengan parentnya. Kemudian, periksa parent tersebut dengan parent dari parent tersebut. Terus ke atas hingga mencapai <em>root</em>.</p></li>
+<li><p><em>top-down</em>: dimulai dari <em>root</em>,</p>
+<ul>
+<li><p>untuk <em>max heap</em>: periksa dengan yang <strong>terbesar</strong> di antara semua <em>child</em> nya. Kemudian, periksa <em>child</em> tersebut dengan yang <strong>terbesar</strong> di antara semua <em>child</em> nya. Terus ke bawah, berhenti ketika sudah mencapai suatu <em>leaf node</em>.</p></li>
+<li><p>untuk <em>min heap</em>: periksa dengan yang <strong>terkecil</strong> di antara semua <em>child</em> nya. Kemudian, periksa <em>child</em> tersebut dengan yang <strong>terkecil</strong> di antara semua <em>child</em> nya. Terus ke bawah, berhenti ketika sudah mencapai suatu <em>leaf node</em>.</p></li>
+</ul></li>
+<li><p><em>heapify all</em>: periksa tiap <em>node</em> dengan parentnya, dimulai dari level terdalam, dimulai dari <em>node</em> paling kanan. Lanjut ke tiap <em>node</em> yang ada di sebelah kirinya, hingga level tersebut sudah diperiksa semua. Kemudian, lanjut ke level di atasnya, dimulai dari <em>node</em> yang paling kanan. Lanjut terus hingga mencapai <em>root</em>.</p></li>
+</ul>
 <p>Pada <em>heap tree</em>, operasi <em>insertion</em> selalu diikuti dengan <em>heapify</em> yang <em>bottom-up</em>, dan operasi <em>deletion</em> selalu diikuti dengan <em>heapify</em> yang <em>top-down</em>.</p>
 <p>Apabila diberikan sembarang <em>binary tree</em>, di antara ketiga variasi di atas, hanya <em>heapify all</em> yang menjamin <em>binary tree</em> berubah menjadi <em>heap tree</em>. Namun, apabila diberikan sembarang <em>heap tree</em>, operasi <em>insertion</em> dan <em>deletion</em> yang dilakukan (masing-masing diikuti <em>heapify</em> yang <em>bottom-up</em> atau <em>top-down</em>) akan tetap menjaga sifatnya sebagai <em>heap tree</em>, meskipun tidak dilakukan <em>heapify all</em> sama sekali.</p>
 <p>Kalau ingin mengubah sembarang <em>binary tree</em> menjadi <em>heap tree</em>, kami menyediakan <em>method</em> bernama <code>completify</code> untuk membuat <em>binary tree</em> tersebut menjadi <em>complete</em>, yang kemudian bisa diikuti dengan penggunaan <em>heapify all</em>.</p>
