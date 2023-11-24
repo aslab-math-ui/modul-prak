@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Tugas 2 Praktikum Struktur Data: Stack, Queue, dan berbagai Binary Tree</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Lab Praktikum Departemen Matematika FMIPA UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/praktikum.html" rel="" target="">
+ <span class="menu-text">Praktikum</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#petunjuk-umum" id="toc-petunjuk-umum" class="nav-link active" data-scroll-target="#petunjuk-umum">Petunjuk umum:</a></li>
+  <li><a href="#soal" id="toc-soal" class="nav-link" data-scroll-target="#soal">Soal:</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tugas 2 Praktikum Struktur Data: <em>Stack</em>, <em>Queue</em>, dan berbagai <em>Binary Tree</em></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2023/ganjil/strukdat_py/strukdat2023.html">Struktur Data (dengan Python)</a></p>
+<p>Tugas ini diberikan pada hari dan tanggal: Sabtu, 25 November 2023</p>
+<p>Link soal dan petunjuk tugas (yaitu link menuju halaman ini):</p>
+<p><a href="https://bit.ly/SoalTugas1PrakStrukdat2023Ganjil">https://bit.ly/SoalTugas1PrakStrukdat2023Ganjil</a></p>
+<section id="petunjuk-umum" class="level2">
+<h2 class="anchored" data-anchor-id="petunjuk-umum">Petunjuk umum:</h2>
+<ol type="1">
+<li><p>Kerjakan secara individu.</p></li>
+<li><p>Kerjakan tugas ini menggunakan bahasa pemrograman Python dengan <em>file format</em> berupa <em>interactive Python notebook</em> (yaitu <em>file</em> berbentuk .ipynb BUKAN .py), yang bisa dibuat misalnya menggunakan Jupyter Notebook atau Google Colaboratory.</p></li>
+<li><p><strong>Harap sertakan penjelasan untuk setiap variabel yang digunakan dan setiap proses secara singkat</strong> di sebelah (atas/bawah/kanan) barisnya (dengan comment, <code>#</code>). Selain itu, <strong>sertakan juga penjelasan kode</strong> (yang bisa mencakupi idenya apa, bagaimana cara eksekusinya, atau tentang algoritma yang digunakan) <strong>pada <em>cell</em> di sebelah (atas/bawah) kode</strong>.</p></li>
+<li><p>Format nama <em>file</em> untuk Tugas 2 ini adalah:</p>
+<p>Kelas SIAK_Tugas2PrakStrukdat_Nama Lengkap_NPM.ipynb</p>
+<p>Contoh penamaan yang benar:</p>
+<p>Kelas C_Tugas2PrakStrukdat_Evgenii Mikhailovich Landis_2234567890.ipynb</p></li>
+<li><p>Pengumpulan Tugas 2 dilakukan ke Google Forms berikut ini:</p>
+<p><a href="https://bit.ly/KumpulTugas1PrakStrukdat2023Ganjil">https://bit.ly/KumpulTugas1PrakStrukdat2023Ganjil</a></p></li>
+<li><p>Apabila ada yang ingin direvisi setelah pengumpulan, lakukan pengumpulan ulang di Google Forms yang sama, tambahkan keterangan bahwa ada revisi, dan tambahkan kata “revisi” pada bagian akhir nama file, contohnya menjadi</p>
+<p>Kelas C_Tugas2PrakStrukdat_Evgenii Mikhailovich Landis_2234567890_revisi.ipynb</p>
+<p>Kelas C_Tugas2PrakStrukdat_Evgenii Mikhailovich Landis_2234567890_revisi2.ipynb</p>
+<p>Kelas C_Tugas2PrakStrukdat_Evgenii Mikhailovich Landis_2234567890_revisi3.ipynb</p>
+<p>(Revisi boleh dilakukan berkali-kali.)</p></li>
+<li><p>Dengan durasi pengerjaan sekitar <strong>2 (dua) minggu</strong>, tenggat waktu (<em>deadline</em>) pengumpulan Tugas 2 ini (termasuk revisi) adalah <strong>Sabtu, 9 Desember 2023, 23.59 WIB</strong>.</p></li>
+<li><p>Sesuai standar Universitas Indonesia, <strong>plagiarisme dilarang keras</strong> dan bisa menyebabkan nilai tugas praktikum <strong>menjadi nol untuk semua pihak yang terlibat, tanpa peringatan apapun.</strong> Namun, Anda boleh langsung menggunakan kode yang ada di <a href="../../../../../semuahalaman/modulprak/2023/ganjil/strukdat_py/strukdat2023.html">modul praktikum</a>.</p></li>
+<li><p><em>Module</em> atau <em>package</em> Python yang boleh digunakan (di-<em>import</em>) untuk Tugas 2 ini hanyalah numpy dan graphviz. Apabila Anda berniat ingin menggunakan <em>module</em> lain, harap konfirmasikan ke narahubung terlebih dahulu (bisa saja diperbolehkan).</p></li>
+<li><p>Narahubung untuk Tugas 2 Praktikum Struktur Data adalah:</p>
+<p>Bisma Rohpanca Joyosumarto (ID LINE: bisma_joyosumarto)</p>
+<p>Silakan hubungi narahubung di atas apabila ada yang ingin ditanyakan atau dikonfirmasikan.</p></li>
+</ol>
+</section>
+<section id="soal" class="level2">
+<h2 class="anchored" data-anchor-id="soal">Soal:</h2>
+<ol type="1">
+<li><p>Buatlah fungsi <code>print_reverse()</code> yang menerima satu <em>string</em>, membuat suatu <code>ArrayStack</code>, memasukkan tiap huruf/karakter ke dalam <em>stack</em> tersebut, kemudian melakukan <em>pop</em> terus-menerus hingga <em>stack</em> kosong sambil menampilkan tiap huruf yang di-<em>pop</em>. Pastikan tiap huruf ditampilkan di baris yang sama (kecuali apabila memang ada <em>newline</em> di dalam <em>string</em> yang menjadi input).</p>
+<p>Contoh penggunaan fungsi: <code>python  &gt;&gt;&gt; print_reverse("Satu dua tiga")  agit aud utaS</code></p></li>
+<li><p>Buatlah fungsi <code>odd_even_others_sep()</code> yang menerima suatu list, lalu menggunakan sejumlah <code>SLQueue</code> untuk memisahkan antara elemen bilangan ganjil, elemen bilangan genap, dan elemen lainnya, tanpa mengubah urutan sesama kategori, kemudian mengembalikan list baru di mana ketiga kategori tersebut sudah dikelompokkan/terpisah dengan baik.</p>
+<p>Contoh penggunaan fungsi: <code>python  &gt;&gt;&gt; hasil = odd_even_others_sep([1, 2, "rumput", 4.2, 5, 6, 7, "mobil"])  &gt;&gt;&gt; print(hasil)  [1, 5, 7, 2, 6, "rumput", 4.2, "mobil"]</code></p></li>
+<li><p>Buatlah fungsi <code>get_char_tree()</code> yang menerima suatu <em>string</em>, membuat array numpy dari tiap huruf/karakter di <em>string</em> tersebut (ukuran array boleh melebihi panjang <em>string</em>), lalu menjadikan array tersebut sebagai representasi array untuk suatu <code>ArrayBintree</code> yang kemudian di-<em>return</em>. Berikan juga contoh penggunaan fungsinya dan tampilkan gambar dari pohon yang dihasilkan.</p>
+<p>Contoh penggunaan fungsi: <code>python  &gt;&gt;&gt; testpohon = get_char_tree("strukturdata")  &gt;&gt;&gt; display(testpohon.get_digraph_simple())</code></p>
+<p><em>Hint:</em></p>
+<ul>
+<li><p>Ukuran array yang sesuai adalah <span class="math inline">\(\lceil \log_2 \left(n+1\right) \rceil\)</span> di mana n adalah ukuran string.</p></li>
+<li><p>numpy menyediakan fungsi logaritma dan fungsi <em>ceiling</em> atau <span class="math inline">\(\lceil x \rceil\)</span></p></li>
+<li><p>Berdasarkan sifat logaritma, <span class="math inline">\(\log_2 \left(x\right) = \frac{\log x}{\log 2}\)</span></p></li>
+<li><p>Untuk array yang terdiri dari huruf/karakter, “emptydata” bisa dipasang menjadi string kosong: <code>""</code></p></li>
+</ul></li>
+<li><p>Buatlah fungsi <code>max_heap_sort_descending()</code> yang menerima suatu array numpy (bukan list), memasukkan semua elemen array yang diinput ke dalam suatu <code>ArrayMaxHeap</code>, kemudian membentuk suatu array baru dengan mengeluarkan satu-satu elemen dari <em>max heap</em> tersebut, lalu me-<em>return</em> array baru tersebut.</p>
+<p>Contoh penggunaan fungsi: <code>python  &gt;&gt;&gt; array1 = np.array([10, 5, 20, 70, 30, 45])  &gt;&gt;&gt; array2 = max_heap_sort_descending(array1)  &gt;&gt;&gt; print(array2)  [70 45 30 20 10  5]</code></p>
+<p><em>Hint:</em> <code>dtype</code> untuk <code>ArrayMaxHeap</code> bisa disamakan dengan tipe data dari elemen-elemen yang ada di array yang diinput.</p></li>
+<li><p>BST vs.&nbsp;AVL</p>
+<ol type="a">
+<li><p>Buatlah fungsi <code>get_bst()</code> yang menerima suatu list atau array, melakukan <em>insertion</em> untuk tiap elemen list/array ke suatu <code>LinkedBST</code>, kemudian me-<em>return</em> <code>LinkedBST</code> tersebut.</p></li>
+<li><p>Serupa, buatlah fungsi <code>get_avl()</code> yang menerima suatu list atau array, melakukan <em>insertion</em> untuk tiap elemen list/array ke suatu <code>LinkedAVL</code>, kemudian me-<em>return</em> <code>LinkedAVL</code> tersebut.</p></li>
+<li><p>Buatlah array numpy berisi tiap digit di NPM Anda.</p></li>
+<li><p>Gunakan fungsi <code>max_heap_sort_descending()</code> dengan array yang Anda buat untuk memperoleh array yang terurut secara menurun.</p></li>
+<li><p>Gunakan fungsi <code>get_bst()</code> dan <code>get_avl()</code> tersebut untuk memperoleh suatu <code>LinkedBST</code> dan suatu <code>LinkedAVL</code> dari array yang Anda peroleh di soal poin (d). Abaikan error <em>insertion</em>.</p></li>
+<li><p><em>Binary tree</em> memiliki <em>height</em> -1 jika kosong, memiliki <em>height</em> 0 jika berisi satu <em>node</em> saja, dan memiliki <em>height</em> 1 jika berisi dua atau tiga <em>node</em> saja. Berapa kah <em>height</em> dari <code>LinkedBST</code> dan dari <code>LinkedAVL</code> yang Anda peroleh di soal poin (e)? Mana yang lebih dangkal/pendek?</p></li>
+</ol>
+<p>Contoh penggunaan fungsi: <code>python  &gt;&gt;&gt; arrayNPM = np.array([2, 1, 0, 6, 6, 3, 5, 5, 8, 1])  &gt;&gt;&gt; arrdesc = max_heap_sort_descending(arrayNPM)  &gt;&gt;&gt; contohbst = get_bst(arrdesc)  &gt;&gt;&gt; contohavl = get_avl(arrdesc)  &gt;&gt;&gt; display(contohbst.get_digraph_simple())  &gt;&gt;&gt; display(contohavl.get_digraph_simple())</code></p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
