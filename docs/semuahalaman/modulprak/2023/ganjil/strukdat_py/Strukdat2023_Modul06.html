@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#implementasi-stack-dengan-array" id="toc-implementasi-stack-dengan-array" class="nav-link" data-scroll-target="#implementasi-stack-dengan-array">Implementasi <em>stack</em> dengan <em>array</em></a></li>
   <li><a href="#implementasi-stack-dengan-singly-inked-list" id="toc-implementasi-stack-dengan-singly-inked-list" class="nav-link" data-scroll-target="#implementasi-stack-dengan-singly-inked-list">Implementasi <em>stack</em> dengan <em>singly-inked list</em></a></li>
-  <li><a href="#contoh-sederhana-reverse-suatu-string-list-atau-array" id="toc-contoh-sederhana-reverse-suatu-string-list-atau-array" class="nav-link" data-scroll-target="#contoh-sederhana-reverse-suatu-string-list-atau-array">Contoh sederhana: <em>reverse</em> suatu <em>string</em>, <em>list</em>, atau <em>array</em></a></li>
+  <li><a href="#contoh-sederhana-reverse-suatu-listarray" id="toc-contoh-sederhana-reverse-suatu-listarray" class="nav-link" data-scroll-target="#contoh-sederhana-reverse-suatu-listarray">Contoh sederhana: <em>reverse</em> suatu <em>list</em>/<em>array</em></a></li>
   </ul></li>
   <li><a href="#todo-notasi-prefix-infix-dan-postfix" id="toc-todo-notasi-prefix-infix-dan-postfix" class="nav-link" data-scroll-target="#todo-notasi-prefix-infix-dan-postfix">(TODO) Notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em></a>
   <ul class="collapse">
@@ -190,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2023/ganjil/strukdat_py/strukdat2023.html">Struktur Data (dengan Python)</a></p>
 <p>Di praktikum kali ini tentang <em>stack</em>, kita akan membahas implementasi <em>stack</em> (baik dengan <em>array</em> maupun dengan <em>linked list</em>) serta contoh penggunaannya. Selain itu, kita akan membahas tentang penggunaan <em>stack</em> ketika berurusan dengan notasi <em>prefix</em>, <em>infix</em>, dan <em>postfix</em>.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> graphviz <span class="im">as</span> gv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="implementasi-dan-contoh-penggunaan-stack">Implementasi dan contoh penggunaan <em>stack</em></h2>
 <section id="implementasi-stack-dengan-array" class="level3">
 <h3 class="anchored" data-anchor-id="implementasi-stack-dengan-array">Implementasi <em>stack</em> dengan <em>array</em></h3>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ArrayStack:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dtype, <span class="bu">max</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dtype <span class="op">=</span> dtype</span>
@@ -469,13 +469,13 @@ None</code></pre>
 </section>
 <section id="implementasi-stack-dengan-singly-inked-list" class="level3">
 <h3 class="anchored" data-anchor-id="implementasi-stack-dengan-singly-inked-list">Implementasi <em>stack</em> dengan <em>singly-inked list</em></h3>
-<div class="cell" data-execution_count="56">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLNode:</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, data, <span class="bu">next</span><span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.data <span class="op">=</span> data</span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">next</span> <span class="op">=</span> <span class="bu">next</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="65">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SLStack:</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># "head" ganti nama jadi top</span></span>
@@ -723,23 +723,48 @@ abc</code></pre>
 </div>
 </div>
 </section>
-<section id="contoh-sederhana-reverse-suatu-string-list-atau-array" class="level3">
-<h3 class="anchored" data-anchor-id="contoh-sederhana-reverse-suatu-string-list-atau-array">Contoh sederhana: <em>reverse</em> suatu <em>string</em>, <em>list</em>, atau <em>array</em></h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reverse_array_arraystack(array):</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    arraystack <span class="op">=</span> ArrayStack(array.dtype, <span class="bu">len</span>(array))</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>        arraystack.push(array[i])</span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>        array[i] <span class="op">=</span> arraystack.pop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="contoh-sederhana-reverse-suatu-listarray" class="level3">
+<h3 class="anchored" data-anchor-id="contoh-sederhana-reverse-suatu-listarray">Contoh sederhana: <em>reverse</em> suatu <em>list</em>/<em>array</em></h3>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reverse_array_arraystack(array_old):</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    array <span class="op">=</span> array_old.copy()</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># memeriksa tipe data dari elemen pertama</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    tipe_data <span class="op">=</span> <span class="bu">type</span>(array[<span class="dv">0</span>])</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># khusus array, bisa juga menggunakan array.dtype</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    arraystack <span class="op">=</span> ArrayStack(tipe_data, <span class="bu">len</span>(array))</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>        arraystack.push(array[i])</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>        array[i] <span class="op">=</span> arraystack.pop()</span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reverse_array_slstack(array):</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    slstack <span class="op">=</span> SLStack()</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>        slstack.push(array[i])</span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>        array[i] <span class="op">=</span> slstack.pop()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>list1 <span class="op">=</span> [<span class="st">"m"</span>, <span class="st">"a"</span>, <span class="st">"t"</span>, <span class="st">"e"</span>, <span class="st">"k"</span>]</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>list2 <span class="op">=</span> reverse_array_arraystack(list1)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(list2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['k', 'e', 't', 'a', 'm']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reverse_array_slstack(array_old):</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    array <span class="op">=</span> array_old.copy()</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    slstack <span class="op">=</span> SLStack()</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>        slstack.push(array[i])</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(array)):</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>        array[i] <span class="op">=</span> slstack.pop()</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> array</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>array1 <span class="op">=</span> np.array([<span class="st">"m"</span>, <span class="st">"a"</span>, <span class="st">"t"</span>, <span class="st">"e"</span>, <span class="st">"k"</span>])</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>array2 <span class="op">=</span> reverse_array_slstack(array1)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['k' 'e' 't' 'a' 'm']</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -749,9 +774,9 @@ abc</code></pre>
 <p>Misalnya, kita bisa menuliskan penjumlahan <code>3 + 5</code>, di mana dua angka, 3 dan 5, dioperasikan oleh suatu “operator” yaitu + (plus). Perhatikan bahwa operator berada di tengah, di antara kedua angka. Penulisan seperti ini disebut notasi <em>infix</em>, dan inilah penulisan yang biasa kita kenal.</p>
 <p>Ada juga cara penulisan di mana operator ditempatkan sebelum kedua angka, disebut notasi <em>prefix</em>, seperti berikut: <code>+ 3 5</code></p>
 <p>Walaupun terlihat agak aneh, kita bisa saja mendefinisikan fungsi seperti <em>pseuducode</em> berikut:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>function add(x, y)</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    return x+y</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>function add(x, y)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    return x+y</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Kemudian penggunaannya adalah <code>add(3, 5)</code>, secara tidak langsung menggunakan notasi <em>prefix</em> :)</p>
 <p>Selain <em>prefix</em> untuk di awal dan <em>infix</em> untuk di tengah, kita juga bisa menempatkan operator setelah kedua angka, disebut notasi <em>postfix</em>. Contohnya: <code>3 5 +</code></p>
 <p>Notasi <em>postfix</em> sebenarnya tidak terlalu asing, karena misalnya untuk menuliskan faktorial itu biasanya menggunakan tanda seru <strong>setelah</strong> angkanya, lagi-lagi secara tidak langsung menggunakan notasi <em>postfix</em>, seperti: <code>4!</code></p>
@@ -767,19 +792,19 @@ abc</code></pre>
 <p>Misalnya, kalau kita punya notasi <em>infix</em> dalam <em>string</em> <code>"3 + 5"</code>, kita bisa melakukan <em>tokenization</em> untuk memecahnya menjadi <code>["3", "+", "5"]</code>.</p>
 <p>Cara mudah untuk melakukan tokenisasi, bisa dengan sekedar menganggap tiap “bagian” atau tiap “token” terpisahkan oleh spasi, sehingga bisa di-<em>split</em> begitu saja:</p>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenize(string_utuh):</span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> string_utuh.split(<span class="st">" "</span>) <span class="co"># string berisi satu spasi</span></span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenize(string_utuh):</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> string_utuh.split(<span class="st">" "</span>) <span class="co"># string berisi satu spasi</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenize(<span class="st">"3 + 5"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenize(<span class="st">"3 + 5"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['3', '+', '5']</code></pre>
 </div>
 </div>
 <p>Agar cara mudah ini berhasil (terutama untuk notasi <em>infix</em>), bahkan antara kurung buka/tutup juga harus diberi spasi, ya!</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenize(<span class="st">"5 * ( 6 + 7 )"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenize(<span class="st">"5 * ( 6 + 7 )"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['5', '*', '(', '6', '+', '7', ')']</code></pre>
 </div>
