@@ -139,7 +139,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#membuat-database-dan-tabel" id="toc-membuat-database-dan-tabel" class="nav-link active" data-scroll-target="#membuat-database-dan-tabel">Membuat <em>database</em> dan tabel</a></li>
+  <li><a href="#menambahkan-dan-melihat-data" id="toc-menambahkan-dan-melihat-data" class="nav-link" data-scroll-target="#menambahkan-dan-melihat-data">Menambahkan dan melihat data</a></li>
+  <li><a href="#querying" id="toc-querying" class="nav-link" data-scroll-target="#querying"><em>Querying</em></a></li>
+  <li><a href="#update-data" id="toc-update-data" class="nav-link" data-scroll-target="#update-data"><em>Update</em> data</a></li>
+  <li><a href="#hapus-baris" id="toc-hapus-baris" class="nav-link" data-scroll-target="#hapus-baris">Hapus baris</a></li>
+  <li><a href="#order-by-dan-limit" id="toc-order-by-dan-limit" class="nav-link" data-scroll-target="#order-by-dan-limit"><code>ORDER BY</code> dan <code>LIMIT</code></a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -170,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><em>Database</em> biasanya berupa sekumpulan tabel yang saling berkaitan. Jenis <em>database</em> ini disebut <strong><em>relational database</em></strong></p></li>
 <li><p>Untuk mengelola suatu <em>database</em>, digunakan yang namanya <em>database management system</em> (DBMS). Khusus <em>relational database</em>, ada istilah <em>relational database management system</em> (RDBMS)</p></li>
 <li><p>Salah satu RDBMS yang sering digunakan adalah SQLite, terutama untuk <em>relational database</em> yang tidak terlalu besar</p></li>
-<li><p>SQLite bisa dioperasikan melalui Python, dengan <em>module</em>/<em>package</em> <code>sqlite3</code> yang harusnya sudah terinstal bersama Python (kalau belum, bisa diinstal dengan <code>conda install sqlite3</code> dan/atau <code>pip install sqlite3</code>)</p></li>
+<li><p>SQLite bisa dioperasikan melalui Python, dengan <em>module</em>/<em>package</em> <code>sqlite3</code> yang harusnya sudah terinstal bersama Python (kalau belum, bisa diinstal dengan <code>pip install sqlite3</code>, tapi jangan lupa <code>conda install sqlite</code> terlebih dahulu kalau menggunakan Anaconda)</p></li>
 <li><p><em>File extension</em> atau akhiran nama <em>file</em> untuk suatu <em>database</em> SQLite bisa berupa <code>.db</code> atau <code>.sqlite</code> atau lebih spesifiknya <code>.sqlite3</code></p></li>
 <li><p>Pada tiap <em>database</em>, bisa dilakukan yang namanya <em>querying</em>, yaitu melakukan <em>filtering</em> untuk memperoleh data yang memenuhi kriteria yang kita tentukan</p></li>
 <li><p>Sudah ada bahasa bernama SQL (<em>Structured Querying Language</em>) yang terstandarisasi untuk melakukan <em>querying</em> (maupun modifikasi) pada <em>relational database</em>, apapun RDBMS yang digunakan</p></li>
@@ -178,6 +189,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="membuat-database-dan-tabel" class="level2">
+<h2 class="anchored" data-anchor-id="membuat-database-dan-tabel">Membuat <em>database</em> dan tabel</h2>
 <p>Membuat <em>database</em> baru (atau membuka <em>database</em> yang sudah ada, kalau ada) dengan nama <em>file</em> yang ditentukan</p>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -209,6 +222,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Menutup koneksi</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="menambahkan-dan-melihat-data" class="level2">
+<h2 class="anchored" data-anchor-id="menambahkan-dan-melihat-data">Menambahkan dan melihat data</h2>
 <p>Menambahkan data ke <em>database</em></p>
 <div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
@@ -351,7 +367,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (987, 'Brokoli', 70, 0.05, 1.5)</code></pre>
 </div>
 </div>
-<p><em>Querying</em></p>
+</section>
+<section id="querying" class="level2">
+<h2 class="anchored" data-anchor-id="querying"><em>Querying</em></h2>
 <div class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
@@ -484,7 +502,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (456, 'Jeruk', 15, 0.15, 2.1)</code></pre>
 </div>
 </div>
-<p>Update data</p>
+</section>
+<section id="update-data" class="level2">
+<h2 class="anchored" data-anchor-id="update-data"><em>Update</em> data</h2>
 <div class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
@@ -517,7 +537,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"UPDATE tabel_produk SET Nama = 'Jeruk nipis' WHERE ProductID = 456"</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"UPDATE tabel_produk SET Nama = 'Jeruk nipis' WHERE ProductID == 456"</span>)</span>
 <span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>conn.commit()</span>
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -545,7 +565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"UPDATE tabel_produk SET HargaRibuRupiah = 2.5 WHERE ProductID = 321"</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"UPDATE tabel_produk SET HargaRibuRupiah = 2.5 WHERE ProductID == 321"</span>)</span>
 <span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>conn.commit()</span>
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -573,7 +593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"UPDATE tabel_produk SET Stok = 10 WHERE ProductID = 789"</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"UPDATE tabel_produk SET Stok = 10 WHERE ProductID == 789"</span>)</span>
 <span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>conn.commit()</span>
 <span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -597,12 +617,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (987, 'Brokoli', 70, 0.05, 1.5)</code></pre>
 </div>
 </div>
-<p>Hapus baris</p>
+</section>
+<section id="hapus-baris" class="level2">
+<h2 class="anchored" data-anchor-id="hapus-baris">Hapus baris</h2>
 <div class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"DELETE FROM tabel_produk WHERE ProductID = 789"</span>)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"DELETE FROM tabel_produk WHERE ProductID == 789"</span>)</span>
 <span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>conn.commit()</span>
 <span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -625,7 +647,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (987, 'Brokoli', 70, 0.05, 1.5)</code></pre>
 </div>
 </div>
-<p>Urutan menampilkan</p>
+</section>
+<section id="order-by-dan-limit" class="level2">
+<h2 class="anchored" data-anchor-id="order-by-dan-limit"><code>ORDER BY</code> dan <code>LIMIT</code></h2>
 <div class="cell" data-execution_count="77">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
@@ -820,6 +844,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
