@@ -150,6 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#hapus-baris" id="toc-hapus-baris" class="nav-link" data-scroll-target="#hapus-baris">Hapus baris</a></li>
   <li><a href="#order-by-dan-limit" id="toc-order-by-dan-limit" class="nav-link" data-scroll-target="#order-by-dan-limit"><code>ORDER BY</code> dan <code>LIMIT</code></a></li>
   <li><a href="#tabel-baru-di-database-yang-sama" id="toc-tabel-baru-di-database-yang-sama" class="nav-link" data-scroll-target="#tabel-baru-di-database-yang-sama">Tabel baru di <em>database</em> yang sama</a></li>
+  <li><a href="#querying-dan-inner-join-melalui-foreign-key" id="toc-querying-dan-inner-join-melalui-foreign-key" class="nav-link" data-scroll-target="#querying-dan-inner-join-melalui-foreign-key"><em>Querying</em> dan <em>inner join</em> melalui <em>foreign key</em></a></li>
   </ul>
 </nav>
     </div>
@@ -187,13 +188,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Pada tiap <em>database</em>, bisa dilakukan yang namanya <em>querying</em>, yaitu melakukan <em>filtering</em> untuk memperoleh data yang memenuhi kriteria yang kita tentukan</p></li>
 <li><p>Sudah ada bahasa bernama SQL (<em>Structured Querying Language</em>) yang terstandarisasi untuk melakukan <em>querying</em> (maupun modifikasi) pada <em>relational database</em>, apapun RDBMS yang digunakan</p></li>
 </ul>
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="membuat-database-dan-tabel" class="level2">
 <h2 class="anchored" data-anchor-id="membuat-database-dan-tabel">Membuat <em>database</em> dan tabel</h2>
 <p>Membuat <em>database</em> baru (atau membuka <em>database</em> yang sudah ada, kalau ada) dengan nama <em>file</em> yang ditentukan</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
@@ -1049,6 +1050,158 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 (5, '2023-11-15', '12:29:17', 135, 5, 0)
 (6, '2023-11-17', '15:42:19', 321, 10, 0)
 (3, '2023-11-17', '23:59:58', 987, 15, 0)</code></pre>
+</div>
+</div>
+</section>
+<section id="querying-dan-inner-join-melalui-foreign-key" class="level2">
+<h2 class="anchored" data-anchor-id="querying-dan-inner-join-melalui-foreign-key"><em>Querying</em> dan <em>inner join</em> melalui <em>foreign key</em></h2>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Tabel produk ==="</span>)</span>
+<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"""SELECT * FROM tabel_produk"""</span>)</span>
+<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Tabel pesanan ==="</span>)</span>
+<span id="cb100-11"><a href="#cb100-11" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"""SELECT * FROM tabel_pesanan"""</span>)</span>
+<span id="cb100-12"><a href="#cb100-12" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb100-13"><a href="#cb100-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb100-14"><a href="#cb100-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb100-15"><a href="#cb100-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-16"><a href="#cb100-16" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=== Tabel produk ===
+(123, 'Apel', 200, 0.2, 3.5)
+(135, 'Stroberi', 120, 0.04, 2.0)
+(321, 'Wortel', 30, 0.1, 2.5)
+(456, 'Jeruk nipis', 15, 0.15, 2.1)
+(987, 'Brokoli', 70, 0.05, 1.5)
+=== Tabel pesanan ===
+(1, '2023-11-05', '14:38:27', 123, 10, 0)
+(2, '2023-11-16', '09:01:03', 456, 5, 0)
+(3, '2023-11-17', '23:59:58', 987, 15, 0)
+(4, '2023-11-16', '00:09:32', 456, 20, 0)
+(5, '2023-11-15', '12:29:17', 135, 5, 0)
+(6, '2023-11-17', '15:42:19', 321, 10, 0)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"SELECT * FROM tabel_produk WHERE product_id == 456"</span>)</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(456, 'Jeruk nipis', 15, 0.15, 2.1)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"SELECT * FROM tabel_pesanan WHERE kode_produk == 456"</span>)</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-9"><a href="#cb104-9" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(2, '2023-11-16', '09:01:03', 456, 5, 0)
+(4, '2023-11-16', '00:09:32', 456, 20, 0)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"""SELECT *</span></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM tabel_produk INNER JOIN tabel_pesanan</span></span>
+<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a><span class="st">            ON tabel_produk.product_id == tabel_pesanan.kode_produk</span></span>
+<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a><span class="st">            """</span>)</span>
+<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(123, 'Apel', 200, 0.2, 3.5, 1, '2023-11-05', '14:38:27', 123, 10, 0)
+(456, 'Jeruk nipis', 15, 0.15, 2.1, 2, '2023-11-16', '09:01:03', 456, 5, 0)
+(987, 'Brokoli', 70, 0.05, 1.5, 3, '2023-11-17', '23:59:58', 987, 15, 0)
+(456, 'Jeruk nipis', 15, 0.15, 2.1, 4, '2023-11-16', '00:09:32', 456, 20, 0)
+(135, 'Stroberi', 120, 0.04, 2.0, 5, '2023-11-15', '12:29:17', 135, 5, 0)
+(321, 'Wortel', 30, 0.1, 2.5, 6, '2023-11-17', '15:42:19', 321, 10, 0)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"""SELECT *</span></span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM tabel_pesanan INNER JOIN tabel_produk</span></span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a><span class="st">            ON tabel_pesanan.kode_produk == tabel_produk.product_id</span></span>
+<span id="cb108-7"><a href="#cb108-7" aria-hidden="true" tabindex="-1"></a><span class="st">            """</span>)</span>
+<span id="cb108-8"><a href="#cb108-8" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb108-9"><a href="#cb108-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb108-10"><a href="#cb108-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb108-11"><a href="#cb108-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-12"><a href="#cb108-12" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(1, '2023-11-05', '14:38:27', 123, 10, 0, 123, 'Apel', 200, 0.2, 3.5)
+(2, '2023-11-16', '09:01:03', 456, 5, 0, 456, 'Jeruk nipis', 15, 0.15, 2.1)
+(3, '2023-11-17', '23:59:58', 987, 15, 0, 987, 'Brokoli', 70, 0.05, 1.5)
+(4, '2023-11-16', '00:09:32', 456, 20, 0, 456, 'Jeruk nipis', 15, 0.15, 2.1)
+(5, '2023-11-15', '12:29:17', 135, 5, 0, 135, 'Stroberi', 120, 0.04, 2.0)
+(6, '2023-11-17', '15:42:19', 321, 10, 0, 321, 'Wortel', 30, 0.1, 2.5)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"""SELECT tabel_pesanan.tanggal, tabel_produk.nama, tabel_pesanan.jumlah</span></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM tabel_pesanan INNER JOIN tabel_produk</span></span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a><span class="st">            ON tabel_pesanan.kode_produk == tabel_produk.product_id</span></span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a><span class="st">            """</span>)</span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>('2023-11-05', 'Apel', 10)
+('2023-11-16', 'Jeruk nipis', 5)
+('2023-11-17', 'Brokoli', 15)
+('2023-11-16', 'Jeruk nipis', 20)
+('2023-11-15', 'Stroberi', 5)
+('2023-11-17', 'Wortel', 10)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">"pasar.sqlite3"</span>)</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>cur <span class="op">=</span> conn.cursor()</span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>cur.execute(<span class="st">"""SELECT tabel_pesanan.tanggal, tabel_produk.nama, tabel_pesanan.jumlah</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="st">            FROM tabel_pesanan INNER JOIN tabel_produk</span></span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a><span class="st">            ON tabel_pesanan.kode_produk == tabel_produk.product_id</span></span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a><span class="st">            WHERE tabel_pesanan.jam &gt; '12:00:00'</span></span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a><span class="st">            """</span>)</span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>semua_baris <span class="op">=</span> cur.fetchall()</span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> baris <span class="kw">in</span> semua_baris:</span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(baris)</span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>conn.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>('2023-11-05', 'Apel', 10)
+('2023-11-17', 'Brokoli', 15)
+('2023-11-15', 'Stroberi', 5)
+('2023-11-17', 'Wortel', 10)</code></pre>
 </div>
 </div>
 
