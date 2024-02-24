@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Bila diberikan <span class="math inline">\(n+1\)</span> titik <span class="math inline">\(x_0, x_1, \dots, x_n\)</span>, dan <span class="math inline">\(f\)</span> adalah fungsi yang nilainya pada titik-titik tersebut diberikan, maka <strong>polinom interpolasi Lagrange ke-n</strong> didefinisikan sebagai</p>
 <p><span class="math display">\[P(x) = f(x_0) L_{n,0}(x_0) + f(x_1) L_{n,1}(x_1) + \cdots f(x_n) L_{n,n}(x_n)\]</span></p>
 <p>di mana, untuk setiap <span class="math inline">\(k = 0, 1, \dots, n\)</span>,</p>
-<p><span class="math display">\[L_{n,k}(x) = \prod_{i=0 \\ i\ne k}^{n} \frac{x - x_i}{x_k - x_i}\]</span></p>
+<p><span class="math display">\[L_{n,k}(x) = \prod_{\substack{i=0 \\ i\ne k}}^{n} \frac{x - x_i}{x_k - x_i}\]</span></p>
 <p>di mana <span class="math inline">\(\Pi\)</span> atau pi besar melambangkan perkalian yang “berulang” atau “teriterasi”, layaknya <span class="math inline">\(\Sigma\)</span> (sigma besar) yang melambangkan penjumlahan yang “berulang” atau “teriterasi”. Perhatikan syarat <span class="math inline">\(i\ne k\)</span>.</p>
 <div class="cell" data-outputid="b619a59c-be89-4ea9-e4ab-9e3e9453e34f" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
@@ -691,10 +691,18 @@ Backward DD : 2.25000</code></pre>
 <p><span class="math display">\[\text{FR}(a, a+k) = \frac{\text{FR}(a+1, a+k) - \text{FR}(a, a+k-1)}{x_{a+k}-x_a}\]</span></p>
 <p>Dengan memasang <span class="math inline">\(b = a+k\)</span>, diperoleh</p>
 <p><span class="math display">\[\text{FR}(a, b) = \frac{\text{FR}(a+1, b) - \text{FR}(a, b-1)}{x_b-x_a}\]</span></p>
-<p>Menariknya, pada tabel, * nilai <span class="math inline">\(\text{FR}(a, b-1)\)</span> selalu terletak di sebelah kiri atas dari <span class="math inline">\(\text{FR}(a, b)\)</span> * nilai <span class="math inline">\(\text{FR}(a+1, b)\)</span> selalu terletak di sebelah kiri bawah dari <span class="math inline">\(\text{FR}(a, b)\)</span></p>
+<p>Menariknya, pada tabel,</p>
+<ul>
+<li>nilai <span class="math inline">\(\text{FR}(a, b-1)\)</span> selalu terletak di sebelah kiri atas dari <span class="math inline">\(\text{FR}(a, b)\)</span></li>
+<li>nilai <span class="math inline">\(\text{FR}(a+1, b)\)</span> selalu terletak di sebelah kiri bawah dari <span class="math inline">\(\text{FR}(a, b)\)</span></li>
+</ul>
 <p>Dengan demikian, bisa saja kita memrogram perhitungan NDD menggunakan tabel.</p>
 <p>Seolah-olah, rumusnya adalah “kiri bawah dikurang kiri atas, dibagi <span class="math inline">\(x_b - x_a\)</span>”.</p>
-<p>Selain itu, untuk data sebanyak <span class="math inline">\(n+1\)</span>, * ada sebanyak <span class="math inline">\(n\)</span> kolom <em>divided difference</em>. * dengan banyak kotak kosong (seperti pada gambar di atas), tabel utama terdiri dari <span class="math inline">\(2n+1\)</span> baris dan <span class="math inline">\(n+1\)</span> kolom, termasuk kolom <span class="math inline">\(f(x_i)\)</span> tetapi tidak termasuk kolom <span class="math inline">\(x_i\)</span>.</p>
+<p>Selain itu, untuk data sebanyak <span class="math inline">\(n+1\)</span>,</p>
+<ul>
+<li>ada sebanyak <span class="math inline">\(n\)</span> kolom <em>divided difference</em>.</li>
+<li>dengan banyak kotak kosong (seperti pada gambar di atas), tabel utama terdiri dari <span class="math inline">\(2n+1\)</span> baris dan <span class="math inline">\(n+1\)</span> kolom, termasuk kolom <span class="math inline">\(f(x_i)\)</span> tetapi tidak termasuk kolom <span class="math inline">\(x_i\)</span>.</li>
+</ul>
 <p>Dengan demikian, kita dapat menghitung banyaknya data (yang kita anggap sebanyak <span class="math inline">\(n+1\)</span>), kemudian menghitung <span class="math inline">\(n\)</span> (tinggal dikurang 1), lalu mulai membangun tabel berdasarkan sifat baris dan kolom tersebut.</p>
 <p>Istilah “tabel utama” yang kita gunakan di sini merujuk pada tabel <em>divided difference</em> dari kolom <span class="math inline">\(f(x_k)\)</span> sampai kolom <em>divided difference</em> ke-n, tanpa adanya kolom <span class="math inline">\(x_i\)</span> maupun <span class="math inline">\(i\)</span>. Untuk ke depannya, tabel <em>divided difference</em> yang lengkap (yang termasuk kolom <span class="math inline">\(x_i\)</span> dan <span class="math inline">\(i\)</span>) akan kita sebut “tabel besar”, dibedakan dengan tabel utama.</p>
 <div class="cell" data-execution_count="8">
@@ -816,13 +824,23 @@ Tabel Newton Divided Difference:
 </ol>
 <p><span class="math display">\[P_n (x) = f[x_0] + \sum_{k=1}^{n} \text{FR}(0, k) \left( \prod_{j=0}^{k-1} (x-x_j) \right)\]</span></p>
 <p>atau, mengingat bahwa <span class="math inline">\(\text{FR}(0, 0) = f[x_0]\)</span>, kemudian menjabarkan,</p>
-<p><span class="math display">\[P_n (x) = \text{FR}(0, 0) + \text{FR}(0, 1) (x-x_0) + \text{FR}(0, 2) (x-x_0)(x-x_1) + \dots + \text{FR}(0, n)\prod_{j=0}^{n-1} (x-x_j)\]</span></p>
+<p>[ <span class="math display">\[\begin{align*}
+P_n (x) = \text{FR}(0, 0) &amp;+ \text{FR}(0, 1) (x-x_0) \\
+&amp;+ \text{FR}(0, 2) (x-x_0)(x-x_1) \\
+&amp;+ \dots \\
+&amp;+ \text{FR}(0, n)\prod_{j=0}^{n-1} (x-x_j)
+\end{align*}\]</span> ]</p>
 <ol start="2" type="1">
 <li>Backward DD</li>
 </ol>
 <p><span class="math display">\[P_n (x) = f[x_n] + \sum_{k=1}^{n} \text{FR}(n-k, n) \left( \prod_{j=n-k+1}^{n} (x-x_j) \right)\]</span></p>
 <p>atau, mengingat bahwa <span class="math inline">\(\text{FR}(n, n) = f[x_n]\)</span>, kemudian menjabarkan,</p>
-<p><span class="math display">\[P_n (x) = \text{FR}(n, n) + \text{FR}(n-1, n) (x-x_n) + \text{FR}(n-2, n) (x-x_{n-1}) (x-x_n) + \dots + \text{FR}(0, n) \prod_{j=1}^{n} (x-x_j)\]</span></p>
+<p>[ <span class="math display">\[\begin{align*}
+P_n (x) = \text{FR}(n, n) &amp;+ \text{FR}(n-1, n) (x-x_n) \\
+&amp;+ \text{FR}(n-2, n) (x-x_{n-1}) (x-x_n) \\
+&amp;+ \dots \\
+&amp;+ \text{FR}(0, n) \prod_{j=1}^{n} (x-x_j)
+\end{align*}\]</span> ]</p>
 <div class="cell" data-outputid="6e97f868-118f-45f5-b2f2-f9a563ebc574" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># jaga-jaga ada konstanta pi pada data titik-titik yang diberikan</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> pi</span>
@@ -951,7 +969,11 @@ Backward DD : 0.511819994238684</code></pre>
 <li>metode interpolasi Hermite tidak bisa digunakan apabila hanya ada data <span class="math inline">\(f(x)\)</span> tanpa data <span class="math inline">\(f'(x)\)</span>. Apabila hanya sebagian titik <span class="math inline">\(x\)</span> yang diketahui nilai <span class="math inline">\(f'(x)\)</span> nya, metode ini tetap tidak bisa digunakan.</li>
 <li>metode interpolasi Hermite biasanya akan lebih akurat dibandingkan metode interpolasi yang telah dibahas sebelumnya.</li>
 </ul>
-<p>Ada dua cara untuk melakukan interpolasi Hermite, yaitu * melalui polinom Lagrange, * menggunakan tabel <em>divided difference</em> dengan modifikasi (Hermite Divided Difference).</p>
+<p>Ada dua cara untuk melakukan interpolasi Hermite, yaitu</p>
+<ul>
+<li>melalui polinom Lagrange,</li>
+<li>menggunakan tabel <em>divided difference</em> dengan modifikasi (Hermite Divided Difference).</li>
+</ul>
 <p>Secara teori, untuk <span class="math inline">\(n+1\)</span> titik <span class="math inline">\(x_0, x_1, x_2, \dots, x_{n-1}, x_n\)</span>, bentuk umum polinom Hermite dengan polinom Lagrange adalah sebagai berikut, disebut polinom Hermite ke-<span class="math inline">\((2n+1)\)</span>:</p>
 <p><span class="math display">\[H_{2n+1} (x) = \sum_{j=0}^{n} f(x_j) H_{n,j} (x) + \sum_{j=0}^{n} f'(x_j) {\hat{H}}_{n,j} (x)\]</span></p>
 <p>di mana fungsi <span class="math inline">\(H_{n,j} (x)\)</span> dan <span class="math inline">\({\hat{H}}_{n,j} (x)\)</span> ditentukan menggunakan polinom Lagrange:</p>
@@ -960,11 +982,24 @@ Backward DD : 0.511819994238684</code></pre>
 <p>Bentuk umum di atas memang terlihat sulit dihitung. Namun, dengan beberapa manipulasi aljabar, kita bisa menyusun rumus polinom Hermite sedemikian sehingga nantinya kita tinggal memodifikasi kode polinom Lagrange.</p>
 <p>Pertama-tama, kita bisa menyatukan kedua sumasi:</p>
 <p><span class="math display">\[H_{2n+1} (x) = \sum_{j=0}^{n} \left[ f(x_j) H_{n,j} (x) + f'(x_j) {\hat{H}}_{n,j} (x) \right]\]</span></p>
-<p>Mari kita ubah nama fungsi: * <span class="math inline">\(H_{n,j} (x)\)</span> menjadi <span class="math inline">\(H_{\text{biasa}}\)</span> * <span class="math inline">\({\hat{H}}_{n,j} (x)\)</span> menjadi <span class="math inline">\(H_{\text{topi}}\)</span> * <span class="math inline">\(H_{2n+1} (x)\)</span> menjadi <span class="math inline">\(H_{\text{final}}\)</span> * <span class="math inline">\({L}_{n,j} (x)\)</span> menjadi <span class="math inline">\(L_{\text{biasa}}\)</span> * <span class="math inline">\({L'}_{n,j} (x)\)</span> menjadi <span class="math inline">\(L_{\text{prime}}\)</span> (L turunan) * <span class="math inline">\({L'}_{n,j} (x_j)\)</span> menjadi <span class="math inline">\(L_{\text{primexj}}\)</span> * <span class="math inline">\(f(x_j)\)</span> menjadi <span class="math inline">\(y_j\)</span> * <span class="math inline">\(f'(x_j)\)</span> menjadi <span class="math inline">\(p_j\)</span></p>
+<p>Mari kita ubah nama fungsi:</p>
+<ul>
+<li><span class="math inline">\(H_{n,j} (x)\)</span> menjadi <span class="math inline">\(H_{\text{biasa}}\)</span></li>
+<li><span class="math inline">\({\hat{H}}_{n,j} (x)\)</span> menjadi <span class="math inline">\(H_{\text{topi}}\)</span></li>
+<li><span class="math inline">\(H_{2n+1} (x)\)</span> menjadi <span class="math inline">\(H_{\text{final}}\)</span></li>
+<li><span class="math inline">\({L}_{n,j} (x)\)</span> menjadi <span class="math inline">\(L_{\text{biasa}}\)</span></li>
+<li><span class="math inline">\({L'}_{n,j} (x)\)</span> menjadi <span class="math inline">\(L_{\text{prime}}\)</span> (L turunan)</li>
+<li><span class="math inline">\({L'}_{n,j} (x_j)\)</span> menjadi <span class="math inline">\(L_{\text{primexj}}\)</span></li>
+<li><span class="math inline">\(f(x_j)\)</span> menjadi <span class="math inline">\(y_j\)</span></li>
+<li><span class="math inline">\(f'(x_j)\)</span> menjadi <span class="math inline">\(p_j\)</span></li>
+</ul>
 <p>Sehingga rumusan kita menjadi:</p>
 <p><span class="math display">\[H_{\text{biasa}} (x) = \left[1 - 2(x-x_j) L_{\text{primexj}}\right] \left(L_{\text{biasa}} (x)\right)^2\]</span></p>
 <p><span class="math display">\[H_{\text{topi}} (x) = (x-x_j) \left(L_{\text{biasa}} (x)\right)^{2}\]</span></p>
-<p><span class="math display">\[H_{\text{final}} = \sum_{j=0}^{n} \left[ y_j H_{\text{biasa}} (x_j) + p_j H_{\text{topi}} (x_j) \right] = \left[ y_0 H_{\text{biasa}} (x_0) + p_0 H_{\text{topi}} (x_0) \right] + \dots + \left[ y_n H_{\text{biasa}} (x_n) + p_n H_{\text{topi}} (x_n) \right]\]</span></p>
+<p>[ <span class="math display">\[\begin{align*}
+H_{\text{final}} &amp;= \sum_{j=0}^{n} \left[ y_j H_{\text{biasa}} (x_j) + p_j H_{\text{topi}} (x_j) \right] \\
+&amp;= \left[ y_0 H_{\text{biasa}} (x_0) + p_0 H_{\text{topi}} (x_0) \right] + \dots + \left[ y_n H_{\text{biasa}} (x_n) + p_n H_{\text{topi}} (x_n) \right]
+\end{align*}\]</span> ]</p>
 <p>Kita dapat menyusun strategi (atau algoritma) untuk menghitung fungsi <span class="math inline">\(H_{\text{final}}\)</span> secara pemrograman:</p>
 <ol type="1">
 <li>Input data <span class="math inline">\(x_j\)</span>, <span class="math inline">\(y_j\)</span>, <span class="math inline">\(p_j\)</span> untuk <span class="math inline">\(j = 0, 1, 2, \dots, n\)</span></li>
