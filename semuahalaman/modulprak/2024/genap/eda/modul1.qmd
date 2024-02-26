@@ -1,8 +1,9 @@
 ---
-title: "Python for Data Analysis"
+title: "1) Python for Data Analysis"
+subtitle: "Intro to Pandas"
 image: static\images\eda_py_img.png
-description: "Intro to Data Analytics Libraries in Python"
-date: 02/07/2024
+description: "Offline di Departemen Matematika: sesi 1 di lab komputer D.311, sesi 2 di lab statistika D.406"
+date: 02/27/2024
 page-navigation: true
 jupyter: python3
 format: html
@@ -397,17 +398,19 @@ df[['Name']]
 ```
 
 :::{.callout-important}
-Perhatikan perbedaan output tabel ketika menggunakan `df[[]]` dan `[]`
+| `df['<column-name>']` akan mengembalikan kolom yang bersesuaian dalam bentuk Series. 
+| `df[['<column-name>']]` akan mengembalikan kolom yang bersesuaian dalam bentuk dataframe.
 :::
 
 ```{python}
 df[['Name','HP','Defense']]
 ```
-
+___
+Kita bisa membuat suatu kolom baru dari kolom-kolom yang sudah ada. Misalkan kita buat suatu variabel bernama `Total Attack` yang berisi hasil penjumlahan variabel `Attack` dan `Sp. Atk`
 ```{python}
-
+df['Total Attack'] = df['Attack'] + df['Sp. Atk']
+df[['Attack','Sp. Atk','Total Attack']]
 ```
-
 ___
 Untuk indexing baris suatu dataframe, gunakan index baris
 
@@ -433,8 +436,36 @@ df[df['HP'] > 50]  # Mengambil data pada dataframe df yang memiliki nilai kolom 
 ```
 
 ```{python}
-df[(df['HP'] > 50) & (df['Type 1'] == 'Fire')]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` > 50 dan `Type 1` == Fire
+df[(df['HP'] > 100) & (df['Type 1'] == 'Fire')]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` > 100 dan `Type 1` == Fire
 ```
 
+```{python}
+df[(df['HP'] > 100) | (df['Type 1'] == 'Fire')]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` > 100 atau `Type 1` == Fire
+```
+
+Untuk filter yang lebih rumit, disarankan untuk mendefinisikan variabel `condition` agar kode mudah terbaca.
+
+Contoh : Filter (`HP` >= 150) dan ((`Type 1` == Water) atau (`Legendary` == True))
+```{python}
+condition = (df['HP'] >= 150) & ((df['Type 1'] == 'Water') | (df['Legendary'] == True))
+df[condition]
+```
 
 </div>
+___
+
+# Case Study (Toko Baju Unikloh)
+<div style='text-align: justify;'>
+Link Dataset : [Data Penjualan Toko Baju Unikloh](https://drive.google.com/file/d/15QnrvA6-0rlF-bh3n3Fylmfq07XSDRXk/view?usp=sharing)
+
+Sebuah toko baju unikloh membutuhkan jasa seorang analis untuk menganalisis data penjualan baju yang mereka miliki. Sebelum itu, Pak Joko selaku pemilik toko ingin tahu beberapa hal mengenai data yang dia miliki. Berikut yang beliau minta :
+
+1. Ada berapa banyak data penjualan kita?
+2. Beliau minta 10 data pertama untuk melihat gambaran umum nilai masing-masing variabel.
+3. Beliau mau fokus melihat kolom `price_per_unit` dan `quantity` saja.
+4. Harusnya di data ini ada kolom total harga pembelian yang dinamain `total_price`, tapi sepertinya kolomnya hilang. Tolong buatkan kolomnya berdasarkan data yang ada.
+5. Beliau mau tau ada berapa banyak penjualan yang total harganya lebih besar dari $200
+6. Beliau mau tau ada berapa banyak penjualan yang total harganya berada di kisaran $200-250
+7. Terakhir, Beliau mau tau ada berapa banyak penjualan yang total harganya di kisaran $200-250 + penjualan 3 barang dalam satu pesanan.
+</div>
+___
