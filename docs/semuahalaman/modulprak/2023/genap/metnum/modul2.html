@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab Praktikum Departemen Matematika FMIPA UI - SymPy</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,6 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -97,6 +104,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
 
@@ -104,9 +138,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../../../../index.html">
     <span class="navbar-title">Lab Praktikum Departemen Matematika FMIPA UI</span>
     </a>
@@ -118,21 +152,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../../../index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="../../../../../index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../../semuahalaman/about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../../../../semuahalaman/about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../../../semuahalaman/praktikum.html" rel="" target="">
- <span class="menu-text">Praktikum</span></a>
+    <a class="nav-link" href="../../../../../semuahalaman/praktikum.html"> 
+<span class="menu-text">Praktikum</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -145,7 +179,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#metode-bisection" id="toc-metode-bisection" class="nav-link active" data-scroll-target="#metode-bisection">Metode Bisection</a></li>
+  <li><a href="#sympy" id="toc-sympy" class="nav-link active" data-scroll-target="#sympy">SymPy</a></li>
+  <li><a href="#metode-bisection" id="toc-metode-bisection" class="nav-link" data-scroll-target="#metode-bisection">Metode Bisection</a></li>
   <li><a href="#metode-fixed-point" id="toc-metode-fixed-point" class="nav-link" data-scroll-target="#metode-fixed-point">Metode Fixed-Point</a></li>
   <li><a href="#metode-newton-biasa-dengan-turunan-analitik" id="toc-metode-newton-biasa-dengan-turunan-analitik" class="nav-link" data-scroll-target="#metode-newton-biasa-dengan-turunan-analitik">Metode Newton biasa (dengan turunan analitik)</a></li>
   <li><a href="#metode-newton-dengan-beda-hingga-finite-difference-newtons-method" id="toc-metode-newton-dengan-beda-hingga-finite-difference-newtons-method" class="nav-link" data-scroll-target="#metode-newton-dengan-beda-hingga-finite-difference-newtons-method">Metode Newton dengan Beda Hingga (<em>Finite-Difference Newton’s Method</em>)</a></li>
@@ -160,22 +195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">SymPy</h1>
-</div>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-</header>
 
 <p><strong>Praktikum Metode Numerik - Pertemuan 2</strong></p>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2023/genap/metnum/metnum2023genap.html">Metode Numerik</a></p>
@@ -192,16 +213,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Metode Aitken</li>
 <li>Metode Steffensen: Penerapan Metode Aitken pada Metode Fixed Point</li>
 </ul>
+<section id="sympy" class="level1">
+<h1>SymPy</h1>
 <p>Dalam pembelajaran metode numerik, seringkali kita perlu membandingkan hasil aproksimasi kita dengan nilai yang sesungguhnya. Seringkali pula, sebenarnya nilai yang sesungguhnya itu dapat kita peroleh (karena kita masih dalam tahap belajar; penerapan metode numerik di dunia nyata adalah pada kasus di mana nilai eksak tidak dapat diperoleh).</p>
 <p>Hasil perhitungan eksak (seperti perhitungan menggunakan aljabar biasa atau ilmu kalkulus) juga disebut hasil perhitungan analitik atau simbolik. Istilah “analitik” bisa dianggap antonim dari istilah “numerik”.</p>
 <p>Di Python, ada module/package bernama SymPy (<em>symbolic Python</em>) yang dapat melakukan perhitungan simbolik, seperti menghitung turunan, yang misalnya digunakan di metode Newton.</p>
 <p>(Fun fact: aplikasi/package di komputer yang dapat melakukan perhitungan simbolik disebut <em>Computer Algebra System</em> (CAS). Beberapa contoh CAS adalah SymPy, Wolfram Mathematica, dan Maple.)</p>
 <p>Mari kita import sympy:</p>
-<div class="cell" data-execution_count="1">
+<div id="cell-5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Seperti untuk NumPy dan tabulate, apabila terjadi error karena sympy tidak ditemukan, artinya package sympy belum terinstall, dan bisa di-install menggunakan <code>pip install sympy</code> (atau dengan tanda seru: <code>!pip install sympy</code>)</p>
-<div class="cell" data-outputid="e02f0634-926a-400f-e357-7f55d5fdbeea" data-execution_count="2">
+<div id="cell-7" class="cell" data-outputid="e02f0634-926a-400f-e357-7f55d5fdbeea" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pip install sympy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Requirement already satisfied: sympy in /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages (1.11.1)
@@ -210,13 +233,13 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </div>
 <p>Tentunya, penggunaan SymPy melibatkan variabel. Misalnya, kita ingin melakukan perhitungan simbolik dengan variabel <span class="math inline">\(x\)</span>. Kita perlu memberitahu SymPy, dengan syntax seperti berikut:</p>
-<div class="cell" data-execution_count="3">
+<div id="cell-9" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.symbols(<span class="st">"x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Artinya, kita baru saja memberitahu SymPy bahwa, pada string apapun yang dijumpai oleh SymPy, huruf “x” perlu dianggap sebagai simbol, atau lebih tepatnya sebagai variabel.</p>
 <p>Perhatikan pula bahwa kode di atas adalah <em>assignment</em> ke variabel pemrograman yang juga bernama <code>x</code>. Dengan demikian, untuk ke depannya, variabel <code>x</code> yang kita ketik di mana saja pada program kita akan dianggap sebagai variabel “x” oleh SymPy.</p>
 <p>Dengan variabel <code>x</code> tersebut, kita dapat mendefinisikan suatu <em>expression</em> (ekspresi atau kalimat matematika), misal <span class="math inline">\(5x^4\)</span>, seperti berikut:</p>
-<div class="cell" data-outputid="eee4bf1d-5b54-4298-af97-cf5ecb604ed0" data-execution_count="4">
+<div id="cell-12" class="cell" data-outputid="eee4bf1d-5b54-4298-af97-cf5ecb604ed0" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>polinom <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> (x <span class="op">**</span> <span class="dv">4</span>) <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(polinom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -224,7 +247,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </div>
 <p>SymPy memiliki fitur <code>pprint</code> (<em>pretty print</em>), yaitu menampilkan suatu ekspresi secara cantik atau indah, layaknya seperti kita tulis di kertas:</p>
-<div class="cell" data-outputid="99662fef-797f-416d-cd25-67c37352f568" data-execution_count="5">
+<div id="cell-14" class="cell" data-outputid="99662fef-797f-416d-cd25-67c37352f568" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sympy.pprint(polinom)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   4
@@ -234,7 +257,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </div>
 <p>Untuk melakukan diferensiasi atau menghitung turunan (dalam hal ini secara simbolik/analitik), gunakan <code>sympy.diff</code>:</p>
-<div class="cell" data-outputid="619b90bc-6184-4505-c5fc-3534a0d3e43e" data-execution_count="6">
+<div id="cell-16" class="cell" data-outputid="619b90bc-6184-4505-c5fc-3534a0d3e43e" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>turunan <span class="op">=</span> sympy.diff(polinom, x)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sympy.pprint(turunan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -244,7 +267,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 <p>dengan begitu, SymPy menghitung turunan dari ekspresi <code>polinom</code> yang kita berikan itu, terhadap variabel <code>x</code>. Sebenarnya, mengetik <code>sympy.diff(polinom)</code> saja sudah cukup, tapi lebih lengkap lebih baik.</p>
 <p>Sejauh ini, semua ekspresi yang kita jumpai masih berbentuk simbol/tulisan, sehingga kita belum bisa men-substitusi variabel x dengan sembarang nilai. Misalnya kita ingin menjadikan ekspresi di atas sebagai suatu fungsi <code>func(x)</code>, di mana kita bisa memasukkan nilai <code>x</code> apapun dan mendapatkan hasil. Caranya adalah menggunakan <code>sympy.lambdify</code>:</p>
-<div class="cell" data-outputid="3069d3fc-beef-4721-d604-807c8c78fda3" data-execution_count="7">
+<div id="cell-19" class="cell" data-outputid="3069d3fc-beef-4721-d604-807c8c78fda3" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>func <span class="op">=</span> sympy.lambdify(x, turunan)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(func(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -253,10 +276,10 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 <p>Pada syntax <code>lambdify</code> di atas, kita perlu memberitahu SymPy terlebih dahulu, variabel apa yang digunakan pada ekspresi tersebut; barulah kita tuliskan ekspresinya. Dalam hal ini, kita mengetik <code>sympy.lambdify(x, turunan)</code> karena sedang menggunakan variabel <code>x</code> untuk ekspresi <code>turunan</code> yang ingin kita ubah menjadi fungsi yang bisa di-substitusi nilai x nya.</p>
 <p>Fungsi hasil <code>lambdify</code> sudah bisa digunakan seperti fungsi lainnya pada Python. Bahkan, kita bisa mencampur penggunaan SymPy dengan NumPy (maupun <em>package</em> lainnya). Contohnya, setelah tadi memperoleh <code>func(x)</code> dari SymPy:</p>
-<div class="cell" data-execution_count="8">
+<div id="cell-22" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="f2f9871e-7a07-4d18-9f3f-b95685afa64a" data-execution_count="9">
+<div id="cell-23" class="cell" data-outputid="f2f9871e-7a07-4d18-9f3f-b95685afa64a" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(func(arr))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -264,7 +287,7 @@ Note: you may need to restart the kernel to use updated packages.</code></pre>
 </div>
 </div>
 <p>Seperti NumPy, SymPy juga memiliki fungsi <code>sin</code>, <code>cos</code>, <code>log</code>, <code>exp</code> dll, sehingga kita bisa melakukan perhitungan analitik yang melibatkan fungsi-fungsi tersebut.</p>
-<div class="cell" data-outputid="838fcd4b-cc60-44d3-df57-a08f314db048" data-scrolled="true" data-execution_count="10">
+<div id="cell-25" class="cell" data-outputid="838fcd4b-cc60-44d3-df57-a08f314db048" data-scrolled="true" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> sympy.cos(x) <span class="op">+</span> sympy.exp(<span class="op">-</span><span class="dv">5</span><span class="op">*</span>x)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Fungsinya:"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sympy.pprint(g)</span>
@@ -284,20 +307,21 @@ Turunannya:
 <p>Meskipun kita bisa saja melakukan, misalnya, <code>from sympy import cos</code>, hal tersebut tidak disarankan, apalagi ketika program kita juga menggunkaan NumPy dengan <code>from numpy import cos</code> atau bahkan <code>from numpy import *</code>. Alasannya, dengan begitu, program bisa menjadi membingungkan, karena tidak ada pembeda antara <code>cos</code> dari NumPy (numerik) dengan <code>cos</code> dari SymPy (analitik/simbolik).</p>
 <p>Namun, kalau Anda berhati-hati dan hanya melakukan hal tersebut untuk salah satu package saja, silakan.</p>
 <p>Menariknya, SymPy bisa jadi lebih unggul daripada NumPy untuk beberapa perhitungan yang melibatkan akurasi tinggi, terutama untuk perhitungan yang sebenarnya bersifat analitik. Misalnya, kita tahu bahwa <span class="math inline">\(\sin(\pi) = 0\)</span>. Menurut SymPy,</p>
-<div class="cell" data-outputid="e94d48c2-dabc-4bd6-ced8-9063904b1747" data-execution_count="11">
+<div id="cell-28" class="cell" data-outputid="e94d48c2-dabc-4bd6-ced8-9063904b1747" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Menurut SymPy, sin(pi) = "</span> <span class="op">+</span> <span class="bu">str</span>(sympy.sin(sympy.pi)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Menurut SymPy, sin(pi) = 0</code></pre>
 </div>
 </div>
 <p>karena SumPy menghitung nilai sin dari <span class="math inline">\(\pi\)</span> secara analitik, yaitu tanpa perlu menghitung nilai <span class="math inline">\(\pi\)</span> (karena nilainya sudah jelas nol berdasarkan sifat fungsi sin). Sedangkan, NumPy mengaproksimasi nilai <span class="math inline">\(\pi\)</span> terlebih dahulu, barulah hasil aproksimasi tersebut yang masuk ke fungsi sin. Hasil perhitungan fungsi sin tersebut pun juga aproksimasi, sehingga didapatkan hasil seperti berikut, yaitu sangat kecil tetapi bukan nol:</p>
-<div class="cell" data-outputid="ccc77ade-7cec-4300-e8be-632cb7439608" data-execution_count="12">
+<div id="cell-30" class="cell" data-outputid="ccc77ade-7cec-4300-e8be-632cb7439608" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Menurut NumPy, sin(pi) = "</span> <span class="op">+</span> <span class="bu">str</span>(np.sin(np.pi)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Menurut NumPy, sin(pi) = 1.2246467991473532e-16</code></pre>
 </div>
 </div>
 <p>di mana “e-16” artinya “dikali 10 pangkat -16”.</p>
+</section>
 <section id="metode-bisection" class="level1">
 <h1>Metode Bisection</h1>
 <p>Metode Bisection adalah salah satu metode yang dapat kita gunakan dalam masalah pencarian akar (<strong>root finding</strong>). Akar dari suatu persamaan didefinisikan sebagai nilai <span class="math inline">\(x\)</span> yang memenuhi <span class="math inline">\(f(x) = 0\)</span>. Misalkan <span class="math inline">\(f\)</span> adalah suatu fungsi kontinu terdefinisi di <span class="math inline">\([a,b]\)</span>, di mana <span class="math inline">\(f(a)\)</span> dan <span class="math inline">\(f(b)\)</span> berlawanan tanda (sehingga pasti ada akar pada interval tersebut, menurut Teorema Nilai Antara / <em>Intermediate Value Theorem</em>).</p>
@@ -321,7 +345,7 @@ Turunannya:
 <li>jika <span class="math inline">\(f(p)f(a) &lt; 0\)</span>, maka <span class="math inline">\(sign(f(p)) \neq sign (f(a))\)</span>, atau <span class="math inline">\(sign(f(p)) = sign(f(b))\)</span>. Sehingga, kita dapat mempersempit interval dengan memilih batasan baru yaitu a tidak berubah dan b = p.</li>
 </ul>
 <p>Metode Bisection memiliki <em>order of convergence</em> = 1, atau disebut memiliki kekonvergenan linier (<em>linear convergence</em>). Artinya, dalam proses menemukan akar persamaan (konvergen menuju jawabannya), metode Bisection tidak secepat beberapa metode lainnya yang memiliki <em>order of convergence</em> yang lebih tinggi.</p>
-<div class="cell" data-outputid="ae6cf364-ab0a-43dd-eeda-15b6b2d6d656" data-execution_count="13">
+<div id="cell-34" class="cell" data-outputid="ae6cf364-ab0a-43dd-eeda-15b6b2d6d656" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt, pi</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">'Masukkan formula fungsi: '</span>)</span>
@@ -414,7 +438,7 @@ Akar persamaan 2*x - 3*cos(x) + exp(-5*x) - 9 = 0 adalah x = -0.5073225</code></
 <p>Kebetulan, konstanta berikut ini yang berlambang phi kecil (<span class="math inline">\(\phi\)</span>),</p>
 <p><span class="math display">\[\phi = \frac{1+\sqrt{5}}{2}\]</span></p>
 <p>adalah konstanta istimewa yang bernama <em>golden ratio</em>.</p>
-<div class="cell" data-outputid="1d44dfb6-a6c7-439d-ffe5-e192c6f24ac1" data-execution_count="14">
+<div id="cell-38" class="cell" data-outputid="1d44dfb6-a6c7-439d-ffe5-e192c6f24ac1" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> cos, sin, tan, log, exp, sqrt</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -498,7 +522,7 @@ Ditemukan fixed point dari g(x) = 1 + 1/x yaitu x = 1.6180340</code></pre>
 <p>Metode Newton juga dapat dipandang sebagai metode fixed-point dengan <span class="math inline">\(g(x) = x - \frac{f(x)}{f'(x)}\)</span></p>
 <p>Metode Newton gagal apabila, pada suatu iterasi, tiba-tiba <span class="math inline">\(f'(p_n) = 0\)</span>.</p>
 <p>Pada umumnya, Metode Newton memiliki <em>order of convergence</em> = 2, atau juga disebut memiliki kekonvergenan kuadratik (<em>quadratic convergence</em>). Artinya, selama berhasil, Metode Newton lebih cepat daripada Metode Bisection maupun Metode Fixed-Point.</p>
-<div class="cell" data-outputid="387cad9f-b6a7-4ab6-918d-86450c871bb3" data-execution_count="15">
+<div id="cell-41" class="cell" data-outputid="387cad9f-b6a7-4ab6-918d-86450c871bb3" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -556,7 +580,7 @@ Akar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.5073225<
 <p>dengan tebakan awal <span class="math inline">\(p_0\)</span>. Perhatikan bahwa <span class="math inline">\(f'(p_{n-1})\)</span> pada metode Newton yang biasa itu telah digantikan dengan</p>
 <p><span class="math display">\[f'(p_{n-1}) \approx \frac{f(p_{n-1}+h) - f(p_{n-1})}{h}\]</span></p>
 <p>Tujuan modifikasi tersebut adalah agar iterasi dapat dilakukan pada titik di mana turunannya tidak ada, atau ketika turunan analitik sulit diperoleh.</p>
-<div class="cell" data-outputid="bd10a9c3-0485-4029-e174-d5b4f8ab141f" data-execution_count="16">
+<div id="cell-44" class="cell" data-outputid="bd10a9c3-0485-4029-e174-d5b4f8ab141f" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan fungsi: "</span>)</span>
@@ -604,7 +628,7 @@ Akar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.5073225<
 <p><span class="math display">\[f'(p_{n-1}) \approx \frac{f(p_{n-1}) - f(p_{n-2})}{p_{n-1} - p_{n-2}}\]</span></p>
 <p>sehingga, tidak seperti Metode Newton yang hanya memerlukan satu tebakan awal, Metode Secant membutuhkan dua tebakan awal, yaitu <span class="math inline">\(p_0\)</span> dan <span class="math inline">\(p_1\)</span>. Namun, dibandingkan dengan Metode Newton dengan Beda Hingga, nilai <span class="math inline">\(h\)</span> atau beda hingga tersebut tidak perlu ditentukan secara manual.</p>
 <p>Menariknya, Metode Secant memiliki <em>order of convergence = <span class="math inline">\(\phi \approx 1.618\)</span>.</em></p>
-<div class="cell" data-outputid="7cb488cd-20e7-4972-b370-0105b2e9ed82" data-execution_count="17">
+<div id="cell-47" class="cell" data-outputid="7cb488cd-20e7-4972-b370-0105b2e9ed82" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan formula fungsi: "</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -690,7 +714,7 @@ Akar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.5073225<
 <p><strong>Catatan</strong>: dalam pembahasan metode Aitken/Steffensen, penulisan <span class="math inline">\(\Delta^2\)</span> BUKAN berarti <span class="math inline">\((\Delta)^2\)</span>. Itu hanya penulisan saja.</p>
 <p>Secara umum, apabila kita punya suku-suku suatu barisan yang berturut-turut yaitu <span class="math inline">\(p_1, p_2, p_3, \dots, p_{k-3}, p_{k-2}, p_{k-1}, p_{k}\)</span>, maka rumus Aitken bisa digunakan untuk menentukan <span class="math inline">\(\hat{p}_1, \hat{p}_2, \hat{p}_3, \dots, \hat{p}_{k-3}, \hat{p}_{k-2}\)</span>, yang semuanya merupakan aproksimasi nilai yang lebih akurat untuk hasil konvergen dari barisan tersebut (dengan asumsi kekonvergenan linier).</p>
 <p>Perhatikan: - Kita hanya bisa berhenti sampai <span class="math inline">\(\hat{p}_{k-2}\)</span>, karena perhitungannya membutuhkan <span class="math inline">\(p_{k-2}\)</span>, <span class="math inline">\(p_{k-1}\)</span> dan <span class="math inline">\(p_k\)</span>. - Harus ada minimal 3 suku yang diketahui, artinya <span class="math inline">\(k \ge 3\)</span>.</p>
-<div class="cell" data-outputid="83602a68-58d8-44f9-e9c1-6d5a5426ab9c" data-execution_count="18">
+<div id="cell-54" class="cell" data-outputid="83602a68-58d8-44f9-e9c1-6d5a5426ab9c" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Aitken(p):</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">len</span>(p)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> k <span class="op">&lt;</span> <span class="dv">3</span>:</span>
@@ -729,7 +753,7 @@ Berikut hasil metode Aitken:
 <p><span class="math display">\[\hat{p} = p_{n-3} - \frac{\left(p_{n-2} - p_{n-3}\right)^2}{p_{n-1} - 2p_{n-2} + p_{n-3}}\]</span></p>
 <p>dan dalam hal ini, kita juga bisa mendefinisikan <span class="math inline">\(\Delta_1 = p_{n-2} - p_{n-3}\)</span> dan <span class="math inline">\(\Delta_2 = p_{n-1} - 2p_{n-2} + p_{n-3}\)</span> untuk mendapatkan bentuk:</p>
 <p><span class="math display">\[\hat{p} = p_{n-3} - \frac{(\Delta_1)^2}{(\Delta_2)}\]</span></p>
-<div class="cell" data-outputid="ca037e0b-f371-4a1e-b0e5-655c56b83675" data-execution_count="19">
+<div id="cell-57" class="cell" data-outputid="ca037e0b-f371-4a1e-b0e5-655c56b83675" data-scrolled="false" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan formula fungsi: "</span>)</span>
@@ -892,10 +916,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -905,8 +928,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -919,6 +951,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -962,6 +1113,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -987,6 +1139,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1047,6 +1225,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
