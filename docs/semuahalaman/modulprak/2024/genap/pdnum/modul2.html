@@ -410,7 +410,7 @@ error: called from
 </div>
 </div>
 <p>Perhatikan bahwa kita bisa mengindeks <em>cell array</em> tersebut untuk memperoleh suatu fungsi yang kemudian langsung bisa dipanggil. Misalnya, dipilih indeks ketiga yaitu fungsi <span class="math inline">\(h(x,y)\)</span>, kemudian langsung dipanggil dengan <span class="math inline">\(x=\frac{\pi}{2}\)</span> dan <span class="math inline">\(y=0\)</span>.</p>
-<p>Sebenarnya, <em>cell array</em> ini adalah <em>array</em> biasa yang bisa menyimpan apapun (tidak seperti <em>array</em> biasa yang hanya bisa menyimpan nilai numerik).</p>
+<p>Sebenarnya, <em>cell array</em> ini adalah sejenis <em>array</em> yang bisa menyimpan apapun (tidak seperti <em>array</em> biasa yang hanya bisa menyimpan nilai numerik).</p>
 <div class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>test_cell <span class="op">=</span> {<span class="fl">9</span><span class="op">,</span> <span class="fl">8</span><span class="op">,</span> <span class="fl">7</span>}<span class="op">;</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>test_cell{<span class="fl">2</span>} <span class="op">*</span> <span class="fl">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -442,7 +442,7 @@ error: called from
 <li><span class="math inline">\(\alpha\)</span> (alpha) sebagai nilai awal dalam <span class="math inline">\(y(a) = \alpha\)</span></li>
 </ul>
 <p>sehingga programnya (fungsi metode Euler) bisa ditulis sebagai berikut:</p>
-<div class="cell" data-execution_count="44">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
@@ -518,6 +518,51 @@ error: called from
 <li>legend memberi legenda/keterangan pada plot yang telah dibuat. Legenda tersebut dimasukkan berurutan mulai dari plot yang didefinsikan terlebih dahulu</li>
 <li>title memberi judul pada plot</li>
 </ul>
+<p>Kita juga bisa menghitung error mutlak. Secara keseluruhan, kodenya menjadi seperti berikut.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">% stup</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) (y<span class="op">-</span>t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>alpha<span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">% hitung metode Euler</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>[t_euler<span class="op">,</span> w_euler] <span class="op">=</span> euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co">% solusi eksak</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(t) (t <span class="op">+</span> <span class="fl">1</span>)<span class="op">.^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">exp</span>(t)<span class="op">;</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>y_eksak <span class="op">=</span> sln(t_euler)<span class="op">;</span> <span class="co">% hitung solusi eksak di tiap titik t</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="co">% error: nilai mutlak dari selisih</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>err_euler <span class="op">=</span> <span class="fu">abs</span>(w_euler <span class="op">-</span> y_eksak)<span class="op">;</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan sejumlah kolom menjadi seperti tabel</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>[t_euler<span class="op">,</span> w_euler<span class="op">,</span> y_eksak<span class="op">,</span> err_euler]</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a><span class="co">% plotting</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_euler<span class="op">,</span> w_euler<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'Solusi eksak'</span><span class="op">,</span> <span class="st">'Metode Euler'</span>)<span class="op">;</span></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Metode Euler"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ans =
+
+        0   0.5000   0.5000        0
+   0.2000   0.8000   0.8293   0.0293
+   0.4000   1.1520   1.2141   0.0621
+   0.6000   1.5504   1.6489   0.0985
+   0.8000   1.9885   2.1272   0.1387
+   1.0000   2.4582   2.6409   0.1827
+   1.2000   2.9498   3.1799   0.2301
+   1.4000   3.4518   3.7324   0.2806
+   1.6000   3.9501   4.2835   0.3334
+   1.8000   4.4282   4.8152   0.3870
+   2.0000   4.8658   5.3055   0.4397
+</code></pre>
+</div>
+</div>
 </section>
 <section id="metode-taylor-orde-n" class="level2">
 <h2 class="anchored" data-anchor-id="metode-taylor-orde-n">Metode Taylor orde <span class="math inline">\(n\)</span></h2>
@@ -556,24 +601,24 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 <p><span class="math display">\[T^{(n)} \left(t_i, w_i\right) = f\left(t_i,w_i\right) + \sum_{j=2}^{n} \frac{h^{j-1}}{j!} f^{\left(j-1\right)} \left(t_i,w_i\right)\]</span></p>
 <p><span class="math display">\[w_{i+1} = w_i + hT^{(n)} \left(t_i, w_i\right) \]</span></p>
 <div class="cell" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> taylor(f<span class="op">,</span> fp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="fu">length</span>(fp) <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(n <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(n <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> n</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>      T <span class="op">+=</span> h<span class="op">^</span>(<span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">*</span> fp{<span class="fu">j</span><span class="op">-</span><span class="fl">1</span>}(t(<span class="fu">i</span>)<span class="op">,</span>w(<span class="fu">i</span>)) <span class="op">/</span> <span class="fu">factorial</span>(<span class="fu">j</span>)<span class="op">;</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> T<span class="op">;</span></span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> taylor(f<span class="op">,</span> fp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  n <span class="op">=</span> <span class="fu">length</span>(fp) <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(n <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(n <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> n</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>      T <span class="op">+=</span> h<span class="op">^</span>(<span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">*</span> fp{<span class="fu">j</span><span class="op">-</span><span class="fl">1</span>}(t(<span class="fu">i</span>)<span class="op">,</span>w(<span class="fu">i</span>)) <span class="op">/</span> <span class="fu">factorial</span>(<span class="fu">j</span>)<span class="op">;</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> T<span class="op">;</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Contoh penggunaan:</p>
 <p>Misalkan diberikan MNA sebagai berikut, yang diminta untuk diselesaikan secara numerik dengan metode Taylor orde 4:</p>
@@ -583,28 +628,28 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 <p><span class="math display">\[f''\left(t, y\right) = y - t^2 - 2t - 1\]</span></p>
 <p><span class="math display">\[f^{(3)}\left(t, y\right) = y - t^2 - 2t - 1, \hspace{0.2cm} \text{kebetulan sama persis dengan} \hspace{0.2cm} f''\left(t, y\right)\]</span></p>
 <div class="cell" data-execution_count="51">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">% contoh pakai: subbab 5.3 example 1b (orde 4)</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">% f(t_i, w_i)</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co">% f'(t_i, w_i)</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t<span class="op">;</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co">% f''(t_i, w_i)</span></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co">% f'''(t_i, w_i)</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co">% hitung pada interval [0,2], N=10, y(0)=alpha=0.5</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w] <span class="op">=</span> taylor(f0<span class="op">,</span> {f1<span class="op">,</span> f2<span class="op">,</span> f3}<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">10</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co">% otomatis Taylor orde 4 karena</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co">% ada tiga fungsi turunan f1, f2, f3</span></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co">% yang diinput di cell array</span></span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co">% bandingkan dengan Tabel 5.4</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">% contoh pakai: subbab 5.3 example 1b (orde 4)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">% f(t_i, w_i)</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">% f'(t_i, w_i)</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t<span class="op">;</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">% f''(t_i, w_i)</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">% f'''(t_i, w_i)</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co">% hitung pada interval [0,2], N=10, y(0)=alpha=0.5</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w] <span class="op">=</span> taylor(f0<span class="op">,</span> {f1<span class="op">,</span> f2<span class="op">,</span> f3}<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">10</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co">% otomatis Taylor orde 4 karena</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co">% ada tiga fungsi turunan f1, f2, f3</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="co">% yang diinput di cell array</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co">% bandingkan dengan Tabel 5.4</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
 
@@ -624,32 +669,32 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 </div>
 <p>Untuk plotnya, kita bisa membandingkan antara solusi eksak, metode Euler, dan metode Taylor orde 4:</p>
 <div class="cell" data-execution_count="52">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">% fungsi f(t,y) dan turunan pertama, kedua, ketiga</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t<span class="op">;</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung metode Euler dan metode Taylor orde 4</span></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>[t_euler<span class="op">,</span> w_euler] <span class="op">=</span> euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>[t_taylor<span class="op">,</span> w_taylor] <span class="op">=</span> taylor(f<span class="op">,</span> {f1<span class="op">,</span>f2<span class="op">,</span>f3}<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co">% solusi eksak</span></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(t) (t <span class="op">+</span> <span class="fl">1</span>)<span class="op">.^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">exp</span>(t)<span class="op">;</span></span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="co">% plotting</span></span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span><span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_euler<span class="op">,</span> w_euler<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_taylor<span class="op">,</span> w_taylor<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi Eksak"</span><span class="op">,</span> <span class="st">"Metode Euler"</span><span class="op">,</span> <span class="st">"Metode Taylor"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">% fungsi f(t,y) dan turunan pertama, kedua, ketiga</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>f0 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t<span class="op">;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> @(t<span class="op">,</span>y) y <span class="op">-</span> t<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>t <span class="op">-</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung metode Euler dan metode Taylor orde 4</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>[t_euler<span class="op">,</span> w_euler] <span class="op">=</span> euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>[t_taylor<span class="op">,</span> w_taylor] <span class="op">=</span> taylor(f<span class="op">,</span> {f1<span class="op">,</span>f2<span class="op">,</span>f3}<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="co">% solusi eksak</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(t) (t <span class="op">+</span> <span class="fl">1</span>)<span class="op">.^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">exp</span>(t)<span class="op">;</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a><span class="co">% plotting</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span><span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_euler<span class="op">,</span> w_euler<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_taylor<span class="op">,</span> w_taylor<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi Eksak"</span><span class="op">,</span> <span class="st">"Metode Euler"</span><span class="op">,</span> <span class="st">"Metode Taylor"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="52">
-<p><img src="modul2_files/figure-html/cell-27-output-1.png" class="img-fluid"></p>
+<p><img src="modul2_files/figure-html/cell-28-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -663,19 +708,19 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 <p>atau bahkan,</p>
 <p><span class="math display">\[w_1=\alpha\]</span> <span class="math display">\[m_1 = f\left(t_i, w_i\right)\]</span> <span class="math display">\[m_2 = f\left(t_i+\frac{h}{2}, w_i+\frac{h}{2} m_1\right)\]</span> <span class="math display">\[w_{i+1}=w_i+h m_2\]</span></p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> midpoint(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>) <span class="op">*</span> m1)<span class="op">;</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> m2<span class="op">;</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> midpoint(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>) <span class="op">*</span> m1)<span class="op">;</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> m2<span class="op">;</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="orde-2-metode-modified-euler" class="level3">
@@ -686,19 +731,19 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 <p>atau bahkan,</p>
 <p><span class="math display">\[w_1=\alpha\]</span> <span class="math display">\[m_1 = f\left(t_i, w_i\right)\]</span> <span class="math display">\[m_2 = f\left(t_{i+1}, w_i+h m_1\right)\]</span> <span class="math display">\[w_{i+1}=w_i+\frac{h}{2}\left(m_1+m_2\right)\]</span></p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> modified_euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> m1)<span class="op">;</span></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> (m1 <span class="op">+</span> m2) <span class="op">/</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> modified_euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> m1)<span class="op">;</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> h <span class="op">*</span> (m1 <span class="op">+</span> m2) <span class="op">/</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="orde-3-metode-heun" class="level3">
@@ -711,41 +756,41 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 <p>atau bahkan,</p>
 <p><span class="math display">\[w_1=\alpha\]</span> <span class="math display">\[m_1 = f\left(t_i, w_i\right)\]</span> <span class="math display">\[m_2 = f\left(t_i+\frac{h}{3}, w_i+\frac{h}{3} m_1\right)\]</span> <span class="math display">\[m_3 = f\left(t_i+\frac{2 h}{3}, w_i+\frac{2 h}{3} m_2\right)\]</span> <span class="math display">\[w_{i+1}=w_i+\frac{h}{4}\left(m_1+3 m_3\right)\]</span></p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> heun(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">3</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">3</span>) <span class="op">*</span> m1)<span class="op">;</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    m3 <span class="op">=</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (<span class="fl">2</span> <span class="op">*</span> h <span class="op">/</span> <span class="fl">3</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (<span class="fl">2</span> <span class="op">*</span> h <span class="op">/</span> <span class="fl">3</span>) <span class="op">*</span> m2)<span class="op">;</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">4</span>) <span class="op">*</span> (m1 <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> m3)<span class="op">;</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> heun(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">3</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">3</span>) <span class="op">*</span> m1)<span class="op">;</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    m3 <span class="op">=</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (<span class="fl">2</span> <span class="op">*</span> h <span class="op">/</span> <span class="fl">3</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (<span class="fl">2</span> <span class="op">*</span> h <span class="op">/</span> <span class="fl">3</span>) <span class="op">*</span> m2)<span class="op">;</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">4</span>) <span class="op">*</span> (m1 <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> m3)<span class="op">;</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="metode-runge-kutta-orde-4" class="level3">
 <h3 class="anchored" data-anchor-id="metode-runge-kutta-orde-4">Metode Runge-Kutta orde 4</h3>
 <p><span class="math display">\[w_1=\alpha\]</span> <span class="math display">\[k_1=h f\left(t_i, w_i\right)\]</span> <span class="math display">\[k_2=h f\left(t_i+\frac{h}{2}, w_i+\frac{k_1}{2}\right)\]</span> <span class="math display">\[k_3=h f\left(t_i+\frac{h}{2}, w_i+\frac{k_2}{2}\right)\]</span> <span class="math display">\[k_4=h f\left(t_{i+1}, w_i+k_3\right)\]</span> <span class="math display">\[w_{i+1}=w_i+\frac{1}{6}\left(k_1+2 k_2+2 k_3+k_4\right)\]</span></p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> rko4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    k1 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    k2 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">/</span> <span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    k3 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k2 <span class="op">/</span> <span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    k4 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> k3)<span class="op">;</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> k2 <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> k3 <span class="op">+</span> k4) <span class="op">/</span> <span class="fl">6</span><span class="op">;</span></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> rko4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    k1 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    k2 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">/</span> <span class="fl">2</span>))<span class="op">;</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    k3 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h <span class="op">/</span> <span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k2 <span class="op">/</span> <span class="fl">2</span>))<span class="op">;</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    k4 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> k3)<span class="op">;</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> k2 <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> k3 <span class="op">+</span> k4) <span class="op">/</span> <span class="fl">6</span><span class="op">;</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="contoh-penggunaan" class="level3">
@@ -753,22 +798,22 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 <p>Misalkan diberikan MNA sebagai berikut:</p>
 <p><span class="math display">\[y' = y - t^2 + 1\]</span> <span class="math display">\[0 \le t \le 2\]</span> <span class="math display">\[y(0) = 0.5\]</span></p>
 <div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) (y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>[t1<span class="op">,</span> w1] <span class="op">=</span> midpoint(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>[t2<span class="op">,</span> w2] <span class="op">=</span> modified_euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>[t3<span class="op">,</span> w3] <span class="op">=</span> heun(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>[t4<span class="op">,</span> w4] <span class="op">=</span> rko4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(t) (t <span class="op">+</span> <span class="fl">1</span>) <span class="op">.^</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">exp</span>(t)<span class="op">;</span></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>t5 <span class="op">=</span> <span class="fu">linspace</span>(a<span class="op">,</span> b<span class="op">,</span> <span class="fl">11</span>)<span class="op">;</span></span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>w5 <span class="op">=</span> sln(t5)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) (y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>[t1<span class="op">,</span> w1] <span class="op">=</span> midpoint(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>[t2<span class="op">,</span> w2] <span class="op">=</span> modified_euler(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>[t3<span class="op">,</span> w3] <span class="op">=</span> heun(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>[t4<span class="op">,</span> w4] <span class="op">=</span> rko4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> <span class="fl">10</span><span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(t) (t <span class="op">+</span> <span class="fl">1</span>) <span class="op">.^</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">exp</span>(t)<span class="op">;</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>t5 <span class="op">=</span> <span class="fu">linspace</span>(a<span class="op">,</span> b<span class="op">,</span> <span class="fl">11</span>)<span class="op">;</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>w5 <span class="op">=</span> sln(t5)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>[t1<span class="op">,</span> w1<span class="op">,</span> w2<span class="op">,</span> w3<span class="op">,</span> w4<span class="op">,</span> w5<span class="op">'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>[t1<span class="op">,</span> w1<span class="op">,</span> w2<span class="op">,</span> w3<span class="op">,</span> w4<span class="op">,</span> w5<span class="op">'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
 
@@ -787,16 +832,16 @@ T^{(n)} \left(t_i, w_i\right) &amp;= f\left(t_i, w_i\right) + \frac{h}{2}f'\left
 </div>
 </div>
 <div class="cell" data-execution_count="0">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t1<span class="op">,</span> w1<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t2<span class="op">,</span> w2<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t3<span class="op">,</span> w3<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t4<span class="op">,</span> w4<span class="op">,</span> <span class="st">'m'</span>)<span class="op">;</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'Fungsi eksak'</span><span class="op">,</span> <span class="st">'Midpoint'</span><span class="op">,</span> <span class="st">'Modified Euler'</span><span class="op">,</span> <span class="st">'Heun'</span><span class="op">,</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="st">'Runge-Kutta orde 4'</span>)<span class="op">;</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"location"</span><span class="op">,</span> <span class="st">"northwest"</span>)<span class="op">;</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">'Perbandingan metode Runge-Kutta'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t1<span class="op">,</span> w1<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t2<span class="op">,</span> w2<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t3<span class="op">,</span> w3<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t4<span class="op">,</span> w4<span class="op">,</span> <span class="st">'m'</span>)<span class="op">;</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'Fungsi eksak'</span><span class="op">,</span> <span class="st">'Midpoint'</span><span class="op">,</span> <span class="st">'Modified Euler'</span><span class="op">,</span> <span class="st">'Heun'</span><span class="op">,</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="st">'Runge-Kutta orde 4'</span>)<span class="op">;</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"location"</span><span class="op">,</span> <span class="st">"northwest"</span>)<span class="op">;</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">'Perbandingan metode Runge-Kutta'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="./pdnum2_Picture2.png" class="img-fluid"></p>
 
