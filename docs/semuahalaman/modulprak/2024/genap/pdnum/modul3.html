@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 3 Persamaan Diferensial Numerik</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 3 Persamaan Diferensial Numerik: Metode Runge-Kutta dan variasinya</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -188,13 +188,6 @@ window.Quarto = {
   <li><a href="#metode-runge-kutta-orde-4" id="toc-metode-runge-kutta-orde-4" class="nav-link" data-scroll-target="#metode-runge-kutta-orde-4">Metode Runge-Kutta orde 4</a></li>
   <li><a href="#perbandingan-metode-runge-kutta-orde-2-3-4" id="toc-perbandingan-metode-runge-kutta-orde-2-3-4" class="nav-link" data-scroll-target="#perbandingan-metode-runge-kutta-orde-2-3-4">Perbandingan metode Runge-Kutta orde 2, 3, 4</a></li>
   </ul></li>
-  <li><a href="#metode-multistep-eksplisit-metode-n-step-adams-bashforth" id="toc-metode-multistep-eksplisit-metode-n-step-adams-bashforth" class="nav-link" data-scroll-target="#metode-multistep-eksplisit-metode-n-step-adams-bashforth">Metode Multistep Eksplisit: Metode <span class="math inline">\(n\)</span>-step Adams-Bashforth</a>
-  <ul class="collapse">
-  <li><a href="#two-step-adams-bashforth" id="toc-two-step-adams-bashforth" class="nav-link" data-scroll-target="#two-step-adams-bashforth">Two-step Adams-Bashforth</a></li>
-  <li><a href="#three-step-adams-bashforth" id="toc-three-step-adams-bashforth" class="nav-link" data-scroll-target="#three-step-adams-bashforth">Three-step Adams-Bashforth</a></li>
-  <li><a href="#four-step-adams-bashforth" id="toc-four-step-adams-bashforth" class="nav-link" data-scroll-target="#four-step-adams-bashforth">Four-step Adams-Bashforth</a></li>
-  <li><a href="#five-step-adams-bashforth" id="toc-five-step-adams-bashforth" class="nav-link" data-scroll-target="#five-step-adams-bashforth">Five-step Adams-Bashforth</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -203,7 +196,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Modul 3 Persamaan Diferensial Numerik</h1>
+<h1 class="title">Modul 3 Persamaan Diferensial Numerik: Metode Runge-Kutta dan variasinya</h1>
 </div>
 
 
@@ -685,267 +678,6 @@ window.Quarto = {
 </div>
 </div>
 <p><img src="./pdnum2_Picture2.png" class="img-fluid"></p>
-</section>
-</section>
-<section id="metode-multistep-eksplisit-metode-n-step-adams-bashforth" class="level2">
-<h2 class="anchored" data-anchor-id="metode-multistep-eksplisit-metode-n-step-adams-bashforth">Metode Multistep Eksplisit: Metode <span class="math inline">\(n\)</span>-step Adams-Bashforth</h2>
-<p>Metode-metode sebelumnya, seperi Euler, Runge-Kutta, dan kawan-kawannya adalah metode jenis one-step, karena di tiap iterasinya kita hanya menggunakan informasi dari satu nilai <span class="math inline">\(t_{i}\)</span>. Berikut kita akan mulai membahas mengenai metode multistep, di mana kita menggunakan lebih dari satu nilai <span class="math inline">\(t_{i}\)</span> untuk membuat aproksimasi.</p>
-<p>Terdapat dua jenis metode multistep, yaitu:</p>
-<ul>
-<li><p>Multistep eksplisit, di mana kita mengaproksimasi nilai pada <span class="math inline">\(t_{i+1}\)</span> menggunakan nilai <span class="math inline">\(t\)</span> sebelumnya.</p></li>
-<li><p>Multistep implisit, di mana kita mengaproksimasi nilai pada <span class="math inline">\(t_{i+1}\)</span> menggunakan nilai pada <span class="math inline">\(t\)</span> sebelumnya, sekaligus nilai pada <span class="math inline">\(t_{i+1}\)</span> itu sendiri.</p></li>
-</ul>
-<p>Metode multistep eksplisit yang akan kita bahas adalah <strong>metode <span class="math inline">\(n\)</span>-step Adams-Bashforth.</strong></p>
-<p>Metode <span class="math inline">\(n\)</span>-step Adams-Bashforth menggunakan <span class="math inline">\(n\)</span> titik sebelumnya untuk mengaproksimasi nilai. Karena metode ini adalah metode multistep, maka <span class="math inline">\(n\)</span> nilai awalnya pun harus diperoleh terlebih dahulu. Misal kita ingin menggunakan metode Adams-Bashforth orde 3 , maka <span class="math inline">\(w_{1}, w_{2}\)</span>, dan <span class="math inline">\(w_{3}\)</span> harus ada terlebih dahulu sebelum dilanjutkan ke metode Adams-Bashforth. Nilai-nilai awal tersebut dapat diperoleh dari metode-metode one-step sebelumnya, seperti metode Runge-Kutta (biasanya digunakan metode Runge-Kutta orde 4).</p>
-<p>Berikut rumus untuk metode <span class="math inline">\(n\)</span>-step Adams-Bashforth, masing-masing sesuai dengan jumlah step nya.</p>
-<section id="two-step-adams-bashforth" class="level3">
-<h3 class="anchored" data-anchor-id="two-step-adams-bashforth">Two-step Adams-Bashforth</h3>
-<p><span class="math display">\[
-\begin{gathered}
-w_{0}=\alpha, \quad w_{1}=\alpha_{1}, \\
-w_{i+1}=w_{i}+\frac{h}{2}\left[3 f\left(t_{i}, w_{i}\right)-f\left(t_{i-1}, w_{i-1}\right)\right]
-\end{gathered}
-\]</span></p>
-<p>Bisa ditulis:</p>
-<p><span class="math display">\[
-\begin{gathered}
-w_{1}=\alpha, \\
-w_{2}=\alpha_1 \hspace{0.2cm} \text{(hitung dengan metode Runge-Kutta orde 4)}, \\
-m_1 = f\left(t_{i}, w_{i}\right) \\
-m_2 = f\left(t_{i-1}, w_{i-1}\right) \\
-w_{i+1}=w_{i}+\frac{h}{2}\left[3 m_1-m_2\right]
-\end{gathered}
-\]</span></p>
-<div id="cell-53" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth2(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Hitung w(2) menggunakan metode Runge-Kutta orde 4</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  k1 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  k2 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  k3 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k2<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  k4 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> k3)<span class="op">;</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k2 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k3 <span class="op">+</span> k4) <span class="op">/</span> <span class="fl">6</span><span class="op">;</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Algoritma utama Adams-Bashforth orde 2</span></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> N</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">;</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>) <span class="op">*</span> (<span class="fl">3</span><span class="op">*</span>m1 <span class="op">-</span> m2)<span class="op">;</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Misalkan diberikan MNA sebagai berikut, yang ingin diselesaikan secara numerik dengan <span class="math inline">\(N = 10\)</span>:</p>
-<p><span class="math display">\[y' = y - t^2 + 1\]</span> <span class="math display">\[0 \le t \le 2\]</span> <span class="math display">\[y(0) = 0.5\]</span></p>
-<p>yang kebetulan memiliki solusi eksak:</p>
-<p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
-<p>Contoh penggunaan:</p>
-<div id="cell-56" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth2(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(t) (t <span class="op">+</span> <span class="fl">1</span>) <span class="op">.^</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="fu">exp</span>(t)<span class="op">;</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>y_eksak <span class="op">=</span> sln(t)<span class="op">;</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>err_ab2 <span class="op">=</span> <span class="fu">abs</span>(y_eksak <span class="op">-</span> w)<span class="op">;</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">,</span> y_eksak<span class="op">,</span> err_ab2]</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t1<span class="op">,</span> w1<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>ans =
-
-        0   0.5000   0.5000        0
-   0.2000   0.8293   0.8293   0.0000
-   0.4000   1.2161   1.2141   0.0020
-   0.6000   1.6540   1.6489   0.0050
-   0.8000   2.1366   2.1272   0.0093
-   1.0000   2.6561   2.6409   0.0153
-   1.2000   3.2033   3.1799   0.0234
-   1.4000   3.7667   3.7324   0.0343
-   1.6000   4.3324   4.2835   0.0489
-   1.8000   4.8834   4.8152   0.0682
-   2.0000   5.3992   5.3055   0.0937
-</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="46">
-<div>
-<figure class="figure">
-<p><img src="modul3_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="three-step-adams-bashforth" class="level3">
-<h3 class="anchored" data-anchor-id="three-step-adams-bashforth">Three-step Adams-Bashforth</h3>
-<p><span class="math display">\[
-\begin{gathered}
-w_{0}=\alpha, \quad w_{1}=\alpha_{1}, \quad w_{2}=\alpha_{2}, \\
-w_{i+1}=w_{i}+\frac{h}{12}\left[23 f\left(t_{i}, w_{i}\right)-16 f\left(t_{i-1}, w_{i-1}\right)+5 f\left(t_{i-2}, w_{i-2}\right)\right]
-\end{gathered}
-\]</span></p>
-<p>Bisa ditulis:</p>
-<p><span class="math display">\[
-\begin{gathered}
-w_{1}=\alpha, \\
-w_{2}=\alpha_{1}, \quad w_{3}=\alpha_{2}, \\
-m_1 = f\left(t_{i}, w_{i}\right) \\
-m_2 = f\left(t_{i-1}, w_{i-1}\right) \\
-m_3 = f\left(t_{i-2}, w_{i-2}\right) \\
-w_{i+1}=w_{i}+\frac{h}{12}\left[23 m_1-16 m_2+5 m_3\right]
-\end{gathered}
-\]</span></p>
-<div id="cell-60" class="cell" data-execution_count="0">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth3(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Hitung w(2), w(3) menggunakan metode Runge-Kutta orde 4</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">2</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>      t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>      k1 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>      k2 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>      k3 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k2<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>      k4 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> k3)<span class="op">;</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k2 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k3 <span class="op">+</span> k4) <span class="op">/</span> <span class="fl">6</span><span class="op">;</span></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Algoritma utama Adams-Bashforth orde 3</span></span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">3</span> <span class="op">:</span> N</span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">;</span></span>
-<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    m3 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">12</span>) <span class="op">*</span> (<span class="fl">23</span><span class="op">*</span>m1 <span class="op">-</span> <span class="fl">16</span><span class="op">*</span>m2 <span class="op">+</span> <span class="fl">5</span><span class="op">*</span>m3)<span class="op">;</span></span>
-<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="four-step-adams-bashforth" class="level3">
-<h3 class="anchored" data-anchor-id="four-step-adams-bashforth">Four-step Adams-Bashforth</h3>
-<p><span class="math display">\[
-\begin{gathered}
-w_{0}=\alpha, \quad w_{1}=\alpha_{1}, \quad w_{2}=\alpha_{2}, \quad w_{3}=\alpha_{3} \\
-w_{i+1}=w_{i}+\frac{h}{24}\left[55 f\left(t_{i}, w_{i}\right)-59 f\left(t_{i-1}, w_{i-1}\right)+37 f\left(t_{i-2}, w_{i-2}\right)-9 f\left(t_{i-3}, w_{i-3}\right)\right]
-\end{gathered}
-\]</span></p>
-<p>Bisa ditulis:</p>
-<p><span class="math display">\[
-\begin{gathered}
-w_{1}=\alpha, \\
-w_{2}=\alpha_{1}, \quad w_{3}=\alpha_{2}, \quad w_{4}=\alpha_{3} \\
-m_1 = f\left(t_{i}, w_{i}\right) \\
-m_2 = f\left(t_{i-1}, w_{i-1}\right) \\
-m_3 = f\left(t_{i-2}, w_{i-2}\right) \\
-m_4 = f\left(t_{i-3}, w_{i-3}\right) \\
-w_{i+1}=w_{i}+\frac{h}{24}\left[55 m_1-59 m_2+37 m_3-9 m_4\right]
-\end{gathered}
-\]</span></p>
-<div id="cell-64" class="cell" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Hitung w(2), w(3), w(4) menggunakan metode Runge-Kutta orde 4</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">3</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>      t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>      k1 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>      k2 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>      k3 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k2<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>      k4 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> k3)<span class="op">;</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k2 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k3 <span class="op">+</span> k4) <span class="op">/</span> <span class="fl">6</span><span class="op">;</span></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Algoritma utama Adams-Bashforth orde 4</span></span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">4</span> <span class="op">:</span> N</span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">;</span></span>
-<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>    m3 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    m4 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">3</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">3</span>))<span class="op">;</span></span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">24</span>) <span class="op">*</span> (<span class="fl">55</span><span class="op">*</span>m1 <span class="op">-</span> <span class="fl">59</span><span class="op">*</span>m2 <span class="op">+</span> <span class="fl">37</span><span class="op">*</span>m3 <span class="op">-</span> <span class="fl">9</span><span class="op">*</span>m4)<span class="op">;</span></span>
-<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="five-step-adams-bashforth" class="level3">
-<h3 class="anchored" data-anchor-id="five-step-adams-bashforth">Five-step Adams-Bashforth</h3>
-<p><span class="math display">\[
-\begin{gathered}
-w_{0}=\alpha, \quad w_{1}=\alpha_{1}, \quad w_{2}=\alpha_{2}, \quad w_{3}=\alpha_{3}, \quad w_{4}=\alpha_{4}, \\
-w_{i+1}=w_{i}+\frac{h}{720}\left[1901 f\left(t_{i}, w_{i}\right)-2774 f\left(t_{i-1}, w_{i-1}\right)+2616 f\left(t_{i-2}, w_{i-2}\right)\right. \\
-\left.-1274 f\left(t_{i-3}, w_{i-3}\right)+251 f\left(t_{i-4}, w_{i-4}\right)\right]
-\end{gathered}
-\]</span></p>
-<p>Bisa ditulis:</p>
-<p><span class="math display">\[
-\begin{gathered}
-w_{1}=\alpha, \\
-w_{2}=\alpha_{1}, \quad w_{3}=\alpha_{2}, \quad w_{4}=\alpha_{3}, \quad w_{5}=\alpha_{4}, \\
-m_1 = f\left(t_{i}, w_{i}\right) \\
-m_2 = f\left(t_{i-1}, w_{i-1}\right) \\
-m_3 = f\left(t_{i-2}, w_{i-2}\right) \\
-m_4 = f\left(t_{i-3}, w_{i-3}\right) \\
-m_5 = f\left(t_{i-4}, w_{i-4}\right) \\
-w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
-\left.-1274 m_4+251 m_5\right]
-\end{gathered}
-\]</span></p>
-<div id="cell-68" class="cell" data-execution_count="0">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  t(<span class="fl">1</span>) <span class="op">=</span> a<span class="op">;</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  w(<span class="fl">1</span>) <span class="op">=</span> alpha<span class="op">;</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Hitung w(2), ..., w(5) menggunakan metode Runge-Kutta orde 4</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">4</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>      t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>      k1 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>      k2 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>      k3 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> (k2<span class="op">/</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>      k4 <span class="op">=</span> h <span class="op">*</span> f(t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span>) <span class="op">+</span> k3)<span class="op">;</span></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (k1 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k2 <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>k3 <span class="op">+</span> k4) <span class="op">/</span> <span class="fl">6</span><span class="op">;</span></span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Algoritma utama Adams-Bashforth orde 5</span></span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">5</span> <span class="op">:</span> N</span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    t(<span class="fu">i</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">=</span> t(<span class="fu">i</span>) <span class="op">+</span> h<span class="op">;</span></span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    m1 <span class="op">=</span> f(t(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>    m2 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">;</span></span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>    m3 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">2</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>    m4 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">3</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">3</span>))<span class="op">;</span></span>
-<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    m5 <span class="op">=</span> f(t(<span class="fu">i</span><span class="op">-</span><span class="fl">4</span>)<span class="op">,</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">4</span>))<span class="op">;</span></span>
-<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">720</span>) <span class="op">*</span> (<span class="fl">1901</span><span class="op">*</span>m1 <span class="op">-</span> <span class="fl">2774</span><span class="op">*</span>m2 <span class="op">+</span> <span class="fl">2616</span><span class="op">*</span>m3 <span class="op">-</span><span class="fl">1274</span><span class="op">*</span>m4 <span class="op">+</span><span class="fl">251</span><span class="op">*</span>m5)<span class="op">;</span></span>
-<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 
 
 </section>
