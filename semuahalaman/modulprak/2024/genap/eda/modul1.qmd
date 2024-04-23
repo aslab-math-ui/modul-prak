@@ -1,5 +1,5 @@
 ---
-title: "Python for Data Analysis (Pertemuan 1)"
+title: "Pertemuan 1 : Python for Data Analysis"
 subtitle: "Intro to Pandas"
 image: static\images\eda_py_img.png
 description: "Offline di Departemen Matematika: sesi 1 di lab komputer D.311, sesi 2 di lab statistika D.406"
@@ -462,12 +462,111 @@ Link Dataset : [Data Penjualan Toko Baju Unikloh](https://drive.google.com/file/
 
 Sebuah toko baju unikloh membutuhkan jasa seorang analis untuk menganalisis data penjualan baju yang mereka miliki. Sebelum itu, Pak Joko selaku pemilik toko ingin tahu beberapa hal mengenai data yang dia miliki. Berikut yang beliau minta :
 
+```{python}
+#| echo: false
+sales_df = pd.read_csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/main/fashion_sales_data/sales.csv')
+```
+
 1. Ada berapa banyak data penjualan kita?
+```{python}
+#| code-fold: true
+#| code-summary: "Hint"
+# Jumlah data penjualan bisa kita akses dengan melihat `jumlah baris` suatu dataframe.
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+sales_df.shape
+```
 2. Beliau minta 10 data pertama untuk melihat gambaran umum nilai masing-masing variabel.
+```{python}
+#| code-fold: true
+#| code-summary: "Hint"
+# Gunakan method `.head()`
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+sales_df.head(10)
+```
 3. Beliau mau fokus melihat kolom `price_per_unit` dan `quantity` saja.
-4. Harusnya di data ini ada kolom total harga pembelian yang dinamain `total_price`, tapi sepertinya kolomnya hilang. Tolong buatkan kolomnya berdasarkan data yang ada.
+```{python}
+#| code-fold: true
+#| code-summary: "Hint"
+# Untuk mengambil beberapa kolom dari suatu dataframe, gunakan `df[[<nama-kolom-1>, <nama-kolom-2>, <nama-kolom-3>, ...]]`
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+sales_df[['price_per_unit','quantity']]
+```
+4. Harusnya di data ini ada kolom total harga pembelian yang dinamakan `total_price`, tapi sepertinya kolomnya hilang. Tolong buatkan kolomnya berdasarkan data yang ada.
+```{python}
+#| code-fold: true
+#| code-summary: "Hint 1"
+# Perhatikan bahwa total harga pembelian = kuantitas x harga per unit
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Hint 2"
+# Buat kolom baru dari hasil kali 2 kolom tersebut dengan df[...] = df[...]*df[...].
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+sales_df['total_price'] = sales_df['price_per_unit']*sales_df['quantity']
+```
+
 5. Beliau mau tau ada berapa banyak penjualan yang total harganya lebih besar dari $200
+```{python}
+#| code-fold: true
+#| code-summary: "Hint"
+# Untuk memfilter suatu dataset, gunakan df[kondisi]
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+sales_df[sales_df['total_price'] > 200]
+```
+
 6. Beliau mau tau ada berapa banyak penjualan yang total harganya berada di kisaran $200-250
+```{python}
+#| code-fold: true
+#| code-summary: "Hint"
+# Gunakan `&` untuk filter dengan 2 kondisi yang dihubungkan operator `dan`.
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+sales_df[(sales_df['total_price'] > 200) & (sales_df['total_price'] < 200)]
+```
+
 7. Terakhir, Beliau mau tau ada berapa banyak penjualan yang total harganya di kisaran $200-250 + penjualan 3 barang dalam satu pesanan.
+```{python}
+#| code-fold: true
+#| code-summary: "Hint"
+# Gunakan `|` untuk filter dengan 2 kondisi yang dihubungkan operator `atau`.
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Answer"
+#| output: false
+condition = (((sales_df['total_price'] > 200) & (sales_df['total_price'] < 200)) | (sales_df['quantity'] == 3))
+sales_df[condition]
+```
 </div>
 ___
