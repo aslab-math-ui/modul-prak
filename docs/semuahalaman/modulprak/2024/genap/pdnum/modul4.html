@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -179,9 +179,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#modul-4-persamaan-diferensial-numerik-metode-multistep" id="toc-modul-4-persamaan-diferensial-numerik-metode-multistep" class="nav-link active" data-scroll-target="#modul-4-persamaan-diferensial-numerik-metode-multistep">Modul 4 Persamaan Diferensial Numerik: Metode Multistep</a>
-  <ul class="collapse">
-  <li><a href="#metode-multistep-eksplisit-metode-n-step-adams-bashforth" id="toc-metode-multistep-eksplisit-metode-n-step-adams-bashforth" class="nav-link" data-scroll-target="#metode-multistep-eksplisit-metode-n-step-adams-bashforth">Metode Multistep Eksplisit: Metode <span class="math inline">\(n\)</span>-step Adams-Bashforth</a>
+  <li><a href="#metode-multistep-eksplisit-metode-n-step-adams-bashforth" id="toc-metode-multistep-eksplisit-metode-n-step-adams-bashforth" class="nav-link active" data-scroll-target="#metode-multistep-eksplisit-metode-n-step-adams-bashforth">Metode Multistep Eksplisit: Metode <span class="math inline">\(n\)</span>-step Adams-Bashforth</a>
   <ul class="collapse">
   <li><a href="#two-step-adams-bashforth-orde-2" id="toc-two-step-adams-bashforth-orde-2" class="nav-link" data-scroll-target="#two-step-adams-bashforth-orde-2">Two-step Adams-Bashforth (orde 2)</a></li>
   <li><a href="#three-step-adams-bashforth-orde-3" id="toc-three-step-adams-bashforth-orde-3" class="nav-link" data-scroll-target="#three-step-adams-bashforth-orde-3">Three-step Adams-Bashforth (orde 3)</a></li>
@@ -199,7 +197,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#metode-adams-predictor-corrector-orde-3" id="toc-metode-adams-predictor-corrector-orde-3" class="nav-link" data-scroll-target="#metode-adams-predictor-corrector-orde-3">Metode Adams <em>predictor-corrector</em> orde 3</a></li>
   <li><a href="#metode-adams-predictor-corrector-orde-4" id="toc-metode-adams-predictor-corrector-orde-4" class="nav-link" data-scroll-target="#metode-adams-predictor-corrector-orde-4">Metode Adams <em>predictor-corrector</em> orde 4</a></li>
-  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -226,8 +223,6 @@ window.Quarto = {
 </header>
 
 
-<section id="modul-4-persamaan-diferensial-numerik-metode-multistep" class="level1">
-<h1>Modul 4 Persamaan Diferensial Numerik: Metode Multistep</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/pdnum/pdnum2024genap.html">Persamaan Diferensial Numerik</a></p>
 <p>Metode-metode sebelumnya, seperi metode Euler, Runge-Kutta, dan kawan-kawannya adalah metode jenis one-step, karena di tiap iterasinya kita hanya menggunakan informasi dari satu nilai <span class="math inline">\(t_{i}\)</span>. Berikut kita akan mulai membahas mengenai metode multistep, di mana kita menggunakan lebih dari satu nilai <span class="math inline">\(t_{i}\)</span> untuk membuat aproksimasi.</p>
 <p>Terdapat dua jenis metode multistep, yaitu:</p>
@@ -281,7 +276,7 @@ m_2 = f\left(t_{i-1}, w_{i-1}\right) \\
 w_{i+1}=w_{i}+\frac{h}{2}\left[3 m_1-m_2\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-15" class="cell" data-execution_count="1">
+<div id="cell-16" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde2(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -313,7 +308,7 @@ w_{i+1}=w_{i}+\frac{h}{2}\left[3 m_1-m_2\right]
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
 <p>Contoh penggunaan:</p>
-<div id="cell-18" class="cell" data-execution_count="3">
+<div id="cell-19" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -384,7 +379,7 @@ m_3 = f\left(t_{i-2}, w_{i-2}\right) \\
 w_{i+1}=w_{i}+\frac{h}{12}\left[23 m_1-16 m_2+5 m_3\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-23" class="cell" data-execution_count="4">
+<div id="cell-24" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde3(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -442,7 +437,7 @@ m_4 = f\left(t_{i-3}, w_{i-3}\right) \\
 w_{i+1}=w_{i}+\frac{h}{24}\left[55 m_1-59 m_2+37 m_3-9 m_4\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-28" class="cell" data-execution_count="5">
+<div id="cell-29" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -504,7 +499,7 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 \left.-1274 m_4+251 m_5\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-33" class="cell" data-execution_count="6">
+<div id="cell-34" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde5(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -544,7 +539,7 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
 <p>Kita bisa membandingkan orde-orde metode Adams-Bashforth dengan menyelesaikan MNA tersebut.</p>
-<div id="cell-37" class="cell" data-execution_count="8">
+<div id="cell-38" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -750,7 +745,7 @@ m_0 &amp;= f\left(t_{i+1}, w_{i+1}\right) \\
 w_{i+1} &amp;=w_i+\frac{h}{12}\left[5 m_0+8 m_1-m_2\right]
 \end{aligned}
 \]</span></p>
-<div id="cell-72" class="cell" data-execution_count="14">
+<div id="cell-73" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_pc_orde3(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -787,7 +782,7 @@ w_{i+1} &amp;=w_i+\frac{h}{12}\left[5 m_0+8 m_1-m_2\right]
 <p><span class="math display">\[y' = y - t^2 + 1\]</span> <span class="math display">\[0 \le t \le 2\]</span> <span class="math display">\[y(0) = 0.5\]</span></p>
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
-<div id="cell-74" class="cell" data-execution_count="15">
+<div id="cell-75" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -864,7 +859,7 @@ m_0 &amp;= f\left(t_{i+1}, w_{i+1}\right) \\
 w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 \end{aligned}
 \]</span></p>
-<div id="cell-80" class="cell" data-execution_count="16">
+<div id="cell-81" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_pc_orde4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -903,7 +898,7 @@ w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
 <p>Kita bisa membandingkan orde-orde metode Adams Predictor-Corrector dengan menyelesaikan MNA tersebut.</p>
-<div id="cell-83" class="cell" data-execution_count="17">
+<div id="cell-84" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -951,7 +946,6 @@ w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 </div>
 
 
-</section>
 </section>
 </section>
 
@@ -1035,6 +1029,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1069,7 +1081,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
