@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 7 Praktikum Sains Data: Pengantar TensorFlow &amp; Keras</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Lab Praktikum Departemen Matematika FMIPA UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/praktikum.html"> 
+<span class="menu-text">Praktikum</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#pengantar-neural-network" id="toc-pengantar-neural-network" class="nav-link active" data-scroll-target="#pengantar-neural-network">Pengantar <em>Neural Network</em></a>
+  <ul class="collapse">
+  <li><a href="#slp-single-layer-perceptron" id="toc-slp-single-layer-perceptron" class="nav-link" data-scroll-target="#slp-single-layer-perceptron">SLP: <em>(Single-Layer) Perceptron</em></a></li>
+  <li><a href="#mlp-multilayer-perceptron" id="toc-mlp-multilayer-perceptron" class="nav-link" data-scroll-target="#mlp-multilayer-perceptron">MLP: <em>Multilayer Perceptron</em></a></li>
+  <li><a href="#fungsi-aktivasi" id="toc-fungsi-aktivasi" class="nav-link" data-scroll-target="#fungsi-aktivasi">Fungsi Aktivasi</a></li>
+  <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function"><em>Loss function</em></a></li>
+  <li><a href="#proses-training" id="toc-proses-training" class="nav-link" data-scroll-target="#proses-training">Proses <em>training</em></a></li>
+  <li><a href="#train-validation-test-split" id="toc-train-validation-test-split" class="nav-link" data-scroll-target="#train-validation-test-split"><em>Train-Validation-Test Split</em></a></li>
+  </ul></li>
+  <li><a href="#pure-tensorflow" id="toc-pure-tensorflow" class="nav-link" data-scroll-target="#pure-tensorflow"><em>(Pure)</em> TensorFlow</a>
+  <ul class="collapse">
+  <li><a href="#tensor-konstanta-variabel" id="toc-tensor-konstanta-variabel" class="nav-link" data-scroll-target="#tensor-konstanta-variabel"><em>Tensor</em>, Konstanta, Variabel</a></li>
+  <li><a href="#automatic-differentiation-dengan-gradienttape" id="toc-automatic-differentiation-dengan-gradienttape" class="nav-link" data-scroll-target="#automatic-differentiation-dengan-gradienttape"><em>Automatic differentiation</em> dengan <code>GradientTape</code></a></li>
+  <li><a href="#klasifikasi-biner-dengan-perceptron" id="toc-klasifikasi-biner-dengan-perceptron" class="nav-link" data-scroll-target="#klasifikasi-biner-dengan-perceptron">Klasifikasi biner dengan <em>perceptron</em></a></li>
+  </ul></li>
+  <li><a href="#keras" id="toc-keras" class="nav-link" data-scroll-target="#keras">Keras</a>
+  <ul class="collapse">
+  <li><a href="#sequential-api" id="toc-sequential-api" class="nav-link" data-scroll-target="#sequential-api"><em>Sequential API</em></a></li>
+  <li><a href="#functional-api" id="toc-functional-api" class="nav-link" data-scroll-target="#functional-api"><em>Functional API</em></a></li>
+  <li><a href="#subclassing-api-yaitu-dengan-oop" id="toc-subclassing-api-yaitu-dengan-oop" class="nav-link" data-scroll-target="#subclassing-api-yaitu-dengan-oop"><em>Subclassing API</em> (yaitu dengan OOP)</a></li>
+  </ul></li>
+  <li><a href="#referensi" id="toc-referensi" class="nav-link" data-scroll-target="#referensi">Referensi</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modul 7 Praktikum Sains Data: Pengantar TensorFlow &amp; Keras</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/saindat/saindat2024genap.html">Sains Data</a></p>
+<p>Sekarang kita sudah masuk ke materi <em>artificial neural network</em> (ANN) atau biasa disebut <em>neural network</em> (NN), yang mendasari dunia <em>deep learning</em>.</p>
+<p>Saat modul praktikum ini disusun (April 2024), ada dua <em>framework</em> utama untuk <em>deep learning</em> di Python, yaitu:</p>
+<ol type="1">
+<li><p>TensorFlow: <a href="https://www.tensorflow.org/" class="uri">https://www.tensorflow.org/</a></p>
+<p>(dan Keras di dalamnya: <a href="https://keras.io/" class="uri">https://keras.io/</a>)</p></li>
+<li><p>PyTorch: <a href="https://pytorch.org/" class="uri">https://pytorch.org/</a></p></li>
+</ol>
+<p>Kedua <em>framework</em> ini bersaing. Umumnya, TensorFlow lebih sering digunakan di industri, sedangkan PyTorch lebih sering digunakan dalam riset/penelitian.</p>
+<p>Di pertemuan kali ini, kita akan membahas TensorFlow, baik penggunaannya secara sendiri (<em>pure TensorFlow</em>, yaitu tanpa Keras) maupun dengan bantuan Keras. Kalau belum punya, instal terlebih dahulu:</p>
+<div id="cell-6" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install tensorflow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Keras terinstal bersama TensorFlow (karena Keras ada di dalamnya).</p>
+<p>Lalu import:</p>
+<div id="cell-9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="pengantar-neural-network" class="level2">
+<h2 class="anchored" data-anchor-id="pengantar-neural-network">Pengantar <em>Neural Network</em></h2>
+<p><em>Overview:</em></p>
+<ul>
+<li><p>Secara umum, suatu <em>neural network</em> terdiri dari sejumlah <em>layer</em> atau lapisan (minimal dua).</p></li>
+<li><p><em>Layer</em> pertama disebut <em>input layer</em>, dan <em>layer</em> terakhir disebut <em>output layer</em>.</p></li>
+<li><p>Tiap <em>layer</em> terdiri dari sejumlah <em>neuron</em>, yang masing-masing bisa menyimpan suatu nilai.</p></li>
+<li><p>Kecuali <em>input layer</em>, tiap <em>neuron</em> terhubung dengan sejumlah <em>neuron</em> di <em>layer</em> sebelumnya.</p></li>
+<li><p>Tiap sambungan terdiri dari nilai <em>weight</em> (sebagai pengali), nilai <em>bias</em> (sebagai pergeseran), dan suatu “fungsi aktivasi” yang menghasilkan nilai untuk <em>neuron</em> tujuan.</p></li>
+<li><p><em>Weight</em> maupun <em>bias</em> disebut <strong>parameter</strong> dari <em>neural network</em>.</p></li>
+<li><p>Proses <em>training</em> adalah terus-menerus memperbarui parameter hingga hasil prediksi <em>neural network</em> sudah cukup baik, dengan meminimumkan suatu <strong><em>loss function</em></strong> atau fungsi objektif (yang intinya menghitung <em>error</em>).</p></li>
+<li><p>Suatu <em>neural network</em> bisa memiliki sejumlah <em>layer</em>, masing-masing dengan banyaknya <em>neuron</em> tertentu dan fungsi-fungsi aktivasi tertentu. Hal-hal itu disebut <strong><em>hyperparameter</em></strong> dari <em>neural network</em>. Suatu <strong>arsitektur</strong> adalah suatu pilihan/konfigurasi <em>hyperparameter</em>.</p></li>
+</ul>
+<section id="slp-single-layer-perceptron" class="level3">
+<h3 class="anchored" data-anchor-id="slp-single-layer-perceptron">SLP: <em>(Single-Layer) Perceptron</em></h3>
+<p>ANN paling pertama adalah <em>perceptron</em> (juga disebut SLP atau <em>single-layer perceptron</em>) yang dirancang oleh Frank Rosenblatt pada tahun 1957 (Géron, 2019). Ini adalah <em>neural network</em> yang paling sederhana, bahkan ini bisa disebut <em>building block</em> dari semua ANN (apabila diberi kebebasan untuk modifikasi). Konsep dasar <em>neural network</em> bisa kita pelajari di sini.</p>
+<p><img src="./gambar/aggarwal_nndl_hal5.png" class="img-fluid"></p>
+<p>Sumber gambar: Aggarwal (2018) hal. 5</p>
+<p><em>Perceptron</em> hanya terdiri dari satu <em>input layer</em> dan satu <em>output layer</em>. Bahkan, aslinya hanya ada satu <em>neuron</em> di <em>output layer</em>.</p>
+<p>Apabila dibutuhkan lebih dari satu <em>neuron</em> di <em>output layer</em>, itu bisa dianggap menggunakan lebih dari satu <em>perceptron</em> (yaitu menggunakan banyaknya <em>perceptron</em> sesuai banyaknya <em>neuron</em> di <em>output layer</em>), yang saling “ditumpuk”:</p>
+<p><img src="./gambar/goodfellow_dl_hal337_crop.png" class="img-fluid"></p>
+<p>Sumber gambar: Goodfellow, et. al.&nbsp;(2016) hal. 337</p>
+<p>Aslinya, fungsi aktivasi yang digunakan oleh <em>perceptron</em> adalah <em>Heaviside step function</em> <span class="math inline">\(H(v)\)</span> yang mungkin kalian kenal dari mata kuliah PDB, atau juga disebut <em>threshold activation function</em>:</p>
+<p><span class="math display">\[H(v) = \begin{cases}
+    1, &amp; v \ge 0 \\
+    0, &amp; v &lt; 0
+\end{cases}\]</span></p>
+<p>Sehingga, untuk <em>output neuron</em> ke-<span class="math inline">\(j\)</span> yang disambung dari <span class="math inline">\(n\)</span> <em>input neuron</em>, model <em>perceptron</em> bisa dirumuskan sebagai berikut:</p>
+<p><span class="math display">\[y_j = H\left(\left(\sum_{i=1}^{n} w_{ij} x_i \right) + b_j\right)\]</span></p>
+<p>dengan</p>
+<ul>
+<li><p><span class="math inline">\(x_i\)</span> adalah nilai pada <em>input neuron</em> ke-<span class="math inline">\(i\)</span></p></li>
+<li><p><span class="math inline">\(y_j\)</span> adalah nilai pada <em>output neuron</em> ke-<span class="math inline">\(j\)</span></p></li>
+<li><p><span class="math inline">\(w_{ij}\)</span> adalah parameter <em>weight</em> untuk sambungan <em>input neuron</em> ke-<span class="math inline">\(i\)</span> menuju <em>output neuron</em> ke-<span class="math inline">\(j\)</span></p></li>
+<li><p><span class="math inline">\(b_j\)</span> adalah parameter <em>bias</em> untuk <em>output neuron</em> ke-<span class="math inline">\(j\)</span></p></li>
+</ul>
+<p>Lebih umumnya,</p>
+<p><span class="math display">\[y_j = \Phi\left(\left(\sum_{i=1}^{n} w_{ij} x_i \right) + b_j\right)\]</span></p>
+<p>dengan <span class="math inline">\(\Phi(v)\)</span> adalah sembarang fungsi aktivasi.</p>
+<p><em>Note:</em> seperti di gambar, sebenarnya <em>bias</em> juga bisa dianggap <em>neuron</em> istimewa yang nilai <span class="math inline">\(x_i\)</span> nya selalu satu.</p>
+<p>Biasanya, semua nilai di <em>layer</em> selanjutnya dihitung secara sekaligus menggunakan perkalian matriks, dengan perumusan:</p>
+<p><span class="math display">\[\textbf{y} = \Phi\left(\textbf{w}^T \textbf{x} + \textbf{b}\right)\]</span></p>
+<p>dengan <span class="math inline">\(\textbf{x} = [x_i]\)</span>, <span class="math inline">\(\textbf{y} = [y_j]\)</span>, dan <span class="math inline">\(\textbf{b} = [b_j]\)</span> adalah vektor kolom, serta <span class="math inline">\(\textbf{w} = \left[w_{ij}\right]\)</span> adalah matriks.</p>
+</section>
+<section id="mlp-multilayer-perceptron" class="level3">
+<h3 class="anchored" data-anchor-id="mlp-multilayer-perceptron">MLP: <em>Multilayer Perceptron</em></h3>
+<p>Konsep <em>single-layer perceptron</em> bisa diperumum menjadi <em>multilayer perceptron</em> atau <em>neural network</em> yang biasa kita kenal, dengan menambahkan beberapa <em>layer</em> di antara <em>input layer</em> dan <em>output layer</em>. Semua <em>layer</em> selain <em>input layer</em> dan <em>output layer</em> disebut <em>hidden layer</em>.</p>
+<p><img src="./gambar/aggarwal_nndl_hal18.png" class="img-fluid"></p>
+<p>Sumber gambar: Aggarwal (2018) hal. 18</p>
+<p>Konsep perhitungan antara tiap <em>layer</em> tetap sama, yaitu</p>
+<p><span class="math display">\[\textbf{y} = \Phi\left(\textbf{w}^T \textbf{x} + \textbf{b}\right)\]</span></p>
+</section>
+<section id="fungsi-aktivasi" class="level3">
+<h3 class="anchored" data-anchor-id="fungsi-aktivasi">Fungsi Aktivasi</h3>
+<p><img src="./gambar/aggarwal_nndl_hal13.png" class="img-fluid"></p>
+<p>Sumber gambar: Aggarwal (2018) hal. 13</p>
+<p>Beberapa fungsi aktivasi adalah (Aggarwal, 2018, hal. 12-13):</p>
+<ol type="a">
+<li>“Linier” atau identitas</li>
+</ol>
+<p><span class="math display">\[\Phi(v) = v\]</span></p>
+<ol start="2" type="a">
+<li><em>Sign</em> (fungsi tanda): <span class="math inline">\(\text{sign}(v)\)</span> atau <span class="math inline">\(\text{sgn}(v)\)</span></li>
+</ol>
+<p><span class="math display">\[
+\Phi(v) = \text{sign}(v) = \begin{cases}
+    1, &amp; v &gt; 0 \\
+    0, &amp; v = 0 \\
+    -1, &amp; v &lt; 0
+\end{cases}
+\]</span></p>
+<ol start="3" type="a">
+<li>Sigmoid, terkadang dilambangkan <span class="math inline">\(\sigma(v)\)</span> dan terkadang disebut fungsi aktivasi logistik</li>
+</ol>
+<p><span class="math display">\[\Phi(v) = \frac{1}{1 + e^{-v}}\]</span></p>
+<ol start="4" type="a">
+<li><em>(Soft)</em> tanh: <span class="math inline">\(\tanh(v)\)</span></li>
+</ol>
+<p><span class="math display">\[\Phi(v) = \frac{e^{2v} - 1}{e^{2v} + 1} = 2 * \text{sigmoid}(2v) - 1\]</span></p>
+<ol start="5" type="a">
+<li><em>Rectified Linear Unit</em> (ReLU)</li>
+</ol>
+<p><span class="math display">\[\Phi(v) = \max\{v, 0\}\]</span></p>
+<ol start="6" type="a">
+<li><em>Hard tanh</em></li>
+</ol>
+<p><span class="math display">\[\Phi(v) = \max\{\min\{v, 1\}, -1\}\]</span></p>
+<p>Fungsi aktivasi yang paling sering digunakan adalah ReLU, kecuali untuk <em>output layer</em>.</p>
+<p>Untuk <em>output layer</em>, biasanya,</p>
+<ul>
+<li><p>untuk regresi, banyaknya <em>neuron</em> sesuai banyaknya nilai prediksi (umumnya hanya satu), dan digunakan fungsi aktivasi linier</p></li>
+<li><p>untuk klasifikasi <em>multiclass</em> (lebih dari dua kelas), biasanya banyaknya <em>output neuron</em> sesuai banyaknya kelas, dan digunakan fungsi aktivasi <strong><em>softmax</em></strong> sebagai berikut, agar <em>output</em> berupa peluang tiap kelas:</p></li>
+</ul>
+<p><span class="math display">\[\Phi(\overline{v})_i = \frac{\exp(v_i)}{\sum_{j=1}^k \exp(v_j)}\]</span></p>
+<ul>
+<li>untuk klasifikasi biner, hanya ada satu <em>neuron</em> di <em>output layer</em>, dan digunakan fungsi aktivasi <em>sigmoid</em>. (Keberadaan hanya satu <em>output neuron</em> lebih hemat daripada menggunakan dua <em>output neuron</em>)</li>
+</ul>
+</section>
+<section id="loss-function" class="level3">
+<h3 class="anchored" data-anchor-id="loss-function"><em>Loss function</em></h3>
+<p>Misalkan <span class="math inline">\(y_i\)</span> adalah nilai sebenarnya dan <span class="math inline">\(\hat{y}_i\)</span> adalah hasil prediksi.</p>
+<p>Untuk regresi, biasa digunakan MSE <em>(mean squared error)</em>, juga disebut <em>L2 loss</em>:</p>
+<p><span class="math display">\[\text{MSE}(y, \hat{y}) = \frac{1}{n} \sum_{i=1}^{n} \left( y_i - \hat{y}_i \right)^2\]</span></p>
+<p>Untuk klasifikasi, biasa digunakan yang namanya <em>cross-entropy loss</em>, juga disebut <em>logistic loss</em> atau <em>log loss</em>:</p>
+<p><span class="math display">\[L_{\text{log}}(y,\hat{y}) = -(y \ln (\hat{y}) + (1 - y) \ln (1 - \hat{y}))\]</span></p>
+</section>
+<section id="proses-training" class="level3">
+<h3 class="anchored" data-anchor-id="proses-training">Proses <em>training</em></h3>
+<p>Proses <em>training</em> untuk <em>neural network</em> dilakukan secara iteratif, yaitu tiap iterasi akan memperbarui parameter sehingga nilai <em>loss function</em> menjadi lebih kecil.</p>
+<p>Tiap iterasi melakukan langkah-langkah berikut untuk tiap data <em>training</em>:</p>
+<ol type="1">
+<li><p><em>Forward pass</em>: menghitung nilai <em>output</em> akhir, yaitu <span class="math inline">\(\hat{y}\)</span> (hasil prediksi), berdasarkan <em>input</em> data <em>training</em>.</p></li>
+<li><p>Menghitung <em>loss</em> antara <span class="math inline">\(y\)</span> (nilai asli) dan <span class="math inline">\(\hat{y}\)</span></p></li>
+<li><p><em>Backpropagation</em>: menghitung gradien dari <em>loss</em> terhadap tiap parameter, secara “mundur”</p></li>
+<li><p><em>Update optimizer</em>: menggunakan algoritma <em>optimizer</em> seperti <em>gradient descent</em> untuk memperbarui parameter-parameter (<em>weights and biases</em>) berdasarkan gradien dari <em>loss</em></p>
+<p>Note: ada banyak <em>optimizer</em>, seperti <em>gradient descent</em>, SGD (<em>stochastic gradient descent</em>), dan <em>Adam</em> (<em>adaptive moment estimation</em>). Pilihan <em>optimizer</em> (serta parameter-parameter yang bisa diatur untuk <em>optimizer</em>, seperti <em>learning rate</em>) juga menjadi <em>hyperparameter</em> untuk <em>neural network</em>.</p></li>
+</ol>
+<p>Note: istilah <em>backward pass</em> meliputi langkah <em>backpropagation</em> dan <em>update optimizer</em>.</p>
+<p>Apabila data <em>training</em> sangat banyak, terkadang data <em>training</em> tersebut dibagi menjadi beberapa <em>batch</em>, dan tiap iterasi menggunakan <em>batch</em> yang berbeda. Apabila semua <em>batch</em> sudah diproses, sebutannya adalah satu <strong><em>epoch</em></strong>. Sehingga, satu <em>epoch</em> terdiri dari sejumlah iterasi sesuai banyaknya <em>batch</em>.</p>
+<p>(Apabila data <em>training</em> tidak dibagi menjadi <em>batch</em>, maka satu <em>epoch</em> sama dengan satu iterasi.)</p>
+</section>
+<section id="train-validation-test-split" class="level3">
+<h3 class="anchored" data-anchor-id="train-validation-test-split"><em>Train-Validation-Test Split</em></h3>
+<p>Ketika menggunakan metode <em>machine learning</em> yang di-<em>training</em> secara iteratif, seperti <em>neural network</em>, biasanya ada juga yang namanya <em>validation data</em>. Sehingga, di awal, <em>dataset</em> dipisah menjadi data <em>train</em>, data <em>validation</em>, dan data <em>test</em>.</p>
+<p>Gunanya, kita bisa menguji akurasi model di akhir tiap <em>epoch</em>, menggunakan data <em>validation</em> daripada data <em>test</em>.</p>
+<p>Rasio yang paling sering digunakan adalah 80-10-10, yaitu 80% data <em>train</em>, 10% data <em>validation</em>, dan 10% data <em>test</em>.</p>
+<p>Apabila menggunakan scikit-learn, untuk melakukan <em>train-validation-test split</em>, caranya adalah dengan <em>split</em> dua kali, yaitu</p>
+<ol type="1">
+<li><p><em>Split</em> menjadi data “train” dan data <em>test</em></p></li>
+<li><p>Data “train” itu di-<em>split</em> lagi menjadi data <em>train</em> sesungguhnya dan data <em>validation</em></p></li>
+</ol>
+<p>atau bisa juga</p>
+<ol type="1">
+<li><p><em>Split</em> menjadi data <em>train</em> dan data “test”</p></li>
+<li><p>Data “test” itu di-<em>split</em> lagi menjadi data <em>validation</em> dan data <em>test</em> sesungguhnya</p></li>
+</ol>
+</section>
+</section>
+<section id="pure-tensorflow" class="level2">
+<h2 class="anchored" data-anchor-id="pure-tensorflow"><em>(Pure)</em> TensorFlow</h2>
+<div id="cell-45" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="tensor-konstanta-variabel" class="level3">
+<h3 class="anchored" data-anchor-id="tensor-konstanta-variabel"><em>Tensor</em>, Konstanta, Variabel</h3>
+<p><em>Tensor</em> adalah semacam perumuman dari <em>array</em>/vektor ataupun <em>matriks</em>.</p>
+<ul>
+<li><p>Skalar (bilangan) adalah <em>tensor</em> berdimensi nol (atau <em>rank</em> nol).</p></li>
+<li><p><em>Array</em> atau vektor adalah <em>tensor</em> berdimensi satu (atau <em>rank</em> satu).</p></li>
+<li><p>Matriks adalah <em>tensor</em> berdimensi dua (atau <em>rank</em> dua).</p></li>
+<li><p>Istilah <em>“tensor”</em> biasanya merujuk pada <em>tensor</em> berdimensi tiga (atau <em>rank</em> tiga), yaitu semacam matriks tapi tiga dimensi, sehingga ada baris, kolom, dan satu dimensi lagi.</p></li>
+</ul>
+<p>Fitur <em>tensor</em> di TensorFlow mirip dengan fitur <em>array</em> di numpy, yang memang juga bisa multidimensi.</p>
+<div id="cell-49" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.zeros(shape <span class="op">=</span> (<span class="dv">3</span>,<span class="dv">4</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]], shape=(3, 4), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-50" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.ones(shape <span class="op">=</span> (<span class="dv">3</span>,<span class="dv">4</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[1. 1. 1. 1.]
+ [1. 1. 1. 1.]
+ [1. 1. 1. 1.]], shape=(3, 4), dtype=float32)</code></pre>
+</div>
+</div>
+<p>Untuk menentukan <em>array</em> kita sendiri, di numpy digunakan <code>numpy.array</code>.</p>
+<p>Untuk menentukan <em>tensor</em> kita sendiri, di TensorFlow digunakan <code>tensorflow.constant</code> (agar nilainya tidak bisa diubah) atau <code>tensorflow.Variable</code> (nilainya bisa diubah).</p>
+<p>Pada umumnya (apabila tidak ada keterangan), <em>tensor</em> di TensorFlow berupa <code>tensorflow.constant</code></p>
+<div id="cell-52" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>const0 <span class="op">=</span> tf.constant(<span class="fl">1.5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(const0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(1.5, shape=(), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-53" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tf.rank(const0))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(0, shape=(), dtype=int32)</code></pre>
+</div>
+</div>
+<div id="cell-54" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>const1 <span class="op">=</span> tf.constant([<span class="fl">2.31</span>, <span class="fl">4.567</span>, <span class="fl">8.9</span>])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(const1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor([2.31  4.567 8.9  ], shape=(3,), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-55" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tf.rank(const1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(1, shape=(), dtype=int32)</code></pre>
+</div>
+</div>
+<div id="cell-56" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>const1[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">52.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>TypeError: 'tensorflow.python.framework.ops.EagerTensor' object does not support item assignment</code></pre>
+</div>
+</div>
+<div id="cell-57" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>const2 <span class="op">=</span> tf.constant([</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="fl">2.718</span>, <span class="fl">3.14</span>],</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">4</span>, <span class="dv">5</span>, <span class="fl">6.28</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(const2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[1.    2.718 3.14 ]
+ [4.    5.    6.28 ]], shape=(2, 3), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-58" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tf.rank(const2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(2, shape=(), dtype=int32)</code></pre>
+</div>
+</div>
+<div id="cell-59" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> tf.Variable(initial_value <span class="op">=</span> tf.zeros(shape <span class="op">=</span> (<span class="dv">2</span>,<span class="dv">3</span>)))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;tf.Variable 'Variable:0' shape=(2, 3) dtype=float32, numpy=
+array([[0., 0., 0.],
+       [0., 0., 0.]], dtype=float32)&gt;</code></pre>
+</div>
+</div>
+<p><em>Assignment</em> untuk variabel di TensorFlow dilakukan dengan <code>.assign</code></p>
+<div id="cell-61" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>v.assign(tf.ones(shape <span class="op">=</span> (<span class="dv">2</span>,<span class="dv">3</span>)))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;tf.Variable 'Variable:0' shape=(2, 3) dtype=float32, numpy=
+array([[1., 1., 1.],
+       [1., 1., 1.]], dtype=float32)&gt;</code></pre>
+</div>
+</div>
+<div id="cell-62" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>v[<span class="dv">0</span>, <span class="dv">0</span>].assign(<span class="dv">9</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;tf.Variable 'Variable:0' shape=(2, 3) dtype=float32, numpy=
+array([[9., 1., 1.],
+       [1., 1., 1.]], dtype=float32)&gt;</code></pre>
+</div>
+</div>
+<p>Ada juga <code>.assign_add</code>, sama saja dengan <code>+=</code></p>
+<div id="cell-64" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>v.assign_add(tf.ones(shape <span class="op">=</span> (<span class="dv">2</span>,<span class="dv">3</span>)))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;tf.Variable 'Variable:0' shape=(2, 3) dtype=float32, numpy=
+array([[10.,  2.,  2.],
+       [ 2.,  2.,  2.]], dtype=float32)&gt;</code></pre>
+</div>
+</div>
+<p>Kita bisa membuat <em>tensor</em> dengan nilai yang <em>random</em>, misalnya dari distribusi normal atau dari distribusi uniform</p>
+<div id="cell-66" class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dari distribusi normal</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.random.normal(shape <span class="op">=</span> (<span class="dv">2</span>,<span class="dv">3</span>), mean <span class="op">=</span> <span class="dv">0</span>, stddev <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[ 1.2542483  -0.41693744  1.0116149 ]
+ [-1.4155766   0.17204648 -0.6892854 ]], shape=(2, 3), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-67" class="cell" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dari distribusi uniform</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.random.uniform(shape <span class="op">=</span> (<span class="dv">2</span>,<span class="dv">3</span>), minval <span class="op">=</span> <span class="dv">0</span>, maxval <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[0.51321495 0.26164746 0.09113109]
+ [0.81229377 0.67134035 0.36057925]], shape=(2, 3), dtype=float32)</code></pre>
+</div>
+</div>
+<p>Operasi di TensorFlow mirip dengan numpy</p>
+<div id="cell-69" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> tf.ones((<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[4. 4.]
+ [4. 4.]], shape=(2, 2), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-70" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> tf.square(a)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[16. 16.]
+ [16. 16.]], shape=(2, 2), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-71" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> tf.sqrt(a)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[2. 2.]
+ [2. 2.]], shape=(2, 2), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-72" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> b <span class="op">+</span> c</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[18. 18.]
+ [18. 18.]], shape=(2, 2), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-73" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># perkalian matriks</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> tf.matmul(a, c)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[16. 16.]
+ [16. 16.]], shape=(2, 2), dtype=float32)</code></pre>
+</div>
+</div>
+<div id="cell-74" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># perkalian per elemen</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>e <span class="op">*=</span> d</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(e)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[288. 288.]
+ [288. 288.]], shape=(2, 2), dtype=float32)</code></pre>
+</div>
+</div>
+</section>
+<section id="automatic-differentiation-dengan-gradienttape" class="level3">
+<h3 class="anchored" data-anchor-id="automatic-differentiation-dengan-gradienttape"><em>Automatic differentiation</em> dengan <code>GradientTape</code></h3>
+<p>TensorFlow memiliki fitur yang bernama <em>automatic differentiation</em>, juga disebut <em>autodiff</em> atau <em>autograd</em>. Dengan fitur ini, TensorFlow bisa menghitung turunan/gradien secara otomatis. Fitur ini membedakan antara TensorFlow dengan numpy.</p>
+<p>Caranya adalah menggunakan <code>GradientTape</code> seperti berikut. Semua operasi di dalam <em>with statement</em> dicatat oleh <code>GradientTape</code>, yang kemudian bisa menghitung gradiennya.</p>
+<p>Contohnya, turunan <span class="math inline">\(x^3\)</span> terhadap <span class="math inline">\(x\)</span> di <span class="math inline">\(x=4\)</span> adalah <span class="math inline">\(3(4)^2 = 48\)</span>.</p>
+<div id="cell-79" class="cell" data-execution_count="72">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.Variable(<span class="fl">4.0</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tf.GradientTape() <span class="im">as</span> tape:</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x <span class="op">**</span> <span class="dv">3</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>dy_dx <span class="op">=</span> tape.gradient(y, x)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dy_dx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(48.0, shape=(), dtype=float32)</code></pre>
+</div>
+</div>
+<p>Tidak harus dengan <code>tensorflow.Variable</code>, bahkan dengan <code>tensorflow.constant</code> juga bisa. Namun, kita harus secara eksplisit meminta TensorFlow untuk memperhatikan nilai <code>x</code>, yaitu dengan <code>.watch</code></p>
+<div id="cell-81" class="cell" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant(<span class="fl">4.0</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tf.GradientTape() <span class="im">as</span> tape:</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    tape.watch(x)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x <span class="op">**</span> <span class="dv">3</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>dy_dx <span class="op">=</span> tape.gradient(y, x)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dy_dx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(48.0, shape=(), dtype=float32)</code></pre>
+</div>
+</div>
+<p>Kita bisa menghitung turunan kedua dengan <em>nested with statement</em> seperti berikut, contohnya turunan kedua dari <span class="math inline">\(x^3\)</span> terhadap <span class="math inline">\(x\)</span> di <span class="math inline">\(x=4\)</span> adalah <span class="math inline">\(6(4) = 24\)</span></p>
+<div id="cell-83" class="cell" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.Variable(<span class="fl">4.0</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tf.GradientTape() <span class="im">as</span> tape2:</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> tf.GradientTape() <span class="im">as</span> tape1:</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> x <span class="op">**</span> <span class="dv">3</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    dy_dx <span class="op">=</span> tape1.gradient(y, x)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>dy2_dx2 <span class="op">=</span> tape2.gradient(dy_dx, x)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dy2_dx2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(24.0, shape=(), dtype=float32)</code></pre>
+</div>
+</div>
+</section>
+<section id="klasifikasi-biner-dengan-perceptron" class="level3">
+<h3 class="anchored" data-anchor-id="klasifikasi-biner-dengan-perceptron">Klasifikasi biner dengan <em>perceptron</em></h3>
+<p>Men-<em>generate</em> dataset titik-titik dua dimensi dengan dua kelas</p>
+<div id="cell-86" class="cell" data-execution_count="112">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>num_samples_per_class, num_classes <span class="op">=</span> <span class="dv">1000</span>, <span class="dv">2</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>negative_samples <span class="op">=</span> np.random.multivariate_normal(mean <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">3</span>], cov <span class="op">=</span> [[<span class="dv">1</span>,<span class="fl">0.5</span>],[<span class="fl">0.5</span>,<span class="dv">1</span>]], size <span class="op">=</span> num_samples_per_class)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>positive_samples <span class="op">=</span> np.random.multivariate_normal(mean <span class="op">=</span> [<span class="dv">3</span>,<span class="dv">0</span>], cov <span class="op">=</span> [[<span class="dv">1</span>,<span class="fl">0.5</span>],[<span class="fl">0.5</span>,<span class="dv">1</span>]], size <span class="op">=</span> num_samples_per_class)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> np.vstack((negative_samples, positive_samples)).astype(np.float32)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> np.vstack((</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    np.zeros((num_samples_per_class, <span class="dv">1</span>), dtype <span class="op">=</span> <span class="st">'float32'</span>),</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    np.ones((num_samples_per_class, <span class="dv">1</span>), dtype <span class="op">=</span> <span class="st">'float32'</span>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-87" class="cell" data-execution_count="113">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(inputs.shape)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(targets.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(2000, 2)
+(2000, 1)</code></pre>
+</div>
+</div>
+<div id="cell-88" class="cell" data-execution_count="114">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(inputs[:, <span class="dv">0</span>], inputs[:, <span class="dv">1</span>], c<span class="op">=</span>targets[:, <span class="dv">0</span>])</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul7_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Untuk <em>input</em> dua dimensi dan klasifikasi biner, kita perlu <em>perceptron</em> dengan dua <em>neuron</em> di <em>input layer</em> dan satu <em>neuron</em> di <em>output layer</em>. Sebelum proses <em>training</em> dimulai, nilai matriks <span class="math inline">\(W\)</span> dan vektor kolom <span class="math inline">\(b\)</span> diisi secara <em>random</em> terlebih dahulu.</p>
+<div id="cell-90" class="cell" data-execution_count="115">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>input_dim <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>output_dim <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> tf.Variable(tf.random.normal(shape <span class="op">=</span> (input_dim, output_dim)))</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> tf.Variable(tf.random.normal(shape <span class="op">=</span> (output_dim,)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-91" class="cell" data-execution_count="116">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># forward pass</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(inputs):</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tf.sigmoid(</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>        tf.matmul(inputs, W) <span class="op">+</span> b</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-92" class="cell" data-execution_count="117">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cross entropy loss</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> entropy_loss(y, yhat):</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    per_sample_losses <span class="op">=</span> <span class="op">-</span> y <span class="op">*</span> tf.math.log(yhat) <span class="op">-</span> (<span class="dv">1</span><span class="op">-</span>y) <span class="op">*</span> tf.math.log(<span class="dv">1</span><span class="op">-</span>yhat)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tf.reduce_mean(per_sample_losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-93" class="cell" data-execution_count="118">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># training loop</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> training_step(inputs, targets):</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> tf.GradientTape() <span class="im">as</span> tape:</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model(inputs)</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> entropy_loss(targets, predictions)</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>        grad_loss_wrt_W, grad_loss_wrt_b <span class="op">=</span> tape.gradient(loss, [W, b])</span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>        W.assign_sub(learning_rate <span class="op">*</span> grad_loss_wrt_W)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>        b.assign_sub(learning_rate <span class="op">*</span> grad_loss_wrt_b)</span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-94" class="cell" data-execution_count="119">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># training loop/process/epoch</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> training_step(inputs, targets)</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Loss at epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loss at epoch 0: 0.6356502771377563
+Loss at epoch 1: 0.5394761562347412
+Loss at epoch 2: 0.4659949839115143
+Loss at epoch 3: 0.4092557430267334
+Loss at epoch 4: 0.3647000789642334
+Loss at epoch 5: 0.32904741168022156
+Loss at epoch 6: 0.29999035596847534
+Loss at epoch 7: 0.2759065628051758
+Loss at epoch 8: 0.25564298033714294
+Loss at epoch 9: 0.23836685717105865
+Loss at epoch 10: 0.22346581518650055
+Loss at epoch 11: 0.21048182249069214
+Loss at epoch 12: 0.19906604290008545
+Loss at epoch 13: 0.18894900381565094
+Loss at epoch 14: 0.17991921305656433
+Loss at epoch 15: 0.171808660030365
+Loss at epoch 16: 0.16448216140270233
+Loss at epoch 17: 0.1578298956155777
+Loss at epoch 18: 0.15176154673099518
+Loss at epoch 19: 0.14620234072208405
+Loss at epoch 20: 0.1410897672176361
+Loss at epoch 21: 0.1363711655139923
+Loss at epoch 22: 0.13200189173221588
+Loss at epoch 23: 0.12794384360313416
+Loss at epoch 24: 0.12416423857212067
+Loss at epoch 25: 0.12063482403755188
+Loss at epoch 26: 0.11733102053403854
+Loss at epoch 27: 0.11423142999410629
+Loss at epoch 28: 0.11131726205348969
+Loss at epoch 29: 0.10857197642326355
+Loss at epoch 30: 0.10598097741603851
+Loss at epoch 31: 0.10353130847215652
+Loss at epoch 32: 0.10121144354343414
+Loss at epoch 33: 0.09901105612516403
+Loss at epoch 34: 0.09692094475030899
+Loss at epoch 35: 0.09493280202150345
+Loss at epoch 36: 0.0930391252040863
+Loss at epoch 37: 0.09123318642377853
+Loss at epoch 38: 0.08950886130332947
+Loss at epoch 39: 0.08786056190729141
+Loss at epoch 40: 0.08628326654434204
+Loss at epoch 41: 0.08477234095335007
+Loss at epoch 42: 0.08332355320453644
+Loss at epoch 43: 0.08193304389715195
+Loss at epoch 44: 0.08059726655483246
+Loss at epoch 45: 0.07931295037269592
+Loss at epoch 46: 0.07807708531618118
+Loss at epoch 47: 0.07688692212104797
+Loss at epoch 48: 0.07573988288640976
+Loss at epoch 49: 0.07463356107473373
+Loss at epoch 50: 0.07356579601764679
+Loss at epoch 51: 0.07253453135490417
+Loss at epoch 52: 0.07153788208961487
+Loss at epoch 53: 0.07057405263185501
+Loss at epoch 54: 0.06964139640331268
+Loss at epoch 55: 0.06873839348554611
+Loss at epoch 56: 0.06786361336708069
+Loss at epoch 57: 0.06701568514108658
+Loss at epoch 58: 0.0661933571100235
+Loss at epoch 59: 0.06539544463157654
+Loss at epoch 60: 0.06462085992097855
+Loss at epoch 61: 0.06386853754520416
+Loss at epoch 62: 0.06313750147819519
+Loss at epoch 63: 0.0624268501996994
+Loss at epoch 64: 0.061735689640045166
+Loss at epoch 65: 0.06106320023536682
+Loss at epoch 66: 0.06040862947702408
+Loss at epoch 67: 0.05977122485637665
+Loss at epoch 68: 0.05915031582117081
+Loss at epoch 69: 0.058545228093862534
+Loss at epoch 70: 0.05795534700155258
+Loss at epoch 71: 0.057380083948373795
+Loss at epoch 72: 0.05681890249252319
+Loss at epoch 73: 0.05627123638987541
+Loss at epoch 74: 0.055736616253852844
+Loss at epoch 75: 0.05521455407142639
+Loss at epoch 76: 0.05470460280776024
+Loss at epoch 77: 0.05420632287859917
+Loss at epoch 78: 0.05371929705142975
+Loss at epoch 79: 0.053243134170770645
+Loss at epoch 80: 0.05277746543288231
+Loss at epoch 81: 0.052321940660476685
+Loss at epoch 82: 0.051876217126846313
+Loss at epoch 83: 0.05143996328115463
+Loss at epoch 84: 0.051012881100177765
+Loss at epoch 85: 0.05059466511011124
+Loss at epoch 86: 0.050185028463602066
+Loss at epoch 87: 0.049783699214458466
+Loss at epoch 88: 0.04939041659235954
+Loss at epoch 89: 0.0490049310028553
+Loss at epoch 90: 0.04862702637910843
+Loss at epoch 91: 0.04825644567608833
+Loss at epoch 92: 0.0478929802775383
+Loss at epoch 93: 0.04753640666604042
+Loss at epoch 94: 0.04718654602766037
+Loss at epoch 95: 0.04684317857027054
+Loss at epoch 96: 0.0465061329305172
+Loss at epoch 97: 0.04617522284388542
+Loss at epoch 98: 0.045850273221731186
+Loss at epoch 99: 0.04553113132715225</code></pre>
+</div>
+</div>
+<div id="cell-95" class="cell" data-execution_count="123">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> model(inputs)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(predictions)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(inputs[:, <span class="dv">0</span>], inputs[:, <span class="dv">1</span>], c<span class="op">=</span>predictions[:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[0.0227507 ]
+ [0.00890069]
+ [0.01428704]
+ ...
+ [0.87311286]
+ [0.97183764]
+ [0.98756224]], shape=(2000, 1), dtype=float32)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul7_files/figure-html/cell-37-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="keras" class="level2">
+<h2 class="anchored" data-anchor-id="keras">Keras</h2>
+<div id="cell-97" class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-98" class="cell" data-execution_count="122">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(inputs.shape)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(targets.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(2000, 2)
+(2000, 1)</code></pre>
+</div>
+</div>
+<section id="sequential-api" class="level3">
+<h3 class="anchored" data-anchor-id="sequential-api"><em>Sequential API</em></h3>
+<div id="cell-100" class="cell" data-execution_count="124">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> keras.Sequential([</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    keras.layers.InputLayer(input_shape <span class="op">=</span> (<span class="dv">2</span>,)),</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    keras.layers.Dense(units <span class="op">=</span> <span class="dv">1</span>, activation <span class="op">=</span> <span class="st">'sigmoid'</span>)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-101" class="cell" data-execution_count="143">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>model2.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense (Dense)               (None, 1)                 3         
+                                                                 
+=================================================================
+Total params: 3
+Trainable params: 3
+Non-trainable params: 0
+_________________________________________________________________</code></pre>
+</div>
+</div>
+<div id="cell-102" class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>keras.utils.plot_model(</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    model2,</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    show_shapes <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    to_file <span class="op">=</span> <span class="st">"model2.png"</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="./modul7_model2.png" class="img-fluid"></p>
+<p>Untuk memilih <em>hyperparameter</em> yaitu <em>optimizer</em> dan <em>loss function</em>, kedua kode berikut ini ekuivalen:</p>
+<div id="cell-105" class="cell" data-execution_count="129">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">"sgd"</span>,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>              loss<span class="op">=</span><span class="st">"sparse_binary_crossentropy"</span>,</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">"accuracy"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-106" class="cell" data-execution_count="130">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(optimizer<span class="op">=</span>keras.optimizers.SGD(),</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>               loss<span class="op">=</span>keras.losses.BinaryCrossentropy(),</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>               metrics<span class="op">=</span>[keras.metrics.BinaryAccuracy()])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Selanjutnya, tinggal <em>training</em></p>
+<div id="cell-108" class="cell" data-execution_count="132">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> inputs</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> targets</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>history2 <span class="op">=</span> model2.fit(x_train, y_train, epochs<span class="op">=</span><span class="dv">100</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/100
+50/50 [==============================] - 2s 10ms/step - loss: 0.2617 - binary_accuracy: 0.9994 - val_loss: 0.2296 - val_binary_accuracy: 0.9950
+Epoch 2/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.1873 - binary_accuracy: 1.0000 - val_loss: 0.1960 - val_binary_accuracy: 0.9925
+Epoch 3/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.1493 - binary_accuracy: 0.9994 - val_loss: 0.1707 - val_binary_accuracy: 0.9925
+Epoch 4/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.1256 - binary_accuracy: 0.9994 - val_loss: 0.1515 - val_binary_accuracy: 0.9925
+Epoch 5/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.1092 - binary_accuracy: 0.9994 - val_loss: 0.1365 - val_binary_accuracy: 0.9925
+Epoch 6/100
+50/50 [==============================] - 0s 10ms/step - loss: 0.0971 - binary_accuracy: 0.9994 - val_loss: 0.1246 - val_binary_accuracy: 0.9925
+Epoch 7/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0878 - binary_accuracy: 0.9994 - val_loss: 0.1149 - val_binary_accuracy: 0.9925
+Epoch 8/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0803 - binary_accuracy: 0.9994 - val_loss: 0.1067 - val_binary_accuracy: 0.9925
+Epoch 9/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0742 - binary_accuracy: 0.9994 - val_loss: 0.0998 - val_binary_accuracy: 0.9925
+Epoch 10/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0691 - binary_accuracy: 0.9994 - val_loss: 0.0939 - val_binary_accuracy: 0.9925
+Epoch 11/100
+50/50 [==============================] - 1s 10ms/step - loss: 0.0648 - binary_accuracy: 0.9994 - val_loss: 0.0888 - val_binary_accuracy: 0.9925
+Epoch 12/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0610 - binary_accuracy: 0.9994 - val_loss: 0.0843 - val_binary_accuracy: 0.9925
+Epoch 13/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0578 - binary_accuracy: 0.9994 - val_loss: 0.0803 - val_binary_accuracy: 0.9925
+Epoch 14/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0549 - binary_accuracy: 0.9994 - val_loss: 0.0769 - val_binary_accuracy: 0.9925
+Epoch 15/100
+50/50 [==============================] - 0s 7ms/step - loss: 0.0524 - binary_accuracy: 0.9994 - val_loss: 0.0738 - val_binary_accuracy: 0.9925
+Epoch 16/100
+50/50 [==============================] - 1s 13ms/step - loss: 0.0501 - binary_accuracy: 0.9994 - val_loss: 0.0709 - val_binary_accuracy: 0.9925
+Epoch 17/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0481 - binary_accuracy: 0.9994 - val_loss: 0.0684 - val_binary_accuracy: 0.9925
+Epoch 18/100
+50/50 [==============================] - 0s 8ms/step - loss: 0.0463 - binary_accuracy: 0.9994 - val_loss: 0.0661 - val_binary_accuracy: 0.9925
+Epoch 19/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0446 - binary_accuracy: 0.9994 - val_loss: 0.0640 - val_binary_accuracy: 0.9925
+Epoch 20/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0430 - binary_accuracy: 0.9994 - val_loss: 0.0620 - val_binary_accuracy: 0.9925
+Epoch 21/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0416 - binary_accuracy: 0.9994 - val_loss: 0.0602 - val_binary_accuracy: 0.9925
+Epoch 22/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0403 - binary_accuracy: 1.0000 - val_loss: 0.0586 - val_binary_accuracy: 0.9925
+Epoch 23/100
+50/50 [==============================] - 0s 3ms/step - loss: 0.0391 - binary_accuracy: 0.9994 - val_loss: 0.0570 - val_binary_accuracy: 0.9925
+Epoch 24/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0380 - binary_accuracy: 1.0000 - val_loss: 0.0556 - val_binary_accuracy: 0.9925
+Epoch 25/100
+50/50 [==============================] - 1s 12ms/step - loss: 0.0370 - binary_accuracy: 1.0000 - val_loss: 0.0543 - val_binary_accuracy: 0.9925
+Epoch 26/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0360 - binary_accuracy: 1.0000 - val_loss: 0.0531 - val_binary_accuracy: 0.9925
+Epoch 27/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0351 - binary_accuracy: 1.0000 - val_loss: 0.0519 - val_binary_accuracy: 0.9925
+Epoch 28/100
+50/50 [==============================] - 1s 10ms/step - loss: 0.0343 - binary_accuracy: 1.0000 - val_loss: 0.0508 - val_binary_accuracy: 0.9925
+Epoch 29/100
+50/50 [==============================] - 1s 13ms/step - loss: 0.0335 - binary_accuracy: 1.0000 - val_loss: 0.0498 - val_binary_accuracy: 0.9925
+Epoch 30/100
+50/50 [==============================] - 1s 10ms/step - loss: 0.0327 - binary_accuracy: 1.0000 - val_loss: 0.0488 - val_binary_accuracy: 0.9925
+Epoch 31/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0320 - binary_accuracy: 1.0000 - val_loss: 0.0479 - val_binary_accuracy: 0.9925
+Epoch 32/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0313 - binary_accuracy: 1.0000 - val_loss: 0.0470 - val_binary_accuracy: 0.9925
+Epoch 33/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0307 - binary_accuracy: 1.0000 - val_loss: 0.0462 - val_binary_accuracy: 0.9925
+Epoch 34/100
+50/50 [==============================] - 0s 7ms/step - loss: 0.0301 - binary_accuracy: 1.0000 - val_loss: 0.0454 - val_binary_accuracy: 0.9925
+Epoch 35/100
+50/50 [==============================] - 0s 8ms/step - loss: 0.0295 - binary_accuracy: 1.0000 - val_loss: 0.0447 - val_binary_accuracy: 0.9925
+Epoch 36/100
+50/50 [==============================] - 1s 11ms/step - loss: 0.0290 - binary_accuracy: 1.0000 - val_loss: 0.0440 - val_binary_accuracy: 0.9925
+Epoch 37/100
+50/50 [==============================] - 0s 8ms/step - loss: 0.0284 - binary_accuracy: 1.0000 - val_loss: 0.0433 - val_binary_accuracy: 0.9925
+Epoch 38/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0279 - binary_accuracy: 1.0000 - val_loss: 0.0426 - val_binary_accuracy: 0.9925
+Epoch 39/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0275 - binary_accuracy: 1.0000 - val_loss: 0.0420 - val_binary_accuracy: 0.9925
+Epoch 40/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0270 - binary_accuracy: 1.0000 - val_loss: 0.0414 - val_binary_accuracy: 0.9925
+Epoch 41/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0266 - binary_accuracy: 1.0000 - val_loss: 0.0409 - val_binary_accuracy: 0.9925
+Epoch 42/100
+50/50 [==============================] - 1s 10ms/step - loss: 0.0261 - binary_accuracy: 1.0000 - val_loss: 0.0403 - val_binary_accuracy: 0.9925
+Epoch 43/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0257 - binary_accuracy: 1.0000 - val_loss: 0.0398 - val_binary_accuracy: 0.9925
+Epoch 44/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0254 - binary_accuracy: 1.0000 - val_loss: 0.0393 - val_binary_accuracy: 0.9925
+Epoch 45/100
+50/50 [==============================] - 0s 7ms/step - loss: 0.0250 - binary_accuracy: 1.0000 - val_loss: 0.0388 - val_binary_accuracy: 0.9925
+Epoch 46/100
+50/50 [==============================] - 0s 7ms/step - loss: 0.0246 - binary_accuracy: 1.0000 - val_loss: 0.0384 - val_binary_accuracy: 0.9925
+Epoch 47/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0243 - binary_accuracy: 1.0000 - val_loss: 0.0379 - val_binary_accuracy: 0.9925
+Epoch 48/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0239 - binary_accuracy: 1.0000 - val_loss: 0.0375 - val_binary_accuracy: 0.9925
+Epoch 49/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0236 - binary_accuracy: 1.0000 - val_loss: 0.0371 - val_binary_accuracy: 0.9925
+Epoch 50/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0233 - binary_accuracy: 1.0000 - val_loss: 0.0367 - val_binary_accuracy: 0.9925
+Epoch 51/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0230 - binary_accuracy: 1.0000 - val_loss: 0.0363 - val_binary_accuracy: 0.9925
+Epoch 52/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0227 - binary_accuracy: 1.0000 - val_loss: 0.0360 - val_binary_accuracy: 0.9925
+Epoch 53/100
+50/50 [==============================] - 0s 10ms/step - loss: 0.0225 - binary_accuracy: 1.0000 - val_loss: 0.0356 - val_binary_accuracy: 0.9925
+Epoch 54/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0222 - binary_accuracy: 1.0000 - val_loss: 0.0353 - val_binary_accuracy: 0.9925
+Epoch 55/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0219 - binary_accuracy: 1.0000 - val_loss: 0.0349 - val_binary_accuracy: 0.9925
+Epoch 56/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0217 - binary_accuracy: 1.0000 - val_loss: 0.0346 - val_binary_accuracy: 0.9925
+Epoch 57/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0214 - binary_accuracy: 1.0000 - val_loss: 0.0343 - val_binary_accuracy: 0.9925
+Epoch 58/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0212 - binary_accuracy: 1.0000 - val_loss: 0.0340 - val_binary_accuracy: 0.9925
+Epoch 59/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0209 - binary_accuracy: 1.0000 - val_loss: 0.0337 - val_binary_accuracy: 0.9925
+Epoch 60/100
+50/50 [==============================] - 0s 8ms/step - loss: 0.0207 - binary_accuracy: 1.0000 - val_loss: 0.0334 - val_binary_accuracy: 0.9925
+Epoch 61/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0205 - binary_accuracy: 1.0000 - val_loss: 0.0331 - val_binary_accuracy: 0.9925
+Epoch 62/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0203 - binary_accuracy: 1.0000 - val_loss: 0.0329 - val_binary_accuracy: 0.9925
+Epoch 63/100
+50/50 [==============================] - 0s 8ms/step - loss: 0.0201 - binary_accuracy: 1.0000 - val_loss: 0.0326 - val_binary_accuracy: 0.9925
+Epoch 64/100
+50/50 [==============================] - 0s 7ms/step - loss: 0.0199 - binary_accuracy: 1.0000 - val_loss: 0.0323 - val_binary_accuracy: 0.9925
+Epoch 65/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0197 - binary_accuracy: 1.0000 - val_loss: 0.0321 - val_binary_accuracy: 0.9925
+Epoch 66/100
+50/50 [==============================] - 0s 7ms/step - loss: 0.0195 - binary_accuracy: 1.0000 - val_loss: 0.0318 - val_binary_accuracy: 0.9925
+Epoch 67/100
+50/50 [==============================] - 0s 10ms/step - loss: 0.0193 - binary_accuracy: 1.0000 - val_loss: 0.0316 - val_binary_accuracy: 0.9925
+Epoch 68/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0191 - binary_accuracy: 1.0000 - val_loss: 0.0314 - val_binary_accuracy: 0.9925
+Epoch 69/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0189 - binary_accuracy: 1.0000 - val_loss: 0.0312 - val_binary_accuracy: 0.9925
+Epoch 70/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0188 - binary_accuracy: 1.0000 - val_loss: 0.0309 - val_binary_accuracy: 0.9925
+Epoch 71/100
+50/50 [==============================] - 0s 3ms/step - loss: 0.0186 - binary_accuracy: 1.0000 - val_loss: 0.0307 - val_binary_accuracy: 0.9925
+Epoch 72/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0184 - binary_accuracy: 1.0000 - val_loss: 0.0305 - val_binary_accuracy: 0.9925
+Epoch 73/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0183 - binary_accuracy: 1.0000 - val_loss: 0.0303 - val_binary_accuracy: 0.9925
+Epoch 74/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0181 - binary_accuracy: 1.0000 - val_loss: 0.0301 - val_binary_accuracy: 0.9925
+Epoch 75/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0180 - binary_accuracy: 1.0000 - val_loss: 0.0299 - val_binary_accuracy: 0.9925
+Epoch 76/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0178 - binary_accuracy: 1.0000 - val_loss: 0.0297 - val_binary_accuracy: 0.9925
+Epoch 77/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0177 - binary_accuracy: 1.0000 - val_loss: 0.0296 - val_binary_accuracy: 0.9925
+Epoch 78/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0175 - binary_accuracy: 1.0000 - val_loss: 0.0294 - val_binary_accuracy: 0.9925
+Epoch 79/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0174 - binary_accuracy: 1.0000 - val_loss: 0.0292 - val_binary_accuracy: 0.9925
+Epoch 80/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0173 - binary_accuracy: 1.0000 - val_loss: 0.0290 - val_binary_accuracy: 0.9925
+Epoch 81/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0171 - binary_accuracy: 1.0000 - val_loss: 0.0289 - val_binary_accuracy: 0.9925
+Epoch 82/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0170 - binary_accuracy: 1.0000 - val_loss: 0.0287 - val_binary_accuracy: 0.9925
+Epoch 83/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0169 - binary_accuracy: 1.0000 - val_loss: 0.0285 - val_binary_accuracy: 0.9925
+Epoch 84/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0167 - binary_accuracy: 1.0000 - val_loss: 0.0284 - val_binary_accuracy: 0.9925
+Epoch 85/100
+50/50 [==============================] - 0s 9ms/step - loss: 0.0166 - binary_accuracy: 1.0000 - val_loss: 0.0282 - val_binary_accuracy: 0.9925
+Epoch 86/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0165 - binary_accuracy: 1.0000 - val_loss: 0.0281 - val_binary_accuracy: 0.9925
+Epoch 87/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0164 - binary_accuracy: 1.0000 - val_loss: 0.0279 - val_binary_accuracy: 0.9925
+Epoch 88/100
+50/50 [==============================] - 0s 5ms/step - loss: 0.0163 - binary_accuracy: 1.0000 - val_loss: 0.0278 - val_binary_accuracy: 0.9925
+Epoch 89/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0161 - binary_accuracy: 1.0000 - val_loss: 0.0276 - val_binary_accuracy: 0.9925
+Epoch 90/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0160 - binary_accuracy: 1.0000 - val_loss: 0.0275 - val_binary_accuracy: 0.9925
+Epoch 91/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0159 - binary_accuracy: 1.0000 - val_loss: 0.0274 - val_binary_accuracy: 0.9925
+Epoch 92/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0158 - binary_accuracy: 1.0000 - val_loss: 0.0272 - val_binary_accuracy: 0.9925
+Epoch 93/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0157 - binary_accuracy: 1.0000 - val_loss: 0.0271 - val_binary_accuracy: 0.9925
+Epoch 94/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0156 - binary_accuracy: 1.0000 - val_loss: 0.0270 - val_binary_accuracy: 0.9925
+Epoch 95/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0155 - binary_accuracy: 1.0000 - val_loss: 0.0268 - val_binary_accuracy: 0.9925
+Epoch 96/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0154 - binary_accuracy: 1.0000 - val_loss: 0.0267 - val_binary_accuracy: 0.9925
+Epoch 97/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0153 - binary_accuracy: 1.0000 - val_loss: 0.0266 - val_binary_accuracy: 0.9925
+Epoch 98/100
+50/50 [==============================] - 0s 6ms/step - loss: 0.0152 - binary_accuracy: 1.0000 - val_loss: 0.0265 - val_binary_accuracy: 0.9925
+Epoch 99/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0151 - binary_accuracy: 1.0000 - val_loss: 0.0264 - val_binary_accuracy: 0.9925
+Epoch 100/100
+50/50 [==============================] - 0s 4ms/step - loss: 0.0150 - binary_accuracy: 1.0000 - val_loss: 0.0262 - val_binary_accuracy: 0.9925</code></pre>
+</div>
+</div>
+<div id="cell-109" class="cell" data-execution_count="135">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(history2.history.keys())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>dict_keys(['loss', 'binary_accuracy', 'val_loss', 'val_binary_accuracy'])</code></pre>
+</div>
+</div>
+<div id="cell-110" class="cell" data-execution_count="136">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>plt.plot(history2.history[<span class="st">'loss'</span>], label <span class="op">=</span> <span class="st">'training loss'</span>)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>plt.plot(history2.history[<span class="st">'val_loss'</span>], label <span class="op">=</span> <span class="st">'validation loss'</span>)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul7_files/figure-html/cell-47-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="functional-api" class="level3">
+<h3 class="anchored" data-anchor-id="functional-api"><em>Functional API</em></h3>
+<div id="cell-112" class="cell" data-execution_count="138">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>x_sym <span class="op">=</span> keras.Input(shape <span class="op">=</span> (<span class="dv">2</span>,))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-113" class="cell" data-execution_count="140">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>dense_func <span class="op">=</span> keras.layers.Dense(<span class="dv">1</span>, activation <span class="op">=</span> <span class="st">'sigmoid'</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>y_sym <span class="op">=</span> dense_func(x_sym)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-114" class="cell" data-execution_count="141">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> keras.Model(inputs<span class="op">=</span>x_sym, outputs<span class="op">=</span>y_sym)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-115" class="cell" data-execution_count="142">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>model3.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_3 (InputLayer)        [(None, 2)]               0         
+                                                                 
+ dense_1 (Dense)             (None, 1)                 3         
+                                                                 
+=================================================================
+Total params: 3
+Trainable params: 3
+Non-trainable params: 0
+_________________________________________________________________</code></pre>
+</div>
+</div>
+<div id="cell-116" class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>keras.utils.plot_model(</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>    model3,</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    show_shapes <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>    to_file <span class="op">=</span> <span class="st">"model3.png"</span></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="./modul7_model3.png" class="img-fluid"></p>
+<p>Sisanya (<em>compile</em> lalu <em>fit</em>) sama dengan Sequential API</p>
+</section>
+<section id="subclassing-api-yaitu-dengan-oop" class="level3">
+<h3 class="anchored" data-anchor-id="subclassing-api-yaitu-dengan-oop"><em>Subclassing API</em> (yaitu dengan OOP)</h3>
+<div id="cell-120" class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Linear(keras.layers.Layer):</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, units<span class="op">=</span><span class="dv">1</span>, input_dim<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.W <span class="op">=</span> <span class="va">self</span>.add_weight(</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>            shape<span class="op">=</span>(input_dim, units),</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>            initializer<span class="op">=</span><span class="st">"random_normal"</span>,</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>            trainable<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> <span class="va">self</span>.add_weight(</span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>            shape<span class="op">=</span>(units,),</span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>            initializer<span class="op">=</span><span class="st">"random_normal"</span>,</span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>            trainable<span class="op">=</span><span class="va">True</span></span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> call(<span class="va">self</span>, inputs):</span>
+<span id="cb84-16"><a href="#cb84-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> tf.matmul(inputs, <span class="va">self</span>.W) <span class="op">+</span> <span class="va">self</span>.b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="referensi" class="level2">
+<h2 class="anchored" data-anchor-id="referensi">Referensi</h2>
+<p>Sumber gambar</p>
+<ul>
+<li><p>Aggarwal, C. Charu. 2018. <em>Neural Networks and Deep Learning: A Textbook.</em> Edisi Pertama. Springer.</p></li>
+<li><p>Goodfellow, Ian; Bengio, Yoshua; &amp; Courville, Aaron. 2016. <em>Deep Learning</em>. MIT Press.</p></li>
+</ul>
+<p>Buku lainnya</p>
+<ul>
+<li>Géron, Aurélien. 2019. <em>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems.</em> Edisi Kedua. O’Reilly Media.</li>
+</ul>
+<p>Internet</p>
+<ul>
+<li><p><a href="https://www.tensorflow.org/api_docs/python/tf" class="uri">https://www.tensorflow.org/api_docs/python/tf</a></p></li>
+<li><p><a href="https://keras.io/api/models/" class="uri">https://keras.io/api/models/</a></p></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
