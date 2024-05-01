@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -153,8 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#modul-5-praktikum-sains-data" id="toc-modul-5-praktikum-sains-data" class="nav-link active" data-scroll-target="#modul-5-praktikum-sains-data">Modul 5 Praktikum Sains Data</a></li>
-  <li><a href="#k-nearest-neighbor" id="toc-k-nearest-neighbor" class="nav-link" data-scroll-target="#k-nearest-neighbor">K-Nearest Neighbor</a>
+  <li><a href="#k-nearest-neighbor" id="toc-k-nearest-neighbor" class="nav-link active" data-scroll-target="#k-nearest-neighbor">K-Nearest Neighbor</a>
   <ul class="collapse">
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a></li>
@@ -190,14 +189,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="modul-5-praktikum-sains-data" class="level1">
-<h1>Modul 5 Praktikum Sains Data</h1>
-</section>
 <section id="k-nearest-neighbor" class="level1">
 <h1>K-Nearest Neighbor</h1>
 <p><img src="./knn.jpg" class="img-fluid"></p>
 <p>K-Nearest neighbor adalah salah satu jenis algoritma supervised learning. Biasanya, algoritma ini digunakan untuk masalah klasifikasi. Kelas dari data tersebut ditentukan dari sejumlah k titik yang berperan “tetangga”. Pada gambar di atas, ketika k = 3, bintang akan diklasifikasikan sebagai kelas ungu, sebab mayoritas dari tetangganya adalah ungu. Sedangkan, ketika k = 6, bintang akan diklasifikasikan sebagai kelas kuning.</p>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#import modul</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -207,11 +203,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>Pada module kali ini, akan digunakan data csv teleCust1000t (<code>teleCust1000t.csv</code>) yang bisa didownload dari: - <a href="https://www.kaggle.com/code/zohaib123/telecusts-prediction-k-nearest-neighbors">Kaggle</a></p>
-<div id="cell-6" class="cell" data-execution_count="4">
+<div id="cell-7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> <span class="co">#membaca dataset</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'./teleCust1000t.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 
 
@@ -315,7 +312,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cell-7" class="cell" data-execution_count="5">
+</div>
+<div id="cell-8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#menghitung jumlah anggota tiap kelas</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'custcat'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -327,7 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="6">
+<div id="cell-9" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> <span class="co">#melihat sebaran income dengan histogram</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df.hist(column<span class="op">=</span><span class="st">'income'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -341,7 +339,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-9" class="cell" data-execution_count="7">
+<div id="cell-10" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#melihat 4 row pertama</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[[<span class="st">'region'</span>, <span class="st">'tenure'</span>, <span class="st">'age'</span>, <span class="st">'marital'</span>, <span class="st">'address'</span>, <span class="st">'income'</span>, <span class="st">'ed'</span>, <span class="st">'employ'</span>, <span class="st">'retire'</span>,<span class="st">'gender'</span>, <span class="st">'reside'</span>]].values</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>X[<span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -352,7 +350,7 @@ Name: count, dtype: int64</code></pre>
        [  2.,  33.,  33.,   0.,  12.,  33.,   2.,   0.,   0.,   1.,   1.]])</code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="8">
+<div id="cell-11" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#melihat kelas dari 4 row pertama</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> df[[<span class="st">'custcat'</span>]].values</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Y[<span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -366,10 +364,10 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
-<div id="cell-12" class="cell" data-execution_count="9">
+<div id="cell-13" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> preprocessing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="10">
+<div id="cell-14" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#normalize data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> preprocessing.StandardScaler().fit(X).transform(X.astype(<span class="bu">float</span>))</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>X[<span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -391,12 +389,12 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="train-test-split" class="level2">
 <h2 class="anchored" data-anchor-id="train-test-split">Train test split</h2>
-<div id="cell-15" class="cell" data-execution_count="11">
+<div id="cell-16" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#train test split</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>X_train, X_test, Y_train, Y_test <span class="op">=</span> train_test_split(X,Y, test_size <span class="op">=</span> <span class="fl">0.2</span>, random_state <span class="op">=</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-16" class="cell" data-execution_count="12">
+<div id="cell-17" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_train.shape)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Y_train.shape)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_test.shape)</span>
@@ -411,7 +409,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="membuat-model" class="level2">
 <h2 class="anchored" data-anchor-id="membuat-model">Membuat model</h2>
-<div id="cell-18" class="cell" data-execution_count="13">
+<div id="cell-19" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#membuat model dengan k = 4</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">4</span></span>
@@ -424,7 +422,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="prediksi" class="level2">
 <h2 class="anchored" data-anchor-id="prediksi">Prediksi</h2>
-<div id="cell-20" class="cell" data-execution_count="14">
+<div id="cell-21" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hasil prediksi</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ypredict <span class="op">=</span> neighbor.predict(X_test)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ypredict[<span class="dv">0</span>:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -432,7 +430,7 @@ Name: count, dtype: int64</code></pre>
 <pre><code>array([1, 1, 3, 2, 4], dtype=int64)</code></pre>
 </div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="15">
+<div id="cell-22" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#kelas sebenarnya</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Y_test[<span class="dv">0</span>:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -446,7 +444,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="evaluasi-model" class="level2">
 <h2 class="anchored" data-anchor-id="evaluasi-model">Evaluasi Model</h2>
-<div id="cell-23" class="cell" data-execution_count="16">
+<div id="cell-24" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#menghitung akurasi</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>metrics.accuracy_score(Y_test,ypredict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -457,7 +455,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="membuat-model-dengan-k-lainnya" class="level2">
 <h2 class="anchored" data-anchor-id="membuat-model-dengan-k-lainnya">Membuat model dengan k lainnya</h2>
-<div id="cell-25" class="cell" data-execution_count="17">
+<div id="cell-26" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#membuat model dengan k = 6</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">6</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>neighbor_6 <span class="op">=</span> KNeighborsClassifier(n_neighbors <span class="op">=</span> k).fit(X_train, Y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -466,7 +464,7 @@ Name: count, dtype: int64</code></pre>
   return self._fit(X, y)</code></pre>
 </div>
 </div>
-<div id="cell-26" class="cell" data-execution_count="18">
+<div id="cell-27" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hasil prediksi</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ypredict6 <span class="op">=</span> neighbor_6.predict(X_test)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>ypredict6[<span class="dv">0</span>:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -474,7 +472,7 @@ Name: count, dtype: int64</code></pre>
 <pre><code>array([3, 3, 3, 4, 4], dtype=int64)</code></pre>
 </div>
 </div>
-<div id="cell-27" class="cell" data-execution_count="19">
+<div id="cell-28" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#kelas sebenarnya</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Y_test[<span class="dv">0</span>:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
@@ -485,7 +483,7 @@ Name: count, dtype: int64</code></pre>
        [4]], dtype=int64)</code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="20">
+<div id="cell-29" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#akurasi</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>metrics.accuracy_score(Y_test,ypredict6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
@@ -496,7 +494,7 @@ Name: count, dtype: int64</code></pre>
 <section id="mencari-k-terbaik" class="level2">
 <h2 class="anchored" data-anchor-id="mencari-k-terbaik">Mencari k terbaik</h2>
 <p>Kinerja model K-NN sangat bergantung pada jumlah k yang dipilih. Kita dapat menentukan k terbaik dengan menggunakan loop.</p>
-<div id="cell-31" class="cell" data-execution_count="21">
+<div id="cell-32" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mencari k terbaik diantara 1&lt;=k&lt;=10</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>nk <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -537,7 +535,7 @@ c:\Users\ACER\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\
        0.33 ])</code></pre>
 </div>
 </div>
-<div id="cell-32" class="cell" data-execution_count="22">
+<div id="cell-33" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot akurasi dari beberapa k</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>,nk<span class="op">+</span><span class="dv">1</span>),mean_acc,<span class="st">'g'</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt.fill_between(<span class="bu">range</span>(<span class="dv">1</span>,nk<span class="op">+</span><span class="dv">1</span>),mean_acc<span class="op">-</span><span class="dv">1</span><span class="op">*</span>std_acc,mean_acc<span class="op">+</span><span class="dv">1</span><span class="op">*</span>std_acc,alpha <span class="op">=</span> <span class="fl">0.10</span>)</span>
@@ -555,7 +553,7 @@ c:\Users\ACER\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\
 </div>
 </div>
 </div>
-<div id="cell-33" class="cell" data-execution_count="23">
+<div id="cell-34" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#k terbaik beserta hasilnya</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"akurasi terbaik model adalah"</span>, mean_acc.<span class="bu">max</span>(), <span class="st">"dengan jumlah k="</span>, mean_acc.argmax()<span class="op">+</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -647,6 +645,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -681,7 +697,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
