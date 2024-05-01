@@ -265,7 +265,7 @@ window.Quarto = {
 </div>
 <p>Keras terinstal bersama TensorFlow (karena Keras ada di dalamnya).</p>
 <p>Lalu import:</p>
-<div id="cell-9" class="cell" data-execution_count="3">
+<div id="cell-9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -846,13 +846,13 @@ array([[9., 1., 1.],
 <p>Tentunya, karena titik-titiknya di-<em>generate</em> secara <em>random</em>, mungkin saja titik-titik yang kalian peroleh akan sedikit berbeda, bahkan tiap kali di-<em>run</em> ulang akan berbeda.</p>
 <p>Kalau kalian mau menyamakan dengan modul ini, CSV nya bisa di-<em>download</em> dari GitHub Pages ini: <a href="./titik_negatif_positif.csv">titik_negatif_positif.csv</a></p>
 <p>Kita bisa import kembali:</p>
-<div id="cell-111" class="cell" data-execution_count="52">
+<div id="cell-111" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./titik_negatif_positif.csv"</span>, dtype<span class="op">=</span><span class="st">"float32"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Kali ini, kita tambahkan keterangan <code>dtype="float32"</code>. Ini penting, karena TensorFlow biasanya menangani <code>float32</code> (yaitu tipe data <code>float</code> dengan penyimpanan 32-bit), bukan <code>float64</code> yang biasa digunakan oleh pandas.</p>
-<div id="cell-113" class="cell" data-execution_count="53">
+<div id="cell-113" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <div>
 
@@ -956,13 +956,13 @@ dtypes: float32(3)
 memory usage: 23.6 KB</code></pre>
 </div>
 </div>
-<div id="cell-115" class="cell" data-execution_count="70">
+<div id="cell-115" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>inputs_df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">"kelas"</span>])</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>targets_df <span class="op">=</span> df[[<span class="st">"kelas"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-116" class="cell" data-execution_count="72">
+<div id="cell-116" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>inputs_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="72">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 <div>
 
@@ -1039,9 +1039,9 @@ memory usage: 23.6 KB</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-117" class="cell" data-execution_count="73">
+<div id="cell-117" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>targets_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="73">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 <div>
 
@@ -1118,9 +1118,9 @@ memory usage: 23.6 KB</code></pre>
 </div>
 </div>
 <p>TensorFlow kurang bisa menangani pandas DataFrame, sehingga harus kita ubah jadi array numpy:</p>
-<div id="cell-120" class="cell" data-execution_count="74">
+<div id="cell-120" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> inputs_df.to_numpy()</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>targes <span class="op">=</span> targets_df.to_numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>targets <span class="op">=</span> targets_df.to_numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-121" class="cell" data-execution_count="84">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(inputs.shape)</span>
@@ -1134,26 +1134,26 @@ memory usage: 23.6 KB</code></pre>
 <section id="menyusun-model-dan-training" class="level3">
 <h3 class="anchored" data-anchor-id="menyusun-model-dan-training">Menyusun model dan <em>training</em></h3>
 <p>Untuk <em>input</em> dua dimensi dan klasifikasi biner, kita perlu <em>perceptron</em> dengan dua <em>neuron</em> di <em>input layer</em> dan satu <em>neuron</em> di <em>output layer</em>. Sebelum proses <em>training</em> dimulai, nilai matriks <span class="math inline">\(W\)</span> dan vektor kolom <span class="math inline">\(b\)</span> diisi secara <em>random</em> terlebih dahulu.</p>
-<div id="cell-124" class="cell" data-execution_count="58">
+<div id="cell-124" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>input_dim <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>output_dim <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> tf.Variable(tf.random.normal(shape <span class="op">=</span> (input_dim, output_dim)))</span>
 <span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> tf.Variable(tf.random.normal(shape <span class="op">=</span> (output_dim,)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-125" class="cell" data-execution_count="78">
+<div id="cell-125" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># forward pass</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model(inputs):</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tf.sigmoid(</span>
 <span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>        tf.matmul(inputs, W) <span class="op">+</span> b</span>
 <span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-126" class="cell" data-execution_count="77">
+<div id="cell-126" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cross entropy loss</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> entropy_loss(y, yhat):</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    per_sample_losses <span class="op">=</span> <span class="op">-</span> y <span class="op">*</span> tf.math.log(yhat) <span class="op">-</span> (<span class="dv">1</span><span class="op">-</span>y) <span class="op">*</span> tf.math.log(<span class="dv">1</span><span class="op">-</span>yhat)</span>
 <span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tf.reduce_mean(per_sample_losses)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-127" class="cell" data-execution_count="61">
+<div id="cell-127" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># satu epoch di training loop</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>learning_rate <span class="op">=</span> <span class="fl">0.1</span></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> training_step(inputs, targets):</span>
@@ -1169,133 +1169,133 @@ memory usage: 23.6 KB</code></pre>
 <span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> loss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-128" class="cell" data-execution_count="79">
+<div id="cell-128" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># training loop</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> training_step(inputs, targets)</span>
 <span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Loss at epoch </span><span class="sc">{</span>epoch<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Loss at epoch 0: 3.0200421810150146
-Loss at epoch 1: 2.7635860443115234
-Loss at epoch 2: 2.509720802307129
-Loss at epoch 3: 2.258918523788452
-Loss at epoch 4: 2.01196551322937
-Loss at epoch 5: 1.7701630592346191
-Loss at epoch 6: 1.5355981588363647
-Loss at epoch 7: 1.3114641904830933
-Loss at epoch 8: 1.1022865772247314
-Loss at epoch 9: 0.9136847257614136
-Loss at epoch 10: 0.7511776089668274
-Loss at epoch 11: 0.6180678606033325
-Loss at epoch 12: 0.5137915015220642
-Loss at epoch 13: 0.43433916568756104
-Loss at epoch 14: 0.3742816746234894
-Loss at epoch 15: 0.3285544514656067
-Loss at epoch 16: 0.29318517446517944
-Loss at epoch 17: 0.2652996778488159
-Loss at epoch 18: 0.2428814172744751
-Loss at epoch 19: 0.22452279925346375
-Loss at epoch 20: 0.20923323929309845
-Loss at epoch 21: 0.19630587100982666
-Loss at epoch 22: 0.18522794544696808
-Loss at epoch 23: 0.17562125623226166
-Loss at epoch 24: 0.16720221936702728
-Loss at epoch 25: 0.15975472331047058
-Loss at epoch 26: 0.15311187505722046
-Loss at epoch 27: 0.14714278280735016
-Loss at epoch 28: 0.1417437195777893
-Loss at epoch 29: 0.1368313431739807
-Loss at epoch 30: 0.13233806192874908
-Loss at epoch 31: 0.1282084882259369
-Loss at epoch 32: 0.12439676374197006
-Loss at epoch 33: 0.12086473405361176
-Loss at epoch 34: 0.11758015304803848
-Loss at epoch 35: 0.11451584100723267
-Loss at epoch 36: 0.11164852976799011
-Loss at epoch 37: 0.10895827412605286
-Loss at epoch 38: 0.10642783343791962
-Loss at epoch 39: 0.10404223948717117
-Loss at epoch 40: 0.10178838670253754
-Loss at epoch 41: 0.09965483844280243
-Loss at epoch 42: 0.09763143956661224
-Loss at epoch 43: 0.09570922702550888
-Loss at epoch 44: 0.09388026595115662
-Loss at epoch 45: 0.0921373963356018
-Loss at epoch 46: 0.09047427028417587
-Loss at epoch 47: 0.08888512849807739
-Loss at epoch 48: 0.08736483752727509
-Loss at epoch 49: 0.08590869605541229
-Loss at epoch 50: 0.08451250940561295
-Loss at epoch 51: 0.08317235112190247
-Loss at epoch 52: 0.08188473433256149
-Loss at epoch 53: 0.08064644783735275
-Loss at epoch 54: 0.07945454120635986
-Loss at epoch 55: 0.07830630987882614
-Loss at epoch 56: 0.07719925045967102
-Loss at epoch 57: 0.07613107562065125
-Loss at epoch 58: 0.0750996395945549
-Loss at epoch 59: 0.07410301268100739
-Loss at epoch 60: 0.07313936203718185
-Loss at epoch 61: 0.07220695912837982
-Loss at epoch 62: 0.07130427658557892
-Loss at epoch 63: 0.07042983174324036
-Loss at epoch 64: 0.0695822611451149
-Loss at epoch 65: 0.06876026839017868
-Loss at epoch 66: 0.06796267628669739
-Loss at epoch 67: 0.06718836724758148
-Loss at epoch 68: 0.0664362758398056
-Loss at epoch 69: 0.06570544093847275
-Loss at epoch 70: 0.0649949163198471
-Loss at epoch 71: 0.06430384516716003
-Loss at epoch 72: 0.06363138556480408
-Loss at epoch 73: 0.06297677010297775
-Loss at epoch 74: 0.062339283525943756
-Loss at epoch 75: 0.06171821430325508
-Loss at epoch 76: 0.06111292541027069
-Loss at epoch 77: 0.06052280217409134
-Loss at epoch 78: 0.05994724482297897
-Loss at epoch 79: 0.059385716915130615
-Loss at epoch 80: 0.05883767083287239
-Loss at epoch 81: 0.0583026185631752
-Loss at epoch 82: 0.05778009817004204
-Loss at epoch 83: 0.057269636541604996
-Loss at epoch 84: 0.05677081272006035
-Loss at epoch 85: 0.05628322809934616
-Loss at epoch 86: 0.055806491523981094
-Loss at epoch 87: 0.05534021928906441
-Loss at epoch 88: 0.05488406494259834
-Loss at epoch 89: 0.05443768948316574
-Loss at epoch 90: 0.05400077998638153
-Loss at epoch 91: 0.053573012351989746
-Loss at epoch 92: 0.053154099732637405
-Loss at epoch 93: 0.052743762731552124
-Loss at epoch 94: 0.052341729402542114
-Loss at epoch 95: 0.051947738975286484
-Loss at epoch 96: 0.05156153813004494
-Loss at epoch 97: 0.051182907074689865
-Loss at epoch 98: 0.050811607390642166
-Loss at epoch 99: 0.050447411835193634</code></pre>
+<pre><code>Loss at epoch 0: 3.254241466522217
+Loss at epoch 1: 2.841676712036133
+Loss at epoch 2: 2.446164608001709
+Loss at epoch 3: 2.0740654468536377
+Loss at epoch 4: 1.7329306602478027
+Loss at epoch 5: 1.4304780960083008
+Loss at epoch 6: 1.1727027893066406
+Loss at epoch 7: 0.9617642760276794
+Loss at epoch 8: 0.7950283288955688
+Loss at epoch 9: 0.6661190390586853
+Loss at epoch 10: 0.5672049522399902
+Loss at epoch 11: 0.4909631013870239
+Loss at epoch 12: 0.43148183822631836
+Loss at epoch 13: 0.38434457778930664
+Loss at epoch 14: 0.34636563062667847
+Loss at epoch 15: 0.31527045369148254
+Loss at epoch 16: 0.2894296944141388
+Loss at epoch 17: 0.26766350865364075
+Loss at epoch 18: 0.24910621345043182
+Loss at epoch 19: 0.23311251401901245
+Loss at epoch 20: 0.21919457614421844
+Loss at epoch 21: 0.2069779932498932
+Loss at epoch 22: 0.19617150723934174
+Loss at epoch 23: 0.18654564023017883
+Loss at epoch 24: 0.1779175102710724
+Loss at epoch 25: 0.17013971507549286
+Loss at epoch 26: 0.16309219598770142
+Loss at epoch 27: 0.1566763073205948
+Loss at epoch 28: 0.15081030130386353
+Loss at epoch 29: 0.14542590081691742
+Loss at epoch 30: 0.1404656320810318
+Loss at epoch 31: 0.13588076829910278
+Loss at epoch 32: 0.13162976503372192
+Loss at epoch 33: 0.12767699360847473
+Loss at epoch 34: 0.12399168312549591
+Loss at epoch 35: 0.12054720520973206
+Loss at epoch 36: 0.11732034385204315
+Loss at epoch 37: 0.11429077386856079
+Loss at epoch 38: 0.11144062876701355
+Loss at epoch 39: 0.10875413566827774
+Loss at epoch 40: 0.10621732473373413
+Loss at epoch 41: 0.10381780564785004
+Loss at epoch 42: 0.10154449194669724
+Loss at epoch 43: 0.0993875041604042
+Loss at epoch 44: 0.09733790904283524
+Loss at epoch 45: 0.09538772702217102
+Loss at epoch 46: 0.09352975338697433
+Loss at epoch 47: 0.09175743162631989
+Loss at epoch 48: 0.09006485342979431
+Loss at epoch 49: 0.08844659477472305
+Loss at epoch 50: 0.08689778298139572
+Loss at epoch 51: 0.08541391044855118
+Loss at epoch 52: 0.08399088680744171
+Loss at epoch 53: 0.08262495696544647
+Loss at epoch 54: 0.0813126489520073
+Loss at epoch 55: 0.08005079627037048
+Loss at epoch 56: 0.07883644849061966
+Loss at epoch 57: 0.07766692340373993
+Loss at epoch 58: 0.07653970271348953
+Loss at epoch 59: 0.07545248419046402
+Loss at epoch 60: 0.07440309226512909
+Loss at epoch 61: 0.07338955998420715
+Loss at epoch 62: 0.07241000235080719
+Loss at epoch 63: 0.0714627057313919
+Loss at epoch 64: 0.07054606825113297
+Loss at epoch 65: 0.0696585550904274
+Loss at epoch 66: 0.06879876554012299
+Loss at epoch 67: 0.06796539574861526
+Loss at epoch 68: 0.06715719401836395
+Loss at epoch 69: 0.06637301295995712
+Loss at epoch 70: 0.06561177223920822
+Loss at epoch 71: 0.06487242877483368
+Loss at epoch 72: 0.06415403634309769
+Loss at epoch 73: 0.06345568597316742
+Loss at epoch 74: 0.06277652084827423
+Loss at epoch 75: 0.06211574003100395
+Loss at epoch 76: 0.061472587287425995
+Loss at epoch 77: 0.06084632873535156
+Loss at epoch 78: 0.06023630499839783
+Loss at epoch 79: 0.05964187532663345
+Loss at epoch 80: 0.0590624064207077
+Loss at epoch 81: 0.05849733576178551
+Loss at epoch 82: 0.057946112006902695
+Loss at epoch 83: 0.05740822106599808
+Loss at epoch 84: 0.05688317120075226
+Loss at epoch 85: 0.056370481848716736
+Loss at epoch 86: 0.05586971715092659
+Loss at epoch 87: 0.0553804449737072
+Loss at epoch 88: 0.05490226671099663
+Loss at epoch 89: 0.05443479120731354
+Loss at epoch 90: 0.05397764965891838
+Loss at epoch 91: 0.0535304993391037
+Loss at epoch 92: 0.05309300124645233
+Loss at epoch 93: 0.05266483128070831
+Loss at epoch 94: 0.05224568769335747
+Loss at epoch 95: 0.051835279911756516
+Loss at epoch 96: 0.05143332853913307
+Loss at epoch 97: 0.05103955790400505
+Loss at epoch 98: 0.05065372586250305
+Loss at epoch 99: 0.05027557164430618</code></pre>
 </div>
 </div>
 </section>
 <section id="prediksi" class="level3">
 <h3 class="anchored" data-anchor-id="prediksi">Prediksi</h3>
 <p>Sekarang <em>training</em> sudah selesai, kita bisa gunakan model kita untuk memprediksi kelas berdasarkan <code>inputs</code> (koordinat titik-titik)</p>
-<div id="cell-131" class="cell" data-execution_count="81">
+<div id="cell-131" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> model(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Akibat penggunaan fungsi aktivasi sigmoid, hasil prediksi cukup jelas, apakah kelas pertama (kelas 0) atau kelas kedua (kelas 1):</p>
-<div id="cell-133" class="cell" data-execution_count="82">
+<div id="cell-133" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tf.Tensor(
-[[0.00595744]
- [0.01345181]
- [0.10626755]
+[[0.0185734 ]
+ [0.01658478]
+ [0.06427375]
  ...
- [0.9832219 ]
- [0.9905081 ]
- [0.831104  ]], shape=(2000, 1), dtype=float32)</code></pre>
+ [0.94514835]
+ [0.99050665]
+ [0.7908128 ]], shape=(2000, 1), dtype=float32)</code></pre>
 </div>
 </div>
 <p>Kita bisa menampilkan hasil prediksi ini dengan aturan pemilihan warna (<code>c</code>) seperti berikut:</p>
@@ -1303,7 +1303,7 @@ Loss at epoch 99: 0.050447411835193634</code></pre>
 <li><p>apabila nilai prediksinya lebih dari 0.5 (pernyataan “lebih besar dari 0.5” bernilai benar), ia tergolong kelas 1 (atau sama saja nilai True);</p></li>
 <li><p>selain itu (pernyataan “lebih besar dari 0.5” bernilai salah), ia tergolong kelas 0 (atau sama saja nilai False).</p></li>
 </ul>
-<div id="cell-135" class="cell" data-execution_count="83">
+<div id="cell-135" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(inputs[:, <span class="dv">0</span>], inputs[:, <span class="dv">1</span>], c<span class="op">=</span>predictions[:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1346,7 +1346,7 @@ Loss at epoch 99: 0.050447411835193634</code></pre>
 <section id="menyusun-layer" class="level3">
 <h3 class="anchored" data-anchor-id="menyusun-layer">Menyusun <em>layer</em></h3>
 <p>Kita susun <em>layer</em> nya terlebih dahulu. Kali ini, kita akan membuat <em>perceptron</em> seperti yang cara manual / <em>pure</em> TensorFlow tadi. Untuk itu, kedua kode ini ekuivalen:</p>
-<div id="cell-149" class="cell" data-execution_count="86">
+<div id="cell-149" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># langsung menentukan semua layer di awal, dengan memasukkan list</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="op">=</span> keras.Sequential(</span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>    [</span>
@@ -1381,7 +1381,7 @@ Loss at epoch 99: 0.050447411835193634</code></pre>
 <section id="ringkasan-dan-diagram-model" class="level3">
 <h3 class="anchored" data-anchor-id="ringkasan-dan-diagram-model">Ringkasan dan diagram model</h3>
 <p>Kemudian, kita bisa melihat ringkasan bentuk model yang dihasilkan:</p>
-<div id="cell-156" class="cell" data-execution_count="87">
+<div id="cell-156" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>model2.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Model: "sequential"
@@ -1412,12 +1412,12 @@ _________________________________________________________________</code></pre>
 <section id="memilih-hyperparameter" class="level3">
 <h3 class="anchored" data-anchor-id="memilih-hyperparameter">Memilih <em>hyperparameter</em></h3>
 <p>Untuk memilih <em>hyperparameter</em> yaitu <em>optimizer</em> dan <em>loss function</em> (dan metrik evaluasi), kedua kode berikut ini ekuivalen:</p>
-<div id="cell-163" class="cell" data-execution_count="88">
+<div id="cell-163" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan string</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(</span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> <span class="st">"sgd"</span>,</span>
 <span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> <span class="st">"binary_crossentropy"</span>,</span>
-<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>    metrics <span class="op">=</span> [<span class="st">"accuracy"</span>]</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>    metrics <span class="op">=</span> [<span class="st">"binary_accuracy"</span>]</span>
 <span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-164" class="cell" data-execution_count="130">
@@ -1429,7 +1429,7 @@ _________________________________________________________________</code></pre>
 <span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Dengan cara yang kedua, kita juga bisa menentukan <em>hyperparameter</em> seperti <em>learning rate</em>:</p>
-<div id="cell-166" class="cell">
+<div id="cell-166" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan objek dari class</span></span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>model2.<span class="bu">compile</span>(</span>
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> keras.optimizers.SGD(learning_rate <span class="op">=</span> <span class="fl">0.01</span>),</span>
@@ -1440,267 +1440,383 @@ _________________________________________________________________</code></pre>
 </section>
 <section id="training" class="level3">
 <h3 class="anchored" data-anchor-id="training"><em>Training</em></h3>
-<p>Selanjutnya, tinggal <em>training</em></p>
-<div id="cell-169" class="cell" data-execution_count="89">
+<p>Selanjutnya, tinggal <em>training</em>, menggunakan <code>.fit</code> seperti di scikit-learn. Bedanya, <code>.fit</code> di sini me-<em>return</em> suatu objek “history” yang berisi catatan <em>loss</em> di tiap <em>epoch</em></p>
+<div id="cell-169" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> inputs</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> targets</span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>history2 <span class="op">=</span> model2.fit(x_train, y_train, epochs<span class="op">=</span><span class="dv">100</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Epoch 1/100
-50/50 [==============================] - 2s 11ms/step - loss: 1.0461 - accuracy: 0.5956 - val_loss: 1.6406 - val_accuracy: 0.0750
+50/50 [==============================] - 2s 19ms/step - loss: 0.9972 - binary_accuracy: 0.4119 - val_loss: 0.3660 - val_binary_accuracy: 0.9975
 Epoch 2/100
-50/50 [==============================] - 0s 9ms/step - loss: 0.5378 - accuracy: 0.7150 - val_loss: 0.7830 - val_accuracy: 0.4800
+50/50 [==============================] - 1s 11ms/step - loss: 0.3971 - binary_accuracy: 0.9488 - val_loss: 0.2875 - val_binary_accuracy: 0.9975
 Epoch 3/100
-50/50 [==============================] - 0s 10ms/step - loss: 0.3026 - accuracy: 0.8869 - val_loss: 0.4390 - val_accuracy: 0.8550
+50/50 [==============================] - 0s 8ms/step - loss: 0.2427 - binary_accuracy: 0.9975 - val_loss: 0.2355 - val_binary_accuracy: 0.9925
 Epoch 4/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.2059 - accuracy: 0.9719 - val_loss: 0.2951 - val_accuracy: 0.9550
+50/50 [==============================] - 0s 10ms/step - loss: 0.1804 - binary_accuracy: 0.9962 - val_loss: 0.1990 - val_binary_accuracy: 0.9925
 Epoch 5/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.1589 - accuracy: 0.9894 - val_loss: 0.2231 - val_accuracy: 0.9675
+50/50 [==============================] - 0s 5ms/step - loss: 0.1459 - binary_accuracy: 0.9962 - val_loss: 0.1726 - val_binary_accuracy: 0.9925
 Epoch 6/100
-50/50 [==============================] - 1s 12ms/step - loss: 0.1315 - accuracy: 0.9931 - val_loss: 0.1811 - val_accuracy: 0.9800
+50/50 [==============================] - 0s 5ms/step - loss: 0.1238 - binary_accuracy: 0.9962 - val_loss: 0.1529 - val_binary_accuracy: 0.9925
 Epoch 7/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.1133 - accuracy: 0.9937 - val_loss: 0.1539 - val_accuracy: 0.9825
+50/50 [==============================] - 0s 6ms/step - loss: 0.1082 - binary_accuracy: 0.9969 - val_loss: 0.1376 - val_binary_accuracy: 0.9925
 Epoch 8/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.1003 - accuracy: 0.9950 - val_loss: 0.1348 - val_accuracy: 0.9900
+50/50 [==============================] - 1s 11ms/step - loss: 0.0966 - binary_accuracy: 0.9962 - val_loss: 0.1254 - val_binary_accuracy: 0.9925
 Epoch 9/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0904 - accuracy: 0.9956 - val_loss: 0.1208 - val_accuracy: 0.9900
+50/50 [==============================] - 0s 6ms/step - loss: 0.0875 - binary_accuracy: 0.9962 - val_loss: 0.1156 - val_binary_accuracy: 0.9925
 Epoch 10/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0826 - accuracy: 0.9962 - val_loss: 0.1098 - val_accuracy: 0.9900
+50/50 [==============================] - 1s 11ms/step - loss: 0.0803 - binary_accuracy: 0.9962 - val_loss: 0.1075 - val_binary_accuracy: 0.9925
 Epoch 11/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0763 - accuracy: 0.9975 - val_loss: 0.1011 - val_accuracy: 0.9900
+50/50 [==============================] - 0s 7ms/step - loss: 0.0744 - binary_accuracy: 0.9962 - val_loss: 0.1006 - val_binary_accuracy: 0.9925
 Epoch 12/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0710 - accuracy: 0.9975 - val_loss: 0.0940 - val_accuracy: 0.9900
+50/50 [==============================] - 0s 7ms/step - loss: 0.0695 - binary_accuracy: 0.9962 - val_loss: 0.0948 - val_binary_accuracy: 0.9925
 Epoch 13/100
-50/50 [==============================] - 0s 7ms/step - loss: 0.0666 - accuracy: 0.9981 - val_loss: 0.0881 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 9ms/step - loss: 0.0653 - binary_accuracy: 0.9962 - val_loss: 0.0898 - val_binary_accuracy: 0.9925
 Epoch 14/100
-50/50 [==============================] - 0s 10ms/step - loss: 0.0628 - accuracy: 0.9981 - val_loss: 0.0832 - val_accuracy: 0.9925
+50/50 [==============================] - 1s 14ms/step - loss: 0.0617 - binary_accuracy: 0.9962 - val_loss: 0.0854 - val_binary_accuracy: 0.9925
 Epoch 15/100
-50/50 [==============================] - 0s 10ms/step - loss: 0.0596 - accuracy: 0.9981 - val_loss: 0.0789 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 8ms/step - loss: 0.0585 - binary_accuracy: 0.9962 - val_loss: 0.0815 - val_binary_accuracy: 0.9925
 Epoch 16/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0567 - accuracy: 0.9975 - val_loss: 0.0752 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 9ms/step - loss: 0.0558 - binary_accuracy: 0.9962 - val_loss: 0.0781 - val_binary_accuracy: 0.9925
 Epoch 17/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0541 - accuracy: 0.9975 - val_loss: 0.0719 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 5ms/step - loss: 0.0533 - binary_accuracy: 0.9962 - val_loss: 0.0750 - val_binary_accuracy: 0.9925
 Epoch 18/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0519 - accuracy: 0.9975 - val_loss: 0.0690 - val_accuracy: 0.9925
+50/50 [==============================] - 1s 17ms/step - loss: 0.0511 - binary_accuracy: 0.9962 - val_loss: 0.0722 - val_binary_accuracy: 0.9925
 Epoch 19/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0498 - accuracy: 0.9975 - val_loss: 0.0664 - val_accuracy: 0.9925
+50/50 [==============================] - 1s 17ms/step - loss: 0.0492 - binary_accuracy: 0.9962 - val_loss: 0.0697 - val_binary_accuracy: 0.9925
 Epoch 20/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0480 - accuracy: 0.9975 - val_loss: 0.0641 - val_accuracy: 0.9925
+50/50 [==============================] - 1s 12ms/step - loss: 0.0474 - binary_accuracy: 0.9962 - val_loss: 0.0674 - val_binary_accuracy: 0.9925
 Epoch 21/100
-50/50 [==============================] - 0s 7ms/step - loss: 0.0463 - accuracy: 0.9975 - val_loss: 0.0620 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 8ms/step - loss: 0.0458 - binary_accuracy: 0.9962 - val_loss: 0.0653 - val_binary_accuracy: 0.9925
 Epoch 22/100
-50/50 [==============================] - 0s 9ms/step - loss: 0.0448 - accuracy: 0.9975 - val_loss: 0.0601 - val_accuracy: 0.9925
+50/50 [==============================] - 1s 27ms/step - loss: 0.0443 - binary_accuracy: 0.9962 - val_loss: 0.0634 - val_binary_accuracy: 0.9925
 Epoch 23/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0434 - accuracy: 0.9975 - val_loss: 0.0583 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 10ms/step - loss: 0.0429 - binary_accuracy: 0.9969 - val_loss: 0.0616 - val_binary_accuracy: 0.9925
 Epoch 24/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0422 - accuracy: 0.9975 - val_loss: 0.0567 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 9ms/step - loss: 0.0417 - binary_accuracy: 0.9969 - val_loss: 0.0600 - val_binary_accuracy: 0.9925
 Epoch 25/100
-50/50 [==============================] - 0s 3ms/step - loss: 0.0410 - accuracy: 0.9975 - val_loss: 0.0552 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 8ms/step - loss: 0.0405 - binary_accuracy: 0.9969 - val_loss: 0.0585 - val_binary_accuracy: 0.9925
 Epoch 26/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0399 - accuracy: 0.9975 - val_loss: 0.0538 - val_accuracy: 0.9925
+50/50 [==============================] - 1s 12ms/step - loss: 0.0394 - binary_accuracy: 0.9969 - val_loss: 0.0571 - val_binary_accuracy: 0.9925
 Epoch 27/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0389 - accuracy: 0.9975 - val_loss: 0.0526 - val_accuracy: 0.9925
+50/50 [==============================] - 0s 7ms/step - loss: 0.0384 - binary_accuracy: 0.9969 - val_loss: 0.0558 - val_binary_accuracy: 0.9925
 Epoch 28/100
-50/50 [==============================] - 0s 7ms/step - loss: 0.0379 - accuracy: 0.9975 - val_loss: 0.0514 - val_accuracy: 0.9950
+50/50 [==============================] - 0s 6ms/step - loss: 0.0375 - binary_accuracy: 0.9969 - val_loss: 0.0545 - val_binary_accuracy: 0.9925
 Epoch 29/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0370 - accuracy: 0.9975 - val_loss: 0.0503 - val_accuracy: 0.9950
+50/50 [==============================] - 0s 5ms/step - loss: 0.0366 - binary_accuracy: 0.9969 - val_loss: 0.0534 - val_binary_accuracy: 0.9925
 Epoch 30/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0362 - accuracy: 0.9975 - val_loss: 0.0492 - val_accuracy: 0.9950
+50/50 [==============================] - 0s 5ms/step - loss: 0.0358 - binary_accuracy: 0.9969 - val_loss: 0.0523 - val_binary_accuracy: 0.9925
 Epoch 31/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0354 - accuracy: 0.9975 - val_loss: 0.0482 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0351 - binary_accuracy: 0.9969 - val_loss: 0.0513 - val_binary_accuracy: 0.9925
 Epoch 32/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0347 - accuracy: 0.9975 - val_loss: 0.0473 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0343 - binary_accuracy: 0.9969 - val_loss: 0.0503 - val_binary_accuracy: 0.9925
 Epoch 33/100
-50/50 [==============================] - 0s 3ms/step - loss: 0.0340 - accuracy: 0.9975 - val_loss: 0.0464 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0337 - binary_accuracy: 0.9969 - val_loss: 0.0494 - val_binary_accuracy: 0.9925
 Epoch 34/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0333 - accuracy: 0.9975 - val_loss: 0.0456 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0330 - binary_accuracy: 0.9969 - val_loss: 0.0485 - val_binary_accuracy: 0.9925
 Epoch 35/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0327 - accuracy: 0.9975 - val_loss: 0.0448 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0324 - binary_accuracy: 0.9969 - val_loss: 0.0477 - val_binary_accuracy: 0.9925
 Epoch 36/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0321 - accuracy: 0.9975 - val_loss: 0.0441 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 11ms/step - loss: 0.0318 - binary_accuracy: 0.9969 - val_loss: 0.0469 - val_binary_accuracy: 0.9925
 Epoch 37/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0316 - accuracy: 0.9975 - val_loss: 0.0434 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0313 - binary_accuracy: 0.9969 - val_loss: 0.0462 - val_binary_accuracy: 0.9925
 Epoch 38/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0311 - accuracy: 0.9975 - val_loss: 0.0428 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0308 - binary_accuracy: 0.9969 - val_loss: 0.0455 - val_binary_accuracy: 0.9925
 Epoch 39/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0305 - accuracy: 0.9975 - val_loss: 0.0421 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0303 - binary_accuracy: 0.9969 - val_loss: 0.0448 - val_binary_accuracy: 0.9925
 Epoch 40/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0301 - accuracy: 0.9975 - val_loss: 0.0415 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0298 - binary_accuracy: 0.9969 - val_loss: 0.0442 - val_binary_accuracy: 0.9925
 Epoch 41/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0296 - accuracy: 0.9975 - val_loss: 0.0409 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0293 - binary_accuracy: 0.9969 - val_loss: 0.0435 - val_binary_accuracy: 0.9925
 Epoch 42/100
-50/50 [==============================] - 0s 7ms/step - loss: 0.0292 - accuracy: 0.9975 - val_loss: 0.0404 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 4ms/step - loss: 0.0289 - binary_accuracy: 0.9969 - val_loss: 0.0429 - val_binary_accuracy: 0.9925
 Epoch 43/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0288 - accuracy: 0.9975 - val_loss: 0.0399 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0285 - binary_accuracy: 0.9969 - val_loss: 0.0424 - val_binary_accuracy: 0.9925
 Epoch 44/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0284 - accuracy: 0.9975 - val_loss: 0.0393 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0281 - binary_accuracy: 0.9969 - val_loss: 0.0418 - val_binary_accuracy: 0.9925
 Epoch 45/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0280 - accuracy: 0.9975 - val_loss: 0.0389 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0277 - binary_accuracy: 0.9969 - val_loss: 0.0413 - val_binary_accuracy: 0.9925
 Epoch 46/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0276 - accuracy: 0.9975 - val_loss: 0.0384 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 10ms/step - loss: 0.0274 - binary_accuracy: 0.9969 - val_loss: 0.0408 - val_binary_accuracy: 0.9925
 Epoch 47/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0272 - accuracy: 0.9975 - val_loss: 0.0379 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0270 - binary_accuracy: 0.9969 - val_loss: 0.0403 - val_binary_accuracy: 0.9925
 Epoch 48/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0269 - accuracy: 0.9975 - val_loss: 0.0375 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0267 - binary_accuracy: 0.9969 - val_loss: 0.0399 - val_binary_accuracy: 0.9925
 Epoch 49/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0266 - accuracy: 0.9975 - val_loss: 0.0371 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0263 - binary_accuracy: 0.9969 - val_loss: 0.0394 - val_binary_accuracy: 0.9925
 Epoch 50/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0263 - accuracy: 0.9975 - val_loss: 0.0367 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0260 - binary_accuracy: 0.9969 - val_loss: 0.0390 - val_binary_accuracy: 0.9925
 Epoch 51/100
-50/50 [==============================] - 0s 3ms/step - loss: 0.0260 - accuracy: 0.9975 - val_loss: 0.0363 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 4ms/step - loss: 0.0257 - binary_accuracy: 0.9969 - val_loss: 0.0386 - val_binary_accuracy: 0.9925
 Epoch 52/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0257 - accuracy: 0.9975 - val_loss: 0.0359 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0254 - binary_accuracy: 0.9969 - val_loss: 0.0382 - val_binary_accuracy: 0.9925
 Epoch 53/100
-50/50 [==============================] - 0s 9ms/step - loss: 0.0254 - accuracy: 0.9975 - val_loss: 0.0356 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0252 - binary_accuracy: 0.9969 - val_loss: 0.0378 - val_binary_accuracy: 0.9925
 Epoch 54/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0251 - accuracy: 0.9975 - val_loss: 0.0352 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0249 - binary_accuracy: 0.9969 - val_loss: 0.0374 - val_binary_accuracy: 0.9925
 Epoch 55/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0248 - accuracy: 0.9975 - val_loss: 0.0349 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0246 - binary_accuracy: 0.9969 - val_loss: 0.0371 - val_binary_accuracy: 0.9925
 Epoch 56/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0246 - accuracy: 0.9975 - val_loss: 0.0346 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 10ms/step - loss: 0.0244 - binary_accuracy: 0.9969 - val_loss: 0.0367 - val_binary_accuracy: 0.9925
 Epoch 57/100
-50/50 [==============================] - 1s 15ms/step - loss: 0.0243 - accuracy: 0.9975 - val_loss: 0.0342 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0241 - binary_accuracy: 0.9969 - val_loss: 0.0364 - val_binary_accuracy: 0.9925
 Epoch 58/100
-50/50 [==============================] - 1s 11ms/step - loss: 0.0241 - accuracy: 0.9975 - val_loss: 0.0339 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0239 - binary_accuracy: 0.9969 - val_loss: 0.0360 - val_binary_accuracy: 0.9925
 Epoch 59/100
-50/50 [==============================] - 1s 13ms/step - loss: 0.0239 - accuracy: 0.9975 - val_loss: 0.0336 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0237 - binary_accuracy: 0.9969 - val_loss: 0.0357 - val_binary_accuracy: 0.9925
 Epoch 60/100
-50/50 [==============================] - 0s 9ms/step - loss: 0.0236 - accuracy: 0.9975 - val_loss: 0.0333 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0234 - binary_accuracy: 0.9969 - val_loss: 0.0354 - val_binary_accuracy: 0.9925
 Epoch 61/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0234 - accuracy: 0.9975 - val_loss: 0.0331 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0232 - binary_accuracy: 0.9969 - val_loss: 0.0351 - val_binary_accuracy: 0.9925
 Epoch 62/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0232 - accuracy: 0.9975 - val_loss: 0.0328 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0230 - binary_accuracy: 0.9969 - val_loss: 0.0348 - val_binary_accuracy: 0.9925
 Epoch 63/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0230 - accuracy: 0.9975 - val_loss: 0.0325 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0228 - binary_accuracy: 0.9969 - val_loss: 0.0345 - val_binary_accuracy: 0.9925
 Epoch 64/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0228 - accuracy: 0.9975 - val_loss: 0.0323 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 4ms/step - loss: 0.0226 - binary_accuracy: 0.9969 - val_loss: 0.0342 - val_binary_accuracy: 0.9925
 Epoch 65/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0226 - accuracy: 0.9975 - val_loss: 0.0320 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0224 - binary_accuracy: 0.9969 - val_loss: 0.0340 - val_binary_accuracy: 0.9925
 Epoch 66/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0224 - accuracy: 0.9975 - val_loss: 0.0318 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 10ms/step - loss: 0.0222 - binary_accuracy: 0.9969 - val_loss: 0.0337 - val_binary_accuracy: 0.9925
 Epoch 67/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0222 - accuracy: 0.9975 - val_loss: 0.0315 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0220 - binary_accuracy: 0.9969 - val_loss: 0.0335 - val_binary_accuracy: 0.9925
 Epoch 68/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0221 - accuracy: 0.9975 - val_loss: 0.0313 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0219 - binary_accuracy: 0.9969 - val_loss: 0.0332 - val_binary_accuracy: 0.9925
 Epoch 69/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0219 - accuracy: 0.9975 - val_loss: 0.0311 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0217 - binary_accuracy: 0.9969 - val_loss: 0.0330 - val_binary_accuracy: 0.9925
 Epoch 70/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0217 - accuracy: 0.9975 - val_loss: 0.0309 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0215 - binary_accuracy: 0.9969 - val_loss: 0.0327 - val_binary_accuracy: 0.9925
 Epoch 71/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0216 - accuracy: 0.9975 - val_loss: 0.0306 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0214 - binary_accuracy: 0.9969 - val_loss: 0.0325 - val_binary_accuracy: 0.9925
 Epoch 72/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0214 - accuracy: 0.9975 - val_loss: 0.0304 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0212 - binary_accuracy: 0.9969 - val_loss: 0.0323 - val_binary_accuracy: 0.9925
 Epoch 73/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0212 - accuracy: 0.9975 - val_loss: 0.0302 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 15ms/step - loss: 0.0211 - binary_accuracy: 0.9969 - val_loss: 0.0320 - val_binary_accuracy: 0.9925
 Epoch 74/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0211 - accuracy: 0.9975 - val_loss: 0.0300 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0209 - binary_accuracy: 0.9969 - val_loss: 0.0318 - val_binary_accuracy: 0.9925
 Epoch 75/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0209 - accuracy: 0.9975 - val_loss: 0.0298 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0208 - binary_accuracy: 0.9969 - val_loss: 0.0316 - val_binary_accuracy: 0.9925
 Epoch 76/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0208 - accuracy: 0.9975 - val_loss: 0.0297 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0206 - binary_accuracy: 0.9969 - val_loss: 0.0314 - val_binary_accuracy: 0.9925
 Epoch 77/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0207 - accuracy: 0.9975 - val_loss: 0.0295 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 20ms/step - loss: 0.0205 - binary_accuracy: 0.9969 - val_loss: 0.0312 - val_binary_accuracy: 0.9925
 Epoch 78/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0205 - accuracy: 0.9975 - val_loss: 0.0293 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 11ms/step - loss: 0.0203 - binary_accuracy: 0.9969 - val_loss: 0.0310 - val_binary_accuracy: 0.9925
 Epoch 79/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0204 - accuracy: 0.9975 - val_loss: 0.0291 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0202 - binary_accuracy: 0.9969 - val_loss: 0.0308 - val_binary_accuracy: 0.9925
 Epoch 80/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0202 - accuracy: 0.9975 - val_loss: 0.0289 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0201 - binary_accuracy: 0.9969 - val_loss: 0.0306 - val_binary_accuracy: 0.9925
 Epoch 81/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0201 - accuracy: 0.9975 - val_loss: 0.0288 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0199 - binary_accuracy: 0.9969 - val_loss: 0.0304 - val_binary_accuracy: 0.9925
 Epoch 82/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0200 - accuracy: 0.9975 - val_loss: 0.0286 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0198 - binary_accuracy: 0.9969 - val_loss: 0.0303 - val_binary_accuracy: 0.9925
 Epoch 83/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0199 - accuracy: 0.9975 - val_loss: 0.0284 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 4ms/step - loss: 0.0197 - binary_accuracy: 0.9969 - val_loss: 0.0301 - val_binary_accuracy: 0.9925
 Epoch 84/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0197 - accuracy: 0.9975 - val_loss: 0.0283 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0196 - binary_accuracy: 0.9969 - val_loss: 0.0299 - val_binary_accuracy: 0.9925
 Epoch 85/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0196 - accuracy: 0.9975 - val_loss: 0.0281 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0194 - binary_accuracy: 0.9969 - val_loss: 0.0298 - val_binary_accuracy: 0.9925
 Epoch 86/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0195 - accuracy: 0.9975 - val_loss: 0.0280 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0193 - binary_accuracy: 0.9969 - val_loss: 0.0296 - val_binary_accuracy: 0.9925
 Epoch 87/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0194 - accuracy: 0.9975 - val_loss: 0.0278 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0192 - binary_accuracy: 0.9969 - val_loss: 0.0294 - val_binary_accuracy: 0.9925
 Epoch 88/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0193 - accuracy: 0.9975 - val_loss: 0.0277 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 12ms/step - loss: 0.0191 - binary_accuracy: 0.9969 - val_loss: 0.0293 - val_binary_accuracy: 0.9925
 Epoch 89/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0192 - accuracy: 0.9975 - val_loss: 0.0275 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 9ms/step - loss: 0.0190 - binary_accuracy: 0.9969 - val_loss: 0.0291 - val_binary_accuracy: 0.9925
 Epoch 90/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0191 - accuracy: 0.9975 - val_loss: 0.0274 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 14ms/step - loss: 0.0189 - binary_accuracy: 0.9969 - val_loss: 0.0290 - val_binary_accuracy: 0.9925
 Epoch 91/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0190 - accuracy: 0.9975 - val_loss: 0.0273 - val_accuracy: 0.9975
+50/50 [==============================] - 1s 13ms/step - loss: 0.0188 - binary_accuracy: 0.9969 - val_loss: 0.0288 - val_binary_accuracy: 0.9925
 Epoch 92/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0189 - accuracy: 0.9975 - val_loss: 0.0271 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 6ms/step - loss: 0.0187 - binary_accuracy: 0.9969 - val_loss: 0.0287 - val_binary_accuracy: 0.9925
 Epoch 93/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0188 - accuracy: 0.9975 - val_loss: 0.0270 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0186 - binary_accuracy: 0.9969 - val_loss: 0.0285 - val_binary_accuracy: 0.9925
 Epoch 94/100
-50/50 [==============================] - 0s 8ms/step - loss: 0.0187 - accuracy: 0.9975 - val_loss: 0.0269 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 4ms/step - loss: 0.0185 - binary_accuracy: 0.9969 - val_loss: 0.0284 - val_binary_accuracy: 0.9925
 Epoch 95/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0186 - accuracy: 0.9975 - val_loss: 0.0267 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 3ms/step - loss: 0.0184 - binary_accuracy: 0.9969 - val_loss: 0.0282 - val_binary_accuracy: 0.9925
 Epoch 96/100
-50/50 [==============================] - 0s 6ms/step - loss: 0.0185 - accuracy: 0.9975 - val_loss: 0.0266 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 8ms/step - loss: 0.0183 - binary_accuracy: 0.9969 - val_loss: 0.0281 - val_binary_accuracy: 0.9925
 Epoch 97/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0184 - accuracy: 0.9975 - val_loss: 0.0265 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 5ms/step - loss: 0.0182 - binary_accuracy: 0.9969 - val_loss: 0.0280 - val_binary_accuracy: 0.9925
 Epoch 98/100
-50/50 [==============================] - 0s 5ms/step - loss: 0.0183 - accuracy: 0.9975 - val_loss: 0.0264 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 3ms/step - loss: 0.0181 - binary_accuracy: 0.9969 - val_loss: 0.0278 - val_binary_accuracy: 0.9925
 Epoch 99/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0182 - accuracy: 0.9975 - val_loss: 0.0262 - val_accuracy: 0.9975
+50/50 [==============================] - 0s 7ms/step - loss: 0.0180 - binary_accuracy: 0.9969 - val_loss: 0.0277 - val_binary_accuracy: 0.9925
 Epoch 100/100
-50/50 [==============================] - 0s 4ms/step - loss: 0.0181 - accuracy: 0.9975 - val_loss: 0.0261 - val_accuracy: 0.9975</code></pre>
+50/50 [==============================] - 1s 19ms/step - loss: 0.0179 - binary_accuracy: 0.9969 - val_loss: 0.0276 - val_binary_accuracy: 0.9925</code></pre>
 </div>
 </div>
-<div id="cell-170" class="cell" data-execution_count="90">
+<p>Objek “history” tersebut memiliki <em>dictionary</em> <code>.history</code>. Kita bisa lihat, apa saja <em>key</em> yang ada:</p>
+<div id="cell-171" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(history2.history.keys())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>dict_keys(['loss', 'accuracy', 'val_loss', 'val_accuracy'])</code></pre>
+<pre><code>dict_keys(['loss', 'binary_accuracy', 'val_loss', 'val_binary_accuracy'])</code></pre>
 </div>
 </div>
-<div id="cell-171" class="cell" data-execution_count="91">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>plt.plot(history2.history[<span class="st">'loss'</span>], label <span class="op">=</span> <span class="st">'training loss'</span>)</span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>plt.plot(history2.history[<span class="st">'val_loss'</span>], label <span class="op">=</span> <span class="st">'validation loss'</span>)</span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Tiap <em>key</em> menyimpan data per <em>epoch</em>, sehingga ukurannya sama semua. Oleh karena itu, sebenarnya <em>dictionary</em> ini bisa diubah menjadi pandas DataFrame, yang kemudian bisa kita simpan ke CSV:</p>
+<div id="cell-173" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(history2.history).to_csv(<span class="st">"./keras_sequential_history2.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kalau mau menyamakan, <em>file</em> nya bisa kalian <em>download</em> dari GitHub Pages ini: <a href="./keras_sequential_history2.csv">keras_sequential_history2.csv</a></p>
+<p>Kemudian, kita bisa <em>load</em> kembali:</p>
+<div id="cell-176" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>history2_df <span class="op">=</span> pd.read_csv(<span class="st">"./keras_sequential_history2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-177" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>history2_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">loss</th>
+<th data-quarto-table-cell-role="th">binary_accuracy</th>
+<th data-quarto-table-cell-role="th">val_loss</th>
+<th data-quarto-table-cell-role="th">val_binary_accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.997174</td>
+<td>0.411875</td>
+<td>0.365997</td>
+<td>0.9975</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.397132</td>
+<td>0.948750</td>
+<td>0.287524</td>
+<td>0.9975</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.242701</td>
+<td>0.997500</td>
+<td>0.235491</td>
+<td>0.9925</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.180374</td>
+<td>0.996250</td>
+<td>0.199048</td>
+<td>0.9925</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.145923</td>
+<td>0.996250</td>
+<td>0.172641</td>
+<td>0.9925</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">95</td>
+<td>0.018302</td>
+<td>0.996875</td>
+<td>0.028094</td>
+<td>0.9925</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">96</td>
+<td>0.018211</td>
+<td>0.996875</td>
+<td>0.027959</td>
+<td>0.9925</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">97</td>
+<td>0.018120</td>
+<td>0.996875</td>
+<td>0.027828</td>
+<td>0.9925</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">98</td>
+<td>0.018030</td>
+<td>0.996875</td>
+<td>0.027700</td>
+<td>0.9925</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">99</td>
+<td>0.017943</td>
+<td>0.996875</td>
+<td>0.027570</td>
+<td>0.9925</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</div>
+<p>Dua catatan yang paling sering diperhatikan adalah <code>loss</code> <em>(training loss)</em> dan juga <code>val_loss</code> <em>(validation loss)</em>. Bahkan, seringkali kedua nilai ini dibuat gambar plotnya (terhadap <em>epoch</em>), untuk menganalisis bagaimana proses <em>training</em> model.</p>
+<div id="cell-179" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>plt.plot(history2_df[<span class="st">"loss"</span>], label <span class="op">=</span> <span class="st">"training loss"</span>)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>plt.plot(history2_df[<span class="st">"val_loss"</span>], label <span class="op">=</span> <span class="st">"validation loss"</span>)</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"epoch"</span>)</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="modul7_files/figure-html/cell-66-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="modul7_files/figure-html/cell-69-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Proses <em>training</em> tenryata berjalan dengan sangat baik! Umumnya, walaupun <em>training loss</em> tidak mungkin naik, terkadang <em>validation loss</em> naik turun, yang bisa jadi pertanda <em>overfitting</em>.</p>
+<p>Proses <em>training</em> tenryata berjalan dengan sangat baik! Kali ini, baik <em>training loss</em> maupun <em>validation loss</em> turun secara drastis dan terus menuju nol.</p>
+<p>Biasanya, walaupun <em>training loss</em> tidak mungkin naik, terkadang <em>validation loss</em> naik turun, yang bisa jadi pertanda <em>overfitting</em>.</p>
 </section>
 <section id="menggunakan-model" class="level3">
 <h3 class="anchored" data-anchor-id="menggunakan-model">Menggunakan model</h3>
 <p>Seperti di scikit-learn, panggil <code>.predict()</code> untuk melakukan prediksi</p>
-<div id="cell-175" class="cell" data-execution_count="92">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>predictions2 <span class="op">=</span> model2.predict(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-183" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>predictions2 <span class="op">=</span> model2.predict(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>63/63 [==============================] - 1s 6ms/step</code></pre>
 </div>
 </div>
 <p>Ada sedikit <em>progress bar</em>, karena proses prediksi sebenarnya adalah <em>forward pass</em>. Kita bisa matikan <em>progress bar</em> dengan <code>verbose=False</code></p>
-<div id="cell-177" class="cell" data-execution_count="111">
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>predictions2 <span class="op">=</span> model2.predict(inputs, verbose<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-185" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>predictions2 <span class="op">=</span> model2.predict(inputs, verbose<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-178" class="cell" data-execution_count="112">
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(predictions2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-186" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(predictions2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[7.8384799e-04]
- [1.1909062e-03]
- [1.6190419e-02]
+<pre><code>[[9.8937179e-04]
+ [1.2094462e-03]
+ [1.4012366e-02]
  ...
- [9.9140608e-01]
- [9.9879330e-01]
- [8.6120576e-01]]</code></pre>
+ [9.8900378e-01]
+ [9.9885350e-01]
+ [8.5612518e-01]]</code></pre>
 </div>
 </div>
-<div id="cell-179" class="cell" data-execution_count="113">
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(inputs[:, <span class="dv">0</span>], inputs[:, <span class="dv">1</span>], c<span class="op">=</span>predictions2[:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-187" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(inputs[:, <span class="dv">0</span>], inputs[:, <span class="dv">1</span>], c<span class="op">=</span>predictions2[:, <span class="dv">0</span>] <span class="op">&gt;</span> <span class="fl">0.5</span>)</span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="modul7_files/figure-html/cell-70-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="modul7_files/figure-html/cell-73-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1709,23 +1825,23 @@ Epoch 100/100
 <section id="menyimpan-keseluruhan-model" class="level3">
 <h3 class="anchored" data-anchor-id="menyimpan-keseluruhan-model">Menyimpan keseluruhan model</h3>
 <p>Perintahnya adalah <code>.save(path_tempat_penyimpanan)</code> dengan <em>file format</em> <code>.keras</code></p>
-<div id="cell-182" class="cell" data-execution_count="114">
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>model2.save(<span class="st">"./keras_sequential_model2.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-190" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>model2.save(<span class="st">"./keras_sequential_model2.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Kita bisa <em>load</em> kembali model tersebut:</p>
-<div id="cell-184" class="cell" data-execution_count="115">
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> keras.models.load_model(<span class="st">"keras_sequential_model2.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-192" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="op">=</span> keras.models.load_model(<span class="st">"keras_sequential_model2.keras"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Hasil prediksinya akan sama (karena modelnya memang sama):</p>
-<div id="cell-186" class="cell" data-execution_count="116">
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>predictions3 <span class="op">=</span> model3.predict(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-194" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>predictions3 <span class="op">=</span> model3.predict(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>63/63 [==============================] - 1s 4ms/step</code></pre>
+<pre><code>63/63 [==============================] - 1s 7ms/step</code></pre>
 </div>
 </div>
-<div id="cell-187" class="cell" data-execution_count="121">
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>np.array_equal(predictions2, predictions3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="121">
+<div id="cell-195" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>np.array_equal(predictions2, predictions3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
 <pre><code>True</code></pre>
 </div>
 </div>
@@ -1733,32 +1849,32 @@ Epoch 100/100
 <section id="menyimpan-parameter-model-saja" class="level3">
 <h3 class="anchored" data-anchor-id="menyimpan-parameter-model-saja">Menyimpan parameter model (saja)</h3>
 <p>Daripada menyimpan keseluruhan model, kita bisa menyimpan <em>weights</em> atau parameternya saja, dengan perintah <code>.save_weights(path_tempat_penyimpanan)</code> dan <em>file format</em> <code>.weights.h5</code></p>
-<div id="cell-190" class="cell" data-execution_count="122">
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>model2.save_weights(<span class="st">"keras_sequential_model2.weights.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-198" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>model2.save_weights(<span class="st">"keras_sequential_model2.weights.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Untuk <em>load</em> kembali, kita perlu menyusun <em>layer</em> model terlebih dahulu, sama persis dengan susunan yang aslinya:</p>
-<div id="cell-192" class="cell" data-execution_count="123">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>model4 <span class="op">=</span> keras.Sequential(</span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>    [</span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>        keras.layers.InputLayer(input_shape <span class="op">=</span> (<span class="dv">2</span>,)),</span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>        keras.layers.Dense(units <span class="op">=</span> <span class="dv">1</span>, activation <span class="op">=</span> keras.activations.sigmoid)</span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-200" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>model4 <span class="op">=</span> keras.Sequential(</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>        keras.layers.InputLayer(input_shape <span class="op">=</span> (<span class="dv">2</span>,)),</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>        keras.layers.Dense(units <span class="op">=</span> <span class="dv">1</span>, activation <span class="op">=</span> keras.activations.sigmoid)</span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Barulah kita gunakan perintah <code>.load_weights(path_tempat_penyimpanan)</code></p>
-<div id="cell-194" class="cell" data-execution_count="124">
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>model4.load_weights(<span class="st">"./keras_sequential_model2.weights.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-202" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>model4.load_weights(<span class="st">"./keras_sequential_model2.weights.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Lagi-lagi, hasil prediksinya akan sama:</p>
-<div id="cell-196" class="cell" data-execution_count="125">
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>predictions4 <span class="op">=</span> model4.predict(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-204" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>predictions4 <span class="op">=</span> model4.predict(inputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>63/63 [==============================] - 1s 5ms/step</code></pre>
+<pre><code>63/63 [==============================] - 0s 3ms/step</code></pre>
 </div>
 </div>
-<div id="cell-197" class="cell" data-execution_count="126">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>np.array_equal(predictions2, predictions4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="126">
+<div id="cell-205" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>np.array_equal(predictions2, predictions4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
 <pre><code>True</code></pre>
 </div>
 </div>
@@ -1831,7 +1947,7 @@ Epoch 100/100
 <li><p>Loss Scale Optimizer: <code>keras.optimizers.LossScaleOptimizer</code></p></li>
 </ul>
 <p>Kecuali <em>Loss Scale Optimizer</em>, semua <em>optimizer</em> bisa dipasang <em>learning rate</em>. Contohnya seperti berikut:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>keras.optimizers.SGD(learning_rate<span class="op">=</span><span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>keras.optimizers.SGD(learning_rate<span class="op">=</span><span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Sumber: <a href="https://keras.io/api/optimizers/" class="uri">https://keras.io/api/optimizers/</a></p>
 </section>
 <section id="pilihan-loss-function" class="level3">
