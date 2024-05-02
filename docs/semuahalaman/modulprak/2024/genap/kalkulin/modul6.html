@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 5 Kalkulin: Eigen, Diagonalisasi, Ortogonalitas</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 6 Kalkulin 2024 Genap: Hasil Kali Dalam, Dekomposisi QR, Bentuk Kuadratik</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +67,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
@@ -112,14 +141,24 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#memeriksa-aksioma-hasil-kali-dalam" id="toc-memeriksa-aksioma-hasil-kali-dalam" class="nav-link active" data-scroll-target="#memeriksa-aksioma-hasil-kali-dalam">Memeriksa Aksioma Hasil Kali Dalam</a></li>
+  <li><a href="#dekomposisi-qr-secara-manual" id="toc-dekomposisi-qr-secara-manual" class="nav-link" data-scroll-target="#dekomposisi-qr-secara-manual">Dekomposisi QR secara manual</a></li>
+  <li><a href="#dekomposisi-qr-secara-otomatis" id="toc-dekomposisi-qr-secara-otomatis" class="nav-link" data-scroll-target="#dekomposisi-qr-secara-otomatis">Dekomposisi QR secara otomatis</a></li>
+  <li><a href="#mengubah-bentuk-kuadratik-ke-dalam-bentuk-textbfxt-atextbfx" id="toc-mengubah-bentuk-kuadratik-ke-dalam-bentuk-textbfxt-atextbfx" class="nav-link" data-scroll-target="#mengubah-bentuk-kuadratik-ke-dalam-bentuk-textbfxt-atextbfx">Mengubah bentuk kuadratik ke dalam bentuk <span class="math inline">\(\textbf{x}^T A\textbf{x}\)</span></a></li>
+  <li><a href="#eksplorasi-geometri-bentuk-kuadratik" id="toc-eksplorasi-geometri-bentuk-kuadratik" class="nav-link" data-scroll-target="#eksplorasi-geometri-bentuk-kuadratik">Eksplorasi geometri bentuk kuadratik</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Modul 5 Kalkulin: Eigen, Diagonalisasi, Ortogonalitas</h1>
+<h1 class="title">Modul 6 Kalkulin 2024 Genap: Hasil Kali Dalam, Dekomposisi QR, Bentuk Kuadratik</h1>
 </div>
 
 
@@ -137,13 +176,34 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/kalkulin/kalkulin2024genap.html">Kalkulin</a></p>
-<p><img src="./pages_to_jpg/Modul 7 Kalkulin, Eigen, Diagonalisasi, Orthogonalitas_page-0001.jpg" class="img-fluid"></p>
-<p><img src="./pages_to_jpg/Modul 7 Kalkulin, Eigen, Diagonalisasi, Orthogonalitas_page-0002.jpg" class="img-fluid"></p>
-<p><img src="./pages_to_jpg/Modul 7 Kalkulin, Eigen, Diagonalisasi, Orthogonalitas_page-0003.jpg" class="img-fluid"></p>
-<p><img src="./pages_to_jpg/Modul 7 Kalkulin, Eigen, Diagonalisasi, Orthogonalitas_page-0004.jpg" class="img-fluid"></p>
-<p><img src="./pages_to_jpg/Modul 7 Kalkulin, Eigen, Diagonalisasi, Orthogonalitas_page-0005.jpg" class="img-fluid"></p>
+<section id="memeriksa-aksioma-hasil-kali-dalam" class="level2">
+<h2 class="anchored" data-anchor-id="memeriksa-aksioma-hasil-kali-dalam">Memeriksa Aksioma Hasil Kali Dalam</h2>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal01.jpg" class="img-fluid"></p>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal02.jpg" class="img-fluid"></p>
+</section>
+<section id="dekomposisi-qr-secara-manual" class="level2">
+<h2 class="anchored" data-anchor-id="dekomposisi-qr-secara-manual">Dekomposisi QR secara manual</h2>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal03.jpg" class="img-fluid"></p>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal04.jpg" class="img-fluid"></p>
+</section>
+<section id="dekomposisi-qr-secara-otomatis" class="level2">
+<h2 class="anchored" data-anchor-id="dekomposisi-qr-secara-otomatis">Dekomposisi QR secara otomatis</h2>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal05.jpg" class="img-fluid"></p>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal06.jpg" class="img-fluid"></p>
+</section>
+<section id="mengubah-bentuk-kuadratik-ke-dalam-bentuk-textbfxt-atextbfx" class="level2">
+<h2 class="anchored" data-anchor-id="mengubah-bentuk-kuadratik-ke-dalam-bentuk-textbfxt-atextbfx">Mengubah bentuk kuadratik ke dalam bentuk <span class="math inline">\(\textbf{x}^T A\textbf{x}\)</span></h2>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal07.jpg" class="img-fluid"></p>
+</section>
+<section id="eksplorasi-geometri-bentuk-kuadratik" class="level2">
+<h2 class="anchored" data-anchor-id="eksplorasi-geometri-bentuk-kuadratik">Eksplorasi geometri bentuk kuadratik</h2>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal08.jpg" class="img-fluid"></p>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal09.jpg" class="img-fluid"></p>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal10.jpg" class="img-fluid"></p>
+<p><img src="./pages_to_jpg/Modul 6 Kalkulin 2024 Genap_hal11.jpg" class="img-fluid"></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
