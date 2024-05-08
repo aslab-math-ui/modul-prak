@@ -606,7 +606,7 @@
     "href": "semuahalaman/modulprak/2024/genap/kalkulin/kalkulin2024genap.html",
     "title": "Praktikum Kalkulin (Kalkulus 2 & Aljabar Linier 1) 2024 Genap (Kurikulum 2020)",
     "section": "",
-    "text": "Kembali ke Praktikum\n\nTimeline\n\nModul 1: Basic LaTeX Part 1, 23-24 Februari 2024\nModul 2: Basic LaTeX Part 2, 28-30 Februari 2024\nModul 3: LaTeX Beamer, 7-9 Maret 2024\nModul 4: Koordinat Polar dan Fungsi Multivariabel, 13-15 Maret 2024\nModul 5: Nilai Eigen, Diagonalisasi, Ortogonalitas, 24-26 April 2024\nModul 6: Hasil Kali Dalam, Dekomposisi QR, Bentuk Kuadratik, 2-4 Mei 2024"
+    "text": "Kembali ke Praktikum\n\nTimeline\n\nModul 1: Basic LaTeX Part 1, 23-24 Februari 2024\nModul 2: Basic LaTeX Part 2, 28-30 Februari 2024\nModul 3: LaTeX Beamer, 7-9 Maret 2024\nModul 4: Koordinat Polar dan Fungsi Multivariabel, 13-15 Maret 2024\nModul 5: Nilai Eigen, Diagonalisasi, Ortogonalitas, 24-26 April 2024\nModul 6: Hasil Kali Dalam, Dekomposisi QR, Bentuk Kuadratik, 2-4 Mei 2024\nModul 7: Transformasi Linier Umum, 8-11 Mei 2024"
   },
   {
     "objectID": "semuahalaman/modulprak/2024/genap/eda/modul4.html",
@@ -3561,5 +3561,12 @@
     "title": "Modul 8 Persamaan Diferensial Numerik: PDP Parabolik (persamaan panas/difusi)",
     "section": "Metode Crack-Nicolson untuk PDP Parabolik",
     "text": "Metode Crack-Nicolson untuk PDP Parabolik\n\nIde utama\n\n\nFunction file\n\nfunction [x, t, w] = CrankNicolson(d, f, lb, rb, xb, xu, tb, tu, dx, dt)\n  x = xb:dx:xu;\n  t = tb:dt:tu;\n  nx = length(x);\n  nt = length(t);\n\n  % Nilai lambda\n  lambd = (d * dt) / (dx^2);\n\n  % Nilai awal dan syarat batas\n  for i = 1:nx\n    w(i, 1) = f(x(i));\n  endfor\n\n  for j = 2:nt\n    w(1, j) = lb(t(j));\n    w(nx, j) = rb(t(j));\n  endfor\n\n  % Penyelesaian SPL menggunakan faktorisasi Crout\n  l(2) = 1 + lambd;\n  u(2) = -lambd / (2*l(2));\n  for i = 3:nx-2\n    l(i) = 1 + lambd + (lambd*u(i-1))/2;\n    u(i) = -lambd / (2*l(i));\n  endfor\n  l(nx-1) = 1 + lambd + (lambd*u(nx-2))/2;\n  for j = 2:nt\n    z(2) = ((1-lambd)*w(2, j-1) + (lambd/2)*w(3, j-1)) / l(2);\n    for i = 3:nx-1\n      z(i) = ((1-lambd)*w(i, j-1) + (lambd/2)*(w(i+1, j-1) + w(i-1, j-1) + z(i-\n      1))) / l(i);\n    endfor\n    w(nx-1, j) = z(nx-1);\n    for i = nx-2:-1:2\n      w(i, j) = z(i) - u(i)*w(i+1, j);\n    endfor\n  endfor\nendfunction\n\n\n\nContoh soal\nSama seperti untuk backward difference, akan kita uji dengan persamaan difusi:\n\\[\\begin{align*}\n    u_t - u_{xx} &= 0, \\quad 0 &lt; x &lt; 1, \\quad t &gt; 0, \\\\\n    u(0,t) &= u(1,t) = 0, \\quad t &gt; 0, \\\\\n    u(x,0) &= \\sin \\left(\\pi x\\right), \\quad 0 \\le x \\le 1\n\\end{align*}\\]\ndengan solusi eksak:\n\\[u(x,t) = e^{-\\pi^2 t} \\sin \\left(\\pi x\\right)\\]\nKita batasi \\(t\\) menjadi \\(0 \\le t \\le 1\\) dan gunakan \\(\\Delta x = 0.1\\) dan \\(\\Delta k = 0.01\\), di mana kondisinya tidak stabil untuk metode eksplisit.\n\nd = 1;\nf = @(x) sin(pi*x);\nlb = rb = @(t) 0;\nxb = 0;\nxu = 1;\ntb = 0;\ntu = 0.5;\ndx = 0.1;\ndt = 0.01;\n\n[x, t, w] = CrankNicolson(d, f, lb, rb, xb, xu, tb, tu, dx, dt);\n\nu = @(x, t) exp(-pi^2.*t) * sin(pi.*x);\nfor i = 1:length(x)\n  for j = 1:length(t)\n    ufig(i, j) = u(x(i), t(j));\n  endfor\nendfor\n\nfigure(1);\nmesh(x, t, ufig');\nxlabel(\"x\");\nylabel(\"t\");\nzlabel(\"u\");\n\nfigure(2);\nmesh(x, t, w');\nxlabel(\"x\");\nylabel(\"t\");\nzlabel(\"u\");"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2024/genap/kalkulin/modul7.html",
+    "href": "semuahalaman/modulprak/2024/genap/kalkulin/modul7.html",
+    "title": "Modul 7 Kalkulin 2024 Genap: Transformasi Linier Umum",
+    "section": "",
+    "text": "Kembali ke Kalkulin"
   }
 ]
