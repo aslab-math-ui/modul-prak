@@ -182,20 +182,24 @@ window.Quarto = {
   <li><a href="#metode-forward-difference-metode-eksplisit-untuk-pdp-parabolik" id="toc-metode-forward-difference-metode-eksplisit-untuk-pdp-parabolik" class="nav-link active" data-scroll-target="#metode-forward-difference-metode-eksplisit-untuk-pdp-parabolik">Metode <em>Forward Difference</em> / Metode Eksplisit untuk PDP Parabolik</a>
   <ul class="collapse">
   <li><a href="#ide-utama" id="toc-ide-utama" class="nav-link" data-scroll-target="#ide-utama">Ide utama</a></li>
-  <li><a href="#function-file" id="toc-function-file" class="nav-link" data-scroll-target="#function-file"><em>Function file</em></a></li>
+  <li><a href="#function-file-dengan-perumusan-finite-difference" id="toc-function-file-dengan-perumusan-finite-difference" class="nav-link" data-scroll-target="#function-file-dengan-perumusan-finite-difference"><em>Function file</em> (dengan perumusan <em>finite difference</em>)</a></li>
+  <li><a href="#function-file-dengan-solusi-spl-secara-langsung" id="toc-function-file-dengan-solusi-spl-secara-langsung" class="nav-link" data-scroll-target="#function-file-dengan-solusi-spl-secara-langsung"><em>Function file</em> (dengan solusi SPL secara langsung)</a></li>
   <li><a href="#contoh-soal" id="toc-contoh-soal" class="nav-link" data-scroll-target="#contoh-soal">Contoh soal</a></li>
   </ul></li>
   <li><a href="#metode-backward-difference-untuk-pdp-parabolik" id="toc-metode-backward-difference-untuk-pdp-parabolik" class="nav-link" data-scroll-target="#metode-backward-difference-untuk-pdp-parabolik">Metode <em>Backward Difference</em> untuk PDP Parabolik</a>
   <ul class="collapse">
   <li><a href="#ide-utama-1" id="toc-ide-utama-1" class="nav-link" data-scroll-target="#ide-utama-1">Ide utama</a></li>
-  <li><a href="#function-file-1" id="toc-function-file-1" class="nav-link" data-scroll-target="#function-file-1"><em>Function file</em></a></li>
+  <li><a href="#function-file-dengan-faktorisasi-crout-sesuai-pseudocode" id="toc-function-file-dengan-faktorisasi-crout-sesuai-pseudocode" class="nav-link" data-scroll-target="#function-file-dengan-faktorisasi-crout-sesuai-pseudocode"><em>Function file</em> (dengan faktorisasi Crout sesuai <em>pseudocode</em>)</a></li>
+  <li><a href="#function-file-dengan-solusi-spl-secara-langsung-1" id="toc-function-file-dengan-solusi-spl-secara-langsung-1" class="nav-link" data-scroll-target="#function-file-dengan-solusi-spl-secara-langsung-1"><em>Function file</em> (dengan solusi SPL secara langsung)</a></li>
   <li><a href="#contoh-soal-1" id="toc-contoh-soal-1" class="nav-link" data-scroll-target="#contoh-soal-1">Contoh soal</a></li>
   </ul></li>
   <li><a href="#metode-crack-nicolson-untuk-pdp-parabolik" id="toc-metode-crack-nicolson-untuk-pdp-parabolik" class="nav-link" data-scroll-target="#metode-crack-nicolson-untuk-pdp-parabolik">Metode Crack-Nicolson untuk PDP Parabolik</a>
   <ul class="collapse">
   <li><a href="#ide-utama-2" id="toc-ide-utama-2" class="nav-link" data-scroll-target="#ide-utama-2">Ide utama</a></li>
-  <li><a href="#function-file-2" id="toc-function-file-2" class="nav-link" data-scroll-target="#function-file-2"><em>Function file</em></a></li>
-  <li><a href="#contoh-soal-2" id="toc-contoh-soal-2" class="nav-link" data-scroll-target="#contoh-soal-2">Contoh soal</a></li>
+  <li><a href="#function-file-dengan-faktorisasi-crout-sesuai-pseudocode-1" id="toc-function-file-dengan-faktorisasi-crout-sesuai-pseudocode-1" class="nav-link" data-scroll-target="#function-file-dengan-faktorisasi-crout-sesuai-pseudocode-1"><em>Function file</em> (dengan faktorisasi Crout sesuai <em>pseudocode</em>)</a></li>
+  <li><a href="#function-file-dengan-solusi-spl-secara-langsung-2" id="toc-function-file-dengan-solusi-spl-secara-langsung-2" class="nav-link" data-scroll-target="#function-file-dengan-solusi-spl-secara-langsung-2"><em>Function file</em> (dengan solusi SPL secara langsung)</a></li>
+  <li><a href="#contoh-1" id="toc-contoh-1" class="nav-link" data-scroll-target="#contoh-1">Contoh 1</a></li>
+  <li><a href="#contoh-2" id="toc-contoh-2" class="nav-link" data-scroll-target="#contoh-2">Contoh 2</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -264,34 +268,37 @@ window.Quarto = {
 <p><span class="math display">\[\textbf{w}^{(j)} = A\textbf{w}^{(j-1)}\]</span></p></li>
 </ol>
 </section>
-<section id="function-file" class="level3">
-<h3 class="anchored" data-anchor-id="function-file"><em>Function file</em></h3>
+<section id="function-file-dengan-perumusan-finite-difference" class="level3">
+<h3 class="anchored" data-anchor-id="function-file-dengan-perumusan-finite-difference"><em>Function file</em> (dengan perumusan <em>finite difference</em>)</h3>
 <div id="cell-10" class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> explicitheat(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb<span class="op">:</span>dx<span class="op">:</span>xu<span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb<span class="op">:</span>dt<span class="op">:</span>tu<span class="op">;</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> parabolik_forward_fd(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  u <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  nt <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  nt <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  lambd <span class="op">=</span> (d <span class="op">*</span> dt) <span class="op">/</span> dx<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  lambda <span class="op">=</span> (alph2 <span class="op">*</span> dt) <span class="op">/</span> dx<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nx</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">j</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> nx</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">i</span>))<span class="op">;</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> n <span class="op">=</span> <span class="fl">2</span><span class="op">:</span>nt</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    u(<span class="fl">1</span><span class="op">,</span> n) <span class="op">=</span> lb(t(n))<span class="op">;</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    u(nx<span class="op">,</span> n) <span class="op">=</span> rb(t(n))<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> nt</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    u(<span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> lb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    u(nx<span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> rb(t(<span class="fu">j</span>))<span class="op">;</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nt<span class="op">-</span><span class="fl">1</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      u(<span class="fu">j</span><span class="op">,</span> n<span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> (<span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span><span class="op">*</span>lambd) <span class="op">*</span> u(<span class="fu">j</span><span class="op">,</span> n) <span class="op">+</span> lambd <span class="op">*</span> (u(<span class="fu">j</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> n) <span class="op">+</span> u(<span class="fu">j</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> n))<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> nt<span class="op">-</span><span class="fl">1</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> nx <span class="op">-</span> <span class="fl">1</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> (<span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> lambda) <span class="op">*</span> u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+</span> lambda <span class="op">*</span> (u(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+</span> u(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>))<span class="op">;</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="function-file-dengan-solusi-spl-secara-langsung" class="level3">
+<h3 class="anchored" data-anchor-id="function-file-dengan-solusi-spl-secara-langsung"><em>Function file</em> (dengan solusi SPL secara langsung)</h3>
 </section>
 <section id="contoh-soal" class="level3">
 <h3 class="anchored" data-anchor-id="contoh-soal">Contoh soal</h3>
@@ -307,50 +314,54 @@ window.Quarto = {
     c_n &amp;= 20 \int_0^1 x^3 (1-x) \sin \left( n\pi x \right) dx, \quad n = 1, 2, \dots
 \end{align*}\]</span></p>
 <p>Untuk keperluan komputasi, akan kita ambil 10 suku pertama dari ekspansi deret Fourier dari u(x,t).</p>
-<div id="cell-15" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x<span class="op">^</span><span class="fl">3</span> <span class="op">*</span> (<span class="fl">1</span><span class="op">-</span>x)<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.02</span><span class="op">;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> explicitheat(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(x)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      F <span class="op">=</span> @(x) x<span class="op">.^</span><span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span><span class="op">-</span>x) <span class="op">.*</span> <span class="fu">sin</span>(n<span class="op">.*</span>pi<span class="op">.*</span>x)<span class="op">;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      cn(n) <span class="op">=</span> <span class="fl">20</span> <span class="op">*</span> integral(F<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+=</span> cn(n) <span class="op">*</span> <span class="fu">exp</span>(<span class="op">-</span>n<span class="op">^</span><span class="fl">2</span><span class="op">*</span><span class="bu">pi</span><span class="op">^</span><span class="fl">2</span><span class="op">*</span>t(<span class="fu">j</span>)) <span class="op">*</span> <span class="fu">sin</span>(n<span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> u<span class="op">'</span>)<span class="op">;</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"w"</span>)<span class="op">;</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">3</span>)<span class="op">;</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(x<span class="op">,</span> u(<span class="op">:,</span> <span class="fu">j</span>)<span class="op">,</span> <span class="st">'k'</span><span class="op">,</span> <span class="st">'linewidth'</span><span class="op">,</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>([<span class="fl">0</span><span class="op">,</span> <span class="fl">1.5</span>])<span class="op">;</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">title</span>(<span class="st">"Animasi solusi aproksimasi u(x, t) seiring berjalannya t"</span>)<span class="op">;</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawnow</span><span class="op">;</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pause</span>(<span class="fl">0.1</span>)<span class="op">;</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-17" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_forward_fd(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">length</span>(x)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">length</span>(t)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">10</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      F <span class="op">=</span> @(x) x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x) <span class="op">.*</span> <span class="fu">sin</span>(n <span class="op">*</span> <span class="bu">pi</span> <span class="op">.*</span> x)<span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>      cn <span class="op">=</span> <span class="fl">20</span> <span class="op">*</span> integral(F<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>      u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+=</span> cn <span class="op">*</span> <span class="fu">exp</span>(<span class="op">-</span>n<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="bu">pi</span><span class="op">^</span><span class="fl">2</span> <span class="op">.*</span> t(<span class="fu">j</span>)) <span class="op">.*</span> <span class="fu">sin</span>(n <span class="op">*</span> <span class="bu">pi</span> <span class="op">.*</span> x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi Numerik"</span>)<span class="op">;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"w"</span>)<span class="op">;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> u<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi Analitik (deret hingga n=10)"</span>)<span class="op">;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">3</span>)<span class="op">;</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(x<span class="op">,</span> u(<span class="op">:,</span> <span class="fu">j</span>)<span class="op">,</span> <span class="st">'k'</span><span class="op">,</span> <span class="st">'linewidth'</span><span class="op">,</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>([<span class="fl">0</span><span class="op">,</span> <span class="fl">1.5</span>])<span class="op">;</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">title</span>(<span class="st">"Animasi solusi aproksimasi u(x, t) seiring berjalannya t"</span>)<span class="op">;</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawnow</span><span class="op">;</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pause</span>(<span class="fl">0.1</span>)<span class="op">;</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -359,10 +370,10 @@ window.Quarto = {
 <section id="ide-utama-1" class="level3">
 <h3 class="anchored" data-anchor-id="ide-utama-1">Ide utama</h3>
 </section>
-<section id="function-file-1" class="level3">
-<h3 class="anchored" data-anchor-id="function-file-1"><em>Function file</em></h3>
-<div id="cell-20" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> ImplicitHeat(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
+<section id="function-file-dengan-faktorisasi-crout-sesuai-pseudocode" class="level3">
+<h3 class="anchored" data-anchor-id="function-file-dengan-faktorisasi-crout-sesuai-pseudocode"><em>Function file</em> (dengan faktorisasi Crout sesuai <em>pseudocode</em>)</h3>
+<div id="cell-22" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_backward_crout(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb<span class="op">:</span>dx<span class="op">:</span>xu<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb<span class="op">:</span>dt<span class="op">:</span>tu<span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
@@ -402,6 +413,44 @@ window.Quarto = {
 <span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="function-file-dengan-solusi-spl-secara-langsung-1" class="level3">
+<h3 class="anchored" data-anchor-id="function-file-dengan-solusi-spl-secara-langsung-1"><em>Function file</em> (dengan solusi SPL secara langsung)</h3>
+<div id="cell-24" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> parabolik_backward_langsung(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  nt <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  u <span class="op">=</span> <span class="fu">zeros</span>(nx<span class="op">,</span> nt)<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  lambda <span class="op">=</span> (alph2 <span class="op">*</span> dt) <span class="op">/</span> dx<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> nx</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> nt</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    u(<span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> lb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    u(nx<span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> rb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  A <span class="op">=</span> <span class="fu">zeros</span>(nx <span class="op">-</span> <span class="fl">2</span><span class="op">,</span> nx <span class="op">-</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> (nx<span class="op">-</span><span class="fl">2</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">i</span> <span class="op">&gt;</span> <span class="fl">1</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      A(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span><span class="op">-</span><span class="fl">1</span>) <span class="op">=</span> <span class="op">-</span>lambda<span class="op">;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endif</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    A(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> <span class="fl">2</span><span class="op">*</span>lambda<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">i</span> <span class="op">&lt;</span> nx<span class="op">-</span><span class="fl">2</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      A(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> <span class="op">-</span>lambda<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endif</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> nt</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    u(<span class="fl">2</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> A <span class="op">\</span> u(<span class="fl">2</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="contoh-soal-1" class="level3">
 <h3 class="anchored" data-anchor-id="contoh-soal-1">Contoh soal</h3>
 <p>Akan kita uji dengan persamaan difusi:</p>
@@ -413,37 +462,79 @@ window.Quarto = {
 <p>dengan solusi eksak:</p>
 <p><span class="math display">\[u(x,t) = e^{-\pi^2 t} \sin \left(\pi x\right)\]</span></p>
 <p>Kita batasi <span class="math inline">\(t\)</span> menjadi <span class="math inline">\(0 \le t \le 1\)</span> dan gunakan <span class="math inline">\(\Delta x = 0.1\)</span> dan <span class="math inline">\(\Delta k = 0.01\)</span>, di mana kondisinya tidak stabil untuk metode eksplisit.</p>
-<div id="cell-23" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> ImplicitHeat(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> @(x<span class="op">,</span> t) <span class="fu">exp</span>(<span class="op">-</span><span class="bu">pi</span><span class="op">^</span><span class="fl">2</span><span class="op">.*</span>t) <span class="op">*</span> <span class="fu">sin</span>(pi<span class="op">.*</span>x)<span class="op">;</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(x)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    ufig(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> u(x(<span class="fu">i</span>)<span class="op">,</span> t(<span class="fu">j</span>))<span class="op">;</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> ufig<span class="op">'</span>)<span class="op">;</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Menggunakan <em>function file</em> dari <em>pseudocode</em>:</p>
+<div id="cell-28" class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_backward_crout(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> @(x<span class="op">,</span> t) <span class="fu">exp</span>(<span class="op">-</span><span class="bu">pi</span><span class="op">^</span><span class="fl">2</span><span class="op">.*</span>t) <span class="op">*</span> <span class="fu">sin</span>(pi<span class="op">.*</span>x)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(x)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ufig(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> u(x(<span class="fu">i</span>)<span class="op">,</span> t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> ufig<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Menggunakan <em>function file</em> dengan solusi SPL secara langsung:</p>
+<div id="cell-30" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_backward_langsung(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">length</span>(x)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">length</span>(t)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">10</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>      F <span class="op">=</span> @(x) x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x) <span class="op">.*</span> <span class="fu">sin</span>(n <span class="op">*</span> <span class="bu">pi</span> <span class="op">.*</span> x)<span class="op">;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>      cn <span class="op">=</span> <span class="fl">20</span> <span class="op">*</span> integral(F<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>      u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+=</span> cn <span class="op">*</span> <span class="fu">exp</span>(<span class="op">-</span>n<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="bu">pi</span><span class="op">^</span><span class="fl">2</span> <span class="op">.*</span> t(<span class="fu">j</span>)) <span class="op">.*</span> <span class="fu">sin</span>(n <span class="op">*</span> <span class="bu">pi</span> <span class="op">.*</span> x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi Numerik"</span>)<span class="op">;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"w"</span>)<span class="op">;</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> u<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi Analitik (deret hingga n=10)"</span>)<span class="op">;</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -452,52 +543,103 @@ window.Quarto = {
 <section id="ide-utama-2" class="level3">
 <h3 class="anchored" data-anchor-id="ide-utama-2">Ide utama</h3>
 </section>
-<section id="function-file-2" class="level3">
-<h3 class="anchored" data-anchor-id="function-file-2"><em>Function file</em></h3>
-<div id="cell-27" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> CrankNicolson(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb<span class="op">:</span>dx<span class="op">:</span>xu<span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb<span class="op">:</span>dt<span class="op">:</span>tu<span class="op">;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  nt <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Nilai lambda</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  lambd <span class="op">=</span> (d <span class="op">*</span> dt) <span class="op">/</span> (dx<span class="op">^</span><span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Nilai awal dan syarat batas</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nx</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span><span class="op">:</span>nt</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    w(<span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> lb(t(<span class="fu">j</span>))<span class="op">;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    w(nx<span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> rb(t(<span class="fu">j</span>))<span class="op">;</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Penyelesaian SPL menggunakan faktorisasi Crout</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  l(<span class="fl">2</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambd<span class="op">;</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  u(<span class="fl">2</span>) <span class="op">=</span> <span class="op">-</span>lambd <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span>l(<span class="fl">2</span>))<span class="op">;</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">3</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">2</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    l(<span class="fu">i</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambd <span class="op">+</span> (lambd<span class="op">*</span>u(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span>) <span class="op">=</span> <span class="op">-</span>lambd <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span>l(<span class="fu">i</span>))<span class="op">;</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  l(nx<span class="op">-</span><span class="fl">1</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambd <span class="op">+</span> (lambd<span class="op">*</span>u(nx<span class="op">-</span><span class="fl">2</span>))<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span><span class="op">:</span>nt</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    z(<span class="fl">2</span>) <span class="op">=</span> ((<span class="fl">1</span><span class="op">-</span>lambd)<span class="op">*</span>w(<span class="fl">2</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> (lambd<span class="op">/</span><span class="fl">2</span>)<span class="op">*</span>w(<span class="fl">3</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>)) <span class="op">/</span> l(<span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">3</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>      z(<span class="fu">i</span>) <span class="op">=</span> ((<span class="fl">1</span><span class="op">-</span>lambd)<span class="op">*</span>w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> (lambd<span class="op">/</span><span class="fl">2</span>)<span class="op">*</span>(w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> z(<span class="fu">i</span><span class="op">-</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>      <span class="fl">1</span>))) <span class="op">/</span> l(<span class="fu">i</span>)<span class="op">;</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    w(nx<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> z(nx<span class="op">-</span><span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> nx<span class="op">-</span><span class="fl">2</span><span class="op">:-</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> z(<span class="fu">i</span>) <span class="op">-</span> u(<span class="fu">i</span>)<span class="op">*</span>w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>)<span class="op">;</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="function-file-dengan-faktorisasi-crout-sesuai-pseudocode-1" class="level3">
+<h3 class="anchored" data-anchor-id="function-file-dengan-faktorisasi-crout-sesuai-pseudocode-1"><em>Function file</em> (dengan faktorisasi Crout sesuai <em>pseudocode</em>)</h3>
+<div id="cell-34" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> crank_nicolson_crout(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb<span class="op">:</span>dx<span class="op">:</span>xu<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb<span class="op">:</span>dt<span class="op">:</span>tu<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  nt <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Nilai lambda</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  lambd <span class="op">=</span> (d <span class="op">*</span> dt) <span class="op">/</span> (dx<span class="op">^</span><span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Nilai awal dan syarat batas</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span>nx</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span><span class="op">:</span>nt</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    w(<span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> lb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    w(nx<span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> rb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Penyelesaian SPL menggunakan faktorisasi Crout</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  l(<span class="fl">2</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambd<span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  u(<span class="fl">2</span>) <span class="op">=</span> <span class="op">-</span>lambd <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span>l(<span class="fl">2</span>))<span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">3</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">2</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    l(<span class="fu">i</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambd <span class="op">+</span> (lambd<span class="op">*</span>u(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span>) <span class="op">=</span> <span class="op">-</span>lambd <span class="op">/</span> (<span class="fl">2</span><span class="op">*</span>l(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  l(nx<span class="op">-</span><span class="fl">1</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambd <span class="op">+</span> (lambd<span class="op">*</span>u(nx<span class="op">-</span><span class="fl">2</span>))<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span><span class="op">:</span>nt</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    z(<span class="fl">2</span>) <span class="op">=</span> ((<span class="fl">1</span><span class="op">-</span>lambd)<span class="op">*</span>w(<span class="fl">2</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> (lambd<span class="op">/</span><span class="fl">2</span>)<span class="op">*</span>w(<span class="fl">3</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>)) <span class="op">/</span> l(<span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">3</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>      z(<span class="fu">i</span>) <span class="op">=</span> ((<span class="fl">1</span><span class="op">-</span>lambd)<span class="op">*</span>w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> (lambd<span class="op">/</span><span class="fl">2</span>)<span class="op">*</span>(w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> z(<span class="fu">i</span><span class="op">-</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>      <span class="fl">1</span>))) <span class="op">/</span> l(<span class="fu">i</span>)<span class="op">;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    w(nx<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> z(nx<span class="op">-</span><span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> nx<span class="op">-</span><span class="fl">2</span><span class="op">:-</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> z(<span class="fu">i</span>) <span class="op">-</span> u(<span class="fu">i</span>)<span class="op">*</span>w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>)<span class="op">;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="contoh-soal-2" class="level3">
-<h3 class="anchored" data-anchor-id="contoh-soal-2">Contoh soal</h3>
+<section id="function-file-dengan-solusi-spl-secara-langsung-2" class="level3">
+<h3 class="anchored" data-anchor-id="function-file-dengan-solusi-spl-secara-langsung-2"><em>Function file</em> (dengan solusi SPL secara langsung)</h3>
+<div id="cell-36" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> crank_nicolson_langsung(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  nx <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  nt <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  u <span class="op">=</span> <span class="fu">zeros</span>(nx<span class="op">,</span> nt)<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  lambda <span class="op">=</span> (alph2 <span class="op">*</span> dt) <span class="op">/</span> dx<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> nx</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> nt</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    u(<span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> lb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    u(nx<span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> rb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  A <span class="op">=</span> <span class="fu">zeros</span>(nx <span class="op">-</span> <span class="fl">2</span><span class="op">,</span> nx <span class="op">-</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> (nx<span class="op">-</span><span class="fl">2</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">i</span> <span class="op">&gt;</span> <span class="fl">1</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>      A(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span><span class="op">-</span><span class="fl">1</span>) <span class="op">=</span> <span class="op">-</span>lambda<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endif</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    A(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">+</span> lambda<span class="op">;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">i</span> <span class="op">&lt;</span> nx<span class="op">-</span><span class="fl">2</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>      A(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> <span class="op">-</span>lambda<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endif</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  B <span class="op">=</span> <span class="fu">zeros</span>(nx <span class="op">-</span> <span class="fl">2</span><span class="op">,</span> nx <span class="op">-</span> <span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> (nx<span class="op">-</span><span class="fl">2</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">i</span> <span class="op">&gt;</span> <span class="fl">1</span>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>      B(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span><span class="op">-</span><span class="fl">1</span>) <span class="op">=</span> lambda<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endif</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    B(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span>) <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> lambda<span class="op">;</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">i</span> <span class="op">&lt;</span> nx<span class="op">-</span><span class="fl">2</span>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>      B(<span class="fu">i</span><span class="op">,</span> <span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> lambda<span class="op">/</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endif</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> nt</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> (B <span class="op">*</span> u(<span class="fl">2</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    u(<span class="fl">2</span><span class="op">:</span>nx<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> A <span class="op">\</span> z<span class="op">;</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="contoh-1" class="level3">
+<h3 class="anchored" data-anchor-id="contoh-1">Contoh 1</h3>
 <p>Sama seperti untuk <em>backward difference</em>, akan kita uji dengan persamaan difusi:</p>
 <p><span class="math display">\[\begin{align*}
     u_t - u_{xx} &amp;= 0, \quad 0 &lt; x &lt; 1, \quad t &gt; 0, \\
@@ -507,37 +649,82 @@ window.Quarto = {
 <p>dengan solusi eksak:</p>
 <p><span class="math display">\[u(x,t) = e^{-\pi^2 t} \sin \left(\pi x\right)\]</span></p>
 <p>Kita batasi <span class="math inline">\(t\)</span> menjadi <span class="math inline">\(0 \le t \le 1\)</span> dan gunakan <span class="math inline">\(\Delta x = 0.1\)</span> dan <span class="math inline">\(\Delta k = 0.01\)</span>, di mana kondisinya tidak stabil untuk metode eksplisit.</p>
-<div id="cell-30" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> CrankNicolson(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> @(x<span class="op">,</span> t) <span class="fu">exp</span>(<span class="op">-</span><span class="bu">pi</span><span class="op">^</span><span class="fl">2</span><span class="op">.*</span>t) <span class="op">*</span> <span class="fu">sin</span>(pi<span class="op">.*</span>x)<span class="op">;</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(x)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    ufig(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> u(x(<span class="fu">i</span>)<span class="op">,</span> t(<span class="fu">j</span>))<span class="op">;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> ufig<span class="op">'</span>)<span class="op">;</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">2</span>)<span class="op">;</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Menggunakan <em>function file</em> dari <em>pseudocode</em>:</p>
+<div id="cell-40" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> crank_nicolson_crout(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> @(x<span class="op">,</span> t) <span class="fu">exp</span>(<span class="op">-</span><span class="bu">pi</span><span class="op">^</span><span class="fl">2</span><span class="op">.*</span>t) <span class="op">*</span> <span class="fu">sin</span>(pi<span class="op">.*</span>x)<span class="op">;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(x)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    ufig(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> u(x(<span class="fu">i</span>)<span class="op">,</span> t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> ufig<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="contoh-2" class="level3">
+<h3 class="anchored" data-anchor-id="contoh-2">Contoh 2</h3>
+<p>Menggunakan <em>function file</em> dengan solusi SPL secara langsung:</p>
+<div id="cell-43" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>xb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>xu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>tb <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>tu <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>[x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> crank_nicolson_langsung(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">length</span>(x)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fu">length</span>(t)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">10</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>      F <span class="op">=</span> @(x) x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x) <span class="op">.*</span> <span class="fu">sin</span>(n <span class="op">*</span> <span class="bu">pi</span> <span class="op">.*</span> x)<span class="op">;</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>      cn <span class="op">=</span> <span class="fl">20</span> <span class="op">*</span> integral(F<span class="op">,</span> <span class="fl">0</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>      u(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+=</span> cn <span class="op">*</span> <span class="fu">exp</span>(<span class="op">-</span>n<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="bu">pi</span><span class="op">^</span><span class="fl">2</span> <span class="op">.*</span> t(<span class="fu">j</span>)) <span class="op">.*</span> <span class="fu">sin</span>(n <span class="op">*</span> <span class="bu">pi</span> <span class="op">.*</span> x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="cf">endfor</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> w<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi Numerik"</span>)<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"w"</span>)<span class="op">;</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="fu">mesh</span>(x<span class="op">,</span> t<span class="op">,</span> u<span class="op">'</span>)<span class="op">;</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi Analitik (deret hingga n=10)"</span>)<span class="op">;</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="fu">xlabel</span>(<span class="st">"x"</span>)<span class="op">;</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ylabel</span>(<span class="st">"t"</span>)<span class="op">;</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="fu">zlabel</span>(<span class="st">"u"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
