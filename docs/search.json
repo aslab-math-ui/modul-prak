@@ -606,7 +606,7 @@
     "href": "semuahalaman/modulprak/2024/genap/kalkulin/kalkulin2024genap.html",
     "title": "Praktikum Kalkulin (Kalkulus 2 & Aljabar Linier 1) 2024 Genap (Kurikulum 2020)",
     "section": "",
-    "text": "Kembali ke Praktikum\n\nTimeline\n\nModul 1: Basic LaTeX Part 1, 23-24 Februari 2024\nModul 2: Basic LaTeX Part 2, 28-30 Februari 2024\nModul 3: LaTeX Beamer, 7-9 Maret 2024\nModul 4: Koordinat Polar dan Fungsi Multivariabel, 13-15 Maret 2024\nModul 5: Nilai Eigen, Diagonalisasi, Ortogonalitas, 24-26 April 2024\nModul 6: Hasil Kali Dalam, Dekomposisi QR, Bentuk Kuadratik, 2-4 Mei 2024\nModul 7: Transformasi Linier Umum, 8-11 Mei 2024"
+    "text": "Kembali ke Praktikum\n\nTimeline\n\nModul 1: Basic LaTeX Part 1, 23-24 Februari 2024\nModul 2: Basic LaTeX Part 2, 28-30 Februari 2024\nModul 3: LaTeX Beamer, 7-9 Maret 2024\nModul 4: Koordinat Polar dan Fungsi Multivariabel, 13-15 Maret 2024\nModul 5: Nilai Eigen, Diagonalisasi, Ortogonalitas, 24-26 April 2024\nModul 6: Hasil Kali Dalam, Dekomposisi QR, Bentuk Kuadratik, 2-4 Mei 2024\nModul 7: Transformasi Linier Umum, 8-11 Mei 2024\nModul 8: Integral Lipat, Pemrograman dengan Wolfram Mathematica, 15-17 Mei 2024"
   },
   {
     "objectID": "semuahalaman/modulprak/2024/genap/eda/modul4.html",
@@ -3876,5 +3876,33 @@
     "title": "Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi",
     "section": "Metode Lax",
     "text": "Metode Lax\nMetode ini adalah perbaikan dari metode Richardson, mengganti \\(u_j^n\\) dengan \\(\\frac{1}{2} (u_{j+1}^n + u_{j-1}^n)\\), sehingga persamaan bedanya menjadi\n\\[u_j^{n+1} = \\frac{1}{2} (u_{j+1}^n + u_{j-1}^n) + C(u_{j+1}^n - u_{j-1}^n), \\quad C \\equiv \\frac{d \\Delta t}{2 \\Delta x}\\]\nMetode ini membutuhkan syarat batas kiri dan kanan.\n\nFunction file\nBerikut kode algoritma metode Lax menggunakan Octave.\n\nfunction [x, t, u] = lax(d, f, lb, rb, xb, xu, tb, tu, dx, dt)\n  t = tb : dt : tu;\n  x = xb : dx : du;\n  nt = length(t);\n  nx = length(x);\n  u = [];\n\n  for j = 1 : nx\n    u(j, 1) = f(x(j));\n  endfor\n\n  for n = 1 : nt\n    u(1, n) = lb(t(n));\n    u(nx, n) = rb(t(n));\n  endfor\n  \n  C = (d * dt) / (2 * dx);\n  for n = 1 : (nt - 1)\n    for j = 2 : (nx - 1)\n      u(j, n+1) = (u(j+1, n) + u(j-1, n)) / 2 - C * (u(j+1, n) - u(j-1, n));\n    endfor\n  endfor\nendfunction\n\n\n\nContoh penggunaan\nDengan soal yang sama,\n\\[u_t + u_x = 0, \\quad 0 \\le x \\le 1, \\quad 0 \\le t \\le 1\\] \\[u(x,0) = \\sin(8 \\pi x), \\quad 0 \\le x \\le 1\\] \\[u(0,t) = \\sin(-8 \\pi t), \\quad u(1,t) = \\sin(-8 \\pi (1-t)), \\quad 0 \\le t \\le 1\\] \\[\\Delta x = 0.025, \\quad \\Delta t = 0.02\\]\n\nclc;\nclear all;\nclose all;\nformat long;\n\nd = 1;\nf = @(x) sin(8*pi*x);\nlb = @(t) sin(-8*pi*t);\nrb = @(t) sin(-8*pi*(1-t));\nxb = 0;\nxu = 1;\ntb = 0;\ntu = 1;\ndx = 0.025;\ndt = 0.02;\n\n[x, t, u] = lax(d, f, lb, rb, xb, xu, tb, tu, dx, dt);\n\nsol = @(x,t) sin(8*pi*(x-t));\n\nfor j = 1 : length(x)\n  for n = 1 : length(t)\n    y(j, n) = sol(x(j), t(n));\n  endfor\nendfor\n\nu1 = @(x) = sin(8*pi*(x-1));\n\nfigure(1);\nhold on;\nmesh(x, t, u');\nxlabel('x');\nylabel('t');\nzlabel('u');\ntitle(\"Solusi Metode Lax\");\n\nfigure(2);\nhold on;\nmesh(x, t, y');\nxlabel('x');\nylabel('t');\nzlabel('u');\ntitle(\"Solusi Eksak\")\n\nfigure(3);\nhold on;\nfplot(u1, [0, 1], 'k');\nplot(x, u(:, length(t)), 'r');\nlegend(\"Eksak\", \"Metode Lax\");\ntitle(\"Penampang pada t=1\");"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html",
+    "href": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html",
+    "title": "Modul 8 Kalkulin 2024 Genap: Integral Lipat, Pemrograman dengan Wolfram Mathematica",
+    "section": "",
+    "text": "Kembali ke Kalkulin\nIni adalah pertemuan terakhir praktikum Kalkulin tahun ini."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html#integral-lipat",
+    "href": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html#integral-lipat",
+    "title": "Modul 8 Kalkulin 2024 Genap: Integral Lipat, Pemrograman dengan Wolfram Mathematica",
+    "section": "Integral Lipat",
+    "text": "Integral Lipat"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html#programming-with-mathematica",
+    "href": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html#programming-with-mathematica",
+    "title": "Modul 8 Kalkulin 2024 Genap: Integral Lipat, Pemrograman dengan Wolfram Mathematica",
+    "section": "Programming with Mathematica",
+    "text": "Programming with Mathematica"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html#contoh-module",
+    "href": "semuahalaman/modulprak/2024/genap/kalkulin/modul8.html#contoh-module",
+    "title": "Modul 8 Kalkulin 2024 Genap: Integral Lipat, Pemrograman dengan Wolfram Mathematica",
+    "section": "Contoh Module",
+    "text": "Contoh Module"
   }
 ]
