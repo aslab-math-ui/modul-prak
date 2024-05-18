@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -179,7 +179,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#metode-courant-isaacson-rees" id="toc-metode-courant-isaacson-rees" class="nav-link active" data-scroll-target="#metode-courant-isaacson-rees">Metode Courant-Isaacson-Rees</a>
+  <li><a href="#modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi" id="toc-modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi" class="nav-link active" data-scroll-target="#modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi">Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi</a>
+  <ul class="collapse">
+  <li><a href="#metode-courant-isaacson-rees" id="toc-metode-courant-isaacson-rees" class="nav-link" data-scroll-target="#metode-courant-isaacson-rees">Metode Courant-Isaacson-Rees</a>
   <ul class="collapse">
   <li><a href="#function-file" id="toc-function-file" class="nav-link" data-scroll-target="#function-file"><em>Function file</em></a></li>
   <li><a href="#contoh-penggunaan" id="toc-contoh-penggunaan" class="nav-link" data-scroll-target="#contoh-penggunaan">Contoh penggunaan</a></li>
@@ -193,6 +195,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#function-file-2" id="toc-function-file-2" class="nav-link" data-scroll-target="#function-file-2"><em>Function file</em></a></li>
   <li><a href="#contoh-penggunaan-2" id="toc-contoh-penggunaan-2" class="nav-link" data-scroll-target="#contoh-penggunaan-2">Contoh penggunaan</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -219,6 +222,8 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi" class="level1">
+<h1>Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/pdnum/pdnum2024genap.html">Persamaan Diferensial Numerik</a></p>
 <p>Ini adalah pertemuan terakhir praktikum Persamaan Diferensial Numerik tahun ini.</p>
 <p>Di pertemuan kali ini, kita akan membahas penyelesaian secara numerik untuk PDP orde 1, lebih tepatnya “persamaan transport” atau juga disebut persamaan adveksi. (Selain itu, semua PDP orde 1 tergolong hiperbolik.)</p>
@@ -238,7 +243,7 @@ window.Quarto = {
 <section id="function-file" class="level3">
 <h3 class="anchored" data-anchor-id="function-file"><em>Function file</em></h3>
 <p>Berikut kode algoritma metode Courant-Isaacson-Rees menggunakan Octave.</p>
-<div id="cell-12" class="cell">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> courant_i_r(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> du<span class="op">;</span></span>
@@ -269,7 +274,7 @@ window.Quarto = {
 <p><span class="math display">\[u_t + u_x = 0, \quad 0 \le x \le 1, \quad 0 \le t \le 1\]</span> <span class="math display">\[u(x,0) = \sin(8 \pi x), \quad 0 \le x \le 1\]</span> <span class="math display">\[u(0,t) = \sin(-8 \pi t), \quad u(1,t) = \sin(-8 \pi (1-t)), \quad 0 \le t \le 1\]</span> <span class="math display">\[\Delta x = 0.025, \quad \Delta t = 0.02\]</span></p>
 <p>Perhatikan bahwa <span class="math inline">\(d=1\)</span>.</p>
 <p>Dalam membandingkan dengan solusi eksak, sulit jika kita menumpuk plot seperti biasa. Kita akan menggunakan <em>syntax</em> <code>figure(n)</code> pada Octave untuk membuat lebih dari satu jendela plot untuk kebutuhannya masing-masing. Variabel <code>sol</code> akan digunakan untuk menyimpan solusi eksak dari persamaan transport.</p>
-<div id="cell-18" class="cell">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clc</span><span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">clear</span> <span class="fu">all</span><span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span> <span class="fu">all</span><span class="op">;</span></span>
@@ -333,7 +338,7 @@ window.Quarto = {
 <section id="function-file-1" class="level3">
 <h3 class="anchored" data-anchor-id="function-file-1"><em>Function file</em></h3>
 <p>Berikut kode algoritma metode Richardson menggunakan Octave.</p>
-<div id="cell-25" class="cell">
+<div id="cell-24" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> richardson(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
@@ -363,7 +368,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="contoh-penggunaan-1">Contoh penggunaan</h3>
 <p>Dengan soal yang sama,</p>
 <p><span class="math display">\[u_t + u_x = 0, \quad 0 \le x \le 1, \quad 0 \le t \le 1\]</span> <span class="math display">\[u(x,0) = \sin(8 \pi x), \quad 0 \le x \le 1\]</span> <span class="math display">\[u(0,t) = \sin(-8 \pi t), \quad u(1,t) = \sin(-8 \pi (1-t)), \quad 0 \le t \le 1\]</span> <span class="math display">\[\Delta x = 0.025, \quad \Delta t = 0.02\]</span></p>
-<div id="cell-29" class="cell">
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clc</span><span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">clear</span> <span class="fu">all</span><span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span> <span class="fu">all</span><span class="op">;</span></span>
@@ -426,7 +431,7 @@ window.Quarto = {
 <section id="function-file-2" class="level3">
 <h3 class="anchored" data-anchor-id="function-file-2"><em>Function file</em></h3>
 <p>Berikut kode algoritma metode Lax menggunakan Octave.</p>
-<div id="cell-35" class="cell">
+<div id="cell-34" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> lax(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> du<span class="op">;</span></span>
@@ -456,7 +461,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="contoh-penggunaan-2">Contoh penggunaan</h3>
 <p>Dengan soal yang sama,</p>
 <p><span class="math display">\[u_t + u_x = 0, \quad 0 \le x \le 1, \quad 0 \le t \le 1\]</span> <span class="math display">\[u(x,0) = \sin(8 \pi x), \quad 0 \le x \le 1\]</span> <span class="math display">\[u(0,t) = \sin(-8 \pi t), \quad u(1,t) = \sin(-8 \pi (1-t)), \quad 0 \le t \le 1\]</span> <span class="math display">\[\Delta x = 0.025, \quad \Delta t = 0.02\]</span></p>
-<div id="cell-39" class="cell">
+<div id="cell-38" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clc</span><span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">clear</span> <span class="fu">all</span><span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span> <span class="fu">all</span><span class="op">;</span></span>
@@ -510,6 +515,7 @@ window.Quarto = {
 </div>
 
 
+</section>
 </section>
 </section>
 
@@ -593,24 +599,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -645,11 +633,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
