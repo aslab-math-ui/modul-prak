@@ -237,7 +237,7 @@ window.Quarto = {
 <section id="review-runge-kutta-orde-4-untuk-sistem" class="level2">
 <h2 class="anchored" data-anchor-id="review-runge-kutta-orde-4-untuk-sistem">Review: Runge-Kutta orde 4 untuk sistem</h2>
 <p><em>Shooting method</em> untuk masalah nilai batas melibatkan sistem persamaan diferensial. Kita akan menggunakan kode metode Runge-Kutta orde 4 untuk sistem dari modul sebelumnya:</p>
-<div id="cell-6" class="cell" data-execution_count="4">
+<div id="cell-6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> rko4_sysm(cell_f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alphas)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> <span class="fu">length</span>(cell_f)<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -690,7 +690,7 @@ u_1(a) &amp;= 0, \quad u_2(a) = 1
 </section>
 <section id="function-file-metode-newton" class="level3">
 <h3 class="anchored" data-anchor-id="function-file-metode-newton">Function file (metode Newton)</h3>
-<div id="cell-40" class="cell" data-execution_count="17">
+<div id="cell-40" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x_arr<span class="op">,</span> w1<span class="op">,</span> w2] <span class="op">=</span> nonlinear_shooting_newton(f<span class="op">,</span> fy<span class="op">,</span> fyp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet<span class="op">,</span> tol<span class="op">,</span> M<span class="op">,</span> t0)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% kalau input t0 bukan angka, dianggap tidak memilih tebakan awal</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="fu">isnumeric</span>(t0)</span>
@@ -711,12 +711,12 @@ u_1(a) &amp;= 0, \quad u_2(a) = 1
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    [x_arr<span class="op">,</span> w_sys] <span class="op">=</span> rko4_sysm({u1_aksen<span class="op">,</span> u2_aksen}<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> [alph<span class="op">,</span> t_k])<span class="op">;</span></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">% y(x) adalah w1,i dengan i adalah indeks dari x (perlu dicari)</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">% pencariannya bisa dengan mengambil nilai pertama yang &gt;= x</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">% carinya bisa dengan memilih nilai terakhir (indeks end) di x_arr yang &lt;= x</span></span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">% (seandainya ada misalnya t_i + h/2, nilai w yang digunakan tetap di t_i)</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> @(x) w_sys(<span class="fl">1</span><span class="op">,</span> <span class="fu">find</span>(x_arr <span class="op">&gt;=</span> x)(<span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> @(x) w_sys(<span class="fl">1</span><span class="op">,</span> <span class="fu">find</span>(x_arr <span class="op">&lt;=</span> x)(<span class="cf">end</span>))<span class="op">;</span></span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">% y'(x) adalah w2,i dengan i adalah indeks dari x (perlu dicari)</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    yp <span class="op">=</span> @(x) w_sys(<span class="fl">2</span><span class="op">,</span> <span class="fu">find</span>(x_arr <span class="op">&gt;=</span> x)(<span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    yp <span class="op">=</span> @(x) w_sys(<span class="fl">2</span><span class="op">,</span> <span class="fu">find</span>(x_arr <span class="op">&lt;=</span> x)(<span class="cf">end</span>))<span class="op">;</span></span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">% selesaikan sistem kedua</span></span>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    u1_aksen <span class="op">=</span> @(x<span class="op">,</span> u) u(<span class="fl">2</span>)<span class="op">;</span></span>
@@ -757,7 +757,7 @@ f(x,y,y') &amp;= \frac{1}{8}(32+2x^3-yy') \\
 \frac{\partial f}{\partial y'}(x,y,y') &amp;= -\frac{1}{8}y
 \end{aligned}\]</span>
 <p>Berikut code script file untuk permasalahan di atas menggunakan metode linear shooting:</p>
-<div id="cell-45" class="cell" data-execution_count="19">
+<div id="cell-45" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) ((<span class="fl">1</span><span class="op">/</span><span class="fl">8</span>)<span class="op">*</span>(<span class="fl">32</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> x<span class="op">.^</span><span class="fl">3</span> <span class="op">-</span> y <span class="op">.*</span> yp))<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fy <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>yp<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fyp <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>y<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
