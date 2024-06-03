@@ -182,6 +182,7 @@ window.Quarto = {
   <li><a href="#metode-multistep-eksplisit-metode-n-step-adams-bashforth" id="toc-metode-multistep-eksplisit-metode-n-step-adams-bashforth" class="nav-link active" data-scroll-target="#metode-multistep-eksplisit-metode-n-step-adams-bashforth">Metode Multistep Eksplisit: Metode <span class="math inline">\(n\)</span>-step Adams-Bashforth</a>
   <ul class="collapse">
   <li><a href="#two-step-adams-bashforth-orde-2" id="toc-two-step-adams-bashforth-orde-2" class="nav-link" data-scroll-target="#two-step-adams-bashforth-orde-2">Two-step Adams-Bashforth (orde 2)</a></li>
+  <li><a href="#script-file-coba_ab2.m---nama-file-bebas" id="toc-script-file-coba_ab2.m---nama-file-bebas" class="nav-link" data-scroll-target="#script-file-coba_ab2.m---nama-file-bebas"><em>Script file</em> <code>coba_ab2.m</code> - nama <em>file</em> bebas</a></li>
   <li><a href="#three-step-adams-bashforth-orde-3" id="toc-three-step-adams-bashforth-orde-3" class="nav-link" data-scroll-target="#three-step-adams-bashforth-orde-3">Three-step Adams-Bashforth (orde 3)</a></li>
   <li><a href="#four-step-adams-bashforth-orde-4" id="toc-four-step-adams-bashforth-orde-4" class="nav-link" data-scroll-target="#four-step-adams-bashforth-orde-4">Four-step Adams-Bashforth (orde 4)</a></li>
   <li><a href="#five-step-adams-bashforth-orde-5" id="toc-five-step-adams-bashforth-orde-5" class="nav-link" data-scroll-target="#five-step-adams-bashforth-orde-5">Five-step Adams-Bashforth (orde 5)</a></li>
@@ -276,7 +277,11 @@ m_2 = f\left(t_{i-1}, w_{i-1}\right) \\
 w_{i+1}=w_{i}+\frac{h}{2}\left[3 m_1-m_2\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-16" class="cell" data-execution_count="1">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><em>Function file</em> <code>adams_bashforth_orde2.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="cell-17" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde2(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -303,17 +308,24 @@ w_{i+1}=w_{i}+\frac{h}{2}\left[3 m_1-m_2\right]
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+</div>
+</div>
 <p>Misalkan diberikan MNA sebagai berikut, yang ingin diselesaikan secara numerik dengan <span class="math inline">\(N = 10\)</span>:</p>
 <p><span class="math display">\[y' = y - t^2 + 1\]</span> <span class="math display">\[0 \le t \le 2\]</span> <span class="math display">\[y(0) = 0.5\]</span></p>
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
 <p>Contoh penggunaan:</p>
-<div id="cell-19" class="cell" data-execution_count="3">
+<p>::: {.panel-tabset}</p>
+</section>
+<section id="script-file-coba_ab2.m---nama-file-bebas" class="level3">
+<h3 class="anchored" data-anchor-id="script-file-coba_ab2.m---nama-file-bebas"><em>Script file</em> <code>coba_ab2.m</code> - nama <em>file</em> bebas</h3>
+<div id="cell-22" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde2(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)<span class="op">;</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -325,8 +337,9 @@ w_{i+1}=w_{i}+\frac{h}{2}\left[3 m_1-m_2\right]
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">,</span> y_eksak<span class="op">,</span> err_ab2]</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi Eksak"</span><span class="op">,</span> <span class="st">"Adams-Bashforth orde 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
 
@@ -379,7 +392,11 @@ m_3 = f\left(t_{i-2}, w_{i-2}\right) \\
 w_{i+1}=w_{i}+\frac{h}{12}\left[23 m_1-16 m_2+5 m_3\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-24" class="cell" data-execution_count="4">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><em>Function file</em> <code>adams_bashforth_orde3.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="cell-28" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde3(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -407,6 +424,9 @@ w_{i+1}=w_{i}+\frac{h}{12}\left[23 m_1-16 m_2+5 m_3\right]
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">12</span>) <span class="op">*</span> (<span class="fl">23</span><span class="op">*</span>m1 <span class="op">-</span> <span class="fl">16</span><span class="op">*</span>m2 <span class="op">+</span> <span class="fl">5</span><span class="op">*</span>m3)<span class="op">;</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="four-step-adams-bashforth-orde-4" class="level3">
@@ -437,7 +457,11 @@ m_4 = f\left(t_{i-3}, w_{i-3}\right) \\
 w_{i+1}=w_{i}+\frac{h}{24}\left[55 m_1-59 m_2+37 m_3-9 m_4\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-29" class="cell" data-execution_count="5">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><em>Function file</em> <code>adams_bashforth_orde4.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="cell-35" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -466,6 +490,9 @@ w_{i+1}=w_{i}+\frac{h}{24}\left[55 m_1-59 m_2+37 m_3-9 m_4\right]
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> w(<span class="fu">i</span>) <span class="op">+</span> (h<span class="op">/</span><span class="fl">24</span>) <span class="op">*</span> (<span class="fl">55</span><span class="op">*</span>m1 <span class="op">-</span> <span class="fl">59</span><span class="op">*</span>m2 <span class="op">+</span> <span class="fl">37</span><span class="op">*</span>m3 <span class="op">-</span> <span class="fl">9</span><span class="op">*</span>m4)<span class="op">;</span></span>
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="five-step-adams-bashforth-orde-5" class="level3">
@@ -499,7 +526,11 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 \left.-1274 m_4+251 m_5\right]
 \end{gathered}
 \]</span></p>
-<div id="cell-34" class="cell" data-execution_count="6">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><em>Function file</em> <code>adams_bashforth_orde5.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="cell-42" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_bashforth_orde5(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -530,6 +561,9 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="perbandingan-metode-adams-bashforth" class="level2">
@@ -539,7 +573,11 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
 <p>Kita bisa membandingkan orde-orde metode Adams-Bashforth dengan menyelesaikan MNA tersebut.</p>
-<div id="cell-38" class="cell" data-execution_count="8">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Script file</em> <code>bandingkan_ab.m</code> - nama <em>file</em> bebas</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div id="cell-48" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -557,12 +595,13 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> y_eksak<span class="op">,</span> w_orde2<span class="op">,</span> w_orde3<span class="op">,</span> w_orde4<span class="op">,</span> w_orde5]</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_orde2<span class="op">,</span> w_orde2<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_orde3<span class="op">,</span> w_orde3<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_orde4<span class="op">,</span> w_orde4<span class="op">,</span> <span class="st">'m'</span>)<span class="op">;</span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_orde5<span class="op">,</span> w_orde5<span class="op">,</span> <span class="st">'c'</span>)<span class="op">;</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"orde 2"</span><span class="op">,</span> <span class="st">"orde 3"</span><span class="op">,</span> <span class="st">"orde 4"</span><span class="op">,</span> <span class="st">"orde 5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"orde 2"</span><span class="op">,</span> <span class="st">"orde 3"</span><span class="op">,</span> <span class="st">"orde 4"</span><span class="op">,</span> <span class="st">"orde 5"</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>) <span class="co">% agar kotak keterangan di atas kiri</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
 
@@ -584,6 +623,9 @@ w_{i+1}=w_{i}+\frac{h}{720}\left[1901 m_1-2774 m_2+2616 m_3\right. \\
 <figure class="figure">
 <p><img src="modul4_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
 </figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -745,7 +787,11 @@ m_0 &amp;= f\left(t_{i+1}, w_{i+1}\right) \\
 w_{i+1} &amp;=w_i+\frac{h}{12}\left[5 m_0+8 m_1-m_2\right]
 \end{aligned}
 \]</span></p>
-<div id="cell-73" class="cell" data-execution_count="14">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true"><em>Function file</em> <code>adams_pc_orde3.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div id="cell-85" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_pc_orde3(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -778,11 +824,18 @@ w_{i+1} &amp;=w_i+\frac{h}{12}\left[5 m_0+8 m_1-m_2\right]
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+</div>
+</div>
 <p>Misalkan diberikan MNA sebagai berikut, yang ingin diselesaikan secara numerik dengan <span class="math inline">\(N = 10\)</span>:</p>
 <p><span class="math display">\[y' = y - t^2 + 1\]</span> <span class="math display">\[0 \le t \le 2\]</span> <span class="math display">\[y(0) = 0.5\]</span></p>
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
-<div id="cell-75" class="cell" data-execution_count="15">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true"><em>Script file</em> <code>coba_adams_pc_orde3.m</code> - nama <em>file</em> bebas</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div id="cell-89" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -799,8 +852,10 @@ w_{i+1} &amp;=w_i+\frac{h}{12}\left[5 m_0+8 m_1-m_2\right]
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">,</span> y_eksak<span class="op">,</span> err_pc3]</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi Eksak"</span><span class="op">,</span> <span class="st">"Adams Predictor-Corrector orde 3"</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
 
@@ -822,6 +877,9 @@ w_{i+1} &amp;=w_i+\frac{h}{12}\left[5 m_0+8 m_1-m_2\right]
 <figure class="figure">
 <p><img src="modul4_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
 </figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -859,7 +917,11 @@ m_0 &amp;= f\left(t_{i+1}, w_{i+1}\right) \\
 w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 \end{aligned}
 \]</span></p>
-<div id="cell-81" class="cell" data-execution_count="16">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><em>Function file</em> <code>adams_pc_orde4.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div id="cell-97" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_pc_orde4(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alpha)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% Inisiasi variabel awal</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> N<span class="op">;</span></span>
@@ -893,12 +955,19 @@ w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 <span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
 <span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+</div>
+</div>
 <p>Misalkan diberikan MNA sebagai berikut, yang ingin diselesaikan secara numerik dengan <span class="math inline">\(N = 10\)</span>:</p>
 <p><span class="math display">\[y' = y - t^2 + 1\]</span> <span class="math display">\[0 \le t \le 2\]</span> <span class="math display">\[y(0) = 0.5\]</span></p>
 <p>yang kebetulan memiliki solusi eksak:</p>
 <p><span class="math display">\[y\left(t\right) = \left( t + 1 \right)^2 - 0.5 e^t\]</span></p>
 <p>Kita bisa membandingkan orde-orde metode Adams Predictor-Corrector dengan menyelesaikan MNA tersebut.</p>
-<div id="cell-84" class="cell" data-execution_count="17">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true"><em>Script file</em> <code>bandingkan_adams_pc.m</code> - nama <em>file</em> bebas</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<div id="cell-102" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(t<span class="op">,</span> y) y <span class="op">-</span> t <span class="op">.^</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
@@ -917,9 +986,11 @@ w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 <span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> y_eksak<span class="op">,</span> w_pc3<span class="op">,</span> err_pc3<span class="op">,</span> w_pc4<span class="op">,</span> err_pc4]</span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [<span class="fl">0</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_pc3<span class="op">,</span> w_pc3<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_pc4<span class="op">,</span> w_pc4<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t_pc4<span class="op">,</span> w_pc4<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi Eksak"</span><span class="op">,</span> <span class="st">"orde 3"</span><span class="op">,</span> <span class="st">"orde 4"</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
 
@@ -941,6 +1012,9 @@ w_{i+1} &amp;= w_i+\frac{h}{24}\left[9 m_0+19 m_1-5 m_2+m_3\right]
 <figure class="figure">
 <p><img src="modul4_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
 </figure>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
