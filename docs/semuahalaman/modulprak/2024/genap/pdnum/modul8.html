@@ -231,9 +231,14 @@ window.Quarto = {
 <p>Bentuk umum PDP parabolik (lebih tepatnya persamaan panas atau persamaan difusi) bisa ditulis sebagai berikut:</p>
 <p><span class="math display">\[\frac{\partial u}{\partial t} (x,t) = \alpha^2 \frac{\partial^2 u}{\partial x^2}(x,t), \quad 0 &lt; x &lt; l, \quad 0 &lt; t &lt; T,\]</span></p>
 <p>dengan syarat batas serta nilai awal</p>
-<p><span class="math display">\[u(0,t) = u(l,t) = 0, \quad 0 &lt; t &lt; T, \quad \text{dan} \quad u(x,0) = f(x), \quad 0 \le x \le l\]</span></p>
+<p><span class="math display">\[u(0,t) = u(l,t) = 0, \quad 0 &lt; t \le T, \quad \text{dan} \quad u(x,0) = f(x), \quad 0 \le x \le l\]</span></p>
 <p><em>Step size</em> dalam variabel <span class="math inline">\(x\)</span> bisa ditulis <span class="math inline">\(h = \Delta x = l/m\)</span> untuk suatu bilangan bulat positif <span class="math inline">\(m\)</span>.</p>
 <p><em>Step size</em> dalam variabel <span class="math inline">\(t\)</span> bisa ditulis <span class="math inline">\(k = \Delta t = T/N\)</span> untuk suatu bilangan bulat positif <span class="math inline">\(N\)</span>.</p>
+<p>Untuk kebutuhan praktikum, kita dapat menuliskan bentuk umum persamaan panas sebagai berikut:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial t} (x,t) = \alpha^2 \frac{\partial^2 u}{\partial x^2}(x,t), \quad \text{xb} &lt; x &lt; \text{xu}, \quad \text{tb} &lt; t &lt; \text{tu},\]</span></p>
+<p><span class="math display">\[u(x,0) = f(x), \quad \text{xb} \le x \le \text{xu}\]</span></p>
+<p><span class="math display">\[u(0,t) = \text{lb}(t) = 0, \quad \text{tb} &lt; t \le \text{tu}\]</span></p>
+<p><span class="math display">\[u(l,t) = \text{rb}(t) = 0, \quad \text{tb} &lt; t \le \text{tu}\]</span></p>
 <section id="metode-forward-difference-metode-eksplisit-untuk-pdp-parabolik" class="level2">
 <h2 class="anchored" data-anchor-id="metode-forward-difference-metode-eksplisit-untuk-pdp-parabolik">Metode <em>Forward Difference</em> / Metode Eksplisit untuk PDP Parabolik</h2>
 <section id="ide-utama" class="level3">
@@ -280,7 +285,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><em>Function file</em> <code>parabolik_forward_fd.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="cell-12" class="cell" data-execution_count="44">
+<div id="cell-14" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_forward_fd(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> h<span class="op">,</span> k)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> h <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> k <span class="op">:</span> tu<span class="op">;</span></span>
@@ -319,7 +324,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><em>Function file</em> <code>parabolik_forward_matriks.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="cell-16" class="cell" data-execution_count="49">
+<div id="cell-18" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_forward_matriks(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> h<span class="op">,</span> k)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> h <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> k <span class="op">:</span> tu<span class="op">;</span></span>
@@ -389,7 +394,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><em>Script file</em> <code>coba1_parabolik_forward_fd.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="cell-24" class="cell" data-execution_count="50">
+<div id="cell-26" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -451,7 +456,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><em>Script file</em> <code>coba1_parabolik_forward_matriks.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="cell-28" class="cell" data-execution_count="51">
+<div id="cell-30" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -509,7 +514,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Baik menggunakan pendekatan <em>finite difference</em> maupun bentuk matriks, Anda juga bisa menampilkan animasi persebaran suhu yang terus menurun, dengan menambahkan kode berikut di akhir <em>script file</em>:</p>
-<div id="cell-31" class="cell">
+<div id="cell-33" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span>(<span class="fl">3</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(t)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(x<span class="op">,</span> u(<span class="op">:,</span> <span class="fu">j</span>)<span class="op">,</span> <span class="st">'k'</span><span class="op">,</span> <span class="st">'linewidth'</span><span class="op">,</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
@@ -541,7 +546,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Script file</em> <code>coba2_parabolik_forward_fd.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="cell-38" class="cell" data-execution_count="52">
+<div id="cell-40" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -603,7 +608,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true"><em>Script file</em> <code>coba2_parabolik_forward_matriks.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="cell-42" class="cell" data-execution_count="53">
+<div id="cell-44" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -673,7 +678,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true"><em>Function file</em> <code>parabolik_backward_crout.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<div id="cell-49" class="cell" data-execution_count="69">
+<div id="cell-51" class="cell" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_backward_crout(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb<span class="op">:</span>dx<span class="op">:</span>xu<span class="op">;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb<span class="op">:</span>dt<span class="op">:</span>tu<span class="op">;</span></span>
@@ -723,7 +728,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><em>Function file</em> <code>parabolik_backward_langsung.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<div id="cell-53" class="cell" data-execution_count="33">
+<div id="cell-55" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> parabolik_backward_langsung(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> h<span class="op">,</span> k)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> h <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> k <span class="op">:</span> tu<span class="op">;</span></span>
@@ -787,7 +792,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true"><em>Script file</em> <code>coba_parabolik_backward_crout.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
-<div id="cell-59" class="cell" data-execution_count="70">
+<div id="cell-61" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -841,7 +846,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true"><em>Script file</em> <code>coba_parabolik_backward_langsung.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
-<div id="cell-63" class="cell" data-execution_count="40">
+<div id="cell-65" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -911,7 +916,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true"><em>Function file</em> <code>crank_nicolson_crout.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
-<div id="cell-69" class="cell" data-execution_count="57">
+<div id="cell-71" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> crank_nicolson_crout(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb<span class="op">:</span>dx<span class="op">:</span>xu<span class="op">;</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb<span class="op">:</span>dt<span class="op">:</span>tu<span class="op">;</span></span>
@@ -962,7 +967,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true"><em>Function file</em> <code>crank_nicolson_langsung.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
-<div id="cell-73" class="cell" data-execution_count="58">
+<div id="cell-75" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> crank_nicolson_langsung(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> h<span class="op">,</span> k)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> h <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> k <span class="op">:</span> tu<span class="op">;</span></span>
@@ -1045,7 +1050,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true"><em>Script file</em> <code>coba1_crank_nicolson_crout.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-13-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-13-1-tab">
-<div id="cell-79" class="cell" data-execution_count="63">
+<div id="cell-81" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> rb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -1099,7 +1104,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-14-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-1" role="tab" aria-controls="tabset-14-1" aria-selected="true"><em>Script file</em> <code>coba1_crank_nicolson_langsung.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-14-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-14-1-tab">
-<div id="cell-83" class="cell" data-execution_count="66">
+<div id="cell-85" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
@@ -1171,7 +1176,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-15-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-15-1" role="tab" aria-controls="tabset-15-1" aria-selected="true"><em>Script file</em> <code>coba2_crank_nicolson_langsung.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-15-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-15-1-tab">
-<div id="cell-89" class="cell" data-execution_count="67">
+<div id="cell-91" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>alph2 <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fl">10</span> <span class="op">*</span> x <span class="op">.^</span> <span class="fl">3</span> <span class="op">.*</span> (<span class="fl">1</span> <span class="op">-</span> x)<span class="op">;</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fl">0</span><span class="op">;</span></span>
