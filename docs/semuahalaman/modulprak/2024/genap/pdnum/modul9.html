@@ -224,7 +224,12 @@ window.Quarto = {
 <p>Di pertemuan kali ini, kita akan membahas penyelesaian secara numerik untuk PDP orde 1, lebih tepatnya “persamaan transport” atau juga disebut persamaan adveksi. (Selain itu, semua PDP orde 1 tergolong hiperbolik.)</p>
 <p>Persamaan transport adalah salah satu bentuk PDP paling sederhana. Persamaan transport bisa dituliskan sebagai berikut:</p>
 <p><span class="math display">\[u_t + du_x = 0, \quad (x,t) \in [0, L] \times [0, T],\]</span> <span class="math display">\[u(x,0) = f(x), \quad 0 \le x \le L.\]</span></p>
-<p>Solusi eksak dari persamaan transport bisa ditulis <span class="math inline">\(u(x,t) = f(x-dt)\)</span>. Interval <span class="math inline">\(x\)</span> dan <span class="math inline">\(t\)</span> dipartisi dengan <em>step size</em> <span class="math inline">\(h = \Delta x\)</span> dan <span class="math inline">\(k = \Delta t\)</span> berturut-turut sehingga diperoleh <span class="math display">\[x_j = (j-1) \Delta x, \quad j = 1, 2, \dots, N_x = m\]</span> <span class="math display">\[t_n = (n-1) \Delta t, \quad n = 1, 2, \dots, N_t = N\]</span> Dari sini diperoleh suau <em>grid</em> dengan titik-titik <span class="math inline">\((x_j, t_n)\)</span>. Untuk nilai hampiran di titik-titik grid tersebut, bisa digunakan notasi <span class="math inline">\(u_j^n \equiv u(x_j, t_n)\)</span> ataupun <span class="math inline">\(w_{j,n} \equiv u(x_j, t_n)\)</span>.</p>
+<p>Untuk kebutuhan praktikum, bentuk umum persamaan transport bisa ditulis:</p>
+<p><span class="math display">\[u_t + du_x = 0, \quad \text{xb} &lt; x &lt; \text{xu}, \quad \text{tb} &lt; t &lt; \text{tu}\]</span></p>
+<p><span class="math display">\[u(x,\text{tb}) = f(x), \quad \text{xb} \le x \le \text{xu}\]</span></p>
+<p><span class="math display">\[u(\text{xb},t) = \text{lb}(t), \quad \text{tb} &lt; t &lt; \text{tu}\]</span></p>
+<p><span class="math display">\[u(\text{xu},t) = \text{rb}(t), \quad \text{tb} &lt; t &lt; \text{tu}\]</span></p>
+<p>Solusi eksak dari persamaan transport bisa ditulis <span class="math inline">\(u(x,t) = f(x-t)\)</span>. Interval <span class="math inline">\(x\)</span> dan <span class="math inline">\(t\)</span> dipartisi dengan <em>step size</em> <span class="math inline">\(h = \Delta x\)</span> dan <span class="math inline">\(k = \Delta t\)</span> berturut-turut sehingga diperoleh <span class="math display">\[x_j = (j-1) \Delta x, \quad j = 1, 2, \dots, N_x = m\]</span> <span class="math display">\[t_n = (n-1) \Delta t, \quad n = 1, 2, \dots, N_t = N\]</span> Dari sini diperoleh suau <em>grid</em> dengan titik-titik <span class="math inline">\((x_j, t_n)\)</span>. Untuk nilai hampiran di titik-titik grid tersebut, bisa digunakan notasi <span class="math inline">\(u_j^n \equiv u(x_j, t_n)\)</span> ataupun <span class="math inline">\(w_{j,n} \equiv u(x_j, t_n)\)</span>.</p>
 <p>Berikut beberapa metode untuk mengaproksimasi persamaan transport:</p>
 <ul>
 <li><p>Metode Courant-Isaacson-Rees (FTBS, upwind)</p></li>
@@ -242,7 +247,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><em>Function file</em> <code>courant_i_r.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="cell-13" class="cell" data-execution_count="31">
+<div id="cell-15" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> courant_i_r(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
@@ -280,7 +285,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><em>Script file</em> <code>coba_courant_i_r.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="cell-21" class="cell" data-execution_count="34">
+<div id="cell-23" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fu">sin</span>(<span class="op">-</span><span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>t)<span class="op">;</span></span>
@@ -369,7 +374,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><em>Function file</em> <code>richardson.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="cell-31" class="cell" data-execution_count="23">
+<div id="cell-33" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> richardson(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
@@ -406,7 +411,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><em>Script file</em> <code>coba_richardson.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="cell-37" class="cell" data-execution_count="36">
+<div id="cell-39" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fu">sin</span>(<span class="op">-</span><span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>t)<span class="op">;</span></span>
@@ -493,7 +498,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Function file</em> <code>lax.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="cell-45" class="cell" data-execution_count="29">
+<div id="cell-47" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> lax(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
@@ -530,7 +535,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true"><em>Script file</em> <code>coba_lax.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="cell-51" class="cell" data-execution_count="38">
+<div id="cell-53" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fu">sin</span>(<span class="op">-</span><span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>t)<span class="op">;</span></span>
