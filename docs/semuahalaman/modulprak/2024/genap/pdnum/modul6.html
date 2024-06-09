@@ -447,7 +447,7 @@ u_1 (a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><em>Script file</em> <code>coba_linear_shooting.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="cell-28" class="cell" data-execution_count="20">
+<div id="cell-28" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">2</span> <span class="op">./</span> x)<span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> @(x) (<span class="fl">2</span> <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> @(x) (<span class="fu">sin</span>(<span class="fu">log</span>(x)) <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
@@ -467,21 +467,24 @@ u_1 (a) &amp;= 0, \quad u_2(a) = 1
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>err_w1i <span class="op">=</span> <span class="fu">abs</span>(w1i <span class="op">-</span> y_eksak)<span class="op">;</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">% plot untuk y(x)</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>err1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1i)<span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1):"</span>)<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err1_total)<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">% plot untuk y(x)</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Tabel aproksimasi w1,i, solusi eksak y(x), dan error:
 ans =
@@ -497,7 +500,9 @@ ans =
    1.800000000000001   1.788898539692082   1.788898534641947   0.000000005050134
    1.900000000000001   1.893929513621671   1.893929509211183   0.000000004410488
    2.000000000000001   2.000000000000000   2.000000000000000   0.000000000000000
-</code></pre>
+
+Error total (norm L1):
+4.773875239560965e-07</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -516,7 +521,7 @@ ans =
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Script file</em> <code>coba2_linear_shooting.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="cell-33" class="cell" data-execution_count="19">
+<div id="cell-33" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">2</span> <span class="op">./</span> x)<span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> @(x) (<span class="fl">2</span> <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> @(x) (<span class="fu">sin</span>(<span class="fu">log</span>(x)) <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
@@ -539,32 +544,38 @@ ans =
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>err_w1i <span class="op">=</span> <span class="fu">abs</span>(w1i <span class="op">-</span> y_eksak)<span class="op">;</span></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>err_w2i <span class="op">=</span> <span class="fu">abs</span>(w2i <span class="op">-</span> yp_eksak)<span class="op">;</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak y'(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w2i<span class="op">,</span> yp_eksak<span class="op">,</span> err_w2i]</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co">% plot untuk y(x)</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co">% plot untuk y'(x)</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln_p<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w2i<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y'(x)"</span>)<span class="op">;</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w2,i)"</span>)<span class="op">;</span></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>err1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1i)<span class="op">;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>err2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2i)<span class="op">;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak y'(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w2i<span class="op">,</span> yp_eksak<span class="op">,</span> err_w2i]</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err1_total)<span class="op">;</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err2_total)<span class="op">;</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co">% plot untuk y(x)</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="co">% plot untuk y'(x)</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln_p<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w2i<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y'(x)"</span>)<span class="op">;</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w2,i)"</span>)<span class="op">;</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Tabel aproksimasi w1,i, solusi eksak y(x), dan error:
 ans =
@@ -611,7 +622,11 @@ ans =
    2.335479285520137e-07
    2.309299755864913e-07
    2.246154791052390e-07
-</code></pre>
+
+Error total (norm L1) untuk w1,i:
+4.773875239560965e-07
+Error total (norm L1) untuk w2,i:
+2.200196934865062e-06</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -637,7 +652,7 @@ ans =
 <h2 class="anchored" data-anchor-id="nonlinear-shooting"><em>Nonlinear Shooting</em></h2>
 <section id="bentuk-umum-ide-utama" class="level3">
 <h3 class="anchored" data-anchor-id="bentuk-umum-ide-utama">Bentuk umum, ide utama</h3>
-<p>Nonlinear Shooting digunakan untuk menyelesaikan masalah PD berbentuk:</p>
+<p>Nonlinear Shooting digunakan untuk menyelesaikan masalah nilai batas berbentuk:</p>
 <p><span class="math inline">\(y'' = f(x, y, y'), \; a\leq x \leq b\)</span></p>
 <p><span class="math inline">\(y(a)=\alpha, \; y(b)=\beta\)</span></p>
 <p>dengan <span class="math inline">\(f\)</span> boleh berupa fungsi linier maupun nonlinier</p>
@@ -856,7 +871,7 @@ u_1(a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><em>Function file</em> <code>nonlinear_shooting_newton.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<div id="cell-57" class="cell" data-execution_count="15">
+<div id="cell-57" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x_arr<span class="op">,</span> w1i<span class="op">,</span> w2i] <span class="op">=</span> nonlinear_shooting_newton(f<span class="op">,</span> fy<span class="op">,</span> fyp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet<span class="op">,</span> tol<span class="op">,</span> M<span class="op">,</span> t0)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% kalau input t0 bukan angka, dianggap tidak memilih tebakan awal</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="fu">isnumeric</span>(t0)</span>
@@ -931,7 +946,7 @@ f(x,y,y') &amp;= \frac{1}{8}(32+2x^3-yy') \\
 </section>
 <section id="script-file-coba_nonlinear_shooting_newton.m---nama-file-bebas" class="level3">
 <h3 class="anchored" data-anchor-id="script-file-coba_nonlinear_shooting_newton.m---nama-file-bebas"><em>Script file</em> <code>coba_nonlinear_shooting_newton.m</code> - nama <em>file</em> bebas</h3>
-<div id="cell-64" class="cell" data-execution_count="17">
+<div id="cell-64" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) ((<span class="fl">1</span><span class="op">/</span><span class="fl">8</span>)<span class="op">*</span>(<span class="fl">32</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> x<span class="op">.^</span><span class="fl">3</span> <span class="op">-</span> y <span class="op">.*</span> yp))<span class="op">;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fy <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>yp<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fyp <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>y<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
@@ -951,20 +966,23 @@ f(x,y,y') &amp;= \frac{1}{8}(32+2x^3-yy') \\
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>err_w1i <span class="op">=</span> <span class="fu">abs</span>(w1i <span class="op">-</span> y_eksak)<span class="op">;</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northeast'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>err1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1i)<span class="op">;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1):"</span>)<span class="op">;</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err1_total)<span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northeast'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Tabel aproksimasi w1,i, solusi eksak y(x), dan error:
 ans =
@@ -1016,7 +1034,9 @@ ans =
    8.496670478308488e-07
    9.070096620433787e-07
    2.415072742678603e-06
-</code></pre>
+
+Error total (norm L1):
+5.472579459873117e-04</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1028,7 +1048,7 @@ ans =
 </div>
 <p>Jika kita run script file tersebut, maka program akan mengeluarkan dua macam output, yaitu tabel serta plot perbandingan solusi eksak dan aproksimasi dengan <em>error</em>nya.</p>
 <p>Apabila diperlukan bukan hanya <span class="math inline">\(y(x)\)</span> (yaitu <span class="math inline">\(w_{1,i}\)</span>) tetapi juga <span class="math inline">\(y'(x)\)</span> (yaitu <span class="math inline">\(w_{2,i}\)</span>), kodenya menjadi seperti berikut:</p>
-<div id="cell-67" class="cell" data-execution_count="22">
+<div id="cell-67" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) ((<span class="fl">1</span><span class="op">/</span><span class="fl">8</span>)<span class="op">*</span>(<span class="fl">32</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> x<span class="op">.^</span><span class="fl">3</span> <span class="op">-</span> y <span class="op">.*</span> yp))<span class="op">;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fy <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>yp<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>fyp <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>y<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
@@ -1051,30 +1071,36 @@ ans =
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>err_w1i <span class="op">=</span> <span class="fu">abs</span>(w1i <span class="op">-</span> y_eksak)<span class="op">;</span></span>
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>err_w2i <span class="op">=</span> <span class="fu">abs</span>(w2i <span class="op">-</span> yp_eksak)<span class="op">;</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak y'(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w2i<span class="op">,</span> yp_eksak<span class="op">,</span> err_w2i]</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northeast'</span>)<span class="op">;</span></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln_p<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w2i<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y'(x)"</span>)<span class="op">;</span></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w2,i)"</span>)<span class="op">;</span></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>err1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1i)<span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>err2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2i)<span class="op">;</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">% tampilkan</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w1i<span class="op">,</span> y_eksak<span class="op">,</span> err_w1i]</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak y'(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>[xi<span class="op">,</span> w2i<span class="op">,</span> yp_eksak<span class="op">,</span> err_w2i]</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err1_total)<span class="op">;</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err2_total)<span class="op">;</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w1i<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w1,i)"</span>)<span class="op">;</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northeast'</span>)<span class="op">;</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln_p<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'k'</span>)<span class="op">;</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(xi<span class="op">,</span> w2i<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y'(x)"</span>)<span class="op">;</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi (w2,i)"</span>)<span class="op">;</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Tabel aproksimasi w1,i, solusi eksak y(x), dan error:
 ans =
@@ -1177,7 +1203,11 @@ ans =
    1.975599503500902e-05
    1.660131350300631e-05
    1.374022045119716e-05
-</code></pre>
+
+Error total (norm L1) untuk w1,i:
+5.472579459873117e-04
+Error total (norm L1) untuk w2,i:
+1.741071134524930e-03</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1293,7 +1323,7 @@ A \mathbf{w}=\mathbf{b}
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true"><em>Function file</em> <code>linear_fd_langsung.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
-<div id="cell-85" class="cell" data-execution_count="27">
+<div id="cell-85" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> w_grid] <span class="op">=</span> linear_fd_langsung(p<span class="op">,</span> q<span class="op">,</span> r<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% bikin array x</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> (N<span class="op">+</span><span class="fl">1</span>)<span class="op">;</span></span>
@@ -1344,7 +1374,7 @@ y(x)=\frac{4}{x}-\frac{2}{x^2}+\ln x-\frac{3}{2}
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true"><em>Script file</em> <code>coba_linear_fd_langsung.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
-<div id="cell-91" class="cell" data-execution_count="30">
+<div id="cell-91" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p<span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">4</span><span class="op">./</span>x)<span class="op">;</span> <span class="co">%fungsi p(x)</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>q<span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">2</span><span class="op">./</span>x<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span> <span class="co">%fungsi q(x)</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>r<span class="op">=</span>@(x) <span class="fl">2</span><span class="op">*</span><span class="fu">log</span>(x)<span class="op">./</span>(x<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span> <span class="co">%fungsi r(x)</span></span>
@@ -1359,20 +1389,23 @@ y(x)=\frac{4}{x}-\frac{2}{x^2}+\ln x-\frac{3}{2}
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> @(x) <span class="fl">4</span><span class="op">./</span>x <span class="op">-</span> <span class="fl">2</span><span class="op">./</span>(x<span class="op">.^</span><span class="fl">2</span>) <span class="op">+</span> <span class="fu">log</span>(x) <span class="op">-</span> <span class="fl">1.5</span><span class="op">;</span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>y_eksak <span class="op">=</span> sln(x_grid)<span class="op">;</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> <span class="fu">abs</span>(y_eksak <span class="op">-</span> w_grid)<span class="op">;</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">% bikin tabel dan grafiknya :D</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>[x_grid<span class="op">,</span> w_grid<span class="op">,</span> y_eksak<span class="op">,</span> err]</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(x_grid<span class="op">,</span> w_grid<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi"</span>)<span class="op">;</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>err_total <span class="op">=</span> <span class="fu">sum</span>(err)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">% bikin tabel dan grafiknya :D</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi, solusi eksak y(x), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>[x_grid<span class="op">,</span> w_grid<span class="op">,</span> y_eksak<span class="op">,</span> err]</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1):"</span>)<span class="op">;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_total)<span class="op">;</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(x_grid<span class="op">,</span> w_grid<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi y(x)"</span>)<span class="op">;</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Eksak"</span><span class="op">,</span> <span class="st">"Aproksimasi"</span>)<span class="op">;</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Tabel aproksimasi, solusi eksak y(x), dan error:
 ans =
@@ -1399,7 +1432,9 @@ ans =
    1.904761904761905   0.693116700585629   0.693107016390513   0.000009684195115
    1.952380952380952   0.693147019138584   0.693142430884514   0.000004588254070
    2.000000000000000   0.693147180559945   0.693147180559945   0.000000000000000
-</code></pre>
+
+Error total (norm L1):
+1.400919170378323e-03</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>

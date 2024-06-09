@@ -341,7 +341,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><em>Function file</em> <code>rko4_sysm.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="c7217818" class="cell" data-execution_count="3">
+<div id="c7217818" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> rko4_sysm(cell_f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alphas)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> <span class="fu">length</span>(cell_f)<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -498,12 +498,12 @@ endfor</code></pre>
 </div>
 </div>
 </div>
-<p>Sebenarnya, kita bisa saja menampilkan dua plot yang terpisah, menggunakan perintah <code>figure</code></p>
+<p>Sebenarnya, kita bisa saja menampilkan dua plot yang terpisah, menggunakan perintah <code>figure</code>. Selain itu, tabelnya juga bisa dipisah antara tabel untuk <span class="math inline">\(u_1\)</span> dan tabel untuk <span class="math inline">\(u_2\)</span>, sekaligus menghitung dan menampilkan <em>error</em>.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Script file</em> <code>coba2_rko4_sysm.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="f522418f" class="cell" data-execution_count="5">
+<div id="f522418f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">4</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span> <span class="fl">3</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">6</span>)<span class="op">;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">2.4</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span> <span class="fl">1.6</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">3.6</span>)<span class="op">;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -521,33 +521,64 @@ endfor</code></pre>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>u1_eksak <span class="op">=</span> sln1(t)<span class="op">;</span></span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>u2_eksak <span class="op">=</span> sln2(t)<span class="op">;</span></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">',</span> u1_eksak<span class="op">,</span> u2_eksak]</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span> <span class="co">% ambil baris pertama yaitu solusi u1</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi u1"</span>)<span class="op">;</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span> <span class="co">% ambil baris kedua yaitu solusi u2</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi u2"</span>)<span class="op">;</span></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>err_w1 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>err_w2 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>err_w1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>err_w2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">% menampilkan tabel, termasuk error</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> err_w1]</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> err_w2]</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w1_total)<span class="op">;</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w2_total)<span class="op">;</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span> <span class="co">% ambil baris pertama yaitu solusi u1</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi u1"</span>)<span class="op">;</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span> <span class="co">% ambil baris kedua yaitu solusi u2</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Aproksimasi u2"</span>)<span class="op">;</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ans =
+<pre><code>Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:
+ans =
 
-        0        0        0        0        0
-   0.1000   0.5383   0.3196   0.5383   0.3196
-   0.2000   0.9685   0.5688   0.9685   0.5688
-   0.3000   1.3107   0.7607   1.3107   0.7607
-   0.4000   1.5813   0.9063   1.5813   0.9063
-   0.5000   1.7935   1.0144   1.7935   1.0144
-</code></pre>
+                   0                   0                   0                   0
+   0.100000000000000   0.538255200000000   0.538263906772417   0.000008706772417
+   0.200000000000000   0.968498737529088   0.968512994104659   0.000014256575571
+   0.300000000000000   1.310719039205257   1.310736547027331   0.000017507822074
+   0.400000000000000   1.581265238963142   1.581284350416023   0.000019111452881
+   0.500000000000000   1.793507490120283   1.793527048067598   0.000019557947315
+
+Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:
+ans =
+
+                   0                   0                   0                   0
+   0.100000000000000   0.319626240000000   0.319632043667268   0.000005803667268
+   0.200000000000000   0.568782173034906   0.568791675789742   0.000009502754836
+   0.300000000000000   0.760733131868175   0.760744801402045   0.000011669533870
+   0.400000000000000   0.906320617948927   0.906333355910227   0.000012737961300
+   0.500000000000000   1.014402416769883   1.014415451789714   0.000013035019830
+
+Error total (norm L1) untuk w1,i:
+7.914057025892873e-05
+Error total (norm L1) untuk w2,i:
+5.274893710444095e-05</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -575,7 +606,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true"><em>Function file</em> <code>taylor_sysm.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="1701a12a" class="cell" data-execution_count="1">
+<div id="1701a12a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> taylor_sysm(cell_f<span class="op">,</span> cell_fp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alphas)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> <span class="fu">length</span>(cell_f)<span class="op">;</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -618,7 +649,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true"><em>Script file</em> <code>coba1_taylor_sysm.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<div id="cb1267ed" class="cell" data-execution_count="11">
+<div id="cb1267ed" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">4</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span><span class="fl">3</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">6</span>)<span class="op">;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>turunan_f1 <span class="op">=</span> {}<span class="op">;</span> <span class="co">% tidak menyediakan turunan f1 terhadap t</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -640,33 +671,64 @@ endfor</code></pre>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>u1_eksak <span class="op">=</span> sln1(t)<span class="op">;</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>u2_eksak <span class="op">=</span> sln2(t)<span class="op">;</span></span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">',</span> u1_eksak<span class="op">,</span> u2_eksak]</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u1"</span>)<span class="op">;</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u2"</span>)<span class="op">;</span></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>err_w1 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>err_w2 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>err_w1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>err_w2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">% menampilkan tabel, termasuk error</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> err_w1]</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> err_w2]</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w1_total)<span class="op">;</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w2_total)<span class="op">;</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u1"</span>)<span class="op">;</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u2"</span>)<span class="op">;</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ans =
+<pre><code>Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:
+ans =
 
-        0        0        0        0        0
-   0.1000   0.6000   0.3600   0.5383   0.3196
-   0.2000   1.0680   0.6336   0.9685   0.5688
-   0.3000   1.4309   0.8387   1.3107   0.7607
-   0.4000   1.7101   0.9894   1.5813   0.9063
-   0.5000   1.9229   1.0973   1.7935   1.0144
-</code></pre>
+                   0                   0                   0                   0
+   0.100000000000000   0.600000000000000   0.538263906772417   0.061736093227583
+   0.200000000000000   1.068000000000000   0.968512994104659   0.099487005895341
+   0.300000000000000   1.430880000000000   1.310736547027331   0.120143452972669
+   0.400000000000000   1.710124800000000   1.581284350416023   0.128840449583977
+   0.500000000000000   1.922903808000000   1.793527048067598   0.129376759932402
+
+Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:
+ans =
+
+                   0                   0                   0                   0
+   0.100000000000000   0.360000000000000   0.319632043667268   0.040367956332732
+   0.200000000000000   0.633600000000000   0.568791675789742   0.064808324210258
+   0.300000000000000   0.838656000000000   0.760744801402045   0.077911198597955
+   0.400000000000000   0.989429760000000   0.906333355910227   0.083096404089773
+   0.500000000000000   1.097308569600000   1.014415451789714   0.082893117810286
+
+Error total (norm L1) untuk w1,i:
+0.539583761611971
+Error total (norm L1) untuk w2,i:
+0.349077001041004</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -774,7 +836,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><em>Script file</em> <code>coba2_taylor_sysm.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<div id="0255820d" class="cell" data-execution_count="2">
+<div id="0255820d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>f1    <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">4</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span><span class="fl">3</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">6</span>)<span class="op">;</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>f1p   <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="fl">8.8</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">-</span> <span class="fl">7.2</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">-</span> <span class="fl">13.2</span>)<span class="op">;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>f1pp  <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">17.92</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span> <span class="fl">14.88</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">26.8</span>)<span class="op">;</span></span>
@@ -802,33 +864,64 @@ endfor</code></pre>
 <span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>u1_eksak <span class="op">=</span> sln1(t)<span class="op">;</span></span>
 <span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>u2_eksak <span class="op">=</span> sln2(t)<span class="op">;</span></span>
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">',</span> u1_eksak<span class="op">,</span> u2_eksak]</span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u1"</span>)<span class="op">;</span></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u2"</span>)<span class="op">;</span></span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>err_w1 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>err_w2 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>err_w1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>err_w2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">% menampilkan tabel, termasuk error</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> err_w1]</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> err_w2]</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w1_total)<span class="op">;</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w2_total)<span class="op">;</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u1"</span>)<span class="op">;</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u2"</span>)<span class="op">;</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ans =
+<pre><code>Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:
+ans =
 
-        0        0        0        0        0
-   0.1000   0.5382   0.3196   0.5383   0.3196
-   0.2000   0.9685   0.5688   0.9685   0.5688
-   0.3000   1.3107   0.7607   1.3107   0.7607
-   0.4000   1.5812   0.9063   1.5813   0.9063
-   0.5000   1.7935   1.0144   1.7935   1.0144
-</code></pre>
+                   0                   0                   0                   0
+   0.100000000000000   0.538241866666667   0.538263906772417   0.000022040105751
+   0.200000000000000   0.968476855353088   0.968512994104659   0.000036138751571
+   0.300000000000000   1.310692432573591   1.310736547027331   0.000044114453740
+   0.400000000000000   1.581236949834047   1.581284350416023   0.000047400581977
+   0.500000000000000   1.793479923348867   1.793527048067598   0.000047124718731
+
+Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:
+ans =
+
+                   0                   0                   0                   0
+   0.100000000000000   0.319626240000000   0.319632043667268   0.000005803667268
+   0.200000000000000   0.568785014157039   0.568791675789742   0.000006661632703
+   0.300000000000000   0.760741028831847   0.760744801402045   0.000003772570198
+   0.400000000000000   0.906335276984882   0.906333355910227   0.000001921074655
+   0.500000000000000   1.014425131989109   1.014415451789714   0.000009680199395
+
+Error total (norm L1) untuk w1,i:
+1.968186117699000e-04
+Error total (norm L1) untuk w2,i:
+2.783914421899958e-05</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -856,7 +949,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true"><em>Function file</em> <code>adams_pc_orde4_sysm.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
-<div id="eeac0316" class="cell" data-execution_count="12">
+<div id="eeac0316" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> adams_pc_orde4_sysm(cell_f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alphas)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> <span class="fu">length</span>(cell_f)<span class="op">;</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -949,7 +1042,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true"><em>Script file</em> <code>coba_adams_pc_orde4_sysm.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
-<div id="13d7b648" class="cell" data-execution_count="15">
+<div id="13d7b648" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">4</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span><span class="fl">3</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">6</span>)<span class="op">;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="op">-</span><span class="fl">2.4</span><span class="op">*</span>u(<span class="fl">1</span>) <span class="op">+</span> <span class="fl">1.6</span><span class="op">*</span>u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">3.6</span>)<span class="op">;</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -968,33 +1061,64 @@ endfor</code></pre>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>u1_eksak <span class="op">=</span> sln1(t)<span class="op">;</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>u2_eksak <span class="op">=</span> sln2(t)<span class="op">;</span></span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">',</span> u1_eksak<span class="op">,</span> u2_eksak]</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u1"</span>)<span class="op">;</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u2"</span>)<span class="op">;</span></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>err_w1 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>err_w2 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>err_w1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>err_w2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="co">% menampilkan tabel, termasuk error</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> err_w1]</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> err_w2]</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w1_total)<span class="op">;</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w2_total)<span class="op">;</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u1"</span>)<span class="op">;</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u1 (eksak)"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span>b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"u2"</span>)<span class="op">;</span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"u2 (eksak)"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>ans =
+<pre><code>Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:
+ans =
 
-        0        0        0        0        0
-   0.1000   0.5383   0.3196   0.5383   0.3196
-   0.2000   0.9685   0.5688   0.9685   0.5688
-   0.3000   1.3107   0.7607   1.3107   0.7607
-   0.4000   1.5813   0.9063   1.5813   0.9063
-   0.5000   1.7936   1.0144   1.7935   1.0144
-</code></pre>
+                   0                   0                   0                   0
+   0.100000000000000   0.538255200000000   0.538263906772417   0.000008706772417
+   0.200000000000000   0.968498737529088   0.968512994104659   0.000014256575571
+   0.300000000000000   1.310719039205257   1.310736547027331   0.000017507822074
+   0.400000000000000   1.581306013228106   1.581284350416023   0.000021662812083
+   0.500000000000000   1.793573533217050   1.793527048067598   0.000046485149452
+
+Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:
+ans =
+
+                   0                   0                   0                   0
+   0.100000000000000   0.319626240000000   0.319632043667268   0.000005803667268
+   0.200000000000000   0.568782173034906   0.568791675789742   0.000009502754836
+   0.300000000000000   0.760733131868175   0.760744801402045   0.000011669533870
+   0.400000000000000   0.906347797116244   0.906333355910227   0.000014441206017
+   0.500000000000000   1.014446438459705   1.014415451789714   0.000030986669992
+
+Error total (norm L1) untuk w1,i:
+1.086191315975427e-04
+Error total (norm L1) untuk w2,i:
+7.240383198242606e-05</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1254,7 +1378,7 @@ endfor</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true"><em>Script file</em> <code>pdb3_coba2_rko4_sysm.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
-<div id="f40d120f" class="cell" data-execution_count="16">
+<div id="f40d120f" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span> u) u(<span class="fl">2</span>)<span class="op">;</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span> u) u(<span class="fl">3</span>)<span class="op">;</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="fl">1</span><span class="op">/</span>t <span class="op">.*</span> u(<span class="fl">3</span>) <span class="op">-</span> <span class="fl">3</span><span class="op">/</span>(t<span class="op">.^</span><span class="fl">2</span>) <span class="op">.*</span> u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">4</span><span class="op">/</span>(t<span class="op">.^</span><span class="fl">3</span>) <span class="op">.*</span> u(<span class="fl">1</span>) <span class="op">+</span> <span class="fl">5</span><span class="op">*</span><span class="fu">log</span>(t) <span class="op">+</span> <span class="fl">9</span>)<span class="op">;</span></span>
@@ -1278,66 +1402,55 @@ endfor</code></pre>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>u2_eksak <span class="op">=</span> sln2(t)<span class="op">;</span></span>
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>u3_eksak <span class="op">=</span> sln3(t)<span class="op">;</span></span>
 <span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>u1_error <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>u2_error <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>u3_error <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u3_eksak)<span class="op">;</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Perbandingan aproksimasi dengan solusi eksak:"</span>)<span class="op">;</span></span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">',</span> u1_eksak<span class="op">,</span> u2_eksak<span class="op">,</span> u3_eksak]</span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span> <span class="co">% agar lebih banyak digit ditampilkan</span></span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Hasil aproksimasi u1, solusi eksak, dan error:"</span>)<span class="op">;</span></span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> u1_error]</span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Hasil aproksimasi u2, solusi eksak, dan error:"</span>)<span class="op">;</span></span>
-<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> u2_error]</span>
-<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Hasil aproksimasi u3, solusi eksak, dan error:"</span>)<span class="op">;</span></span>
-<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u3_eksak<span class="op">,</span> u3_error]</span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span> <span class="co">% kembali ke setting digit semula</span></span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span> <span class="co">% ambil baris pertama yaitu solusi u1</span></span>
-<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u1(t) atau y(t)"</span>)<span class="op">;</span></span>
-<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)<span class="op">;</span></span>
-<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
-<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
-<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span> <span class="co">% ambil baris kedua yaitu solusi u2</span></span>
-<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u2(t) atau y'(t)"</span>)<span class="op">;</span></span>
-<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)<span class="op">;</span></span>
-<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
-<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln3<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span> <span class="co">% ambil baris ketiga yaitu solusi u3</span></span>
-<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u3(t) atau y''(t)"</span>)<span class="op">;</span></span>
-<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w3,i (aproksimasi)"</span>)<span class="op">;</span></span>
-<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>err_w1 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>err_w2 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>err_w3 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u3_eksak)<span class="op">;</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>err_w1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>err_w2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>err_w3_total <span class="op">=</span> <span class="fu">sum</span>(err_w3)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="co">% menampilkan tabel, termasuk error</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> err_w1]</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> err_w2]</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w3,i, solusi eksak u3(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u3_eksak<span class="op">,</span> err_w3]</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w1_total)<span class="op">;</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w2_total)<span class="op">;</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w3,i:"</span>)<span class="op">;</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w3_total)<span class="op">;</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span> <span class="co">% ambil baris pertama yaitu solusi u1</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u1(t) atau y(t)"</span>)<span class="op">;</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)<span class="op">;</span></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span> <span class="co">% ambil baris kedua yaitu solusi u2</span></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u2(t) atau y'(t)"</span>)<span class="op">;</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)<span class="op">;</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln3<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span> <span class="co">% ambil baris ketiga yaitu solusi u3</span></span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u3(t) atau y''(t)"</span>)<span class="op">;</span></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w3,i (aproksimasi)"</span>)<span class="op">;</span></span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Perbandingan aproksimasi dengan solusi eksak:
-ans =
-
-    1.0000         0    1.0000    3.0000         0    1.0000    3.0000
-    1.1000    0.1165    1.3469    3.9560    0.1165    1.3469    3.9560
-    1.2000    0.2727    1.7945    5.0105    0.2727    1.7945    5.0105
-    1.3000    0.4791    2.3517    6.1474    0.4791    2.3517    6.1474
-    1.4000    0.7470    3.0263    7.3547    0.7470    3.0263    7.3547
-    1.5000    1.0885    3.8247    8.6232    1.0885    3.8247    8.6233
-    1.6000    1.5163    4.7527    9.9459    1.5163    4.7528    9.9459
-    1.7000    2.0435    5.8155   11.3170    2.0435    5.8155   11.3170
-    1.8000    2.6840    7.0176   12.7319    2.6840    7.0176   12.7320
-    1.9000    3.4518    8.3632   14.1869    3.4518    8.3633   14.1869
-    2.0000    4.3616    9.8562   15.6788    4.3616    9.8562   15.6788
-
-Hasil aproksimasi u1, solusi eksak, dan error:
+<pre><code>Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:
 ans =
 
    1.000000000000000                   0                   0                   0
@@ -1352,7 +1465,7 @@ ans =
    1.900000000000001   3.451837841224076   3.451846252199066   0.000008410974990
    2.000000000000001   4.361566750517713   4.361577799834785   0.000011049317072
 
-Hasil aproksimasi u2, solusi eksak, dan error:
+Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:
 ans =
 
    1.000000000000000   1.000000000000000   1.000000000000000                   0
@@ -1367,7 +1480,7 @@ ans =
    1.900000000000001   8.363225949009005   8.363252082824820   0.000026133815815
    2.000000000000001   9.856213929909213   9.856243969447302   0.000030039538089
 
-Hasil aproksimasi u3, solusi eksak, dan error:
+Tabel aproksimasi w3,i, solusi eksak u3(t), dan error:
 ans =
 
  Columns 1 through 3:
@@ -1397,7 +1510,13 @@ ans =
    3.391218507609040e-05
    3.541318215205536e-05
    3.664164275640758e-05
-</code></pre>
+
+Error total (norm L1) untuk w1,i:
+3.679055679502163e-05
+Error total (norm L1) untuk w2,i:
+1.439602566337683e-04
+Error total (norm L1) untuk w3,i:
+2.597906376617942e-04</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -1527,7 +1646,7 @@ ans =
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-14-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-14-1" role="tab" aria-controls="tabset-14-1" aria-selected="true"><em>Script file</em> <code>pdb3_coba2_adams_pc_orde4_sysm.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-14-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-14-1-tab">
-<div id="e7ec17ca" class="cell" data-execution_count="17">
+<div id="e7ec17ca" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> @(t<span class="op">,</span> u) u(<span class="fl">2</span>)<span class="op">;</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> @(t<span class="op">,</span> u) u(<span class="fl">3</span>)<span class="op">;</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>f3 <span class="op">=</span> @(t<span class="op">,</span> u) (<span class="fl">1</span><span class="op">/</span>t <span class="op">.*</span> u(<span class="fl">3</span>) <span class="op">-</span> <span class="fl">3</span><span class="op">/</span>(t<span class="op">.^</span><span class="fl">2</span>) <span class="op">.*</span> u(<span class="fl">2</span>) <span class="op">+</span> <span class="fl">4</span><span class="op">/</span>(t<span class="op">.^</span><span class="fl">3</span>) <span class="op">.*</span> u(<span class="fl">1</span>) <span class="op">+</span> <span class="fl">5</span><span class="op">*</span><span class="fu">log</span>(t) <span class="op">+</span> <span class="fl">9</span>)<span class="op">;</span></span>
@@ -1551,66 +1670,55 @@ ans =
 <span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>u2_eksak <span class="op">=</span> sln2(t)<span class="op">;</span></span>
 <span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>u3_eksak <span class="op">=</span> sln3(t)<span class="op">;</span></span>
 <span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>u1_error <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>u2_error <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>u3_error <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u3_eksak)<span class="op">;</span></span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Perbandingan aproksimasi dengan solusi eksak:"</span>)<span class="op">;</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w<span class="op">',</span> u1_eksak<span class="op">,</span> u2_eksak<span class="op">,</span> u3_eksak]</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span> <span class="co">% agar lebih banyak digit ditampilkan</span></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Hasil aproksimasi u1, solusi eksak, dan error:"</span>)<span class="op">;</span></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> u1_error]</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Hasil aproksimasi u2, solusi eksak, dan error:"</span>)<span class="op">;</span></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> u2_error]</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Hasil aproksimasi u3, solusi eksak, dan error:"</span>)<span class="op">;</span></span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u3_eksak<span class="op">,</span> u3_error]</span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span> <span class="co">% kembali ke setting digit semula</span></span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span> <span class="co">% ambil baris pertama yaitu solusi u1</span></span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u1(t) atau y(t)"</span>)<span class="op">;</span></span>
-<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)<span class="op">;</span></span>
-<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
-<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
-<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span> <span class="co">% ambil baris kedua yaitu solusi u2</span></span>
-<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u2(t) atau y'(t)"</span>)<span class="op">;</span></span>
-<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)<span class="op">;</span></span>
-<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
-<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
-<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln3<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
-<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span> <span class="co">% ambil baris ketiga yaitu solusi u3</span></span>
-<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u3(t) atau y''(t)"</span>)<span class="op">;</span></span>
-<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w3,i (aproksimasi)"</span>)<span class="op">;</span></span>
-<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">% menghitung error</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>err_w1 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u1_eksak)<span class="op">;</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>err_w2 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u2_eksak)<span class="op">;</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>err_w3 <span class="op">=</span> <span class="fu">abs</span>(w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">'</span> <span class="op">-</span> u3_eksak)<span class="op">;</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>err_w1_total <span class="op">=</span> <span class="fu">sum</span>(err_w1)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>err_w2_total <span class="op">=</span> <span class="fu">sum</span>(err_w2)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>err_w3_total <span class="op">=</span> <span class="fu">sum</span>(err_w3)<span class="op">;</span> <span class="co">% norm L1 (taxicab/Manhattan)</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="co">% menampilkan tabel, termasuk error</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> long<span class="op">;</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u1_eksak<span class="op">,</span> err_w1]</span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u2_eksak<span class="op">,</span> err_w2]</span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Tabel aproksimasi w3,i, solusi eksak u3(t), dan error:"</span>)<span class="op">;</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>[t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">',</span> u3_eksak<span class="op">,</span> err_w3]</span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w1,i:"</span>)<span class="op">;</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w1_total)<span class="op">;</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w2,i:"</span>)<span class="op">;</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w2_total)<span class="op">;</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(<span class="st">"Error total (norm L1) untuk w3,i:"</span>)<span class="op">;</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="fu">disp</span>(err_w3_total)<span class="op">;</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span><span class="op">;</span></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln1<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'r'</span>)<span class="op">;</span> <span class="co">% ambil baris pertama yaitu solusi u1</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u1(t) atau y(t)"</span>)<span class="op">;</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w1,i (aproksimasi)"</span>)<span class="op">;</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln2<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span></span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'g'</span>)<span class="op">;</span> <span class="co">% ambil baris kedua yaitu solusi u2</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u2(t) atau y'(t)"</span>)<span class="op">;</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w2,i (aproksimasi)"</span>)<span class="op">;</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="fu">figure</span><span class="op">;</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="fu">hold</span> on<span class="op">;</span></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a><span class="fu">fplot</span>(sln3<span class="op">,</span> [a<span class="op">,</span> b]<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span></span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(t<span class="op">,</span> w(<span class="fl">3</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="st">'b'</span>)<span class="op">;</span> <span class="co">% ambil baris ketiga yaitu solusi u3</span></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"Solusi u3(t) atau y''(t)"</span>)<span class="op">;</span></span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"Solusi eksak"</span><span class="op">,</span> <span class="st">"w3,i (aproksimasi)"</span>)<span class="op">;</span></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'location'</span><span class="op">,</span> <span class="st">'northwest'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Perbandingan aproksimasi dengan solusi eksak:
-ans =
-
-    1.0000         0    1.0000    3.0000         0    1.0000    3.0000
-    1.1000    0.1165    1.3469    3.9560    0.1165    1.3469    3.9560
-    1.2000    0.2727    1.7945    5.0105    0.2727    1.7945    5.0105
-    1.3000    0.4791    2.3517    6.1474    0.4791    2.3517    6.1474
-    1.4000    0.7470    3.0263    7.3547    0.7470    3.0263    7.3547
-    1.5000    1.0885    3.8248    8.6232    1.0885    3.8247    8.6233
-    1.6000    1.5163    4.7528    9.9459    1.5163    4.7528    9.9459
-    1.7000    2.0435    5.8156   11.3170    2.0435    5.8155   11.3170
-    1.8000    2.6840    7.0177   12.7319    2.6840    7.0176   12.7320
-    1.9000    3.4518    8.3633   14.1869    3.4518    8.3633   14.1869
-    2.0000    4.3616    9.8563   15.6787    4.3616    9.8562   15.6788
-
-Hasil aproksimasi u1, solusi eksak, dan error:
+<pre><code>Tabel aproksimasi w1,i, solusi eksak u1(t), dan error:
 ans =
 
    1.000000000000000                   0                   0                   0
@@ -1625,7 +1733,7 @@ ans =
    1.900000000000001   3.451838703918476   3.451846252199066   0.000007548280589
    2.000000000000001   4.361573101909957   4.361577799834785   0.000004697924828
 
-Hasil aproksimasi u2, solusi eksak, dan error:
+Tabel aproksimasi w2,i, solusi eksak u2(t), dan error:
 ans =
 
    1.000000000000000   1.000000000000000   1.000000000000000                   0
@@ -1640,7 +1748,7 @@ ans =
    1.900000000000001   8.363300595016490   8.363252082824820   0.000048512191670
    2.000000000000001   9.856287435428921   9.856243969447302   0.000043465981619
 
-Hasil aproksimasi u3, solusi eksak, dan error:
+Tabel aproksimasi w3,i, solusi eksak u3(t), dan error:
 ans =
 
  Columns 1 through 3:
@@ -1670,7 +1778,13 @@ ans =
    7.030528413842774e-05
    8.095650483497252e-05
    9.062565571049674e-05
-</code></pre>
+
+Error total (norm L1) untuk w1,i:
+7.325663886766087e-05
+Error total (norm L1) untuk w2,i:
+3.126122781038632e-04
+Error total (norm L1) untuk w3,i:
+4.466223892567456e-04</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
