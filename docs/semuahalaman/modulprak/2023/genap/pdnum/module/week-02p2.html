@@ -231,7 +231,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 <p>dengan <span class="math inline">\(n+1\in \mathbb{N}\)</span> menyatakan banyaknya titik nantinya.</p>
 <p>Solusi kita akan berupa titik yang nantinya dapat menggunakan interpolasi untuk nilai yang tidak dimuat di <span class="math inline">\(w_i\)</span></p>
 <p>Algoritma untuk metode Euler adalah sebagai berikut:</p>
-<div id="8de63580" class="cell">
+<div id="6e8860c3" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> euler(f, a, b, n, alpha)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -252,7 +252,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 \end{aligned}
 \]</span></p>
 <p>maka kita dapat mendefinisikan <code>f=@(t, y)\left(y-t^{\wedge} 2+1\right)</code>, a=0, b=2, dan alpha <span class="math inline">\(=0.5\)</span> (@ disini menyatakan fungsi anonim yang cara kerjanya mirip dengan fungsi lambda pada Python), sehingga untuk <span class="math inline">\(n=10\)</span>, diperoleh kode sebagai berikut:</p>
-<div id="3a468556" class="cell">
+<div id="5e65bef8" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="op">@</span>(t, y) (y<span class="op">-</span>t<span class="op">^</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
@@ -262,7 +262,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 </div>
 <p>Untuk visualisasinya, kita akan membuat plot dari hasil yang kita peroleh. Sebagai referensi, solusi eksak dari PD tersebut adalah <span class="math inline">\(y(t)=(t+1)^2- 0.5 e^t\)</span></p>
 <p>Kita tambahkan kode berikut pada file:$</p>
-<div id="af31af3c" class="cell">
+<div id="a55e54e3" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> <span class="op">@</span>(t) (t <span class="op">+</span> <span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> exp(t)<span class="op">;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fplot(sln, [<span class="dv">0</span>, <span class="dv">2</span>], <span class="st">'b'</span>)<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>hold on<span class="op">;</span></span>
@@ -312,7 +312,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 \]</span></li>
 </ol>
 <p>Berikut adalah list algoritmanya.</p>
-<div id="f05ee15f" class="cell">
+<div id="38978337" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> midpoint(f, a, b, n, alpha)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -327,7 +327,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="40da3a75" class="cell">
+<div id="a89e82d1" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> modeuler(f, a, b, n, alpha)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -342,7 +342,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="ba432491" class="cell">
+<div id="048d24e6" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> heun(f, a, b, n, alpha)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -359,7 +359,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0e18b094" class="cell">
+<div id="f831a58a" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> rko4(f, a, b, n, alpha)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -376,7 +376,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7a50a4df" class="cell">
+<div id="55891067" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="op">@</span>(t, y) (y <span class="op">-</span> t <span class="op">^</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
