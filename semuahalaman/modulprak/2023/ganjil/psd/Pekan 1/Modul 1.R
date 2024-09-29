@@ -55,14 +55,14 @@ View(iris) #liat datanya di window baru
 str(iris) #informasi dan tipe data
 
 #atau kalo mau import data dari file
-df <- read.csv("D:/Iris.csv") #janlup dikasih tau parameternya path ya jadi bebas
+df <- read.csv("./Iris.csv") #janlup dikasih tau parameternya path ya jadi bebas
 
 #atau pake package readr dan readxl pada R
 library(readr)
-df <- read_csv("D:/Iris.csv")
+df <- read_csv("./Iris.csv")
 
 library(readxl)
-df_excel <- read_excel("D:/Iris.xlsx")
+df_excel <- read_excel("./Iris.xlsx")
 #cara manual agak ribet sehingga direkomendasikan pake fitur import dataset di Rstudio saja
 
 #deskriptif yg simple dulu
