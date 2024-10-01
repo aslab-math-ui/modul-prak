@@ -1,5 +1,6 @@
 ---
-title: "R: Operasi Dasar, Statistik Deskriptif, Visualisasi Data (Pertemuan 3)"
+title: "R: Operasi Dasar, Statistik Deskriptif, Visualisasi Frekuensi (Pertemuan 3)"
+subtitle: "R: Basic Operations, Descriptive Statistics, Frequency Visualizations"
 description: "Offline di Departemen Matematika"
 date: 09/30/2024
 page-navigation: true
@@ -8,10 +9,157 @@ format: html
 
 Kembali ke [Pengantar Sains Data](./psd2024.qmd)
 
+Untuk pertemuan kali ini, kita akan mulai membahas lebih lanjut tentang penggunaan bahasa R, melalui RStudio.
+
 *Dataset* "Iris" yang digunakan di modul ini bisa langsung diakses melalui R, atau bisa juga diunduh:
 
 * [Iris.csv](./Iris.csv)
 
 * [Iris.xlsx](./Iris.xlsx)
 
-Materi modul kali ini menyusul. Sementara, kalian bisa mengintip [modul PSD tahun lalu](../../../2023/ganjil/psd/Pekan%201/modul1.qmd). Untuk tahun ini, perlu ada revisi sebelum ditampilkan di sini.
+Materi modul kali ini adalah revisi dari [modul PSD tahun lalu](../../../2023/ganjil/psd/Pekan%201/modul1.qmd) yang sementara bisa kalian intip, yang sedang disusun di bawah ini (belum lengkap).
+
+# Operasi Dasar
+
+Silakan buka RStudio dulu, ya! Gunakan perangkat (*laptop* atau komputer) yang sudah terinstal R dan RStudio. Kalau perlu, petunjuk instalasi ada di [modul pertemuan pertama](./modul1.qmd).
+
+Sebelum mulai menggunakan R dengan RStudio, jangan lupa untuk membuat *file* baru `.R` dan disimpan. Pencet `File > New File > R Script`
+
+Suatu *file* `.R` bisa terdiri dari sejumlah baris kode berbahasa R.
+
+* Tiap baris bisa dijalankan masing-masing, dengan cara menekan baris tersebut, kemudian memencet tombol `Ctrl` dan `Enter` sekaligus di *keyboard* (atau biasa ditulis `Ctrl + Enter`) untuk Windows, atau `Cmd + Enter` untuk macOS.
+
+* Apabila ingin menjalankan beberapa baris sekaligus, *select* dulu (dengan *mouse*) baris-baris yang ingin dijalankan, baru tekan `Ctrl + Enter` (Windows) atau `Cmd + Enter` (macOS).
+
+* Kalau mau (jarang digunakan), keseluruhan *file* `.R` bisa dijalankan dengan `Ctrl + Shift + Enter` (Windows) atau `Cmd + Shift + Enter` (macOS).
+
+## *Review* Aritmatika
+
+Kita *review* pengenalan R dari [pertemuan pertama](./modul1.qmd) dulu, ya!
+
+Kalian bisa mengetik kemudian mencoba menjalankan masing-masing baris kode berikut, untuk perhitungan dasar di R. Apabila menggunakan RStudio, hasilnya akan muncul di bagian bawah, yang disebut "Console". (Sebenarnya, daripada mengetik di *file*, kalian bisa saja langsung mengetik kode di Console, tetapi tidak bisa disimpan.)
+
+```{r}
+2+3
+7-5
+3*5
+3/4
+2:4
+2**3 # pangkat
+```
+
+Pendefinisian variabel di R bisa menggunakan `<-` (lebih umum digunakan) atau menggunakan `=` seperti berikut:
+
+```{r}
+apel <- 4
+jeruk = 7
+```
+
+Ruas kiri merupakan nama variabel dan ruas kanan merupakan nilai variabel.
+
+Untuk memanggil (memeriksa isi) suatu variabel, cukup ketik namanya, lalu jalankan:
+
+```{r}
+apel
+```
+
+Lebih jelasnya, bisa menggunakan fungsi `print` seperti berikut:
+
+```{r}
+print(apel)
+```
+
+Variabel juga bisa diterapkan operasi dasar, misalnya seperti berikut:
+
+```{r}
+apel-jeruk
+apel*jeruk
+```
+
+Kita juga bisa mendefinisikan variabel baru menggunakan nilai dari variabel yang sudah ada:
+
+```{r}
+banyakbuah <- jeruk+apel
+banyakbuah
+```
+
+Untuk melihat semua variabel yang sudah ada,
+
+- di tampilan RStudio, cukup lihat bagian "Environment" yang harusnya ada di sebelah kanan layar. Terlihat nama tiap variabel yang sudah terdefinisi, beserta nilai masing-masing.
+
+- secara pemrograman R, bisa dengan fungsi atau perintah `ls()`
+
+    ```{r}
+    ls()
+    ```
+
+Di R, kita juga bisa menghapus variabel, menggunakan fungsi atau perintah `rm()`
+
+```{r}
+rm(banyakbuah)
+```
+
+Kalau kita coba panggil `banyakbuah` lagi, akan *error*.
+
+Apabila ingin menghapus semua variabel, kita bisa memberikan daftar semua variabel yang ada (yaitu hasil `ls()`) ke `rm()` seperti berikut:
+
+```{r}
+rm(list=ls())
+```
+
+## *Import* data, instalasi *package*/*library*
+
+Sekumpulan data biasa disebut *dataset*. Di R, ada sejumlah *dataset* yang *built-in*, yaitu "sudah ada dari sananya". Di antara itu, *dataset* paling terkenal adalah `iris`, yaitu data tiga spesies [bunga *Iris*](https://en.wikipedia.org/wiki/Iris_(plant)), yang sering digunakan dalam pengantar statistika (seperti mata kuliah PSD ini) ataupun pengantar *machine learning*.
+
+Kita bisa mengaktifkan *dataset* `iris` tersebut dengan perinah berikut, menggunakan *string*:
+
+```{r}
+data("iris")
+```
+
+Sebagaimana di Python, penulisan *string* di R juga bebas antara menggunakan tanda petik `'seperti ini'` ataupun tanda kutip `"seperti ini"`, yang penting konsisten.
+
+Setelah menjalankan kode di atas, *dataset* `iris` sudah diaktifkan. Untuk melihatnya,
+
+* di RStudio, lihat ke bagian Environment. Kalian bisa *double click* atau klik dua kali tulisan `iris` agar muncul *tab* baru berisi tabelnya.
+
+* secara pemrograman, kalian bisa mengetik `iris` begitu saja sebagaimana ketika ingin menampilkan variabel,
+
+    ```{r}
+    iris
+    ```
+
+    kemudian tampilan tabel untuk *dataset* `iris` akan muncul di Console (bisa di-*scroll*).
+
+* cara lain adalah dengan mengetik
+
+    ```{r}
+    View(iris)
+    ```
+
+    agar tampilan *dataset* `iris` muncul di *tab* baru, seolah-olah telah melakukan *double click* di Environment. Perhatikan bahwa huruf `V` di perintah `View` harus huruf kapital.
+
+Tentunya, data yang dihadapi oleh pengguna R pada umumnya tidak akan *built-in*, tetapi misalnya akan berupa *file* Excel (`.xlsx`) ataupun *format* `.csv`, sehingga harus di-*import* terlebih dahulu.
+
+Untuk belajar cara *import* data, kebetulan *dataset* `iris` juga tersedia dalam *format* `.csv` dan juga `.xlsx` yang bisa kalian unduh:
+
+* [Iris.csv](./Iris.csv)
+
+* [Iris.xlsx](./Iris.xlsx)
+
+::: {.callout-note}
+## Tentang *format* CSV
+Baik *format* `.csv` maupun *format* `.xlsx` menyimpan data yang bersifat "tabular", atau berbentuk tabel. Bedanya, *format* `.xlsx` atau Excel bisa menyimpan hal lainnya seperti gambar grafik/visualisasi, juga tiap sel/data bisa diberi warna, dijadikan *bold*, dan sebagainya. Sedangkan, *format* CSV benar-benar hanya menyimpan data tabel saja.
+
+"CSV" itu sendiri adalah singkatan dari *comma-separated values*. Kalau ada waktu, kalian bisa iseng mencoba membuka *file* `.csv` menggunakan aplikasi teks seperti Notepad (di Windows) atau TextEdit (di macOS). Kalian bisa melihat tiap nilai dipisahkan dengan koma, semikolon, atau tanda serupa, yang disebut *delimeter*.
+:::
+
+# Eksplorasi Data dan Statistik Deskriptif
+
+# Visualisasi Frekuensi
+
+## *Bar Chart*
+
+## *Pie Chart*
+
+## *Histogram*
