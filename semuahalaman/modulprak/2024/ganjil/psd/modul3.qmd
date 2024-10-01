@@ -23,7 +23,9 @@ Materi modul kali ini adalah revisi dari [modul PSD tahun lalu](../../../2023/ga
 
 Silakan buka RStudio dulu, ya! Gunakan perangkat (*laptop* atau komputer) yang sudah terinstal R dan RStudio. Kalau perlu, petunjuk instalasi ada di [modul pertemuan pertama](./modul1.qmd).
 
-Sebelum mulai menggunakan R dengan RStudio, jangan lupa untuk membuat *file* baru `.R` dan disimpan. Pencet `File > New File > R Script`
+Sebelum mulai menggunakan R dengan RStudio, jangan lupa untuk membuat *file* baru `.R` dan disimpan. Pencet `File > New File > R Script` untuk membuat, lalu tekan `Ctrl + S` (Windows) atau `Cmd + S` (macOS) untuk menyimpan. Silakan pilih dan/atau buat *folder* untuk menyimpan *file* tersebut.
+
+Jangan lupa menyimpan *file* secara berkala (juga dengan `Ctrl + S` atau `Cmd + S`) agar tidak hilang.
 
 Suatu *file* `.R` bisa terdiri dari sejumlah baris kode berbahasa R.
 
@@ -107,6 +109,26 @@ Apabila ingin menghapus semua variabel, kita bisa memberikan daftar semua variab
 rm(list=ls())
 ```
 
+Tambahan: apabila kita ingin menuliskan sekumpulan data, di R ada konsep *vector*. Kita bisa menggabungkan sejumlah data agar menjadi satu kesatuan dengan fungsi `c()` atau *combine*, misalnya sebagai berikut:
+
+```{r}
+angka <- c(1, 2, 3)
+print(angka)
+```
+
+```{r}
+nama_buah <- c("apel", "jeruk", "pisang")
+print(nama_buah)
+```
+
+Kita juga bisa melakukan *sampling*, yaitu mengambil sekian buah data secara sembarang, seperti berikut. Coba jalankan beberapa kali, hasilnya kemungkinan akan berbeda-beda, tetapi tidak mungkin hal yang sama dipilih lebih dari sekali.
+
+```{r}
+sample(nama_buah, 2)
+sample(nama_buah, 2)
+sample(nama_buah, 2)
+```
+
 ## *Import* data, instalasi *package*/*library*
 
 Sekumpulan data biasa disebut *dataset*. Di R, ada sejumlah *dataset* yang *built-in*, yaitu "sudah ada dari sananya". Di antara itu, *dataset* paling terkenal adalah `iris`, yaitu data tiga spesies [bunga *Iris*](https://en.wikipedia.org/wiki/Iris_(plant)), yang sering digunakan dalam pengantar statistika (seperti mata kuliah PSD ini) ataupun pengantar *machine learning*.
@@ -137,7 +159,7 @@ Setelah menjalankan kode di atas, *dataset* `iris` sudah diaktifkan. Untuk melih
     View(iris)
     ```
 
-    agar tampilan *dataset* `iris` muncul di *tab* baru, seolah-olah telah melakukan *double click* di Environment. Perhatikan bahwa huruf `V` di perintah `View` harus huruf kapital.
+    agar tampilan *dataset* `iris` muncul di *tab* baru, seolah-olah telah melakukan *double click* di Environment. Perhatikan bahwa huruf "V" di perintah `View` harus huruf kapital.
 
 Tentunya, data yang dihadapi oleh pengguna R pada umumnya tidak akan *built-in*, tetapi misalnya akan berupa *file* Excel (`.xlsx`) ataupun *format* `.csv`, sehingga harus di-*import* terlebih dahulu.
 
@@ -154,7 +176,216 @@ Baik *format* `.csv` maupun *format* `.xlsx` menyimpan data yang bersifat "tabul
 "CSV" itu sendiri adalah singkatan dari *comma-separated values*. Kalau ada waktu, kalian bisa iseng mencoba membuka *file* `.csv` menggunakan aplikasi teks seperti Notepad (di Windows) atau TextEdit (di macOS). Kalian bisa melihat tiap nilai dipisahkan dengan koma, semikolon, atau tanda serupa, yang disebut *delimeter*.
 :::
 
+Kebetulan, fitur *import* di R tidak langsung aktif, sehingga perlu diaktifkan terlebih dahulu, dan bahkan perlu diinstal sebelum diaktifkan.
+
+Fitur *import* `.csv`, yang bernama `read.csv`, tersedia dari *package* atau *library* (yaitu sekumpulan fitur) yang bernama "readr". Kode berikut menginstal *package* `readr` terlebih dahulu, kemudian mengaktifkannya:
+
+```
+install.packages("readr")
+```
+
+```{r}
+library(readr)
+```
+
+Sedangkan, fitur *import* `.xlsx` bernama `read_excel` dan berasal dari *package* `readxl`, yang juga perlu diinstal dan diaktifkan sebagai berikut:
+
+```
+install.packages("readxl")
+```
+
+```{r}
+library(readxl)
+```
+
+Ada baiknya, *file* `.csv` dan/atau *file* `.xlsx` yang ingin di-*import* diletakkan di *folder* yang sama dengan *file* `.R` yang sedang kalian gunakan. Dengan demikian, untuk meng-*import* `Iris.csv`, kalian tinggal mengetik
+
+```{r}
+df1 <- read.csv("Iris.csv")
+```
+
+dan untuk meng-*import* `Iris.xlsx`, kalian tinggal mengetik
+
+```{r}
+df2 <- read_excel("Iris.xlsx")
+```
+
+Beberapa catatan tentang kode di atas:
+
+* Isi dari fungsi `read.csv` ataupun `read_excel`, yang saat ini diisi *string* `"Iris.csv"` dan `"Iris.xlsx"`, sebenarnya meminta ***path***, yaitu semacam "alamat" yang dikenal oleh komputer untuk mencari letak dari *file* yang diinginkan. Apabila *file* berada di *folder* yang sama, cukup namanya saja yang diketik.
+
+* Nama `df1` dan `df2` itu sebenarnya nama variabel, sehingga terserah kalian, tidak harus `df1` ataupun `df2`.
+
+* "df" adalah singkatan dari *data frame*. Singkat cerita, *data frame* adalah tabel, yang bisa memiliki sejumlah kolom (terkadang disebut "fitur") dan sejumlah baris.
+
 # Eksplorasi Data dan Statistik Deskriptif
+
+Sampai sini, kita sudah memiliki tiga *data frame*, yaitu `iris` (*built-in*), `df1` (dari `.csv`), dan `df2` (dari `.xlsx`). Semuanya sama saja. Untuk eksplorasi lebih lanjut, mungkin kita gunakan nama `df1` saja ya. Nanti kalau kalian ada data lain yang ingin dieksplorasi, kalian bisa mengganti *path* di kode *import* di atas.
+
+Mari kita lihat lagi datanya:
+
+```{r}
+View(df1)
+```
+
+Kita bisa gunakan fungsi `ls` untuk melihat nama-nama kolom, dan fungsi `dim` untuk melihat ukuran/dimensi tabel (sekian baris dikali sekian kolom):
+
+```{r}
+ls(df1)
+dim(df1)
+```
+
+Kita bisa sekilas melihat *data frame* tersebut dengan
+
+```{r}
+str(df1)
+```
+
+Untuk memilih kolom tertentu, gunakan simbol dolar atau `$` seperti berikut:
+
+```
+nama_data_frame$nama_kolom
+```
+
+Misalnya, untuk memanggil kolom `Sepal.Length` saja,
+
+```{r}
+df1$Sepal.Length
+```
+
+Ringkasan data, meliputi statistik deskriptif seperti minimum, maksimum, dan rata-rata, bisa diperoleh dengan
+
+```{r}
+summary(df1)
+```
+
+Apabila kalian spesifik memerlukan nilai tertentu, tiap statistik deskriptif ada perintahnya sendiri, yang bisa diterapkan untuk tiap kolom.
+
+Misalnya, untuk kolom `Sepal.Length`, berikut ukuran pemusatan data:
+
+```{r}
+median(df1$Sepal.Length) # median (nilai tengah)
+mean(df1$Sepal.Length) # rata-rata
+```
+
+Berikut ukuran persebaran data:
+
+```{r}
+var(df1$Sepal.Length) # variansi
+sd(df1$Sepal.Length) # standard deviation
+```
+
+Berikut ukuran rentang data:
+
+```{r}
+min(df1$Sepal.Length) # minimum
+max(df1$Sepal.Length) # maksimum
+range(df1$Sepal.Length) # rentang: batas bawah, batas atas
+```
+
+Beberapa ukuran lainnya:
+
+```{r}
+length(df1$Sepal.Length) # banyaknya baris/data
+sum(df1$Sepal.Length) # sumasi/jumlah seluruh data
+```
+
+Tentu, ukuran-ukuran tersebut berupa nilai yang nantinya bisa disimpan ataupun digunakan untuk perhitungan lain. Misalnya, ada yang namanya *standard error*:
+
+```{r}
+std_err <- sd(df1$Sepal.Length) / sqrt(length(df1$Sepal.Length))
+```
+
+Selain itu, ada juga fungsi untuk memperoleh data secara terurut, yaitu `sort`
+
+```{r}
+sort(df1$Sepal.Length)
+```
+
+Untuk nilai modus, gunakan fungsi `Mode` dari *package* `DescTools`, yang tentunya perlu diinstal terlebih dahulu kalau belum, lalu diaktifkan:
+
+```
+install.packages("DescTools") # instal kalau belum
+```
+
+```{r}
+library(DescTools) # aktifkan
+```
+
+```{r}
+Mode(df1$Sepal.Length)
+```
+
+Selain statistik deskriptif, kita juga bisa menerapkan manipulasi sederhana pada. Sebelumnya, kita telah menggunakan simbol dolar `$` untuk melakukan ***subsetting***, lebih tepatnya memilih kolom tertentu.
+
+Fitur *subsetting* ini sebenarnya ada fungsinya sendiri, yang tidak hanya bisa memilih kolom tertentu, tetapi juga bisa memilih semua baris yang memenuhi kriteria tertentu pada kolom. 
+
+Contohnya, untuk memilih semua baris dengan spesies tertentu:
+
+```{r}
+subset(df1, Species == "versicolor")
+```
+
+Bisa juga, memilih semua baris dengan `Sepal.Length` yang cukup besar:
+
+```{r}
+subset(df1, Sepal.Length >= 6)
+```
+
+Selain *subsetting*, ada juga *indexing*. Kita bisa mengakses baris dan kolom tertentu pada tabel menggunakan kurung siku.
+
+Misalnya, perhatikan data `Sepal.Width`:
+
+```{r}
+df1$Sepal.Width
+```
+
+Kebetulan, `Sepal.Width` adalah kolom pertama pada tabel. Dari tabel `df1`, kita bisa memilih lima baris pertama dari kolom kedua, yaitu lima baris pertama dari `Sepal.Width`, seperti berikut:
+
+```{r}
+df1[1:5, 2]
+```
+
+Perhatikan bahwa bentuk data di atas sudah tidak seperti *data frame* yang berbentuk tabel rapi. Kita bisa tambahkan opsi `drop = FALSE` agar tetap seperti tabel:
+
+```{r}
+df1[1:5, 2, drop = FALSE]
+```
+
+Ada juga fungsi `which` yang agak terbalik dari *subsetting*: mencari baris mana saja yang memenuhi kriteria tertentu. Misalnya, kita bisa memperoleh baris mana saja yang memiliki data spesies tertentu.
+
+```{r}
+which(df1$Species == "versicolor")
+```
+
+Gunanya? Kita bisa gabungkan ini dengan *indexing*:
+
+```{r}
+index_versicolor <- which(df1$Species == "versicolor")
+df1[index_versicolor,] # entah kenapa, harus ada koma
+```
+
+Sebenarnya, ada alternatif dari fungsi `subset`, yaitu fungsi `filter` dari *package* `dplyr`. Mari instal kalau belum, lalu aktifkan:
+
+```
+install.packages("dplyr")
+```
+
+```{r}
+library(dplyr)
+```
+
+Kita bisa gunakan sebagaimana menggunakan fungsi `subset` tadi:
+
+```{r}
+filter(df1, Species == "versicolor")
+```
+
+```{r}
+filter(df1, Sepal.Length >= 6)
+```
+
+Bedanya? Selain namanya lebih jelas, fungsi `filter` ini cenderung lebih cepat untuk data yang besar, misalnya puluhan ribu baris.
 
 # Visualisasi Frekuensi
 
