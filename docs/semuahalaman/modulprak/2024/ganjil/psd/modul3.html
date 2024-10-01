@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-09-30">
 <meta name="description" content="Offline di Departemen Matematika">
 
-<title>Lab Praktikum Departemen Matematika FMIPA UI - R: Operasi Dasar, Statistik Deskriptif, Visualisasi Data (Pertemuan 3)</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - R: Operasi Dasar, Statistik Deskriptif, Visualisasi Frekuensi (Pertemuan 3)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -114,14 +148,32 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#operasi-dasar" id="toc-operasi-dasar" class="nav-link active" data-scroll-target="#operasi-dasar">Operasi Dasar</a>
+  <ul class="collapse">
+  <li><a href="#review-aritmatika" id="toc-review-aritmatika" class="nav-link" data-scroll-target="#review-aritmatika"><em>Review</em> Aritmatika</a></li>
+  <li><a href="#import-data-instalasi-packagelibrary" id="toc-import-data-instalasi-packagelibrary" class="nav-link" data-scroll-target="#import-data-instalasi-packagelibrary"><em>Import</em> data, instalasi <em>package</em>/<em>library</em></a></li>
+  </ul></li>
+  <li><a href="#eksplorasi-data-dan-statistik-deskriptif" id="toc-eksplorasi-data-dan-statistik-deskriptif" class="nav-link" data-scroll-target="#eksplorasi-data-dan-statistik-deskriptif">Eksplorasi Data dan Statistik Deskriptif</a></li>
+  <li><a href="#visualisasi-frekuensi" id="toc-visualisasi-frekuensi" class="nav-link" data-scroll-target="#visualisasi-frekuensi">Visualisasi Frekuensi</a>
+  <ul class="collapse">
+  <li><a href="#bar-chart" id="toc-bar-chart" class="nav-link" data-scroll-target="#bar-chart"><em>Bar Chart</em></a></li>
+  <li><a href="#pie-chart" id="toc-pie-chart" class="nav-link" data-scroll-target="#pie-chart"><em>Pie Chart</em></a></li>
+  <li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram"><em>Histogram</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">R: Operasi Dasar, Statistik Deskriptif, Visualisasi Data (Pertemuan 3)</h1>
+<h1 class="title">R: Operasi Dasar, Statistik Deskriptif, Visualisasi Frekuensi (Pertemuan 3)</h1>
+<p class="subtitle lead">R: Basic Operations, Descriptive Statistics, Frequency Visualizations</p>
 </div>
 
 <div>
@@ -150,14 +202,325 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/ganjil/psd/psd2024.html">Pengantar Sains Data</a></p>
+<p>Untuk pertemuan kali ini, kita akan mulai membahas lebih lanjut tentang penggunaan bahasa R, melalui RStudio.</p>
 <p><em>Dataset</em> “Iris” yang digunakan di modul ini bisa langsung diakses melalui R, atau bisa juga diunduh:</p>
 <ul>
 <li><p><a href="./Iris.csv">Iris.csv</a></p></li>
 <li><p><a href="./Iris.xlsx">Iris.xlsx</a></p></li>
 </ul>
-<p>Materi modul kali ini menyusul. Sementara, kalian bisa mengintip <a href="../../../../../semuahalaman/modulprak/2023/ganjil/psd/Pekan 1/modul1.html">modul PSD tahun lalu</a>. Untuk tahun ini, perlu ada revisi sebelum ditampilkan di sini.</p>
+<p>Materi modul kali ini adalah revisi dari <a href="../../../../../semuahalaman/modulprak/2023/ganjil/psd/Pekan 1/modul1.html">modul PSD tahun lalu</a> yang sementara bisa kalian intip, yang sedang disusun di bawah ini (belum lengkap).</p>
+<section id="operasi-dasar" class="level1">
+<h1>Operasi Dasar</h1>
+<p>Silakan buka RStudio dulu, ya! Gunakan perangkat (<em>laptop</em> atau komputer) yang sudah terinstal R dan RStudio. Kalau perlu, petunjuk instalasi ada di <a href="../../../../../semuahalaman/modulprak/2024/ganjil/psd/modul1.html">modul pertemuan pertama</a>.</p>
+<p>Sebelum mulai menggunakan R dengan RStudio, jangan lupa untuk membuat <em>file</em> baru <code>.R</code> dan disimpan. Pencet <code>File &gt; New File &gt; R Script</code></p>
+<p>Suatu <em>file</em> <code>.R</code> bisa terdiri dari sejumlah baris kode berbahasa R.</p>
+<ul>
+<li><p>Tiap baris bisa dijalankan masing-masing, dengan cara menekan baris tersebut, kemudian memencet tombol <code>Ctrl</code> dan <code>Enter</code> sekaligus di <em>keyboard</em> (atau biasa ditulis <code>Ctrl + Enter</code>) untuk Windows, atau <code>Cmd + Enter</code> untuk macOS.</p></li>
+<li><p>Apabila ingin menjalankan beberapa baris sekaligus, <em>select</em> dulu (dengan <em>mouse</em>) baris-baris yang ingin dijalankan, baru tekan <code>Ctrl + Enter</code> (Windows) atau <code>Cmd + Enter</code> (macOS).</p></li>
+<li><p>Kalau mau (jarang digunakan), keseluruhan <em>file</em> <code>.R</code> bisa dijalankan dengan <code>Ctrl + Shift + Enter</code> (Windows) atau <code>Cmd + Shift + Enter</code> (macOS).</p></li>
+</ul>
+<section id="review-aritmatika" class="level2">
+<h2 class="anchored" data-anchor-id="review-aritmatika"><em>Review</em> Aritmatika</h2>
+<p>Kita <em>review</em> pengenalan R dari <a href="../../../../../semuahalaman/modulprak/2024/ganjil/psd/modul1.html">pertemuan pertama</a> dulu, ya!</p>
+<p>Kalian bisa mengetik kemudian mencoba menjalankan masing-masing baris kode berikut, untuk perhitungan dasar di R. Apabila menggunakan RStudio, hasilnya akan muncul di bagian bawah, yang disebut “Console”. (Sebenarnya, daripada mengetik di <em>file</em>, kalian bisa saja langsung mengetik kode di Console, tetapi tidak bisa disimpan.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">+</span><span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">7-5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">*</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">/</span><span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.75</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">**</span><span class="dv">3</span> <span class="co"># pangkat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+<p>Pendefinisian variabel di R bisa menggunakan <code>&lt;-</code> (lebih umum digunakan) atau menggunakan <code>=</code> seperti berikut:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>apel <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>jeruk <span class="ot">=</span> <span class="dv">7</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ruas kiri merupakan nama variabel dan ruas kanan merupakan nilai variabel.</p>
+<p>Untuk memanggil (memeriksa isi) suatu variabel, cukup ketik namanya, lalu jalankan:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>apel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Lebih jelasnya, bisa menggunakan fungsi <code>print</code> seperti berikut:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(apel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Variabel juga bisa diterapkan operasi dasar, misalnya seperti berikut:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>apel<span class="sc">-</span>jeruk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>apel<span class="sc">*</span>jeruk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28</code></pre>
+</div>
+</div>
+<p>Kita juga bisa mendefinisikan variabel baru menggunakan nilai dari variabel yang sudah ada:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>banyakbuah <span class="ot">&lt;-</span> jeruk<span class="sc">+</span>apel</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>banyakbuah</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11</code></pre>
+</div>
+</div>
+<p>Untuk melihat semua variabel yang sudah ada,</p>
+<ul>
+<li><p>di tampilan RStudio, cukup lihat bagian “Environment” yang harusnya ada di sebelah kanan layar. Terlihat nama tiap variabel yang sudah terdefinisi, beserta nilai masing-masing.</p></li>
+<li><p>secara pemrograman R, bisa dengan fungsi atau perintah <code>ls()</code></p>
+<p>::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>::: {.cell-output .cell-output-stdout}</p>
+<pre><code>[1] "apel"       "banyakbuah" "jeruk"     </code></pre>
+<p>::: :::</p></li>
+</ul>
+<p>Di R, kita juga bisa menghapus variabel, menggunakan fungsi atau perintah <code>rm()</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(banyakbuah)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kalau kita coba panggil <code>banyakbuah</code> lagi, akan <em>error</em>.</p>
+<p>Apabila ingin menghapus semua variabel, kita bisa memberikan daftar semua variabel yang ada (yaitu hasil <code>ls()</code>) ke <code>rm()</code> seperti berikut:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="import-data-instalasi-packagelibrary" class="level2">
+<h2 class="anchored" data-anchor-id="import-data-instalasi-packagelibrary"><em>Import</em> data, instalasi <em>package</em>/<em>library</em></h2>
+<p>Sekumpulan data biasa disebut <em>dataset</em>. Di R, ada sejumlah <em>dataset</em> yang <em>built-in</em>, yaitu “sudah ada dari sananya”. Di antara itu, <em>dataset</em> paling terkenal adalah <code>iris</code>, yaitu data tiga spesies <a href="https://en.wikipedia.org/wiki/Iris_(plant)">bunga <em>Iris</em></a>, yang sering digunakan dalam pengantar statistika (seperti mata kuliah PSD ini) ataupun pengantar <em>machine learning</em>.</p>
+<p>Kita bisa mengaktifkan <em>dataset</em> <code>iris</code> tersebut dengan perinah berikut, menggunakan <em>string</em>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"iris"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sebagaimana di Python, penulisan <em>string</em> di R juga bebas antara menggunakan tanda petik <code>'seperti ini'</code> ataupun tanda kutip <code>"seperti ini"</code>, yang penting konsisten.</p>
+<p>Setelah menjalankan kode di atas, <em>dataset</em> <code>iris</code> sudah diaktifkan. Untuk melihatnya,</p>
+<ul>
+<li><p>di RStudio, lihat ke bagian Environment. Kalian bisa <em>double click</em> atau klik dua kali tulisan <code>iris</code> agar muncul <em>tab</em> baru berisi tabelnya.</p></li>
+<li><p>secara pemrograman, kalian bisa mengetik <code>iris</code> begitu saja sebagaimana ketika ingin menampilkan variabel,</p>
+<p>::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>iris</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>::: {.cell-output .cell-output-stdout}</p>
+<pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+1            5.1         3.5          1.4         0.2     setosa
+2            4.9         3.0          1.4         0.2     setosa
+3            4.7         3.2          1.3         0.2     setosa
+4            4.6         3.1          1.5         0.2     setosa
+5            5.0         3.6          1.4         0.2     setosa
+6            5.4         3.9          1.7         0.4     setosa
+7            4.6         3.4          1.4         0.3     setosa
+8            5.0         3.4          1.5         0.2     setosa
+9            4.4         2.9          1.4         0.2     setosa
+10           4.9         3.1          1.5         0.1     setosa
+11           5.4         3.7          1.5         0.2     setosa
+12           4.8         3.4          1.6         0.2     setosa
+13           4.8         3.0          1.4         0.1     setosa
+14           4.3         3.0          1.1         0.1     setosa
+15           5.8         4.0          1.2         0.2     setosa
+16           5.7         4.4          1.5         0.4     setosa
+17           5.4         3.9          1.3         0.4     setosa
+18           5.1         3.5          1.4         0.3     setosa
+19           5.7         3.8          1.7         0.3     setosa
+20           5.1         3.8          1.5         0.3     setosa
+21           5.4         3.4          1.7         0.2     setosa
+22           5.1         3.7          1.5         0.4     setosa
+23           4.6         3.6          1.0         0.2     setosa
+24           5.1         3.3          1.7         0.5     setosa
+25           4.8         3.4          1.9         0.2     setosa
+26           5.0         3.0          1.6         0.2     setosa
+27           5.0         3.4          1.6         0.4     setosa
+28           5.2         3.5          1.5         0.2     setosa
+29           5.2         3.4          1.4         0.2     setosa
+30           4.7         3.2          1.6         0.2     setosa
+31           4.8         3.1          1.6         0.2     setosa
+32           5.4         3.4          1.5         0.4     setosa
+33           5.2         4.1          1.5         0.1     setosa
+34           5.5         4.2          1.4         0.2     setosa
+35           4.9         3.1          1.5         0.2     setosa
+36           5.0         3.2          1.2         0.2     setosa
+37           5.5         3.5          1.3         0.2     setosa
+38           4.9         3.6          1.4         0.1     setosa
+39           4.4         3.0          1.3         0.2     setosa
+40           5.1         3.4          1.5         0.2     setosa
+41           5.0         3.5          1.3         0.3     setosa
+42           4.5         2.3          1.3         0.3     setosa
+43           4.4         3.2          1.3         0.2     setosa
+44           5.0         3.5          1.6         0.6     setosa
+45           5.1         3.8          1.9         0.4     setosa
+46           4.8         3.0          1.4         0.3     setosa
+47           5.1         3.8          1.6         0.2     setosa
+48           4.6         3.2          1.4         0.2     setosa
+49           5.3         3.7          1.5         0.2     setosa
+50           5.0         3.3          1.4         0.2     setosa
+51           7.0         3.2          4.7         1.4 versicolor
+52           6.4         3.2          4.5         1.5 versicolor
+53           6.9         3.1          4.9         1.5 versicolor
+54           5.5         2.3          4.0         1.3 versicolor
+55           6.5         2.8          4.6         1.5 versicolor
+56           5.7         2.8          4.5         1.3 versicolor
+57           6.3         3.3          4.7         1.6 versicolor
+58           4.9         2.4          3.3         1.0 versicolor
+59           6.6         2.9          4.6         1.3 versicolor
+60           5.2         2.7          3.9         1.4 versicolor
+61           5.0         2.0          3.5         1.0 versicolor
+62           5.9         3.0          4.2         1.5 versicolor
+63           6.0         2.2          4.0         1.0 versicolor
+64           6.1         2.9          4.7         1.4 versicolor
+65           5.6         2.9          3.6         1.3 versicolor
+66           6.7         3.1          4.4         1.4 versicolor
+67           5.6         3.0          4.5         1.5 versicolor
+68           5.8         2.7          4.1         1.0 versicolor
+69           6.2         2.2          4.5         1.5 versicolor
+70           5.6         2.5          3.9         1.1 versicolor
+71           5.9         3.2          4.8         1.8 versicolor
+72           6.1         2.8          4.0         1.3 versicolor
+73           6.3         2.5          4.9         1.5 versicolor
+74           6.1         2.8          4.7         1.2 versicolor
+75           6.4         2.9          4.3         1.3 versicolor
+76           6.6         3.0          4.4         1.4 versicolor
+77           6.8         2.8          4.8         1.4 versicolor
+78           6.7         3.0          5.0         1.7 versicolor
+79           6.0         2.9          4.5         1.5 versicolor
+80           5.7         2.6          3.5         1.0 versicolor
+81           5.5         2.4          3.8         1.1 versicolor
+82           5.5         2.4          3.7         1.0 versicolor
+83           5.8         2.7          3.9         1.2 versicolor
+84           6.0         2.7          5.1         1.6 versicolor
+85           5.4         3.0          4.5         1.5 versicolor
+86           6.0         3.4          4.5         1.6 versicolor
+87           6.7         3.1          4.7         1.5 versicolor
+88           6.3         2.3          4.4         1.3 versicolor
+89           5.6         3.0          4.1         1.3 versicolor
+90           5.5         2.5          4.0         1.3 versicolor
+91           5.5         2.6          4.4         1.2 versicolor
+92           6.1         3.0          4.6         1.4 versicolor
+93           5.8         2.6          4.0         1.2 versicolor
+94           5.0         2.3          3.3         1.0 versicolor
+95           5.6         2.7          4.2         1.3 versicolor
+96           5.7         3.0          4.2         1.2 versicolor
+97           5.7         2.9          4.2         1.3 versicolor
+98           6.2         2.9          4.3         1.3 versicolor
+99           5.1         2.5          3.0         1.1 versicolor
+100          5.7         2.8          4.1         1.3 versicolor
+101          6.3         3.3          6.0         2.5  virginica
+102          5.8         2.7          5.1         1.9  virginica
+103          7.1         3.0          5.9         2.1  virginica
+104          6.3         2.9          5.6         1.8  virginica
+105          6.5         3.0          5.8         2.2  virginica
+106          7.6         3.0          6.6         2.1  virginica
+107          4.9         2.5          4.5         1.7  virginica
+108          7.3         2.9          6.3         1.8  virginica
+109          6.7         2.5          5.8         1.8  virginica
+110          7.2         3.6          6.1         2.5  virginica
+111          6.5         3.2          5.1         2.0  virginica
+112          6.4         2.7          5.3         1.9  virginica
+113          6.8         3.0          5.5         2.1  virginica
+114          5.7         2.5          5.0         2.0  virginica
+115          5.8         2.8          5.1         2.4  virginica
+116          6.4         3.2          5.3         2.3  virginica
+117          6.5         3.0          5.5         1.8  virginica
+118          7.7         3.8          6.7         2.2  virginica
+119          7.7         2.6          6.9         2.3  virginica
+120          6.0         2.2          5.0         1.5  virginica
+121          6.9         3.2          5.7         2.3  virginica
+122          5.6         2.8          4.9         2.0  virginica
+123          7.7         2.8          6.7         2.0  virginica
+124          6.3         2.7          4.9         1.8  virginica
+125          6.7         3.3          5.7         2.1  virginica
+126          7.2         3.2          6.0         1.8  virginica
+127          6.2         2.8          4.8         1.8  virginica
+128          6.1         3.0          4.9         1.8  virginica
+129          6.4         2.8          5.6         2.1  virginica
+130          7.2         3.0          5.8         1.6  virginica
+131          7.4         2.8          6.1         1.9  virginica
+132          7.9         3.8          6.4         2.0  virginica
+133          6.4         2.8          5.6         2.2  virginica
+134          6.3         2.8          5.1         1.5  virginica
+135          6.1         2.6          5.6         1.4  virginica
+136          7.7         3.0          6.1         2.3  virginica
+137          6.3         3.4          5.6         2.4  virginica
+138          6.4         3.1          5.5         1.8  virginica
+139          6.0         3.0          4.8         1.8  virginica
+140          6.9         3.1          5.4         2.1  virginica
+141          6.7         3.1          5.6         2.4  virginica
+142          6.9         3.1          5.1         2.3  virginica
+143          5.8         2.7          5.1         1.9  virginica
+144          6.8         3.2          5.9         2.3  virginica
+145          6.7         3.3          5.7         2.5  virginica
+146          6.7         3.0          5.2         2.3  virginica
+147          6.3         2.5          5.0         1.9  virginica
+148          6.5         3.0          5.2         2.0  virginica
+149          6.2         3.4          5.4         2.3  virginica
+150          5.9         3.0          5.1         1.8  virginica</code></pre>
+<p>::: :::</p>
+<p>kemudian tampilan tabel untuk <em>dataset</em> <code>iris</code> akan muncul di Console (bisa di-<em>scroll</em>).</p></li>
+<li><p>cara lain adalah dengan mengetik</p>
+<p>::: {.cell}</p>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>:::</p>
+<p>agar tampilan <em>dataset</em> <code>iris</code> muncul di <em>tab</em> baru, seolah-olah telah melakukan <em>double click</em> di Environment. Perhatikan bahwa huruf <code>V</code> di perintah <code>View</code> harus huruf kapital.</p></li>
+</ul>
+<p>Tentunya, data yang dihadapi oleh pengguna R pada umumnya tidak akan <em>built-in</em>, tetapi misalnya akan berupa <em>file</em> Excel (<code>.xlsx</code>) ataupun <em>format</em> <code>.csv</code>, sehingga harus di-<em>import</em> terlebih dahulu.</p>
+<p>Untuk belajar cara <em>import</em> data, kebetulan <em>dataset</em> <code>iris</code> juga tersedia dalam <em>format</em> <code>.csv</code> dan juga <code>.xlsx</code> yang bisa kalian unduh:</p>
+<ul>
+<li><p><a href="./Iris.csv">Iris.csv</a></p></li>
+<li><p><a href="./Iris.xlsx">Iris.xlsx</a></p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tentang <em>format</em> CSV
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Baik <em>format</em> <code>.csv</code> maupun <em>format</em> <code>.xlsx</code> menyimpan data yang bersifat “tabular”, atau berbentuk tabel. Bedanya, <em>format</em> <code>.xlsx</code> atau Excel bisa menyimpan hal lainnya seperti gambar grafik/visualisasi, juga tiap sel/data bisa diberi warna, dijadikan <em>bold</em>, dan sebagainya. Sedangkan, <em>format</em> CSV benar-benar hanya menyimpan data tabel saja.</p>
+<p>“CSV” itu sendiri adalah singkatan dari <em>comma-separated values</em>. Kalau ada waktu, kalian bisa iseng mencoba membuka <em>file</em> <code>.csv</code> menggunakan aplikasi teks seperti Notepad (di Windows) atau TextEdit (di macOS). Kalian bisa melihat tiap nilai dipisahkan dengan koma, semikolon, atau tanda serupa, yang disebut <em>delimeter</em>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="eksplorasi-data-dan-statistik-deskriptif" class="level1">
+<h1>Eksplorasi Data dan Statistik Deskriptif</h1>
+</section>
+<section id="visualisasi-frekuensi" class="level1">
+<h1>Visualisasi Frekuensi</h1>
+<section id="bar-chart" class="level2">
+<h2 class="anchored" data-anchor-id="bar-chart"><em>Bar Chart</em></h2>
+</section>
+<section id="pie-chart" class="level2">
+<h2 class="anchored" data-anchor-id="pie-chart"><em>Pie Chart</em></h2>
+</section>
+<section id="histogram" class="level2">
+<h2 class="anchored" data-anchor-id="histogram"><em>Histogram</em></h2>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -239,6 +602,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -273,7 +654,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
