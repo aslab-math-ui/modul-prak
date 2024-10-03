@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>week-02p2 – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -146,7 +146,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -165,7 +165,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -179,22 +179,33 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#week-02.2-metode-euler-dan-rungge-kutta" id="toc-week-02.2-metode-euler-dan-rungge-kutta" class="nav-link active" data-scroll-target="#week-02.2-metode-euler-dan-rungge-kutta">Week-02.2 (Metode Euler dan Rungge-Kutta)</a>
-  <ul class="collapse">
-  <li><a href="#metode-euler" id="toc-metode-euler" class="nav-link" data-scroll-target="#metode-euler">Metode Euler</a></li>
+  <li><a href="#metode-euler" id="toc-metode-euler" class="nav-link active" data-scroll-target="#metode-euler">Metode Euler</a></li>
   <li><a href="#metode-runge-kutta-dan-variasinya" id="toc-metode-runge-kutta-dan-variasinya" class="nav-link" data-scroll-target="#metode-runge-kutta-dan-variasinya">Metode Runge-kutta dan variasinya</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week-02.2 (Metode Euler dan Rungge-Kutta)</h1>
+</div>
 
 
 
-<section id="week-02.2-metode-euler-dan-rungge-kutta" class="level1">
-<h1>Week-02.2 (Metode Euler dan Rungge-Kutta)</h1>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <p>Kembali ke <a href="../../../../../../semuahalaman/modulprak/2023/genap/pdnum/pdnum2023.html">Persamaan Diferensial Numerik</a></p>
 <section id="metode-euler" class="level2">
 <h2 class="anchored" data-anchor-id="metode-euler">Metode Euler</h2>
@@ -220,7 +231,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 <p>dengan <span class="math inline">\(n+1\in \mathbb{N}\)</span> menyatakan banyaknya titik nantinya.</p>
 <p>Solusi kita akan berupa titik yang nantinya dapat menggunakan interpolasi untuk nilai yang tidak dimuat di <span class="math inline">\(w_i\)</span></p>
 <p>Algoritma untuk metode Euler adalah sebagai berikut:</p>
-<div id="9513d759" class="cell">
+<div id="86598b6b" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> euler(f, a, b, n, alpha)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -241,7 +252,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 \end{aligned}
 \]</span></p>
 <p>maka kita dapat mendefinisikan <code>f=@(t, y)\left(y-t^{\wedge} 2+1\right)</code>, a=0, b=2, dan alpha <span class="math inline">\(=0.5\)</span> (@ disini menyatakan fungsi anonim yang cara kerjanya mirip dengan fungsi lambda pada Python), sehingga untuk <span class="math inline">\(n=10\)</span>, diperoleh kode sebagai berikut:</p>
-<div id="32cdd3c2" class="cell">
+<div id="c1f97f72" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="op">@</span>(t, y) (y<span class="op">-</span>t<span class="op">^</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
@@ -251,7 +262,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 </div>
 <p>Untuk visualisasinya, kita akan membuat plot dari hasil yang kita peroleh. Sebagai referensi, solusi eksak dari PD tersebut adalah <span class="math inline">\(y(t)=(t+1)^2- 0.5 e^t\)</span></p>
 <p>Kita tambahkan kode berikut pada file:$</p>
-<div id="f1f49f82" class="cell">
+<div id="17ac24c9" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> <span class="op">@</span>(t) (t <span class="op">+</span> <span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> exp(t)<span class="op">;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fplot(sln, [<span class="dv">0</span>, <span class="dv">2</span>], <span class="st">'b'</span>)<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>hold on<span class="op">;</span></span>
@@ -301,7 +312,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 \]</span></li>
 </ol>
 <p>Berikut adalah list algoritmanya.</p>
-<div id="64e75fb8" class="cell">
+<div id="1fefbdd1" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> midpoint(f, a, b, n, alpha)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -316,7 +327,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="59565511" class="cell">
+<div id="e600f580" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> modeuler(f, a, b, n, alpha)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -331,7 +342,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0f4687ce" class="cell">
+<div id="a8761a49" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> heun(f, a, b, n, alpha)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -348,7 +359,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4fc0b0ff" class="cell">
+<div id="974c5ad0" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> rko4(f, a, b, n, alpha)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -365,7 +376,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>endfunction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b003ed46" class="cell">
+<div id="54dbc2b9" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="op">@</span>(t, y) (y <span class="op">-</span> t <span class="op">^</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
@@ -396,7 +407,6 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -435,7 +445,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -467,29 +488,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -497,7 +496,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
