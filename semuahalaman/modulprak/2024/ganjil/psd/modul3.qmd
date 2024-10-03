@@ -17,7 +17,7 @@ Untuk pertemuan kali ini, kita akan mulai membahas lebih lanjut tentang pengguna
 
 * [Iris.xlsx](./Iris.xlsx)
 
-Materi modul kali ini adalah revisi dari [modul PSD tahun lalu](../../../2023/ganjil/psd/Pekan%201/modul1.qmd) yang sementara bisa kalian intip, yang sedang disusun di bawah ini (belum lengkap).
+Kebetulan, materi modul kali ini adalah revisi dari [modul PSD tahun lalu](../../../2023/ganjil/psd/Pekan%201/modul1.qmd). Silakan intip kalau mau :)
 
 # Operasi Dasar
 
@@ -340,7 +340,7 @@ sort(df1$Sepal.Length)
 
 ## Mem-*filter* data
 
-Selain statistik deskriptif, kita juga bisa menerapkan manipulasi sederhana pada. Sebelumnya, kita telah menggunakan simbol dolar `$` untuk melakukan ***subsetting***, lebih tepatnya memilih kolom tertentu.
+Selain statistik deskriptif, kita juga bisa menerapkan manipulasi sederhana pada data. Sebelumnya, kita telah menggunakan simbol dolar `$` untuk melakukan ***subsetting***, lebih tepatnya memilih kolom tertentu.
 
 Fitur *subsetting* ini sebenarnya ada fungsinya sendiri, yang tidak hanya bisa memilih kolom tertentu, tetapi juga bisa memilih semua baris yang memenuhi kriteria tertentu pada kolom. 
 
@@ -349,6 +349,8 @@ Contohnya, untuk memilih semua baris dengan spesies tertentu:
 ```{r}
 subset(df1, Species == "versicolor")
 ```
+
+Terlihat bahwa spesies "versicolor" terdata di baris ke-51 hingga baris ke-100.
 
 Bisa juga, memilih semua baris dengan `Sepal.Length` yang cukup besar:
 
@@ -364,7 +366,7 @@ Misalnya, perhatikan data `Sepal.Width`:
 df1$Sepal.Width
 ```
 
-Kebetulan, `Sepal.Width` adalah kolom pertama pada tabel. Dari tabel `df1`, kita bisa memilih lima baris pertama dari kolom kedua, yaitu lima baris pertama dari `Sepal.Width`, seperti berikut:
+Kebetulan, `Sepal.Width` adalah kolom kedua pada tabel. Dari tabel `df1`, kita bisa memilih lima baris pertama dari kolom kedua, yaitu lima baris pertama dari `Sepal.Width`, seperti berikut:
 
 ```{r}
 df1[1:5, 2]
@@ -409,23 +411,55 @@ filter(df1, Species == "versicolor")
 filter(df1, Sepal.Length >= 6)
 ```
 
-Bedanya? Selain namanya lebih jelas, fungsi `filter` ini cenderung lebih cepat untuk data yang besar, misalnya puluhan ribu baris.
+Bedanya dengan fungsi `subset`? Selain namanya lebih jelas, fungsi `filter` ini cenderung lebih cepat untuk data yang besar, misalnya puluhan ribu baris.
 
 # Visualisasi Frekuensi
 
+Terkadang, data lebih enak dilihat ketika divisualisasikan. Sebagaimana yang kalian pelajari di kelas kuliah, ada berbagai macam visualisasi untuk berbagai macam data.
+
+Kita akan membahas lebih lanjut tentang visualisasi di pertemuan selanjutnya. Kali ini, kita akan mencoba beberapa visualisasi sederhana, yaitu visualisasi frekuensi, yang masing-masing melibatkan satu variabel saja. Tujuannya adalah agar bisa menggambarkan (sehingga lebih memahami) bagaimana persebaran nilai-nilai untuk suatu variabel, yaitu persebaran frekuensinya.
+
+Sebelum bisa membuat visualisasi, kita perlu mempersiapkan datanya. Misalnya, kita ingin mengetahui persebaran spesies di data `df1`. Data yang perlu kita persiapkan adalah **tabel frekuensi** *(frequency table)*, yang mendata banyaknya kemunculan tiap nilai. Dalam hal ini, tabel frekuensi untuk spesies akan mendata banyaknya baris pada data yang ada untuk tiap spesies.
+
+Cara membuatnya adalah sebagai berikut. Kita terapkan fungsi `table` pada `df1$Species` untuk menghasilkan data tabel frekuensi, kemudian menerapkan fungsi `data.frame` untuk memperoleh hasil tabel yang rapi (berbentuk *data frame*). Hasil dari semua itu kita simpan ke dalam suatu variabel, misal `freq_species`, yang akan menyimpan *data frame* tabel frekuensi tersebut.
+
 ```{r}
-freq_species <- data.frame(table(df1$Species))
+freq_species <- data.frame(table(df1$Species, dnn="Species"))
 freq_species
 View(freq_species)
 ```
 
+Catatan: `dnn` adalah opsi nama kolom untuk variabel yang ingin dihitung frekuensinya. Apabila tidak diberikan, namanya akan "Var1".
+
+Ternyata hasilnya tidak begitu menarik, ketiga spesies tersebar rata. Tidak masalah, kita bisa mencoba mem-*filter* data dengan kriteria tertentu, barulah membuat tabel frekuensinya.
+
+Sebagai contoh, kita penasaran bagaimana persebaran spesies ketika panjang sepal atau `Sepal.Length` cukup besar, minimal `5.5`. Kita bisa *filter* terlebih dahulu dengan fungsi `subset`, dan menyimpan hasil saringannya (yang berupa *data frame*) ke dalam suatu variabel baru, misalnya `df1_longsepal`
+
+```{r}
+df1_longsepal <- subset(df1, Sepal.Length >= 5.5)
+```
+
+Barulah kita buat tabel frekuensinya:
+
+```{r}
+freq_species_longsepal <- data.frame(table(df1_longsepal$Species,
+                                           dnn="Species"))
+freq_species_longsepal
+```
+
+Menarik! Panjang sepal untuk spesies tertentu cenderung lebih kecil daripada spesies lainnya.
+
+Perhatikan bahwa `Species` di sini tergolong **data kategorik**, sehingga kita bisa mencoba membuat *bar chart* dan *pie chart* untuk menggambarkan kedua tabel frekuensi di atas.
+
 ## *Bar Chart*
+
+Gunakan fungsi `barplot`
 
 ```{r}
 barplot(height = freq_species$Freq,
-        names.arg = freq_species$Var1,
+        names.arg = freq_species$Species,
         col = "violet",
-        main = "Persebaran Spesies",
+        main = "Persebaran Spesies (seluruh data)",
         xlab = "Spesies", ylab = "Frekuensi",
         width = 1, space = 2, density = 10,
         font.axis = 2,
@@ -433,21 +467,56 @@ barplot(height = freq_species$Freq,
         cex.axis = 1)
 ```
 
+```{r}
+barplot(height = freq_species_longsepal$Freq,
+        names.arg = freq_species_longsepal$Species,
+        main = "Persebaran Spesies (untuk Sepal.Length >= 5.5)",
+        xlab = "Spesies",
+        ylab = "Frekuensi")
+```
+
 ## *Pie Chart*
+
+Gunakan fungsi `pie`
 
 ```{r}
 pie(freq_species$Freq,
-    labels = freq_species$Var1,
-    main = "Persebaran Spesies",
-    col=c("red", "green", "blue"))
+    labels = freq_species$Species,
+    main = "Persebaran Spesies (seluruh data)",
+    col = c("red", "green", "blue"))
+```
+
+```{r}
+pie(freq_species_longsepal$Freq,
+    labels = freq_species_longsepal$Species,
+    main = "Persebaran Spesies (untuk Sepal.Length >= 5.5)")
 ```
 
 ## *Histogram*
 
+Sayangnya, variabel kategorik di *dataset* `iris` hanyalah `Species`, sedangkan variabel lainnya berupa **data numerik**.
+
+Untuk data numerik, *histogram* cukup umum digunakan untuk menggambarkan persebaran datanya, yang terlebih dahulu dibagi-bagi menjadi sejumlah "kelas" atau "kelompok".
+
+*Histogram* seolah-olah seperti *bar chart* untuk data numerik yang harus dikelompokkan terlebih dahulu. Untungnya, R bisa otomatis melakukan pengelompokkan tersebut, sehingga kita tinggal pakai; tidak perlu membuat tabel frekuensi secara manual seperti untuk data kategorik.
+
+Fungsi yang digunakan adalah `hist`. Sebagai contoh, berikut gambaran persebaran `Sepal.Length`
+
 ```{r}
 hist(df1$Sepal.Length,
-     main = "Judul",
+     main = "Persebaran Sepal.Length (seluruh data)",
      xlab = "Panjang sepal",
-     breaks = 20,
+     ylab = "Frekuensi",
      col = "yellow")
+```
+
+Kita bisa menentukan banyaknya kelompok yang kita inginkan, dengan opsi `breaks`
+
+```{r}
+hist(df1$Sepal.Length,
+     main = "Persebaran Sepal.Length (seluruh data)",
+     xlab = "Panjang sepal",
+     ylab = "Frekuensi",
+     col = "yellow",
+     breaks = 20)
 ```
