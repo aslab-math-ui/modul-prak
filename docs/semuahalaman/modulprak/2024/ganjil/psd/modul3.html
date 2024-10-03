@@ -155,9 +155,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#operasi-dasar" id="toc-operasi-dasar" class="nav-link active" data-scroll-target="#operasi-dasar">Operasi Dasar</a>
   <ul class="collapse">
   <li><a href="#review-aritmatika" id="toc-review-aritmatika" class="nav-link" data-scroll-target="#review-aritmatika"><em>Review</em> Aritmatika</a></li>
+  <li><a href="#vector-sampling" id="toc-vector-sampling" class="nav-link" data-scroll-target="#vector-sampling"><em>Vector</em>, <em>sampling</em></a></li>
   <li><a href="#import-data-instalasi-packagelibrary" id="toc-import-data-instalasi-packagelibrary" class="nav-link" data-scroll-target="#import-data-instalasi-packagelibrary"><em>Import</em> data, instalasi <em>package</em>/<em>library</em></a></li>
   </ul></li>
-  <li><a href="#eksplorasi-data-dan-statistik-deskriptif" id="toc-eksplorasi-data-dan-statistik-deskriptif" class="nav-link" data-scroll-target="#eksplorasi-data-dan-statistik-deskriptif">Eksplorasi Data dan Statistik Deskriptif</a></li>
+  <li><a href="#eksplorasi-data-dan-statistik-deskriptif" id="toc-eksplorasi-data-dan-statistik-deskriptif" class="nav-link" data-scroll-target="#eksplorasi-data-dan-statistik-deskriptif">Eksplorasi Data dan Statistik Deskriptif</a>
+  <ul class="collapse">
+  <li><a href="#statistik-deskriptif" id="toc-statistik-deskriptif" class="nav-link" data-scroll-target="#statistik-deskriptif">Statistik deskriptif</a></li>
+  <li><a href="#mem-filter-data" id="toc-mem-filter-data" class="nav-link" data-scroll-target="#mem-filter-data">Mem-<em>filter</em> data</a></li>
+  </ul></li>
   <li><a href="#visualisasi-frekuensi" id="toc-visualisasi-frekuensi" class="nav-link" data-scroll-target="#visualisasi-frekuensi">Visualisasi Frekuensi</a>
   <ul class="collapse">
   <li><a href="#bar-chart" id="toc-bar-chart" class="nav-link" data-scroll-target="#bar-chart"><em>Bar Chart</em></a></li>
@@ -292,13 +297,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Untuk melihat semua variabel yang sudah ada,</p>
 <ul>
 <li><p>di tampilan RStudio, cukup lihat bagian “Environment” yang harusnya ada di sebelah kanan layar. Terlihat nama tiap variabel yang sudah terdefinisi, beserta nilai masing-masing.</p></li>
-<li><p>secara pemrograman R, bisa dengan fungsi atau perintah <code>ls()</code></p>
-<p>::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: {.cell-output .cell-output-stdout}</p>
-<pre><code>[1] "apel"       "banyakbuah" "jeruk"     </code></pre>
-<p>::: :::</p></li>
+<li><p>secara pemrograman R, bisa dengan fungsi atau perintah <code>ls()</code></p></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apel"       "banyakbuah" "jeruk"     </code></pre>
+</div>
+</div>
 <p>Di R, kita juga bisa menghapus variabel, menggunakan fungsi atau perintah <code>rm()</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(banyakbuah)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -308,7 +314,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Tambahan: apabila kita ingin menuliskan sekumpulan data, di R ada konsep <em>vector</em>. Kita bisa menggabungkan sejumlah data agar menjadi satu kesatuan dengan fungsi <code>c()</code> atau <em>combine</em>, misalnya sebagai berikut:</p>
+</section>
+<section id="vector-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="vector-sampling"><em>Vector</em>, <em>sampling</em></h2>
+<p>Sebelumnya, kita sudah mengenal variabel yang bisa menyimpan data, seperti data numerik, juga data teks atau <em>string</em>.</p>
+<p>Apabila kita ingin menuliskan sekumpulan data, di R ada konsep <em>vector</em>, yang seperti <em>array</em> di pemrograman pada umumnya. Kita bisa menggabungkan sejumlah data agar menjadi satu kesatuan dengan fungsi <code>c()</code> atau <em>combine</em>, misalnya sebagai berikut:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>angka <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(angka)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -327,33 +337,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(nama_buah, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "jeruk"  "pisang"</code></pre>
+<pre><code>[1] "pisang" "jeruk" </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(nama_buah, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "apel"   "pisang"</code></pre>
+<pre><code>[1] "jeruk"  "pisang"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(nama_buah, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "apel"   "pisang"</code></pre>
+<pre><code>[1] "apel"  "jeruk"</code></pre>
 </div>
 </div>
+<p><em>Sampling</em> seperti itu disebut <strong>tanpa pengembalian <em>(without replacement)</em></strong>. Apabila angka 2 diganti jadi angka 4, kita memerintah R untuk mengambil 4 buah data yang tidak boleh sama dari suatu <em>vector</em> yang hanya memiliki 3 buah data, sehingga akan <em>error</em>.</p>
+<p>Sebenarnya, di R, kita juga bisa melakukan <em>sampling</em> <strong>dengan pengembalian <em>(with replacement)</em></strong>, dengan tambahan opsi <code>replace = TRUE</code> sebagai berikut. Apabila dijalankan berkali-kali, hasilnya juga kemungkinan akan berbeda-beda, tetapi buah yang sama bisa dipilih lebih dari sekali.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(nama_buah, <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pisang" "apel"   "apel"   "pisang"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(nama_buah, <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apel"   "apel"   "apel"   "pisang"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(nama_buah, <span class="dv">4</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pisang" "pisang" "pisang" "jeruk" </code></pre>
+</div>
+</div>
+<p>Apabila kalian coba <code>replace = FALSE</code>, hasilnya akan seolah-olah kalian tidak menentukan opsi <code>replace</code> sama sekali.</p>
 </section>
 <section id="import-data-instalasi-packagelibrary" class="level2">
 <h2 class="anchored" data-anchor-id="import-data-instalasi-packagelibrary"><em>Import</em> data, instalasi <em>package</em>/<em>library</em></h2>
 <p>Sekumpulan data biasa disebut <em>dataset</em>. Di R, ada sejumlah <em>dataset</em> yang <em>built-in</em>, yaitu “sudah ada dari sananya”. Di antara itu, <em>dataset</em> paling terkenal adalah <code>iris</code>, yaitu data tiga spesies <a href="https://en.wikipedia.org/wiki/Iris_(plant)">bunga <em>Iris</em></a>, yang sering digunakan dalam pengantar statistika (seperti mata kuliah PSD ini) ataupun pengantar <em>machine learning</em>.</p>
 <p>Kita bisa mengaktifkan <em>dataset</em> <code>iris</code> tersebut dengan perinah berikut, menggunakan <em>string</em>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"iris"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"iris"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Sebagaimana di Python, penulisan <em>string</em> di R juga bebas antara menggunakan tanda petik <code>'seperti ini'</code> ataupun tanda kutip <code>"seperti ini"</code>, yang penting konsisten.</p>
 <p>Setelah menjalankan kode di atas, <em>dataset</em> <code>iris</code> sudah diaktifkan. Untuk melihatnya,</p>
 <ul>
 <li><p>di RStudio, lihat ke bagian Environment. Kalian bisa <em>double click</em> atau klik dua kali tulisan <code>iris</code> agar muncul <em>tab</em> baru berisi tabelnya.</p></li>
-<li><p>secara pemrograman, kalian bisa mengetik <code>iris</code> begitu saja sebagaimana ketika ingin menampilkan variabel,</p>
-<p>::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>iris</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>::: {.cell-output .cell-output-stdout}</p>
+<li><p>secara pemrograman, kalian bisa mengetik <code>iris</code> begitu saja sebagaimana ketika ingin menampilkan variabel, seperti berikut. Kemudian, tampilan tabel untuk <em>dataset</em> <code>iris</code> akan muncul di Console (bisa di-<em>scroll</em>).</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>iris</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 1            5.1         3.5          1.4         0.2     setosa
 2            4.9         3.0          1.4         0.2     setosa
@@ -505,14 +533,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 148          6.5         3.0          5.2         2.0  virginica
 149          6.2         3.4          5.4         2.3  virginica
 150          5.9         3.0          5.1         1.8  virginica</code></pre>
-<p>::: :::</p>
-<p>kemudian tampilan tabel untuk <em>dataset</em> <code>iris</code> akan muncul di Console (bisa di-<em>scroll</em>).</p></li>
-<li><p>cara lain adalah dengan mengetik</p>
-<p>::: {.cell}</p>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>:::</p>
-<p>agar tampilan <em>dataset</em> <code>iris</code> muncul di <em>tab</em> baru, seolah-olah telah melakukan <em>double click</em> di Environment. Perhatikan bahwa huruf “V” di perintah <code>View</code> harus huruf kapital.</p></li>
+</div>
+</div>
+<ul>
+<li>cara lain adalah dengan mengetik <code>View(iris)</code>, agar tampilan <em>dataset</em> <code>iris</code> muncul di <em>tab</em> baru, seolah-olah telah melakukan <em>double click</em> di Environment. Perhatikan bahwa huruf “V” di perintah <code>View</code> harus huruf kapital.</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Tentunya, data yang dihadapi oleh pengguna R pada umumnya tidak akan <em>built-in</em>, tetapi misalnya akan berupa <em>file</em> Excel (<code>.xlsx</code>) ataupun <em>format</em> <code>.csv</code>, sehingga harus di-<em>import</em> terlebih dahulu.</p>
 <p>Untuk belajar cara <em>import</em> data, kebetulan <em>dataset</em> <code>iris</code> juga tersedia dalam <em>format</em> <code>.csv</code> dan juga <code>.xlsx</code> yang bisa kalian unduh:</p>
 <ul>
@@ -537,24 +565,26 @@ Tentang <em>format</em> CSV
 <p>Fitur <em>import</em> <code>.csv</code>, yang bernama <code>read.csv</code>, tersedia dari <em>package</em> atau <em>library</em> (yaitu sekumpulan fitur) yang bernama “readr”. Kode berikut menginstal <em>package</em> <code>readr</code> terlebih dahulu, kemudian mengaktifkannya:</p>
 <pre><code>install.packages("readr")</code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Sedangkan, fitur <em>import</em> <code>.xlsx</code> bernama <code>read_excel</code> dan berasal dari <em>package</em> <code>readxl</code>, yang juga perlu diinstal dan diaktifkan sebagai berikut:</p>
 <pre><code>install.packages("readxl")</code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Ada baiknya, <em>file</em> <code>.csv</code> dan/atau <em>file</em> <code>.xlsx</code> yang ingin di-<em>import</em> diletakkan di <em>folder</em> yang sama dengan <em>file</em> <code>.R</code> yang sedang kalian gunakan. Dengan demikian, untuk meng-<em>import</em> <code>Iris.csv</code>, kalian tinggal mengetik</p>
+<p>Ada baiknya, <em>file</em> <code>.csv</code> dan/atau <em>file</em> <code>.xlsx</code> yang ingin di-<em>import</em> diletakkan di <em>folder</em> yang sama dengan <em>file</em> <code>.R</code> yang sedang kalian gunakan. Kemudian, di tampilan RStudio bagian pojok kanan bawah, tepatnya di <em>tab</em> “Files”, kalian bisa mencari letak <em>file-file</em> tersebut. Setelah menemukannya, kalian tinggal memberi tahu RStudio bahwa <em>file-file</em> yang ingin kalian gunakan ada di situ, yaitu dengan menekan <code>More &gt; Set As Working Directory</code> (masih di <em>tab</em> Files).</p>
+<p>Dengan demikian, untuk meng-<em>import</em> <code>Iris.csv</code>, kalian tinggal mengetik</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Iris.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>dan untuk meng-<em>import</em> <code>Iris.xlsx</code>, kalian tinggal mengetik</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Iris.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"Iris.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Beberapa catatan tentang kode di atas:</p>
 <ul>
 <li><p>Isi dari fungsi <code>read.csv</code> ataupun <code>read_excel</code>, yang saat ini diisi <em>string</em> <code>"Iris.csv"</code> dan <code>"Iris.xlsx"</code>, sebenarnya meminta <strong><em>path</em></strong>, yaitu semacam “alamat” yang dikenal oleh komputer untuk mencari letak dari <em>file</em> yang diinginkan. Apabila <em>file</em> berada di <em>folder</em> yang sama, cukup namanya saja yang diketik.</p></li>
+<li><p>Alternatif dari <code>More &gt; Set As Working Directory</code> adalah dengan malah menekan <code>More &gt; Copy Folder Path to Clipboard</code>, untuk memperoleh <em>string</em> yang kemudian bisa kalian <em>paste</em> ke dalam perinah <code>read.csv</code> ataupun <code>read_excel</code>.</p></li>
 <li><p>Nama <code>df1</code> dan <code>df2</code> itu sebenarnya nama variabel, sehingga terserah kalian, tidak harus <code>df1</code> ataupun <code>df2</code>.</p></li>
 <li><p>“df” adalah singkatan dari <em>data frame</em>. Singkat cerita, <em>data frame</em> adalah tabel, yang bisa memiliki sejumlah kolom (terkadang disebut “fitur”) dan sejumlah baris.</p></li>
 </ul>
@@ -562,25 +592,27 @@ Tentang <em>format</em> CSV
 </section>
 <section id="eksplorasi-data-dan-statistik-deskriptif" class="level1">
 <h1>Eksplorasi Data dan Statistik Deskriptif</h1>
+<section id="statistik-deskriptif" class="level2">
+<h2 class="anchored" data-anchor-id="statistik-deskriptif">Statistik deskriptif</h2>
 <p>Sampai sini, kita sudah memiliki tiga <em>data frame</em>, yaitu <code>iris</code> (<em>built-in</em>), <code>df1</code> (dari <code>.csv</code>), dan <code>df2</code> (dari <code>.xlsx</code>). Semuanya sama saja. Untuk eksplorasi lebih lanjut, mungkin kita gunakan nama <code>df1</code> saja ya. Nanti kalau kalian ada data lain yang ingin dieksplorasi, kalian bisa mengganti <em>path</em> di kode <em>import</em> di atas.</p>
 <p>Mari kita lihat lagi datanya:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Kita bisa gunakan fungsi <code>ls</code> untuk melihat nama-nama kolom, dan fungsi <code>dim</code> untuk melihat ukuran/dimensi tabel (sekian baris dikali sekian kolom):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Petal.Length" "Petal.Width"  "Sepal.Length" "Sepal.Width"  "Species"     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 150   5</code></pre>
 </div>
 </div>
 <p>Kita bisa sekilas melihat <em>data frame</em> tersebut dengan</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   150 obs. of  5 variables:
  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
@@ -594,7 +626,7 @@ Tentang <em>format</em> CSV
 <pre><code>nama_data_frame$nama_kolom</code></pre>
 <p>Misalnya, untuk memanggil kolom <code>Sepal.Length</code> saja,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>Sepal.Length</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>Sepal.Length</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1] 5.1 4.9 4.7 4.6 5.0 5.4 4.6 5.0 4.4 4.9 5.4 4.8 4.8 4.3 5.8 5.7 5.4 5.1
  [19] 5.7 5.1 5.4 5.1 4.6 5.1 4.8 5.0 5.0 5.2 5.2 4.7 4.8 5.4 5.2 5.5 4.9 5.0
@@ -609,7 +641,7 @@ Tentang <em>format</em> CSV
 </div>
 <p>Ringkasan data, meliputi statistik deskriptif seperti minimum, maksimum, dan rata-rata, bisa diperoleh dengan</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
@@ -628,61 +660,74 @@ Tentang <em>format</em> CSV
 </div>
 </div>
 <p>Apabila kalian spesifik memerlukan nilai tertentu, tiap statistik deskriptif ada perintahnya sendiri, yang bisa diterapkan untuk tiap kolom.</p>
-<p>Misalnya, untuk kolom <code>Sepal.Length</code>, berikut ukuran pemusatan data:</p>
+<p>Sebagai contoh, untuk kolom <code>Sepal.Length</code>, berikut <strong>ukuran pemusatan data</strong>, misalnya <em>median</em> (nilai tengah) dan <em>mean</em> (rata-rata):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># median (nilai tengah)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># median (nilai tengah)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># rata-rata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># rata-rata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.843333</code></pre>
 </div>
 </div>
-<p>Berikut ukuran persebaran data:</p>
+<p>Untuk nilai modus (yang juga bisa dianggap ukuran pemusatan data), gunakan fungsi <code>Mode</code> dari <em>package</em> <code>DescTools</code>, yang tentunya perlu diinstal terlebih dahulu kalau belum, lalu diaktifkan (perhatikan huruf kapital):</p>
+<pre><code>install.packages("DescTools") # instal kalau belum</code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># variansi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools) <span class="co"># aktifkan</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Mode</span>(df1<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5
+attr(,"freq")
+[1] 10</code></pre>
+</div>
+</div>
+<p>Kemudian, berikut <strong>ukuran keragaman data</strong> (juga disebut <strong>persebaran data</strong>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># variansi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6856935</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># standard deviation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># standard deviation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8280661</code></pre>
 </div>
 </div>
 <p>Berikut ukuran rentang data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># minimum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># minimum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># maksimum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># maksimum</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7.9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># rentang: batas bawah, batas atas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># rentang: batas bawah, batas atas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4.3 7.9</code></pre>
 </div>
 </div>
 <p>Beberapa ukuran lainnya:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># banyaknya baris/data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># banyaknya baris/data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 150</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># sumasi/jumlah seluruh data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(df1<span class="sc">$</span>Sepal.Length) <span class="co"># sumasi/jumlah seluruh data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 876.5</code></pre>
 </div>
 </div>
 <p>Tentu, ukuran-ukuran tersebut berupa nilai yang nantinya bisa disimpan ataupun digunakan untuk perhitungan lain. Misalnya, ada yang namanya <em>standard error</em>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>std_err <span class="ot">&lt;-</span> <span class="fu">sd</span>(df1<span class="sc">$</span>Sepal.Length) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(df1<span class="sc">$</span>Sepal.Length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>std_err <span class="ot">&lt;-</span> <span class="fu">sd</span>(df1<span class="sc">$</span>Sepal.Length) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(df1<span class="sc">$</span>Sepal.Length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Selain itu, ada juga fungsi untuk memperoleh data secara terurut, yaitu <code>sort</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(df1<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(df1<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1] 4.3 4.4 4.4 4.4 4.5 4.6 4.6 4.6 4.6 4.7 4.7 4.8 4.8 4.8 4.8 4.8 4.9 4.9
  [19] 4.9 4.9 4.9 4.9 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.1 5.1 5.1 5.1
@@ -695,24 +740,14 @@ Tentang <em>format</em> CSV
 [145] 7.6 7.7 7.7 7.7 7.7 7.9</code></pre>
 </div>
 </div>
-<p>Untuk nilai modus, gunakan fungsi <code>Mode</code> dari <em>package</em> <code>DescTools</code>, yang tentunya perlu diinstal terlebih dahulu kalau belum, lalu diaktifkan:</p>
-<pre><code>install.packages("DescTools") # instal kalau belum</code></pre>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools) <span class="co"># aktifkan</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Mode</span>(df1<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 5
-attr(,"freq")
-[1] 10</code></pre>
-</div>
-</div>
+</section>
+<section id="mem-filter-data" class="level2">
+<h2 class="anchored" data-anchor-id="mem-filter-data">Mem-<em>filter</em> data</h2>
 <p>Selain statistik deskriptif, kita juga bisa menerapkan manipulasi sederhana pada. Sebelumnya, kita telah menggunakan simbol dolar <code>$</code> untuk melakukan <strong><em>subsetting</em></strong>, lebih tepatnya memilih kolom tertentu.</p>
 <p>Fitur <em>subsetting</em> ini sebenarnya ada fungsinya sendiri, yang tidak hanya bisa memilih kolom tertentu, tetapi juga bisa memilih semua baris yang memenuhi kriteria tertentu pada kolom.</p>
 <p>Contohnya, untuk memilih semua baris dengan spesies tertentu:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df1, Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df1, Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 51           7.0         3.2          4.7         1.4 versicolor
@@ -769,7 +804,7 @@ attr(,"freq")
 </div>
 <p>Bisa juga, memilih semua baris dengan <code>Sepal.Length</code> yang cukup besar:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df1, Sepal.Length <span class="sc">&gt;=</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df1, Sepal.Length <span class="sc">&gt;=</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 51           7.0         3.2          4.7         1.4 versicolor
@@ -844,7 +879,7 @@ attr(,"freq")
 <p>Selain <em>subsetting</em>, ada juga <em>indexing</em>. Kita bisa mengakses baris dan kolom tertentu pada tabel menggunakan kurung siku.</p>
 <p>Misalnya, perhatikan data <code>Sepal.Width</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>Sepal.Width</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>Sepal.Width</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  [1] 3.5 3.0 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 3.7 3.4 3.0 3.0 4.0 4.4 3.9 3.5
  [19] 3.8 3.8 3.4 3.7 3.6 3.3 3.4 3.0 3.4 3.5 3.4 3.2 3.1 3.4 4.1 4.2 3.1 3.2
@@ -859,14 +894,14 @@ attr(,"freq")
 </div>
 <p>Kebetulan, <code>Sepal.Width</code> adalah kolom pertama pada tabel. Dari tabel <code>df1</code>, kita bisa memilih lima baris pertama dari kolom kedua, yaitu lima baris pertama dari <code>Sepal.Width</code>, seperti berikut:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>df1[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>df1[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.5 3.0 3.2 3.1 3.6</code></pre>
 </div>
 </div>
 <p>Perhatikan bahwa bentuk data di atas sudah tidak seperti <em>data frame</em> yang berbentuk tabel rapi. Kita bisa tambahkan opsi <code>drop = FALSE</code> agar tetap seperti tabel:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>df1[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>df1[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">2</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Sepal.Width
 1         3.5
@@ -878,7 +913,7 @@ attr(,"freq")
 </div>
 <p>Ada juga fungsi <code>which</code> yang agak terbalik dari <em>subsetting</em>: mencari baris mana saja yang memenuhi kriteria tertentu. Misalnya, kita bisa memperoleh baris mana saja yang memiliki data spesies tertentu.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(df1<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(df1<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69
 [20]  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88
@@ -887,8 +922,8 @@ attr(,"freq")
 </div>
 <p>Gunanya? Kita bisa gabungkan ini dengan <em>indexing</em>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>index_versicolor <span class="ot">&lt;-</span> <span class="fu">which</span>(df1<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>df1[index_versicolor,] <span class="co"># entah kenapa, harus ada koma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>index_versicolor <span class="ot">&lt;-</span> <span class="fu">which</span>(df1<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>df1[index_versicolor,] <span class="co"># entah kenapa, harus ada koma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 51           7.0         3.2          4.7         1.4 versicolor
@@ -946,7 +981,7 @@ attr(,"freq")
 <p>Sebenarnya, ada alternatif dari fungsi <code>subset</code>, yaitu fungsi <code>filter</code> dari <em>package</em> <code>dplyr</code>. Mari instal kalau belum, lalu aktifkan:</p>
 <pre><code>install.packages("dplyr")</code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
@@ -964,7 +999,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>Kita bisa gunakan sebagaimana menggunakan fungsi <code>subset</code> tadi:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df1, Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df1, Species <span class="sc">==</span> <span class="st">"versicolor"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 1           7.0         3.2          4.7         1.4 versicolor
@@ -1020,7 +1055,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df1, Sepal.Length <span class="sc">&gt;=</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(df1, Sepal.Length <span class="sc">&gt;=</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 1           7.0         3.2          4.7         1.4 versicolor
@@ -1093,6 +1128,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <p>Bedanya? Selain namanya lebih jelas, fungsi <code>filter</code> ini cenderung lebih cepat untuk data yang besar, misalnya puluhan ribu baris.</p>
+</section>
 </section>
 <section id="visualisasi-frekuensi" class="level1">
 <h1>Visualisasi Frekuensi</h1>

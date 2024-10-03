@@ -91,9 +91,9 @@ Untuk melihat semua variabel yang sudah ada,
 
 - secara pemrograman R, bisa dengan fungsi atau perintah `ls()`
 
-    ```{r}
-    ls()
-    ```
+```{r}
+ls()
+```
 
 Di R, kita juga bisa menghapus variabel, menggunakan fungsi atau perintah `rm()`
 
@@ -109,7 +109,11 @@ Apabila ingin menghapus semua variabel, kita bisa memberikan daftar semua variab
 rm(list=ls())
 ```
 
-Tambahan: apabila kita ingin menuliskan sekumpulan data, di R ada konsep *vector*. Kita bisa menggabungkan sejumlah data agar menjadi satu kesatuan dengan fungsi `c()` atau *combine*, misalnya sebagai berikut:
+## *Vector*, *sampling*
+
+Sebelumnya, kita sudah mengenal variabel yang bisa menyimpan data, seperti data numerik, juga data teks atau *string*.
+
+Apabila kita ingin menuliskan sekumpulan data, di R ada konsep *vector*, yang seperti *array* di pemrograman pada umumnya. Kita bisa menggabungkan sejumlah data agar menjadi satu kesatuan dengan fungsi `c()` atau *combine*, misalnya sebagai berikut:
 
 ```{r}
 angka <- c(1, 2, 3)
@@ -129,6 +133,18 @@ sample(nama_buah, 2)
 sample(nama_buah, 2)
 ```
 
+*Sampling* seperti itu disebut **tanpa pengembalian *(without replacement)***. Apabila angka 2 diganti jadi angka 4, kita memerintah R untuk mengambil 4 buah data yang tidak boleh sama dari suatu *vector* yang hanya memiliki 3 buah data, sehingga akan *error*.
+
+Sebenarnya, di R, kita juga bisa melakukan *sampling* **dengan pengembalian *(with replacement)***, dengan tambahan opsi `replace = TRUE` sebagai berikut. Apabila dijalankan berkali-kali, hasilnya juga kemungkinan akan berbeda-beda, tetapi buah yang sama bisa dipilih lebih dari sekali.
+
+```{r}
+sample(nama_buah, 4, replace = TRUE)
+sample(nama_buah, 4, replace = TRUE)
+sample(nama_buah, 4, replace = TRUE)
+```
+
+Apabila kalian coba `replace = FALSE`, hasilnya akan seolah-olah kalian tidak menentukan opsi `replace` sama sekali.
+
 ## *Import* data, instalasi *package*/*library*
 
 Sekumpulan data biasa disebut *dataset*. Di R, ada sejumlah *dataset* yang *built-in*, yaitu "sudah ada dari sananya". Di antara itu, *dataset* paling terkenal adalah `iris`, yaitu data tiga spesies [bunga *Iris*](https://en.wikipedia.org/wiki/Iris_(plant)), yang sering digunakan dalam pengantar statistika (seperti mata kuliah PSD ini) ataupun pengantar *machine learning*.
@@ -145,21 +161,17 @@ Setelah menjalankan kode di atas, *dataset* `iris` sudah diaktifkan. Untuk melih
 
 * di RStudio, lihat ke bagian Environment. Kalian bisa *double click* atau klik dua kali tulisan `iris` agar muncul *tab* baru berisi tabelnya.
 
-* secara pemrograman, kalian bisa mengetik `iris` begitu saja sebagaimana ketika ingin menampilkan variabel,
+* secara pemrograman, kalian bisa mengetik `iris` begitu saja sebagaimana ketika ingin menampilkan variabel, seperti berikut. Kemudian, tampilan tabel untuk *dataset* `iris` akan muncul di Console (bisa di-*scroll*).
 
-    ```{r}
-    iris
-    ```
+```{r}
+iris
+```
 
-    kemudian tampilan tabel untuk *dataset* `iris` akan muncul di Console (bisa di-*scroll*).
+* cara lain adalah dengan mengetik `View(iris)`, agar tampilan *dataset* `iris` muncul di *tab* baru, seolah-olah telah melakukan *double click* di Environment. Perhatikan bahwa huruf "V" di perintah `View` harus huruf kapital.
 
-* cara lain adalah dengan mengetik
-
-    ```{r}
-    View(iris)
-    ```
-
-    agar tampilan *dataset* `iris` muncul di *tab* baru, seolah-olah telah melakukan *double click* di Environment. Perhatikan bahwa huruf "V" di perintah `View` harus huruf kapital.
+```{r}
+View(iris)
+```
 
 Tentunya, data yang dihadapi oleh pengguna R pada umumnya tidak akan *built-in*, tetapi misalnya akan berupa *file* Excel (`.xlsx`) ataupun *format* `.csv`, sehingga harus di-*import* terlebih dahulu.
 
@@ -198,7 +210,9 @@ install.packages("readxl")
 library(readxl)
 ```
 
-Ada baiknya, *file* `.csv` dan/atau *file* `.xlsx` yang ingin di-*import* diletakkan di *folder* yang sama dengan *file* `.R` yang sedang kalian gunakan. Dengan demikian, untuk meng-*import* `Iris.csv`, kalian tinggal mengetik
+Ada baiknya, *file* `.csv` dan/atau *file* `.xlsx` yang ingin di-*import* diletakkan di *folder* yang sama dengan *file* `.R` yang sedang kalian gunakan. Kemudian, di tampilan RStudio bagian pojok kanan bawah, tepatnya di *tab* "Files", kalian bisa mencari letak *file-file* tersebut. Setelah menemukannya, kalian tinggal memberi tahu RStudio bahwa *file-file* yang ingin kalian gunakan ada di situ, yaitu dengan menekan `More > Set As Working Directory` (masih di *tab* Files).
+
+Dengan demikian, untuk meng-*import* `Iris.csv`, kalian tinggal mengetik
 
 ```{r}
 df1 <- read.csv("Iris.csv")
@@ -214,11 +228,15 @@ Beberapa catatan tentang kode di atas:
 
 * Isi dari fungsi `read.csv` ataupun `read_excel`, yang saat ini diisi *string* `"Iris.csv"` dan `"Iris.xlsx"`, sebenarnya meminta ***path***, yaitu semacam "alamat" yang dikenal oleh komputer untuk mencari letak dari *file* yang diinginkan. Apabila *file* berada di *folder* yang sama, cukup namanya saja yang diketik.
 
+* Alternatif dari `More > Set As Working Directory` adalah dengan malah menekan `More > Copy Folder Path to Clipboard`, untuk memperoleh *string* yang kemudian bisa kalian *paste* ke dalam perinah `read.csv` ataupun `read_excel`.
+
 * Nama `df1` dan `df2` itu sebenarnya nama variabel, sehingga terserah kalian, tidak harus `df1` ataupun `df2`.
 
 * "df" adalah singkatan dari *data frame*. Singkat cerita, *data frame* adalah tabel, yang bisa memiliki sejumlah kolom (terkadang disebut "fitur") dan sejumlah baris.
 
 # Eksplorasi Data dan Statistik Deskriptif
+
+## Statistik deskriptif
 
 Sampai sini, kita sudah memiliki tiga *data frame*, yaitu `iris` (*built-in*), `df1` (dari `.csv`), dan `df2` (dari `.xlsx`). Semuanya sama saja. Untuk eksplorasi lebih lanjut, mungkin kita gunakan nama `df1` saja ya. Nanti kalau kalian ada data lain yang ingin dieksplorasi, kalian bisa mengganti *path* di kode *import* di atas.
 
@@ -261,14 +279,28 @@ summary(df1)
 
 Apabila kalian spesifik memerlukan nilai tertentu, tiap statistik deskriptif ada perintahnya sendiri, yang bisa diterapkan untuk tiap kolom.
 
-Misalnya, untuk kolom `Sepal.Length`, berikut ukuran pemusatan data:
+Sebagai contoh, untuk kolom `Sepal.Length`, berikut **ukuran pemusatan data**, misalnya *median* (nilai tengah) dan *mean* (rata-rata):
 
 ```{r}
 median(df1$Sepal.Length) # median (nilai tengah)
 mean(df1$Sepal.Length) # rata-rata
 ```
 
-Berikut ukuran persebaran data:
+Untuk nilai modus (yang juga bisa dianggap ukuran pemusatan data), gunakan fungsi `Mode` dari *package* `DescTools`, yang tentunya perlu diinstal terlebih dahulu kalau belum, lalu diaktifkan (perhatikan huruf kapital):
+
+```
+install.packages("DescTools") # instal kalau belum
+```
+
+```{r}
+library(DescTools) # aktifkan
+```
+
+```{r}
+Mode(df1$Sepal.Length)
+```
+
+Kemudian, berikut **ukuran keragaman data** (juga disebut **persebaran data**):
 
 ```{r}
 var(df1$Sepal.Length) # variansi
@@ -302,19 +334,7 @@ Selain itu, ada juga fungsi untuk memperoleh data secara terurut, yaitu `sort`
 sort(df1$Sepal.Length)
 ```
 
-Untuk nilai modus, gunakan fungsi `Mode` dari *package* `DescTools`, yang tentunya perlu diinstal terlebih dahulu kalau belum, lalu diaktifkan:
-
-```
-install.packages("DescTools") # instal kalau belum
-```
-
-```{r}
-library(DescTools) # aktifkan
-```
-
-```{r}
-Mode(df1$Sepal.Length)
-```
+## Mem-*filter* data
 
 Selain statistik deskriptif, kita juga bisa menerapkan manipulasi sederhana pada. Sebelumnya, kita telah menggunakan simbol dolar `$` untuk melakukan ***subsetting***, lebih tepatnya memilih kolom tertentu.
 
