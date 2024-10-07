@@ -1,0 +1,281 @@
+---
+title: "(Pertemuan 04) R: Visualisasi Dua Variabel, *Time Series*, dan ggplot2"
+subtitle: "R: Two-Variable Visualization, Time Series, and ggplot2"
+image: static\r_excel.png
+description: "Offline di Departemen Matematika"
+date: 10/07/2024
+page-navigation: true
+format: html
+---
+
+Kembali ke [Pengantar Sains Data](./psd2024.qmd)
+
+Melanjutkan pertemuan sebelumnya, kali ini kita akan mempelajari lebih lanjut tentang visualisasi menggunakan R, yaitu visualisasi dua variabel (termasuk *line chart* untuk data *time series*), serta tentang *package* bernama `ggplot2` yang bisa mempermudah urusan visualisasi.
+
+Kita coba gunakan *dataset* `iris` terlebih dahulu, ya. Aktifkan terlebih dahulu:
+
+```{r}
+data("iris")
+```
+
+Agar konsisten (bahwa kita sedang berurusan dengan *data frame*), mari kita beri nama `df1` saja:
+
+```{r}
+df1 <- iris
+```
+
+Kita bisa lihat-lihat:
+
+```{r}
+View(df1)
+df1
+```
+
+Kolom-kolomnya adalah:
+
+```{r}
+ls(df1)
+```
+
+# Visualisasi Dua Variabel (dengan fungsi *built-in*)
+
+Di pertemuan sebelumnya, kita sudah membuat visualisasi frekuensi dengan fungsi seperti `barplot`, `pie`, dan `hist`, yang "sudah ada dari sananya" atau disebut *built-in*. Untuk keperluan visualisasi dua variabel, juga tersedia beberapa fungsi *built-in*.
+
+## Boxplot
+
+```{r}
+boxplot(df1$Sepal.Length) #1 variabel
+```
+
+```{r}
+boxplot(df1$Sepal.Length, df1$Sepal.Width) #2 variabel atau lebih
+```
+
+```{r}
+boxplot(df1$Sepal.Length, df1$Sepal.Width,
+        main = "Boxplot Perbandingan Sepal Length dan Sepal Width",
+        names = c("Sepal Length", "Sepal Width")) #tambahkan judul dan xlabel
+```
+
+```{r}
+boxplot(df1$Sepal.Length, df1$Sepal.Width,
+        main = "Boxplot Perbandingan Sepal Length dan Sepal Width",
+        names = c("Sepal Length", "Sepal Width"),
+        col = c("red", "blue")) #ganti warna
+```
+
+```{r}
+boxplot(df1$Sepal.Length, df1$Sepal.Width,
+        main = "Boxplot Perbandingan Sepal Length dan Sepal Width",
+        names = c("Sepal Length", "Sepal Width"),
+        col = c("red", "blue"),
+        horizontal = TRUE) #rotate jadi horizontal
+```
+
+```{r}
+boxplot(df1$Sepal.Length ~ df1$Species)
+```
+
+```{r}
+boxplot(Sepal.Length ~ Species, data = df1)
+```
+
+```{r}
+boxplot(df1$Sepal.Length ~ df1$Species, 
+        main = "Perbandingan Sepal Length berdasarkan Species",
+        xlab = "Species",
+        ylab = "Sepal Length",
+        col = c("blue","yellow","red"),
+        notch = TRUE)
+```
+
+## Scatter
+
+Untuk menggambar *scatter plot*, gunakan fungsi `plot`
+
+Plot paling dasar: semua variabel numerik menjadi scatter
+
+```{r}
+plot(df1)
+```
+
+```{r}
+plot(df1$Sepal.Length, df1$Sepal.Width)
+```
+
+Tambahkan judul pakai main
+
+```{r}
+plot(df1$Sepal.Length, df1$Sepal.Width, 
+     main = "Ini Judul grafiknya")
+```
+
+Tambahkan label sumbu
+
+```{r}
+plot(df1$Sepal.Length, df1$Sepal.Width, 
+     main = "Ini Judul grafiknya",
+     xlab = "Sumbu X",
+     ylab = "Sumbu Y")
+```
+
+# (Pengayaan) Visualisasi Tambahan (dengan fungsi *built-in*)
+
+## *Stem and Leaf Plot*
+
+Untuk melihat persebaran data (min, max, distribusi), mirip histogram
+
+```{r}
+?stem
+View(ChickWeight) #data dari r
+stem(ChickWeight$weight)
+hist(ChickWeight$weight) #buat perbandingan
+```
+
+```{r}
+min(ChickWeight$weight) #cek nilai minimumnya
+max(ChickWeight$weight) #cek maxnya
+```
+
+Kalau ternyata min sama maxnya kurang tepat, ganti scalenya
+
+```{r}
+stem(ChickWeight$weight, scale = 5) 
+stem(ChickWeight$weight, width = 100) 
+```
+
+## *Dot Diagram*
+
+```{r}
+?dotchart
+View(mtcars)
+```
+
+Paling Sederhana
+
+```{r}
+dotchart(mtcars$mpg)
+```
+
+Tambah Judul dan Label
+
+```{r}
+dotchart(mtcars$mpg, labels = row.names(mtcars),
+         cex = 0.9, xlab = "mpg",
+         main = "Persebaran Jarak Yang Dapat Ditempuh Per Galon")
+```
+
+Berdasarkan Grup
+
+```{r}
+grps <- as.factor(mtcars$cyl)
+my_cols <- c("blue", "darkgreen", "orange")
+dotchart(mtcars$mpg, labels = row.names(mtcars),
+         groups = grps, gcolor = my_cols,
+         color = my_cols[grps],
+         cex = 0.9,  pch = 22, xlab = "mpg",
+         main = "Persebaran Jarak Yang Dapat Ditempuh Per Galon Berdasarkan Jumlah Silinder")
+legend("bottomright", legend = c("4","6", "6"),
+       fill = my_cols, cex = 0.8)
+```
+
+# *Time Series* dan *Line Chart*
+
+Data periodik terhadap waktu (misalnya data tahunan atau data bulanan) disebut *time series data* (data runtun waktu), biasa disebut *time series* saja atau disingkat "TS". Visualisasi *line chart* biasa digunakan untuk data *time series*, dan begitu juga sebaliknya, data *time series* biasa divisualisasikan dengan *line chart*.
+
+## Mencari data *time series*
+
+Sayangnya, *dataset* `iris` tidak memiliki data *time series*. Bahkan, dari semua *dataset* yang *built-in*, data *time series* cenderung berupa *dataset* tersendiri, yang memang khusus menyimpan data variabel tertentu saja terhadap waktu.
+
+Oleh karena itu, mari kita coba *dataset* lain. Kalian bisa melihat-lihat *dataset* yang sudah tersedia di R dengan perintah `data()`
+
+```{r}
+data()
+```
+
+Sebenarnya, tiap *dataset* berasal dari sebuah *package*. Perhatikan bahwa *dataset* `iris` berasal dari *package* bernama `datasets` (yang memang sudah *built-in*)
+
+```{r}
+?iris
+```
+
+Kita bisa spesifik melihat daftar *dataset* yang berasal dari *package* tertentu dengan tambahan opsi `package`
+
+```{r}
+data(package = "datasets")
+```
+
+Untuk data *time series*, kita bisa mencoba misalnya `nhtemp`, rata-rata tahunan untuk suhu di kota New Haven di Amerika Serikat
+
+```{r}
+data("nhtemp")
+```
+
+Mari kita lihat:
+
+```{r}
+View(nhtemp)
+nhtemp
+```
+
+Terlihat bahwa data ini berupa *time series* yang tidak langsung berbentuk tabel. Di R, data berjenis *time series* memang diberi perhatian khusus, sehingga menjadi yang namanya *"time series object"*. Data runtun waktu dipelajari lebih lanjut di mata kuliah Metode Peramalan *(Forecasting Methods / Time Series Analysis)*.
+
+## *Line chart* instan dari objek *time series*
+
+Di pertemuan kali ini, kita hanya akan membuat visualisasinya dengan *line chart*.
+
+Perhatian khusus tersebut ternyata sangat mempermudah cara memvisualisasikannya:
+
+```{r}
+plot(nhtemp)
+```
+
+Langsung jadi!
+
+Namun, apabila sewaktu-waktu kalian berurusan dengan tabel data yang sebenarnya berupa *time series*, mungkin R tidak akan langsung mengakuinya sebagai *time series*. Tidak masalah, karena kita masih bisa membuat *line chart* dari *data frame*.
+
+## Mengubah *time series object* menjadi *data frame*
+
+Sebelum bisa membuat *line chart* dari *data frame*, datanya harus ada. Kalian bisa sewaktu-waktu *import* data kalian sendiri, kalau ada. Di sini, kita hanya akan mengubah *time series object* `nhtemp` menjadi *data frame*.
+
+```{r}
+df_nhtemp <- data.frame(Time=time(nhtemp),
+                        Temp=as.matrix(nhtemp))
+```
+
+Mari kita lihat:
+
+```{r}
+View(df_nhtemp)
+df_nhtemp
+```
+
+## *Line chart* dari *data frame*
+
+Sekarang tinggal kita gambar, dengan cara menggambar *scatter plot* yang kemudian diberi opsi `type = "l"` agar menjadi *line chart*:
+
+```{r}
+plot(df_nhtemp$Time, df_nhtemp$Temp, type="l")
+```
+
+```{r}
+plot(df_nhtemp$Time, df_nhtemp$Temp, type="l",
+     xlab="Time", ylab="Temp",
+     main="Average Yearly Temperature in New Haven")
+```
+
+# ggplot2
+
+<https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html>
+
+## *Bar Chart*
+
+## *Pie Chart*
+
+## *Histogram*
+
+## *Boxplot*
+
+## *Scatter*
+
+## *Line Chart*
