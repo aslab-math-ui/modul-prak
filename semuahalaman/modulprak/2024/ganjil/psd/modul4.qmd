@@ -556,12 +556,40 @@ ggplot(df3, aes(x = factor(1), fill = factor(cyl))) +
 
 Di sini, fungsi `factor` diperlukan untuk memberitahu R bahwa data `cyl` berupa data kategorik. Kita juga pasang `x = factor(1)` karena di sini seolah-olah hanya ada satu batang di *bar chart* (yang kemudian diterapkan koordinat polar), dan kita biasa hanya memasang sumbu x ketika membuat *bar chart*.
 
+Seperti biasa, kita bisa tambahkan `labs` untuk menentukan label, seperti menentukan judul, mengosongkan label sumbu x maupun sumbu y, dan menentukan label untuk opsi `fill` (yang saat ini terpasang menjadi `factor(cyl)`)
+
+```{r}
+ggplot(df3, aes(x = factor(1), fill = factor(cyl))) + 
+  geom_bar(width = 1) + 
+  coord_polar(theta = "y") +
+  labs(
+    title = "Banyaknya Silinder di Mobil (dari Motor Trend, 1974)",
+    x = "",
+    y = "",
+    fill = "cyl (banyaknya silinder)"
+  )
+```
+
 Apabila data kita berupa semacam tabel frekuensi saja, kita juga bisa melakukan hal serupa dengan `geom_col` agar tetap bisa membuat *pie chart*. Caranya seperti berikut, juga menggantikan `x = cyl` dengan `x = factor(1)`, sedangkan opsi `fill` tetap diberi `factor(cyl)`
 
 ```{r}
 ggplot(cyl_freq, aes(x = factor(1), y = Freq, fill = factor(cyl))) + 
   geom_col() +
   coord_polar(theta = "y")
+```
+
+Label bisa kita tentukan dengan menambahkan `labs` seperti biasa
+
+```{r}
+ggplot(cyl_freq, aes(x = factor(1), y = Freq, fill = factor(cyl))) + 
+  geom_col() +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Pie Chart Banyaknya Silinder dari Tabel Frekuensi",
+    x = "",
+    y = "",
+    fill = "cyl (banyaknya silinder)"
+  )
 ```
 
 ## *Histogram*
