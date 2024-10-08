@@ -311,6 +311,10 @@ data(package = "ggplot2")
 Kita lihat, data *time series* tersedia di `ggplot2`, bernama `economics`. Mari kita lihat-lihat:
 
 ```{r}
+data("economics", package = "ggplot2")
+```
+
+```{r}
 df2 <- economics
 ```
 
@@ -407,12 +411,25 @@ ggplot(df2, aes(x = date, y = unemploy)) +
 
 ## *Scatter*
 
-Mirip, tetapi menggunakan `geom_point` daripada `geom_line`
+Penulisannya mirip, tetapi menggunakan `geom_point` daripada `geom_line`
+
+Secara tampilan pun, bedanya *line chart* dan *scatter plot* hanyalah pilihan antara menggambar garis atau menggambar titik-titik.
 
 ```{r}
-ggplot(df1, aes(x = Petal.Length, y = Petal.Width, color = Species)) + 
+ggplot(df1, aes(x = Sepal.Length, y = Sepal.Width)) + 
   geom_point()
 ```
+
+Kita juga bisa menambahkan warna-warna sesuai kolom lain, misal berdasarkan spesies.
+
+```{r}
+ggplot(df1, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
+  geom_point()
+```
+
+Betapa fleksibelnya, ya! Fitur *scatter plot* `plot` di *base R* tidak se-fleksibel ini. Lebih nyaman juga, karena keterangan warna-warnanya juga langsung ada.
+
+Jangan lupa tambahkan label dengan `labs` seperti berikut:
 
 ```{r}
 ggplot(df1, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
@@ -425,20 +442,84 @@ ggplot(df1, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   )
 ```
 
+Contoh lain: `Petal.Length` vs. `Petal.Width`
+
+```{r}
+ggplot(df1, aes(x = Petal.Length, y = Petal.Width, color = Species)) + 
+  geom_point() + 
+  labs(
+    title = "Scatter Plot Petal Length vs Petal Width",
+    x = "Petal Length",
+    y = "Petal Width",
+    color = "Species Names"
+  )
+```
+
 ## *Bar Chart*
+
+Di pertemuan sebelumnya, kita sudah menggunakan *bar chart* untuk memvisualisasi frekuensi nilai-nilai di satu variabel, menggunakan *dataset* `iris`. Persebaran `Species` ternyata kurang menarik, kecuali apabila dilakukan *filter* data terlebih dahulu.
+
+Agar lebih mudah, mari kita coba *dataset* lain yang sudah memiliki persebaran lebih menarik. Tidak harus dari `ggplot2`, bisa juga dari package* `datasets` yang *built-in*. Kita bisa cari-cari dulu:
+
+```{r}
+data()
+```
+
+```{r}
+data(package = "datasets")
+```
+
+Misalnya kita pilih `mtcars` dari `datasets` (daripada dari `ggplot2`), yang berisi data mobil-mobil dari majalah *Motor Trend* tahun 1974.
+
+```{r}
+data("mtcars", package = "datasets")
+```
 
 ```{r}
 df3 <- mtcars
 ```
 
+Kita bisa lihat isinya:
+
 ```{r}
-ggplot(df3, aes(x = factor(cyl), fill = "red")) + 
+View(df3)
+df3
+```
+
+```{r}
+ls(df3)
+```
+
+Perhatikan bahwa tiap baris adalah mobil tersendiri, dan datanya memang tidak terlalu banyak. Salah satu kolomnya adalah `cyl`, banyaknya "silinder" untuk tiap mobil, yaitu mesin di dalam mobil yang biasa memompa bensin.
+
+```{r}
+df3$cyl
+```
+
+Sepertinya persebarannya menarik. Tidak seperti fungsi `barplot` dari *base R*, di `ggplot2` kita tidak perlu membuat tabel frekuensi untuk membuat *bar chart*. Langsung saja tambahkan `geom_bar` seperti berikut. Karena hanya ada satu variabel, kita cukup pasang variabel sumbu x saja.
+
+```{r}
+ggplot(df3, aes(x = cyl)) + 
   geom_bar()
+```
+
+Untuk memberi warna, gunakan opsi `fill` di `aes`
+
+```{r}
+ggplot(df3, aes(x = cyl, fill = "red")) + 
+  geom_bar()
+```
+
+Kita juga bisa menentukan ketebalan dengan opsi `width` di `geom_bar`
+
+```{r}
+ggplot(df3, aes(x = cyl, fill = "red")) + 
+  geom_bar(width = 1)
 ```
 
 ## *Pie Chart*
 
-Sayangnya, di `ggplot2` tidak ada fungsi khusus untuk *pie chart*. Namun, kita bisa akali dengan membuat *bar chart* yang kemudian diterapkan koordinat polar
+Selain *bar chart*, ada *pie chart* sebagai visualisasi yang berbeda untuk kegunaan yang sama. Sayangnya, di `ggplot2` tidak ada fungsi khusus untuk *pie chart*. Namun, kita bisa akali dengan membuat *bar chart* seperti berikut, yang kemudian diterapkan koordinat polar.
 
 ```{r}
 ggplot(df3, aes(x = factor(1), fill = factor(cyl))) + 
@@ -448,16 +529,21 @@ ggplot(df3, aes(x = factor(1), fill = factor(cyl))) +
 
 ## *Histogram*
 
-Di `ggplot2`, *histogram* juga seolah-olah seperti sejenis *bar chart*
+Di `ggplot2`, *histogram* juga seolah-olah seperti sejenis *bar chart*. Mari kita coba gambar *histogram* untuk `Sepal.Length` seperti di pertemuan sebelumnya. Kali ini, tambahkan `geom_histogram`
 
 ```{r}
-df4 <- diamonds
+ggplot(df1, aes(x = Sepal.Length)) + 
+  geom_histogram()
 ```
 
+Kita bisa menentukan lebar batang di *histogram* dengan opsi `binwidth`
+
 ```{r}
-ggplot(df4, aes(x = cut)) + 
-  geom_bar(aes(fill = cut))
+ggplot(df1, aes(x = Sepal.Length)) + 
+  geom_histogram(binwidth = 0.5)
 ```
+
+Kita juga bisa memberi opsi warna, yaitu `fill` untuk warna isi batangnya dan `color` untuk warna pinggiran batangnya.
 
 ```{r}
 ggplot(df1, aes(x = Sepal.Length)) + 
@@ -466,10 +552,21 @@ ggplot(df1, aes(x = Sepal.Length)) +
 
 ## *Boxplot*
 
+Untuk *boxplot*, tambahkan `geom_boxplot`
+
 ```{r}
 ggplot(df1, aes(x = Species, y = Sepal.Length)) + 
-  geom_boxplot(fill = "skyblue", color = "red")
+  geom_boxplot()
 ```
+
+Kita juga bisa menenukan warna isi yaitu `fill` dan warna pinggiran yaitu `color`
+
+```{r}
+ggplot(df1, aes(x = Species, y = Sepal.Length)) + 
+  geom_boxplot(fill = "skyblue", color = "black")
+```
+
+## (Pengayaan) `geom_col` untuk *bar chart* dengan ketinggian berdasarkan nilai
 
 ```{r}
 df5 <- data.frame(category = c("A", "B", "C"), value = c(20, 15, 25))
@@ -482,4 +579,6 @@ ggplot(df5, aes(x = category, y = value)) +
 
 # Lampiran untuk belajar lebih lanjut
 
-ggplot2: <https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html>
+ggplot2:
+
+<https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html>
