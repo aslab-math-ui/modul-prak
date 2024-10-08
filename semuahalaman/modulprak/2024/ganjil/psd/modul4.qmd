@@ -1,5 +1,5 @@
 ---
-title: "(Pertemuan 04) R: Visualisasi Dua Variabel, *Time Series*, dan ggplot2"
+title: "(Pertemuan 04) R: Visualisasi Dua Variabel, Time Series, dan ggplot2"
 subtitle: "R: Two-Variable Visualization, Time Series, and ggplot2"
 description: "Offline di Departemen Matematika"
 date: 10/07/2024
@@ -72,6 +72,14 @@ boxplot(df1$Sepal.Length, df1$Sepal.Width,
 ```
 
 ```{r}
+boxplot(df1$Sepal.Length, df1$Sepal.Width,
+        main = "Boxplot Perbandingan Sepal Length dan Sepal Width",
+        names = c("Sepal Length", "Sepal Width"),
+        col = c("red", "blue"),
+        notch = TRUE) # jadi "mengerucut" di sekitar median
+```
+
+```{r}
 boxplot(df1$Sepal.Length ~ df1$Species)
 ```
 
@@ -84,8 +92,7 @@ boxplot(df1$Sepal.Length ~ df1$Species,
         main = "Perbandingan Sepal Length berdasarkan Species",
         xlab = "Species",
         ylab = "Sepal Length",
-        col = c("blue","yellow","red"),
-        notch = TRUE)
+        col = c("blue","yellow","red"))
 ```
 
 ## Scatter
@@ -98,11 +105,13 @@ Plot paling dasar: semua variabel numerik menjadi scatter
 plot(df1)
 ```
 
+*Scatter plot* antar dua variabel pilihan:
+
 ```{r}
 plot(df1$Sepal.Length, df1$Sepal.Width)
 ```
 
-Tambahkan judul pakai main
+Tambahkan judul pakai `main`
 
 ```{r}
 plot(df1$Sepal.Length, df1$Sepal.Width, 
@@ -116,6 +125,16 @@ plot(df1$Sepal.Length, df1$Sepal.Width,
      main = "Ini Judul grafiknya",
      xlab = "Sumbu X",
      ylab = "Sumbu Y")
+```
+
+Beri warna
+
+```{r}
+plot(df1$Sepal.Length, df1$Sepal.Width,
+     main = "Scatter Plot Sepal Length dengan Sepal Width",
+     xlab = "Sepal Length",
+     ylab = "Sepal Width",
+     col = "blue")
 ```
 
 # (Pengayaan) Visualisasi Tambahan (dengan fungsi *built-in*)
@@ -263,18 +282,204 @@ plot(df_nhtemp$Time, df_nhtemp$Temp, type="l",
      main="Average Yearly Temperature in New Haven")
 ```
 
+Hmm, kurang bagus ya. Untuk *line chart* yang lebih bagus (dan juga berbagai *plot* lainnya) serta lebih fleksibel, selanjutnya kita akan mencoba `ggplot2`, sebuah *package* untuk *plotting* di R yang sangat terkenal dan sering digunakan di kalangan pengguna R.
+
 # ggplot2
 
-<https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html>
+Fungsi-fungsi *plot* yang tersedia di R secara *built-in* (terkadang disebut "base R"), yang sudah kita eksplorasi sejauh ini, cenderung terbatas dan tidak begitu fleksibel. Kalangan pengguna R cenderung menggunakan sebuah *package* terkenal di R untuk keperluan *plotting*, yaitu `ggplot2`.
 
-## *Bar Chart*
+Instal terlebih dahulu, kalau belum:
 
-## *Pie Chart*
+```
+install.packages("ggplot2")
+```
 
-## *Histogram*
+Lalu aktifkan:
 
-## *Boxplot*
+```{r}
+library(ggplot2)
+```
+
+## *Dataset* yang tersedia di `ggplot2`
+
+Kebetulan, `ggplot2` menyediakan beberapa *dataset* (yang tidak tersedia di *base R*) yang bisa kita gunakan untuk mempelajari dan mengeksplorasi `ggplot2`.
+
+```{r}
+data(package = "ggplot2")
+```
+
+Kita lihat, data *time series* tersedia di `ggplot2`, bernama `economics`. Mari kita lihat-lihat:
+
+```{r}
+df2 <- economics
+```
+
+```{r}
+View(df2)
+df2
+```
+
+```{r}
+ls(df2)
+```
+
+Data *time series* ini terdiri dari sejumlah kolom terhadap waktu.
+
+## Dasar-dasar `ggplot2` dengan *line chart*
+
+Menggunakan *line chart*, kita bisa memvisualisasikan bagaimana perubahan suatu variabel terhadap variabel waktu (`date`). Misalnya, kita bisa melihat bagaimana perubahan banyaknya pengangguran (`unemploy`) dari tahun ke tahun.
+
+Apabila kita gunakan fungsi *built-in* untuk *line chart*, jadinya seperti berikut:
+
+```{r}
+plot(df2$date, df2$unemploy,
+     type = "l",
+     col = "red")
+```
+
+Mari kita coba buat dengan `ggplot2`.
+
+Langkah pertama adalah menentukan *data frame* yang ingin kita gunakan, serta variabel yang akan di sumbu x dan variabel yang akan di sumbu y. *Syntax*-nya seperti berikut.
+
+```{r}
+ggplot(df2, aes(x = date, y = unemploy))
+```
+
+`aes` artinya *aesthetic* (estetika), sebenarnya dalam artian "sesuatu yang bisa dilihat". Kita memang ingin melihat data `date` untuk sumbu x dan `unemploy` untuk sumbu y, sehingga kita tuliskan seperti itu.
+
+Namun, sejauh ini, isi *plot* masih kosong. Kita baru membuat *canvas* nya saja, belum garis-garisnya.
+
+Agar ada garis, kita "tambahkan" dengan fungsi `geom_line()` seperti berikut.
+
+```{r}
+ggplot(df2, aes(x = date, y = unemploy)) + 
+  geom_line()
+```
+
+Mungkin tampak aneh, seolah-olah fungsi dijumlahkan dengan fungsi. Cara kerjanya kurang lebih seperti berikut.
+
+* Sebenarnya, fungsi `ggplot` menghasilkan "objek" atau "benda" yang berupa *plot* kosong.
+
+* Serupa, fungsi `geom_line` menghasilkan "objek" berupa perintah untuk menggambarkan garis-garis.
+
+* Begitu kita jumlahkan, objek hasil `geom_line` diterapkan ke objek hasil `ggplot`.
+
+* Hasil jumlahnya berupa objek *plot* baru, yaitu *line chart* yang kita inginkan.
+
+* Objek baru itulah yang kemudian ditampilkan.
+
+Cara ini sangat berbeda dengan cara kerja fungsi-fungsi *plotting* di *base R* yang memang berupa perintah. 
+
+Penjumlahan seperti itu di `ggplot2` bisa kita bayangkan sebagai "komposisi", yang pada akhirnya menghasilkan suatu objek *plot* akhir. Ibaratnya seperti penulisan penjumlahan bilangan di R,
+
+```{r}
+2+3
+```
+
+yang memang menggabungkan 2 dengan 3 untuk menghasilkan hasil akhir yaitu 5, yang kemudian ditampilkan.
+
+Sebagaimana hasil penjumlahan bilangan itu bisa kita simpan ke dalam variabel, "hasil jumlahan *plot*" dalam penggunaan `ggplot2` sebenarnya juga bisa kita simpan ke dalam variabel.
+
+```{r}
+tren_pengangguran <- ggplot(df2, aes(x = date, y = unemploy)) + 
+  geom_line()
+```
+
+Karena sudah tersimpan ke dalam variabel, kita bisa menampilkan *plot* akhir tersebut kapan saja, cukup dengan memanggil variabelnya:
+
+```{r}
+tren_pengangguran
+```
+
+Fleksibilitas seperti ini tidak ada ketika kita menggunakan fungsi-fungsi *plotting* dari *base R*.
+
+Tentunya, kita juga bisa menambahkan label, dengan menambahkan `labs` seperti berikut
+
+```{r}
+ggplot(df2, aes(x = date, y = unemploy)) + 
+  geom_line() + 
+  labs(
+    title = "Line Chart Tahun dengan Jumlah Pengangguran",
+    x = "Tahun",
+    y = "Jumlah Pengangguran"
+  )
+```
 
 ## *Scatter*
 
-## *Line Chart*
+Mirip, tetapi menggunakan `geom_point` daripada `geom_line`
+
+```{r}
+ggplot(df1, aes(x = Petal.Length, y = Petal.Width, color = Species)) + 
+  geom_point()
+```
+
+```{r}
+ggplot(df1, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
+  geom_point() + 
+  labs(
+    title = "Scatter Plot Sepal Length vs Sepal Width",
+    x = "Sepal Length",
+    y = "Sepal Width",
+    color = "Species Names"
+  )
+```
+
+## *Bar Chart*
+
+```{r}
+df3 <- mtcars
+```
+
+```{r}
+ggplot(df3, aes(x = factor(cyl), fill = "red")) + 
+  geom_bar()
+```
+
+## *Pie Chart*
+
+Sayangnya, di `ggplot2` tidak ada fungsi khusus untuk *pie chart*. Namun, kita bisa akali dengan membuat *bar chart* yang kemudian diterapkan koordinat polar
+
+```{r}
+ggplot(df3, aes(x = factor(1), fill = factor(cyl))) + 
+  geom_bar(width = 1) + 
+  coord_polar(theta = "y")
+```
+
+## *Histogram*
+
+Di `ggplot2`, *histogram* juga seolah-olah seperti sejenis *bar chart*
+
+```{r}
+df4 <- diamonds
+```
+
+```{r}
+ggplot(df4, aes(x = cut)) + 
+  geom_bar(aes(fill = cut))
+```
+
+```{r}
+ggplot(df1, aes(x = Sepal.Length)) + 
+  geom_histogram(binwidth = 0.5, fill = "skyblue", color = "black")
+```
+
+## *Boxplot*
+
+```{r}
+ggplot(df1, aes(x = Species, y = Sepal.Length)) + 
+  geom_boxplot(fill = "skyblue", color = "red")
+```
+
+```{r}
+df5 <- data.frame(category = c("A", "B", "C"), value = c(20, 15, 25))
+```
+
+```{r}
+ggplot(df5, aes(x = category, y = value)) + 
+  geom_col()
+```
+
+# Lampiran untuk belajar lebih lanjut
+
+ggplot2: <https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html>
