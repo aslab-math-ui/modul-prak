@@ -198,6 +198,7 @@ window.Quarto = {
   <li><a href="#quantile-function-1" id="toc-quantile-function-1" class="nav-link" data-scroll-target="#quantile-function-1"><em>Quantile function</em></a></li>
   <li><a href="#rng-1" id="toc-rng-1" class="nav-link" data-scroll-target="#rng-1">RNG</a></li>
   </ul></li>
+  <li><a href="#contoh-distribusi-binomial" id="toc-contoh-distribusi-binomial" class="nav-link" data-scroll-target="#contoh-distribusi-binomial">Contoh distribusi binomial</a></li>
   <li><a href="#distribusi-poisson" id="toc-distribusi-poisson" class="nav-link" data-scroll-target="#distribusi-poisson">Distribusi Poisson</a></li>
   </ul></li>
   <li><a href="#pengayaan-visualisasi-distribusi-diskrit-dengan-ggplot2" id="toc-pengayaan-visualisasi-distribusi-diskrit-dengan-ggplot2" class="nav-link" data-scroll-target="#pengayaan-visualisasi-distribusi-diskrit-dengan-ggplot2">(Pengayaan) Visualisasi Distribusi Diskrit dengan ggplot2</a></li>
@@ -205,7 +206,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#membuat-distribusi-diskrit-sendiri" id="toc-membuat-distribusi-diskrit-sendiri" class="nav-link" data-scroll-target="#membuat-distribusi-diskrit-sendiri">Membuat distribusi diskrit sendiri</a></li>
   <li><a href="#ekspektasi-dan-variansi" id="toc-ekspektasi-dan-variansi" class="nav-link" data-scroll-target="#ekspektasi-dan-variansi">Ekspektasi dan Variansi</a></li>
-  <li><a href="#distribusi-uniform-diskrit" id="toc-distribusi-uniform-diskrit" class="nav-link" data-scroll-target="#distribusi-uniform-diskrit">Distribusi <em>Uniform</em> Diskrit</a></li>
   <li><a href="#distribusi-bernoulli-dan-distribusi-binomial" id="toc-distribusi-bernoulli-dan-distribusi-binomial" class="nav-link" data-scroll-target="#distribusi-bernoulli-dan-distribusi-binomial">Distribusi Bernoulli dan Distribusi Binomial</a></li>
   <li><a href="#distribusi-poisson-1" id="toc-distribusi-poisson-1" class="nav-link" data-scroll-target="#distribusi-poisson-1">Distribusi Poisson</a></li>
   </ul></li>
@@ -517,7 +517,7 @@ Attaching package: 'Rlab'</code></pre>
 </section>
 <section id="rng-1" class="level3">
 <h3 class="anchored" data-anchor-id="rng-1">RNG</h3>
-<p>bangkitkan n data dari distribusi Binomial</p>
+<p>Bangkitkan n data dari distribusi Binomial</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">122</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
@@ -545,6 +545,69 @@ Attaching package: 'Rlab'</code></pre>
 </div>
 </section>
 </section>
+<section id="contoh-distribusi-binomial" class="level2">
+<h2 class="anchored" data-anchor-id="contoh-distribusi-binomial">Contoh distribusi binomial</h2>
+<p>Suatu ujian yang terdiri dari 15 pertanyaan pilihan berganda, masing-masing memiliki 5 kemungkinan jawaban dan hanya satu yang benar. Hitunglah berapa probabilitas seseorang yang menjawab secara menebak-nebak akan memperoleh</p>
+<ol type="a">
+<li><p>5 sampai 10 jawaban yang benar</p></li>
+<li><p>Antara 5 sampai 10 jawaban yang benar</p></li>
+<li><p>4 jawaban yang benar</p></li>
+<li><p>Lebih dari 5 jawaban yang benar</p></li>
+</ol>
+<p>Jawab</p>
+<p>Variabel acak <span class="math inline">\(X\)</span> menyatakan banyaknya jawaban yang benar.</p>
+<p>Perhatikan bahwa <span class="math inline">\(X\)</span> berdistribusi binomial dengan <span class="math inline">\(n=15\)</span> dan <span class="math inline">\(p=\frac{1}{5}=0.2\)</span></p>
+<ol type="a">
+<li>5 sampai 10 jawaban yang benar</li>
+</ol>
+<p>Artinya <span class="math inline">\(\text{Pr}(5 \leq X \leq 10)\)</span></p>
+<p>Perhatikan bahwa</p>
+<p><span class="math display">\[\text{Pr}(5 \leq X \leq 10) = \text{Pr}(X \leq 10) - \text{Pr}(X \leq 4)\]</span></p>
+<p>Sehingga kita tinggal menghitung nilai CDF di 10 dan di 4, lalu menghitung selisihnya.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">10</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">prob =</span> <span class="fl">0.2</span>) <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">4</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1642213</code></pre>
+</div>
+</div>
+<ol start="2" type="a">
+<li>Antara 5 sampai 10 jawaban yang benar</li>
+</ol>
+<p>Artinya <span class="math inline">\(\text{Pr}(5 &lt; X &lt; 10)\)</span></p>
+<p>Perhatikan bahwa</p>
+<p><span class="math display">\[\text{Pr}(5 &lt; X &lt; 10) = \text{Pr}(X \leq 9) - \text{Pr}(X \leq 5)\]</span></p>
+<p>Sehingga kita tinggal menghitung nilai CDF di 9 dan di 5, lalu menghitung selisihnya.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">9</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">prob =</span> <span class="fl">0.2</span>) <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">5</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0609382</code></pre>
+</div>
+</div>
+<ol start="3" type="a">
+<li>4 jawaban yang benar</li>
+</ol>
+<p>Artinya <span class="math inline">\(\text{Pr}(X=4)\)</span></p>
+<p>Tinggal hitung PMF di 4</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">4</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1876042</code></pre>
+</div>
+</div>
+<ol start="4" type="a">
+<li>Lebih dari 5 jawaban yang benar</li>
+</ol>
+<p>Artinya <span class="math inline">\(\text{Pr}(X&gt;5)\)</span></p>
+<p>Perhatikan bahwa</p>
+<p><span class="math display">\[\text{Pr}(X&gt;5) = 1 - \text{Pr}(X \leq 5)\]</span></p>
+<p>Sehingga kita tinggal menghitung</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">5</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">prob =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.06105143</code></pre>
+</div>
+</div>
+</section>
 <section id="distribusi-poisson" class="level2">
 <h2 class="anchored" data-anchor-id="distribusi-poisson">Distribusi Poisson</h2>
 </section>
@@ -556,7 +619,7 @@ Attaching package: 'Rlab'</code></pre>
 <h1>Distribusi Diskrit dengan <code>distr</code></h1>
 <pre><code>install.packages("distr")</code></pre>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"distr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"distr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: startupmsg</code></pre>
 </div>
@@ -594,12 +657,43 @@ Attaching package: 'distr'</code></pre>
 </div>
 <section id="membuat-distribusi-diskrit-sendiri" class="level2">
 <h2 class="anchored" data-anchor-id="membuat-distribusi-diskrit-sendiri">Membuat distribusi diskrit sendiri</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>supp1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>prob1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>dist1 <span class="ot">&lt;-</span> <span class="fu">DiscreteDistribution</span>(<span class="at">supp =</span> supp1, <span class="at">prob =</span> prob1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul5_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="ekspektasi-dan-variansi" class="level2">
 <h2 class="anchored" data-anchor-id="ekspektasi-dan-variansi">Ekspektasi dan Variansi</h2>
-</section>
-<section id="distribusi-uniform-diskrit" class="level2">
-<h2 class="anchored" data-anchor-id="distribusi-uniform-diskrit">Distribusi <em>Uniform</em> Diskrit</h2>
+<pre><code>E(dist1)</code></pre>
+<pre><code>var(dist1)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>supp2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>prob2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span>)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>dist2 <span class="ot">&lt;-</span> <span class="fu">DiscreteDistribution</span>(<span class="at">supp =</span> supp2, <span class="at">prob =</span> prob2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul5_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<pre><code>E(dist2)
+var(dist2)</code></pre>
 </section>
 <section id="distribusi-bernoulli-dan-distribusi-binomial" class="level2">
 <h2 class="anchored" data-anchor-id="distribusi-bernoulli-dan-distribusi-binomial">Distribusi Bernoulli dan Distribusi Binomial</h2>
