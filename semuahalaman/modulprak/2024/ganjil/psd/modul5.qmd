@@ -1,0 +1,236 @@
+---
+title: "(Pertemuan 05) R: Distribusi Probabilitas Diskrit"
+subtitle: "R: Discrete Probability Distributions"
+description: "Offline di Departemen Matematika"
+date: 10/21/2024
+page-navigation: true
+format: html
+---
+
+Kembali ke [Pengantar Sains Data](./psd2024.qmd)
+
+Selamat datang kembali di praktikum Pengantar Sains Data. Setelah sebelumnya membahas tentang serba-serbi visualisasi data, sekarang kita akan mulai membahas sejumlah bentuk distribusi probabilitas yang umum dikenal dan digunakan di dunia statistika, dimulai dari sejumlah distribusi diskrit.
+
+Dalam suatu percobaan acak, tentu ada sejumlah hasil yang mungkin. Kita bisa memandang hasil-hasil yang mungkin tersebut sebagai nilai-nilai yang bisa dimiliki oleh suatu **variabel acek *(random variable)***, biasanya dilambangkan $X$. Himpunan semua nilai yang mungkin disebut **ruang sampel *(sample space)*** untuk variabel acak tersebut.
+
+**Distribusi probabilitas *(probability distribution)*** untuk suatu variabel acak mendata probabilitas atau peluang untuk tiap nilai di ruang sampel.
+
+Suatu ruang sampel disebut **diskrit** apabila banyaknya elemen bersifat **terhitung *(countable)***. Suatu distribusi disebut **diskrit** apabila variabel acak yang bersangkutan memiliki ruang sampel yang diskrit.
+
+Serupa: suatu ruang sampel disebut **kontinu** apabila banyaknya elemen bersifat **tak terhitung *(uncountable)***, dan suatu distribusi disebut **kontinu** apabila variabel acak yang bersangkutan memiliki ruang sampel yang kontinu.
+
+Banyak distribusi data cenderung mengikuti "jenis" atau "bentuk" yang sama, hanya berbeda dari segi beberapa "sifat" saja. Dari situlah muncul berbagai nama distribusi seperti binomial, *uniform*, Poisson, normal, dan seterusnya; itulah sejumlah "bentuk" distribusi yang umum dikenal, dan ada konsep "parameter" sebagai "sifat-sifat" yang bisa membedakan antar dua distribusi yang berbentuk mirip.
+
+Beberapa distribusi diskrit adalah
+
+- distribusi Bernoulli
+
+- distribusi binomial
+
+- distribusi *uniform* diskrit
+
+- distribusi Poisson
+
+# Distribusi Diskrit dengan *base R*
+
+## Fungsi `d`..., `p`..., `q`..., dan `r`...
+
+Di kalangan R, sudah ada semacam standardisasi agar tiap distribusi (baik diskrit maupun kontinu) diwakili oleh empat fungsi, yang namanya berawalan `d`, berawalan `p`, berawalan `q`, dan berawalan `r`.
+
+- Fungsi berawalan `d` melambangkan ***density function***, juga disebut PMF *(probability mass function)* untuk distribusi diskrit, atau PDF *(probability density function)* untuk distribusi kontinu
+
+    Fungsi ini menghitung probabilitas suatu variabel acak $X$ memperoleh nilai **sama dengan** $x$, yang bisa dirumuskan:
+
+    $$\text{Pr}\left\{ X=x \right\}$$
+
+- Fungsi berawalan `p` melambangkan ***(cumulative) probability function*** atau lebih umum disebut **CDF *(cumulative distribution function)***
+
+    Fungsi ini menghitung probabilitas suatu variabel acak $X$ memperoleh nilai **kurang dari atau sama dengan** $x$, yang bisa dirumuskan:
+
+    $$\text{Pr}\left\{ X \leq x \right\}$$
+
+- Fungsi berawalan `q` melambangkan ***quantile function*** atau lebih umum disebut ***inverse CDF***
+
+    Diketahui suatu probabilitas $y$, fungsi ini menentukan nilai $x$ yang membuat nilai CDF dari $x$ sama dengan $y$.
+
+- Fungsi berawalan `r` melambangkan **RNG *(random number generator)***, yang bisa menghasilkan sampel sejumlah data secara acak *(random)* dari distribusinya.
+
+Untuk sejumlah distribusi yang umum dikenal, *base R* sudah menyediakan keempat fungsi tersebut. Kita akan lebih mengenal arti, maksud, dan cara menggunakan fungsi-fungsi tersebut seiring mengenal berbagai distribusi.
+
+## Distribusi Bernoulli
+
+Khusus untuk distribusi Bernoulli, diperlukan *package* `Rlab`
+
+```{r}
+library(Rlab)
+```
+
+### PMF
+
+```{r}
+dbern(0, prob = 0.3)
+dbern(1, prob = 0.3)
+```
+
+```{r}
+support_bern <- c(0, 1)
+plot(dbern(support_bern, prob = 0.3))
+```
+
+```{r}
+plot(support_bern,
+     dbern(support_bern, prob = 0.3),
+     main = "PDF Distribusi Bernoulli dengan p = 0.3",
+     xlab = "x",
+     ylab = "f(x)",
+     ylim = c(0, 1),
+     pch = 20,
+     cex = 2)
+```
+
+### CDF
+
+```{r}
+pbern(0, prob = 0.3)
+pbern(1, prob = 0.3)
+```
+
+```{r}
+plot(support_bern,
+     pbern(support_bern, prob = 0.3),
+     pch = 20,
+     cex = 2,
+     xaxp = c(0,10,10))
+```
+
+### *Quantile function*
+
+```{r}
+qbern(0.5, prob = 0.3)
+qbern(0.6, prob = 0.3)
+qbern(0.7, prob = 0.3)
+qbern(0.8, prob = 0.3)
+qbern(0.9, prob = 0.3)
+qbern(1, prob = 0.3)
+```
+
+### RNG
+
+Bangkitkan n data dari distribusi Bernoulli
+
+```{r}
+set.seed(122)
+n <- 100
+random_bern <- rbern(n, prob = 0.6)
+```
+
+```{r}
+table(random_bern)/sum(table(random_bern))
+```
+
+```{r}
+random_bern_plot <- barplot(table(random_bern),
+                            ylim = c(0,100))
+text(x = random_bern_plot,
+     y = table(random_bern),
+     labels = table(random_bern),
+     pos = 3)
+```
+
+## Distribusi Binomial
+
+### PMF
+
+```{r}
+dbinom(2,
+       size = 10,
+       prob = 0.3) #artinya adalah Pr(X=2) dengan X ~ binom(10, 0.3)
+```
+
+```{r}
+support_binom <- seq(0, 1, by = 10)
+```
+
+```{r}
+plot(support_binom,
+     dbinom(support_binom, 10, 0.3),
+     xaxp = c(0,10,10),
+     pch = 20,
+     ylim = c(0, 1))
+```
+
+### CDF
+
+```{r}
+pbinom(2, size = 10, prob = 0.3)
+```
+
+```{r}
+plot(support_binom,
+     pbinom(support_binom, 10, 0.3),
+     xaxp = c(0,10,10),
+     pch = 20,
+     ylim = c(0, 1))
+```
+
+### *Quantile function*
+
+```{r}
+qbinom(0.5, 10, 0.3)
+qbinom(0.6, 10, 0.3)
+qbinom(0.7, 10, 0.3)
+qbinom(0.8, 10, 0.3)
+qbinom(0.9, 10, 0.3)
+qbinom(1, 10, 0.3)
+```
+
+### RNG
+
+bangkitkan n data dari distribusi Binomial
+
+```{r}
+set.seed(122)
+n <- 100
+random_binom <- rbinom(n, size = 10, prob = 0.3)
+```
+
+```{r}
+set.seed(122)
+n <- 100
+random_binom <- rbinom(n, size = 10, prob = 0.6)
+```
+
+```{r}
+random_binom_plot <- barplot(table(random_binom),
+                             ylim = c(0,40))
+text(x = random_binom_plot,
+     y = table(random_binom),
+     labels = table(random_binom),
+     pos = 3)
+```
+
+## Distribusi Poisson
+
+# (Pengayaan) Visualisasi Distribusi Diskrit dengan ggplot2
+
+# Distribusi Diskrit dengan `distr`
+
+```
+install.packages("distr")
+```
+
+```{r}
+library("distr")
+```
+
+## Membuat distribusi diskrit sendiri
+
+## Ekspektasi dan Variansi
+
+## Distribusi *Uniform* Diskrit
+
+## Distribusi Bernoulli dan Distribusi Binomial
+
+## Distribusi Poisson
+
+# (Pengayaan) Distribusi Multinomial
