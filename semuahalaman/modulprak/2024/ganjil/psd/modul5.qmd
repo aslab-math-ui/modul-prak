@@ -80,7 +80,7 @@ plot(dbern(support_bern, prob = 0.3))
 ```{r}
 plot(support_bern,
      dbern(support_bern, prob = 0.3),
-     main = "PDF Distribusi Bernoulli dengan p = 0.3",
+     main = "PMF Distribusi Bernoulli dengan p = 0.3",
      xlab = "x",
      ylab = "f(x)",
      ylim = c(0, 1),
@@ -195,12 +195,6 @@ random_binom <- rbinom(n, size = 10, prob = 0.3)
 ```
 
 ```{r}
-set.seed(122)
-n <- 100
-random_binom <- rbinom(n, size = 10, prob = 0.6)
-```
-
-```{r}
 random_binom_plot <- barplot(table(random_binom),
                              ylim = c(0,40))
 text(x = random_binom_plot,
@@ -281,9 +275,80 @@ Sehingga kita tinggal menghitung
 
 ## Distribusi Poisson
 
+### PMF
+
+```{r}
+dpois(1, lambda = 2)
+dpois(2, lambda = 2)
+dpois(3, lambda = 2)
+dpois(4, lambda = 2)
+dpois(5, lambda = 2)
+```
+
+```{r}
+support_pois <- seq(0, 10, by = 1)
+```
+
+```{r}
+plot(support_pois,
+     dpois(support_pois, lambda = 2),
+     xaxp = c(0,10,10),
+     pch = 20,
+     ylim = c(0, 1))
+```
+
+### CDF
+
+```{r}
+ppois(1, lambda = 2)
+ppois(2, lambda = 2)
+ppois(3, lambda = 2)
+ppois(4, lambda = 2)
+ppois(5, lambda = 2)
+```
+
+```{r}
+plot(support_pois,
+     ppois(support_pois, lambda = 2),
+     xaxp = c(0,10,10),
+     pch = 20,
+     ylim = c(0, 1))
+```
+
+### *Quantile function*
+
+```{r}
+qpois(1, lambda = 2)
+qpois(2, lambda = 2)
+qpois(3, lambda = 2)
+qpois(4, lambda = 2)
+qpois(5, lambda = 2)
+```
+
+### RNG
+
+```{r}
+set.seed(122)
+n <- 100
+random_pois <- rpois(n, lambda = 2)
+```
+
+```{r}
+random_pois_plot <- barplot(table(random_pois),
+                            ylim = c(0,40))
+text(x = random_pois_plot,
+     y = table(random_pois),
+     labels = table(random_pois),
+     pos = 3)
+```
+
 # (Pengayaan) Visualisasi Distribusi Diskrit dengan ggplot2
 
 # Distribusi Diskrit dengan `distr`
+
+Ada suatu *package* bernama `distr` yang menawarkan pendekatan agak berbeda daripada *base R* dalam hal distribusi. Daripada fungsi-fungsi terpisah untuk tiap kemungkinan **awalan** `d`..., `p`..., `q`..., dan `r`... sebagaimana di *base R*, kita malah bisa membuat suatu "benda" atau "objek" distribusi, yang kemudian bisa diterapkan keempat fungsi **satu huruf** berikut: `d`, `p`, `q`, dan `r`.
+
+Bahkan, dengan pendekatan ini, kita bisa dengan cukup mudah membuat distribusi kita sendiri.
 
 ```
 install.packages("distr")
