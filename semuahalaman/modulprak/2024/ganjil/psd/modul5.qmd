@@ -350,9 +350,13 @@ Ada suatu *package* bernama `distr` yang menawarkan pendekatan agak berbeda dari
 
 Bahkan, dengan pendekatan ini, kita bisa dengan cukup mudah membuat distribusi kita sendiri.
 
+Seperti biasa, silakan instal terlebih dahulu *package* `distr` apabila belum,
+
 ```
 install.packages("distr")
 ```
+
+kemudian jangan lupa aktifkan:
 
 ```{r}
 library("distr")
@@ -368,6 +372,41 @@ dist1 <- DiscreteDistribution(supp = supp1, prob = prob1)
 
 ```{r}
 plot(dist1)
+```
+
+```{r}
+d(dist1)(1)
+d(dist1)(2)
+d(dist1)(3)
+```
+
+```{r}
+p(dist1)(1)
+p(dist1)(2)
+p(dist1)(3)
+```
+
+```{r}
+q(dist1)(0.6)
+q(dist1)(0.7)
+q(dist1)(0.8)
+q(dist1)(0.9)
+q(dist1)(1)
+```
+
+```{r}
+set.seed(122)
+n <- 100
+random_dist1 <- r(dist1)(n)
+```
+
+```{r}
+random_dist1_plot <- barplot(table(random_dist1),
+                             ylim = c(0,40))
+text(x = random_dist1_plot,
+     y = table(random_dist1),
+     labels = table(random_dist1),
+     pos = 3)
 ```
 
 ## Ekspektasi dan Variansi
@@ -395,7 +434,9 @@ E(dist2)
 var(dist2)
 ```
 
-## Distribusi Bernoulli dan Distribusi Binomial
+## Distribusi Binomial
+
+
 
 ## Distribusi Poisson
 
