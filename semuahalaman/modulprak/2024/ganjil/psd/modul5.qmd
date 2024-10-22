@@ -53,6 +53,8 @@ Di kalangan R, sudah ada semacam standardisasi agar tiap distribusi (baik diskri
 
     Diketahui suatu probabilitas $y$, fungsi ini menentukan nilai $x$ yang membuat nilai CDF dari $x$ sama dengan $y$.
 
+    Lebih tepatnya, fungsi kuantil ini menentukan nilai $x$ terkecil sedemikian sehingga nilai CDF minimal $y$.
+
 - Fungsi berawalan `r` melambangkan **RNG *(random number generator)***, yang bisa menghasilkan sampel sejumlah data secara acak *(random)* dari distribusinya.
 
 Untuk sejumlah distribusi yang umum dikenal, *base R* sudah menyediakan keempat fungsi tersebut. Kita akan lebih mengenal arti, maksud, dan cara menggunakan fungsi-fungsi tersebut seiring mengenal berbagai distribusi.
@@ -65,39 +67,139 @@ Khusus untuk distribusi Bernoulli, diperlukan *package* `Rlab`
 library(Rlab)
 ```
 
+Salah satu fenomena yang sangat umum terjadi di sekitar kita adalah ketika ada dua kemungkinan: gagal atau sukses. Mungkin saja, ada probabilitas yang tetap, misalnya probabilitas sukses. Fenomena seperti itulah yang digambarkan oleh **distribusi Bernoulli**. Apabila kita lambangkan gagal dengan angka 0 (nol) dan sukses dengan angka 1 (satu), jelas bahwa *support* untuk distribusi Bernoulli adalah $\{0,1\}$.
+
+Apabila kita amati fenomena tersebut terjadi berkali-kali, misal $n$ kali, istilahnya adalah **proses Bernoulli *(Bernoulli process)***, dan tiap kali terjadi disebut ***Bernoulli trial***. Hasil proses Bernoulli digambarkan oleh **distribusi binomial**. Kita biasa memperhatikan banyaknya kesuksesan dari $n$ buah *trial* tersebut, sehingga *support* untuk distribusi binomial adalah $\{0,1,2,\dots,n\}$.
+
+Ketika kita ingin mengenali bahwa suatu fenomena tergolong proses Bernoulli, kita perlu terlebih dahulu menentukan: apa yang menjadi ukuran "sukses", sedemikian sehingga selain itu dianggap "gagal". Kemudian, kita perlu memperhatikan **asumsi proses Bernoulli** sebagai berikut:
+
+1. Fenomena atau eksperimen tersebut terdiri dari beberapa kali *trial*, maksudnya terjadi beberapa kali.
+
+2. Tiap hasil *trial* bisa tergolong "sukses" atau "gagal".
+
+3. Probabilitas sukses, biasa dilambangkan $p$, nilainya tetap sama untuk tiap *trial*.
+
+4. Semua *trial* saling bebas.
+
+Mari kita bahas kedua distribusi dengan satu contoh fenomena:
+
+Suatu pabrik menjalani proses inspeksi hasil produknya. Diketahui bahwa 30% dari produk yang dihasilkan ternyata cacat.
+
+Dua kalimat saja, kita sudah bisa mengenali fenomena tersebut sebagai proses Bernoulli.
+
+- Kita bisa anggap "produk cacat" sebagai kegagalan, sehingga "produk bagus / tidak cacat" dianggap kesuksesan.
+
+- Perhatikan bahwa 30% produk tergolong cacat, dan itu telah kita artikan sebagai kegagalan, sehingga bisa kita artikan bahwa 30% produk "gagal". Sisanya adalah 70%, dan itu bisa kita artikan sebagai persentase produk "sukses".
+
+- Kita bisa asumsikan bahwa pabrik tersebut memang biasanya begitu, bahwa memang 30% gagal, 70% sukses. Dengan demikian, persentase tersebut bisa kita artikan sebagai probabilitas. Sehingga, probabilitas produk sukses adalah 70% yaitu 0,7.
+
+Oleh karena itu, fenomena tersebut bisa dimodelkan oleh distribusi Bernoulli dengan $p = 0,7$
+
+Sekarang, kita bisa mencoba mempelajari lebih lanjut tentang fenomena tersebut melalui distribusi Bernoulli yang mewakilinya.
+
+Apabila variabel acak untuk gagal atau sukses dilambangkan $X$, kita bisa tulis bahwa $X$ berdistribusi Bernoulli dengan probabilitas sukses $p$, sebagai berikut:
+
+$$X ~ \text{Bernoulli}(p)$$
+
+Perhatikan bahwa distribusi Bernoulli hanya ditentukan oleh nilai $p$. Nilai yang menentukan suatu bentuk distribusi, seperti $p$ di sini, disebut **parameter** untuk bentuk distribusi tersebut. Jadi, distribusi Bernoulli hanya memiliki satu parameter, yaitu probabilitas sukses.
+
+Untuk persoalan yang sedang kita pelajari, $X ~ \text{Bernoulli}(0,7)$
+
 ### PMF
 
+Ingat kembali bahwa PMF dari suatu distribusi diskrit adalah fungsi yang menunjukkan probabilitas suatu kejadian. Misalnya, untuk kejadian $x$, nilai PMF di $x$ adalah probabilitas bahwa $x$ terjadi, atau bisa ditulis
+
+$$\text{Pr}(X = x)$$
+
+Untuk distribusi Bernoulli, hanya ada dua kemungkinan kejadian, yaitu nol (gagal) atau satu (sukses), bisa dilihat dari himpunan *support* $\{0,1\}$. Artinya, nilai yang mungkin untuk variabel acak $X$ hanyalah $X=0$ dan $X=1$.
+
+Lagipula, kita sudah tahu bahwa probabilitas sukses adalah $p$, sehingga nilai PMF di satu (yang diartikan sebagai kesuksesan) adalah probabilitas sukses,
+
+$$\text{Pr}(X = 1) = p$$
+
+dan nilai PMF di nol (yang diartikan sebagai kegagalan) adalah probabilias gagal, yaitu tidak sukses:
+
+$$\text{Pr}(X = 0) = 1-p$$
+
+Kebetulan, R (melalui *package* `Rlab`) memfasilitasi fungsi PMF untuk distribusi Bernoulli, dinamakan `dbern`. Fungsi tersebut memerlukan input berupa kejadian $x$ serta parameter `prob` yaitu $p$, probabilitas sukses.
+
 ```{r}
-dbern(0, prob = 0.3)
-dbern(1, prob = 0.3)
+dbern(0, prob = 0.7)
+dbern(1, prob = 0.7)
 ```
+
+Apabila kita ingin *plot* PMF dengan cepat, kita bisa tulis kode seperti berikut:
 
 ```{r}
 support_bern <- c(0, 1)
-plot(dbern(support_bern, prob = 0.3))
+plot(dbern(support_bern, prob = 0.7), ylim = c(0, 1))
 ```
+
+*Plot* PMF memang seperti itu, hanya terdiri dari titik-titik saja, toh PMF memang untuk distribusi diskrit. Opsi `ylim` seperti itu dibutuhkan untuk memaksakan rentang sumbu $y$ dari nol ke satu, karena secara umum, probabilitas bisa bernilai paling rendah nol dan paling tinggi satu.
+
+Sebagaimana *plot* di *base R* pada umumnya, kita bisa menambahkan opsi-opsi lainnya agar lebih detail.
 
 ```{r}
 plot(support_bern,
-     dbern(support_bern, prob = 0.3),
-     main = "PMF Distribusi Bernoulli dengan p = 0.3",
+     dbern(support_bern, prob = 0.7),
+     ylim = c(0, 1),
+     main = "PMF Distribusi Bernoulli dengan p = 0.7",
      xlab = "x",
      ylab = "f(x)",
-     ylim = c(0, 1),
      pch = 20,
      cex = 2)
 ```
 
 ### CDF
 
+Ingat kembali bahwa untuk variabel acak $X$, fungsi CDF menghitung
+
+$$\text{Pr}(X \leq x)$$
+
+Untuk distribusi Bernoulli, perhatikan bahwa nilai CDF di nol adalah
+
+$$\begin{align*}
+     \text{Pr}(X \leq 0) &= \text{Pr}(X = 0) \\
+     &= 1-p
+\end{align*}$$
+
+dan nilai CDF di satu adalah
+
+$$\begin{align*}
+     \text{Pr}(X \leq 1) &= \text{Pr}(X = 0) + \text{Pr}(X = 1) \\
+     &= (1-p) + p \\
+     &= 1
+\end{align*}$$
+
+Kita gunakan `dbern` untuk PMF, sehingga kita gunakan `pbern` untuk CDF, sesuai pola penamaan `d`, `p`, `q`, `r` di R.
+
+Nilai CDF di nol bisa dihitung secara langsung (dengan `pbern`) ataupun melalui penjumlahan PMF (dengan `dbern`). Misalnya, untuk nol:
+
 ```{r}
-pbern(0, prob = 0.3)
-pbern(1, prob = 0.3)
+pbern(0, prob = 0.7)
 ```
 
 ```{r}
+dbern(0, prob = 0.7)
+```
+
+Sedangkan, untuk satu:
+
+```{r}
+pbern(1, prob = 0.7)
+```
+
+```{r}
+dbern(0, prob = 0.7) +
+  dbern(1, prob = 0.7)
+```
+
+Fungsi CDF juga bisa digambar *plot* nya.
+
+```{r}
 plot(support_bern,
-     pbern(support_bern, prob = 0.3),
+     pbern(support_bern, prob = 0.7),
+     ylim = c(0, 1),
      pch = 20,
      cex = 2,
      xaxp = c(0,10,10))
@@ -105,13 +207,25 @@ plot(support_bern,
 
 ### *Quantile function*
 
+Ingat kembali bahwa, jika diberikan input misalnya $y$, maka fungsi kuantil, atau fungsi *inverse CDF*, mencari nilai $x$ terkecil sehingga nilai CDF minimal $y$.
+
+Untuk distribusi Bernoulli dengan $p=0,7$, perhatikan bahwa
+
+$$\begin{align*}
+     \text{Pr}(X \leq 0) &= \text{Pr}(X = 0) \\
+     &= 1-p \\
+     &= 1-0,7 \\
+     &= 0,3
+\end{align*}$$
+
+Sehingga,
+
 ```{r}
-qbern(0.5, prob = 0.3)
-qbern(0.6, prob = 0.3)
-qbern(0.7, prob = 0.3)
-qbern(0.8, prob = 0.3)
-qbern(0.9, prob = 0.3)
-qbern(1, prob = 0.3)
+qbern(0.1, prob = 0.7)
+qbern(0.2, prob = 0.7)
+qbern(0.3, prob = 0.7)
+qbern(0.4, prob = 0.7)
+qbern(0.5, prob = 0.7)
 ```
 
 ### RNG
@@ -139,13 +253,31 @@ text(x = random_bern_plot,
 
 ## Distribusi Binomial
 
+Sebagaimana yang sudah dijelaskan sebelumnya, distribusi binomial menggambarkan proses Bernoulli, yaitu percobaan gagal/sukses yang dilakukan berkali-kali, misalnya $n$ kali.
+
+Distribusi binomial memiliki dua parameter:
+
+- $n$, yaitu banyaknya *trial*
+
+- $p$, yaitu probabilitas sukses
+
+Apabila suatu variabel acak $X$ berdistribusi binomial, biasa digunakan notasi berikut.
+
+$$X ~ \text{Binom}(n,p)$$
+
 ### PMF
+
+PMF untuk distribusi binomial bisa dihitung dengan fungsi `dbinom` yang langsung tersedia dari R (bahkan tanpa *package* `Rlab`). Input yang diterima oleh `dbinom` adalah nilai $x$ yang ingin dihitung PMF nya, diikuti kedua parameter distribusi binomial, yaitu `size` atau $n$, dan `prob` atau $p$.
+
+Melanjutkan contoh inspeksi produk tadi, berikut ini kita menghitung probabilitas bahwa, dari hasil inspeksi $n=10$ buah produk, terdapat **tepat dua** produk yang bagus (sehingga tepat delapan produk cacat).
 
 ```{r}
 dbinom(2,
        size = 10,
-       prob = 0.3) #artinya adalah Pr(X=2) dengan X ~ binom(10, 0.3)
+       prob = 0.7)
 ```
+
+Dalam hal ini, kita menghitung $\text{Pr}(X=2)$ ketika $X ~ \text{Binom}(10, 0,7)$.
 
 ```{r}
 support_binom <- seq(0, 1, by = 10)
@@ -153,35 +285,41 @@ support_binom <- seq(0, 1, by = 10)
 
 ```{r}
 plot(support_binom,
-     dbinom(support_binom, 10, 0.3),
+     dbinom(support_binom, 10, 0.7),
+     ylim = c(0, 1),
      xaxp = c(0,10,10),
-     pch = 20,
-     ylim = c(0, 1))
+     pch = 20)
 ```
 
 ### CDF
 
 ```{r}
-pbinom(2, size = 10, prob = 0.3)
+pbinom(2, size = 10, prob = 0.7)
+```
+
+```{r}
+dbinom(0, size = 10, prob = 0.7) +
+  dbinom(1, size = 10, prob = 0.7) +
+  dbinom(2, size = 10, prob = 0.7)
 ```
 
 ```{r}
 plot(support_binom,
-     pbinom(support_binom, 10, 0.3),
+     pbinom(support_binom, 10, 0.7),
+     ylim = c(0, 1),
      xaxp = c(0,10,10),
-     pch = 20,
-     ylim = c(0, 1))
+     pch = 20)
 ```
 
 ### *Quantile function*
 
 ```{r}
-qbinom(0.5, 10, 0.3)
-qbinom(0.6, 10, 0.3)
-qbinom(0.7, 10, 0.3)
-qbinom(0.8, 10, 0.3)
-qbinom(0.9, 10, 0.3)
-qbinom(1, 10, 0.3)
+qbinom(0.5, 10, 0.7)
+qbinom(0.6, 10, 0.7)
+qbinom(0.7, 10, 0.7)
+qbinom(0.8, 10, 0.7)
+qbinom(0.9, 10, 0.7)
+qbinom(1, 10, 0.7)
 ```
 
 ### RNG
@@ -191,7 +329,7 @@ Bangkitkan n data dari distribusi Binomial
 ```{r}
 set.seed(122)
 n <- 100
-random_binom <- rbinom(n, size = 10, prob = 0.3)
+random_binom <- rbinom(n, size = 10, prob = 0.7)
 ```
 
 ```{r}
@@ -203,7 +341,7 @@ text(x = random_binom_plot,
      pos = 3)
 ```
 
-## Contoh distribusi binomial
+## Contoh soal distribusi binomial
 
 Suatu ujian yang terdiri dari 15 pertanyaan pilihan berganda, masing-masing memiliki 5 kemungkinan jawaban dan hanya satu yang benar. Hitunglah berapa probabilitas seseorang yang menjawab secara menebak-nebak akan memperoleh
 
@@ -275,54 +413,61 @@ Sehingga kita tinggal menghitung
 
 ## Distribusi Poisson
 
+Sebelumnya, kita telah membahas bagaimana fenomena kejadian gagal/sukses bisa dipelajari melalui distribusi Bernoulli dan distribusi binomial.
+
+Kali ini, kita akan membahas distribusi Poisson, yang biasa memodelkan banyaknya kemunculan sesuatu dalam suatu rentang waktu.
+
 ### PMF
 
 ```{r}
+dpois(0, lambda = 2)
 dpois(1, lambda = 2)
 dpois(2, lambda = 2)
 dpois(3, lambda = 2)
 dpois(4, lambda = 2)
-dpois(5, lambda = 2)
 ```
 
 ```{r}
-support_pois <- seq(0, 10, by = 1)
+x_pois <- seq(0, 10, by = 1)
 ```
 
 ```{r}
-plot(support_pois,
-     dpois(support_pois, lambda = 2),
+plot(x_pois,
+     dpois(x_pois, lambda = 2),
+     ylim = c(0, 1),
      xaxp = c(0,10,10),
-     pch = 20,
-     ylim = c(0, 1))
+     pch = 20)
 ```
 
 ### CDF
 
 ```{r}
-ppois(1, lambda = 2)
-ppois(2, lambda = 2)
 ppois(3, lambda = 2)
-ppois(4, lambda = 2)
-ppois(5, lambda = 2)
 ```
 
 ```{r}
-plot(support_pois,
-     ppois(support_pois, lambda = 2),
+dpois(0, lambda = 2) +
+  dpois(1, lambda = 2) +
+  dpois(2, lambda = 2) +
+  dpois(3, lambda = 2)
+```
+
+```{r}
+plot(x_pois,
+     ppois(x_pois, lambda = 2),
+     ylim = c(0, 1),
      xaxp = c(0,10,10),
-     pch = 20,
-     ylim = c(0, 1))
+     pch = 20)
 ```
 
 ### *Quantile function*
 
 ```{r}
-qpois(1, lambda = 2)
-qpois(2, lambda = 2)
-qpois(3, lambda = 2)
-qpois(4, lambda = 2)
-qpois(5, lambda = 2)
+qpois(0.1, lambda = 2)
+qpois(0.2, lambda = 2)
+qpois(0.3, lambda = 2)
+qpois(0.4, lambda = 2)
+qpois(0.5, lambda = 2)
 ```
 
 ### RNG
@@ -485,5 +630,45 @@ text(x = random_dist3_plot,
 ```
 
 ## Distribusi Poisson
+
+```{r}
+dist4 <- Pois(lambda = 2)
+```
+
+```{r}
+plot(dist4)
+```
+
+```{r}
+E(dist4)
+var(dist4)
+```
+
+```{r}
+d(dist4)(3)
+```
+
+```{r}
+p(dist4)(3)
+```
+
+```{r}
+q(dist4)(0.7)
+```
+
+```{r}
+set.seed(122)
+n <- 100
+random_dist4 <- r(dist4)(n)
+```
+
+```{r}
+random_dist4_plot <- barplot(table(random_dist4),
+                             ylim = c(0,40))
+text(x = random_dist4_plot,
+     y = table(random_dist4),
+     labels = table(random_dist4),
+     pos = 3)
+```
 
 # (Pengayaan) Distribusi Multinomial
