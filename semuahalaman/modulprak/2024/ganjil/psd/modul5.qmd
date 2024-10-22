@@ -99,11 +99,11 @@ Sekarang, kita bisa mencoba mempelajari lebih lanjut tentang fenomena tersebut m
 
 Apabila variabel acak untuk gagal atau sukses dilambangkan $X$, kita bisa tulis bahwa $X$ berdistribusi Bernoulli dengan probabilitas sukses $p$, sebagai berikut:
 
-$$X ~ \text{Bernoulli}(p)$$
+$$X \sim \text{Bernoulli}(p)$$
 
 Perhatikan bahwa distribusi Bernoulli hanya ditentukan oleh nilai $p$. Nilai yang menentukan suatu bentuk distribusi, seperti $p$ di sini, disebut **parameter** untuk bentuk distribusi tersebut. Jadi, distribusi Bernoulli hanya memiliki satu parameter, yaitu probabilitas sukses.
 
-Untuk persoalan yang sedang kita pelajari, $X ~ \text{Bernoulli}(0,7)$
+Untuk persoalan yang sedang kita pelajari, $X \sim \text{Bernoulli}(0,7)$
 
 ### PMF
 
@@ -132,20 +132,28 @@ Apabila kita ingin *plot* PMF dengan cepat, kita bisa tulis kode seperti berikut
 
 ```{r}
 support_bern <- c(0, 1)
-plot(dbern(support_bern, prob = 0.7), ylim = c(0, 1))
+plot(support_bern,
+     dbern(support_bern, prob = 0.7),
+     ylim = c(0, 1),
+     xaxp = c(x1=0, x2=1, n=1))
 ```
 
-*Plot* PMF memang seperti itu, hanya terdiri dari titik-titik saja, toh PMF memang untuk distribusi diskrit. Opsi `ylim` seperti itu dibutuhkan untuk memaksakan rentang sumbu $y$ dari nol ke satu, karena secara umum, probabilitas bisa bernilai paling rendah nol dan paling tinggi satu.
+*Plot* PMF memang seperti itu, hanya terdiri dari titik-titik saja, toh PMF memang untuk distribusi diskrit. Kebetulan, secara pemrograman, kita sedang menggambar *scatter plot* di *base R*.
 
-Sebagaimana *plot* di *base R* pada umumnya, kita bisa menambahkan opsi-opsi lainnya agar lebih detail.
+- Opsi `ylim` seperti itu dibutuhkan untuk memaksakan rentang sumbu $y$ dari nol ke satu, karena secara umum, probabilitas bisa bernilai paling rendah nol dan paling tinggi satu.
+
+- Opsi `xaxp` menentukan pelabelan sumbu x, yaitu agar *tick* paling kiri adalah `x1=0`, *tick* paling kanan adalah `x2=1`, dan banyaknya interval di antara kedua ujung adalah `n=1` (tiap interval dibatasi dua *tick*).
+
+     Sebenarnya, menulis `xaxp = c(0, 1, 1)` saja juga sudah cukup, tanpa menulis `x1=`, `x2=`, ataupun `n=`
+
+Sebagaimana *plot* di *base R* pada umumnya, kita bisa menambahkan opsi-opsi lainnya agar lebih detail dan lebih bagus.
 
 ```{r}
 plot(support_bern,
      dbern(support_bern, prob = 0.7),
      ylim = c(0, 1),
+     xaxp = c(0, 1, 1),
      main = "PMF Distribusi Bernoulli dengan p = 0.7",
-     xlab = "x",
-     ylab = "f(x)",
      pch = 20,
      cex = 2)
 ```
@@ -200,9 +208,18 @@ Fungsi CDF juga bisa digambar *plot* nya.
 plot(support_bern,
      pbern(support_bern, prob = 0.7),
      ylim = c(0, 1),
+     xaxp = c(0, 1, 1),
+     main = "CDF Distribusi Bernoulli dengan p = 0.7")
+```
+
+```{r}
+plot(support_bern,
+     pbern(support_bern, prob = 0.7),
+     ylim = c(0, 1),
+     xaxp = c(0, 1, 1),
+     main = "CDF Distribusi Bernoulli dengan p = 0.7",
      pch = 20,
-     cex = 2,
-     xaxp = c(0,10,10))
+     cex = 2)
 ```
 
 ### *Quantile function*
@@ -233,21 +250,28 @@ qbern(0.5, prob = 0.7)
 Bangkitkan n data dari distribusi Bernoulli
 
 ```{r}
-set.seed(122)
+set.seed(52)
 n <- 100
-random_bern <- rbern(n, prob = 0.6)
+random_bern <- rbern(n, prob = 0.7)
+random_bern
 ```
 
 ```{r}
-table(random_bern)/sum(table(random_bern))
+random_bern_freq <- table(random_bern)
+random_bern_freq
 ```
 
 ```{r}
-random_bern_plot <- barplot(table(random_bern),
+random_bern_percent <- table(random_bern)/sum(table(random_bern))
+random_bern_percent
+```
+
+```{r}
+random_bern_plot <- barplot(random_bern_freq,
                             ylim = c(0,100))
 text(x = random_bern_plot,
-     y = table(random_bern),
-     labels = table(random_bern),
+     y = random_bern_freq,
+     labels = random_bern_freq,
      pos = 3)
 ```
 
@@ -261,9 +285,11 @@ Distribusi binomial memiliki dua parameter:
 
 - $p$, yaitu probabilitas sukses
 
-Apabila suatu variabel acak $X$ berdistribusi binomial, biasa digunakan notasi berikut.
+Apabila suatu variabel acak $X$ berdistribusi binomial, biasa digunakan notasi
 
-$$X ~ \text{Binom}(n,p)$$
+$$X \sim \text{Binomial}(n,p)$$
+
+yang terkadang disingkat $X \sim \text{Binom}(n,p)$ atau $X \sim \text{Bin}(n,p)$ atau bahkan $X \sim \text{B}(n,p)$.
 
 ### PMF
 
@@ -277,7 +303,7 @@ dbinom(2,
        prob = 0.7)
 ```
 
-Dalam hal ini, kita menghitung $\text{Pr}(X=2)$ ketika $X ~ \text{Binom}(10, 0,7)$.
+Dalam hal ini, kita menghitung $\text{Pr}(X=2)$ ketika $X \sim \text{Binomial}(10, 0,7)$.
 
 ```{r}
 support_binom <- seq(0, 1, by = 10)
@@ -287,7 +313,17 @@ support_binom <- seq(0, 1, by = 10)
 plot(support_binom,
      dbinom(support_binom, 10, 0.7),
      ylim = c(0, 1),
-     xaxp = c(0,10,10),
+     xaxp = c(0, 10, 10))
+```
+
+```{r}
+plot(support_binom,
+     dbinom(support_binom, 10, 0.7),
+     ylim = c(0, 1),
+     xaxp = c(0, 10, 10),
+     main = "PMF Binomial(10, 0,7)",
+     xlab = "x",
+     ylab = "b(x; 10, 0,7)",
      pch = 20)
 ```
 
@@ -307,7 +343,17 @@ dbinom(0, size = 10, prob = 0.7) +
 plot(support_binom,
      pbinom(support_binom, 10, 0.7),
      ylim = c(0, 1),
-     xaxp = c(0,10,10),
+     xaxp = c(0, 10, 10))
+```
+
+```{r}
+plot(support_binom,
+     pbinom(support_binom, 10, 0.7),
+     ylim = c(0, 1),
+     xaxp = c(0, 10, 10),
+     main = "CDF Binomial(10, 0,7)",
+     xlab = "r",
+     ylab = "B(r; 10, 0,7)",
      pch = 20)
 ```
 
@@ -327,17 +373,23 @@ qbinom(1, 10, 0.7)
 Bangkitkan n data dari distribusi Binomial
 
 ```{r}
-set.seed(122)
+set.seed(52)
 n <- 100
 random_binom <- rbinom(n, size = 10, prob = 0.7)
+random_binom
 ```
 
 ```{r}
-random_binom_plot <- barplot(table(random_binom),
+random_binom_freq <- table(random_binom)
+random_binom_freq
+```
+
+```{r}
+random_binom_plot <- barplot(random_binom_freq,
                              ylim = c(0,40))
 text(x = random_binom_plot,
-     y = table(random_binom),
-     labels = table(random_binom),
+     y = random_binom_freq,
+     labels = random_binom_freq,
      pos = 3)
 ```
 
@@ -435,7 +487,17 @@ x_pois <- seq(0, 10, by = 1)
 plot(x_pois,
      dpois(x_pois, lambda = 2),
      ylim = c(0, 1),
-     xaxp = c(0,10,10),
+     xaxp = c(0, 10, 10))
+```
+
+```{r}
+plot(x_pois,
+     dpois(x_pois, lambda = 2),
+     ylim = c(0, 1),
+     xaxp = c(0, 10, 10),
+     main = "PMF Poisson(2)",
+     xlab = "x",
+     ylab = "p(x; 2t)",
      pch = 20)
 ```
 
@@ -454,9 +516,19 @@ dpois(0, lambda = 2) +
 
 ```{r}
 plot(x_pois,
+     dpois(x_pois, lambda = 2),
+     ylim = c(0, 1),
+     xaxp = c(0, 10, 10))
+```
+
+```{r}
+plot(x_pois,
      ppois(x_pois, lambda = 2),
      ylim = c(0, 1),
-     xaxp = c(0,10,10),
+     xaxp = c(0, 10, 10),
+     main = "CDF Poisson(2)",
+     xlab = "r",
+     ylab = "P(r; 2t)",
      pch = 20)
 ```
 
@@ -473,21 +545,29 @@ qpois(0.5, lambda = 2)
 ### RNG
 
 ```{r}
-set.seed(122)
+set.seed(55)
 n <- 100
 random_pois <- rpois(n, lambda = 2)
+random_pois
 ```
 
 ```{r}
-random_pois_plot <- barplot(table(random_pois),
+random_pois_freq <- table(random_pois)
+random_pois_freq
+```
+
+```{r}
+random_pois_plot <- barplot(random_pois_freq,
                             ylim = c(0,40))
 text(x = random_pois_plot,
-     y = table(random_pois),
-     labels = table(random_pois),
+     y = random_pois_freq,
+     labels = random_pois_freq,
      pos = 3)
 ```
 
 # (Pengayaan) Visualisasi Distribusi Diskrit dengan ggplot2
+
+*(work in progress)*
 
 # Distribusi Diskrit dengan `distr`
 
@@ -540,17 +620,23 @@ q(dist1)(1)
 ```
 
 ```{r}
-set.seed(122)
+set.seed(42)
 n <- 100
 random_dist1 <- r(dist1)(n)
+random_dist1
 ```
 
 ```{r}
-random_dist1_plot <- barplot(table(random_dist1),
-                             ylim = c(0,40))
+random_dist1_freq <- table(random_dist1)
+random_dist1_freq
+```
+
+```{r}
+random_dist1_plot <- barplot(random_dist1_freq,
+                             ylim = c(0,50))
 text(x = random_dist1_plot,
-     y = table(random_dist1),
-     labels = table(random_dist1),
+     y = random_dist1_freq,
+     labels = random_dist1_freq,
      pos = 3)
 ```
 
@@ -587,6 +673,20 @@ E(dist2)
 var(dist2)
 ```
 
+Perhatikan bahwa ekspektasi dari `dist1` maupun `dist2` sama,
+
+```{r}
+E(dist1)
+E(dist2)
+```
+
+tetapi variansinya berbeda:
+
+```{r}
+var(dist1)
+var(dist2)
+```
+
 ## Distribusi Binomial
 
 ```{r}
@@ -618,14 +718,20 @@ q(dist3)(0.7)
 set.seed(122)
 n <- 100
 random_dist3 <- r(dist3)(n)
+random_dist3
 ```
 
 ```{r}
-random_dist3_plot <- barplot(table(random_dist3),
+random_dist3_freq <- table(random_dist3)
+random_dist3_freq
+```
+
+```{r}
+random_dist3_plot <- barplot(random_dist3_freq,
                              ylim = c(0,40))
 text(x = random_dist3_plot,
-     y = table(random_dist3),
-     labels = table(random_dist3),
+     y = random_dist3_freq,
+     labels = random_dist3_freq,
      pos = 3)
 ```
 
@@ -657,18 +763,30 @@ q(dist4)(0.7)
 ```
 
 ```{r}
-set.seed(122)
+set.seed(55)
 n <- 100
 random_dist4 <- r(dist4)(n)
+random_dist4
 ```
 
 ```{r}
-random_dist4_plot <- barplot(table(random_dist4),
+random_dist4_freq <- table(random_dist4)
+random_dist4_freq
+```
+
+```{r}
+random_dist4_plot <- barplot(random_dist4_freq,
                              ylim = c(0,40))
 text(x = random_dist4_plot,
-     y = table(random_dist4),
-     labels = table(random_dist4),
+     y = random_dist4_freq,
+     labels = random_dist4_freq,
      pos = 3)
 ```
 
+## Distribusi *Uniform* Diskrit
+
+*(work in progress)*
+
 # (Pengayaan) Distribusi Multinomial
+
+*(work in progress)*
