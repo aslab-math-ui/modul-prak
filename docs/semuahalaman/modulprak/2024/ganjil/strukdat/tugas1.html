@@ -259,7 +259,7 @@ window.Quarto = {
 <p>Tugas ini terdiri dari satu soal besar yang terbagi menjadi lima nomor.</p>
 <p>Suatu polinomial dalam satu variabel memiliki bentuk</p>
 <p><span class="math display">\[a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0\]</span></p>
-<p>di mana bagian <span class="math inline">\(a_ix^i\)</span> disebut sebagai <em>term</em>. Setiap <em>term</em> memiliki dua komponen, yaitu <span class="math inline">\(a_i\)</span> yang merupakan koefisien dari suatu <em>term</em> dan <span class="math inline">\(i\)</span> pada <span class="math inline">\(x^i\)</span> yang merupakan derajat dari suatu <em>term</em> untuk <span class="math inline">\(i=0,1,...,n\)</span>.</p>
+<p>di mana bagian <span class="math inline">\(a_ix^i\)</span> disebut sebagai <em>term</em> (suku). Setiap <em>term</em> memiliki dua komponen, yaitu <span class="math inline">\(a_i\)</span> yang merupakan koefisien dari suatu <em>term</em> dan <span class="math inline">\(i\)</span> pada <span class="math inline">\(x^i\)</span> yang merupakan derajat dari suatu <em>term</em> untuk <span class="math inline">\(i=0,1,...,n\)</span>.</p>
 <p>Kita dapat merepresentasikan suatu polinomial dengan menggunakan <em>singly linked list</em> di mana satu <em>term</em> pada polinomial dapat direpresentasikan sebagai satu <em>node</em> pada <em>linked list</em>. Sehingga <em>node</em> pada <em>linked list</em> polinomial akan memiliki tiga komponen, yaitu koefisien dan derajat (yang merupakan komponen data) serta next (yang merupakan pointer).</p>
 <ol type="1">
 <li><strong>[5]</strong> Buatlah <code>class NodePolynomial</code> yaitu class untuk menyimpan ketiga komponen di atas dalam suatu <em>node</em>.</li>
@@ -351,13 +351,14 @@ window.Quarto = {
 <p>Hasil polinomial pada contoh di atas adalah <span class="math display">\[P_1(x)=x^5+3x^4+22x^2+4\]</span></p>
 <hr>
 <ol start="3" type="1">
-<li><strong>[20]</strong> Diberikan suatu array <span class="math inline">\(A=[a_0, a_1, ..., a_n]\)</span> di mana elemen <span class="math inline">\(a_i\)</span> merupakan nilai koefisien dari suatu polinomial pada <em>term</em> berderajat <span class="math inline">\(i\)</span>. Buatlah fungsi <code>to_linked_list</code> yang mengubah array <span class="math inline">\(A\)</span> menjadi suatu <em>linked list</em> polinomial. Tentukan Big-O dari algoritma yang telah anda buat dan berikan penjelasan atas jawaban anda (secara deskriptif saja). Kemudian tentukan array dari polinomial berikut dan ubah menjadi <em>linked list</em> polinomial menggunakan fungsi <code>to_linked_list</code> yang telah anda buat</li>
+<li><p><strong>[20]</strong> Diberikan suatu array <span class="math inline">\(A=[a_0, a_1, ..., a_n]\)</span> di mana elemen <span class="math inline">\(a_i\)</span> merupakan nilai koefisien dari suatu polinomial pada <em>term</em> berderajat <span class="math inline">\(i\)</span>. Buatlah fungsi <code>to_linked_list</code> yang mengubah array <span class="math inline">\(A\)</span> menjadi suatu <em>linked list</em> polinomial. Tentukan Big-O dari algoritma yang telah anda buat dan berikan penjelasan atas jawaban anda (secara deskriptif saja).</p>
+<p>Kemudian tentukan array dari polinomial berikut dan ubah menjadi <em>linked list</em> polinomial menggunakan fungsi <code>to_linked_list</code> yang telah anda buat</p>
+<p><span class="math display">\[Q_2(x) = 9x^{10}-5x^5-15x^3+4x^2\]</span></p></li>
 </ol>
-<p><span class="math display">\[Q_2(x) = 9x^{10}-5x^5-15x^3+4x^2\]</span></p>
 </section>
 <section id="contoh-1" class="level3">
 <h3 class="anchored" data-anchor-id="contoh-1">Contoh:</h3>
-<div id="cell-26" class="cell" data-outputid="6528234e-36bb-4e1b-b288-0393f6fec002">
+<div id="cell-27" class="cell" data-outputid="6528234e-36bb-4e1b-b288-0393f6fec002">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">0</span>, <span class="dv">8</span>])</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>polinomial2 <span class="op">=</span> to_linked_list(A)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>polinomial2.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -379,21 +380,21 @@ head -&gt; coef = 8 , deg = 8 --&gt; coef = 6 , deg = 6 --&gt; coef = -1 , deg =
 <h3 class="anchored" data-anchor-id="contoh-2">Contoh:</h3>
 <p>Pada polinomial di contoh sebelumnya, yaitu <span class="math inline">\(P_1(x)\)</span>, jika dievaluasi pada <span class="math inline">\(x=0\)</span>, <span class="math inline">\(x=1\)</span>, dan <span class="math inline">\(x=2\)</span> adalah sebagai berikut:</p>
 <p><span class="math display">\[P_1(0)=(0)^5+3(0)^4+22(0)^2+4=4\]</span></p>
-<div id="cell-32" class="cell" data-outputid="ab5cf5dc-716e-4637-a47b-d5104eb761a3">
+<div id="cell-33" class="cell" data-outputid="ab5cf5dc-716e-4637-a47b-d5104eb761a3">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>polinomial.evaluate(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>4</code></pre>
 </div>
 </div>
 <p><span class="math display">\[P_1(1)=(1)^5+3(1)^4+22(1)^2+4=30\]</span></p>
-<div id="cell-34" class="cell" data-outputid="7a3bad61-c055-48ec-93e5-d67fe39521f9">
+<div id="cell-35" class="cell" data-outputid="7a3bad61-c055-48ec-93e5-d67fe39521f9">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>polinomial.evaluate(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>30</code></pre>
 </div>
 </div>
 <p><span class="math display">\[P_1(2)=(2)^5+3(2)^4+22(2)^2+4=172\]</span></p>
-<div id="cell-36" class="cell" data-outputid="37625351-1cb8-4a22-d778-38212b130ecd">
+<div id="cell-37" class="cell" data-outputid="37625351-1cb8-4a22-d778-38212b130ecd">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>polinomial.evaluate(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
 <pre><code>172</code></pre>
@@ -411,7 +412,7 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 <section id="contoh-3" class="level3">
 <h3 class="anchored" data-anchor-id="contoh-3">Contoh:</h3>
 <p>contoh 1: <span class="math display">\[(x^5+3x^4+22x^2+4)+(8x^8+6x^6+-x^5+3x^3+2x^2)=8x^8+6x^6+3x^4+24x^2+4\]</span></p>
-<div id="cell-41" class="cell">
+<div id="cell-42" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>polinomial <span class="op">=</span> SLLPolynomial()</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>polinomial.insert_node(<span class="dv">3</span>,<span class="dv">4</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>polinomial.insert_node(<span class="dv">1</span>,<span class="dv">5</span>)</span>
@@ -419,13 +420,13 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>polinomial.insert_node(<span class="dv">10</span>,<span class="dv">2</span>)</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>polinomial.insert_node(<span class="dv">12</span>,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-42" class="cell" data-outputid="b66c3796-96d8-4181-d321-ff7f42d0428b">
+<div id="cell-43" class="cell" data-outputid="b66c3796-96d8-4181-d321-ff7f42d0428b">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>polinomial.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>head -&gt; coef = 1 , deg = 5 --&gt; coef = 3 , deg = 4 --&gt; coef = 22 , deg = 2 --&gt; coef = 4 , deg = 0 --&gt; None</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-outputid="13431aa9-44aa-4369-dc74-0ab79d8ba94e">
+<div id="cell-44" class="cell" data-outputid="13431aa9-44aa-4369-dc74-0ab79d8ba94e">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>polinomial.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
@@ -435,7 +436,7 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 </div>
 </div>
 </div>
-<div id="cell-44" class="cell">
+<div id="cell-45" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>polinomial2 <span class="op">=</span> SLLPolynomial()</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>polinomial2.insert_node(<span class="dv">8</span>,<span class="dv">8</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>polinomial2.insert_node(<span class="dv">6</span>,<span class="dv">6</span>)</span>
@@ -443,13 +444,13 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>polinomial2.insert_node(<span class="dv">3</span>,<span class="dv">3</span>)</span>
 <span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>polinomial2.insert_node(<span class="dv">2</span>,<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-45" class="cell" data-outputid="0f51c108-8608-4298-b710-0fa8c5913e55">
+<div id="cell-46" class="cell" data-outputid="0f51c108-8608-4298-b710-0fa8c5913e55">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>polinomial2.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>head -&gt; coef = 8 , deg = 8 --&gt; coef = 6 , deg = 6 --&gt; coef = -1 , deg = 5 --&gt; coef = 3 , deg = 3 --&gt; coef = 2 , deg = 2 --&gt; None</code></pre>
 </div>
 </div>
-<div id="cell-46" class="cell" data-outputid="ae4d5f7a-3576-490e-d614-f8c72a4a4083">
+<div id="cell-47" class="cell" data-outputid="ae4d5f7a-3576-490e-d614-f8c72a4a4083">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>polinomial2.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div>
@@ -459,14 +460,14 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 </div>
 </div>
 </div>
-<div id="cell-47" class="cell" data-outputid="485b75e5-8ffd-45d8-9f9e-9964e8623c39">
+<div id="cell-48" class="cell" data-outputid="485b75e5-8ffd-45d8-9f9e-9964e8623c39">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>polinomial3 <span class="op">=</span> polinomial <span class="op">+</span> polinomial2</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>polinomial3.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>head -&gt; coef = 8 , deg = 8 --&gt; coef = 6 , deg = 6 --&gt; coef = 3 , deg = 4 --&gt; coef = 3 , deg = 3 --&gt; coef = 24 , deg = 2 --&gt; coef = 4 , deg = 0 --&gt; None</code></pre>
 </div>
 </div>
-<div id="cell-48" class="cell" data-outputid="8f54b73f-96ea-438d-980b-dd7791780d37">
+<div id="cell-49" class="cell" data-outputid="8f54b73f-96ea-438d-980b-dd7791780d37">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>polinomial3.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
@@ -477,14 +478,14 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 </div>
 </div>
 <p>contoh 2: <span class="math display">\[(8x^8+6x^6+3x^4+24x^2+4)+(0)=8x^8+6x^6+3x^4+24x^2+4\]</span></p>
-<div id="cell-50" class="cell" data-outputid="a9ab31fd-4eca-4998-c580-1a737e2e44f6">
+<div id="cell-51" class="cell" data-outputid="a9ab31fd-4eca-4998-c580-1a737e2e44f6">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>polinomial4 <span class="op">=</span> SLLPolynomial()</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>polinomial4.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>head -&gt; None</code></pre>
 </div>
 </div>
-<div id="cell-51" class="cell" data-outputid="87c861d7-1495-4868-8b34-bfef3b2d2c59">
+<div id="cell-52" class="cell" data-outputid="87c861d7-1495-4868-8b34-bfef3b2d2c59">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>polinomial4.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
@@ -494,14 +495,14 @@ P_1(x)+P_2(x)&amp;=(a_nx^n+a_{n-1}x^{n-1}+...+a_2x^2+a_1x+a_0)+(b_nx^n+b_{n-1}x^
 </div>
 </div>
 </div>
-<div id="cell-52" class="cell" data-outputid="94665ba4-f900-4691-87b6-560d46127f62">
+<div id="cell-53" class="cell" data-outputid="94665ba4-f900-4691-87b6-560d46127f62">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>polinomial5 <span class="op">=</span> polinomial3  <span class="op">+</span> polinomial4</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>polinomial5.print_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>head -&gt; coef = 8 , deg = 8 --&gt; coef = 6 , deg = 6 --&gt; coef = 3 , deg = 4 --&gt; coef = 3 , deg = 3 --&gt; coef = 24 , deg = 2 --&gt; coef = 4 , deg = 0 --&gt; None</code></pre>
 </div>
 </div>
-<div id="cell-53" class="cell" data-outputid="6ec99369-955e-4ea6-866a-d47e401c974c">
+<div id="cell-54" class="cell" data-outputid="6ec99369-955e-4ea6-866a-d47e401c974c">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>polinomial5.get_digraph()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <div>
