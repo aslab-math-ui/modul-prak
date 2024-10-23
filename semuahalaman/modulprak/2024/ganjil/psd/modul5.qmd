@@ -13,7 +13,7 @@ Selamat datang kembali di praktikum Pengantar Sains Data. Setelah sebelumnya mem
 
 Dalam suatu percobaan acak, tentu ada sejumlah hasil yang mungkin. Kita bisa memandang hasil-hasil yang mungkin tersebut sebagai nilai-nilai yang bisa dimiliki oleh suatu **variabel acek *(random variable)***, biasanya dilambangkan $X$. Himpunan semua nilai yang mungkin disebut **ruang sampel *(sample space)*** untuk variabel acak tersebut.
 
-**Distribusi probabilitas *(probability distribution)*** untuk suatu variabel acak mendata probabilitas atau peluang untuk tiap nilai di ruang sampel.
+**Distribusi probabilitas *(probability distribution)*** untuk suatu variabel acak mendata probabilitas atau peluang untuk tiap nilai di ruang sampel. Dari ruang sampel, kumpulan semua nilai yang memiliki probabilitas taknol disebut ***support*** dari distribusi tersebut.
 
 Suatu ruang sampel disebut **diskrit** apabila banyaknya elemen bersifat **terhitung *(countable)***. Suatu distribusi disebut **diskrit** apabila variabel acak yang bersangkutan memiliki ruang sampel yang diskrit.
 
@@ -27,9 +27,11 @@ Beberapa distribusi diskrit adalah
 
 - distribusi binomial
 
+- distribusi Poisson
+
 - distribusi *uniform* diskrit
 
-- distribusi Poisson
+dan tentunya, kita juga bisa membuat distribusi diskrit sendiri; tidak harus selalu beracuan pada bentuk-bentuk tersebut.
 
 # Distribusi Diskrit dengan *base R*
 
@@ -43,17 +45,25 @@ Di kalangan R, sudah ada semacam standardisasi agar tiap distribusi (baik diskri
 
     $$\text{Pr}\left\{ X=x \right\}$$
 
+    Note: terkadang, untuk distribusi diskrit pun, PMF juga disebut PDF
+
 - Fungsi berawalan `p` melambangkan ***(cumulative) probability function*** atau lebih umum disebut **CDF *(cumulative distribution function)***
 
     Fungsi ini menghitung probabilitas suatu variabel acak $X$ memperoleh nilai **kurang dari atau sama dengan** $x$, yang bisa dirumuskan:
 
     $$\text{Pr}\left\{ X \leq x \right\}$$
 
+    Untuk distribusi diskrit, CDF bisa dihitung sebagai sumasi atau penjumlahan dari tiap nilai PMF hingga nilai $x$ yang diminta. 
+    
+    Sedangkan, untuk distribusi kontinu, perhitungan CDF sebenarnya melibatkan integral hingga nilai $x$ yang diminta. Itu akan kalian pelajari lebih lanjut di mata kuliah Statistika Matematika 1.
+    
+    Sementara ini, ketika tidak bisa menghitung CDF dari sekadar sumasi nilai-nilai PMF, kalian bisa memperoleh nilai CDF dengan menggunakan fungsi `p` yang sesuai di R, yaitu menjadi topik pembahasan di praktikum kita, atau dengan memanfaatkan tabel CDF yang biasa tersedia di lampiran buku pengantar statistik seperti karangan Walpole.
+
 - Fungsi berawalan `q` melambangkan ***quantile function*** atau lebih umum disebut ***inverse CDF***
 
     Diketahui suatu probabilitas $y$, fungsi ini menentukan nilai $x$ yang membuat nilai CDF dari $x$ sama dengan $y$.
 
-    Lebih tepatnya, fungsi kuantil ini menentukan nilai $x$ terkecil sedemikian sehingga nilai CDF minimal $y$.
+    Lebih tepatnya, fungsi kuantil ini menentukan nilai $x$ terkecil sedemikian sehingga nilai CDF paling tidak $y$.
 
 - Fungsi berawalan `r` melambangkan **RNG *(random number generator)***, yang bisa menghasilkan sampel sejumlah data secara acak *(random)* dari distribusinya.
 
@@ -61,7 +71,13 @@ Untuk sejumlah distribusi yang umum dikenal, *base R* sudah menyediakan keempat 
 
 ## Distribusi Bernoulli
 
-Khusus untuk distribusi Bernoulli, diperlukan *package* `Rlab`
+Khusus untuk distribusi Bernoulli, diperlukan *package* `Rlab` yang perlu di-instal terlebih dahulu kalau belum,
+
+```
+install.packages("Rlab")
+```
+
+dan perlu diaktifkan:
 
 ```{r}
 library(Rlab)
@@ -69,7 +85,7 @@ library(Rlab)
 
 Salah satu fenomena yang sangat umum terjadi di sekitar kita adalah ketika ada dua kemungkinan: gagal atau sukses. Mungkin saja, ada probabilitas yang tetap, misalnya probabilitas sukses. Fenomena seperti itulah yang digambarkan oleh **distribusi Bernoulli**. Apabila kita lambangkan gagal dengan angka 0 (nol) dan sukses dengan angka 1 (satu), jelas bahwa *support* untuk distribusi Bernoulli adalah $\{0,1\}$.
 
-Apabila kita amati fenomena tersebut terjadi berkali-kali, misal $n$ kali, istilahnya adalah **proses Bernoulli *(Bernoulli process)***, dan tiap kali terjadi disebut ***Bernoulli trial***. Hasil proses Bernoulli digambarkan oleh **distribusi binomial**. Kita biasa memperhatikan banyaknya kesuksesan dari $n$ buah *trial* tersebut, sehingga *support* untuk distribusi binomial adalah $\{0,1,2,\dots,n\}$.
+Apabila kita amati fenomena tersebut terjadi **berkali-kali,** misal $n$ kali, istilahnya adalah **proses Bernoulli *(Bernoulli process)***, dan tiap kali terjadi disebut ***Bernoulli trial***. Hasil proses Bernoulli digambarkan oleh **distribusi binomial**. Dalam hal ini, kita biasa memperhatikan **banyaknya kesuksesan** dari $n$ buah *trial* tersebut, sehingga *support* untuk distribusi binomial adalah $\{0,1,2,\dots,n\}$.
 
 Ketika kita ingin mengenali bahwa suatu fenomena tergolong proses Bernoulli, kita perlu terlebih dahulu menentukan: apa yang menjadi ukuran "sukses", sedemikian sehingga selain itu dianggap "gagal". Kemudian, kita perlu memperhatikan **asumsi proses Bernoulli** sebagai berikut:
 
@@ -81,6 +97,8 @@ Ketika kita ingin mengenali bahwa suatu fenomena tergolong proses Bernoulli, kit
 
 4. Semua *trial* saling bebas.
 
+Probabilitas gagal biasa dilambangkan $q$. Suatu kejadian bisa tergolong gagal ataupun sukses tetapi tidak keduanya, sehingga berlaku $p+q=1$. Maka, $q=1-p$.
+
 Mari kita bahas kedua distribusi dengan satu contoh fenomena:
 
 Suatu pabrik menjalani proses inspeksi hasil produknya. Diketahui bahwa 30% dari produk yang dihasilkan ternyata cacat.
@@ -91,9 +109,9 @@ Dua kalimat saja, kita sudah bisa mengenali fenomena tersebut sebagai proses Ber
 
 - Perhatikan bahwa 30% produk tergolong cacat, dan itu telah kita artikan sebagai kegagalan, sehingga bisa kita artikan bahwa 30% produk "gagal". Sisanya adalah 70%, dan itu bisa kita artikan sebagai persentase produk "sukses".
 
-- Kita bisa asumsikan bahwa pabrik tersebut memang biasanya begitu, bahwa memang 30% gagal, 70% sukses. Dengan demikian, persentase tersebut bisa kita artikan sebagai probabilitas. Sehingga, probabilitas produk sukses adalah 70% yaitu 0,7.
+- Kita bisa asumsikan bahwa pabrik tersebut memang biasanya begitu, bahwa memang 30% gagal, 70% sukses. Dengan demikian, persentase tersebut bisa kita artikan sebagai probabilitas. Sehingga, probabilitas produk sukses adalah 70% yaitu 0,7 dan probabilitas produk gagal adalah 30% yaitu 0,3
 
-Oleh karena itu, fenomena tersebut bisa dimodelkan oleh distribusi Bernoulli dengan $p = 0,7$
+Oleh karena itu, fenomena tersebut bisa dimodelkan oleh distribusi Bernoulli dengan $p = 0,7$. Jelas juga bahwa $q = 0,3$
 
 Sekarang, kita bisa mencoba mempelajari lebih lanjut tentang fenomena tersebut melalui distribusi Bernoulli yang mewakilinya.
 
@@ -103,7 +121,7 @@ $$X \sim \text{Bernoulli}(p)$$
 
 Perhatikan bahwa distribusi Bernoulli hanya ditentukan oleh nilai $p$. Nilai yang menentukan suatu bentuk distribusi, seperti $p$ di sini, disebut **parameter** untuk bentuk distribusi tersebut. Jadi, distribusi Bernoulli hanya memiliki satu parameter, yaitu probabilitas sukses.
 
-Untuk persoalan yang sedang kita pelajari, $X \sim \text{Bernoulli}(0,7)$
+Untuk persoalan yang sedang kita pelajari, $X \sim \text{Bernoulli}(0.7)$
 
 ### PMF
 
@@ -119,7 +137,10 @@ $$\text{Pr}(X = 1) = p$$
 
 dan nilai PMF di nol (yang diartikan sebagai kegagalan) adalah probabilias gagal, yaitu tidak sukses:
 
-$$\text{Pr}(X = 0) = 1-p$$
+$$\begin{align*}
+\text{Pr}(X = 0) &= q \\
+&= 1-p
+\end{align*}$$
 
 Kebetulan, R (melalui *package* `Rlab`) memfasilitasi fungsi PMF untuk distribusi Bernoulli, dinamakan `dbern`. Fungsi tersebut memerlukan input berupa kejadian $x$ serta parameter `prob` yaitu $p$, probabilitas sukses.
 
@@ -168,20 +189,22 @@ Untuk distribusi Bernoulli, perhatikan bahwa nilai CDF di nol adalah
 
 $$\begin{align*}
      \text{Pr}(X \leq 0) &= \text{Pr}(X = 0) \\
+     &= q \\
      &= 1-p
 \end{align*}$$
 
 dan nilai CDF di satu adalah
 
 $$\begin{align*}
-     \text{Pr}(X \leq 1) &= \text{Pr}(X = 0) + \text{Pr}(X = 1) \\
+     \text{Pr}(X \leq 1) &= \text{Pr}(X = 0) \\
+                         &+ \text{Pr}(X = 1) \\
      &= (1-p) + p \\
      &= 1
 \end{align*}$$
 
 Kita gunakan `dbern` untuk PMF, sehingga kita gunakan `pbern` untuk CDF, sesuai pola penamaan `d`, `p`, `q`, `r` di R.
 
-Nilai CDF di nol bisa dihitung secara langsung (dengan `pbern`) ataupun melalui penjumlahan PMF (dengan `dbern`). Misalnya, untuk nol:
+Sesuai sifat CDF untuk distribusi diskrit, nilai CDF bisa dihitung secara langsung (dengan `pbern`) ataupun melalui penjumlahan PMF (dengan `dbern`). Misalnya, untuk nol:
 
 ```{r}
 pbern(0, prob = 0.7)
@@ -230,6 +253,7 @@ Untuk distribusi Bernoulli dengan $p=0,7$, perhatikan bahwa
 
 $$\begin{align*}
      \text{Pr}(X \leq 0) &= \text{Pr}(X = 0) \\
+     &= q \\
      &= 1-p \\
      &= 1-0,7 \\
      &= 0,3
@@ -277,13 +301,15 @@ text(x = random_bern_plot,
 
 ## Distribusi Binomial
 
-Sebagaimana yang sudah dijelaskan sebelumnya, distribusi binomial menggambarkan proses Bernoulli, yaitu percobaan gagal/sukses yang dilakukan berkali-kali, misalnya $n$ kali.
+Sebagaimana yang sudah dijelaskan sebelumnya, distribusi binomial menggambarkan proses Bernoulli, yaitu percobaan gagal/sukses yang dilakukan **berkali-kali,** misalnya $n$ kali.
 
 Distribusi binomial memiliki dua parameter:
 
 - $n$, yaitu banyaknya *trial*
 
 - $p$, yaitu probabilitas sukses
+
+Perhatikan bahwa distribusi Bernoulli memiliki satu parameter saja, yaitu $p$, yang juga merupakan probabilitas sukses. Bahkan, **distribusi binomial dengan $n=1$ itu sama saja distribusi Bernoulli.**
 
 Apabila suatu variabel acak $X$ berdistribusi binomial, biasa digunakan notasi
 
@@ -293,7 +319,16 @@ yang terkadang disingkat $X \sim \text{Binom}(n,p)$ atau $X \sim \text{Bin}(n,p)
 
 ### PMF
 
-PMF untuk distribusi binomial bisa dihitung dengan fungsi `dbinom` yang langsung tersedia dari R (bahkan tanpa *package* `Rlab`). Input yang diterima oleh `dbinom` adalah nilai $x$ yang ingin dihitung PMF nya, diikuti kedua parameter distribusi binomial, yaitu `size` atau $n$, dan `prob` atau $p$.
+PMF untuk distribusi $\text{Binomial}(n,p)$ adalah
+
+$$\begin{align*}
+b(x; n,p) &= {n \choose x} p^x q^{n-x} \\
+&= {n \choose x} p^x \left(1-p\right)^{n-x}
+\end{align*}$$
+
+yang berlaku untuk perhitungan PMF di tiap nilai $x$ di ruang sampel, yaitu untuk tiap $x \in \{0,1,2,\dots,n\}$.
+
+PMF ini bisa dihitung dengan fungsi `dbinom` yang langsung tersedia dari R (bahkan tanpa *package* `Rlab`). Input yang diterima oleh `dbinom` adalah nilai $x$ yang ingin dihitung PMF nya, diikuti kedua parameter distribusi binomial, yaitu `size` atau $n$, dan `prob` atau $p$.
 
 Melanjutkan contoh inspeksi produk tadi, berikut ini kita menghitung probabilitas bahwa, dari hasil inspeksi $n=10$ buah produk, terdapat **tepat dua** produk yang bagus (sehingga tepat delapan produk cacat).
 
@@ -329,15 +364,39 @@ plot(support_binom,
 
 ### CDF
 
+Ingat kembali bahwa CDF untuk distribusi diskrit bisa dihitung dengan sumasi PMF. Maka, CDF untuk $\text{Binomial}(n,p)$ dirumuskan sebagai berikut:
+
+$$\begin{align*}
+B(r; n,p) &= \sum_{x=0}^{r} b(x; n,p) \\
+&= \sum_{x=0}^{r} {n \choose x} p^x q^{n-x} \\
+&= \sum_{x=0}^{r} {n \choose x} p^x \left(1-p\right)^{n-x}
+\end{align*}$$
+
+dengan $b(x; n,p)$ adalah nilai PMF di $x$ untuk $\text{Binomial}(n,p)$. Kalau mau, kita bisa saja menjabarkan rumus PMF binomial agar memperoleh:
+
+$$\begin{align*}
+B(r; n,p) &= \sum_{x=0}^{r} b(x; n,p) \\
+&= \sum_{x=0}^{r} {n \choose x} p^x q^{n-x} \\
+&= \sum_{x=0}^{r} {n \choose x} p^x \left(1-p\right)^{n-x}
+\end{align*}$$
+
+Masih dengan hasil inspeksi $n=10$ buah produk dan probabilitas sukses $p=0,7$, berikut ini kita hitung probabilitas bahwa **paling banyak dua** produk yang bagus. Kita bisa menggunakan CDF, karena memang gunanya untuk itu,
+
 ```{r}
 pbinom(2, size = 10, prob = 0.7)
 ```
+
+atau kita juga bisa menghitung PMF di 0, 1, dan 2, lalu menjumlahkannya,
 
 ```{r}
 dbinom(0, size = 10, prob = 0.7) +
   dbinom(1, size = 10, prob = 0.7) +
   dbinom(2, size = 10, prob = 0.7)
 ```
+
+karena PMF adalah probabilitas di nilai tertentu saja, dan kita ingin menghitung probabilitas nilainya paling besar dua, yang ada tiga kemungkinan yaitu nilainya tepat nol, tepat satu, dan tepat dua.
+
+Seperti biasa, kita juga bisa membuat *plot* CDF:
 
 ```{r}
 plot(support_binom,
@@ -370,7 +429,7 @@ qbinom(1, 10, 0.7)
 
 ### RNG
 
-Bangkitkan n data dari distribusi Binomial
+Bangkitkan n data dari distribusi binomial
 
 ```{r}
 set.seed(52)
