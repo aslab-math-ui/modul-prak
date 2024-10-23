@@ -596,8 +596,9 @@ b(x; n,p) &amp;= {n \choose x} p^x q^{n-x} \\
 </div>
 </div>
 <p>Dalam hal ini, kita menghitung <span class="math inline">\(\text{Pr}(X=2)\)</span> ketika <span class="math inline">\(X \sim \text{Binomial}(10, 0,7)\)</span>.</p>
+<p>Seperti biasa, kita bisa membuat <em>plot</em> PDF:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>support_binom <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>support_binom <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(support_binom,</span>
@@ -637,20 +638,19 @@ b(x; n,p) &amp;= {n \choose x} p^x q^{n-x} \\
 <p>dengan <span class="math inline">\(b(x; n,p)\)</span> adalah nilai PMF di <span class="math inline">\(x\)</span> untuk <span class="math inline">\(\text{Binomial}(n,p)\)</span>. Kalau mau, kalian bisa membayangkan,</p>
 <p><span class="math display">\[\begin{align*}
 B(r; n,p) &amp;= b(0; n,p) \\
-          &amp;= b(1; n,p) \\
-          &amp;= b(2; n,p) \\
+          &amp;+ b(1; n,p) \\
+          &amp;+ b(2; n,p) \\
           &amp;+ \dots \\
           &amp;+ b(r; n,p)
 \end{align*}\]</span></p>
 <p>yaitu</p>
-<p>$$<span class="math display">\[\begin{align*}
+<p><span class="math display">\[\begin{align*}
 \text{Pr}(X \leq x) &amp;= \text{Pr}(X = 0) \\
                     &amp;+ \text{Pr}(X = 1) \\
                     &amp;+ \text{Pr}(X = 2) \\
                     &amp;+ \dots \\
                     &amp;+ \text{Pr}(X = x)
-
-\end{align*}\]</span>$$</p>
+\end{align*}\]</span></p>
 <p>Kalau mau juga, kita bisa saja menjabarkan rumus PMF binomial agar memperoleh:</p>
 <p><span class="math display">\[\begin{align*}
 B(r; n,p) &amp;= \sum_{x=0}^{r} b(x; n,p) \\
@@ -674,6 +674,12 @@ B(r; n,p) &amp;= \sum_{x=0}^{r} b(x; n,p) \\
 </div>
 </div>
 <p>karena PMF adalah probabilitas di nilai tertentu saja, dan kita ingin menghitung probabilitas nilainya paling besar dua, yang ada tiga kemungkinan yaitu nilainya tepat nol, tepat satu, dan tepat dua.</p>
+<p>Secara matematis,</p>
+<p><span class="math display">\[\begin{align*}
+\text{Pr}(X \leq 2) &amp;= \text{Pr}(X = 0) \\
+                    &amp;+ \text{Pr}(X = 1) \\
+                    &amp;+ \text{Pr}(X = 2)
+\end{align*}\]</span></p>
 <p>Seperti biasa, kita juga bisa membuat <em>plot</em> CDF:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(support_binom,</span>
