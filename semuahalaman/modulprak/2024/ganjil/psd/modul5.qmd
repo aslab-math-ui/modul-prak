@@ -340,8 +340,10 @@ dbinom(2,
 
 Dalam hal ini, kita menghitung $\text{Pr}(X=2)$ ketika $X \sim \text{Binomial}(10, 0,7)$.
 
+Seperti biasa, kita bisa membuat *plot* PDF:
+
 ```{r}
-support_binom <- seq(0, 1, by = 10)
+support_binom <- seq(0, 10, by = 10)
 ```
 
 ```{r}
@@ -372,8 +374,8 @@ dengan $b(x; n,p)$ adalah nilai PMF di $x$ untuk $\text{Binomial}(n,p)$. Kalau m
 
 $$\begin{align*}
 B(r; n,p) &= b(0; n,p) \\
-          &= b(1; n,p) \\
-          &= b(2; n,p) \\
+          &+ b(1; n,p) \\
+          &+ b(2; n,p) \\
           &+ \dots \\
           &+ b(r; n,p)
 \end{align*}$$
@@ -386,7 +388,6 @@ $$\begin{align*}
                     &+ \text{Pr}(X = 2) \\
                     &+ \dots \\
                     &+ \text{Pr}(X = x)
-
 \end{align*}$$
 
 Kalau mau juga, kita bisa saja menjabarkan rumus PMF binomial agar memperoleh:
@@ -412,6 +413,14 @@ dbinom(0, size = 10, prob = 0.7) +
 ```
 
 karena PMF adalah probabilitas di nilai tertentu saja, dan kita ingin menghitung probabilitas nilainya paling besar dua, yang ada tiga kemungkinan yaitu nilainya tepat nol, tepat satu, dan tepat dua.
+
+Secara matematis,
+
+$$\begin{align*}
+\text{Pr}(X \leq 2) &= \text{Pr}(X = 0) \\
+                    &+ \text{Pr}(X = 1) \\
+                    &+ \text{Pr}(X = 2)
+\end{align*}$$
 
 Seperti biasa, kita juga bisa membuat *plot* CDF:
 
