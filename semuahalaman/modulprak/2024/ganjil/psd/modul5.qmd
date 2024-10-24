@@ -109,9 +109,9 @@ Dua kalimat saja, kita sudah bisa mengenali fenomena tersebut sebagai proses Ber
 
 - Perhatikan bahwa 30% produk tergolong cacat, dan itu telah kita artikan sebagai kegagalan, sehingga bisa kita artikan bahwa 30% produk "gagal". Sisanya adalah 70%, dan itu bisa kita artikan sebagai persentase produk "sukses".
 
-- Kita bisa asumsikan bahwa pabrik tersebut memang biasanya begitu, bahwa memang 30% gagal, 70% sukses. Dengan demikian, persentase tersebut bisa kita artikan sebagai probabilitas. Sehingga, probabilitas produk sukses adalah 70% yaitu 0,7 dan probabilitas produk gagal adalah 30% yaitu 0,3
+- Kita bisa asumsikan bahwa pabrik tersebut memang biasanya begitu, bahwa memang 30% gagal, 70% sukses. Dengan demikian, persentase tersebut bisa kita artikan sebagai probabilitas. Sehingga, probabilitas produk sukses adalah 70% yaitu 0.7 dan probabilitas produk gagal adalah 30% yaitu 0.3
 
-Oleh karena itu, fenomena tersebut bisa dimodelkan oleh distribusi Bernoulli dengan $p = 0,7$. Jelas juga bahwa $q = 0,3$
+Oleh karena itu, fenomena tersebut bisa dimodelkan oleh distribusi Bernoulli dengan $p = 0.7$. Jelas juga bahwa $q = 0.3$
 
 Sekarang, kita bisa mencoba mempelajari lebih lanjut tentang fenomena tersebut melalui distribusi Bernoulli yang mewakilinya.
 
@@ -249,14 +249,14 @@ plot(support_bern,
 
 Ingat kembali bahwa, jika diberikan input misalnya $y$, maka fungsi kuantil, atau fungsi *inverse CDF*, mencari nilai $x$ terkecil sehingga nilai CDF minimal $y$.
 
-Untuk distribusi Bernoulli dengan $p=0,7$, perhatikan bahwa
+Untuk distribusi Bernoulli dengan $p=0.7$, perhatikan bahwa
 
 $$\begin{align*}
      \text{Pr}(X \leq 0) &= \text{Pr}(X = 0) \\
      &= q \\
      &= 1-p \\
-     &= 1-0,7 \\
-     &= 0,3
+     &= 1-0.7 \\
+     &= 0.3
 \end{align*}$$
 
 Sehingga,
@@ -338,7 +338,7 @@ dbinom(2,
        prob = 0.7)
 ```
 
-Dalam hal ini, kita menghitung $\text{Pr}(X=2)$ ketika $X \sim \text{Binomial}(10, 0,7)$.
+Dalam hal ini, kita menghitung $\text{Pr}(X=2)$ ketika $X \sim \text{Binomial}(10, 0.7)$.
 
 Seperti biasa, kita bisa membuat *plot* PDF:
 
@@ -358,9 +358,9 @@ plot(support_binom,
      dbinom(support_binom, 10, 0.7),
      ylim = c(0, 1),
      xaxp = c(0, 10, 10),
-     main = "PMF Binomial(10, 0,7)",
+     main = "PMF Binomial(10, 0.7)",
      xlab = "x",
-     ylab = "b(x; 10, 0,7)",
+     ylab = "b(x; 10, 0.7)",
      pch = 20)
 ```
 
@@ -398,7 +398,7 @@ B(r; n,p) &= \sum_{x=0}^{r} b(x; n,p) \\
 &= \sum_{x=0}^{r} {n \choose x} p^x \left(1-p\right)^{n-x}
 \end{align*}$$
 
-Masih dengan hasil inspeksi $n=10$ buah produk dan probabilitas sukses $p=0,7$, berikut ini kita hitung probabilitas bahwa **paling banyak dua** produk yang bagus. Kita bisa menggunakan CDF, karena memang gunanya untuk itu,
+Masih dengan hasil inspeksi $n=10$ buah produk dan probabilitas sukses $p=0.7$, berikut ini kita hitung probabilitas bahwa **paling banyak dua** produk yang bagus. Kita bisa menggunakan CDF, karena memang gunanya untuk itu,
 
 ```{r}
 pbinom(2, size = 10, prob = 0.7)
@@ -436,9 +436,9 @@ plot(support_binom,
      pbinom(support_binom, 10, 0.7),
      ylim = c(0, 1),
      xaxp = c(0, 10, 10),
-     main = "CDF Binomial(10, 0,7)",
+     main = "CDF Binomial(10, 0.7)",
      xlab = "r",
-     ylab = "B(r; 10, 0,7)",
+     ylab = "B(r; 10, 0.7)",
      pch = 20)
 ```
 
@@ -552,7 +552,27 @@ Sehingga kita tinggal menghitung
 
 Sebelumnya, kita telah membahas bagaimana fenomena kejadian gagal/sukses bisa dipelajari melalui distribusi Bernoulli dan distribusi binomial.
 
-Kali ini, kita akan membahas distribusi Poisson, yang biasa memodelkan banyaknya kemunculan sesuatu dalam suatu rentang waktu.
+Kali ini, kita akan membahas distribusi Poisson, yang biasa memodelkan banyaknya kemunculan sesuatu dalam suatu rentang waktu. Contohnya, distribusi Poisson bisa memodelkan
+
+- banyaknya telpon masuk per jam di layanan *customer service*,
+
+- banyaknya tanggal merah tiap semester, dan
+
+- banyaknya kedatangan orang ke suatu acara tiap menit.
+
+Menariknya, distribusi Poisson hanya memiliki satu parameter saja, yaitu lambda atau $\lambda$, melambangkan rata-rata kemunculannya per satuan waktu.
+
+Apabila suatu variabel acak $X$ berdistribusi Poisson, biasa ditulis
+
+$$X \sim \text{Poisson}(\lambda)$$
+
+atau terkadang disingkat $X \sim \text{Pois}(\lambda)$.
+
+Variabel acak $X$ dalam hal ini melambangkan banyaknya kemunculan tersebut. Sehingga, ketika kita menuliskan misalnya
+
+$$\text{Pr}(X=3)$$
+
+artinya adalah probabilitas kemunculan **tepat tiga kali** di suatu satuan waktu, misalnya di satu jam, di satu semester, di satu menit, atau satuan waktu lainnya, tergantung konteks permasalahan (lebih tepatnya tergantung satuan si $\lambda$).
 
 ### PMF
 
@@ -870,7 +890,173 @@ text(x = random_dist4_plot,
 
 ## Distribusi *Uniform* Diskrit
 
-*(work in progress)*
+Umum dibahas dalam pengantar statistik adalah probabilitas dadu. Jelas, dadu dengan 6 (enam) sisi memiliki probabilitas $\frac{1}{6}$ untuk kemunculan tiap angka 1, 2, 3, 4, 5, 6. Perhatikan bahwa *support* dalam hal ini adalah $\{1,2,3,4,5,6\}$, yang terdiri dari 6 elemen. Probabilitas $\frac{1}{6}$ ini **sama** atau **seragam**, dan distribusi yang bersangkutan disebut **distribusi *uniform* diskrit**.
+
+Distribusi *uniform* diskrit memiliki satu parameter saja, yaitu $k$, banyaknya elemen di *support*. PMFnya bisa ditulis
+
+$$\text{Pr}(X=x) = \begin{cases}
+     \frac{1}{k} & x \in \text{ support} \\
+     0 & x \text{ lainnya}
+\end{cases}$$
+
+dan CDF bisa dihitung dari penjumlahan PMF hingga $x$ yang diminta.
+
+Cara membuat distribusi *uniform* diskrit dengan `distr` agak manual, tetapi tidak sulit. Intinya membuat distribusi sendiri, tetapi tiap nilai di *support* (misal terdiri dari $k$ elemen) memiliki probabilitas yang **sama** yaitu $\frac{1}{k}$, sehingga jumlah semua probabilitasnya adalah satu (berdasarkan sifat probabilitas).
+
+Istilah ***uniform*** atau **"seragam"** di sini artinya **kesamaan probabilitas** untuk tiap nilai di *support*.
+
+```{r}
+supp5 <- c(1, 2, 3, 4, 5, 6)
+k <- length(supp5)
+prob5 <- rep(1/k, k) # 1/k sebanyak k kali
+dist5 <- DiscreteDistribution(supp5, prob5)
+```
+
+```{r}
+plot(dist5)
+```
+
+Semua nilai PMF sama:
+
+```{r}
+d(dist5)(1)
+d(dist5)(2)
+d(dist5)(3)
+d(dist5)(4)
+d(dist5)(5)
+d(dist5)(6)
+```
+
+Nilai CDF terlihat kumulatif terus bertambah:
+
+```{r}
+p(dist5)(1)
+p(dist5)(2)
+p(dist5)(3)
+p(dist5)(4)
+p(dist5)(5)
+p(dist5)(6)
+```
+
+Fungsi kuantil atau *inverse CDF* juga bisa dihitung:
+
+```{r}
+q(dist5)(1/6)
+q(dist5)(2/6)
+q(dist5)(3/6)
+q(dist5)(4/6)
+q(dist5)(5/6)
+q(dist5)(1)
+```
+
+Kita juga bisa membangkitkan n data *random* dari distribusi *uniform* diskrit
+
+```{r}
+set.seed(56)
+n <- 120
+random_dist5 <- r(dist5)(n)
+random_dist5
+```
+
+```{r}
+random_dist5_freq <- table(random_dist5)
+random_dist5_freq
+```
+
+```{r}
+random_dist5_plot <- barplot(random_dist5_freq,
+                             ylim = c(0,40))
+text(x = random_dist5_plot,
+     y = random_dist5_freq,
+     labels = random_dist5_freq,
+     pos = 3)
+```
+
+(Pengayaan) Berikut ini, kita bisa saja membuat fungsi umum untuk memperoleh distribusi *uniform* diskrit, agar cukup menyediakan *support* saja:
+
+```{r}
+UniformDiscrete <- function(supp) {
+     supp2 <- unique(supp) # hilangkan duplikat
+     k <- length(supp2)
+     prob <- rep(1/k, k)
+     DiscreteDistribution(supp2, prob) # return value
+}
+```
+
+Sehingga bisa digunakan seperti berikut:
+
+```{r}
+supp6 <- c(1, 2, 3, 4, 5, 6)
+dist6 <- UniformDiscrete(supp6)
+```
+
+Dengan demikian, `dist6` sekarang bisa di-*plot* ataupun diterapkan fungsi `d`, `p`, `q`, dan `r` seperti biasa, juga dihitung ekspektasi dan variansinya.
+
+```{r}
+plot(dist6)
+```
+
+```{r}
+d(dist6)(4)
+```
+
+```{r}
+p(dist6)(4)
+```
+
+```{r}
+E(dist6)
+```
+
+```{r}
+var(dist6)
+```
+
+## Kekonvergenan distribusi binomial ke distribusi Poisson
+
+Misalkan kita punya distribusi $\text{Binomial}(n,p)$ dan distribusi $\text{Poisson}(\lambda)$.
+
+Misalkan pula, ternyata $\lambda = np$. Yaitu, rata-rata dari distribusi binomial tersebut sama dengan rata-rata dari distribusi Poisson tersebut.
+
+Kita pilih saja, misalnya $\lambda = 1$ dan $n=2$ sehingga $p=\frac{1}{2}$. Mari kita *plot* keduanya:
+
+```{r}
+plot(Pois(1))
+```
+
+```{r}
+plot(Binom(size = 2, prob = 1/2))
+```
+
+Sangat berbeda, ya! Tapi ternyata, jika $n \to \infty$ dan $p \to 0$ dengan tetap mempertahankan $\lambda = np$, maka bentuk (PMF) distribusi $\text{Binomial}(n,p)$ akan **konvergen** ke bentuk (PMF) distribusi $\text{Poisson}(\lambda)$.
+
+Mari kita lihat. Kita perlukan $\lambda = np$, dengan $\lambda$ tetap (misalnya 1), dan kita akan terus membesarkan $n$, maka nilai $p$ akan menyesuaikan yaitu $p = \frac{\lambda}{n}$.
+
+Kita coba buat $n$ makin besar, dan nilai $p$ selalu menyesuaikan yaitu $p = \frac{\lambda}{n}$. Kita coba *plot* terus...
+
+```{r}
+plot(Binom(size = 3, prob = 1/3))
+```
+
+```{r}
+plot(Binom(size = 5, prob = 1/5))
+```
+
+```{r}
+plot(Binom(size = 10, prob = 1/10))
+```
+
+```{r}
+plot(Binom(size = 20, prob = 1/20))
+```
+
+Wow! Mari kita bandingkan lagi dengan $\text{Poisson}(\lambda)$:
+
+```{r}
+plot(Pois(1))
+```
+
+Sangat mirip, ya! Kalian bisa mencoba hal yang sama dengan nilai $\lambda$ yang lain, terus membesarkan $n$, nilai $p$ selalu menyesuaikan yaitu $p = \frac{\lambda}{n}$, dan pada akhirnya, akan terlihat juga bahwa bentuk PMF $\text{Binomial}(n,p)$ konvergen ke bentuk PMF $\text{Poisson}(\lambda)$.
 
 # (Pengayaan) Distribusi Multinomial
 
