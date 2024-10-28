@@ -1,7 +1,7 @@
 ---
 title: "Multiple linear model"
 subtitle: "Multiple linear model"
-image: static\Plot regresi.png
+image: static\bg_modul1.jpg
 description: "Offline di Departemen Matematika"
 date: 10/28/2024
 page-navigation: true
@@ -11,21 +11,28 @@ editor:
     wrap: 72
 ---
 
-Pengantar Model Regresi Linier Berganda Model regresi linier berganda digunakan untuk memprediksi nilai suatu variabel tergantung
+Pengantar Model Regresi Linier Berganda Model regresi linier berganda
+digunakan untuk memprediksi nilai suatu variabel tergantung
 
 $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_n X_n + \epsilon$$
 
 Di mana:
 
-$𝛽_0$ :adalah intersep atau titik potong, 
+$𝛽_0$ : adalah intersep atau titik potong,
 
-$𝛽_1,𝛽_2,\dots,𝛽_𝑝$ adalah koefisien dari setiap variabel independen, dan $𝜖$ adalah error atau residual.
+$𝛽_1,𝛽_2,\dots,𝛽_𝑝$ adalah koefisien dari setiap variabel independen,
+dan $𝜖$ adalah error atau residual.
 
-Asumsi Model Model regresi linier berganda membutuhkan beberapa asumsi untuk menghasilkan estimasi yang valid:
+Asumsi Model Model regresi linier berganda membutuhkan beberapa asumsi
+untuk menghasilkan estimasi yang valid:
 
-- Linearitas: Hubungan antara variabel dependen dan independen harus linier. Independensi: Residual harus independen satu sama lain.
+-   Linearitas: Hubungan antara variabel dependen dan independen harus
+    linier. Independensi: Residual harus independen satu sama lain.
 
-- Homoskedastisitas: Variansi residual harus konstan di seluruh pengamatan. Normalitas: Residual harus terdistribusi normal.
+-   Homoskedastisitas: Variansi residual harus konstan di seluruh
+    pengamatan. Normalitas: Residual harus terdistribusi normal.
+
+# Tipe-Tipe Regresi Linear di R
 
 ```{r}
 library(car)
@@ -33,44 +40,88 @@ data("Salaries")
 head(Salaries)
 str(Salaries)
 
+```
+
+1.  Model tanpa Intercept
+
+    Pada bagian ini , model dibuat tanpa menggunakan / menentukan
+    koefisien intercept.
+
+```{r}
+model_0 <- lm(salary~ 0+yrs.since.phd, data = Salaries) 
+summary(model_0)
+```
+
+2.  Model Linear Biasa
+
+    Pada bagian ini , model dibuat hanya dengan menggunakan 1 variabel
+    saja.
+
+```{r}
 model_1var <- lm(salary~yrs.since.phd, data = Salaries) 
 summary(model_1var)
+```
 
-model_0 <- lm(salary~ 0+yrs.since.phd, data = Salaries)
-summary(model_0)
+3.  Model Linear Berganda
 
+    Pada bagian ini , model dibuat dengan minimal 2 variabel atau lebih.
+
+```{r}
 model_2var <- lm(salary~yrs.since.phd + yrs.service, data = Salaries) 
 summary(model_2var)
 ```
 
+4.  Model Linear dengan prediktor Kategorik
 
 ```{r}
-#bikin dummmy variabel manual
 df <- Salaries
 df$Male <- ifelse(df$sex == 'Male', 1, 0) 
 head(df)
 
 model1 <- lm(salary~yrs.since.phd + yrs.service + Male, data=df)
 summary(model1)
+```
 
-#bikin dummy variabel pake package
+Pada bagian ini, nilai variabel `sex` didefinisikan sebagai nilai
+numerik, di mana kategori `Male` diubah menjadi 1 dan kategori `Female`
+diubah menjadi 0.
+
+```{r}
 library(fastDummies)
 dataf <- dummy_cols(Salaries,select_columns ='sex')
 head(dataf)
 
 model2<- lm(salary~yrs.since.phd + yrs.service + sex_Male, data=dataf)
 summary(model2)
+```
 
+Pada bagian ini, nilai variabel `sex` didefinisikan menjadi dummy
+variabel , di mana kategori `Male` dan `Female` diubah menjadi kolom
+dengan nilai yang tepat.
+
+| Sex    | Sex_Male | Sex_Female |
+|--------|----------|------------|
+| Male   | 1        | 0          |
+| Female | 0        | 1          |
+| Female | 0        | 1          |
+
+```{r}
 #tanpa buat dummy variabel
 model3 <-lm(salary~yrs.since.phd + yrs.service + sex, data=Salaries)
 summary(model3)
+```
 
+Pada bagian ini, nilai variabel `sex` akan langsung digunakan secara
+otomatis.
+
+```{r}
 #ganti base level
 Salaries$sex <- relevel(Salaries$sex, ref='Male')
-
 model4 <-lm(salary~yrs.since.phd + yrs.service + relevel(sex, ref='Male'), data=Salaries)
 summary(model4)
 ```
+
+# Regresi Linear Polinomial
 
 ```{r}
 datareg <- read.csv("https://raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/datareg.csv")
@@ -81,29 +132,39 @@ head(datareg)
 plot(datareg$gaji, datareg$kesenangan)
 ```
 
+1.  Model Linear (Orde 1)
+
 ```{r}
 #Model linear (orde 1)
 linearModel <- lm(kesenangan ~ gaji, data=datareg)
 summary(linearModel)
+```
 
+```{r}
 #Model Kuadratik (orde 2)
 datareg$gajikuadrat <- datareg$gaji^2
 head(datareg)
 
+
 modelkuadratik <- lm(kesenangan~gaji + gajikuadrat, data=datareg)
 modelkuadratik <- lm(kesenangan~gaji + I(gaji^2), data=datareg)
 summary(modelkuadratik)
+```
 
+```{r}
 #Model Kubik (orde 3)
 datareg$gajikubik <- datareg$gaji^3
 modelkubik <- lm(kesenangan~gaji + gajikuadrat + gajikubik, data=datareg)
 modelkubik <- lm(kesenangan~gaji + I(gaji^2) + I(gaji^3), data=datareg)
 summary(modelkubik)
+```
 
+```{r}
 #Compare model kuadratik sama kubik
 anova(modelkuadratik,modelkubik)
+```
 
-
+```{r}
 #plot regresi 
 plot(datareg$gaji, datareg$kesenangan)
 #Mengeluarkan nilai gaji
@@ -113,7 +174,10 @@ predkesenangan <- predict(modelkuadratik,list(gaji=nilaigaji, gajikuadrat=nilaig
 #Mengeluarkan Plot dengan garis
 lines(nilaigaji, predkesenangan, col='red')
 ```
-Model Interaksi Interaksi memungkinkan kita untuk menguji apakah efek dari satu variabel independen pada $𝑌$ dipengaruhi oleh variabel independen lain. Model interaksi dapat dituliskan sebagai:
+
+Model Interaksi Interaksi memungkinkan kita untuk menguji apakah efek
+dari satu variabel independen pada $𝑌$ dipengaruhi oleh variabel
+independen lain. Model interaksi dapat dituliskan sebagai:
 
 $$𝑌=𝛽_0 +𝛽_1 𝑋_1 + 𝛽_2𝑋_2 +𝛽_3(𝑋_1×𝑋_2)+𝜖$$
 
@@ -140,15 +204,127 @@ legend("topleft", legend=c('Male','Female'), col=c('red','blue'),
        lty = c(1,2), lwd=c(2,2))
 ```
 
-Transformasi Variabel Jika asumsi linearitas atau homoskedastisitas tidak terpenuhi, transformasi variabel dapat membantu. Contoh transformasi yang sering digunakan meliputi:
+Transformasi Variabel Jika asumsi linearitas atau homoskedastisitas
+tidak terpenuhi, transformasi variabel dapat membantu. Contoh
+transformasi yang sering digunakan meliputi:
 
-- **Logaritma** untuk mengatasi ketidakseimbangan skala. 
-- **Kuadrat atau akar** untuk mengurangi heteroskedastisitas.
+-   **Logaritma** untuk mengatasi ketidakseimbangan skala.
+-   **Kuadrat atau akar** untuk mengurangi heteroskedastisitas.
 
-Pengujian Model Dalam mengevaluasi model, kita biasanya menggunakan beberapa metrik:
+Pengujian Model Dalam mengevaluasi model, kita biasanya menggunakan
+beberapa metrik:
 
-- **R-squared ( $𝑅^2$ )**: Mengukur proporsi variabilitas $𝑌$ yang dapat dijelaskan oleh model. 
+-   **R-squared (** $𝑅^2$ ): Mengukur proporsi variabilitas $𝑌$ yang
+    dapat dijelaskan oleh model.
 
-- **Adjusted $𝑅^2$** : Mengoreksi nilai $𝑅^2$ dengan mempertimbangkan jumlah variabel independen. 
+-   **Adjusted** $𝑅^2$ : Mengoreksi nilai $𝑅^2$ dengan mempertimbangkan
+    jumlah variabel independen.
 
-- **F-Test**: Untuk menguji apakah setidaknya satu dari variabel independen berkontribusi signifikan terhadap prediksi $Y$.
+-   **F-Test**: Untuk menguji apakah setidaknya satu dari variabel
+    independen berkontribusi signifikan terhadap prediksi $Y$.
+
+### Open Source Exploratory Data
+
++----------------+--------------------+--------------------+
+| Data           | Desc               | Link               |
++================+====================+====================+
+| **Our World in | Poverty, disease,  | [`https ://github. |
+| Data**         | hunger, climate    | com/owid`](https : |
+|                | change, war,       | //github.com/owid) |
+|                | existential risks, |                    |
+|                | and inequality:    |                    |
+|                | the world faces    |                    |
+|                | many great and     |                    |
+|                | terrifying         |                    |
+|                | problems. It is    |                    |
+|                | these large        |                    |
+|                | problems that our  |                    |
+|                | work at Our World  |                    |
+|                | in Data focuses    |                    |
+|                | on.                |                    |
++----------------+--------------------+--------------------+
+| [c             | The purpose of     | [`https://github   |
+| ovid](         | [this noteboo      | .com/aatishb/covid |
+| https://%20git | k](htt             | `](https://github. |
+| hu%20b.com/%20 | ps://g%20ithub.com | com/aatishb/covid) |
+| aatishb/covid) | %20/aatish%20b/cov |                    |
+|                | id/blob/m%20as%20t |                    |
+|                | er/curvefit.ipynb) |                    |
+|                | is to infer the    |                    |
+|                | rate at which      |                    |
+|                | confirmed cases of |                    |
+|                | COVID-19 are       |                    |
+|                | growing (or were   |                    |
+|                | growing) in        |                    |
+|                | various countries. |                    |
+|                |                    |                    |
+|                | The notebook pulls |                    |
+|                | data from the John |                    |
+|                | Hopkins [Data Repo |                    |
+|                | sitory](h          |                    |
+|                | %20ttps://%20githu |                    |
+|                | b.com/CSS%20EG%20I |                    |
+|                | SandData/COVID-19) |                    |
+|                | of global          |                    |
+|                | Coronavirus        |                    |
+|                | COVID-19 cases,    |                    |
+|                | and then does the  |                    |
+|                | following things:  |                    |
+|                |                    |                    |
+|                | -   List total     |                    |
+|                |     number of      |                    |
+|                |     confirmed      |                    |
+|                |     cases (in      |                    |
+|                |     countries with |                    |
+|                |     at least 100   |                    |
+|                |     cases)         |                    |
+|                |                    |                    |
+|                | -   Attempt to fit |                    |
+|                |     the time       |                    |
+|                |     series of      |                    |
+|                |     confirmed      |                    |
+|                |     cases in these |                    |
+|                |     countries to   |                    |
+|                |     both an        |                    |
+|                |     exponential    |                    |
+|                |     and a logistic |                    |
+|                |     function       |                    |
+|                |                    |                    |
+|                | -   Use these      |                    |
+|                |     curve fits to  |                    |
+|                |     infer doubling |                    |
+|                |     times (i.e.,   |                    |
+|                |     time for the   |                    |
+|                |     number of      |                    |
+|                |     confirmed      |                    |
+|                |     cases to       |                    |
+|                |     double)        |                    |
+|                |                    |                    |
+|                | -   If the curve   |                    |
+|                |     fit was        |                    |
+|                |     successful,    |                    |
+|                |     summarize      |                    |
+|                |     doubling times |                    |
+|                |     for each       |                    |
+|                |     country        |                    |
++----------------+--------------------+--------------------+
+| Center for     | This is the data   | <https://github.c  |
+| Systems        | repository for the | om/CSSEGISandData> |
+| Science and    | 2019 Novel         |                    |
+| Engineering    | Coronavirus Visual | <https://systems.j |
+|                | Dashboard operated | hu.edu/research/pu |
+|                | by the Johns       | blic-health/ncov/> |
+|                | Hopkins University |                    |
+|                | Center for Systems |                    |
+|                | Science and        |                    |
+|                | Engineering (JHU   |                    |
+|                | CSSE). Also,       |                    |
+|                | Supported by ESRI  |                    |
+|                | Living Atlas Team  |                    |
+|                | and the Johns      |                    |
+|                | Hopkins University |                    |
+|                | Applied Physics    |                    |
+|                | Lab (JHU APL).     |                    |
++----------------+--------------------+--------------------+
+
+: free-data-on-internet
