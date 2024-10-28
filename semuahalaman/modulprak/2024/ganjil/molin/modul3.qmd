@@ -1,0 +1,91 @@
+---
+title: "Multiple linear model"
+subtitle: "Multiple linear model"
+image: static\Plot regresi.png
+description: "Offline di Departemen Matematika"
+date: 10/28/2024
+page-navigation: true
+format: html
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+Pengantar Model Regresi Linier Berganda Model regresi linier berganda digunakan untuk memprediksi nilai suatu variabel tergantung
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_n X_n + \epsilon$$
+
+Di mana:
+
+$𝛽_0 $ :adalah intersep atau titik potong, 
+
+$𝛽_1,𝛽_2,\dots,𝛽_𝑝$ adalah koefisien dari setiap variabel independen, dan $𝜖$ adalah error atau residual.
+
+Asumsi Model Model regresi linier berganda membutuhkan beberapa asumsi untuk menghasilkan estimasi yang valid:
+
+- Linearitas: Hubungan antara variabel dependen dan independen harus linier. Independensi: Residual harus independen satu sama lain.
+
+- Homoskedastisitas: Variansi residual harus konstan di seluruh pengamatan. Normalitas: Residual harus terdistribusi normal.
+
+```{r}
+library(car)
+data("Salaries")
+head(Salaries)
+str(Salaries)
+
+model_1var <- lm(salary~yrs.since.phd, data = Salaries) 
+summary(model_1var)
+
+model_0 <- lm(salary~ 0+yrs.since.phd, data = Salaries)
+summary(model_0)
+
+model_2var <- lm(salary~yrs.since.phd + yrs.service, data = Salaries) 
+summary(model_2var)
+```
+
+
+```{r}
+#bikin dummmy variabel manual
+df <- Salaries
+df$Male <- ifelse(df$sex == 'Male', 1, 0) 
+View(df)
+
+model1 <- lm(salary~yrs.since.phd + yrs.service + Male, data=df)
+summary(model1)
+
+#bikin dummy variabel pake package
+library(fastDummies)
+dataf <- dummy_cols(Salaries,select_columns ='sex')
+head(dataf)
+
+model2<- lm(salary~yrs.since.phd + yrs.service + sex_Male, data=dataf)
+summary(model2)
+
+#tanpa buat dummy variabel
+model3 <-lm(salary~yrs.since.phd + yrs.service + sex, data=Salaries)
+summary(model3)
+
+#ganti base level
+Salaries$sex <- relevel(Salaries$sex, ref='Male')
+
+model4 <-lm(salary~yrs.since.phd + yrs.service + relevel(sex, ref='Male'), data=Salaries)
+summary(model4)
+```
+Model Interaksi Interaksi memungkinkan kita untuk menguji apakah efek dari satu variabel independen pada $𝑌$ dipengaruhi oleh variabel independen lain. Model interaksi dapat dituliskan sebagai:
+
+$$𝑌=𝛽_0 +𝛽_1 𝑋_1 + 𝛽_2𝑋_2 +𝛽_3(𝑋_1×𝑋_2)+𝜖$$
+
+Koefisien $𝛽_3$ menunjukkan efek interaksi antara $𝑋_1$ dan $𝑋_2$ .
+
+Transformasi Variabel Jika asumsi linearitas atau homoskedastisitas tidak terpenuhi, transformasi variabel dapat membantu. Contoh transformasi yang sering digunakan meliputi:
+
+- **Logaritma** untuk mengatasi ketidakseimbangan skala. 
+- **Kuadrat atau akar** untuk mengurangi heteroskedastisitas.
+
+Pengujian Model Dalam mengevaluasi model, kita biasanya menggunakan beberapa metrik:
+
+- **R-squared ( $𝑅^2$ )**: Mengukur proporsi variabilitas $𝑌$ yang dapat dijelaskan oleh model. 
+
+- **Adjusted $𝑅^2$** : Mengoreksi nilai $𝑅^2$ dengan mempertimbangkan jumlah variabel independen. 
+
+- **F-Test**: Untuk menguji apakah setidaknya satu dari variabel independen berkontribusi signifikan terhadap prediksi $Y$.
