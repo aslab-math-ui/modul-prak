@@ -216,7 +216,7 @@ window.Quarto = {
 <p>Pengantar Model Regresi Linier Berganda Model regresi linier berganda digunakan untuk memprediksi nilai suatu variabel tergantung</p>
 <p><span class="math display">\[Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_n X_n + \epsilon\]</span></p>
 <p>Di mana:</p>
-<p>$𝛽_0 $ :adalah intersep atau titik potong,</p>
+<p><span class="math inline">\(𝛽_0\)</span> :adalah intersep atau titik potong,</p>
 <p><span class="math inline">\(𝛽_1,𝛽_2,\dots,𝛽_𝑝\)</span> adalah koefisien dari setiap variabel independen, dan <span class="math inline">\(𝜖\)</span> adalah error atau residual.</p>
 <p>Asumsi Model Model regresi linier berganda membutuhkan beberapa asumsi untuk menghasilkan estimasi yang valid:</p>
 <ul>
@@ -323,10 +323,18 @@ F-statistic: 45.71 on 2 and 394 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#bikin dummmy variabel manual</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Salaries</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Male <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">'Male'</span>, <span class="dv">1</span>, <span class="dv">0</span>) </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> Male, <span class="at">data=</span>df)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       rank discipline yrs.since.phd yrs.service  sex salary Male
+1      Prof          B            19          18 Male 139750    1
+2      Prof          B            20          16 Male 173200    1
+3  AsstProf          B             4           3 Male  79750    1
+4      Prof          B            45          39 Male 115000    1
+5      Prof          B            40          41 Male 141500    1
+6 AssocProf          B             6           6 Male  97000    1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> Male, <span class="at">data=</span>df)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -349,13 +357,13 @@ Residual standard error: 27280 on 393 degrees of freedom
 Multiple R-squared:  0.1951,    Adjusted R-squared:  0.189 
 F-statistic: 31.75 on 3 and 393 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#bikin dummy variabel pake package</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastDummies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#bikin dummy variabel pake package</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastDummies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'fastDummies' was built under R version 4.3.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dataf <span class="ot">&lt;-</span> <span class="fu">dummy_cols</span>(Salaries,<span class="at">select_columns =</span><span class="st">'sex'</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dataf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dataf <span class="ot">&lt;-</span> <span class="fu">dummy_cols</span>(Salaries,<span class="at">select_columns =</span><span class="st">'sex'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dataf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       rank discipline yrs.since.phd yrs.service  sex salary sex_Female
 1      Prof          B            19          18 Male 139750          0
@@ -372,8 +380,8 @@ F-statistic: 31.75 on 3 and 393 DF,  p-value: &lt; 2.2e-16</code></pre>
 5        1
 6        1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">&lt;-</span> <span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> sex_Male, <span class="at">data=</span>dataf)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">&lt;-</span> <span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> sex_Male, <span class="at">data=</span>dataf)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -397,9 +405,9 @@ Residual standard error: 27280 on 393 degrees of freedom
 Multiple R-squared:  0.1951,    Adjusted R-squared:  0.189 
 F-statistic: 31.75 on 3 and 393 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tanpa buat dummy variabel</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span><span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> sex, <span class="at">data=</span>Salaries)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tanpa buat dummy variabel</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span><span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> sex, <span class="at">data=</span>Salaries)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -422,11 +430,11 @@ Residual standard error: 27280 on 393 degrees of freedom
 Multiple R-squared:  0.1951,    Adjusted R-squared:  0.189 
 F-statistic: 31.75 on 3 and 393 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ganti base level</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Salaries<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Salaries<span class="sc">$</span>sex, <span class="at">ref=</span><span class="st">'Male'</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>model4 <span class="ot">&lt;-</span><span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> <span class="fu">relevel</span>(sex, <span class="at">ref=</span><span class="st">'Male'</span>), <span class="at">data=</span>Salaries)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ganti base level</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Salaries<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Salaries<span class="sc">$</span>sex, <span class="at">ref=</span><span class="st">'Male'</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>model4 <span class="ot">&lt;-</span><span class="fu">lm</span>(salary<span class="sc">~</span>yrs.since.phd <span class="sc">+</span> yrs.service <span class="sc">+</span> <span class="fu">relevel</span>(sex, <span class="at">ref=</span><span class="st">'Male'</span>), <span class="at">data=</span>Salaries)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -451,9 +459,189 @@ Multiple R-squared:  0.1951,    Adjusted R-squared:  0.189
 F-statistic: 31.75 on 3 and 393 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>datareg <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/datareg.csv"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datareg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gaji kesenangan
+1    6         14
+2    9         28
+3   12         50
+4   14         70
+5   30         89
+6   35         94</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(datareg<span class="sc">$</span>gaji, datareg<span class="sc">$</span>kesenangan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model linear (orde 1)</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>linearModel <span class="ot">&lt;-</span> <span class="fu">lm</span>(kesenangan <span class="sc">~</span> gaji, <span class="at">data=</span>datareg)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(linearModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = kesenangan ~ gaji, data = datareg)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-39.34 -21.99  -2.03  23.50  35.11 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)  48.4531    17.3288   2.796   0.0208 *
+gaji          0.2981     0.4599   0.648   0.5331  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 28.72 on 9 degrees of freedom
+Multiple R-squared:  0.0446,    Adjusted R-squared:  -0.06156 
+F-statistic: 0.4201 on 1 and 9 DF,  p-value: 0.5331</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model Kuadratik (orde 2)</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>datareg<span class="sc">$</span>gajikuadrat <span class="ot">&lt;-</span> datareg<span class="sc">$</span>gaji<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datareg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gaji kesenangan gajikuadrat
+1    6         14          36
+2    9         28          81
+3   12         50         144
+4   14         70         196
+5   30         89         900
+6   35         94        1225</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>modelkuadratik <span class="ot">&lt;-</span> <span class="fu">lm</span>(kesenangan<span class="sc">~</span>gaji <span class="sc">+</span> gajikuadrat, <span class="at">data=</span>datareg)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>modelkuadratik <span class="ot">&lt;-</span> <span class="fu">lm</span>(kesenangan<span class="sc">~</span>gaji <span class="sc">+</span> <span class="fu">I</span>(gaji<span class="sc">^</span><span class="dv">2</span>), <span class="at">data=</span>datareg)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelkuadratik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = kesenangan ~ gaji + I(gaji^2), data = datareg)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.2484 -3.7429 -0.1812  1.1464 13.6678 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -18.25364    6.18507  -2.951   0.0184 *  
+gaji          6.74436    0.48551  13.891 6.98e-07 ***
+I(gaji^2)    -0.10120    0.00746 -13.565 8.38e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 6.218 on 8 degrees of freedom
+Multiple R-squared:  0.9602,    Adjusted R-squared:  0.9502 
+F-statistic: 96.49 on 2 and 8 DF,  p-value: 2.51e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model Kubik (orde 3)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>datareg<span class="sc">$</span>gajikubik <span class="ot">&lt;-</span> datareg<span class="sc">$</span>gaji<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>modelkubik <span class="ot">&lt;-</span> <span class="fu">lm</span>(kesenangan<span class="sc">~</span>gaji <span class="sc">+</span> gajikuadrat <span class="sc">+</span> gajikubik, <span class="at">data=</span>datareg)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>modelkubik <span class="ot">&lt;-</span> <span class="fu">lm</span>(kesenangan<span class="sc">~</span>gaji <span class="sc">+</span> <span class="fu">I</span>(gaji<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(gaji<span class="sc">^</span><span class="dv">3</span>), <span class="at">data=</span>datareg)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelkubik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = kesenangan ~ gaji + I(gaji^2) + I(gaji^3), data = datareg)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.1251 -1.2526 -0.2991  1.4780  9.4979 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -3.715e+01  1.076e+01  -3.454 0.010639 *  
+gaji         9.610e+00  1.482e+00   6.486 0.000338 ***
+I(gaji^2)   -2.022e-01  5.052e-02  -4.001 0.005182 ** 
+I(gaji^3)    9.968e-04  4.949e-04   2.014 0.083855 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.289 on 7 degrees of freedom
+Multiple R-squared:  0.9748,    Adjusted R-squared:  0.964 
+F-statistic: 90.26 on 3 and 7 DF,  p-value: 5.856e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Compare model kuadratik sama kubik</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelkuadratik,modelkubik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: kesenangan ~ gaji + I(gaji^2)
+Model 2: kesenangan ~ gaji + I(gaji^2) + I(gaji^3)
+  Res.Df    RSS Df Sum of Sq      F  Pr(&gt;F)  
+1      8 309.34                              
+2      7 195.84  1     113.5 4.0567 0.08385 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot regresi </span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(datareg<span class="sc">$</span>gaji, datareg<span class="sc">$</span>kesenangan)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Mengeluarkan nilai gaji</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>nilaigaji <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">60</span>, <span class="fl">0.1</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Mengeluarkan nilai prediksi dari model kuadratik</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>predkesenangan <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelkuadratik,<span class="fu">list</span>(<span class="at">gaji=</span>nilaigaji, <span class="at">gajikuadrat=</span>nilaigaji<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Mengeluarkan Plot dengan garis</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(nilaigaji, predkesenangan, <span class="at">col=</span><span class="st">'red'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Model Interaksi Interaksi memungkinkan kita untuk menguji apakah efek dari satu variabel independen pada <span class="math inline">\(𝑌\)</span> dipengaruhi oleh variabel independen lain. Model interaksi dapat dituliskan sebagai:</p>
 <p><span class="math display">\[𝑌=𝛽_0 +𝛽_1 𝑋_1 + 𝛽_2𝑋_2 +𝛽_3(𝑋_1×𝑋_2)+𝜖\]</span></p>
 <p>Koefisien <span class="math inline">\(𝛽_3\)</span> menunjukkan efek interaksi antara <span class="math inline">\(𝑋_1\)</span> dan <span class="math inline">\(𝑋_2\)</span> .</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>nilai_UTS <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/nilai_UTS.csv"</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nilai_UTS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  nilai_UTS  IQ JenisKelamin
+1        93 125         Male
+2        86 120       Female
+3        96 115         Male
+4        81 110       Female
+5        92 105         Male
+6        75 100       Female</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nilai_UTS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   10 obs. of  3 variables:
+ $ nilai_UTS   : int  93 86 96 81 92 75 84 77 73 74
+ $ IQ          : int  125 120 115 110 105 100 95 90 85 80
+ $ JenisKelamin: chr  "Male" "Female" "Male" "Female" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>GenderMale <span class="ot">&lt;-</span> nilai_UTS[<span class="fu">which</span>(nilai_UTS<span class="sc">$</span>JenisKelamin<span class="sc">==</span><span class="st">"Male"</span>),]</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>GenderFemale <span class="ot">&lt;-</span> nilai_UTS[<span class="fu">which</span>(nilai_UTS<span class="sc">$</span>JenisKelamin<span class="sc">==</span><span class="st">"Female"</span>),]</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>modelMale <span class="ot">&lt;-</span> <span class="fu">lm</span>(nilai_UTS <span class="sc">~</span> IQ, <span class="at">data =</span> GenderMale)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>modelFemale <span class="ot">&lt;-</span> <span class="fu">lm</span>(nilai_UTS <span class="sc">~</span> IQ, <span class="at">data =</span> GenderFemale)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Ngeluarin plot dengan garis </span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nilai_UTS<span class="sc">$</span>IQ, nilai_UTS<span class="sc">$</span>nilai_UTS)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(GenderMale<span class="sc">$</span>IQ, <span class="fu">predict</span>(modelMale), <span class="at">col=</span><span class="st">"red"</span>,</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">lty =</span> <span class="dv">1</span> , <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(GenderFemale<span class="sc">$</span>IQ, <span class="fu">predict</span>(modelFemale), <span class="at">col=</span><span class="st">"blue"</span>,</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">lty =</span> <span class="dv">2</span> , <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Male'</span>,<span class="st">'Female'</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="st">'red'</span>,<span class="st">'blue'</span>),</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">lwd=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Transformasi Variabel Jika asumsi linearitas atau homoskedastisitas tidak terpenuhi, transformasi variabel dapat membantu. Contoh transformasi yang sering digunakan meliputi:</p>
 <ul>
 <li><strong>Logaritma</strong> untuk mengatasi ketidakseimbangan skala.</li>

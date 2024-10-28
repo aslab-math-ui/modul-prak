@@ -17,7 +17,7 @@ $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_n X_n + \epsilon$$
 
 Di mana:
 
-$𝛽_0 $ :adalah intersep atau titik potong, 
+$𝛽_0$ :adalah intersep atau titik potong, 
 
 $𝛽_1,𝛽_2,\dots,𝛽_𝑝$ adalah koefisien dari setiap variabel independen, dan $𝜖$ adalah error atau residual.
 
@@ -48,7 +48,7 @@ summary(model_2var)
 #bikin dummmy variabel manual
 df <- Salaries
 df$Male <- ifelse(df$sex == 'Male', 1, 0) 
-View(df)
+head(df)
 
 model1 <- lm(salary~yrs.since.phd + yrs.service + Male, data=df)
 summary(model1)
@@ -73,18 +73,22 @@ summary(model4)
 ```
 
 ```{r}
-library(readxl)
-datareg <- read_excel("raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/datareg.xlsx")
-View(datareg)
-plot(datareg$gaji, datareg$kesenangan)
+datareg <- read.csv("https://raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/datareg.csv")
+head(datareg)
+```
 
+```{r}
+plot(datareg$gaji, datareg$kesenangan)
+```
+
+```{r}
 #Model linear (orde 1)
 linearModel <- lm(kesenangan ~ gaji, data=datareg)
 summary(linearModel)
 
 #Model Kuadratik (orde 2)
 datareg$gajikuadrat <- datareg$gaji^2
-View(datareg)
+head(datareg)
 
 modelkuadratik <- lm(kesenangan~gaji + gajikuadrat, data=datareg)
 modelkuadratik <- lm(kesenangan~gaji + I(gaji^2), data=datareg)
@@ -114,6 +118,27 @@ Model Interaksi Interaksi memungkinkan kita untuk menguji apakah efek dari satu 
 $$𝑌=𝛽_0 +𝛽_1 𝑋_1 + 𝛽_2𝑋_2 +𝛽_3(𝑋_1×𝑋_2)+𝜖$$
 
 Koefisien $𝛽_3$ menunjukkan efek interaksi antara $𝑋_1$ dan $𝑋_2$ .
+
+```{r}
+nilai_UTS <- read.csv("https://raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/nilai_UTS.csv")
+head(nilai_UTS)
+str(nilai_UTS)
+
+GenderMale <- nilai_UTS[which(nilai_UTS$JenisKelamin=="Male"),]
+GenderFemale <- nilai_UTS[which(nilai_UTS$JenisKelamin=="Female"),]
+
+modelMale <- lm(nilai_UTS ~ IQ, data = GenderMale)
+modelFemale <- lm(nilai_UTS ~ IQ, data = GenderFemale)
+
+#Ngeluarin plot dengan garis 
+plot(nilai_UTS$IQ, nilai_UTS$nilai_UTS)
+lines(GenderMale$IQ, predict(modelMale), col="red",
+      lty = 1 , lwd = 2)
+lines(GenderFemale$IQ, predict(modelFemale), col="blue",
+      lty = 2 , lwd = 2)
+legend("topleft", legend=c('Male','Female'), col=c('red','blue'),
+       lty = c(1,2), lwd=c(2,2))
+```
 
 Transformasi Variabel Jika asumsi linearitas atau homoskedastisitas tidak terpenuhi, transformasi variabel dapat membantu. Contoh transformasi yang sering digunakan meliputi:
 
