@@ -90,12 +90,13 @@ dnorm(1.3,
 Untuk *plotting*, kita tidak perlu menggunakan keseluruhan *support* (mustahil juga), karena untuk nilai-nilai yang tidak dekat dengan nilai tengah atau rata-rata, probabilitasnya hampir nol. Oleh karena itu, kita cukup memilih interval yang memuat titik-titik yang dekat dengan rata-rata, tidak perlu terlalu besar.
 
 ```{r}
-x_norm <- seq(-4, 4, length = 100)
+x_norm_1 <- seq(-4, 4, length = 100)
+x_norm_1
 ```
 
 ```{r}
-plot(x_norm,
-     dnorm(x_norm, mean = 0, sd = 1),
+plot(x_norm_1,
+     dnorm(x_norm_1, mean = 0, sd = 1),
      type = 'o')
 ```
 
@@ -107,19 +108,36 @@ dnorm(2.7,
       sd = 5)
 ```
 
-Ternyata, nilai untuk distribusi normal dengan parameter lain bisa diperoleh dari distribusi normal standar, memanfaatkan yang namanya ***z-score***.
+Ternyata, nilai untuk distribusi normal dengan parameter lain bisa diperoleh dari distribusi normal standar, memanfaatkan yang namanya ***Z-score***.
 
 $$Z = \frac{X-\mu}{\sigma}$$
+
+Namun, ketika menghitung PDF dan sudah memperoleh hasil dari distribusi normal standar, kita perlu membagi lagi hasilnya dengan *standard deviation* yang aslinya, karena ada masalah *scaling* (skala).
 
 ```{r}
 dnorm((2.7-2)/(5),
       mean = 0,
-      sd = 1)
+      sd = 1)/5
+```
+
+Bandingkan:
+
+```{r}
+dnorm(2.7,
+      mean = 2,
+      sd = 5)
+```
+
+Untuk membuat *plot*, kita buat titik-titik `x_norm_2` sedemikian sehingga nilai-nilainya berada di sekitar rata-rata 2, tetapi dengan interval yang lebih luas karena *standard deviation* yang lebih besar.
+
+```{r}
+x_norm_2 <- seq(2-20, 2+20, length = 100)
+x_norm_2
 ```
 
 ```{r}
-plot(x_norm,
-     dnorm(x_norm, mean = 2, sd = 5),
+plot(x_norm_2,
+     dnorm(x_norm_2, mean = 2, sd = 5),
      type = 'o')
 ```
 
@@ -141,7 +159,7 @@ plot(x_norm,
 
 Contoh:
 
-Misalkan $X$ merupakan variabel acak yang berdistribusi normal dengan $\mu = 50$ dan variansi $\sigma = 10$. Hitunglah
+Misalkan $X$ merupakan variabel acak yang berdistribusi normal dengan $\mu = 50$ dan ~~variansi~~ *standard deviation* $\sigma = 10$. Hitunglah
 
 $$\text{Pr}(45 < X < 62)$$
 
@@ -150,34 +168,88 @@ Jawab:
 Perhatikan bahwa
 
 $$\begin{align*}
-    \text{Pr}(45 < X < 62) &= \text{Pr}(X < 62) \\
-                           &- \text{Pr}(X < 45)
-                           &= \text{Pr}(X \leq 62) \\
-                           &- \text{Pr}(X \leq 45)
+    \text{Pr}&(45 < X < 62) \\
+               &= \text{Pr}(X < 62) - \text{Pr}(X \leq 45) \\
+               &= \text{Pr}(X \leq 62) - \text{Pr}(X \leq 45)
 \end{align*}$$
+
+karena
+
+$$\begin{align*}
+\text{Pr}&(X < 62) \\
+          &= \text{Pr}&(X \leq 62) - \text{Pr}&(X = 62) \\
+          &= \text{Pr}&(X \leq 62) - 0 \\
+          &= \text{Pr}&(X \leq 62)
+\end{align*}$$
+
+Sehingga, $\text{Pr}&(45 < X < 62)$ bisa dihitung dengan
+
+$$\text{Pr}(X \leq 62) - \text{Pr}(X \leq 45)$$
+
+yaitu selisih dua nilai CDF:
 
 ```{r}
 pnorm(62, mean = 50, sd = 10) -
   pnorm(45, mean = 50, sd = 10)
 ```
 
-Cara lain, kita bisa juga memanfaatkan *z-score*. Misalkan
+Cara lain, kita bisa juga memanfaatkan *Z-score*. Misalkan
 
 $$Z = \frac{X-\mu}{\sigma} = \frac{X-50}{10}$$
 
 Maka
 
 $$\begin{align*}
-    \text{Pr}(45 < X < 62) &= \text{Pr}\left(\frac{45-50}{10} < \frac{X-50}{10} < \frac{62-50}{10}\right) \\
+    \text{Pr}&(45 < X < 62) \\
+    &= \text{Pr}\left(\frac{45-50}{10} < \frac{X-50}{10} < \frac{62-50}{10}\right) \\
     &= \text{Pr}\left(\frac{45-50}{10} < Z < \frac{62-50}{10}\right) \\
-    &= \text{Pr}(Z \leq \frac{62-50}{10}) \\
-    &- \text{Pr}(Z \leq \frac{45-50}{10})
+    &= \text{Pr}(Z \leq \frac{62-50}{10}) - \text{Pr}(Z \leq \frac{45-50}{10})
 \end{align*}$$
+
+Sehingga kita tinggal menghitung:
 
 ```{r}
 pnorm((62-50)/10, mean = 0, sd = 1) -
   pnorm((45-50)/10, mean = 0, sd = 1)
 ```
+
+Daripada langsung mengetik sepanjang itu, kita juga bisa menghitung dulu
+
+```{r}
+(62-50)/10
+(45-50)/10
+```
+
+baru memasukkan,
+
+$$\begin{align*}
+    \text{Pr}&(45 < X < 62) \\
+    &= \text{Pr}(Z \leq \frac{62-50}{10}) - \text{Pr}(Z \leq \frac{45-50}{10}) \\
+    &= \text{Pr}(Z \leq 1.2) - \text{Pr}(Z \leq -0.5)
+\end{align*}$$
+
+sehingga bisa dihitung
+
+```{r}
+pnorm(1.2, mean = 0, sd = 1) -
+  pnorm(-0.5, mean = 0, sd = 1)
+```
+
+Apabila sewaktu-waktu kalian perlu menghitung ini tetapi tidak bisa mengakses R, kalian bisa memanfaatkan **tabel normal standar *(standard normal data)***, yaitu tabel yang mendata **berbagai nilai CDF untuk distribusi normal standar** yaitu $N(0,1)$, dan kebetulan juga disebut tabel *Z-score*. Carilah nilai CDF untuk $Z=1.2$ dan nilai CDF untuk $Z=-0.5$, lalu hitung selisihnya.
+
+Apabila menggunakan `mean = 0` dan `sd = 1`, kalian juga bisa saja menganggap fungsi `pnorm` sebagai fungsi untuk memperoleh nilai pada tabel normal standar. Misalnya, nilai di $Z=1.2$ adalah
+
+```{r}
+pnorm(1.2, mean = 0, sd = 1)
+```
+
+dan nilai di $Z=-0.5$ adalah
+
+```{r}
+pnorm(-0.5, mean = 0, sd = 1)
+```
+
+Silakan bandingkan dengan tabel normal standar, yang misalnya bisa kalian temukan di lampiran buku pengantar statistik seperti karangan Walpole.
 
 ### *Quantile function*
 
@@ -194,6 +266,18 @@ qnorm(0.975,
       mean = 0,
       sd = 1)
 ```
+
+Ternyata, nilai $x$ yang diinginkan sekitar 1.96.
+
+Kalau ragu, kita bisa periksa dengan menghitung nilai CDF untuk $x=1.96$
+
+```{r}
+pnorm(1.96,
+      mean = 0,
+      sd = 1)
+```
+
+Benar ya!
 
 ### RNG
 
