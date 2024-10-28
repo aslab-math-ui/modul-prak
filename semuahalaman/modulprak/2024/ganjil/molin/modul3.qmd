@@ -71,6 +71,44 @@ Salaries$sex <- relevel(Salaries$sex, ref='Male')
 model4 <-lm(salary~yrs.since.phd + yrs.service + relevel(sex, ref='Male'), data=Salaries)
 summary(model4)
 ```
+
+```{r}
+library(readxl)
+datareg <- read_excel("raw.githubusercontent.com/aslab-math-ui/modul-prak/refs/heads/main/semuahalaman/modulprak/2024/ganjil/molin/datasets/datareg.xlsx")
+View(datareg)
+plot(datareg$gaji, datareg$kesenangan)
+
+#Model linear (orde 1)
+linearModel <- lm(kesenangan ~ gaji, data=datareg)
+summary(linearModel)
+
+#Model Kuadratik (orde 2)
+datareg$gajikuadrat <- datareg$gaji^2
+View(datareg)
+
+modelkuadratik <- lm(kesenangan~gaji + gajikuadrat, data=datareg)
+modelkuadratik <- lm(kesenangan~gaji + I(gaji^2), data=datareg)
+summary(modelkuadratik)
+
+#Model Kubik (orde 3)
+datareg$gajikubik <- datareg$gaji^3
+modelkubik <- lm(kesenangan~gaji + gajikuadrat + gajikubik, data=datareg)
+modelkubik <- lm(kesenangan~gaji + I(gaji^2) + I(gaji^3), data=datareg)
+summary(modelkubik)
+
+#Compare model kuadratik sama kubik
+anova(modelkuadratik,modelkubik)
+
+
+#plot regresi 
+plot(datareg$gaji, datareg$kesenangan)
+#Mengeluarkan nilai gaji
+nilaigaji <- seq(0, 60, 0.1)
+#Mengeluarkan nilai prediksi dari model kuadratik
+predkesenangan <- predict(modelkuadratik,list(gaji=nilaigaji, gajikuadrat=nilaigaji^2))
+#Mengeluarkan Plot dengan garis
+lines(nilaigaji, predkesenangan, col='red')
+```
 Model Interaksi Interaksi memungkinkan kita untuk menguji apakah efek dari satu variabel independen pada $𝑌$ dipengaruhi oleh variabel independen lain. Model interaksi dapat dituliskan sebagai:
 
 $$𝑌=𝛽_0 +𝛽_1 𝑋_1 + 𝛽_2𝑋_2 +𝛽_3(𝑋_1×𝑋_2)+𝜖$$
