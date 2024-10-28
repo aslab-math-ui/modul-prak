@@ -9,7 +9,7 @@
 <meta name="dcterms.date" content="2024-09-24">
 <meta name="description" content="Offline di Departemen Matematika">
 
-<title>Lab Praktikum Departemen Matematika FMIPA UI - Aljabar Matriks di R</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Pertemuan 1: Aljabar Matriks di R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -166,6 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#determinan" id="toc-determinan" class="nav-link" data-scroll-target="#determinan">Determinan</a></li>
   <li><a href="#invers" id="toc-invers" class="nav-link" data-scroll-target="#invers">Invers</a></li>
   <li><a href="#power-matrix" id="toc-power-matrix" class="nav-link" data-scroll-target="#power-matrix">Power Matrix</a></li>
+  <li><a href="#square-root-matrix" id="toc-square-root-matrix" class="nav-link" data-scroll-target="#square-root-matrix">Square Root Matrix</a></li>
   <li><a href="#matriks-identitas" id="toc-matriks-identitas" class="nav-link" data-scroll-target="#matriks-identitas">Matriks Identitas</a></li>
   <li><a href="#vektor" id="toc-vektor" class="nav-link" data-scroll-target="#vektor">Vektor</a>
   <ul class="collapse">
@@ -178,8 +179,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#eigenvectors" id="toc-eigenvectors" class="nav-link" data-scroll-target="#eigenvectors">Eigenvectors</a></li>
   </ul></li>
+  <li><a href="#dekomposisi-spectral" id="toc-dekomposisi-spectral" class="nav-link" data-scroll-target="#dekomposisi-spectral">Dekomposisi Spectral</a></li>
   <li><a href="#dekomposisi-cholesky" id="toc-dekomposisi-cholesky" class="nav-link" data-scroll-target="#dekomposisi-cholesky">Dekomposisi Cholesky</a></li>
   <li><a href="#singular-value-decomposition-svd" id="toc-singular-value-decomposition-svd" class="nav-link" data-scroll-target="#singular-value-decomposition-svd">Singular Value Decomposition (SVD)</a></li>
+  <li><a href="#ortogonalisasi-matrix-gram-schmidt" id="toc-ortogonalisasi-matrix-gram-schmidt" class="nav-link" data-scroll-target="#ortogonalisasi-matrix-gram-schmidt">Ortogonalisasi Matrix (Gram-Schmidt)</a></li>
   </ul></li>
   <li><a href="#latihan-soal" id="toc-latihan-soal" class="nav-link" data-scroll-target="#latihan-soal">Latihan Soal</a></li>
   </ul>
@@ -190,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Aljabar Matriks di R</h1>
+<h1 class="title">Pertemuan 1: Aljabar Matriks di R</h1>
 <p class="subtitle lead">Pengantar Multivariat</p>
 </div>
 
@@ -522,13 +525,49 @@ Hadamard Product (Element-wise Multiplication)
 [3,]  115   45  100</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Batasan n pada A %^% n Power Matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Power matrix dalam fungsi dari library <code>expm</code> ini mengasumsikan nilai n adalah bilangan bulat positif. Jika ingin menggunakan nilai n non bilangan bulat positif.</p>
+</div>
+</div>
+</section>
+<section id="square-root-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="square-root-matrix">Square Root Matrix</h2>
+<p>Dari library <code>expm</code>, dapat dicari akar kuadrat dari suatu matrix dengan fungsi <code>sqrtm</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrtm</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     [,1]                 [,2]                 [,3]
+[1,] 0.7996281+0.7653010i 0.3420350-0.1942727i 0.6718684-0.3063164i
+[2,] 1.0505083-0.7472764i 0.8850394+0.1896972i 0.2688254+0.2991019i
+[3,] 1.3315353-0.5304036i 0.2932286+0.1346437i 1.5081014+0.2122973i</code></pre>
+</div>
+</div>
+<p>Bukti:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">Re</span>(<span class="fu">sqrtm</span>(A) <span class="sc">%*%</span> <span class="fu">sqrtm</span>(A)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    1    2
+[2,]    3    1    1
+[3,]    4    1    3</code></pre>
+</div>
+</div>
 </section>
 <section id="matriks-identitas" class="level2">
 <h2 class="anchored" data-anchor-id="matriks-identitas">Matriks Identitas</h2>
 <p>Matriks identitas n x n dapat dengan mudah dibuat menggunakan fungsi <code>diag(n)</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>diag_mat <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">5</span>)</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>diag_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>diag_mat <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">5</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>diag_mat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4] [,5]
 [1,]    1    0    0    0    0
@@ -543,16 +582,16 @@ Hadamard Product (Element-wise Multiplication)
 <h2 class="anchored" data-anchor-id="vektor">Vektor</h2>
 <p>Notasi vektor sama dengan membuat suatu matriks dengan <code>ncol=1</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">byrow=</span>T)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">byrow=</span>T)</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">byrow=</span>T)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">1</span>, <span class="at">byrow=</span>T)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,]    1
 [2,]    0
 [3,]    2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,]    2
@@ -563,7 +602,7 @@ Hadamard Product (Element-wise Multiplication)
 <section id="inner-product" class="level3">
 <h3 class="anchored" data-anchor-id="inner-product">Inner Product</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">t</span>(x) <span class="sc">%*%</span> y) <span class="co"># bentuk skalar dan simetri</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">t</span>(x) <span class="sc">%*%</span> y) <span class="co"># bentuk skalar dan simetri</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1]
 [1,]    4</code></pre>
@@ -573,7 +612,7 @@ Hadamard Product (Element-wise Multiplication)
 <section id="outer-product" class="level3">
 <h3 class="anchored" data-anchor-id="outer-product">Outer Product</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x <span class="sc">%*%</span> <span class="fu">t</span>(y)) <span class="co"># tidak bersifat simetri</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x <span class="sc">%*%</span> <span class="fu">t</span>(y)) <span class="co"># tidak bersifat simetri</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    2    2    1
@@ -587,9 +626,9 @@ Hadamard Product (Element-wise Multiplication)
 <h2 class="anchored" data-anchor-id="rank-matriks">Rank Matriks</h2>
 <p>Untuk menghitung rank matriks, dibutuhkan library <code>Matrix</code> dengan fungsi <code>rankMatrix()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="sc">-</span><span class="dv">14</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">10</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">4</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span>T)</span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rankMatrix</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="sc">-</span><span class="dv">14</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">10</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">4</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span>T)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rankMatrix</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3
 attr(,"method")
@@ -605,8 +644,8 @@ attr(,"tol")
 <h2 class="anchored" data-anchor-id="bentuk-eselon-baris">Bentuk Eselon Baris</h2>
 <p>Untuk membuat bentuk eselon baris suatu matriks, dibutuhkan library <code>matlib</code> dengan fungsi <code>echelon()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="dv">7</span>), <span class="at">ncol=</span><span class="dv">6</span>, <span class="at">byrow=</span>T)</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">echelon</span>(A, <span class="at">reduced =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="sc">-</span><span class="dv">9</span>,<span class="dv">2</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="dv">7</span>), <span class="at">ncol=</span><span class="dv">6</span>, <span class="at">byrow=</span>T)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">echelon</span>(A, <span class="at">reduced =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4] [,5] [,6]
 [1,]    1    0   -4  -28  -37   13
@@ -620,48 +659,61 @@ attr(,"tol")
 <h2 class="anchored" data-anchor-id="eigenvalues">Eigenvalues</h2>
 <p>Untuk mencari nilai eigen, gunakan fungsi <code>eigen()</code> dan akses nilainya dengan <code>$values</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">3</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
-[1,]    0    0   -2
-[2,]    1    2    1
-[3,]    1    0    3</code></pre>
+[1,]    4    2    2
+[2,]    2    4    2
+[3,]    2    2    4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>eig_val <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A)<span class="sc">$</span>values</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>eig_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>eig_val <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A)<span class="sc">$</span>values</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>eig_val</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 2 1</code></pre>
+<pre><code>[1] 8 2 2</code></pre>
 </div>
 </div>
 <section id="eigenvectors" class="level3">
 <h3 class="anchored" data-anchor-id="eigenvectors">Eigenvectors</h3>
 <p>Untuk mencari vektor eigen dari nilai eigen yang bersesuaian, gunakan <code>$vectors</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>eig_vec <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A)<span class="sc">$</span>vectors <span class="sc">*</span> (<span class="sc">-</span><span class="dv">1</span>) <span class="co"># Dikalikan dengan -1</span></span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>eig_vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>eig_vec <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A)<span class="sc">$</span>vectors <span class="sc">*</span> (<span class="sc">-</span><span class="dv">1</span>) <span class="co"># Dikalikan dengan -1</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>eig_vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     [,1]       [,2]       [,3]
-[1,]    0 -0.7071068  0.8164966
-[2,]   -1  0.0000000 -0.4082483
-[3,]    0  0.7071068 -0.4082483</code></pre>
+<pre><code>          [,1]       [,2]       [,3]
+[1,] 0.5773503  0.0000000 -0.8164966
+[2,] 0.5773503  0.7071068  0.4082483
+[3,] 0.5773503 -0.7071068  0.4082483</code></pre>
 </div>
 </div>
 </section>
+</section>
+<section id="dekomposisi-spectral" class="level2">
+<h2 class="anchored" data-anchor-id="dekomposisi-spectral">Dekomposisi Spectral</h2>
+<p>Dari eigenvalues dan eigenvector, dapat dibentuk suatu dekomposisi spektral dari suatu matriks.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(eig_vec <span class="sc">%*%</span> <span class="fu">diag</span>(eig_val) <span class="sc">%*%</span> <span class="fu">t</span>(eig_vec))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    4    2    2
+[2,]    2    4    2
+[3,]    2    2    4</code></pre>
+</div>
+</div>
 </section>
 <section id="dekomposisi-cholesky" class="level2">
 <h2 class="anchored" data-anchor-id="dekomposisi-cholesky">Dekomposisi Cholesky</h2>
 <p>Dekomposisi cholesky dari suatu matriks <strong>A</strong> dapat dilakukan dengan fungsi <code>chol(A)</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">6</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span>T)</span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">3</span>,<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">6</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow=</span>T)</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    3    0   -3
 [2,]    0    6    3
 [3,]   -3    3    6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chol</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chol</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         [,1]    [,2]      [,3]
 [1,] 1.732051 0.00000 -1.732051
@@ -671,7 +723,7 @@ attr(,"tol")
 </div>
 <p>Sehingga dapat dibuktikan <strong>A</strong> = <strong>U`U</strong> dengan <strong>U</strong> matriks segitiga atas dari dekomposisi cholesky matriks <strong>A</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">chol</span>(A)) <span class="sc">%*%</span> <span class="fu">chol</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">chol</span>(A)) <span class="sc">%*%</span> <span class="fu">chol</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    3    0   -3
@@ -683,25 +735,25 @@ attr(,"tol")
 <section id="singular-value-decomposition-svd" class="level2">
 <h2 class="anchored" data-anchor-id="singular-value-decomposition-svd">Singular Value Decomposition (SVD)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    1    0    1
 [2,]    0    1    0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>svd_A <span class="ot">&lt;-</span> <span class="fu">svd</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>svd_A <span class="ot">&lt;-</span> <span class="fu">svd</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nilai diagonal matriks <strong>D</strong> dapat diakses dengan <code>$d</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.414214 1.000000</code></pre>
 </div>
 </div>
 <p>Matriks <strong>U</strong> dapat diakses dengan <code>$u</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>u</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1    0
@@ -710,7 +762,7 @@ attr(,"tol")
 </div>
 <p>Matriks <strong>V</strong> dapat diakses dengan <code>$v</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>v</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          [,1] [,2]
 [1,] 0.7071068    0
@@ -720,11 +772,43 @@ attr(,"tol")
 </div>
 <p>Sehingga dapat dibuktikan <strong>A</strong> = <strong>UDV`</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>u <span class="sc">%*%</span> <span class="fu">diag</span>(svd_A<span class="sc">$</span>d) <span class="sc">%*%</span> <span class="fu">t</span>(svd_A<span class="sc">$</span>v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>svd_A<span class="sc">$</span>u <span class="sc">%*%</span> <span class="fu">diag</span>(svd_A<span class="sc">$</span>d) <span class="sc">%*%</span> <span class="fu">t</span>(svd_A<span class="sc">$</span>v)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    1    0    1
 [2,]    0    1    0</code></pre>
+</div>
+</div>
+</section>
+<section id="ortogonalisasi-matrix-gram-schmidt" class="level2">
+<h2 class="anchored" data-anchor-id="ortogonalisasi-matrix-gram-schmidt">Ortogonalisasi Matrix (Gram-Schmidt)</h2>
+<p>Ortogonalisasi matrix dengan proses Gram-Schmidt dapat dilakukan dengan fungsi <code>GramSchmidt()</code> dari library <code>matlib</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>( <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>), <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    1
+[2,]    2    2    0
+[3,]    3    1   -2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">GramSchmidt</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]       [,2]       [,3]
+[1,] 0.2672612  0.8728716 -0.4082483
+[2,] 0.5345225  0.2182179  0.8164966
+[3,] 0.8017837 -0.4364358 -0.4082483</code></pre>
+</div>
+</div>
+<p>Bukti:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>A_gs <span class="ot">&lt;-</span> <span class="fu">GramSchmidt</span>(A)</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(A_gs <span class="sc">%*%</span> <span class="fu">t</span>(A_gs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1</code></pre>
 </div>
 </div>
 </section>

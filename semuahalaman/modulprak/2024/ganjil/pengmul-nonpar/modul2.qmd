@@ -1,9 +1,9 @@
 ---
-title: "Uji Binomial, Kuantil, Chi Square, Kolmogorov Smirnov & Sign"
+title: "Pertemuan 2: Uji Binomial, Kuantil, Chi Square, Kolmogorov Smirnov & Sign"
 subtitle: "Statistika Nonparametrik"
 image: static\nonparcover.jpeg
 description: "Offline di Departemen Matematika"
-date: 09/24/2024
+date: 10/01/2024
 page-navigation: true
 format: html
 ---
@@ -40,7 +40,7 @@ $H_0: p = p*$
 
 $H_1: p ≠ p*$
 
-Tolak $H_0$ ketika p-value < $\alpha / 2$
+Tolak $H_0$ ketika p-value < $\alpha$
 
 ### Upper Tailed 
 
@@ -105,11 +105,11 @@ $T_2$ = Observasi < $x*$
 
 ### Two Tailed
 
-$H_0: kuantil ke p* populasi adalah x*$
+$H_0: \text{kuantil ke p* populasi adalah x*}$
 
-$H_1: x* bukan kuantil ke p* populasi$
+$H_1: \text{x* bukan kuantil ke p* populasi}$
 
-Tolak $H_0$ ketika p-value < $\alpha / 2$
+Tolak $H_0$ ketika p-value < $\alpha$
 
 ### Upper Tailed 
 
@@ -207,7 +207,7 @@ Untuk menguji klaim pemasok bahwa probabilitas kehidupan bagian mesin yang memua
 
 | Number of Surviving Parts | 0  | 1  | 2  | 3  | 4  |
 |---------------------------|----|----|----|----|----|
-| Number of Machines         | 2  | 2  | 3  | 24 | 69 |
+| Number of Machines        | 2  | 2  | 3  | 24 | 69 |
 
 ```{r}
 observed_frequency <- c(2, 2, 3, 24, 69)
@@ -216,6 +216,56 @@ chisq.test(observed_frequency, p = probin)
 ```
 
 # Uji Kolmogorov-Smirnov
+
+## Data
+
+Data terdiri atas sampel acak $X_1, X_2, ..., X_n$ yang berukuran n dan berasosiasi dengan suatu fungsi distribusi yang tidak dikenahui $F(x)$
+
+## Asumsi
+
+1. Sampel adalah sampel acak
+
+## Statistik Uji
+
+Misal $S(x)$ adalah fungsi distribusi empirik dari sampel acak $X_1, X_2, ..., X_n$.
+
+### Two Tailed
+
+$T = \sup_{x} |F^*(x)-S(x)|$
+
+### Upper Tailed
+
+$T^+ = \sup_{x} [F^*(x)-S(x)]$
+
+### Lower Tailed
+
+$T^- = \sup_{x} [S(x)-F^*(x)]$
+
+## Aturan Penolakan
+
+### Two Tailed
+
+$H_0: F(x) = F^*(x),\text{for all x from} -\infty \text{ to } +\infty$
+
+$H_1: F(x) \neq F^*(x),\text{for at least one value of x}$
+
+Tolak $H_0$ ketika p-value < $\alpha$
+
+### Upper Tailed 
+
+$H_0: F(x) \geq F^*(x),\text{for all x from} -\infty \text{ to } +\infty$
+
+$H_1: F(x) < F^*(x),\text{for at least one value of x}$
+
+Tolak $H_0$ ketika p-value < $\alpha$
+
+### Lower Tailed 
+
+$H_0: F(x) \leq F^*(x),\text{for all x from} -\infty \text{ to } +\infty$
+
+$H_1: F(x) > F^*(x),\text{for at least one value of x}$
+
+Tolak $H_0$ ketika p-value < $\alpha$
 
 ## Soal 1
 

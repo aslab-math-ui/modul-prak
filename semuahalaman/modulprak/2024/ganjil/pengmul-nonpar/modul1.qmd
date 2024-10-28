@@ -1,5 +1,5 @@
 ---
-title: "Aljabar Matriks di R"
+title: "Pertemuan 1: Aljabar Matriks di R"
 subtitle: "Pengantar Multivariat"
 image: static\latsol.png
 description: "Offline di Departemen Matematika"
@@ -178,6 +178,28 @@ A
 A %^% n
 ```
 
+::: {.callout-warning}
+
+## Batasan n pada A %^% n Power Matrix
+
+Power matrix dalam fungsi dari library `expm` ini mengasumsikan nilai n adalah bilangan bulat positif. Jika ingin menggunakan nilai n non bilangan bulat positif.
+
+:::
+
+## Square Root Matrix
+
+Dari library `expm`, dapat dicari akar kuadrat dari suatu matrix dengan fungsi `sqrtm`
+
+```{r}
+sqrtm(A)
+```
+
+Bukti:
+
+```{r}
+round(Re(sqrtm(A) %*% sqrtm(A)))
+```
+
 ## Matriks Identitas
 
 Matriks identitas n x n dapat dengan mudah dibuat menggunakan fungsi `diag(n)`
@@ -234,7 +256,7 @@ echelon(A, reduced = TRUE)
 Untuk mencari nilai eigen, gunakan fungsi `eigen()` dan akses nilainya dengan `$values`
 
 ```{r}
-A <- matrix(c(0,0,-2,1,2,1,1,0,3), ncol=3, byrow = TRUE)
+A <- matrix(c(4,2,2,2,4,2,2,2,4), ncol=3, byrow = TRUE)
 A
 eig_val <- eigen(A)$values
 eig_val
@@ -247,6 +269,14 @@ Untuk mencari vektor eigen dari nilai eigen yang bersesuaian, gunakan `$vectors`
 ```{r}
 eig_vec <- eigen(A)$vectors * (-1) # Dikalikan dengan -1
 eig_vec
+```
+
+## Dekomposisi Spectral
+
+Dari eigenvalues dan eigenvector, dapat dibentuk suatu dekomposisi spektral dari suatu matriks.
+
+```{r}
+round(eig_vec %*% diag(eig_val) %*% t(eig_vec))
 ```
 
 ## Dekomposisi Cholesky
@@ -294,6 +324,23 @@ Sehingga dapat dibuktikan **A** = **UDV`**
 
 ```{r}
 svd_A$u %*% diag(svd_A$d) %*% t(svd_A$v)
+```
+
+## Ortogonalisasi Matrix (Gram-Schmidt)
+
+Ortogonalisasi matrix dengan proses Gram-Schmidt dapat dilakukan dengan fungsi `GramSchmidt()` dari library `matlib`.
+
+```{r}
+A <- matrix(c( 1:3, 3:1, 1, 0, -2), 3, 3)
+A
+GramSchmidt(A)
+```
+
+Bukti:
+
+```{r}
+A_gs <- GramSchmidt(A)
+round(A_gs %*% t(A_gs))
 ```
 
 # Latihan Soal
