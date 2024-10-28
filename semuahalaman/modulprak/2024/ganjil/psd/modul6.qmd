@@ -1,0 +1,387 @@
+---
+title: "(Pertemuan 06) Distribusi Kontinu di R, Distribusi di Excel"
+subtitle: "Continuous Distributions in R, Distributions in Excel"
+description: "Offline di Departemen Matematika"
+date: 10/28/2024
+page-navigation: true
+format: html
+---
+
+Kembali ke [Pengantar Sains Data](./psd2024.qmd)
+
+Melanjutkan dari pertemuan sebelumnya tentang distribusi diskirt di R, pada pertemuan kali ini, kita akan membahas tentang beberapa distribusi kontinu di R, tepatnya distribusi *uniform* (kontinu) dan distribusi normal, baik dengan *base R* ataupun dengan `distr`. Kemudian, kita juga akan membahas tentang distribusi probabilitas di Excel, baik diskrit maupun kontinu, terutama cara menghasilkan data *random* menggunakan Analysis ToolPak.
+
+# Distribusi Kontinu dengan *base R*
+
+Sebenarnya ada banyak distribusi kontinu. Namun, sesuai dengan batasan materi kuliah Pengantar Sains Data, kita hanya akan membahas dua distribusi kontinu, yaitu
+
+- distribusi *uniform* (kontinu), dan
+
+- distribusi normal.
+
+Kalian akan mempelajari lebih banyak distribusi, baik distribusi diskrit maupun distribusi kontinu, serta berbagai macam "penggabungannya", di mata kuliah Statistika Matematika 1.
+
+Seperti biasa, kita masih bermain dengan fungsi `d`..., `p`,..., `q`..., dan `r`... yang bisa kita ingat kembali:
+
+- `d`... melambangkan PDF
+
+- `p`... melambangkan CDF
+
+- `q`... melambangkan *inverse CDF* atau fungsi kuantil *(quantile function)*
+
+- `r`... melambangkan RNG *(random number generator)*
+
+## Distribusi Normal
+
+Sesuai namanya, distribusi normal sering dijumpai di kehidupan sehari-hari; tidak jarang terjadi, persebaran berbagai data, yang awalnya terkesan acak, ternyata mendekati distribusi normal. 
+
+Distribusi normal memiliki dua parameter, yaitu
+
+- **rata-rata atau *mean*** $\mu$ (mu)
+
+- **variansi atau *variance*** $\sigma^2$ (sigma kecil, dikuadratkan), yang harus taknegatif *(nonnegative)*
+
+    Catatan: sigma besar adalah $\Sigma$ yang biasa kita gunakan untuk notasi penjumlahan atau sumasi.
+
+Perhatikan bahwa rata-rata termasuk ukuran pemusatan data, sedangkan variansi termasuk ukuran persebaran data (juga disebut keragaman data). Nilai kedua parameter tersebut bisa diubah-ubah sesuai keperluan. Dengan demikian, distribusi normal bisa cukup fleksibel menyesuaikan dengan berbagai macam data.
+
+Apabila suatu variabel acak $X$ mengikuti distribusi normal, biasa ditulis
+
+$$X \sim N(\mu, \sigma^2)$$
+
+Namun, daripada berdasarkan rata-rata dan variansi, terkadang suatu distribusi normal ditentukan berdasarkan rata-rata dan **simpangan baku *(standard deviation)***, biasa disingkat `sd`, `std`, `stdev`, atau `stddev`, dan biasa dilambangkan $\sigma$, yang merupakan akar dari variansi. Di R, *standard deviation* biasa dilambangkan `sd`.
+
+Perbedaan antara variansi dan *standard deviation* hanyalah masalah kuadrat. Berhati-hati saja.
+
+Selain itu, perlu diingat bahwa penulisan
+
+$$X \sim N(\mu, \sigma^2)$$
+
+selalu menggunakan variansi yaitu $\sigma^2$.
+
+*Support* dari distribusi normal adalah keseluruhan garis bilangan real *(the real line)*, yaitu interval buka $(-\infty, \infty)$
+
+### PDF
+
+Untuk $-\infty < x < \infty$, PDF dari distribusi normal bisa ditulis
+
+$$n(x; \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\frac{(x-\mu)^2}{\sigma^2}}$$
+
+Perhatikan, ada konstanta $\pi$ (pi) dan konstanta Euler $e$. Kedua konstanta tersebut tersedia di R:
+
+```{r}
+pi
+```
+
+```{r}
+exp(1)
+```
+
+Sebenarnya, `exp` adalah fungsi eksponensial $e^x$.
+
+**Distribusi normal standar *(standard normal distribution)*** adalah distribusi normal istimewa, yang memiliki parameter $\mu = 0$ dan parameter $\sigma = 1$, atau bisa dilambangkan $N(0,1)$.
+
+```{r}
+dnorm(1.3,
+      mean = 0,
+      sd = 1)
+```
+
+Untuk *plotting*, kita tidak perlu menggunakan keseluruhan *support* (mustahil juga), karena untuk nilai-nilai yang tidak dekat dengan nilai tengah atau rata-rata, probabilitasnya hampir nol. Oleh karena itu, kita cukup memilih interval yang memuat titik-titik yang dekat dengan rata-rata, tidak perlu terlalu besar.
+
+```{r}
+x_norm_1 <- seq(-4, 4, length = 100)
+x_norm_1
+```
+
+```{r}
+plot(x_norm_1,
+     dnorm(x_norm_1, mean = 0, sd = 1),
+     type = 'o')
+```
+
+Contoh distribusi normal yang lain:
+
+```{r}
+dnorm(2.7,
+      mean = 2,
+      sd = 5)
+```
+
+Ternyata, nilai untuk distribusi normal dengan parameter lain bisa diperoleh dari distribusi normal standar, memanfaatkan yang namanya ***Z-score***.
+
+$$Z = \frac{X-\mu}{\sigma}$$
+
+Namun, ketika menghitung PDF dan sudah memperoleh hasil dari distribusi normal standar, kita perlu membagi lagi hasilnya dengan *standard deviation* yang aslinya, karena ada masalah *scaling* (skala).
+
+```{r}
+dnorm((2.7-2)/(5),
+      mean = 0,
+      sd = 1)/5
+```
+
+Bandingkan:
+
+```{r}
+dnorm(2.7,
+      mean = 2,
+      sd = 5)
+```
+
+Untuk membuat *plot*, kita buat titik-titik `x_norm_2` sedemikian sehingga nilai-nilainya berada di sekitar rata-rata 2, tetapi dengan interval yang lebih luas karena *standard deviation* yang lebih besar.
+
+```{r}
+x_norm_2 <- seq(2-20, 2+20, length = 100)
+x_norm_2
+```
+
+```{r}
+plot(x_norm_2,
+     dnorm(x_norm_2, mean = 2, sd = 5),
+     type = 'o')
+```
+
+**Untuk distribusi kontinu, perhitungan probabilitas harus melalui CDF, sedangkan PDF hanya menggambarkan bentuk distribusi.**
+
+### CDF
+
+```{r}
+pnorm(1.96,
+      mean = 0,
+      sd = 1)
+```
+
+```{r}
+plot(x_norm_1,
+     pnorm(x_norm_1, mean = 0, sd = 1),
+     type = 'o')
+```
+
+Contoh:
+
+Misalkan $X$ merupakan variabel acak yang berdistribusi normal dengan $\mu = 50$ dan ~~variansi~~ *standard deviation* $\sigma = 10$. Hitunglah
+
+$$\text{Pr}(45 < X < 62)$$
+
+Jawab:
+
+Perhatikan bahwa
+
+$$\begin{align*}
+    \text{Pr}&(45 < X < 62) \\
+               &= \text{Pr}(X < 62) - \text{Pr}(X \leq 45) \\
+               &= \text{Pr}(X \leq 62) - \text{Pr}(X \leq 45)
+\end{align*}$$
+
+karena
+
+$$\begin{align*}
+\text{Pr}&(X < 62) \\
+          &= \text{Pr}&(X \leq 62) - \text{Pr}&(X = 62) \\
+          &= \text{Pr}&(X \leq 62) - 0 \\
+          &= \text{Pr}&(X \leq 62)
+\end{align*}$$
+
+Sehingga, $\text{Pr}&(45 < X < 62)$ bisa dihitung dengan
+
+$$\text{Pr}(X \leq 62) - \text{Pr}(X \leq 45)$$
+
+yaitu selisih dua nilai CDF:
+
+```{r}
+pnorm(62, mean = 50, sd = 10) -
+  pnorm(45, mean = 50, sd = 10)
+```
+
+Cara lain, kita bisa juga memanfaatkan *Z-score*. Misalkan
+
+$$Z = \frac{X-\mu}{\sigma} = \frac{X-50}{10}$$
+
+Maka
+
+$$\begin{align*}
+    \text{Pr}&(45 < X < 62) \\
+    &= \text{Pr}\left(\frac{45-50}{10} < \frac{X-50}{10} < \frac{62-50}{10}\right) \\
+    &= \text{Pr}\left(\frac{45-50}{10} < Z < \frac{62-50}{10}\right) \\
+    &= \text{Pr}(Z \leq \frac{62-50}{10}) - \text{Pr}(Z \leq \frac{45-50}{10})
+\end{align*}$$
+
+Sehingga kita tinggal menghitung:
+
+```{r}
+pnorm((62-50)/10, mean = 0, sd = 1) -
+  pnorm((45-50)/10, mean = 0, sd = 1)
+```
+
+Daripada langsung mengetik sepanjang itu, kita juga bisa menghitung dulu
+
+```{r}
+(62-50)/10
+(45-50)/10
+```
+
+baru memasukkan,
+
+$$\begin{align*}
+    \text{Pr}&(45 < X < 62) \\
+    &= \text{Pr}(Z \leq \frac{62-50}{10}) - \text{Pr}(Z \leq \frac{45-50}{10}) \\
+    &= \text{Pr}(Z \leq 1.2) - \text{Pr}(Z \leq -0.5)
+\end{align*}$$
+
+sehingga bisa dihitung
+
+```{r}
+pnorm(1.2, mean = 0, sd = 1) -
+  pnorm(-0.5, mean = 0, sd = 1)
+```
+
+Apabila sewaktu-waktu kalian perlu menghitung ini tetapi tidak bisa mengakses R, kalian bisa memanfaatkan **tabel normal standar *(standard normal data)***, yaitu tabel yang mendata **berbagai nilai CDF untuk distribusi normal standar** yaitu $N(0,1)$, dan kebetulan juga disebut tabel *Z-score*. Carilah nilai CDF untuk $Z=1.2$ dan nilai CDF untuk $Z=-0.5$, lalu hitung selisihnya.
+
+Apabila menggunakan `mean = 0` dan `sd = 1`, kalian juga bisa saja menganggap fungsi `pnorm` sebagai fungsi untuk memperoleh nilai pada tabel normal standar. Misalnya, nilai di $Z=1.2$ adalah
+
+```{r}
+pnorm(1.2, mean = 0, sd = 1)
+```
+
+dan nilai di $Z=-0.5$ adalah
+
+```{r}
+pnorm(-0.5, mean = 0, sd = 1)
+```
+
+Silakan bandingkan dengan tabel normal standar, yang misalnya bisa kalian temukan di lampiran buku pengantar statistik seperti karangan Walpole.
+
+### *Quantile function*
+
+Misalkan diketahui $X \sim N(0,1)$ dan
+
+$$\text{Pr}(X \leq x) = 0.975$$
+
+bagaimana cara menentukan $x$?
+
+Perhatikan bahwa, fungsi probabilitas seperti di atas melambangkan CDF, dan kita ingin mencari nilai $x$ yang membuat nilai CDF menjadi 0.975. Caranya, kita bisa menggunakan *inverse CDF* atau *quantile function*, sebagai berikut.
+
+```{r}
+qnorm(0.975,
+      mean = 0,
+      sd = 1)
+```
+
+Ternyata, nilai $x$ yang diinginkan sekitar 1.96.
+
+Kalau ragu, kita bisa periksa dengan menghitung nilai CDF untuk $x=1.96$
+
+```{r}
+pnorm(1.96,
+      mean = 0,
+      sd = 1)
+```
+
+Benar ya!
+
+### RNG
+
+```{r}
+set.seed(62)
+n <- 100
+random_normal_1 <- rnorm(n, mean = 0, sd = 1)
+random_normal_1
+```
+
+```{r}
+plot(density(random_normal_1),
+     main = "normal, mean 0, sd 1")
+par(mfrow = c(1,2))
+```
+
+```{r}
+random_normal_2 <- rnorm(n, mean = 10, sd = 8)
+```
+
+```{r}
+plot(density(random_normal_2),
+     main = "normal, mean 10, sd 8")
+par(mfrow = c(1,2))
+```
+
+## Distribusi *Uniform* (Kontinu)
+
+### PDF
+
+```{r}
+dunif(40, min = 25, max = 100)
+```
+
+### CDF
+
+```{r}
+punif(40, min = 25, max = 100)
+```
+
+### *Quantile function*
+
+```{r}
+qunif(0.2, min = 25, max = 100)
+```
+
+### RNG
+
+```{r}
+set.seed(61)
+n <- 100
+random_unif <- runif(n, min = 25, max = 100)
+random_unif
+```
+
+```{r}
+plot(density(random_unif),
+     main = "uniform, min 25, max 100")
+par(mfrow = c(1,2))
+```
+
+# Distribusi Kontinu dengan `distr`
+
+```{r}
+library(distr)
+library(distrEx)
+```
+
+## Distribusi Uniform (Kontinu)
+
+```{r}
+dist1 <- Unif(Min = 25, Max = 100)
+```
+
+```{r}
+plot(dist1)
+```
+
+```{r}
+d(dist1)(40)
+p(dist1)(40)
+q(dist1)(0.2)
+```
+
+## Distribusi Normal
+
+```{r}
+dist2 <- Norm(mean = 0, sd = 1)
+```
+
+```{r}
+plot(dist2)
+```
+
+```{r}
+d(dist2)(1.96)
+p(dist2)(1.96)
+q(dist2)(0.975)
+```
+
+## (Pengayaan) Menghampiri distribusi binomial dengan distribusi normal
+
+*(work in progress)*
+
+# Distribusi di Excel
+
+Silakan unduh *worksheet* berikut: [Worksheet Pertemuan 6](./worksheet_pertemuan6.xlsx)
