@@ -57,7 +57,7 @@ Selain itu, perlu diingat bahwa penulisan
 
 $$X \sim N(\mu, \sigma^2)$$
 
-selalu menggunakan variansi yaitu $\sigma^2$.
+selalu menggunakan variansi yaitu $\sigma^2$, daripada *standard deviation*.
 
 *Support* dari distribusi normal adalah keseluruhan garis bilangan real *(the real line)*, yaitu interval buka $(-\infty, \infty)$
 
@@ -87,10 +87,10 @@ dnorm(1.3,
       sd = 1)
 ```
 
-Untuk *plotting*, kita tidak perlu menggunakan keseluruhan *support* (mustahil juga), karena untuk nilai-nilai yang tidak dekat dengan nilai tengah atau rata-rata, probabilitasnya hampir nol. Oleh karena itu, kita cukup memilih interval yang memuat titik-titik yang dekat dengan rata-rata, tidak perlu terlalu besar.
+Untuk *plotting*, kita tidak perlu menggunakan keseluruhan *support* (mustahil juga), karena untuk nilai-nilai yang tidak dekat dengan nilai tengah atau rata-rata, probabilitasnya hampir nol. Oleh karena itu, kita cukup memilih interval yang memuat titik-titik yang dekat dengan rata-rata, misal $0 \pm 4$, tidak perlu terlalu besar.
 
 ```{r}
-x_norm_1 <- seq(-4, 4, length = 100)
+x_norm_1 <- seq(0-4, 0+4, length = 100)
 x_norm_1
 ```
 
@@ -100,7 +100,7 @@ plot(x_norm_1,
      type = 'o')
 ```
 
-Contoh distribusi normal yang lain:
+Contoh distribusi normal yang lain: $N(2,5)$
 
 ```{r}
 dnorm(2.7,
@@ -113,6 +113,20 @@ Ternyata, nilai untuk distribusi normal dengan parameter lain bisa diperoleh dar
 $$Z = \frac{X-\mu}{\sigma}$$
 
 Namun, ketika menghitung PDF dan sudah memperoleh hasil dari distribusi normal standar, kita perlu membagi lagi hasilnya dengan *standard deviation* yang aslinya, karena ada masalah *scaling* (skala).
+
+Misalnya, untuk $X=2.7$ dan $X \sim N(2,5)$,
+
+$$Z = \frac{X-2}{5} = \frac{2.7-2}{5}$$
+
+Namun, daripada sekadar menghitung
+
+```{r}
+dnorm((2.7-2)/(5),
+      mean = 0,
+      sd = 1)
+```
+
+kita harus membagi lagi dengan *standard deviation* yang aslinya yaitu 5, sebagai berikut:
 
 ```{r}
 dnorm((2.7-2)/(5),
@@ -128,7 +142,9 @@ dnorm(2.7,
       sd = 5)
 ```
 
-Untuk membuat *plot*, kita buat titik-titik `x_norm_2` sedemikian sehingga nilai-nilainya berada di sekitar rata-rata 2, tetapi dengan interval yang lebih luas karena *standard deviation* yang lebih besar.
+Sama, ya!
+
+Untuk membuat *plot* dari $N(2,5)$, kita buat titik-titik `x_norm_2` sedemikian sehingga nilai-nilainya berada di sekitar rata-rata 2, tetapi dengan interval yang lebih luas, misal $2 \pm 20$, karena *standard deviation* yang lebih besar dibandingkan dengan membuat *plot* $N(0,1)$ tadi.
 
 ```{r}
 x_norm_2 <- seq(2-20, 2+20, length = 100)
@@ -142,6 +158,18 @@ plot(x_norm_2,
 ```
 
 **Untuk distribusi kontinu, perhitungan probabilitas harus melalui CDF, sedangkan PDF hanya menggambarkan bentuk distribusi.**
+
+Tidak seperti distribusi diskrit, **PDF distribusi kontinu di $\mathbf{x}$ TIDAK SAMA DENGAN $\mathbf{\text{Pr}(X=x)}$.** Bahkan, di distribusi kontinu, untuk tiap $x$ selalu berlaku
+
+$$\text{Pr}(X=x) = 0$$
+
+Mengapa demikian? Misalnya, untuk distribusi normal, kita ingin menghitung $\text{Pr}(X=2.7)$. Artinya, kita meminta probabilitas bahwa nilai yang kita peroleh adalah tepat 2.7, **tidak boleh meleset sedikitpun**. Kalau kita memperoleh misalnya 2.7000000001, itu sudah dianggap angka yang berbeda. Tentunya, memperoleh persis suatu angka tertentu sangat tidak realistis, sehingga probabilitasnya adalah nol.
+
+Dengan demikian, untuk distribusi kontinu, probabilitas di tepat satu titik, di titik apapun, itu selalu nol.
+
+Kalau begitu, apakah probabilitas bahwa kita dapat nilai apapun sama sekali itu adalah nol, sehingga tidak ada yang mungkin? Tidak juga. Mungkin terdengar aneh. Namun, sebenarnya, untuk distribusi kontinu, **daripada menghitung probabilitas memperoleh tepat suatu nilai tertentu, kita biasa menghitung probabilitas memperoleh nilai di interval tertentu.** Dengan begitu, barulah probabilitasnya taknol.
+
+Sebagaimana di distribusi diskrit, kita bisa menghitung probabilitas untuk rentang atau interval tertentu menggunakan CDF. Oleh karena itulah, perhitungan probabilitas untuk distribusi kontinu selalu menggunakan CDF, tidak pernah menggunakan PDF.
 
 ### CDF
 
@@ -177,12 +205,12 @@ karena
 
 $$\begin{align*}
 \text{Pr}&(X < 62) \\
-          &= \text{Pr}&(X \leq 62) - \text{Pr}&(X = 62) \\
-          &= \text{Pr}&(X \leq 62) - 0 \\
-          &= \text{Pr}&(X \leq 62)
+          &= \text{Pr}(X \leq 62) - \text{Pr}(X = 62) \\
+          &= \text{Pr}(X \leq 62) - 0 \\
+          &= \text{Pr}(X \leq 62)
 \end{align*}$$
 
-Sehingga, $\text{Pr}&(45 < X < 62)$ bisa dihitung dengan
+Sehingga, $\text{Pr}(45 < X < 62)$ bisa dihitung dengan
 
 $$\text{Pr}(X \leq 62) - \text{Pr}(X \leq 45)$$
 
@@ -203,7 +231,7 @@ $$\begin{align*}
     \text{Pr}&(45 < X < 62) \\
     &= \text{Pr}\left(\frac{45-50}{10} < \frac{X-50}{10} < \frac{62-50}{10}\right) \\
     &= \text{Pr}\left(\frac{45-50}{10} < Z < \frac{62-50}{10}\right) \\
-    &= \text{Pr}(Z \leq \frac{62-50}{10}) - \text{Pr}(Z \leq \frac{45-50}{10})
+    &= \text{Pr}\left(Z \leq \frac{62-50}{10}\right) - \text{Pr}\left(Z \leq \frac{45-50}{10}\right)
 \end{align*}$$
 
 Sehingga kita tinggal menghitung:
@@ -224,8 +252,8 @@ baru memasukkan,
 
 $$\begin{align*}
     \text{Pr}&(45 < X < 62) \\
-    &= \text{Pr}(Z \leq \frac{62-50}{10}) - \text{Pr}(Z \leq \frac{45-50}{10}) \\
-    &= \text{Pr}(Z \leq 1.2) - \text{Pr}(Z \leq -0.5)
+    &= \text{Pr}\left(Z \leq \frac{62-50}{10}\right) - \text{Pr}\left(Z \leq \frac{45-50}{10}\right) \\
+    &= \text{Pr}\left(Z \leq 1.2\right) - \text{Pr}\left(Z \leq -0.5\right)
 \end{align*}$$
 
 sehingga bisa dihitung
@@ -235,7 +263,7 @@ pnorm(1.2, mean = 0, sd = 1) -
   pnorm(-0.5, mean = 0, sd = 1)
 ```
 
-Apabila sewaktu-waktu kalian perlu menghitung ini tetapi tidak bisa mengakses R, kalian bisa memanfaatkan **tabel normal standar *(standard normal data)***, yaitu tabel yang mendata **berbagai nilai CDF untuk distribusi normal standar** yaitu $N(0,1)$, dan kebetulan juga disebut tabel *Z-score*. Carilah nilai CDF untuk $Z=1.2$ dan nilai CDF untuk $Z=-0.5$, lalu hitung selisihnya.
+Apabila sewaktu-waktu kalian perlu menghitung ini tetapi tidak bisa mengakses R, kalian bisa memanfaatkan **tabel normal standar *(standard normal table)***, yaitu tabel yang mendata **berbagai nilai CDF untuk distribusi normal standar** yaitu $N(0,1)$, dan kebetulan juga disebut tabel *Z-score*. Carilah nilai CDF untuk $Z=1.2$ dan nilai CDF untuk $Z=-0.5$, lalu hitung selisihnya.
 
 Apabila menggunakan `mean = 0` dan `sd = 1`, kalian juga bisa saja menganggap fungsi `pnorm` sebagai fungsi untuk memperoleh nilai pada tabel normal standar. Misalnya, nilai di $Z=1.2$ adalah
 
@@ -257,7 +285,7 @@ Misalkan diketahui $X \sim N(0,1)$ dan
 
 $$\text{Pr}(X \leq x) = 0.975$$
 
-bagaimana cara menentukan $x$?
+Bagaimana cara menentukan $x$?
 
 Perhatikan bahwa, fungsi probabilitas seperti di atas melambangkan CDF, dan kita ingin mencari nilai $x$ yang membuat nilai CDF menjadi 0.975. Caranya, kita bisa menggunakan *inverse CDF* atau *quantile function*, sebagai berikut.
 
@@ -291,7 +319,6 @@ random_normal_1
 ```{r}
 plot(density(random_normal_1),
      main = "normal, mean 0, sd 1")
-par(mfrow = c(1,2))
 ```
 
 ```{r}
@@ -301,7 +328,6 @@ random_normal_2 <- rnorm(n, mean = 10, sd = 8)
 ```{r}
 plot(density(random_normal_2),
      main = "normal, mean 10, sd 8")
-par(mfrow = c(1,2))
 ```
 
 ## Distribusi *Uniform* (Kontinu)
@@ -336,7 +362,6 @@ random_unif
 ```{r}
 plot(density(random_unif),
      main = "uniform, min 25, max 100")
-par(mfrow = c(1,2))
 ```
 
 # Distribusi Kontinu dengan `distr`
