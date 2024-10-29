@@ -1,0 +1,192 @@
+---
+title: "Pertemuan 3: Karakteristik Data Multivariat"
+subtitle: "Pengantar Multivariat"
+image: static\mat_cov.png
+description: "Offline di Departemen Matematika"
+date: 10/28/2024
+page-navigation: true
+format: html
+---
+
+Pada pertemuan kali ini, kita akan menggunakan data dari tabel 3.7 (Ramus Bone) dari buku *Methods of Multivariate Analysis by Alvin C. Rencher, William F. Christensen. 3rd Edition*
+
+```{r}
+data <- read.csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/refs/heads/main/Analisis%20Multivariat/Tabel%203.7%20(Ramus%20Bone%20Length%20at%20Four%20Ages%20).csv', sep=';')
+
+head(data)
+```
+
+definisikan matriks ***Y***
+
+```{r}
+Y <- as.matrix(data[2:5])
+Y
+```
+
+# Vektor Mean
+
+**Vektor mean** dari matriks ***Y*** dapat dihitung dengan fungsi `colMeans()`
+
+```{r}
+colMeans(Y)
+```
+
+# Matriks Varians-Kovarians
+
+**Matriks varians-kovarians** dari matriks ***Y*** dapat dihitung dengan fungsi `cov()`
+
+```{r}
+cov(Y)
+```
+
+## Generalized Sample Variance
+
+**Generalized Sample Variance** dari matriks ***Y*** dapat dihitung dengan mencari **determinan dari matriks varians-kovarians Y**
+
+```{r}
+cov_Y <- cov(Y)
+det(cov_Y)
+```
+
+## Total Sample Variance
+
+**Total Sample Variance** dari matriks ***Y*** dapat dihitung dengan mencari **trace dari matriks varians-kovarians Y**
+
+```{r}
+library(matlib)
+tr(cov_Y)
+```
+
+# Matriks Korelasi
+
+**Matriks Korelasi** dari matriks ***Y*** dapat dihitung dengan fungsi `cor()`
+
+```{r}
+cor(Y)
+```
+
+# Matriks dengan Subset Variabel
+
+Tinjau data dari tabel 3.5 buku rencher (Relative Weight, Blood Glucose, and Insulin Levels)
+
+![](static\t3_5.png)
+
+```{r}
+T3_5 <- read.table('https://raw.githubusercontent.com/farhanage/dataset-for-study/refs/heads/main/Analisis%20Multivariat/T3_5_DIABETES.DAT')
+head(T3_5)
+```
+
+definisikan bentuk matriksnya
+
+```{r}
+M3_5 <- as.matrix(T3_5[2:6])
+colnames(M3_5) <- c('y1', 'y2', 'x1', 'x2', 'x3')
+head(M3_5)
+```
+
+## Vektor Mean Subset
+
+Sama seperti pada vektor mean sebelumnya, dapat digunakan fungsi `colMeans()`
+
+```{r}
+mean_vec <- colMeans(M3_5)
+mean_vec
+```
+
+```{r}
+y_bar <- mean_vec[1:2]; y_bar
+x_bar <- mean_vec[3:5]; x_bar
+```
+
+## Matriks Varians-Kovarians Subset
+
+Sama seperti pada Matriks Varians-Kovarians sebelumnya, dapat digunakan fungsi `cov()`
+
+```{r}
+S <- cov(M3_5)
+S
+```
+
+### Partisi Matriks Varians-Kovarians
+
+Partisi dari matriks (subset) dapat diakses deangan indexing baris dan kolom suatu matriks.
+
+::: {.callout-note}
+## Indexing pada matrix di R 
+
+Indexing pada matrix dapat dilakukan dengan format `matrix_obj[<rangebaris>, <rangekolom>]`
+
+misal ingin diambil nilai baris ke 1 hingga 2 dan kolom 3 hingga 4 dari matriks Y, maka dapat dilakukan indexing:
+
+`Y[1:2, 3:4]`
+
+:::
+
+```{r}
+S_xx <- S[1:2, 1:2]; S_xx
+S_yy <- S[3:5, 3:5]; S_yy
+S_xy <- S[3:5, 1:2]; S_xy
+S_yx <- S[1:2, 3:5]; S_yx
+```
+
+![](static\mat_cov.png)
+
+## Matriks Korelasi Subset
+
+Sama seperti pada Matriks Korelasi sebelumnya, dapat digunakan fungsi `cor()`
+
+```{r}
+R <- cor(M3_5)
+R
+```
+
+Partisi korelasi dapat dilakukan sebagaimana partisi dilakukan pada matriks Varians-Kovarians Subset
+
+# Kombinasi Linear Vektor
+
+misal ingin dibentuk:
+
+$z_1 = y_1 + y_2 + y_3 + y_4$
+
+dan
+
+$z_2 = 2y_1 + 3y_2 - 4y_3 - y_4$
+
+```{r}
+# z1 = y1 + y2 + y3 + y4
+z1 <- Y[, 1] + Y[, 2] + Y[, 3] + Y[, 4]
+z1
+
+# z2 = 2y1 + 3y2 - 4y3 - y4
+z2 <- 2*Y[, 1] + 3*Y[, 2] - 4*Y[, 3] - Y[, 4]
+z2
+
+Y
+```
+
+
+# Latihan Soal
+
+Gunakan data dari tabel 3.5 buku rencher untuk mengerjakan soal-soal berikut:
+
+1. bentuk matrix $Z = (z_1, z_2, z_3)$ dengan
+
+$z_1 = x_1 + x_2 + x_3$
+
+$z_2 = 3y_1 + 2y_2 - x_1^{0.5} - 3x_2 + 7x_3$
+
+dan
+
+$z_3 = y_1^2 + y_2 - 5x_1 + 2x_2 - x_3$
+
+2. Tentukan Vektor Mean dari matriks Z
+
+3. Tentukan Matriks Varians-Kovarians dari matriks Z
+
+4. Tentukan Nilai Generalized Sample Variance dari matriks Z
+
+5. Tentukan Matriks Korelasi dari matriks Z
+
+
+
+
