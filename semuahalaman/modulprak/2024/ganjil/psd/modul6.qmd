@@ -384,7 +384,69 @@ plot(density(random_normal_2),
 
 ### (Pengayaan) Menghampiri distribusi binomial dengan distribusi normal
 
-*(work in progress)*
+Misalkan kita membuat *bar plot* dari $X \sim \text{Binom}(15, 0.4)$, yaitu distribusi binomial dengan banyaknya percobaan $n=15$ dan probabilitas sukses $p=0.4$, misalnya dengan *base R*,
+
+```{r}
+x_binom <- seq(0, 15, by = 1)
+y_binom <- dbinom(x_binom, size = 15, prob = 0.4)
+barplot(height = y_binom,
+        names.arg = x_binom)
+```
+
+atau dengan ggplot2:
+
+```{r}
+library("ggplot2")
+```
+
+```{r}
+x_binom <- seq(0, 15, by = 1)
+y_binom <- dbinom(x_binom, size = 15, prob = 0.4)
+df_binom <- data.frame(x = x_binom, Probabilitas = y_binom)
+```
+
+```{r}
+ggplot(df_binom, aes(x = x, y = Probabilitas)) +
+  geom_bar(stat = "identity", fill = "blue")
+```
+
+Kemudian, kita bisa menghitung ekspektasi dan *standard deviation* dari $X \sim \text{Binom}(15, 0.4)$ yaitu
+
+$$\begin{align*}
+\text{E}[X] &= np \\
+      &= (15)(0.4) = 6
+\end{align*}$$
+
+$$\begin{align*}
+\text{Var}[X] &= npq = np(1-q) \\
+      &= (15)(0.4)(1-0.4) = (15)(0.4)(0.6) \\
+      &= 3.6
+\end{align*}$$
+
+$$\begin{align*}
+\sigma &= \sqrt{\sigma^2} = \sqrt{\text{Var}[X]} \\
+      &= \sqrt{3.6} = \frac{3}{5}\sqrt{10}
+\end{align*}$$
+
+lalu dengan informasi tersebut, kita timpa *bar plot* binomial dengan *plot* PDF distribusi normal $N\left(\mu, \sigma^2\right) = N(6, 3.6)$ sebagai berikut:
+
+```{r}
+x_norm_3 <- seq(0, 15, length = 100) # rentangnya sama dengan x_binom
+y_norm_3 <- dnorm(x_norm_3, mean = 6, sd = sqrt(3.6))
+df_norm <- data.frame(x = x_norm_3, Densitas = y_norm_3)
+```
+
+```{r}
+ggplot(df_binom, aes(x = x, y = Probabilitas)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  geom_line(data = df_norm, aes(x = x, y = Densitas))
+```
+
+Wah, ternyata sangat mendekati, ya! **Distribusi normal bisa digunakan untuk menghampiri distribusi binomial**, yaitu
+
+$$\text{Binom}(n,p) \approx \text{N}\left(np,npq\right)$$
+
+dan semakin besar nilai $n$, semakin akurat.
 
 ## Distribusi *Uniform* (Kontinu)
 
@@ -438,8 +500,8 @@ plot(density(random_unif),
 # Distribusi Kontinu dengan `distr`
 
 ```{r}
-library(distr)
-library(distrEx)
+library("distr")
+library("distrEx")
 ```
 
 ## Distribusi Uniform (Kontinu)
