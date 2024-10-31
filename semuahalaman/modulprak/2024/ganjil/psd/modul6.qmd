@@ -311,6 +311,24 @@ pnorm(1.96,
 
 Benar ya!
 
+Tentunya, `mean` tidak harus nol dan `sd` tidak harus satu. Contohnya, apabila diketahui
+
+$$X \sim N(2,5), \quad \text{Pr}(X=x) = 0.73$$
+
+maka kita bisa memperoleh $x$ dengan `qnorm` yaitu *inverse CDF*
+
+```{r}
+qnorm(0.73, mean = 2, sd = 5)
+```
+
+Sehingga $x \approx 5.064$, yang bisa kita periksa dengan `pnorm` yaitu CDF
+
+```{r}
+pnorm(5.064, mean = 2, sd = 5)
+```
+
+Cukup dekat.
+
 ### RNG
 
 ```{r}
@@ -320,18 +338,48 @@ random_normal_1 <- rnorm(n, mean = 0, sd = 1)
 random_normal_1
 ```
 
+Untuk distribusi kontinu, tidak mungkin kita buat *bar plot*, karena banyaknya elemen di *support* sudah *infinite* (tak berhingga), bahkan *uncountable* (tak terhitung).
+
+Kita bisa membuat *histogram*,
+
+```{r}
+hist(random_normal_1)
+```
+
+yang kemudian bisa kita kostumisasi (maksudnya *customize*) atau ubah-ubah opsinya:
+
+```{r}
+hist(random_normal_1,
+     breaks = 7,
+     main = "Histogram 100 sampel dari N(0,1)",
+     xlab = "Nilai X",
+     ylab = "Banyaknya sampel",
+     col = "orange")
+```
+
+Untuk distribusi kontinu, selain membuat *histogram*, kita juga bisa membuat yang namanya ***density plot***. Intinya, ini adalah perkiraan bentuk distribusi kontinu berdasarkan data yang diberikan. Dalam hal ini, dengan data *random* yang kita miliki, kita bisa mencoba membentuk kembali perkiraan bentuk distribusi aslinya, yakni distribusi normal.
+
 ```{r}
 plot(density(random_normal_1),
-     main = "normal, mean 0, sd 1")
+     main = "density plot: normal, mean 0, sd 1")
 ```
+
+Cukup dekat, ya! Memang tidak sempurna, karena penarikan data atau *sampling* yang kita lakukan bersifat *random*, tidak menentu.
+
+Kita baru mencoba menarik data *random* dari $N(0,1)$, tapi tentunya kita bisa melakukan langkah yang sama hingga *plotting* untuk parameter lain, misalnya rata-rata $\mu=10$ dan *standard deviation* $\sigma=8$.
 
 ```{r}
 random_normal_2 <- rnorm(n, mean = 10, sd = 8)
 ```
 
 ```{r}
+hist(random_normal_2,
+     main = "Histogram 100 sampel dari N(10,8)")
+```
+
+```{r}
 plot(density(random_normal_2),
-     main = "normal, mean 10, sd 8")
+     main = "density plot: normal, mean 10, sd 8")
 ```
 
 ### (Pengayaan) Menghampiri distribusi binomial dengan distribusi normal
@@ -379,8 +427,12 @@ random_unif
 ```
 
 ```{r}
+hist(random_unif)
+```
+
+```{r}
 plot(density(random_unif),
-     main = "uniform, min 25, max 100")
+     main = "density plot: uniform, min 25, max 100")
 ```
 
 # Distribusi Kontinu dengan `distr`
