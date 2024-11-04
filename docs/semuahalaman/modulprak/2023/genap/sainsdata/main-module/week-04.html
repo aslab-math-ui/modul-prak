@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 04 (Clustering) – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Week 04 (Clustering)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -149,7 +149,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -168,7 +168,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -182,7 +182,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link active" data-scroll-target="#k-means-clustering">K-Means Clustering</a>
+  <li><a href="#week-04-clustering" id="toc-week-04-clustering" class="nav-link active" data-scroll-target="#week-04-clustering">Week 04 (Clustering)</a>
+  <ul class="collapse">
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering">K-Means Clustering</a>
   <ul class="collapse">
   <li><a href="#importing-the-libraries" id="toc-importing-the-libraries" class="nav-link" data-scroll-target="#importing-the-libraries">Importing the libraries</a></li>
   <li><a href="#importing-the-dataset" id="toc-importing-the-dataset" class="nav-link" data-scroll-target="#importing-the-dataset">Importing the dataset</a></li>
@@ -196,6 +198,7 @@ window.Quarto = {
   <li><a href="#using-the-dendrogram-to-find-the-optimal-number-of-clusters" id="toc-using-the-dendrogram-to-find-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#using-the-dendrogram-to-find-the-optimal-number-of-clusters">Using the dendrogram to find the optimal number of clusters</a></li>
   <li><a href="#training-the-hierarchical-clustering-model-on-the-dataset" id="toc-training-the-hierarchical-clustering-model-on-the-dataset" class="nav-link" data-scroll-target="#training-the-hierarchical-clustering-model-on-the-dataset">Training the Hierarchical Clustering model on the dataset</a></li>
   <li><a href="#visualising-the-clusters-1" id="toc-visualising-the-clusters-1" class="nav-link" data-scroll-target="#visualising-the-clusters-1">Visualising the clusters</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -222,6 +225,8 @@ window.Quarto = {
 </header>
 
 
+<section id="week-04-clustering" class="level1">
+<h1>Week 04 (Clustering)</h1>
 <p>Kembali ke <a href="../../../../../../semuahalaman/modulprak/2023/genap/sainsdata/sainsdata2023.html">Sains Data</a></p>
 <p>Clustering adalah metode untuk membagi populasi atau titik data ke dalam sejumlah kelompok sedemikian rupa sehingga titik data dalam kelompok yang sama lebih mirip dengan titik data lain dalam kelompok yang sama dan berbeda dengan titik data dalam kelompok lain. Pada dasarnya, ini adalah kumpulan objek berdasarkan kesamaan dan ketidaksamaan di antara mereka.</p>
 <p>source: https://www.geeksforgeeks.org/clustering-in-machine-learning/</p>
@@ -237,7 +242,7 @@ window.Quarto = {
 [5] https://sis.binus.ac.id/2022/01/31/clustering-algoritma-k-means/.</p>
 <section id="importing-the-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="importing-the-libraries">Importing the libraries</h3>
-<div id="cell-5" class="cell" data-execution_count="10">
+<div id="cell-4" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -247,7 +252,7 @@ window.Quarto = {
 </section>
 <section id="importing-the-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="importing-the-dataset">Importing the dataset</h3>
-<div id="cell-7" class="cell" data-outputid="a9902265-87cd-496d-f3fd-0f219c4103a9" data-execution_count="23">
+<div id="cell-6" class="cell" data-outputid="a9902265-87cd-496d-f3fd-0f219c4103a9" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> pd.read_csv(<span class="st">'Mall_Customers.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dataset</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
@@ -257,7 +262,7 @@ window.Quarto = {
       <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -437,7 +442,7 @@ window.Quarto = {
   
 </div>
 </div>
-<div id="cell-8" class="cell" data-outputid="05ca0a2d-10e6-492a-bbc0-7fcce7ebc919" data-execution_count="24">
+<div id="cell-7" class="cell" data-outputid="05ca0a2d-10e6-492a-bbc0-7fcce7ebc919" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> dataset.iloc[:, [<span class="dv">3</span>, <span class="dv">4</span>]].values</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
@@ -646,7 +651,7 @@ window.Quarto = {
 </section>
 <section id="using-the-elbow-method-to-find-the-optimal-number-of-clusters" class="level3">
 <h3 class="anchored" data-anchor-id="using-the-elbow-method-to-find-the-optimal-number-of-clusters">Using the elbow method to find the optimal number of clusters</h3>
-<div id="cell-10" class="cell" data-outputid="5f3385fd-5523-48c0-be23-f3fe0e5c8841" data-execution_count="9">
+<div id="cell-9" class="cell" data-outputid="5f3385fd-5523-48c0-be23-f3fe0e5c8841" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(KMeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Help on class KMeans in module sklearn.cluster._kmeans:
@@ -1077,7 +1082,7 @@ class KMeans(_BaseKMeans)
 </code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-outputid="d1b10ca9-6fee-4239-a975-d0f8f9790d88" data-execution_count="25">
+<div id="cell-10" class="cell" data-outputid="d1b10ca9-6fee-4239-a975-d0f8f9790d88" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>wcss <span class="op">=</span> []</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>):</span>
@@ -1097,7 +1102,7 @@ class KMeans(_BaseKMeans)
 </div>
 </div>
 </div>
-<div id="cell-12" class="cell" data-outputid="122c04fa-bdbe-4cb3-f1d2-97b68941719d" data-execution_count="26">
+<div id="cell-11" class="cell" data-outputid="122c04fa-bdbe-4cb3-f1d2-97b68941719d" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wcss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>[269981.28,
@@ -1136,7 +1141,7 @@ Kisaran nilai Silhouette adalah antara +1 dan -1. Nilai yang tinggi diinginkan d
 </figure>
 </div>
 <p>source: https://medium.com/analytics-vidhya/how-to-determine-the-optimal-k-for-k-means-708505d204eb</p>
-<div id="cell-16" class="cell" data-outputid="254c9705-ce36-424e-c1a9-2220d98b8f5f" data-execution_count="27">
+<div id="cell-15" class="cell" data-outputid="254c9705-ce36-424e-c1a9-2220d98b8f5f" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn.metrics <span class="im">as</span> metrics</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">11</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  labels<span class="op">=</span>KMeans(n_clusters<span class="op">=</span>i,random_state<span class="op">=</span><span class="dv">200</span>).fit(X).labels_</span>
@@ -1156,14 +1161,14 @@ Silhouette score for k(clusters) = 10 is 0.446735677440187</code></pre>
 </section>
 <section id="training-the-k-means-model-on-the-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="training-the-k-means-model-on-the-dataset">Training the K-Means model on the dataset</h3>
-<div id="cell-18" class="cell" data-execution_count="28">
+<div id="cell-17" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> <span class="dv">5</span>, init <span class="op">=</span> <span class="st">'k-means++'</span>, random_state <span class="op">=</span> <span class="dv">42</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y_kmeans <span class="op">=</span> kmeans.fit_predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualising-the-clusters" class="level3">
 <h3 class="anchored" data-anchor-id="visualising-the-clusters">Visualising the clusters</h3>
-<div id="cell-20" class="cell" data-outputid="edcf6864-3899-4c10-c55b-0039651220b5" data-execution_count="29">
+<div id="cell-19" class="cell" data-outputid="edcf6864-3899-4c10-c55b-0039651220b5" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y_kmeans <span class="op">==</span> <span class="dv">0</span>, <span class="dv">0</span>], X[y_kmeans <span class="op">==</span> <span class="dv">0</span>, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">100</span>, c <span class="op">=</span> <span class="st">'red'</span>, label <span class="op">=</span> <span class="st">'Cluster 1'</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y_kmeans <span class="op">==</span> <span class="dv">1</span>, <span class="dv">0</span>], X[y_kmeans <span class="op">==</span> <span class="dv">1</span>, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">100</span>, c <span class="op">=</span> <span class="st">'blue'</span>, label <span class="op">=</span> <span class="st">'Cluster 2'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y_kmeans <span class="op">==</span> <span class="dv">2</span>, <span class="dv">0</span>], X[y_kmeans <span class="op">==</span> <span class="dv">2</span>, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">100</span>, c <span class="op">=</span> <span class="st">'green'</span>, label <span class="op">=</span> <span class="st">'Cluster 3'</span>)</span>
@@ -1183,7 +1188,7 @@ Silhouette score for k(clusters) = 10 is 0.446735677440187</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-21" class="cell" data-outputid="3db6539e-2c8e-4fcd-8ce5-fd5c81235923" data-execution_count="20">
+<div id="cell-20" class="cell" data-outputid="3db6539e-2c8e-4fcd-8ce5-fd5c81235923" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>kmeans.cluster_centers_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>array([[55.2962963 , 49.51851852],
@@ -1193,7 +1198,7 @@ Silhouette score for k(clusters) = 10 is 0.446735677440187</code></pre>
        [86.53846154, 82.12820513]])</code></pre>
 </div>
 </div>
-<div id="cell-22" class="cell" data-outputid="5a9bdc25-dd2e-4257-cafe-45ec675e743b" data-execution_count="22">
+<div id="cell-21" class="cell" data-outputid="5a9bdc25-dd2e-4257-cafe-45ec675e743b" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>kmeans.labels_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>array([2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3,
@@ -1214,7 +1219,7 @@ Silhouette score for k(clusters) = 10 is 0.446735677440187</code></pre>
 <h2 class="anchored" data-anchor-id="hierarchical-clustering">Hierarchical Clustering</h2>
 <section id="using-the-dendrogram-to-find-the-optimal-number-of-clusters" class="level3">
 <h3 class="anchored" data-anchor-id="using-the-dendrogram-to-find-the-optimal-number-of-clusters">Using the dendrogram to find the optimal number of clusters</h3>
-<div id="cell-25" class="cell" data-outputid="7391bc88-c787-4e9d-b85e-dbd13b4079df" data-execution_count="30">
+<div id="cell-24" class="cell" data-outputid="7391bc88-c787-4e9d-b85e-dbd13b4079df" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.cluster.hierarchy <span class="im">as</span> sch</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dendrogram <span class="op">=</span> sch.dendrogram(sch.linkage(X, method <span class="op">=</span> <span class="st">'ward'</span>))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Dendrogram'</span>)</span>
@@ -1229,7 +1234,7 @@ Silhouette score for k(clusters) = 10 is 0.446735677440187</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-26" class="cell" data-outputid="aece8088-6f4a-4925-9a35-168e30cbb529" data-execution_count="31">
+<div id="cell-25" class="cell" data-outputid="aece8088-6f4a-4925-9a35-168e30cbb529" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(sch.linkage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Help on function linkage in module scipy.cluster.hierarchy:
@@ -1454,7 +1459,7 @@ linkage(y, method='single', metric='euclidean', optimal_ordering=False)
 </ul>
 <p>AgglomerativeClustering juga dapat menskalakan ke sejumlah besar sampel ketika digunakan bersama dengan matriks konektivitas, tetapi secara komputasi mahal ketika tidak ada batasan konektivitas yang ditambahkan di antara sampel: ia mempertimbangkan pada setiap langkah semua kemungkinan penggabungan.</p>
 <p>source : https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering</p>
-<div id="cell-29" class="cell" data-execution_count="32">
+<div id="cell-28" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> AgglomerativeClustering</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>hc <span class="op">=</span> AgglomerativeClustering(n_clusters <span class="op">=</span> <span class="dv">5</span>, affinity <span class="op">=</span> <span class="st">'euclidean'</span>, linkage <span class="op">=</span> <span class="st">'ward'</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>y_hc <span class="op">=</span> hc.fit_predict(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1462,7 +1467,7 @@ linkage(y, method='single', metric='euclidean', optimal_ordering=False)
 </section>
 <section id="visualising-the-clusters-1" class="level3">
 <h3 class="anchored" data-anchor-id="visualising-the-clusters-1">Visualising the clusters</h3>
-<div id="cell-31" class="cell" data-outputid="4c66c5d3-b999-4d7a-aec5-15e8d43faab9" data-execution_count="33">
+<div id="cell-30" class="cell" data-outputid="4c66c5d3-b999-4d7a-aec5-15e8d43faab9" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y_hc <span class="op">==</span> <span class="dv">0</span>, <span class="dv">0</span>], X[y_hc <span class="op">==</span> <span class="dv">0</span>, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">100</span>, c <span class="op">=</span> <span class="st">'red'</span>, label <span class="op">=</span> <span class="st">'Cluster 1'</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y_hc <span class="op">==</span> <span class="dv">1</span>, <span class="dv">0</span>], X[y_hc <span class="op">==</span> <span class="dv">1</span>, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">100</span>, c <span class="op">=</span> <span class="st">'blue'</span>, label <span class="op">=</span> <span class="st">'Cluster 2'</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[y_hc <span class="op">==</span> <span class="dv">2</span>, <span class="dv">0</span>], X[y_hc <span class="op">==</span> <span class="dv">2</span>, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">100</span>, c <span class="op">=</span> <span class="st">'green'</span>, label <span class="op">=</span> <span class="st">'Cluster 3'</span>)</span>
@@ -1483,6 +1488,7 @@ linkage(y, method='single', metric='euclidean', optimal_ordering=False)
 </div>
 
 
+</section>
 </section>
 </section>
 
@@ -1522,7 +1528,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1554,47 +1571,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1629,11 +1606,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

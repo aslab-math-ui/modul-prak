@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modul 6 Persamaan Diferensial Numerik: Metode Shooting dan Linear Finite Difference untuk Masalah Nilai Batas PDB – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 6 Persamaan Diferensial Numerik: Metode Shooting dan Linear Finite Difference untuk Masalah Nilai Batas PDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -146,7 +146,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -165,7 +165,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -179,7 +179,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#review-runge-kutta-orde-4-untuk-sistem" id="toc-review-runge-kutta-orde-4-untuk-sistem" class="nav-link active" data-scroll-target="#review-runge-kutta-orde-4-untuk-sistem">Review: Runge-Kutta orde 4 untuk sistem</a></li>
+  <li><a href="#modul-6-persamaan-diferensial-numerik-metode-shooting-dan-linear-finite-difference-untuk-masalah-nilai-batas-pdb" id="toc-modul-6-persamaan-diferensial-numerik-metode-shooting-dan-linear-finite-difference-untuk-masalah-nilai-batas-pdb" class="nav-link active" data-scroll-target="#modul-6-persamaan-diferensial-numerik-metode-shooting-dan-linear-finite-difference-untuk-masalah-nilai-batas-pdb">Modul 6 Persamaan Diferensial Numerik: Metode <em>Shooting</em> dan <em>Linear Finite Difference</em> untuk Masalah Nilai Batas PDB</a>
+  <ul class="collapse">
+  <li><a href="#review-runge-kutta-orde-4-untuk-sistem" id="toc-review-runge-kutta-orde-4-untuk-sistem" class="nav-link" data-scroll-target="#review-runge-kutta-orde-4-untuk-sistem">Review: Runge-Kutta orde 4 untuk sistem</a></li>
   <li><a href="#linear-shooting" id="toc-linear-shooting" class="nav-link" data-scroll-target="#linear-shooting"><em>Linear Shooting</em></a>
   <ul class="collapse">
   <li><a href="#bentuk-umum-ide-utama-penyederhanaan" id="toc-bentuk-umum-ide-utama-penyederhanaan" class="nav-link" data-scroll-target="#bentuk-umum-ide-utama-penyederhanaan">Bentuk umum, ide utama, penyederhanaan</a></li>
@@ -201,6 +203,7 @@ window.Quarto = {
   <li><a href="#function-file-dari-pseudocode-1" id="toc-function-file-dari-pseudocode-1" class="nav-link" data-scroll-target="#function-file-dari-pseudocode-1">Function file (dari pseudocode)</a></li>
   <li><a href="#function-file-dengan-solusi-spl-secara-langsunginvers" id="toc-function-file-dengan-solusi-spl-secara-langsunginvers" class="nav-link" data-scroll-target="#function-file-dengan-solusi-spl-secara-langsunginvers">Function file (dengan solusi SPL secara langsung/invers)</a></li>
   <li><a href="#contoh-linear-finite-difference" id="toc-contoh-linear-finite-difference" class="nav-link" data-scroll-target="#contoh-linear-finite-difference">Contoh <em>Linear Finite Difference</em></a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -227,6 +230,8 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-6-persamaan-diferensial-numerik-metode-shooting-dan-linear-finite-difference-untuk-masalah-nilai-batas-pdb" class="level1">
+<h1>Modul 6 Persamaan Diferensial Numerik: Metode <em>Shooting</em> dan <em>Linear Finite Difference</em> untuk Masalah Nilai Batas PDB</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/pdnum/pdnum2024genap.html">Persamaan Diferensial Numerik</a></p>
 <p>Di modul ini, kita akan membahas beberapa metode untuk masalah nilai batas untuk PDB, yaitu:</p>
 <ol type="1">
@@ -241,7 +246,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><em>Function file</em> <code>rko4_sysm.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="cell-7" class="cell" data-execution_count="3">
+<div id="cell-6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [t<span class="op">,</span> w] <span class="op">=</span> rko4_sysm(cell_f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alphas)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  m <span class="op">=</span> <span class="fu">length</span>(cell_f)<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -341,7 +346,7 @@ u_1 (a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><em>Function file</em> <code>linshoot_pseudocode.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="cell-19" class="cell">
+<div id="cell-18" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x_i<span class="op">,</span> w_1i<span class="op">,</span> w_2i] <span class="op">=</span> linshoot_pseudocode(p<span class="op">,</span> q<span class="op">,</span> r<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> n<span class="op">,</span> alpha<span class="op">,</span> <span class="fu">beta</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a)<span class="op">/</span>n<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  u <span class="op">=</span> [alpha <span class="op">;</span> <span class="fl">0</span>]<span class="op">;</span></span>
@@ -406,7 +411,7 @@ u_1 (a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><em>Function file</em> <code>linear_shooting.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="cell-23" class="cell" data-execution_count="4">
+<div id="cell-22" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> w1<span class="op">,</span> w2] <span class="op">=</span> linear_shooting(p<span class="op">,</span> q<span class="op">,</span> r<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% sistem PDB yang pertama</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  u1_aksen <span class="op">=</span> @(x<span class="op">,</span> u) u(<span class="fl">2</span>)<span class="op">;</span></span>
@@ -446,7 +451,7 @@ u_1 (a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><em>Script file</em> <code>coba_linear_shooting.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="cell-28" class="cell" data-execution_count="5">
+<div id="cell-27" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">2</span> <span class="op">./</span> x)<span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> @(x) (<span class="fl">2</span> <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> @(x) (<span class="fu">sin</span>(<span class="fu">log</span>(x)) <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
@@ -520,7 +525,7 @@ Error total (norm L1):
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Script file</em> <code>coba2_linear_shooting.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="cell-33" class="cell" data-execution_count="6">
+<div id="cell-32" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">2</span> <span class="op">./</span> x)<span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> @(x) (<span class="fl">2</span> <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> @(x) (<span class="fu">sin</span>(<span class="fu">log</span>(x)) <span class="op">./</span> (x <span class="op">.^</span> <span class="fl">2</span>))<span class="op">;</span></span>
@@ -699,7 +704,7 @@ y(a) &amp;= \alpha, \quad y'(a) = t_k
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true"><em>Function file</em> <code>nonlinear_shooting_secant.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="cell-43" class="cell">
+<div id="cell-42" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> w1<span class="op">,</span> w2] <span class="op">=</span> nonlinear_shooting_secant(f<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet<span class="op">,</span> tol<span class="op">,</span> t0<span class="op">,</span> t1)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  u1_aksen <span class="op">=</span> @(x<span class="op">,</span> u) u(<span class="fl">2</span>)<span class="op">;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  u2_aksen <span class="op">=</span> @(x<span class="op">,</span> u) f(x<span class="op">,</span> u(<span class="fl">1</span>)<span class="op">,</span> u(<span class="fl">2</span>))<span class="op">;</span></span>
@@ -800,7 +805,7 @@ u_1(a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true"><em>Function file</em> <code>nonlinshoot_pseudocode.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
-<div id="cell-53" class="cell">
+<div id="cell-52" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x_i<span class="op">,</span> w_1i<span class="op">,</span> w_2i] <span class="op">=</span> nonlinshoot_pseudocode(f<span class="op">,</span> fy<span class="op">,</span> fyp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> n<span class="op">,</span> alpha<span class="op">,</span> <span class="fu">beta</span><span class="op">,</span> m<span class="op">,</span> tol)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% m adalah maksimum iterasi</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -870,7 +875,7 @@ u_1(a) &amp;= 0, \quad u_2(a) = 1
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true"><em>Function file</em> <code>nonlinear_shooting_newton.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
-<div id="cell-57" class="cell" data-execution_count="7">
+<div id="cell-56" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x_arr<span class="op">,</span> w1i<span class="op">,</span> w2i] <span class="op">=</span> nonlinear_shooting_newton(f<span class="op">,</span> fy<span class="op">,</span> fyp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet<span class="op">,</span> tol<span class="op">,</span> M<span class="op">,</span> t0)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% kalau input t0 bukan angka, dianggap tidak memilih tebakan awal</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="fu">isnumeric</span>(t0)</span>
@@ -945,7 +950,7 @@ f(x,y,y') &amp;= \frac{1}{8}(32+2x^3-yy') \\
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true"><em>Script file</em> <code>coba_nonlinear_shooting_newton.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
-<div id="cell-64" class="cell" data-execution_count="8">
+<div id="cell-63" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) ((<span class="fl">1</span><span class="op">/</span><span class="fl">8</span>)<span class="op">*</span>(<span class="fl">32</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> x<span class="op">.^</span><span class="fl">3</span> <span class="op">-</span> y <span class="op">.*</span> yp))<span class="op">;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fy <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>yp<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fyp <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>y<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
@@ -1050,7 +1055,7 @@ Error total (norm L1):
 </div>
 <p>Jika kita run script file tersebut, maka program akan mengeluarkan dua macam output, yaitu tabel serta plot perbandingan solusi eksak dan aproksimasi dengan <em>error</em>nya.</p>
 <p>Apabila diperlukan bukan hanya <span class="math inline">\(y(x)\)</span> (yaitu <span class="math inline">\(w_{1,i}\)</span>) tetapi juga <span class="math inline">\(y'(x)\)</span> (yaitu <span class="math inline">\(w_{2,i}\)</span>), kodenya menjadi seperti berikut:</p>
-<div id="cell-68" class="cell" data-execution_count="9">
+<div id="cell-67" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) ((<span class="fl">1</span><span class="op">/</span><span class="fl">8</span>)<span class="op">*</span>(<span class="fl">32</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> x<span class="op">.^</span><span class="fl">3</span> <span class="op">-</span> y <span class="op">.*</span> yp))<span class="op">;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fy <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>yp<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>fyp <span class="op">=</span> @(x<span class="op">,</span> y<span class="op">,</span> yp) (<span class="op">-</span>y<span class="op">/</span><span class="fl">8</span>)<span class="op">;</span></span>
@@ -1254,7 +1259,7 @@ A \mathbf{w}=\mathbf{b}
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-10-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-10-1" role="tab" aria-controls="tabset-10-1" aria-selected="true"><em>Function file</em> <code>linfdm_pseudocode.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
-<div id="cell-82" class="cell" data-execution_count="5">
+<div id="cell-81" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [xt<span class="op">,</span>w]<span class="op">=</span>linfdm_pseudocode(p<span class="op">,</span>q<span class="op">,</span>r<span class="op">,</span>a_boundary<span class="op">,</span>b_boundary<span class="op">,</span>alpha<span class="op">,</span><span class="fu">beta</span><span class="op">,</span>n)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  h<span class="op">=</span>(b_boundary<span class="op">-</span>a_boundary)<span class="op">/</span>(n<span class="op">+</span><span class="fl">1</span>)<span class="op">;</span> <span class="co">%stepsize</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  a<span class="op">=</span><span class="fu">zeros</span>(n<span class="op">,</span><span class="fl">1</span>)<span class="op">;</span> <span class="co">%diagonal sistem persamaannya</span></span>
@@ -1325,7 +1330,7 @@ A \mathbf{w}=\mathbf{b}
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-11-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-11-1" role="tab" aria-controls="tabset-11-1" aria-selected="true"><em>Function file</em> <code>linear_fd_langsung.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
-<div id="cell-86" class="cell" data-execution_count="1">
+<div id="cell-85" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> w_grid] <span class="op">=</span> linear_fd_langsung(p<span class="op">,</span> q<span class="op">,</span> r<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">% bikin array x</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> (N<span class="op">+</span><span class="fl">1</span>)<span class="op">;</span></span>
@@ -1376,7 +1381,7 @@ y(x)=\frac{4}{x}-\frac{2}{x^2}+\ln x-\frac{3}{2}
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-12-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-12-1" role="tab" aria-controls="tabset-12-1" aria-selected="true"><em>Script file</em> <code>coba_linear_fd_langsung.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-12-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-12-1-tab">
-<div id="cell-92" class="cell" data-execution_count="2">
+<div id="cell-91" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p<span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">4</span><span class="op">./</span>x)<span class="op">;</span> <span class="co">%fungsi p(x)</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>q<span class="op">=</span> @(x) (<span class="op">-</span><span class="fl">2</span><span class="op">./</span>x<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span> <span class="co">%fungsi q(x)</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>r<span class="op">=</span>@(x) <span class="fl">2</span><span class="op">*</span><span class="fu">log</span>(x)<span class="op">./</span>(x<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span> <span class="co">%fungsi r(x)</span></span>
@@ -1455,6 +1460,7 @@ Error total (norm L1):
 
 </section>
 </section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1492,7 +1498,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1524,47 +1541,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1599,11 +1576,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
