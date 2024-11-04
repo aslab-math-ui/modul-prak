@@ -9,41 +9,110 @@ format: html
 
 Kembali ke [Pengantar Sains Data](./psd2024.qmd)
 
-Distribusi dari suatu statistik disebut ***sampling distribution*** atau **distribusi *sampling***.
+Kebetulan, materi modul kali ini adalah revisi dari [modul PSD tahun lalu](../../../2023/ganjil/psd/Pekan%203/modul3.qmd).
 
-Contoh: distribusi dari rata-rata disebut distribusi *sample mean*. (Rata-rata termasuk statistik)
+Dalam menganalisis suatu populasi secara statistik, apabila populasinya tidak kecil, realitanya kita tidak bisa memperoleh data yang benar-benar lengkap tentang keseluruhan populasi tersebut. Kita hanya bisa mengambil **sampel**, yaitu *subset* dari populasi. Sampel yang kita ambil diharapkan cukup "mewakili" data populasi, yaitu nilai-nilai statistiknya (baik ukuran pemusatan data, seperti rata-rata, maupun ukuran persebaran/keragaman data, seperti variansi) tidak berbeda jauh.
+
+(Metode-metode pengambilan sampel dengan baik dipelajari di mata kuliah Sampling dan Rancangan Survey.)
+
+Maksud istilah "statistik" di sini adalah perhitungan yang bisa dilakukan pada sembarang sampel. Misalnya, sampel apapun bisa dihitung rata-ratanya ataupun variansinya, sehingga rata-rata dan variansi termasuk statistik. Perhatikan bahwa "sampel" berupa sekumpulan data, bukan satu titik data saja.
+
+Nilai statistik bergantung pada sampel. Dengan demikian, statistik bisa dipandang sebagai variabel acak, sehingga memiliki distribusi. Distribusi dari suatu statistik disebut ***sampling distribution*** atau **distribusi *sampling***.
+
+Contoh: distribusi dari rata-rata disebut **distribusi *sample mean***.
+
+Sebagaimana distribusi pada umumnya, distribusi *sampling* sebenarnya menggambarkan probabilitas memperoleh nilai statistik tertentu. Misalnya, distribusi *sample mean* menggambarkan probabilitas memperoleh nilai rata-rata tertentu dari sampel yang kebetulan kita miliki.
+
+Dengan demikian, sejatinya, kita bisa membentuk distribusi *sampling* dengan **mencoba semua kemungkinan sampel** serta mendata probabilitas memperoleh tiap sampel tersebut, kemudian menghitung statistiknya untuk tiap sampel, barulah mendata semua nilai yang mungkin untuk statistik tersebut beserta probabilitasnya.
+
+Namun, karena ada amat sangat banyak kemungkinan sampel, seringkali kita malah **memperkirakan** bentuk distribusi *sampling* tersebut melalui **simulasi**, yaitu mencoba mengambil sampel berkali-kali secara *random*, kemudian menghitung statistiknya di tiap sampel, barulah membentuk distribusi dari statistik tersebut.
+
+Bagaimanapun juga, ketika membahas distribusi *sampling*, yang melibatkan pengambilan sampel hingga berkali-kali, tentu ada semacam konsep pengulangan.
+
+Jangan lupa bahwa R adalah bahasa pemrograman, sehingga juga memiliki fitur pernyataan berulang, sebagaimana yang kalian pelajari di mata kuliah Algoritma dan Pemrograman, seperti di Python yang kalian pelajari di mata kuliah Praktikum Algoritma dan Pemrograman. Sebelum mempelajari distribusi *sampling* di R, kita perlu membahas itu dulu.
+
+# Pengulangan *(looping)* di R
+
+## *For loop*
+
+```{r}
+for (k in 1:5) {
+  print(k*2)
+}
+```
+
+```{r}
+for (k in 1:5) {
+  print(runif(1, min = 25, max = 100))
+}
+```
+
+## Fungsi `replicate`
+
+::: {.callout-warning}
+Sintaks/penulisan kode seperti di bawah ini, yaitu dengan fungsi `replicate`, hanya berlaku di bahasa pemrograman R.
+
+**Jangan gunakan `replicate` di mata kuliah (Praktikum) Algoritma dan Pemrograman!**
+:::
+
+Mengeksekusi ulang fungsi/perintah yang diberikan, sebanyak yang kita minta, tanpa harus membuat *for loop*
+
+```{r}
+replicate(5,
+          runif(1, min = 25, max = 100))
+```
+
+```{r}
+replicate(5,
+          runif(3, min = 25, max = 100))
+```
+
+## (Pengayaan) *While loop*, pernyataan kondisional
+
+*(work in progress)*
 
 # Distribusi *Sample Mean*
 
-## Dengan melakukan simulasi
-
-Misalkan kita punya suatu distribusi *uniform* diskrit
-
-Akan dilakukan *sampling* dari distribusi tersebut
+Untuk mempermudah urusan distribusi, mari kita aktifkan *package* `distr` dan `distrEx` yang sudah kita kenal sebelumnya
 
 ```{r}
-unif1 <- c(1:8)
-unif1
+library("distr")
+library("distrEx")
+```
+
+## Dengan melakukan simulasi
+
+Misalkan kita punya suatu distribusi *uniform* diskrit seperti berikut
+
+```{r}
+supp1 <- 1:8
+prob1 <- rep(1/8, times = 8)
+dist1 <- DiscreteDistribution(supp = supp1,
+                              prob = prob1)
+```
+
+Kita bisa peroleh kembali *support* dan sebaran probabilitasnya seperti berikut
+
+```{r}
+support(dist1)
+```
+
+```{r}
+prob(dist1)
 ```
 
 Lihat sebarannya
 
 ```{r}
-mean(unif1)
+E(dist1)
 ```
 
 ```{r}
-sd(unif1)
-```
-
-Variansi adalah kuadrat dari *standard deviation*:
-
-```{r}
-sd(unif1)^2
+var(dist1)
 ```
 
 ```{r}
-hist(unif1, main = "Uniform Distribution", xlab = " ")
+plot(dist1)
 ```
 
 Misal diambil berbagai ukuran sampel dengan pengembalian
@@ -54,13 +123,45 @@ set.seed(211)
 
 Sample size 3, 1000 kali percobaan
 
+::: {.panel-tabset}
+
+## Dengan `replicate`
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 3,
+             replace = TRUE)))
+
+hist(sample_means,
+     xlim = c(0,8),
+     main = "Sample Size of 3",
+     xlab = "Sample Means")
+```
+
+## Dengan *for loop*
+
 ```{r}
 sample_means <- c( )
 for(i in 1:1000){
-  sample_means[i] <- mean(sample(8, 3, replace = T))
+  sample_means[i] <-
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 3,
+             replace = TRUE))
 }
-hist(sample_means, xlim = c(0,8), main = "Sample Size of 3", xlab = "Sample Means")
+hist(sample_means,
+     xlim = c(0,8),
+     main = "Sample Size of 3",
+     xlab = "Sample Means")
 ```
+
+:::
 
 Sample size 10, 1000 kali percobaan
 
@@ -69,7 +170,10 @@ sample_means <- c( )
 for(i in 1:1000){
   sample_means[i] <- mean(sample(8, 10, replace = T))
 }
-hist(sample_means, xlim = c(0,8), main = "Sample Size of 10", xlab = "Sample Means")
+hist(sample_means,
+     xlim = c(0,8),
+     main = "Sample Size of 10",
+     xlab = "Sample Means")
 ```
 
 Sample size 50, 1000 kali percobaan
@@ -79,7 +183,10 @@ sample_means <- c( )
 for(i in 1:1000){
   sample_means[i] <- mean(sample(8, 50, replace = TRUE))
 }
-hist(sample_means, xlim = c(0,8), main = "Sample Size of 50", xlab = "Sample Means")
+hist(sample_means,
+     xlim = c(0,8),
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
 ```
 
 Jika dilihat berdasarkan histogram dari ketiga sampling tadi, bisa terlihat bahwa semakin besar ukuran sampelnya, maka distribusi *sample mean* akan semakin mendekati distribusi normal
@@ -444,6 +551,8 @@ k
 # Distribusi beda dua *mean*
 
 Misalkan kita punya dua populasi (bisa sama ataupun berbeda), yang masing-masing dibuat distribusi *sample mean* nya, dan kita ingin melihat bagaimana selisih antara kedua distribusi tersebut. Secara tidak langsung, kita bisa melihat seberapa berbeda rata-rata antar kedua populasi, bagaimana persebaran bedanya.
+
+Dalil 4 berikut adalah Dalil Limit Pusat yang telah disesuaikan untuk kasus dua populasi.
 
 ## Dalil 4: Beda Dua *Mean* Menghampiri Normal
 
