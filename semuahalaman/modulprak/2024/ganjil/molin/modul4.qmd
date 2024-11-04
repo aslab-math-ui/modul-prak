@@ -1,0 +1,356 @@
+---
+title: "Model Building"
+subtitle: "Model Building & Model Validation"
+image: static\Plot regresi.png
+description: "Offline di Departemen Matematika"
+date: 11/4/2024
+page-navigation: true
+format:
+  html:
+    code-overflow: wrap
+knitr:
+  opts_chunk:
+    comment: ''
+format-links: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Model Building
+
+Apa Itu Model Building? Model building adalah proses membuat model yang
+bisa cocok dengan data yang kita miliki dan bisa memberikan prediksi
+yang baik untuk masa depan. Dalam konteks analisis regresi, ini berarti
+memilih bentuk model yang bisa menunjukkan hubungan antara hasil yang
+kita prediksi $(y)$ dan variabel-variabel yang memengaruhi hasil
+tersebut $(x_1,x_2,...,x_k).$
+
+Kenapa Proses Ini Penting? Proses model building sangat penting karena
+menentukan seberapa baik model kita bisa bekerja. Jika model yang kita
+buat tidak mencerminkan hubungan yang sebenarnya antara
+variabel-variabel, maka model tersebut tidak akan memberikan hasil yang
+akurat dan bisa menyebabkan kesalahan dalam analisis atau prediksi.
+
+Langkah-langkah dalam Model Building:
+
+-   Identifikasi Variabel Respons (Y): Tentukan variabel dependen yang
+    ingin diprediksi atau dianalisis.
+
+-   Klasifikasi Variabel Prediktor: Kelompokkan variabel independen
+    sebagai variabel kuantitatif (yang diukur dengan angka) atau
+    kualitatif (yang berupa kategori).
+
+-   Gunakan Dummy Variables: Jika ada variabel kualitatif, ubah variabel
+    tersebut menjadi dummy variables agar bisa dimasukkan ke dalam
+    model.
+
+-   Pertimbangkan Derajat Lebih Tinggi: Untuk variabel kuantitatif,
+    pertimbangkan untuk menambahkan komponen seperti $X^2$ atau $X^3$
+    untuk menangkap hubungan non-linier yang mungkin ada.
+
+-   Gunakan Polinomial Derajat Tinggi: Jika relevan, kodekan variabel
+    kuantitatif dalam bentuk polinomial agar model bisa lebih fleksibel
+    dalam menangkap pola data.
+
+-   Tambahkan Interaksi Antar Variabel: Pertimbangkan untuk menambahkan
+    interaksi antara variabel kuantitatif dan kualitatif untuk melihat
+    efek gabungan mereka terhadap variabel respons.
+
+-   Bandingkan Model Bertingkat (Nested Models): Gunakan uji partial
+    F-test untuk membandingkan model sederhana dengan model yang lebih
+    kompleks dan pilih model yang terbaik.
+
+-   Validasi Model: Pastikan model akhir diuji dengan data yang berbeda
+    (misalnya, menggunakan metode cross-validation atau jackknife) untuk
+    memastikan bahwa model tersebut dapat diandalkan untuk prediksi di
+    luar data pelatihan (data training).
+
+## Penerapan Model Building
+
+1.  Identifikasi Variabel Respons (Y)
+
+```{r}
+library(AER)
+data('mtcars')
+head(mtcars)
+str(mtcars)
+```
+
+2.  Klasifikasi Variabel Prediktor
+
+```{r}
+categorical = c("cyl", "vs", "am", "gear", "carb")
+mtcars[categorical] <- lapply(mtcars[categorical], as.factor)
+str(mtcars)
+```
+
+3.  Gunakan Dummy Variables untuk Variabel Kualitatif
+
+    Variabel kualitatif yang sudah diubah menjadi faktor di step
+    sebelumnya di-dummy-kan secara otomatis oleh R saat digunakan dalam
+    fungsi lm().
+
+4.  Pertimbangkan Derajat Lebih Tinggi
+
+```{r}
+model1 = lm(mpg ~ disp, data = mtcars)
+model2 = lm(mpg ~ disp + I(disp^2), data = mtcars)
+```
+
+Visualisasi
+
+```{r}
+plot(mtcars$disp, mtcars$mpg, main = 'Perbandingan Regresi Linier Sederhana dan Derajat 2', xlab = 'disp', ylab = 'mpg')
+lines(mtcars$disp, predict(model1), col = 'blue', lwd = 3)
+lines(sort(mtcars$disp), predict(model2)[order(mtcars$disp)], col = 'darkgreen', lwd = 3)
+legend('topright', legend = c('Derajat 1', 'Derajat 2'), col = c('blue', 'darkgreen'), lty = 1, cex = 1, lwd = 3)
+```
+
+5.  Tambahkan Interaksi Antar Variabel
+
+```{r}
+model_interaction = lm(mpg ~ disp * hp, data = mtcars)
+summary(model_interaction)
+```
+
+6.  Bandingkan Nested Model
+
+    Menggunakan metode seleksi forward, backward, dan both direction.
+
+```{r}
+model_intercept = lm(mpg ~ 1, data = mtcars)
+model_full = lm(mpg ~ ., data = mtcars)
+
+# Forward selection
+forward = step(model_intercept, direction = 'forward', scope = formula(model_full), trace = 0)
+summary(forward)
+
+# Backward selection
+backward = step(model_full, direction = 'backward', trace = 0)
+summary(backward)
+
+# Both direction selection
+both = step(model_intercept, direction = 'both', scope = formula(model_full), trace = 0)
+summary(both)
+```
+
+7.  Validasi Model
+
+    Evaluasi model dengan menggunakan metode cross-validation atau
+    melihat pengaruh outliers.
+
+```{r}
+set.seed(123)
+n <- nrow(mtcars)
+k <- 5  # Jumlah fold
+folds <- sample(rep(1:k, length.out = n))
+
+errors <- numeric(k)
+
+for (i in 1:k) {
+  train_data <- mtcars[folds != i, ]
+  test_data <- mtcars[folds == i, ]
+  
+  model <- lm(mpg ~ disp + hp + wt, data = train_data)
+  predictions <- predict(model, newdata = test_data)
+  
+  errors[i] <- mean((test_data$mpg - predictions)^2)
+}
+
+mean_cv_error <- mean(errors)
+print(mean_cv_error)
+
+```
+
+Nilai mean_cv_error adalah rata-rata dari Mean Squared Error (MSE) pada
+tiap fold selama cross-validation. Semakin kecil nilainya akan semakin
+baik, yang berarti model membuat prediksi yang lebih akurat pada data
+baru. Respectively, nilai yang besar mengindikasikan bahwa model mungkin
+memiliki masalah, seperti underfitting (model tidak cukup kompleks) atau
+overfitting (model terlalu kompleks dan tidak mampu melakukan
+generalisasi dengan baik).
+
+-   Nilai mean_cv_error sebesar 9 cukup baik atau tidak tergantung pada
+    konteks dan skala data. Jika variabel targte (mpg) dalam dataset
+    mtcars memiliki kisaran nilai yang relatif besar, maka MSE sebesar 9
+    mungkin dapat diterima. Namun, jika kisaran nilai mpg kecil, maka
+    MSE sebesar 9 bisa dianggap tinggi dan kurang baik yang
+    mengindikasikan model tidak cukup akurat.
+
+# Model Validation
+
+Apa Itu Model Validation? Model validation adalah proses mengevaluasi
+model yang telah dibangun untuk memastikan bahwa model yang dibangun
+tidak hanya akurat untuk data pelatihan, tetapi juga andal dan stabil
+saat digunakan pada data lain.
+
+Kenapa Proses Ini Penting? Proses validasi model sangat penting karena
+memungkinkan kita untuk mengevaluasi ketahanan model saat digunakan pada
+data baru. Model yang bekerja dengan baik pada data pelatihan mungkin
+tidak berkinerja sama baiknya pada data yang berbeda, terutama jika
+model tersebut terlalu "cocok" atau overfit dengan data pelatihan.
+Validasi ini penting agar model dapat digunakan untuk prediksi atau
+pengambilan keputusan di dunia nyata tanpa menghasilkan hasil yang bias
+atau tidak akurat.
+
+Langkah-langkah dalam Model Validation:
+
+-   Evaluasi Nilai Prediksi: Memeriksa hasil prediksi untuk memastikan
+    bahwa nilainya masuk akal dan tidak menunjukkan pola atau prediksi
+    yang aneh. Ini membantu mendeteksi apakah model menghasilkan
+    prediksi yang valid dan logis.
+
+-   Pemeriksaan Parameter Model: Mengevaluasi koefisien yang dihasilkan
+    oleh model untuk memastikan bahwa tanda (positif atau negatif) dan
+    besaran koefisien sesuai dengan harapan. Koefisien yang tidak stabil
+    dapat menjadi tanda bahwa model mungkin tidak bekerja baik pada data
+    baru.
+
+-   Cross-Validation (Data-Splitting): Memisahkan data menjadi data
+    training dan data testing untuk menilai performa model pada data
+    yang tidak dilihat selama pelatihan. Cross-validation mengukur
+    ketahanan model dengan mengevaluasi rata-rata kesalahan prediksi
+    pada data testing.
+
+-   Jackknifing: Teknik yang digunakan ketika ukuran data terlalu kecil
+    untuk dipecah menjadi data training dan data testing. Metode ini
+    melibatkan penghilangan satu observasi secara bergantian dan
+    menghitung prediksi untuk masing-masing kasus, lalu menganalisis
+    performanya.
+
+-   Pengumpulan Data Baru untuk Prediksi: Menguji model dengan data baru
+    yang berbeda dari data training Dengan membandingkan prediksi model
+    dengan data nyata yang baru, kita dapat mengukur seberapa baik model
+    bekerja dalam praktik nyata.
+
+## Penerapan Model Validation
+
+1.  Membuat Model Regresi
+
+```{r}
+data('CigarettesB')
+model = lm(packs ~ price + income, data = CigarettesB)
+summary(model)
+
+```
+
+2.  Evaluasi Plot Diagnostik
+    -   Pada gambar ketiga yang menganalisis pola heteroskedastisitas
+        pada model menunjukkan bahwa meskipun titik-titik tidak
+        sepenuhnya mengikuti garis horizontal dengan distribusi yang
+        merata, plot ini menunjukkan adanya potensi heteroskedastisitas
+        dalam model.
+
+    -   Plot keempat yang merupakan plot Cook's distance digunakan untuk
+        mengidentifikasi pengamatan (observasi) yang memiliki pengaruh
+        besar terhadap model regresi. Pengamatan dengan nilai Cook's
+        Distance yang tinggi menunjukkan bahwa mereka memiliki dampak
+        signifikan terhadap koefisien regresi dan mungkin menjadi
+        outlier atau pengamatan berpengaruh. Pengamatan UT memiliki
+        Cook's Distance tertinggi, menunjukkan bahwa ini adalah
+        pengamatan paling berpengaruh dalam model. AR dan KY juga
+        menunjukkan nilai yang cukup tinggi, yang berarti mereka juga
+        mempengaruhi hasil regresi.
+
+    -   Plot Residuals vs Leverage digunakan untuk mengidentifikasi
+        pengamatan yang memiliki leverage tinggi (pengaruh besar pada
+        model) dan residual yang besar (outliers). Garis melengkung
+        (Cook's Distance) membantu menilai seberapa besar pengaruh
+        pengamatan terhadap model. Pengamatan KY perlu diperiksa lebih
+        lanjut untuk menentukan apakah ada alasan sah untuk pengaruhnya
+        yang besar. Jika pengaruh ini tidak dapat dijustifikasi, dapat
+        dipertimbangkan untuk memodifikasi model atau menghapus
+        pengamatan tersebut. Pengamatan lainnya seperti AR dan UT perlu
+        dipertimbangkan, tetapi perhatian utama harus diberikan pada
+        pengamatan dengan leverage tinggi seperti KY.
+
+```{r}
+plot(model, which = 1:6)
+```
+
+3.  Deteksi Observasi Berpengaruh (Leverage dan Cook's Distance)
+
+```{r}
+model_hat = hatvalues(model)
+plot(model_hat)
+abline(h = c(1, 2, 3) * mean(model_hat), col = 2)
+id = which(model_hat > (2 * mean(model_hat)))
+text(id, model_hat[id], rownames(CigarettesB)[id], pos = 1, xpd = TRUE)
+```
+
+4.  Analisis Influence Measures
+    -   dfb.1\_, dfb.pric, dfb.incm disebut dengan DFBETAS, yang
+        mengukur pengaruh pengamatan individu pada koefisien regresi.
+        Menunjukkan seberapa besar koefisien regresi akan berubah jika
+        pengamatan tersebut dihapus.
+
+    -   dffit disebut DFITS, yaitu ukuran seberapa besar pengaruh
+        pengamatan terhadap prediksi model. Nilai dffit yang besar
+        (lebih dari +-2\*sqrt(p/n). =\> Pengamatan KY dan UT memiliki
+        nilai dffit yang signifikan (ditandai dengan \*\_)
+        mengindikasikan bahwa mereka mempengaruhi prediksi model secara
+        substansial.
+
+    -   cov.r merupakan rasio covariance yang mengukur stabilitas
+        covariance dari parameter model ketika pengamatan dihapus. Nilai
+        cov.r yang jauh dari 1 menunjukkan adanya pengaruh besar dari
+        pengamatan tersebut =\> UT memiliki nilai cov.r yang lebih
+        rendah dari 1 (0.68\_\*) yang mengindikasikan bahwa pengamatan
+        ini mempengaruhi stabilitas model secara signifikan.
+
+    -   cook.d merupakan Cook's Distance yang merupakan ukuran
+        keseluruhan pengaruh pengamatan pada model regresi. KY dan UT
+        memiliki nilai cook.d cukup tinggi (0.21 dan 0.22) menunjukkan
+        bahwa mereka memiliki pengaruh signifikan terhadap hasil model.
+
+    -   hat (leverage) mengukur seberapa jauh pengamatan tertentu dari
+        nilai rata-rata variabel prediktor. KY memiliki leverage tinggi
+        (0.20\_\*) yang berarti pengamatan ini jauh dari nilai rata-rata
+        variabel independen dan dapat mempengaruhi hasil model.
+
+```{r}
+summary(influence.measures(model))
+```
+
+5.  Mengidentifikasi dan Menghapus Observasi Berpengaruh
+
+```{r}
+idx = which(apply(influence.measures(model)$is.inf, 1, any))
+CigarettesB[idx, ]  # Menampilkan observasi berpengaruh
+CigarettesB_noinf = CigarettesB[-idx, ]  # Dataset tanpa observasi berpengaruh
+```
+
+6.  Membuat Model Baru Tanpa Observasi Berpengaruh
+
+```{r}
+model_noinf = lm(packs ~ price + income, data = CigarettesB_noinf)
+summary(model_noinf)
+plot(model_noinf, which = 1:6)
+summary(influence.measures(model_noinf))
+```
+
+7.  Cross-Validation
+
+```{r}
+set.seed(123)
+n <- nrow(CigarettesB)
+k <- 5  # Jumlah fold
+folds <- sample(rep(1:k, length.out = n))
+
+errors <- numeric(k)
+
+for (i in 1:k) {
+  train_data <- CigarettesB[folds != i, ]
+  test_data <- CigarettesB[folds == i, ]
+  
+  model_cv <- lm(packs ~ price + income, data = train_data)
+  predictions <- predict(model_cv, newdata = test_data)
+  
+  # Hitung Mean Squared Error (MSE) pada data uji
+  errors[i] <- mean((test_data$packs - predictions)^2)
+}
+
+mean_cv_error <- mean(errors)
+print(mean_cv_error)
+```
