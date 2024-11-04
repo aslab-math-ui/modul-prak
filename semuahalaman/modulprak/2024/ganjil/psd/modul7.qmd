@@ -9,13 +9,17 @@ format: html
 
 Kembali ke [Pengantar Sains Data](./psd2024.qmd)
 
-# Distribusi Sampling
+Distribusi dari suatu statistik disebut ***sampling distribution*** atau **distribusi *sampling***.
 
-## Membentuk distribusi
+Contoh: distribusi dari rata-rata disebut distribusi *sample mean*. (Rata-rata termasuk statistik)
 
-Misalkan kita punya suatu distribusi uniform
+# Distribusi *Sample Mean*
 
-Akan dilakukan sampling dari distribusi tersebut
+## Dengan melakukan simulasi
+
+Misalkan kita punya suatu distribusi *uniform* (kontinu)
+
+Akan dilakukan *sampling* dari distribusi tersebut
 
 ```{r}
 unif1 <- c(1:8)
@@ -72,14 +76,151 @@ for(i in 1:1000){
 hist(sample_means, xlim = c(0,8), main = "Sample Size of 50", xlab = "Sample Means")
 ```
 
-Jika dilihat berdasarkan histogram dari ketiga sampling tadi, bisa terlihat bahwa semakin besar ukuran sampelnya maka distribusinya akan semakin mendekati distribusi normal
+Jika dilihat berdasarkan histogram dari ketiga sampling tadi, bisa terlihat bahwa semakin besar ukuran sampelnya, maka distribusi *sample mean* akan semakin mendekati distribusi normal
 
-**Dalil 1** Apabila sampel acak berukuran n diambil dengan pengembalian dari populasi berhingga yang berukuran $N$, dimana populasi tersebut mempunyai mean $\mu$ dan variansi $\sigma^2$ , maka untuk 𝑛 yang besar, distribusi dari mean sampel $\bar{X}$ akan mendekati distribusi normal dengan mean $\mu_\bar{X} = \mu$ dan $\sigma\bar{X}^2 = \frac{\sigma^2}{n}$. Dengan demikian $$Z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \; \text{mendekati} \; N(0,1)$$
+## Dengan melihat semua kemungkinan
 
-**Contoh** Misalkan diberikan populasi 1,1,1,3,4,5,6,6,6,7 dan misalkan diambil sampel acak berukuran 36 dari populasi tersebut dengan pengembalian. Tentukan probabilitas bahwa nilai rata-rata sampelnya antara 3.85 dan 4.45 !
+Daripada melakukan simualsi yang mengandalkan *random*, untuk ukuran sampel yang cukup kecil, kita bisa saja melihat semua kemungkinan pengambilan sampel, menghitung statistiknya (misalnya di sini statistik rata-rata), lalu mmenghitung probabilitasnya, untuk memperoleh distribusi *sampling* untuk statistik tersebut (misalnya di sini distribusi *sample mean*) secara eksak.
+
+Mari kita coba untuk distribusi diskrit berhingga, yang misalnya bisa kita buat sendiri, memanfaatkan  *package* `distr` yang sudah kita kenal sebelumnya.
 
 ```{r}
-library(distr)
+library("distr")
+```
+
+Kita akan meninjau semua kemungkinan pengambilan dua sampel dengan pengembalian. Untuk itu, kita memerlukan *package* `gtools` yang menyediakan fungsi-fungsi kombinatorik seperti `permutations` dan `combinations` untuk memperoleh semua kemungkinan seperti itu
+
+```
+install.packages("gtools")
+```
+
+```{r}
+library("gtools")
+```
+
+Misalkan kita punya distribusi diskrit sebagai berikut:
+
+```{r}
+supp1 <- c(0, 1, 2, 3)
+prob1 <- c(1/4, 1/4, 1/4, 1/4)
+dist1 <- DiscreteDistribution(supp = supp1,
+                              prob = prob1)
+plot(dist1)
+```
+
+(Sebenarnya `dist1` juga bisa berupa distribusi Bernoulli, binomial, ataupun distribusi diskrit lainnya.)
+
+Kita bisa menghasilkan semua kemungkinan sampel berukuran 2 dengan pengembalian, menggunakan fungsi `permutations` dari *package* `gtools`, sebagai berikut:
+
+```{r}
+mat1 <- permutations(n = length(support(dist1)),
+                     r = 2, # ukuran sampel
+                     v = support(dist1),
+                     repeats.allowed = TRUE)
+mat1
+```
+
+Hasilnya berupa matriks, yang bisa kita ubah jadi *data frame*,
+
+```{r}
+df_perm1 <- data.frame(mat1)
+df_perm1
+```
+
+Kemudian, kita ingin menghitung rata-rata dari tiap kemungkinan dua sampel. Kita bisa *apply* atau menerapkan fungsi statistik yang kita inginkan, misalnya `mean` atau rata-rata, untuk tiap baris di matriks `mat1`, sebagai berikut
+
+```{r}
+apply(mat1, 1, mean)
+```
+
+Hasilnya bisa kita simpan sebagai kolom baru di *data frame*, misal kolom `Xbar`
+
+```{r}
+df_perm1["Xbar"] <- apply(mat1, 1, mean)
+df_perm1
+```
+
+Sekarang, `df_perm1` menyimpan semua kemungkinan sampel berukuran 2 dengan pengembalian yang mungkin, disertai rata-rata masing-masing.
+
+Selanjutnya, kita perlu menghitung probabilitas dari tiap kemungkinan sampel. Perhatikan bahwa, karena *sampling* dilakukan **dengan pengembalian**, probabilitas antar tiap pengambilan bersifat **independen**. Sehingga, kita tinggal mengalikan probabilitas untuk masing-masing pengambilan.
+
+Caranya, kita bisa menghitung probabilitas masing-masing pengambilan (membuat matriks baru, misal `mat1_prob`), baru melakukan perkalian per baris.
+
+Karena distribusi `dist1` tergolong diskrit, kita bisa menerapkan PMFnya yaitu fungsi `d`
+
+```{r}
+d(dist1)(mat1)
+```
+
+Waduh, hasilnya malah *flat*, daripada berbentuk matriks. Agar tetap berbentuk matriks, kita gunakan fungsi `apply` lagi, sebagai berikut
+
+```{r}
+mat1_prob <- apply(mat1, 1:2, d(dist1))
+mat1_prob
+```
+
+Sekarang kita tinggal mengalikan tiap baris (dengan `apply` lagi), dan menyimpan hasilnya sebagai kolom baru di *data frame*, misal `prob`
+
+```{r}
+df_perm1["prob"] <- apply(mat1_prob, 1, prod)
+df_perm1
+```
+
+Kini, tiap kemungkinan sampel berukuran 2 dengan pengembalian sudah disertai rata-rata dan probabilitas. Untuk memperoleh tabel (PMF untuk) distribusi *sample mean*, kita tinggal melakukan "pengelompokkan" data untuk tiap nilai statistiknya yaitu `Xbar` atau rata-rata, sembari menjumlahkan probabilitas. Caranya bisa dengan kode seperti berikut
+
+```{r}
+Xbar_prob1 <- aggregate(prob ~ Xbar,
+                        data = df_perm1,
+                        sum)
+Xbar_prob1
+```
+
+`Xbar_prob1` adalah tabel PMF dari *sample mean*, yang telah diperoleh secara eksak. Mari kita visualisasikan distribusi *sample mean* tersebut menggunakan *histogram*, tetapi dengan fungsi `barplot` agar tiap nilai rata-rata memiliki bar tersendiri
+
+```{r}
+barplot(height = Xbar_prob1[["prob"]],
+        names.arg = Xbar_prob1[["Xbar"]],
+        ylim = c(0, 5/16),
+        yaxp = c(0, 5/16, 5))
+```
+
+Whew! Perhatikan bahwa, untuk sampel berukuran 2, ternyata kemungkinannya cukup banyak. Lihat kembali dimensi dari `mat1` yaitu matriks berisi semua kemungkinan sampel berukuran 2 dengan pengembalian:
+
+```{r}
+dim(mat1)
+```
+
+Banyaknya baris bisa sampai 16 ini dihasilkan dari 
+
+$$\begin{align*}
+{}_{4}P_{2} &= \frac{4!}{(4-2)!} \\
+            &= \frac{(4)(3)(2!)}{2!} \\
+            &= (4)(3) = 12
+\end{align*}$$
+
+```{r}
+factorial(4) / factorial(4-2)
+```
+
+Dengan 4 adalah ukuran *support* di distribusi asalnya, dan 2 adalah ukuran sampel. Ini masih contoh kecil.
+
+Bayangkan apabila ukuran sampelnya besar. Maka banyaknya kemungkinan pengambilan menjadi amat sangat banyak. Terlalu banyak, sehingga lebih baik kita lakukan suatu penghampiran daripada langsung menghitung distribusi *sample mean* secara eksak.
+
+Untuk itu, perhatikan dalil-dalil berikut.
+
+## Dalil 1 - Dengan Pengembalian
+
+**Dalil 1**
+
+Apabila sampel acak berukuran n diambil **dengan pengembalian** dari populasi berhingga yang berukuran $N$, dimana populasi tersebut mempunyai mean $\mu$ dan variansi $\sigma^2$ , maka untuk $n$ yang besar, distribusi dari mean sampel $\bar{X}$ akan mendekati distribusi normal dengan mean $\mu_\bar{X} = \mu$ dan $\sigma\bar{X}^2 = \frac{\sigma^2}{n}$. Dengan demikian $$Z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \; \text{mendekati} \; N(0,1)$$
+
+Catatan: Dalil 1 berlaku untuk populasi berhingga dengan **ukuran sampel** $\mathbf{n \geq 30}$. Dalil 1 berlaku untuk $n < 30$ apabila distribusi dari populasinya tidak terlalu menyimpang dari distribusi normal.
+
+**Contoh**
+
+Misalkan diberikan populasi 1,1,1,3,4,5,6,6,6,7 dan misalkan diambil sampel acak berukuran 36 dari populasi tersebut dengan pengembalian. Tentukan probabilitas bahwa nilai rata-rata sampelnya antara 3.85 dan 4.45 !
+
+```{r}
 data1 <- c(1, 1, 1, 3, 4, 5, 6, 6, 6, 7,8,8)
 ```
 
@@ -94,7 +235,13 @@ Sekarang kita hitung probabilitasnya
 
 ```{r}
 n <- 36
-probability <- pnorm(4.45, mean = mean1, sd = sd1/sqrt(n)) - pnorm(3.85, mean = mean1, sd = sd1/sqrt(n))
+probability <-
+  pnorm(4.45,
+        mean = mean1,
+        sd = sd1/sqrt(n)) -
+    pnorm(3.85,
+          mean = mean1,
+          sd = sd1/sqrt(n))
 probability
 ```
 
@@ -111,7 +258,9 @@ probability <- pnorm(z_upper) - pnorm(z_lower)
 probability
 ```
 
-**Lalu bagaimana dengan tanpa pengambilan?** Misalkan kita punya suatu distribusi uniform
+## Dalil 2 - Tanpa Pengembalian
+
+**Lalu bagaimana dengan tanpa pengembalian?** Misalkan kita punya suatu distribusi uniform
 
 ```{r}
 unif2 <- c(1:50)
@@ -144,33 +293,47 @@ hist(sample_means, main = "Sample Size of 50", xlab = "Sample Means")
 
 Dapat terlihat juga bahwa bentuk distribusinya mirip dengan distribusi normal! Akan tetapi, formula yang digunakannya berbeda, ingat dalil 2!
 
-**Dalil 2** Apabila sampel acak berukuran n diambil secara acak tanpa pengembalian dari suatu populasi berhingga berukuran $N$, dimana populasi tersebut memiliki mean $\mu$ dan variansi $\sigma^2$, maka distribusi probabilitas $\bar{X}$ akan menghampiri normal dengan $\mu_\bar{X} = \mu$ dan $\sigma^2 = \frac{\sigma^2(N-n)}{n(N-1)}$
+**Dalil 2** Apabila sampel acak berukuran n diambil secara acak **tanpa pengembalian** dari suatu populasi berhingga berukuran $N$, dimana populasi tersebut memiliki mean $\mu$ dan variansi $\sigma^2$, maka distribusi probabilitas $\bar{X}$ akan menghampiri normal dengan $\mu_\bar{X} = \mu$ dan $\sigma^2 = \frac{\sigma^2(N-n)}{n(N-1)}$
 
-**contoh**
+Catatan: lagi-lagi, ada syarat $n \geq 30$
 
-Secara umum, jika sampel yang diambil sangat besar maka bisa digunakan **CLT** atau **Central Limit Theorem**
+Secara umum, jika sampel yang diambil sangat besar (yaitu $n \geq 30$) maka bisa digunakan **CLT** atau ***Central Limit Theorem***, juga disebut **Dalil Limit Pusat**
 
-# CENTRAL LIMIT THEOREM
+# *Central Limit Theorem* (CLT)
 
-Semakin besar sampel yang diambil, bisa didekatkan ke distribusi normal dengan $\mu_\bar{X} = \mu$ dan $\sigma_\bar{X}^2 = \frac{\sigma^2}{n}$
+Semakin besar sampel yang diambil, distribusi *sample mean* makin mendekati distribusi normal $N(\mu, \sigma^2)$, dengan
 
-**contoh** Sebuah perusahaan memproduksi bohlam. Bila umur bohlam itu menyebar normal dengan mean 800 jam dan standar deviasi 40 jam, hitunglah peluang bahwa suatu sampel acak 16 bohlam akan mempunyai umur rata-rata kurang dari 775 jam.
+$$\mu_\bar{X} \approx \mu$$
+
+$$\sigma_\bar{X}^2 \approx \frac{\sigma^2}{n}$$
+
+Bagaimanapun bentuk distribusi aslinya, apabila $n \geq 30$, distribusi normal di atas akan mendekati distribusi *sample mean* dengan sangat baik
+
+## Contoh CLT: Menghitung CDF
+
+Sebuah perusahaan memproduksi bohlam. Bila umur bohlam itu menyebar normal dengan mean 800 jam dan standar deviasi 40 jam, hitunglah peluang bahwa suatu sampel acak 16 bohlam akan mempunyai umur rata-rata kurang dari 775 jam.
+
+Jawab: misalkan $X$ adalah variabel acak untuk umur bohlam. Diminta
+
+$$\text{Pr}(X < 775)$$
+
+yaitu nilai CDF di 775.
 
 ```{r}
 n <- 16
 mean2 <- 800
 sd2 <- 40 / sqrt(n)
-pnorm(775, mean=mean2, sd = sd2)
+pnorm(775, mean = mean2, sd = sd2)
 ```
 
-Atau jika ingin dirubah kedalam normal standar terlebih dahulu
+Atau jika ingin diubah ke dalam normal standar terlebih dahulu,
 
 ```{r}
 x = (775-mean2) / sd2
-pnorm(x)
+pnorm(x) # otomatis mean=0, sd=1
 ```
 
-## Penerapan CLT
+## CLT untuk sembarang data
 
 transformasi data random menjadi normal standar (berlaku untuk distribusi kontinu apapun -\> sampling dist.) gunakan CLT -\> scale
 
@@ -183,12 +346,11 @@ plot(density(random), main = "Sebelum")
 plot(density(scale(random)), main = "Sesudah")
 ```
 
-# Contoh soal
+## Contoh CLT: Probabilitas di Interval
 
 Misalkan diberikan populasi 1,1,1,3,4,5,6,6,6,7 dan misalkan diambil sampel acak berukuran 36 dari populasi tersebut dengan pengembalian. Tentukan probabilitas bahwa nilai rata-rata sampelnya antara 3.85 dan 4.45 !
 
 ```{r}
-library(distr)
 data1 <- c(1, 1, 1, 3, 4, 5, 6, 6, 6, 7)
 
 mean1 <- mean(data1)
@@ -206,19 +368,23 @@ probability <- pnorm(z_upper) - pnorm(z_lower)
 probability
 ```
 
-## Distribusi T : Digunakan saat n\<30 dan variansi tidak diketahui
+# Distribusi-t
 
-**pdf**
+Digunakan saat $n < 30$ (sehingga tidak bisa menggunakan CLT) dan variansi tidak diketahui
+
+## PDF
 
 ```{r}
 dt(x = 0.5, df = 14)
 ```
 
-**cdf**
+## CDF
 
 ```{r}
 pt(0.025, df = 14) 
 ```
+
+## *Quantile function*
 
 Pr(T\<t)=0.05 (alpha) -\> nyari t nya (t-table)
 
@@ -226,7 +392,7 @@ Pr(T\<t)=0.05 (alpha) -\> nyari t nya (t-table)
 qt(.95, df = 20)
 ```
 
-**generating random data**
+## RNG
 
 ```{r}
 set.seed(121)
@@ -236,7 +402,15 @@ randomt <- rt(n, df = 20)
 hist(randomt, breaks=50, xlim = c(-6, 4))
 ```
 
-**contoh** Tentukan nilai 𝑘 sedemikian sehingga Pr 𝑘 \< 𝑇 \< −1.761 = 0.045, dari suatu sampel acak berukuran 15 diambil dari suatu populasi normal
+## Penerapan distribusi-t
+
+**Contoh**
+
+Tentukan nilai $k$ sedemikian sehingga
+
+$$\text{Pr}(k < T < -1.761) = 0.045$$
+
+dari suatu sampel acak berukuran 15 diambil dari suatu populasi normal
 
 ```{r}
 prob <- 0.045
