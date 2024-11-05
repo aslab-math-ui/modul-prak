@@ -283,11 +283,11 @@ window.Quarto = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">25</span>, <span class="at">max =</span> <span class="dv">100</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 36.1321
-[1] 70.14039
-[1] 66.95143
-[1] 63.19482
-[1] 93.35669</code></pre>
+<pre><code>[1] 73.6068
+[1] 32.58356
+[1] 93.32852
+[1] 58.33097
+[1] 84.51736</code></pre>
 </div>
 </div>
 </section>
@@ -312,7 +312,7 @@ Warning
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">5</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">runif</span>(<span class="dv">1</span>, <span class="at">min =</span> <span class="dv">25</span>, <span class="at">max =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 68.98052 75.74733 30.43217 91.94604 94.66238</code></pre>
+<pre><code>[1] 66.27806 50.01510 32.83063 54.49297 37.22262</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -320,9 +320,9 @@ Warning
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">runif</span>(<span class="dv">3</span>, <span class="at">min =</span> <span class="dv">25</span>, <span class="at">max =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         [,1]     [,2]     [,3]     [,4]     [,5]
-[1,] 68.24756 38.68793 68.89184 64.21415 87.91960
-[2,] 93.70248 32.25693 68.17204 53.65012 65.30932
-[3,] 66.68116 42.49557 73.06926 97.11076 29.28108</code></pre>
+[1,] 88.46662 61.55771 57.12706 68.93300 83.82888
+[2,] 60.70676 64.84591 93.10780 57.44232 73.65354
+[3,] 86.44531 54.30183 99.68532 77.28774 58.60382</code></pre>
 </div>
 </div>
 </section>
@@ -1395,6 +1395,7 @@ Attaching package: 'distrEx'</code></pre>
 <p>Tentukan nilai dari</p>
 <p><span class="math display">\[\text{Pr}\left( \left(\bar{X}_1 - \bar{X}_2\right) &lt; 8.2 \right)\]</span></p>
 <p><strong>Jawab:</strong></p>
+<p>Perhatikan bahwa nilai yang diminta adalah CDF di 8.2 dari variabel acak <span class="math inline">\(\bar{X}_1 - \bar{X}_2\)</span>.</p>
 <p>Karena Populasi I dan Populasi II berdistribusi normal, walaupun <span class="math inline">\(n_1\)</span> dan <span class="math inline">\(n_2\)</span> berukuran kecil, maka <span class="math inline">\(\bar{X}_1 - \bar{X}_2\)</span> juga berdistribusi normal.</p>
 <p>(Kombinasi linear dari distribusi normal juga berupa distribusi normal.)</p>
 <p>Mari kita data terlebih dahulu, semua yang diketahui dari soal</p>
@@ -1441,22 +1442,30 @@ Attaching package: 'distrEx'</code></pre>
 <pre><code>[1] 1.67332</code></pre>
 </div>
 </div>
-<p>Jadi,</p>
+<p>Jadi, mengikuti Dalil 4, kita bisa menghitung CDF dari <span class="math inline">\(\bar{X}_1 - \bar{X}_2\)</span> melalui CDF dari distribusi normal yang dihampiri olehnya (ataupun menghampirinya), yaitu distribusi normal yang nilai rata-ratanya, variansinya, dan <em>standard deviation</em>-nya baru saja kita tentukan.</p>
+<p>Dengan demikian, nilai <span class="math inline">\(\text{Pr}\left( \left(\bar{X}_1 - \bar{X}_2\right) &lt; 8.2 \right)\)</span> bisa dihitung melalui distribusi normal tersebut, sebagai berikut</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">8.2</span>, <span class="at">mean =</span> xbeda_mean, <span class="at">sd =</span> xbeda_sd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1410294</code></pre>
+</div>
+</div>
+<p>Atau bisa juga kita ubah ke normal standar terlebih dahulu,</p>
 <p><span class="math display">\[\begin{align*}
 \text{Pr}&amp;\left( \left(\bar{X}_1 - \bar{X}_2\right) &lt; 8.2 \right) \\
 &amp;= \text{Pr}\left( \frac{\left(\bar{X}_1 - \bar{X}_2\right) - 10}{\sqrt{2.8}} &lt; \frac{8.2 - 10}{\sqrt{2.8}} \right) \\
 &amp;= \text{Pr}\left( Z &lt; \frac{8.2 - 10}{\sqrt{2.8}} \right)
 \end{align*}\]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># otomatis mean = 0, sd = 1</span></span>
-<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>( (<span class="fl">8.2</span> <span class="sc">-</span> xbeda_mean) <span class="sc">/</span> <span class="fu">sqrt</span>(xbeda_var) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># otomatis mean = 0, sd = 1</span></span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>( (<span class="fl">8.2</span> <span class="sc">-</span> xbeda_mean) <span class="sc">/</span> <span class="fu">sqrt</span>(xbeda_var) )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1410294</code></pre>
 </div>
 </div>
 <p>atau sama saja</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>( (<span class="fl">8.2</span> <span class="sc">-</span> xbeda_mean) <span class="sc">/</span> xbeda_sd )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>( (<span class="fl">8.2</span> <span class="sc">-</span> xbeda_mean) <span class="sc">/</span> xbeda_sd )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1410294</code></pre>
 </div>
