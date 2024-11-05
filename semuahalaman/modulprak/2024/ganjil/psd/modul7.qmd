@@ -82,11 +82,38 @@ library("distrEx")
 
 ## Dengan melakukan simulasi
 
-Misalkan kita punya suatu distribusi *uniform* diskrit seperti berikut
+Misalkan kita punya suatu populasi seperti berikut
 
 ```{r}
-supp1 <- 1:8
-prob1 <- rep(1/8, times = 8)
+popu1 <- 1:8
+popu1
+```
+
+Kita bisa saja membentuk distribusi dari populasi tersebut, dengan pertama membuat tabel frekuensi,
+
+```{r}
+popu1_freq <- table(popu1)
+popu1_freq
+```
+
+Kemudian membagi tiap nilai di tabelnya dengan total frekuensi, agar memperoleh tabel probabilitas (yang menjadi tabel PMF):
+
+```{r}
+popu1_prob <- popu1_freq/sum(popu1_freq)
+popu1_prob
+```
+
+Kita bisa peroleh baris pertama (nilai-nilai yang mungkin),
+
+```{r}
+names(popu1_prob)
+```
+
+Sehingga kita bisa membentuk distribusi populasi tersebut dengan `distr` seperti berikut:
+
+```{r}
+supp1 <- names(popu1_prob)
+prob1 <- popu1_prob
 dist1 <- DiscreteDistribution(supp = supp1,
                               prob = prob1)
 ```
@@ -101,7 +128,7 @@ support(dist1)
 prob(dist1)
 ```
 
-Lihat sebarannya
+Kita bisa melihat sebarannya:
 
 ```{r}
 E(dist1)
@@ -115,11 +142,65 @@ var(dist1)
 plot(dist1)
 ```
 
-Misal diambil berbagai ukuran sampel dengan pengembalian
+Sekarang, mari kita coba mengambil berbagai ukuran sampel dari populasi tersebut, dengan pengembalian. Secara pemrograman, kita bisa langsung mengambil sampel dari `popu1`, atau bisa juga mengambil sampel dari distribusi `dist1` yang bersesuaian. Pengambilan sampel yang berkali-kali itu bisa dilakukan dengan *for loop* ataupun dengan fungsi `replicate`
 
 ::: {.panel-tabset}
 
-## Dengan `replicate`
+## Dengan `replicate`, dari populasi
+
+```{r}
+set.seed(211)
+```
+
+Sample size 3, 1000 kali percobaan
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = popu1,
+             size = 3,
+             replace = TRUE)))
+
+hist(sample_means,
+     main = "Sample Size of 3",
+     xlab = "Sample Means")
+```
+
+Sample size 10, 1000 kali percobaan
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = popu1,
+             size = 10,
+             replace = TRUE)))
+
+hist(sample_means,
+     main = "Sample Size of 10",
+     xlab = "Sample Means")
+```
+
+Sample size 50, 1000 kali percobaan
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = popu1,
+             size = 50,
+             replace = TRUE)))
+
+hist(sample_means,
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
+```
+
+## Dengan `replicate`, dari distribusi
 
 ```{r}
 set.seed(211)
@@ -176,7 +257,64 @@ hist(sample_means,
      xlab = "Sample Means")
 ```
 
-## Dengan *for loop*
+## Dengan *for loop*, dari populasi
+
+```{r}
+set.seed(211)
+```
+
+Sample size 3, 1000 kali percobaan
+
+```{r}
+sample_means <- c( )
+for (i in 1:1000) {
+  sample_means[i] <-
+    mean(
+      sample(x = popu1,
+             size = 3,
+             replace = TRUE))
+}
+
+hist(sample_means,
+     main = "Sample Size of 3",
+     xlab = "Sample Means")
+```
+
+Sample size 10, 1000 kali percobaan
+
+```{r}
+sample_means <- c( )
+for (i in 1:1000) {
+  sample_means[i] <-
+    mean(
+      sample(x = popu1,
+             size = 10,
+             replace = TRUE))
+}
+
+hist(sample_means,
+     main = "Sample Size of 10",
+     xlab = "Sample Means")
+```
+
+Sample size 50, 1000 kali percobaan
+
+```{r}
+sample_means <- c( )
+for (i in 1:1000) {
+  sample_means[i] <-
+    mean(
+      sample(x = popu1,
+             size = 50,
+             replace = TRUE))
+}
+
+hist(sample_means,
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
+```
+
+## Dengan *for loop*, dari distribusi
 
 ```{r}
 set.seed(211)
@@ -254,7 +392,7 @@ install.packages("gtools")
 library("gtools")
 ```
 
-Mari kita coba untuk distribusi diskrit berhingga, yang misalnya bisa kita buat sendiri, sebagai berikut:
+Mari kita coba untuk populasi yang berdistribusi diskrit berhingga. Distribusi tersebut bisa kita buat sendiri, misalnya sebagai berikut:
 
 ```{r}
 supp2 <- c(0, 1, 2, 3)
@@ -340,6 +478,29 @@ barplot(height = Xbar_prob2[["prob"]],
         yaxp = c(0, 5/16, 5))
 ```
 
+Oh iya, karena *sample mean* berupa distribusi, kita juga bisa menggunakan `distr` lagi untuk membentuk distribusinya (karena kita sudah punya tabel PMFnya).
+
+```{r}
+mean_dist2 <-
+  DiscreteDistribution(supp = Xbar_prob2[["Xbar"]],
+                       prob = Xbar_prob2[["prob"]])
+prob(mean_dist2)
+```
+
+Sehingga, kita bisa menghitung ekspektasi dan variansinya serta membuat *plot*, seperti berikut.
+
+```{r}
+E(mean_dist2)
+```
+
+```{r}
+var(mean_dist2)
+```
+
+```{r}
+plot(mean_dist2)
+```
+
 Whew! Perhatikan bahwa, untuk sampel berukuran 2, ternyata kemungkinannya cukup banyak. Lihat kembali dimensi dari `mat2` yaitu matriks berisi semua kemungkinan sampel berukuran 2 dengan pengembalian:
 
 ```{r}
@@ -372,80 +533,143 @@ Catatan: Dalil 1 berlaku untuk populasi berhingga dengan **ukuran sampel** $\mat
 
 Misalkan diberikan populasi 1,1,1,3,4,5,6,6,6,7 dan misalkan diambil sampel acak berukuran 36 dari populasi tersebut dengan pengembalian. Tentukan probabilitas bahwa nilai rata-rata sampelnya antara 3.85 dan 4.45 !
 
+Jawab:
+
+Sebut saja populasi yang diberikan berdistribusi $X$. Distribusi *sample mean* yang bersesuaian dilambangkan $\bar{X}$. Soal meminta
+
+$$\text{Pr}\left(3.85 < \bar{X} < 4.45\right)$$
+
+Kita akan menghampiri distribusi $\bar{X}$ dengan suatu distribusi normal, sesuai yang ditentukan oleh Dalil 1. Kita definisikan dulu populasinya:
+
 ```{r}
-data1 <- c(1, 1, 1, 3, 4, 5, 6, 6, 6, 7,8,8)
+popu3 <- c(1, 1, 1, 3,
+           4, 5, 6, 6,
+           6, 7, 8, 8)
 ```
 
-Kita hitung statistiknya
+Misal $n$ adalah ukuran sampel
 
 ```{r}
-mean1 <- mean(data1)
-sd1 <- sd(data1)
+n3 <- 36
 ```
 
-Sekarang kita hitung probabilitasnya
+Kita hitung statistik dari populasinya
 
 ```{r}
-n <- 36
-probability <-
+x3_mean <- mean(popu3)
+x3_sd <- sd(popu3)
+```
+
+Variansi adalah kuadrat dari *standard deviation*
+
+```{r}
+x3_var <- x3_sd^2
+```
+
+Memanfaatkan Dalil 1, kita bisa anggap rata-ratanya sebagai rata-rata dari suatu distribusi normal, dan variansinya dibagi $n$ menjadi variansi dari distribusi normal tersebut, yang akan menghampiri distribusi *sample mean*
+
+```{r}
+xbar3_mean <- x3_mean
+xbar3_var <- x3_var / n3
+```
+
+Sekarang kita hitung probabilitasnya menggunakan distribusi normal tersebut
+
+```{r}
+prob3 <-
   pnorm(4.45,
-        mean = mean1,
-        sd = sd1/sqrt(n)) -
+        mean = xbar3_mean,
+        sd = xbar3_var) -
     pnorm(3.85,
-          mean = mean1,
-          sd = sd1/sqrt(n))
-probability
+          mean = xbar3_mean,
+          sd = xbar3_var)
+prob3
 ```
 
 Atau bisa kita ubah ke normal standar terlebih dahulu
 
 ```{r}
-n <- 36
-standard_error <- sd1 / sqrt(n)
-lower_bound <- 3.85
-upper_bound <- 4.45
-z_lower <- (lower_bound - mean1) / standard_error
-z_upper <- (upper_bound - mean1) / standard_error
-probability <- pnorm(z_upper) - pnorm(z_lower)
-probability
+n3 <- 36
+standard_error <- xbar3_sd / sqrt(n3)
+xbar3_lower <- 3.85
+xbar3_upper <- 4.45
+z3_lower <- (xbar3_lower - xbar3_mean) / standard_error
+z3_upper <- (xbar3_upper - xbar3_mean) / standard_error
+prob3_z <- pnorm(z3_upper) - pnorm(z3_lower)
+prob3_z
 ```
+
+Bagaimanapun juga, walaupun kita malah menghitung probabilitas menggunakan distribusi normal tersebut, kira-kira segitulah probabilitasnya di distribusi *sample mean* yang sebenarnya kita inginkan. Itulah manfaat dari Dalil 1.
 
 ## Dalil 2: Tanpa Pengembalian
 
-**Lalu bagaimana dengan tanpa pengembalian?** Misalkan kita punya suatu distribusi uniform
+**Lalu bagaimana dengan tanpa pengembalian?** Misalkan kita punya suatu populasi
 
 ```{r}
-unif2 <- c(1:50)
-unif2
+pop4 <- c(1:50)
+pop4
 ```
 
 Lihat sebarannya
 
 ```{r}
-mean(unif2)
+mean(pop4)
 ```
 
 ```{r}
-sd(unif2)
+sd(pop4)
 ```
 
 ```{r}
-hist(unif2, main = "Uniform Distribution", xlab = " ")
+hist(pop4, main = "Distribusi Uniform Diskrit", xlab = " ")
 ```
 
 Sample size 30, 1000 kali percobaan
 
+::: {.panel-tabset}
+
+## Dengan `replicate`, dari populasi
+
 ```{r}
-sample_means <- c( )
-for(i in 1:1000){
-  sample_means[i] <- mean(sample(50, 30, replace = FALSE))
-}
-hist(sample_means, main = "Sample Size of 50", xlab = "Sample Means")
+set.seed(623)
+sample_means <- 
+  replicate(
+    1000,
+    mean(
+      sample(50,
+             30,
+             replace = FALSE)))
+
+hist(sample_means,
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
 ```
 
-Dapat terlihat juga bahwa bentuk distribusinya mirip dengan distribusi normal! Akan tetapi, formula yang digunakannya berbeda, ingat dalil 2!
+## Dengan *for loop*, dari populasi
 
-**Dalil 2** Apabila sampel acak berukuran n diambil secara acak **tanpa pengembalian** dari suatu populasi berhingga berukuran $N$, dimana populasi tersebut memiliki mean $\mu$ dan variansi $\sigma^2$, maka distribusi probabilitas $\bar{X}$ akan menghampiri normal dengan $\mu_\bar{X} = \mu$ dan $\sigma^2 = \frac{\sigma^2(N-n)}{n(N-1)}$
+```{r}
+set.seed(623)
+sample_means <- c( )
+for (i in 1:1000) {
+  sample_means[i] <-
+    mean(
+      sample(50,
+             30,
+             replace = FALSE))
+}
+
+hist(sample_means,
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
+```
+
+:::
+
+Dapat terlihat juga bahwa bentuk distribusinya mirip dengan distribusi normal! Akan tetapi, rumus rata-rata dan variansi untuk distribusi normal tersebut sedikit berbeda (karena kali ini **tanpa pengembalian**), lihat Dalil 2 berikut!
+
+**Dalil 2**
+
+Apabila sampel acak berukuran n diambil secara acak **tanpa pengembalian** dari suatu populasi berhingga berukuran $N$, dimana populasi tersebut memiliki mean $\mu$ dan variansi $\sigma^2$, maka distribusi probabilitas $\bar{X}$ akan menghampiri normal dengan $\mu_\bar{X} = \mu$ dan $\sigma^2 = \frac{\sigma^2(N-n)}{n(N-1)}$
 
 Catatan: lagi-lagi, ada syarat $n \geq 30$
 
@@ -453,11 +677,11 @@ Secara umum, jika sampel yang diambil sangat besar (yaitu $n \geq 30$) maka bisa
 
 # *Central Limit Theorem* (CLT)
 
-Semakin besar sampel yang diambil, distribusi *sample mean* makin mendekati distribusi normal $N(\mu, \sigma^2)$, dengan
+Semakin besar $n$, yaitu ukuran dari sampel yang diambil (misalkan sampelnya memiliki rata-rata $\mu$ dan variansi $\sigma^2$), distribusi *sample mean* nya makin mendekati distribusi normal $N\left(\mu_{\bar{X}}, \sigma_{\bar{X}}^2\right)$, dengan
 
-$$\mu_\bar{X} \approx \mu$$
+$$\mu_{\bar{X}} \approx \mu$$
 
-$$\sigma_\bar{X}^2 \approx \frac{\sigma^2}{n}$$
+$$\sigma_{\bar{X}}^2 \approx \frac{\sigma^2}{n}$$
 
 Bagaimanapun bentuk distribusi aslinya, apabila $n \geq 30$, distribusi normal di atas akan mendekati distribusi *sample mean* dengan sangat baik
 
@@ -465,24 +689,42 @@ Bagaimanapun bentuk distribusi aslinya, apabila $n \geq 30$, distribusi normal d
 
 Sebuah perusahaan memproduksi bohlam. Bila umur bohlam itu menyebar normal dengan mean 800 jam dan standar deviasi 40 jam, hitunglah peluang bahwa suatu sampel acak 16 bohlam akan mempunyai umur rata-rata kurang dari 775 jam.
 
-Jawab: misalkan $X$ adalah variabel acak untuk umur bohlam. Diminta
+Jawab: misalkan $X$ adalah variabel acak untuk umur bohlam. Soal menanyakan terkait pengambilan sampel berukuran $n=16$. Walaupun $n < 30$, kebetulan $X$ sudah berdistribusi normal (dengan $\mu=800$ dan $\sigma = 40$), sehingga CLT masih bisa digunakan. Diminta
 
-$$\text{Pr}(X < 775)$$
+$$\text{Pr}(\bar{X} < 775)$$
 
-yaitu nilai CDF di 775.
+yaitu CDF dari distribusi *sample mean* $\bar{X}$ di nilai 775.
+
+Mari kita data dulu informasi terkait $X$ dan ukuran sampel
 
 ```{r}
-n <- 16
-mean2 <- 800
-sd2 <- 40 / sqrt(n)
-pnorm(775, mean = mean2, sd = sd2)
+x4_mean <- 800
+x4_sd <- 40
+x4_var <- x4_sd^2
+n4 <- 16
+```
+
+Sekarang kita hitung $\mu_{\bar{X}}$ dan $\sigma_{\bar{X}}^2$ berdasarkan CLT
+
+```{r}
+xbar4_mean <- x4_mean
+xbar4_var <- x4_var / n4
+xbar4_sd <- sqrt(xbar4_var)
+```
+
+Baru kita hitung $\text{Pr}(\bar{X} < 775)$ dengan distribusi normal $N\left(\mu_{\bar{X}}, \sigma_{\bar{X}}^2\right)$ tersebut
+
+```{r}
+pnorm(775,
+      mean = xbar4_mean,
+      sd = xbar4_sd)
 ```
 
 Atau jika ingin diubah ke dalam normal standar terlebih dahulu,
 
 ```{r}
-x = (775-mean2) / sd2
-pnorm(x) # otomatis mean=0, sd=1
+# otomatis mean = 0, sd = 1
+pnorm( (775 - xbar4_mean) / xbar4_sd )
 ```
 
 ## CLT untuk sembarang data
@@ -496,28 +738,6 @@ random <- rnorm(n, mean = 10, sd = 8)
 par(mfrow = c(1,2))
 plot(density(random), main = "Sebelum")
 plot(density(scale(random)), main = "Sesudah")
-```
-
-## Contoh CLT: Probabilitas di Interval
-
-Misalkan diberikan populasi 1,1,1,3,4,5,6,6,6,7 dan misalkan diambil sampel acak berukuran 36 dari populasi tersebut dengan pengembalian. Tentukan probabilitas bahwa nilai rata-rata sampelnya antara 3.85 dan 4.45 !
-
-```{r}
-data1 <- c(1, 1, 1, 3, 4, 5, 6, 6, 6, 7)
-
-mean1 <- mean(data1)
-sd1 <- sd(data1)
-
-n <- 36
-standard_error <- sd1 / sqrt(n)
-
-lower_bound <- 3.85
-upper_bound <- 4.45
-z_lower <- (lower_bound - mean1) / standard_error
-z_upper <- (upper_bound - mean1) / standard_error
-
-probability <- pnorm(z_upper) - pnorm(z_lower)
-probability
 ```
 
 # Distribusi-t
@@ -566,9 +786,7 @@ randomt <- rt(n, df = 20)
 hist(randomt, breaks=50, xlim = c(-6, 4))
 ```
 
-## Penerapan distribusi-t
-
-**Contoh**
+## Contoh soal distribusi-t
 
 Tentukan nilai $k$ sedemikian sehingga
 
@@ -576,20 +794,70 @@ $$\text{Pr}(k < T < -1.761) = 0.045$$
 
 dari suatu sampel acak berukuran 15 diambil dari suatu populasi normal
 
-Jawab:
+**Jawab:**
 
-Sesuai Dalil 3, parameter derajat bebas yang digunakan adalah
+Sebelumnya, perhatikan bahwa
+
+$$\begin{align*}
+\text{Pr}&(k < T < -1.761) \\
+&= \text{Pr}(T < -1.761) - \text{Pr}(T < k)
+\end{align*}$$
+
+dan karena $\text{Pr}(k < T < -1.761) = 0.045$, haruslah
+
+$$\text{Pr}(T < -1.761) - \text{Pr}(T < k) = 0.045$$
+
+sehingga
+
+$$\text{Pr}(T < k) = \text{Pr}(T < -1.761) - 0.045$$
+
+sehingga nantinya kita akan menghitung ruas kanan terlebih dahulu (manfaatkan CDF), kemudian memperoleh nilai $k$ dengan *quantile function* yaitu *inverse CDF*.
+
+Diketahui sampel acak berukuran $n=15$. Maka, sesuai Dalil 3, parameter derajat bebas yang digunakan adalah
 
 $$v = n-1 = 15-1 = 14$$
 
-```{r}
-prob <- 0.045
-atas <- pt(-1.716, df = 14)
+Perhatikan bahwa $\text{Pr}(T < -1.761)$ adalah CDF di `-1.761`, yang bisa dihitung sebagai berikut
 
-bawah <- atas - prob
-k <- qt(bawah, df = 14)
+```{r}
+pt(-1.761, df = 14)
+```
+
+sehingga $\text{Pr}(T < -1.761) - 0.045$ adalah
+
+```{r}
+pt(-1.761, df = 14) - 0.045
+```
+
+Maka,
+
+$$\begin{align*}
+\text{Pr}&(T < k) \\
+&= \text{Pr}(T < -1.761) - 0.045
+&\approx 0.005027095
+\end{align*}$$
+
+Kita bisa simpan dulu hasilnya,
+
+```{r}
+prob_k <- pt(-1.761, df = 14) - 0.045
+prob_k
+```
+
+Kemudian kita bisa menemukan nilai $k$ yang memenuhi
+
+$$\text{Pr}(T < k) \approx 0.005027095$$
+
+dengan *quantile function* yaitu *inverse CDF*, sebagai berikut
+
+```{r}
+k <- qt(prob_k, df = 14)
 k
 ```
+
+Kesimpulannya,
+
+$$k \approx -2.974114$$
 
 # Distribusi beda dua *mean*
 
@@ -629,7 +897,7 @@ Sebuah sampel acak berukuran $n_1 = 5$ diambil secara acak dari sebuah populasi 
 
 Sebuah sampel acak kedua berukuran $n_2 = 4$, bebas dengan sampel acak pertama, diambil dari populasi lain yang jaga menyebar normal dengan nilai *mean* $\mu_2 = 40$ dan $\sigma_1^2 = 4$ dan diperoleh nilai *mean sample* nya $\bar{x}_2$.
 
-Hitung:
+Tentukan nilai dari
 
 $$\text{Pr}\left( \left(\bar{X}_1 - \bar{X}_2\right) < 8.2 \right)$$
 
@@ -639,6 +907,20 @@ Karena Populasi I dan Populasi II berdistribusi normal, walaupun $n_1$ dan $n_2$
 
 (Kombinasi linear dari distribusi normal juga berupa distribusi normal.)
 
+Mari kita data terlebih dahulu, semua yang diketahui dari soal
+
+```{r}
+n1 <- 5
+x1_mean <- 50
+x1_var <- 9
+
+n2 <- 4
+x2_mean <- 40
+x2_var <- 4
+```
+
+Kemudian, kita bisa mulai menerapkan Dalil 4.
+
 *Mean* dari $\bar{X}_1 - \bar{X}_2$ adalah:
 
 $$\begin{align*}
@@ -646,12 +928,29 @@ $$\begin{align*}
                             &= 50 - 40 = 10
 \end{align*}$$
 
+```{r}
+xbeda_mean <- x1_mean - x2_mean
+xbeda_mean
+```
+
 dan variansinya adalah:
 
 $$\begin{align*}
 \sigma_{\bar{X}_1 - \bar{X}_2}^2 &= \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2} \\
 &= \frac{9}{5} + \frac{4}{4} &= 2.8
 \end{align*}$$
+
+```{r}
+xbeda_var <- (x1_var / n1) + (x2_var / n2)
+xbeda_var
+```
+
+Kita juga bisa menghitung *standard deviation* untuk $\bar{X}_1 - \bar{X}_2$ sebagai akar dari variansinya, seperti berikut
+
+```{r}
+xbeda_sd <- sqrt(xbeda_var)
+xbeda_sd
+```
 
 Jadi,
 
@@ -662,7 +961,8 @@ $$\begin{align*}
 \end{align*}$$
 
 ```{r}
-pnorm( (8.2-10)/sqrt(2.8) ) # otomatis mean=0, sd=1
+# otomatis mean = 0, sd = 1
+pnorm( (8.2 - xbeda_mean) / xbeda_sd )
 ```
 
 Maka
