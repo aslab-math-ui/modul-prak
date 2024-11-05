@@ -529,7 +529,15 @@ Untuk itu, perhatikan dalil-dalil berikut.
 
 **Dalil 1**
 
-Apabila sampel acak berukuran n diambil **dengan pengembalian** dari populasi berhingga yang berukuran $N$, dimana populasi tersebut mempunyai mean $\mu$ dan variansi $\sigma^2$ , maka untuk $n$ yang besar, distribusi dari mean sampel $\bar{X}$ akan mendekati distribusi normal dengan mean $\mu_\bar{X} = \mu$ dan $\sigma\bar{X}^2 = \frac{\sigma^2}{n}$. Dengan demikian $$Z = \frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}} \; \text{mendekati} \; N(0,1)$$
+Apabila sampel acak berukuran $n$ diambil **dengan pengembalian** dari populasi berhingga yang berukuran $N$, dimana populasi tersebut mempunyai mean $\mu$ dan variansi $\sigma^2$ , maka untuk $n$ yang besar, distribusi dari *sample mean* $\bar{X}$ akan mendekati distribusi normal $N\left(\mu_{\bar{X}}, \sigma_{\bar{X}}^2\right)$ dengan *mean* dan variansi berikut:
+
+$$\mu_{\bar{X}} = \mu$$
+
+$$\sigma_{\bar{X}}^2 = \frac{\sigma^2}{n}$$
+
+Dengan demikian,
+
+$$Z = \frac{\bar{X} - \mu}{\left(\frac{\sigma}{\sqrt{n}}\right)} \; \text{mendekati} \; N(0,1)$$
 
 Catatan: Dalil 1 berlaku untuk populasi berhingga dengan **ukuran sampel** $\mathbf{n \geq 30}$. Dalil 1 berlaku untuk $n < 30$ apabila distribusi dari populasinya tidak terlalu menyimpang dari distribusi normal.
 
@@ -546,9 +554,8 @@ $$\text{Pr}\left(3.85 < \bar{X} < 4.45\right)$$
 Kita akan menghampiri distribusi $\bar{X}$ dengan suatu distribusi normal, sesuai yang ditentukan oleh Dalil 1. Kita definisikan dulu populasinya:
 
 ```{r}
-popu3 <- c(1, 1, 1, 3,
-           4, 5, 6, 6,
-           6, 7, 8, 8)
+popu3 <- c(1, 1, 1, 3, 4,
+           5, 6, 6, 6, 7)
 ```
 
 Misal $n$ adalah ukuran sampel
@@ -570,7 +577,7 @@ Variansi adalah kuadrat dari *standard deviation*
 x3_var <- x3_sd^2
 ```
 
-Memanfaatkan Dalil 1, kita bisa anggap rata-ratanya sebagai rata-rata dari suatu distribusi normal, dan variansinya dibagi $n$ menjadi variansi dari distribusi normal tersebut, yang akan menghampiri distribusi *sample mean*
+Memanfaatkan Dalil 1, kita bisa anggap rata-rata populasi $\mu$ sebagai rata-rata dari suatu distribusi normal, dan variansi populasi $\sigma^2$ yang kemudian dibagi $n$ menghasilkan variansi dari distribusi normal tersebut, yang akan dihampiri oleh (ataupun menghampiri) distribusi *sample mean*
 
 ```{r}
 xbar3_mean <- x3_mean
@@ -583,55 +590,50 @@ Kita juga bisa menghitung *standard deviation* sebagai akar dari variansi
 xbar3_sd <- sqrt(xbar3_var)
 ```
 
-Sekarang kita hitung probabilitasnya menggunakan distribusi normal tersebut
+Sekarang kita hitung probabilitas yang diminta untuk distribusi *sample mean*, tetapi melalui distribusi normal tersebut (yaitu distribusi normal yang didekati oleh distribusi *sample mean* tersebut)
 
 ```{r}
 prob3 <-
-  pnorm(4.45,
-        mean = xbar3_mean,
-        sd = xbar3_var) -
-    pnorm(3.85,
-          mean = xbar3_mean,
-          sd = xbar3_var)
+  pnorm(4.45, mean = xbar3_mean, sd = xbar3_var) -
+    pnorm(3.85, mean = xbar3_mean, sd = xbar3_var)
 prob3
 ```
 
 Atau bisa kita ubah ke normal standar terlebih dahulu
 
 ```{r}
-n3 <- 36
-standard_error <- xbar3_sd / sqrt(n3)
+standard_error <- x3_sd / sqrt(n3)
 xbar3_lower <- 3.85
 xbar3_upper <- 4.45
-z3_lower <- (xbar3_lower - xbar3_mean) / standard_error
-z3_upper <- (xbar3_upper - xbar3_mean) / standard_error
+z3_lower <- (xbar3_lower - x3_mean) / standard_error
+z3_upper <- (xbar3_upper - x3_mean) / standard_error
 prob3_z <- pnorm(z3_upper) - pnorm(z3_lower)
 prob3_z
 ```
 
-Bagaimanapun juga, walaupun kita malah menghitung probabilitas menggunakan distribusi normal tersebut, kira-kira segitulah probabilitasnya di distribusi *sample mean* yang sebenarnya kita inginkan. Itulah manfaat dari Dalil 1.
+Bagaimanapun juga, walaupun kita malah menghitung probabilitas menggunakan distribusi normal yang ditentukan di Dalil 1, kira-kira segitulah probabilitasnya di distribusi *sample mean* yang sebenarnya kita inginkan. Itulah manfaat dari Dalil 1, daripada harus bersusah payah membentuk distribusi *sample mean* terlebih dahulu.
 
 ## Dalil 2: Tanpa Pengembalian
 
-**Lalu bagaimana dengan tanpa pengembalian?** Misalkan kita punya suatu populasi
+**Lalu bagaimana kalau tanpa pengembalian?** Misalkan kita punya suatu populasi
 
 ```{r}
-pop4 <- c(1:50)
-pop4
+popu4 <- c(1:50)
+popu4
 ```
 
 Lihat sebarannya
 
 ```{r}
-mean(pop4)
+mean(popu4)
 ```
 
 ```{r}
-sd(pop4)
+sd(popu4)
 ```
 
 ```{r}
-hist(pop4, main = "Distribusi Uniform Diskrit", xlab = " ")
+hist(popu4, main = "Distribusi Uniform Diskrit", xlab = " ")
 ```
 
 Sample size 30, 1000 kali percobaan
@@ -675,11 +677,15 @@ hist(sample_means,
 
 :::
 
-Dapat terlihat juga bahwa bentuk distribusinya mirip dengan distribusi normal! Akan tetapi, rumus rata-rata dan variansi untuk distribusi normal tersebut sedikit berbeda (karena kali ini **tanpa pengembalian**), lihat Dalil 2 berikut!
+Dapat terlihat juga bahwa bentuk distribusinya mirip dengan distribusi normal! Akan tetapi, rumus rata-rata dan variansi untuk distribusi normal tersebut agak berbeda (karena kali ini **tanpa pengembalian**), lihat Dalil 2 berikut!
 
 **Dalil 2**
 
-Apabila sampel acak berukuran n diambil secara acak **tanpa pengembalian** dari suatu populasi berhingga berukuran $N$, dimana populasi tersebut memiliki mean $\mu$ dan variansi $\sigma^2$, maka distribusi probabilitas $\bar{X}$ akan menghampiri normal dengan $\mu_\bar{X} = \mu$ dan $\sigma^2 = \frac{\sigma^2(N-n)}{n(N-1)}$
+Apabila sampel acak berukuran $n$ diambil secara acak **tanpa pengembalian** dari suatu populasi berhingga berukuran $N$, dimana populasi tersebut memiliki mean $\mu$ dan variansi $\sigma^2$, maka distribusi probabilitas $\bar{X}$ *(sample mean)* akan menghampiri distribusi normal $N\left(\mu_{\bar{X}}, \sigma_{\bar{X}}^2\right)$, dengan
+
+$$\mu_{\bar{X}} = \mu$$
+
+$$\sigma_{\bar{X}}^2 = \frac{\sigma^2(N-n)}{n(N-1)}$$
 
 Catatan: lagi-lagi, ada syarat $n \geq 30$
 
@@ -689,15 +695,15 @@ Secara umum, jika sampel yang diambil sangat besar (yaitu $n \geq 30$) maka bisa
 
 Semakin besar $n$, yaitu ukuran dari sampel yang diambil (misalkan sampelnya memiliki rata-rata $\mu$ dan variansi $\sigma^2$), distribusi *sample mean* nya makin mendekati distribusi normal $N\left(\mu_{\bar{X}}, \sigma_{\bar{X}}^2\right)$, dengan
 
-$$\mu_{\bar{X}} \approx \mu$$
+$$\mu_{\bar{X}} = \mu$$
 
-$$\sigma_{\bar{X}}^2 \approx \frac{\sigma^2}{n}$$
+$$\sigma_{\bar{X}}^2 = \frac{\sigma^2}{n}$$
 
-Bagaimanapun bentuk distribusi aslinya, apabila $n \geq 30$, distribusi normal di atas akan mendekati distribusi *sample mean* dengan sangat baik
+Bagaimanapun bentuk distribusi aslinya, apabila $n \geq 30$, distribusi normal di atas akan didekati oleh (ataupun mendekati) distribusi *sample mean* dengan sangat baik
 
 ## Contoh CLT: Menghitung CDF
 
-Sebuah perusahaan memproduksi bohlam. Bila umur bohlam itu menyebar normal dengan mean 800 jam dan standar deviasi 40 jam, hitunglah peluang bahwa suatu sampel acak 16 bohlam akan mempunyai umur rata-rata kurang dari 775 jam.
+Sebuah perusahaan memproduksi bohlam. Bila umur bohlam itu menyebar normal dengan *mean* 800 jam dan standar deviasi 40 jam, hitunglah peluang bahwa suatu sampel acak 16 bohlam akan mempunyai umur rata-rata kurang dari 775 jam.
 
 Jawab: misalkan $X$ adalah variabel acak untuk umur bohlam. Soal menanyakan terkait pengambilan sampel berukuran $n=16$. Walaupun $n < 30$, kebetulan $X$ sudah berdistribusi normal (dengan $\mu=800$ dan $\sigma = 40$), sehingga CLT masih bisa digunakan. Diminta
 
@@ -708,33 +714,33 @@ yaitu CDF dari distribusi *sample mean* $\bar{X}$ di nilai 775.
 Mari kita data dulu informasi terkait $X$ dan ukuran sampel
 
 ```{r}
-x4_mean <- 800
-x4_sd <- 40
-x4_var <- x4_sd^2
-n4 <- 16
+x5_mean <- 800
+x5_sd <- 40
+x5_var <- x5_sd^2
+n5 <- 16
 ```
 
 Sekarang kita hitung $\mu_{\bar{X}}$ dan $\sigma_{\bar{X}}^2$ berdasarkan CLT
 
 ```{r}
-xbar4_mean <- x4_mean
-xbar4_var <- x4_var / n4
-xbar4_sd <- sqrt(xbar4_var)
+xbar5_mean <- x5_mean
+xbar5_var <- x5_var / n5
+xbar5_sd <- sqrt(xbar5_var)
 ```
 
 Baru kita hitung $\text{Pr}(\bar{X} < 775)$ dengan distribusi normal $N\left(\mu_{\bar{X}}, \sigma_{\bar{X}}^2\right)$ tersebut
 
 ```{r}
 pnorm(775,
-      mean = xbar4_mean,
-      sd = xbar4_sd)
+      mean = xbar5_mean,
+      sd = xbar5_sd)
 ```
 
 Atau jika ingin diubah ke dalam normal standar terlebih dahulu,
 
 ```{r}
 # otomatis mean = 0, sd = 1
-pnorm( (775 - xbar4_mean) / xbar4_sd )
+pnorm( (775 - xbar5_mean) / xbar5_sd )
 ```
 
 ## CLT untuk sembarang data
@@ -756,11 +762,11 @@ Distribusi-t digunakan saat $n < 30$ (sehingga tidak bisa menggunakan CLT) dan v
 
 ## Dalil 3: Distribusi-t
 
-Apabila $\bar{x}$ dan $S^2$ masing-masing adalah nilai *mean* dan nilai variansi dari sampel berukuran $n$, yang diambil dari suatu populasi nrmal dengan mean $\mu$ (yang diketahui) dan variansi $\sigma^2$ (yang tidak diketahui), maka kita bisa misalkan
+Apabila $\bar{x}$ dan $S^2$ masing-masing adalah nilai *mean* dan nilai variansi dari sampel berukuran $n$, yang diambil dari suatu populasi normal dengan *mean* $\mu$ (yang diketahui) dan variansi $\sigma^2$ (yang tidak diketahui), maka kita bisa misalkan
 
 $$t = \frac{\bar{x} - \mu}{\left( \frac{S}{\sqrt{n}} \right)}$$
 
-dan $t$ ini merupakan sebuah nilai dari variabel acak $T$ yang mempunyai distribusi $t$ dengan (parameter) **derajat bebas** $v = n-1$.
+dan $t$ ini merupakan sebuah nilai dari variabel acak $T$ yang mempunyai distribusi-t dengan (parameter) **derajat bebas** $v = n-1$.
 
 Distribusi-t adalah distribusi kontinu yang memiliki PDF dan CDF, sebagaimana distribusi kontinu pada umumnya, sehingga untuknya tersedia fungsi-fungsi `d`..., `p`..., `q`..., dan `r`... yang biasa kita kenal.
 
@@ -871,7 +877,7 @@ $$k \approx -2.974114$$
 
 # Distribusi beda dua *mean*
 
-Misalkan kita punya dua populasi (bisa sama ataupun berbeda), yang masing-masing dibuat distribusi *sample mean* nya, dan kita ingin melihat bagaimana selisih antara kedua distribusi tersebut. Secara tidak langsung, kita bisa melihat seberapa berbeda rata-rata antar kedua populasi, bagaimana persebaran bedanya.
+Misalkan kita punya dua populasi (bisa sama ataupun berbeda), yang masing-masing dibuat distribusi *sample mean* nya, dan kita ingin melihat bagaimana selisih antara kedua distribusi *sample mean* tersebut. Secara tidak langsung, kita bisa melihat seberapa berbeda rata-rata antar kedua populasi, bagaimana persebaran bedanya.
 
 Dalil 4 berikut adalah Dalil Limit Pusat yang telah disesuaikan untuk kasus dua populasi.
 
@@ -885,7 +891,11 @@ Misalkan
 
 - Populasi I dan Populasi II saling bebas.
 
-Maka beda dua mean dari sampel, yaitu $\bar{X}_1 - \bar{X}_2$, akan menyebar menghampiri normal dengan *mean* $\mu_{\bar{X}_1 - \bar{X}_2} = \mu_1 - \mu_2$ dan variansi $\sigma_{\bar{X}_1 - \bar{X}_2}^2 = \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}$
+Maka beda dua mean dari sampel, yaitu $\bar{X}_1 - \bar{X}_2$, akan menyebar menghampiri distribusi normal $N\left(\mu_{\bar{X}_1 - \bar{X}_2}, \sigma_{\bar{X}_1 - \bar{X}_2}^2\right)$ dengan *mean* dan variansi berikut:
+
+$$\mu_{\bar{X}_1 - \bar{X}_2} = \mu_1 - \mu_2$$
+
+$$\sigma_{\bar{X}_1 - \bar{X}_2}^2 = \frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}$$
 
 Dengan demikian, misalkan
 
