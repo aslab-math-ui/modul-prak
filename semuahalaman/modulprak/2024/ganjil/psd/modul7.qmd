@@ -138,7 +138,6 @@ sample_means <-
              replace = TRUE)))
 
 hist(sample_means,
-     xlim = c(0,8),
      main = "Sample Size of 3",
      xlab = "Sample Means")
 ```
@@ -147,7 +146,7 @@ hist(sample_means,
 
 ```{r}
 sample_means <- c( )
-for(i in 1:1000){
+for (i in 1:1000) {
   sample_means[i] <-
     mean(
       sample(x = support(dist1),
@@ -155,8 +154,8 @@ for(i in 1:1000){
              size = 3,
              replace = TRUE))
 }
+
 hist(sample_means,
-     xlim = c(0,8),
      main = "Sample Size of 3",
      xlab = "Sample Means")
 ```
@@ -165,29 +164,85 @@ hist(sample_means,
 
 Sample size 10, 1000 kali percobaan
 
+::: {.panel-tabset}
+
+## Dengan `replicate`
+
 ```{r}
-sample_means <- c( )
-for(i in 1:1000){
-  sample_means[i] <- mean(sample(8, 10, replace = T))
-}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 10,
+             replace = TRUE)))
+
 hist(sample_means,
-     xlim = c(0,8),
      main = "Sample Size of 10",
      xlab = "Sample Means")
 ```
 
-Sample size 50, 1000 kali percobaan
+## Dengan *for loop*
 
 ```{r}
 sample_means <- c( )
-for(i in 1:1000){
-  sample_means[i] <- mean(sample(8, 50, replace = TRUE))
+for (i in 1:1000) {
+  sample_means[i] <-
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 10,
+             replace = TRUE))
 }
+
 hist(sample_means,
-     xlim = c(0,8),
+     main = "Sample Size of 10",
+     xlab = "Sample Means")
+```
+
+:::
+
+Sample size 50, 1000 kali percobaan
+
+::: {.panel-tabset}
+
+## Dengan `replicate`
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 50,
+             replace = TRUE)))
+
+hist(sample_means,
      main = "Sample Size of 50",
      xlab = "Sample Means")
 ```
+
+## Dengan *for loop*
+
+```{r}
+sample_means <- c( )
+for (i in 1:1000) {
+  sample_means[i] <-
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 50,
+             replace = TRUE))
+}
+
+hist(sample_means,
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
+```
+
+:::
 
 Jika dilihat berdasarkan histogram dari ketiga sampling tadi, bisa terlihat bahwa semakin besar ukuran sampelnya, maka distribusi *sample mean* akan semakin mendekati distribusi normal
 
