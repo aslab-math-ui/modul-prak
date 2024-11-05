@@ -117,15 +117,15 @@ plot(dist1)
 
 Misal diambil berbagai ukuran sampel dengan pengembalian
 
+::: {.panel-tabset}
+
+## Dengan `replicate`
+
 ```{r}
 set.seed(211)
 ```
 
 Sample size 3, 1000 kali percobaan
-
-::: {.panel-tabset}
-
-## Dengan `replicate`
 
 ```{r}
 sample_means <-
@@ -142,7 +142,47 @@ hist(sample_means,
      xlab = "Sample Means")
 ```
 
+Sample size 10, 1000 kali percobaan
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 10,
+             replace = TRUE)))
+
+hist(sample_means,
+     main = "Sample Size of 10",
+     xlab = "Sample Means")
+```
+
+Sample size 50, 1000 kali percobaan
+
+```{r}
+sample_means <-
+  replicate(
+    1000,
+    mean(
+      sample(x = support(dist1),
+             prob = prob(dist1),
+             size = 50,
+             replace = TRUE)))
+
+hist(sample_means,
+     main = "Sample Size of 50",
+     xlab = "Sample Means")
+```
+
 ## Dengan *for loop*
+
+```{r}
+set.seed(211)
+```
+
+Sample size 3, 1000 kali percobaan
 
 ```{r}
 sample_means <- c( )
@@ -160,30 +200,7 @@ hist(sample_means,
      xlab = "Sample Means")
 ```
 
-:::
-
 Sample size 10, 1000 kali percobaan
-
-::: {.panel-tabset}
-
-## Dengan `replicate`
-
-```{r}
-sample_means <-
-  replicate(
-    1000,
-    mean(
-      sample(x = support(dist1),
-             prob = prob(dist1),
-             size = 10,
-             replace = TRUE)))
-
-hist(sample_means,
-     main = "Sample Size of 10",
-     xlab = "Sample Means")
-```
-
-## Dengan *for loop*
 
 ```{r}
 sample_means <- c( )
@@ -205,27 +222,6 @@ hist(sample_means,
 
 Sample size 50, 1000 kali percobaan
 
-::: {.panel-tabset}
-
-## Dengan `replicate`
-
-```{r}
-sample_means <-
-  replicate(
-    1000,
-    mean(
-      sample(x = support(dist1),
-             prob = prob(dist1),
-             size = 50,
-             replace = TRUE)))
-
-hist(sample_means,
-     main = "Sample Size of 50",
-     xlab = "Sample Means")
-```
-
-## Dengan *for loop*
-
 ```{r}
 sample_means <- c( )
 for (i in 1:1000) {
@@ -244,17 +240,11 @@ hist(sample_means,
 
 :::
 
-Jika dilihat berdasarkan histogram dari ketiga sampling tadi, bisa terlihat bahwa semakin besar ukuran sampelnya, maka distribusi *sample mean* akan semakin mendekati distribusi normal
+Jika dilihat berdasarkan histogram dari ketiga *sampling* tadi, bisa terlihat bahwa semakin besar ukuran sampelnya, maka distribusi *sample mean* akan semakin mendekati distribusi normal
 
 ## Dengan melihat semua kemungkinan
 
-Daripada melakukan simulasi yang mengandalkan *random*, untuk ukuran sampel yang cukup kecil, kita bisa saja melihat semua kemungkinan pengambilan sampel, menghitung statistiknya (misalnya di sini statistik rata-rata), lalu mmenghitung probabilitasnya, untuk memperoleh distribusi *sampling* untuk statistik tersebut (misalnya di sini distribusi *sample mean*) secara eksak.
-
-Mari kita coba untuk distribusi diskrit berhingga, yang misalnya bisa kita buat sendiri, memanfaatkan  *package* `distr` yang sudah kita kenal sebelumnya.
-
-```{r}
-library("distr")
-```
+Daripada melakukan simulasi yang mengandalkan *random*, untuk ukuran sampel yang cukup kecil, kita bisa saja melihat semua kemungkinan pengambilan sampel, menghitung statistiknya (misalnya di sini statistik rata-rata), lalu menghitung probabilitasnya, untuk memperoleh distribusi *sampling* untuk statistik tersebut (misalnya di sini distribusi *sample mean*) secara eksak.
 
 Kita akan meninjau semua kemungkinan pengambilan dua sampel dengan pengembalian. Untuk itu, kita memerlukan *package* `gtools` yang menyediakan fungsi-fungsi kombinatorik seperti `permutations` dan `combinations` untuk memperoleh semua kemungkinan seperti itu
 
@@ -266,99 +256,99 @@ install.packages("gtools")
 library("gtools")
 ```
 
-Misalkan kita punya distribusi diskrit sebagai berikut:
+Mari kita coba untuk distribusi diskrit berhingga, yang misalnya bisa kita buat sendiri, sebagai berikut:
 
 ```{r}
-supp1 <- c(0, 1, 2, 3)
-prob1 <- c(1/4, 1/4, 1/4, 1/4)
-dist1 <- DiscreteDistribution(supp = supp1,
-                              prob = prob1)
-plot(dist1)
+supp2 <- c(0, 1, 2, 3)
+prob2 <- c(1/4, 1/4, 1/4, 1/4)
+dist2 <- DiscreteDistribution(supp = supp2,
+                              prob = prob2)
+plot(dist2)
 ```
 
-(Sebenarnya `dist1` juga bisa berupa distribusi Bernoulli, binomial, ataupun distribusi diskrit lainnya.)
+(Sebenarnya `dist2` ini juga bisa berupa distribusi Bernoulli, binomial, ataupun distribusi diskrit lainnya.)
 
 Kita bisa menghasilkan semua kemungkinan sampel berukuran 2 dengan pengembalian, menggunakan fungsi `permutations` dari *package* `gtools`, sebagai berikut:
 
 ```{r}
-mat1 <- permutations(n = length(support(dist1)),
+mat2 <- permutations(n = length(support(dist2)),
                      r = 2, # ukuran sampel
-                     v = support(dist1),
+                     v = support(dist2),
                      repeats.allowed = TRUE)
-mat1
+mat2
 ```
 
 Hasilnya berupa matriks, yang bisa kita ubah jadi *data frame*,
 
 ```{r}
-df_perm1 <- data.frame(mat1)
-df_perm1
+df_perm2 <- data.frame(mat2)
+df_perm2
 ```
 
-Kemudian, kita ingin menghitung rata-rata dari tiap kemungkinan dua sampel. Kita bisa *apply* atau menerapkan fungsi statistik yang kita inginkan, misalnya `mean` atau rata-rata, untuk tiap baris di matriks `mat1`, sebagai berikut
+Kemudian, kita ingin menghitung rata-rata dari tiap kemungkinan dua sampel. Kita bisa *apply* atau menerapkan fungsi statistik yang kita inginkan, misalnya `mean` atau rata-rata, untuk tiap baris di matriks `mat2`, sebagai berikut
 
 ```{r}
-apply(mat1, 1, mean)
+apply(mat2, 1, mean)
 ```
 
 Hasilnya bisa kita simpan sebagai kolom baru di *data frame*, misal kolom `Xbar`
 
 ```{r}
-df_perm1["Xbar"] <- apply(mat1, 1, mean)
-df_perm1
+df_perm2["Xbar"] <- apply(mat2, 1, mean)
+df_perm2
 ```
 
-Sekarang, `df_perm1` menyimpan semua kemungkinan sampel berukuran 2 dengan pengembalian yang mungkin, disertai rata-rata masing-masing.
+Sekarang, `df_perm2` menyimpan semua kemungkinan sampel berukuran 2 dengan pengembalian yang mungkin, disertai rata-rata masing-masing.
 
 Selanjutnya, kita perlu menghitung probabilitas dari tiap kemungkinan sampel. Perhatikan bahwa, karena *sampling* dilakukan **dengan pengembalian**, probabilitas antar tiap pengambilan bersifat **independen**. Sehingga, kita tinggal mengalikan probabilitas untuk masing-masing pengambilan.
 
-Caranya, kita bisa menghitung probabilitas masing-masing pengambilan (membuat matriks baru, misal `mat1_prob`), baru melakukan perkalian per baris.
+Caranya, kita bisa menghitung probabilitas masing-masing pengambilan (membuat matriks baru, misal `mat2_prob`), baru melakukan perkalian per baris.
 
-Karena distribusi `dist1` tergolong diskrit, kita bisa menerapkan PMFnya yaitu fungsi `d`
+Karena distribusi `dist2` tergolong diskrit, kita bisa menerapkan PMFnya yaitu fungsi `d`
 
 ```{r}
-d(dist1)(mat1)
+d(dist2)(mat2)
 ```
 
 Waduh, hasilnya malah *flat*, daripada berbentuk matriks. Agar tetap berbentuk matriks, kita gunakan fungsi `apply` lagi, sebagai berikut
 
 ```{r}
-mat1_prob <- apply(mat1, 1:2, d(dist1))
-mat1_prob
+mat2_prob <- apply(mat2, 1:2, d(dist2))
+mat2_prob
 ```
 
 Sekarang kita tinggal mengalikan tiap baris (dengan `apply` lagi), dan menyimpan hasilnya sebagai kolom baru di *data frame*, misal `prob`
 
 ```{r}
-df_perm1["prob"] <- apply(mat1_prob, 1, prod)
-df_perm1
+df_perm2["prob"] <- apply(mat2_prob, 1, prod)
+df_perm2
 ```
 
 Kini, tiap kemungkinan sampel berukuran 2 dengan pengembalian sudah disertai rata-rata dan probabilitas. Untuk memperoleh tabel (PMF untuk) distribusi *sample mean*, kita tinggal melakukan "pengelompokkan" data untuk tiap nilai statistiknya yaitu `Xbar` atau rata-rata, sembari menjumlahkan probabilitas. Caranya bisa dengan kode seperti berikut
 
 ```{r}
-Xbar_prob1 <- aggregate(prob ~ Xbar,
-                        data = df_perm1,
+Xbar_prob2 <- aggregate(prob ~ Xbar,
+                        data = df_perm2,
                         sum)
-Xbar_prob1
+Xbar_prob2
 ```
 
-`Xbar_prob1` adalah tabel PMF dari *sample mean*, yang telah diperoleh secara eksak. Mari kita visualisasikan distribusi *sample mean* tersebut menggunakan *histogram*, tetapi dengan fungsi `barplot` agar tiap nilai rata-rata memiliki bar tersendiri
+`Xbar_prob2` adalah tabel PMF dari *sample mean*, yang telah diperoleh secara eksak. Mari kita visualisasikan distribusi *sample mean* tersebut menggunakan *histogram*, tetapi dengan fungsi `barplot` agar tiap nilai rata-rata memiliki bar tersendiri
 
 ```{r}
-barplot(height = Xbar_prob1[["prob"]],
-        names.arg = Xbar_prob1[["Xbar"]],
+barplot(height = Xbar_prob2[["prob"]],
+        names.arg = Xbar_prob2[["Xbar"]],
         ylim = c(0, 5/16),
         yaxp = c(0, 5/16, 5))
 ```
 
-Whew! Perhatikan bahwa, untuk sampel berukuran 2, ternyata kemungkinannya cukup banyak. Lihat kembali dimensi dari `mat1` yaitu matriks berisi semua kemungkinan sampel berukuran 2 dengan pengembalian:
+Whew! Perhatikan bahwa, untuk sampel berukuran 2, ternyata kemungkinannya cukup banyak. Lihat kembali dimensi dari `mat2` yaitu matriks berisi semua kemungkinan sampel berukuran 2 dengan pengembalian:
 
 ```{r}
-dim(mat1)
+dim(mat2)
 ```
 
-Banyaknya baris bisa sampai 16 ini dihasilkan dari rumus banyaknya permutasi dengan pengulangan *(permutations with repition)*, yaitu
+Banyaknya baris bisa sampai 16 ini dihasilkan dari rumus banyaknya permutasi dengan pengulangan *(permutations with repitition)*, yaitu
 
 $$n^r = 4^2 = 16$$
 
