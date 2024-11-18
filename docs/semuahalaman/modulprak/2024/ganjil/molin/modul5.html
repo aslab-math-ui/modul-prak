@@ -102,12 +102,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>
-.cell-output-stdout code {
-  word-break: break-wor !important;
-  white-space: pre-wrap !important;
-}
-</style>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -189,7 +183,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pendahuluan" id="toc-pendahuluan" class="nav-link active" data-scroll-target="#pendahuluan">Pendahuluan</a>
   <ul class="collapse">
-  <li><a href="#pre-requisites" id="toc-pre-requisites" class="nav-link" data-scroll-target="#pre-requisites">Pre-requisites</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#nycflights13" id="toc-nycflights13" class="nav-link" data-scroll-target="#nycflights13">nycflights13</a></li>
   <li><a href="#dplyr-basics" id="toc-dplyr-basics" class="nav-link" data-scroll-target="#dplyr-basics">dplyr basics</a></li>
   </ul></li>
@@ -200,10 +194,10 @@ window.Quarto = {
   <li><a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange">arrange()</a></li>
   <li><a href="#distinct" id="toc-distinct" class="nav-link" data-scroll-target="#distinct">distinct()</a>
   <ul class="collapse">
-  <li><a href="#latihan-sebentar" id="toc-latihan-sebentar" class="nav-link" data-scroll-target="#latihan-sebentar">Latihan sebentar</a></li>
+  <li><a href="#latihan-1" id="toc-latihan-1" class="nav-link" data-scroll-target="#latihan-1">Latihan 1</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#kolom-columns" id="toc-kolom-columns" class="nav-link" data-scroll-target="#kolom-columns">Kolom (columns)</a>
+  <li><a href="#columns---kolom" id="toc-columns---kolom" class="nav-link" data-scroll-target="#columns---kolom">Columns - Kolom</a>
   <ul class="collapse">
   <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate">mutate()</a></li>
   <li><a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select">select()</a></li>
@@ -214,9 +208,12 @@ window.Quarto = {
   <li><a href="#group_by" id="toc-group_by" class="nav-link" data-scroll-target="#group_by">group_by()</a></li>
   <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize">summarize()</a></li>
   <li><a href="#the-sclice-function" id="toc-the-sclice-function" class="nav-link" data-scroll-target="#the-sclice-function">The sclice function</a></li>
-  </ul></li>
   <li><a href="#grouping-by-multiple-variables" id="toc-grouping-by-multiple-variables" class="nav-link" data-scroll-target="#grouping-by-multiple-variables">Grouping by multiple variables</a></li>
-  <li><a href="#dataset-information" id="toc-dataset-information" class="nav-link" data-scroll-target="#dataset-information">Dataset Information</a>
+  <li><a href="#ungrouping" id="toc-ungrouping" class="nav-link" data-scroll-target="#ungrouping">Ungrouping</a></li>
+  <li><a href="#by" id="toc-by" class="nav-link" data-scroll-target="#by">.by</a></li>
+  <li><a href="#latihan-3" id="toc-latihan-3" class="nav-link" data-scroll-target="#latihan-3">Latihan 3</a></li>
+  </ul></li>
+  <li><a href="#studi-kasus---dataset-information" id="toc-studi-kasus---dataset-information" class="nav-link" data-scroll-target="#studi-kasus---dataset-information">Studi kasus - Dataset Information</a>
   <ul class="collapse">
   <li><a href="#pendahuluan-1" id="toc-pendahuluan-1" class="nav-link" data-scroll-target="#pendahuluan-1">Pendahuluan</a></li>
   <li><a href="#evaluation" id="toc-evaluation" class="nav-link" data-scroll-target="#evaluation">Evaluation</a></li>
@@ -272,8 +269,8 @@ window.Quarto = {
 <p>Visualisasi adalah alat penting untuk mendapatkan wawasan, tetapi jarang sekali data yang kita miliki sudah dalam bentuk yang pas untuk membuat grafik yang kita inginkan. Sering kali, kita perlu membuat variabel baru atau meringkas data untuk menjawab pertanyaan yang ada. Kadang-kadang, kita juga mungkin ingin mengganti nama variabel atau mengatur ulang urutan data supaya lebih mudah digunakan.</p>
 <p>Pada Bagian ini, kamu akan belajar cara melakukan semua itu (dan lebih banyak lagi!) dengan menggunakan package <code>dplyr</code> serta dataset baru tentang penerbangan yang berangkat dari New York City pada tahun 2013.</p>
 <p>Tujuan dari bab ini adalah memberikan gambaran umum tentang alat-alat penting untuk mentransformasi data frame. Kita akan mulai dengan fungsi yang bekerja pada baris dan kolom data frame, lalu beralih membahas tentang <code>pipe</code>, alat penting untuk menggabungkan berbagai fungsi. Setelah itu, kita akan mengenalkan cara bekerja dengan kelompok data (grouping). Bagian ini akan ditutup dengan sebuah studi kasus yang menunjukkan bagaimana semua fungsi ini digunakan.</p>
-<section id="pre-requisites" class="level2">
-<h2 class="anchored" data-anchor-id="pre-requisites">Pre-requisites</h2>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <p>Di bab ini, kita akan fokus pada package <code>dplyr</code>, salah satu anggota inti dari ekosistem <code>tidyverse</code>. Kita akan menjelaskan konsep-konsep utama dengan menggunakan data dari package <code>nycflights13</code> dan memanfaatkan <code>ggplot2</code> untuk membantu memahami data tersebut.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -311,7 +308,7 @@ window.Quarto = {
 </section>
 <section id="nycflights13" class="level2">
 <h2 class="anchored" data-anchor-id="nycflights13">nycflights13</h2>
-<p>Untuk mempelajari dasar-dasar verbs dalam dplyr, kita akan menggunakan dataset <code>nycflights13::flights</code>. Dataset ini mencakup semua 336.776 penerbangan yang berangkat dari New York City pada tahun 2013. Data ini berasal dari (US Bureau of Transportation Statistics)[https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&amp;QO_fu146_anzr=b0-gvzr] dan dapat didokumentasikan lebih lanjut dengan menggunakan perintah <code>?flights</code>.</p>
+<p>Untuk mempelajari dasar-dasar verbs dalam dplyr, kita akan menggunakan dataset <code>nycflights13::flights</code>. Dataset ini mencakup semua 336.776 penerbangan yang berangkat dari New York City pada tahun 2013. Data ini berasal dari <a href="https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&amp;QO_fu146_anzr=b0-gvzr">US Bureau of Transportation Statistics</a> dan dapat didokumentasikan lebih lanjut dengan menggunakan perintah <code>?flights</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>flights</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -385,7 +382,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <li>Hasil keluaran selalu berupa data frame baru.</li>
 </ol>
 <p>Karena setiap verb hanya melakukan satu tugas dengan baik, menyelesaikan masalah kompleks biasanya memerlukan kombinasi beberapa verb. Kombinasi ini dilakukan dengan menggunakan <em>pipe</em> <code>(|&gt;)</code>.</p>
-<p>Kita akan membahas pipe lebih lanjut di Bagian 3.4, tetapi secara singkat, pipe mengambil nilai di sebelah kirinya dan meneruskannya ke fungsi di sebelah kanannya. Contohnya:</p>
+<p>Kita akan membahas pipe lebih lanjut di Bagian Asinkronus, tetapi secara singkat, pipe mengambil nilai di sebelah kirinya dan meneruskannya ke fungsi di sebelah kanannya. Contohnya:</p>
 <ul>
 <li>x |&gt; f(y) setara dengan f(x, y).</li>
 <li>x |&gt; f(y) |&gt; g(z) setara dengan g(f(x, y), z). Cara termudah untuk membaca pipe adalah dengan mengartikannya sebagai “then” Ini memungkinkanmu memahami maksud kode berikut meskipun belum mempelajari detailnya.</li>
@@ -427,10 +424,14 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <h1>Rows - Baris</h1>
 <p><em>Verbs</em> paling penting yang bekerja pada baris dalam sebuah dataset adalah:</p>
 <ol type="1">
-<li>filter() – Memilih baris yang akan ditampilkan tanpa mengubah urutannya.</li>
-<li>arrange() – Mengubah urutan baris tanpa memengaruhi baris yang ditampilkan. Kedua fungsi ini hanya memengaruhi baris, <strong>sementara</strong> kolom tetap tidak berubah.</li>
+<li><code>filter()</code> – Memilih baris yang akan ditampilkan tanpa mengubah urutannya.</li>
+<li><code>arrange()</code> – Mengubah urutan baris tanpa memengaruhi baris yang ditampilkan. Kedua fungsi ini hanya memengaruhi baris, <strong>sementara</strong> kolom tetap tidak berubah.</li>
 </ol>
-<p>Selain itu, ada juga <code>distinct()</code>, yang digunakan untuk mencari baris dengan nilai yang unik. Berbeda dengan <code>arrange()</code> dan <code>filter()</code>, fungsi ini juga dapat, jika diperlukan, mengubah kolom.</p>
+<p>Selain itu, ada juga:</p>
+<ol start="3" type="1">
+<li><code>distinct()</code>, yang digunakan untuk mencari baris dengan nilai yang unik.</li>
+</ol>
+<p>Berbeda dengan <code>arrange()</code> dan <code>filter()</code>, fungsi ini juga dapat, jika diperlukan, mengubah kolom.</p>
 <section id="filter" class="level2">
 <h2 class="anchored" data-anchor-id="filter">filter()</h2>
 <p>Fungsi <strong>filter()</strong> memungkinkan kamu memilih baris berdasarkan nilai kolom tertentu.</p>
@@ -542,7 +543,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 <p>Saat kamu menjalankan <strong>filter(), dplyr</strong> melakukan operasi pemfilteran, membuat <em>data frame</em> baru, lalu mencetak hasilnya. Namun, fungsi <strong>dplyr</strong> <em>tidak pernah</em> mengubah dataset yang ada, termasuk dataset <strong>flights.</strong></p>
-<p>Jika kamu ingin menyimpan hasilnya, kamu harus menggunakan operator penugasan &lt;-.</p>
+<p>Jika kamu ingin menyimpan hasilnya, kamu harus menggunakan operator penugasan <code>&lt;-</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>jan1 <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span> </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> day <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -604,6 +605,18 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 <p>Kode tersebut tidak akan menghasilkan kesalahan tetapi juga tidak akan melakukan apa yang kamu inginkan. Masalahnya adalah operator <code>|</code> pertama-tama akan memeriksa kondisi <code>month == 1</code> dan kemudian memeriksa nilai 2 sebagai kondisi, yang sebenarnya tidak masuk akal untuk diperiksa.</p>
 <p>Kenapa tidak masuk akal? Karena R mencoba memeriksa apakah nilai 2 itu benar atau salah (logical value), dan ini tidak relevan dengan kolom month.</p>
+<p>::: {.callout-caution collapse == “true”} ### Bagi yang belum mengerti</p>
+<p>Secara <strong>intuisi</strong> kita ingin mengambil bulan Januari atau (<code>|</code>) bulan Februari (Keduanya boleh). Tetapi, Perhatikan kalau konjungsi dan disjungsi dalam bahasa R ini proposisi atomik-nya harus berupa syntax <code>callable</code>.</p>
+<p>Perhatikan perbedaan kedua hal ini. - <code>filter(month == 1 | 2)</code> - <code>filter(month == 1 | day == 2)</code></p>
+<p>Nanti, ketika syntax di atas dicompile, maka ia akan mengecek conditional_value dari kedua proposisi atomik di atas.</p>
+<ul>
+<li>Yang pertama ia akan mengecek apakah <code>row</code> ke-i memiliki nilai <code>month</code> adalah <code>1</code> atau tidak. Jika <code>month == 1</code> maka proposisi atomik ruas kiri akan bernilai <code>TRUE</code>. Lalu, ia akan cek proposisi kanan operator <code>or</code> yakni 2. Ia akan menentukan apakan 2 ini <code>TRUE</code> atau <code>FALSE</code>. Akan tetapi, karena ia tidak merupakan coditional, ia tidak dapat ditentukan apakah 2 ini <code>TRUE</code> atau <code>FALSE</code>.</li>
+<li>Yang kedua sama, kecuali pada proposisi atomik yang sebelah kanan, dapat ditentukan conditional_value miliknya.</li>
+</ul>
+<p>Perhatikan hal ini juga berlaku (bahkan lebih <strong>worst</strong> logika-nya [tidak masuk akal]) pada kasus konjungsi.</p>
+<ul>
+<li><code>filter(month == 1 &amp; 2)</code> :::</li>
+</ul>
 </section>
 <section id="arrange" class="level2">
 <h2 class="anchored" data-anchor-id="arrange">arrange()</h2>
@@ -667,8 +680,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </section>
 <section id="distinct" class="level2">
 <h2 class="anchored" data-anchor-id="distinct">distinct()</h2>
-<p>Fungsi distinct() di dplyr digunakan untuk mencari dan mengembalikan baris-baris unik dalam sebuah dataset. Secara teknis, fungsi ini bekerja pada baris (rows) karena akan menghapus baris yang duplikat. Namun, lebih sering daripada itu, kamu mungkin ingin mencari kombinasi unik dari beberapa kolom tertentu dalam dataset, bukan seluruh baris.</p>
-<p>Kamu bisa memberikan satu atau lebih nama kolom ke dalam distinct() untuk mendapatkan kombinasi unik dari kolom-kolom tersebut. Berikut adalah contoh penggunaannya:</p>
+<p>Fungsi <code>distinct()</code> di <em>dplyr</em> digunakan untuk mencari dan mengembalikan baris-baris unik dalam sebuah dataset. Secara teknis, fungsi ini bekerja pada baris (<strong>rows</strong>) karena akan menghapus baris yang duplikat. Namun, lebih sering daripada itu, kamu mungkin ingin mencari kombinasi unik dari beberapa kolom tertentu dalam dataset, bukan seluruh baris.</p>
+<p>Kamu bisa memberikan satu atau lebih nama kolom ke dalam <code>distinct()</code> untuk mendapatkan kombinasi unik dari kolom-kolom tersebut. Berikut adalah contoh penggunaannya:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicate rows, if any</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
@@ -763,8 +776,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 214 more rows</code></pre>
 </div>
 </div>
-<section id="latihan-sebentar" class="level3">
-<h3 class="anchored" data-anchor-id="latihan-sebentar">Latihan sebentar</h3>
+<section id="latihan-1" class="level3">
+<h3 class="anchored" data-anchor-id="latihan-1">Latihan 1</h3>
 <ol type="1">
 <li>Dalam satu alur(in a single pipeline) untuk setiap kondisi, temukan semua penerbangan yang memenuhi kondisi tersebut:</li>
 </ol>
@@ -783,11 +796,24 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <li><p>Penerbangan mana yang menempuh jarak terjauh? Mana yang menempuh jarak paling sedikit?</p></li>
 <li><p>Apakah penting urutan apa yang Anda gunakan <code>filter()</code> dan <code>arrange()</code> jika Anda menggunakan keduanya? Mengapa tidak? Pikirkan tentang hasil dan berapa banyak pekerjaan yang harus dilakukan oleh fungsi tersebut.</p></li>
 </ol>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coba kerjakan dahulu sendiri. Jawaban tersedia <a href="../../../../../semuahalaman/modulprak/2024/ganjil/molin/jawabanLatihanModul5-1.html">disini</a></p>
+</div>
+</div>
 </section>
 </section>
 </section>
-<section id="kolom-columns" class="level1">
-<h1>Kolom (columns)</h1>
+<section id="columns---kolom" class="level1">
+<h1>Columns - Kolom</h1>
 <p>Ada empat kata kerja penting yang memengaruhi kolom tanpa mengubah baris: <code>mutate()</code> membuat kolom baru yang diturunkan dari kolom yang ada, <code>select()</code> mengubah kolom mana yang ada, <code>rename()</code> mengubah nama kolom, dan <code>relocate()</code> mengubah posisi kolom.</p>
 <section id="mutate" class="level2">
 <h2 class="anchored" data-anchor-id="mutate">mutate()</h2>
@@ -818,7 +844,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, speed &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>Secara default, <code>mutate()</code> menambahkan kolom baru di sisi kanan kumpulan data Anda, yang menyulitkan untuk melihat apa yang terjadi di sini. Kita bisa menggunakan .sebelum argumen untuk menambahkan variabel ke sisi kiri 2:</p>
+<p>Secara default, <code>mutate()</code> menambahkan kolom baru di sisi kanan kumpulan data Anda, yang menyulitkan untuk melihat apa yang terjadi di sini. Kita bisa menggunakan <code>.</code> sebelum argumen untuk menambahkan variabel ke sisi kiri 2:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -900,7 +926,21 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 336,766 more rows</code></pre>
 </div>
 </div>
-<p>Perhatikan bahwa karena kami belum menetapkan hasil perhitungan di atas kembali ke <code>flights</code>, variabel baru <code>gain</code>, <code>hours</code>, dan <code>gain_per_hour</code> hanya akan dicetak tetapi tidak akan disimpan dalam bingkai data. Dan jika kita ingin hasilnya tersedia dalam bingkai data untuk penggunaan di masa mendatang, kita harus memikirkan dengan cermat apakah kita ingin hasilnya ditetapkan kembali ke <code>flights</code>, menimpa bingkai data asli dengan lebih banyak variabel, atau ke objek baru. Seringkali, jawaban yang benar adalah objek baru yang diberi nama secara informatif untuk menunjukkan isinya, mis., <code>delay_gain</code>, tetapi Anda mungkin juga memiliki alasan bagus untuk menimpa <code>flights</code>.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>kita belum menetapkan hasil perhitungan di atas kembali ke <code>flights</code>, variabel baru <code>gain</code>, <code>hours</code>, dan <code>gain_per_hour</code> hanya akan dicetak tetapi tidak akan disimpan dalam <code>data frame</code>.</p>
+<p>Dan jika kita ingin hasilnya tersedia dalam <code>data frame</code> untuk penggunaan di masa mendatang, kita harus memikirkan dengan cermat apakah kita ingin hasilnya ditetapkan kembali ke <code>flights</code>, menimpa <code>data frame</code> asli dengan lebih banyak variabel, atau ke objek baru.</p>
+<p>Seringkali, jawaban yang benar adalah objek baru yang diberi nama secara informatif untuk menunjukkan isinya, mis., <code>delay_gain</code>, tetapi Anda mungkin juga memiliki alasan bagus untuk menimpa <code>flights</code>.</p>
+</div>
+</div>
 </section>
 <section id="select" class="level2">
 <h2 class="anchored" data-anchor-id="select">select()</h2>
@@ -976,7 +1016,20 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-<p>Secara historis, operasi ini dilakukan dengan <code>-</code> alih-alih <code>!</code>, jadi kemungkinan besar Anda akan melihatnya di alam liar. Kedua operator ini memiliki tujuan yang sama tetapi dengan perbedaan perilaku yang tidak kentara. Kami merekomendasikan penggunaan <code>!</code> karena terbaca sebagai “no” dan berpadu dengan baik dengan <code>&amp;</code> dan <code>|</code>.</p>
+<p>Secara historis, operasi ini dilakukan dengan <code>-</code> alih-alih <code>!</code>, jadi kemungkinan besar Anda akan melihatnya di luar sana (<em>wild</em>). Kedua operator ini memiliki tujuan yang sama tetapi dengan perbedaan perilaku yang tidak kentara.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rekomendasi
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kami merekomendasikan penggunaan <code>!</code> karena terbaca sebagai “no” dan berpadu dengan baik dengan <code>&amp;</code> dan <code>|</code>.</p>
+</div>
+</div>
 <ul>
 <li>Select all columns that are characters:</li>
 </ul>
@@ -1056,7 +1109,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-<p>Jika kamu memiliki banyak kolom dengan nama yang tidak konsisten dan memperbaikinya satu per satu akan memakan waktu, coba gunakan <code>janitor::clean_names()</code>, yang dapat membersihkan nama-nama kolom secara otomatis dengan cara yang berguna.</p>
+<p>Jika kamu memiliki banyak kolom dengan nama yang tidak konsisten dan memperbaikinya satu per satu akan memakan waktu, coba gunakan <a href="https://sfirke.github.io/janitor/reference/clean_names.html"><code>janitor::clean_names()</code></a>, yang dapat membersihkan nama-nama kolom secara otomatis dengan cara yang berguna.</p>
 </section>
 <section id="relocate" class="level2">
 <h2 class="anchored" data-anchor-id="relocate">relocate()</h2>
@@ -1084,7 +1137,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   dest &lt;chr&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>Anda juga dapat menentukan di mana harus meletakkannya menggunakan <code>.before</code> dan <code>.setelah</code>.after<code>argumen, seperti di</code>mutate()`:</p>
+<p>Anda juga dapat menentukan di mana harus meletakkannya menggunakan <code>.before</code> dan <code>.after</code> argumen, seperti di <code>mutate()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(year<span class="sc">:</span>dep_time, <span class="at">.after =</span> time_hour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1129,7 +1182,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-<p>##Latihan 1. Bandingkan <code>dep_time</code>, <code>sched_dep_time</code>, dan <code>dep_delay.</code> Bagaimana Anda mengharapkan ketiga angka itu terkait?</p>
+<p>##Latihan 2 1. Bandingkan <code>dep_time</code>, <code>sched_dep_time</code>, dan <code>dep_delay.</code> Bagaimana Anda mengharapkan ketiga angka itu terkait?</p>
 <ol start="2" type="1">
 <li><p>Lakukan brainstorming sebanyak mungkin cara untuk memilih <code>dep_time</code>, <code>dep_delay</code>, <code>arr_time</code>, dan <code>arr_delay</code> dari <code>flights</code>.</p></li>
 <li><p>Apa yang terjadi jika Anda menentukan nama variabel yang sama beberapa kali dalam panggilan <code>select()</code>?</p></li>
@@ -1165,20 +1218,39 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </ol>
 <p>Mengapa hal berikut tidak berhasil, dan apa arti kesalahannya?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co">#flights |&gt; </span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># select(tailnum) |&gt; </span></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a> <span class="co"># arrange(arr_delay)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tailnum) <span class="sc">|&gt;</span> </span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(arr_delay)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `arrange()`:
+ℹ In argument: `..1 = arr_delay`.
+Caused by error:
+! object 'arr_delay' not found</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coba kerjakan dahulu sendiri. Jawaban tersedia <a href="../../../../../semuahalaman/modulprak/2024/ganjil/molin/jawabanLatihanModul5-2.html">disini</a></p>
+</div>
 </div>
 </section>
 <section id="the-pipe" class="level2">
 <h2 class="anchored" data-anchor-id="the-pipe">The pipe</h2>
 <p>Kami telah menunjukkan contoh sederhana dari penggunaan pipe di atas, namun kekuatan sebenarnya dari pipe muncul saat kamu mulai menggabungkan beberapa fungsi (verbs). Misalnya, bayangkan kamu ingin mencari penerbangan tercepat ke bandara IAH di Houston. Untuk melakukan ini, kamu perlu menggabungkan fungsi <code>filter()</code>, <code>mutate()</code>, <code>select()</code>, dan <code>arrange()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dest <span class="sc">==</span> <span class="st">"IAH"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day, dep_time, carrier, flight, speed) <span class="sc">|&gt;</span> </span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(speed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dest <span class="sc">==</span> <span class="st">"IAH"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day, dep_time, carrier, flight, speed) <span class="sc">|&gt;</span> </span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(speed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,198 × 7
     year month   day dep_time carrier flight speed
@@ -1197,21 +1269,21 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 <p>Meskipun alur ini memiliki empat langkah, mudah untuk membaca sekilas karena kata kerja muncul di awal setiap baris: mulai dengan data <code>flights</code>, lalu filter, lalu mutate, lalu select, lalu arrange.</p>
-<p>Apa yang akan terjadi jika kita tidak memiliki pipa? Kita dapat menyarangkan setiap pemanggilan fungsi di dalam pemanggilan sebelumnya:</p>
+<p>Apa yang akan terjadi jika kita tidak memiliki <code>pipe</code>? Kita dapat menyarangkan setiap pemanggilan fungsi di dalam pemanggilan sebelumnya:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(</span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>        flights, </span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>        dest <span class="sc">==</span> <span class="st">"IAH"</span></span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
-<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>    year<span class="sc">:</span>day, dep_time, carrier, flight, speed</span>
-<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">desc</span>(speed)</span>
-<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>        flights, </span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>        dest <span class="sc">==</span> <span class="st">"IAH"</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>    year<span class="sc">:</span>day, dep_time, carrier, flight, speed</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">desc</span>(speed)</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,198 × 7
     year month   day dep_time carrier flight speed
@@ -1231,10 +1303,10 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 <p>Atau kita bisa menggunakan banyak objek perantara:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>flights1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(flights, dest <span class="sc">==</span> <span class="st">"IAH"</span>)</span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(flights1, <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>)</span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>flights3 <span class="ot">&lt;-</span> <span class="fu">select</span>(flights2, year<span class="sc">:</span>day, dep_time, carrier, flight, speed)</span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(flights3, <span class="fu">desc</span>(speed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>flights1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(flights, dest <span class="sc">==</span> <span class="st">"IAH"</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(flights1, <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>flights3 <span class="ot">&lt;-</span> <span class="fu">select</span>(flights2, year<span class="sc">:</span>day, dep_time, carrier, flight, speed)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(flights3, <span class="fu">desc</span>(speed))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,198 × 7
     year month   day dep_time carrier flight speed
@@ -1252,7 +1324,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 # ℹ 7,188 more rows</code></pre>
 </div>
 </div>
-<p>Meskipun kedua bentuk (menggunakan pipe atau tanpa pipe) memiliki kelebihan dan kekurangannya masing-masing, penggunaan pipe umumnya menghasilkan kode analisis data yang lebih mudah ditulis dan dibaca.</p>
+<p>Meskipun kedua bentuk (menggunakan <code>pipe</code> atau tanpa <code>pipe</code>) memiliki kelebihan dan kekurangannya masing-masing, penggunaan <code>pipe</code> umumnya menghasilkan kode analisis data yang lebih mudah ditulis dan dibaca.</p>
 <section id="kenapa-pipe-lebih-baik" class="level4">
 <h4 class="anchored" data-anchor-id="kenapa-pipe-lebih-baik">Kenapa Pipe Lebih Baik?</h4>
 <ul>
@@ -1262,17 +1334,32 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </section>
 <section id="menambahkan-pipe-ke-kode" class="level4">
 <h4 class="anchored" data-anchor-id="menambahkan-pipe-ke-kode">Menambahkan Pipe ke Kode:</h4>
-<p>Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (%&gt;%) secara otomatis ke dalam kode kamu.</p>
-</section>
-<section id="menggunakan-daripada" class="level4">
-<h4 class="anchored" data-anchor-id="menggunakan-daripada">Menggunakan <code>|&gt;</code> daripada <code>%&gt;%</code>:</h4>
-<p>RStudio juga memungkinkan kamu untuk menggunakan operator pipe lainnya, yaitu <code>|&gt;</code>, yang diperkenalkan dalam R 4.1.0. Untuk menggunakan operator pipe ini, kamu perlu mengubah pengaturan di RStudio agar <code>|&gt;</code> menjadi default, bukan <code>%&gt;%</code>.</p>
-</section>
-<section id="perbedaan-antara-dan" class="level4">
-<h4 class="anchored" data-anchor-id="perbedaan-antara-dan">Perbedaan Antara <code>%&gt;%</code> dan <code>|&gt;</code>:</h4>
+<p>Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (|&gt;) secara otomatis ke dalam kode kamu.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./datasets/shortcut-pipe.png" class="img-fluid figure-img"></p>
+<figcaption>Gambar 1. Untuk memasukkan |&gt;, pastikan “Use native pipe operator” option is checked.</figcaption>
+</figure>
+</div>
+<p>::: {.callout-caution collapse == “true”} #### Perbedaan Antara <code>%&gt;%</code> dan <code>|&gt;</code>: - %&gt;%: Ini adalah operator pipe yang umum digunakan di <code>dplyr</code> dan berbagai paket <code>tidyverse</code> lainnya. Ini juga berfungsi dalam banyak situasi di luar <code>tidyverse</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|eval: FALSE</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span> </span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+    cyl     n
+  &lt;dbl&gt; &lt;int&gt;
+1     4    11
+2     6     7
+3     8    14</code></pre>
+</div>
+</div>
 <ul>
-<li>%&gt;%: Ini adalah operator pipe yang umum digunakan di dplyr dan berbagai paket tidyverse lainnya. Ini juga berfungsi dalam banyak situasi di luar tidyverse.</li>
-<li>|&gt;: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan %&gt;%, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi.</li>
+<li>|&gt;: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan <code>%&gt;%</code>, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi. :::</li>
 </ul>
 </section>
 </section>
@@ -1284,8 +1371,8 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <h2 class="anchored" data-anchor-id="group_by">group_by()</h2>
 <p>Gunakan <code>group_by()</code> untuk membagi kumpulan data Anda menjadi beberapa grup yang bermakna untuk analisis Anda:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 336,776 × 19
 # Groups:   month [12]
@@ -1307,17 +1394,17 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
 </div>
 </div>
-<p><code>group_by()</code> tidak mengubah data tetapi, jika Anda melihat lebih dekat pada outputnya, Anda akan melihat bahwa outputnya menunjukkan bahwa itu “dikelompokkan berdasarkan” bulan (<code>Groups: month [12]</code>). Ini berarti operasi selanjutnya sekarang akan berfungsi “berdasarkan bulan”. <code>group_by()</code> menambahkan fitur yang dikelompokkan ini (disebut sebagai kelas) ke bingkai data, yang mengubah perilaku kata kerja berikutnya yang diterapkan ke data.</p>
+<p><code>group_by()</code> tidak mengubah data tetapi, jika Anda melihat lebih dekat pada outputnya, Anda akan melihat bahwa outputnya menunjukkan bahwa itu “dikelompokkan berdasarkan” bulan (<code>Groups: month [12]</code>). Ini berarti operasi selanjutnya sekarang akan berfungsi “berdasarkan bulan”. <code>group_by()</code> menambahkan fitur yang dikelompokkan ini (disebut sebagai kelas <em>class</em>) ke <code>data frame</code>, yang mengubah perilaku kata kerja berikutnya yang diterapkan ke data.</p>
 </section>
 <section id="summarize" class="level2">
 <h2 class="anchored" data-anchor-id="summarize">summarize()</h2>
-<p>Operasi pengelompokan yang paling penting adalah ringkasan, yang, jika digunakan untuk menghitung statistik ringkasan tunggal, mengurangi bingkai data menjadi satu baris untuk setiap grup. Di dplyr, operasi ini dilakukan dengan <code>summarize()</code>, seperti yang ditunjukkan oleh contoh berikut, yang menghitung penundaan keberangkatan rata-rata menurut bulan:</p>
+<p>Operasi pengelompokan yang paling penting adalah ringkasan, yang mana jika digunakan untuk menghitung statistik ringkasan tunggal, mengurangi data frame menjadi satu baris untuk setiap grup. Di <code>dplyr</code>, operasi ini dilakukan dengan <code>summarize()</code>, seperti yang ditunjukkan oleh contoh berikut, yang menghitung penundaan keberangkatan rata-rata menurut bulan:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay)</span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay)</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
    month avg_delay
@@ -1336,13 +1423,13 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 12    12        NA</code></pre>
 </div>
 </div>
-<p>Uh-oh! Ada yang tidak beres, dan semua hasil kami adalah NAs (diucapkan “NA”), simbol R untuk nilai yang hilang. Ini terjadi karena beberapa penerbangan yang diamati memiliki data yang hilang di kolom penundaan, jadi ketika kami menghitung rata-rata termasuk nilai tersebut, kami mendapatkan hasil NA. Kita akan kembali membahas nilai yang hilang secara detail di Bagian Asinkronus, tetapi untuk saat ini, kita akan memberi tahu fungsi <code>mean()</code> untuk mengabaikan semua nilai yang hilang dengan menyetel argumen <code>na.rm</code> menjadi <code>TRUE</code>:</p>
+<p>Uh-oh! Ada yang tidak beres, dan semua hasil kami adalah <code>NAs</code> (diucapkan “NA”), simbol R untuk nilai yang hilang. Ini terjadi karena beberapa penerbangan yang diamati memiliki data yang hilang di kolom penundaan, jadi ketika kami menghitung rata-rata termasuk nilai tersebut, kami mendapatkan hasil <code>NA</code>. Kita akan kembali membahas nilai yang hilang secara detail di Bagian Asinkronus, tetapi untuk saat ini, kita akan memberi tahu fungsi <code>mean()</code> untuk mengabaikan semua nilai yang hilang dengan menyetel argumen <code>na.rm</code> menjadi <code>TRUE</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
-<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
    month avg_delay
@@ -1363,12 +1450,12 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 <p>Anda dapat membuat sejumlah ringkasan dalam satu panggilan ke summarize(). Anda akan mempelajari berbagai ringkasan berguna di bab-bab mendatang, tetapi satu ringkasan yang sangat berguna adalah n(), yang mengembalikan jumlah baris di setiap grup:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
-<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
-<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 3
    month avg_delay     n
@@ -1401,10 +1488,10 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </ul>
 <p>Kamu dapat menyesuaikan n untuk memilih lebih dari satu baris, atau kamu bisa menggunakan argumen prop untuk memilih proporsi tertentu dari baris. Misalnya, <code>prop = 0.1</code> akan memilih 10% dari baris di setiap grup.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">|&gt;</span> </span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(arr_delay, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">|&gt;</span> </span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(arr_delay, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(dest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 108 × 19
 # Groups:   dest [105]
@@ -1431,14 +1518,13 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <p>Dengan menambahkan <code>with_ties</code> = <code>FALSE</code>, fungsi ini hanya akan mengambil satu baris per grup, bahkan jika ada beberapa baris yang memiliki nilai keterlambatan yang sama.</p>
 <p>Ini mirip dengan perhitungan nilai maksimum menggunakan <code>summarize()</code>, tetapi dengan <code>slice_max()</code> atau <code>slice_min()</code>, kamu mendapatkan seluruh baris yang sesuai dengan nilai tersebut (atau beberapa baris jika ada tie), bukan hanya statistik ringkasan tunggal.</p>
 </section>
-</section>
-<section id="grouping-by-multiple-variables" class="level1">
-<h1>Grouping by multiple variables</h1>
+<section id="grouping-by-multiple-variables" class="level2">
+<h2 class="anchored" data-anchor-id="grouping-by-multiple-variables">Grouping by multiple variables</h2>
 <p>Anda dapat membuat grup menggunakan lebih dari satu variabel. Misalnya, kita dapat membuat grup untuk setiap tanggal.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>daily <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span>  </span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month, day)</span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>daily</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>daily <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span>  </span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month, day)</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>daily</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 336,776 × 19
 # Groups:   year, month, day [365]
@@ -1464,25 +1550,229 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <p>Untuk membuat hal ini lebih jelas, <code>dplyr</code> menampilkan pesan yang memberi tahu kamu bagaimana cara mengubah perilaku ini. Pesan tersebut biasanya berbunyi seperti ini:</p>
 <p>“This is the default behavior of <strong>summarize()</strong> when grouping by multiple variables. To change this behavior, you can use <strong>group_by()</strong> followed by <strong>ungroup()</strong> or adjust the grouping inside <strong>summarize()</strong>.”</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">|&gt;</span> </span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">|&gt;</span> </span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'year', 'month'. You can override using the
 `.groups` argument.</code></pre>
 </div>
 </div>
-<p>Jika Anda senang dengan perilaku ini, Anda dapat memintanya secara eksplisit untuk menyembunyikan pesan tersebut:</p>
+<p>Jika Anda <em>happy</em> dengan perilaku ini, Anda dapat memintanya secara eksplisit untuk menyembunyikan pesan tersebut:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">|&gt;</span> </span>
-<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(), </span>
-<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop_last"</span></span>
-<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">|&gt;</span> </span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(), </span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop_last"</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Atau, ubah perilaku default dengan menetapkan nilai yang berbeda, mis., “drop” untuk menghapus semua pengelompokan atau “keep” untuk mempertahankan grup yang sama.</p>
 </section>
-<section id="dataset-information" class="level1">
-<h1>Dataset Information</h1>
+<section id="ungrouping" class="level2">
+<h2 class="anchored" data-anchor-id="ungrouping">Ungrouping</h2>
+<p>Anda mungkin juga ingin menghapus pengelompokan dari dataframe tanpa menggunakan <code>summarize()</code>. Anda dapat melakukannya dengan <code>ungroup()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>daily <span class="sc">|&gt;</span> </span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 336,776 × 19
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+ 1  2013     1     1      517            515         2      830            819
+ 2  2013     1     1      533            529         4      850            830
+ 3  2013     1     1      542            540         2      923            850
+ 4  2013     1     1      544            545        -1     1004           1022
+ 5  2013     1     1      554            600        -6      812            837
+ 6  2013     1     1      554            558        -4      740            728
+ 7  2013     1     1      555            600        -5      913            854
+ 8  2013     1     1      557            600        -3      709            723
+ 9  2013     1     1      557            600        -3      838            846
+10  2013     1     1      558            600        -2      753            745
+# ℹ 336,766 more rows
+# ℹ 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+</div>
+</div>
+<p>Sekarang mari kita lihat apa yang terjadi saat Anda summarize data frame yang tidak dikelompokkan.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>daily <span class="sc">|&gt;</span> </span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">flights =</span> <span class="fu">n</span>()</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  avg_delay flights
+      &lt;dbl&gt;   &lt;int&gt;
+1      12.6  336776</code></pre>
+</div>
+</div>
+<p>Anda mendapatkan satu baris kembali karena <code>dplyr</code> memperlakukan semua baris dalam data frame yang tidak dikelompokkan sebagai milik satu grup.</p>
+</section>
+<section id="by" class="level2">
+<h2 class="anchored" data-anchor-id="by">.by</h2>
+<p><code>dplyr</code> <code>1.1.0</code> menyertakan sintaks baru, eksperimental, untuk pengelompokan per operasi, argumen <code>.by</code>, <code>group_by()</code>, dan <code>ungroup()</code> tidak akan hilang, tetapi sekarang Anda juga dapat menggunakan argumen <code>.by</code> untuk mengelompokkan dalam satu operasi:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> month</span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+   month delay     n
+   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
+ 1     1 10.0  27004
+ 2    10  6.24 28889
+ 3    11  5.44 27268
+ 4    12 16.6  28135
+ 5     2 10.8  24951
+ 6     3 13.2  28834
+ 7     4 13.9  28330
+ 8     5 13.0  28796
+ 9     6 20.8  28243
+10     7 21.7  29425
+11     8 12.6  29327
+12     9  6.72 27574</code></pre>
+</div>
+</div>
+<p>Atau jika Anda ingin mengelompokkan berdasarkan beberapa variabel:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(origin, dest)</span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 224 × 4
+   origin dest  delay     n
+   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
+ 1 EWR    IAH   11.8   3973
+ 2 LGA    IAH    9.06  2951
+ 3 JFK    MIA    9.34  3314
+ 4 JFK    BQN    6.67   599
+ 5 LGA    ATL   11.4  10263
+ 6 EWR    ORD   14.6   6100
+ 7 EWR    FLL   13.5   3793
+ 8 LGA    IAD   16.7   1803
+ 9 JFK    MCO   10.6   5464
+10 LGA    ORD   10.7   8857
+# ℹ 214 more rows</code></pre>
+</div>
+</div>
+<p><code>.by</code> bekerja dengan semua kata kerja dan memiliki keuntungan bahwa Anda tidak perlu menggunakan argumen <code>.group</code> untuk menekan pesan pengelompokan atau <code>ungroup()</code> setelah selesai.</p>
+</section>
+<section id="latihan-3" class="level2">
+<h2 class="anchored" data-anchor-id="latihan-3">Latihan 3</h2>
+<ol type="1">
+<li><p>Operator mana yang memiliki penundaan rata-rata terburuk? Tantangan: dapatkah Anda menguraikan efek dari bad airport v.s. bad carriers? Mengapa iya / mengapa tidak? (Petunjuk: pikirkan tentang <code>flights</code>|&gt; group_by(carrier, dest)|&gt; summarize(n()))</p></li>
+<li><p>Temukan penerbangan yang paling tertunda saat keberangkatan dari setiap tujuan.</p></li>
+<li><p>Bagaimana penundaan bervariasi sepanjang hari? Ilustrasikan jawaban Anda dengan sebuah plot.</p></li>
+<li><p>Apa yang terjadi jika Anda memberikan n negatif ke <code>slice_min()</code> dan teman-temannya?</p></li>
+<li><p>Jelaskan apa yang dilakukan count() dalam kaitannya dengan kata kerja <code>dplyr</code> yang baru saja Anda pelajari. Apa yang dilakukan argumen <code>sort</code> kepada <code>count()</code>?</p></li>
+<li><p>Misalkan kita memiliki bingkai data kecil berikut:</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>),</span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">c</span>(<span class="st">"K"</span>, <span class="st">"K"</span>, <span class="st">"L"</span>, <span class="st">"L"</span>, <span class="st">"K"</span>)</span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan <code>group_by()</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan <code>arrange()</code>. Juga, beri komentar tentang perbedaannya dari <code>group_by()</code> di bagian (a).</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y) <span class="sc">|&gt;</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline. Kemudian, komentari apa yang dikatakan pesan tersebut.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="5" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline. Bagaimana outputnya berbeda dari yang ada di bagian (d)?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="6" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan setiap pipeline. Bagaimana output dari kedua pipeline berbeda?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'y'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+# Groups:   y [2]
+  y     z     mean_x
+  &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+1 a     K        1  
+2 a     L        3.5
+3 b     K        3.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+# Groups:   y, z [3]
+      x y     z     mean_x
+  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+1     1 a     K        1  
+2     2 b     K        3.5
+3     3 a     L        3.5
+4     4 a     L        3.5
+5     5 b     K        3.5</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coba kerjakan dahulu sendiri. Jawaban tersedia <a href="../../../../../semuahalaman/modulprak/2024/ganjil/molin/jawabanLatihanModul5-3.html">disini</a></p>
+</div>
+</div>
+</section>
+</section>
+<section id="studi-kasus---dataset-information" class="level1">
+<h1>Studi kasus - Dataset Information</h1>
+<p>Kita akan memberikan salah satu contoh pemula <em>pre-processing</em> dari data yang dibawah ini.</p>
 <section id="pendahuluan-1" class="level2">
 <h2 class="anchored" data-anchor-id="pendahuluan-1">Pendahuluan</h2>
 <p>Dalam dunia transportasi online, layanan seperti greb telah mengubah cara kita memesan dan menggunakan transportasi. Seiring dengan pertumbuhan pesat teknologi, data yang dihasilkan oleh platform transportasi online semakin berharga. Untuk memanfaatkan potensi data ini, kami mengadakan kompetisi prediksi harga pesanan mobil. Tujuan dari kompetisi ini adalah untuk mengembangkan model prediksi yang akurat dan canggih untuk harga pesanan mobil berdasarkan fitur-fitur yang diberikan.</p>
@@ -1572,15 +1862,15 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <section id="import-data" class="level2">
 <h2 class="anchored" data-anchor-id="import-data">Import Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/train.csv'</span>)</span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/train.csv'</span>)</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><code>train</code> : digunakan untuk melatih model , sekaligus mengevaluasi model.</li>
 <li><code>test</code> : digunakan untuk membuat prediksi menggunakan model setelah selesai dibuat.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            timestamp api_calls    clouds distance_max distance_mean
 1 2018-11-26 06:00:00         9 0.9906667         3.03      1.726667
@@ -1606,7 +1896,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  index           timestamp api_calls clouds distance_max distance_mean
 1     0 2018-12-14 00:00:00        13   0.69         3.02      1.980000
@@ -1628,11 +1918,11 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <section id="collecting-data-information" class="level2">
 <h2 class="anchored" data-anchor-id="collecting-data-information">Collecting Data Information</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Informasi Data Train'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Informasi Data Train'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Informasi Data Train</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   20355 obs. of  15 variables:
  $ timestamp    : chr  "2018-11-26 06:00:00" "2018-11-26 07:00:00" "2018-11-26 08:00:00" "2018-11-26 09:00:00" ...
@@ -1653,11 +1943,11 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Informasi Data Test'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Informasi Data Test'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Informasi Data Test</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   11040 obs. of  15 variables:
  $ index        : int  0 1 2 3 4 5 6 7 8 9 ...
@@ -1679,15 +1969,15 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 <p>Dapat dilihat bahwa <code>timestamp</code> masih memiliki data type yang salah. Sehingga kita harus memastikan semua variabel yang kita miliki sesuai data type yang seharusnya. Oleh karena itu , pada bagian ini kita akan memperbaiki data type <code>timestamp</code> tersebut.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>timestamp <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(train<span class="sc">$</span>timestamp, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train<span class="sc">$</span>timestamp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>timestamp <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(train<span class="sc">$</span>timestamp, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train<span class="sc">$</span>timestamp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Date[1:20355], format: "2018-11-26" "2018-11-26" "2018-11-26" "2018-11-26" "2018-11-26" ...</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>timestamp <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(test<span class="sc">$</span>timestamp, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test<span class="sc">$</span>timestamp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>timestamp <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(test<span class="sc">$</span>timestamp, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test<span class="sc">$</span>timestamp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Date[1:11040], format: "2018-12-14" "2018-12-14" "2018-12-14" "2018-12-14" "2018-12-14" ...</code></pre>
 </div>
@@ -1696,7 +1986,7 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 <section id="missing-value-checking-and-handling" class="level2">
 <h2 class="anchored" data-anchor-id="missing-value-checking-and-handling">Missing Value Checking and Handling</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    timestamp     api_calls        clouds  distance_max distance_mean 
             0             0           192             0             0 
@@ -1705,13 +1995,13 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
    surge_mean     surge_min          temp          wind          type 
             0             0           192           192             0 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(train)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(train)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jumlah total Missing Value : 960</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(test))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        index     timestamp     api_calls        clouds  distance_max 
             0             0             0             0             0 
@@ -1720,7 +2010,7 @@ distance_mean  distance_min      humidity          rain     surge_max
    surge_mean     surge_min          temp          wind          type 
             0             0             0             0             0 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jumlah total Missing Value : 0</code></pre>
 </div>
@@ -1754,51 +2044,42 @@ distance_mean  distance_min      humidity          rain     surge_max
 </tbody>
 </table>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' is in use and will not be installed</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyverse' is in use and will not be installed</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><code>dplyr</code> dan <code>tidyverse</code> merupakan packages yang powerfull untuk melakukan preprocessing data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'conflicted' was built under R version 4.4.2</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clouds =</span> <span class="fu">replace_na</span>(clouds, <span class="fu">mean</span>(clouds, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(train<span class="sc">$</span>clouds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clouds =</span> <span class="fu">replace_na</span>(clouds, <span class="fu">mean</span>(clouds, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb142-4"><a href="#cb142-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(train<span class="sc">$</span>clouds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(<span class="at">humidity =</span> <span class="fu">replace_na</span>(humidity, <span class="fu">mean</span>(humidity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb127-5"><a href="#cb127-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rain =</span> <span class="fu">replace_na</span>(rain, <span class="fu">mean</span>(rain, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb127-6"><a href="#cb127-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb127-7"><a href="#cb127-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb127-8"><a href="#cb127-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temp =</span> <span class="fu">replace_na</span>(temp, <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb127-9"><a href="#cb127-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb127-10"><a href="#cb127-10" aria-hidden="true" tabindex="-1"></a> train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
-<span id="cb127-11"><a href="#cb127-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wind =</span> <span class="fu">replace_na</span>(wind, <span class="fu">mean</span>(wind, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(<span class="at">humidity =</span> <span class="fu">replace_na</span>(humidity, <span class="fu">mean</span>(humidity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rain =</span> <span class="fu">replace_na</span>(rain, <span class="fu">mean</span>(rain, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temp =</span> <span class="fu">replace_na</span>(temp, <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb144-9"><a href="#cb144-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb144-10"><a href="#cb144-10" aria-hidden="true" tabindex="-1"></a> train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb144-11"><a href="#cb144-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wind =</span> <span class="fu">replace_na</span>(wind, <span class="fu">mean</span>(wind, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Setelah semua missing value diisi jangan lupa untuk recheck kembali data yang sudah diimputasi (Tujuannya adalah untuk memastikan kolom yang missing sudah ter isi)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    timestamp     api_calls        clouds  distance_max distance_mean 
             0             0             0             0             0 
@@ -1807,7 +2088,7 @@ distance_mean  distance_min      humidity          rain     surge_max
    surge_mean     surge_min          temp          wind          type 
             0             0             0             0             0 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(train)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(train)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jumlah total Missing Value : 0</code></pre>
 </div>
@@ -1816,13 +2097,13 @@ distance_mean  distance_min      humidity          rain     surge_max
 <section id="duplicated-data-detection" class="level2">
 <h2 class="anchored" data-anchor-id="duplicated-data-detection">Duplicated Data Detection</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah Observasi yang duplikat pada data train:'</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(train)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah Observasi yang duplikat pada data train:'</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(train)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jumlah Observasi yang duplikat pada data train: 0</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah Observasi yang duplikat pada data test:'</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah Observasi yang duplikat pada data test:'</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(test)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jumlah Observasi yang duplikat pada data test: 0</code></pre>
 </div>
