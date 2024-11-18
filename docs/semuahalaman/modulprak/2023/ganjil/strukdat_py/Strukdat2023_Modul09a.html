@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modul 9a Struktur Data: A-B Tree dan variasinya (B-Tree, 2-3 Tree, dsb) – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 9a Struktur Data: A-B Tree dan variasinya (B-Tree, 2-3 Tree, dsb)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -146,7 +146,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -165,7 +165,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -179,12 +179,15 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#todo-implementasi-a-b-tree-dengan-pointer" id="toc-todo-implementasi-a-b-tree-dengan-pointer" class="nav-link active" data-scroll-target="#todo-implementasi-a-b-tree-dengan-pointer">(TODO) Implementasi <em>A-B Tree</em> dengan <em>pointer</em></a></li>
+  <li><a href="#modul-9a-struktur-data-a-b-tree-dan-variasinya-b-tree-2-3-tree-dsb" id="toc-modul-9a-struktur-data-a-b-tree-dan-variasinya-b-tree-2-3-tree-dsb" class="nav-link active" data-scroll-target="#modul-9a-struktur-data-a-b-tree-dan-variasinya-b-tree-2-3-tree-dsb">Modul 9a Struktur Data: <em>A-B Tree</em> dan variasinya (<em>B-Tree</em>, <em>2-3 Tree</em>, dsb)</a>
+  <ul class="collapse">
+  <li><a href="#todo-implementasi-a-b-tree-dengan-pointer" id="toc-todo-implementasi-a-b-tree-dengan-pointer" class="nav-link" data-scroll-target="#todo-implementasi-a-b-tree-dengan-pointer">(TODO) Implementasi <em>A-B Tree</em> dengan <em>pointer</em></a></li>
   <li><a href="#b-tree-sebagai-kasus-khusus-dari-a-b-tree" id="toc-b-tree-sebagai-kasus-khusus-dari-a-b-tree" class="nav-link" data-scroll-target="#b-tree-sebagai-kasus-khusus-dari-a-b-tree"><em>B-Tree</em> sebagai kasus khusus dari <em>A-B Tree</em></a></li>
   <li><a href="#variasi-b-tree" id="toc-variasi-b-tree" class="nav-link" data-scroll-target="#variasi-b-tree">Variasi <em>B-Tree</em></a>
   <ul class="collapse">
   <li><a href="#tree" id="toc-tree" class="nav-link" data-scroll-target="#tree"><em>2-3 Tree</em></a></li>
   <li><a href="#tree-1" id="toc-tree-1" class="nav-link" data-scroll-target="#tree-1"><em>2-4 Tree</em></a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -211,8 +214,10 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-9a-struktur-data-a-b-tree-dan-variasinya-b-tree-2-3-tree-dsb" class="level1">
+<h1>Modul 9a Struktur Data: <em>A-B Tree</em> dan variasinya (<em>B-Tree</em>, <em>2-3 Tree</em>, dsb)</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2023/ganjil/strukdat_py/strukdat2023.html">Struktur Data (dengan Python)</a></p>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> graphviz <span class="im">as</span> gv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -228,7 +233,7 @@ window.Quarto = {
 <li><p>Tiap <em>internal node</em> (yaitu selain <em>leaf</em> dan <em>root</em>) memiliki sejumlah <em>child</em>, minimal sebanyak <span class="math inline">\(a\)</span></p></li>
 <li><p>Semua <em>leaf node</em> ada di level yang sama</p></li>
 </ul>
-<div id="cell-6" class="cell">
+<div id="cell-5" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ABtreeNode:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, b, key_dtype<span class="op">=</span><span class="bu">object</span>, emptydata<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.keys <span class="op">=</span> np.empty(b<span class="op">-</span><span class="dv">1</span>, dtype<span class="op">=</span>key_dtype)</span>
@@ -321,7 +326,7 @@ window.Quarto = {
 <span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>            i <span class="op">-=</span> <span class="dv">1</span></span>
 <span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> carry <span class="co"># sebenarnya self.emptydata, tapi gapapa biar konsisten</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-7" class="cell">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LinkedABtree:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, a, b, key_dtype<span class="op">=</span><span class="bu">object</span>, emptydata<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.root <span class="op">=</span> <span class="va">None</span></span>
@@ -465,7 +470,7 @@ window.Quarto = {
 <p><em>B-Tree</em>, berorder misalnya m, adalah sejenis <em>A-B Tree</em> atau <span class="math inline">\((a,b)\)</span>-<em>tree</em> dengan</p>
 <p><span class="math display">\[b=m\]</span> <span class="math display">\[a = \left\lceil \frac{b}{2} \right\rceil = \left\lceil \frac{m}{2} \right\rceil\]</span></p>
 <p>Sehingga, untuk implementasi <em>B-Tree</em>, kita tinggal meng-<em>inherit</em> dari <code>LinkedABtree</code> dan memilih nilai a dan b yang sesuai berdasarkan nilai m yang diberikan.</p>
-<div id="cell-11" class="cell">
+<div id="cell-10" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> LinkedBtree(LinkedABtree):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, m):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.b <span class="op">=</span> m</span>
@@ -485,7 +490,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="tree"><em>2-3 Tree</em></h3>
 <p><em>2-3 Tree</em> adalah suatu <em>B-Tree</em> dengan <span class="math inline">\(m=3\)</span>.</p>
 <p>(Lebih umumnya, <em>2-3 Tree</em> atau <span class="math inline">\((2,3)\)</span>-<em>tree</em> adalah suatu <em>A-B Tree</em> dengan <span class="math inline">\(a=2\)</span> dan <span class="math inline">\(b=3\)</span>.)</p>
-<div id="cell-15" class="cell">
+<div id="cell-14" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Linked23Tree(LinkedBtree):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(m<span class="op">=</span><span class="dv">3</span>)</span>
@@ -499,7 +504,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="tree-1"><em>2-4 Tree</em></h3>
 <p><em>2-4 Tree</em>, terkadang juga disebut <em>2-3-4 Tree</em>, adalah suatu <em>B-Tree</em> dengan <span class="math inline">\(m=4\)</span>.</p>
 <p>(Lebih umumnya, <em>2-4 Tree</em> atau <span class="math inline">\((2,4)\)</span>-<em>tree</em> adalah suatu <em>A-B Tree</em> dengan <span class="math inline">\(a=2\)</span> dan <span class="math inline">\(b=4\)</span>.)</p>
-<div id="cell-18" class="cell">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Linked24Tree(LinkedBtree):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(m<span class="op">=</span><span class="dv">4</span>)</span>
@@ -510,6 +515,7 @@ window.Quarto = {
 </div>
 
 
+</section>
 </section>
 </section>
 
@@ -549,7 +555,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -581,47 +598,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -656,11 +633,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

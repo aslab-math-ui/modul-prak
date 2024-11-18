@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modul 6 Praktikum Metode Numerik: Metode Iteratif untuk SPL – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 6 Praktikum Metode Numerik: Metode Iteratif untuk SPL</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -146,7 +146,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -165,7 +165,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -179,7 +179,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#beberapa-jenis-norm-vektor" id="toc-beberapa-jenis-norm-vektor" class="nav-link active" data-scroll-target="#beberapa-jenis-norm-vektor">1. Beberapa jenis norm vektor</a></li>
+  <li><a href="#modul-6-praktikum-metode-numerik-metode-iteratif-untuk-spl" id="toc-modul-6-praktikum-metode-numerik-metode-iteratif-untuk-spl" class="nav-link active" data-scroll-target="#modul-6-praktikum-metode-numerik-metode-iteratif-untuk-spl">Modul 6 Praktikum Metode Numerik: Metode Iteratif untuk SPL</a>
+  <ul class="collapse">
+  <li><a href="#beberapa-jenis-norm-vektor" id="toc-beberapa-jenis-norm-vektor" class="nav-link" data-scroll-target="#beberapa-jenis-norm-vektor">1. Beberapa jenis norm vektor</a></li>
   <li><a href="#masalah-copy-untuk-array-numpy" id="toc-masalah-copy-untuk-array-numpy" class="nav-link" data-scroll-target="#masalah-copy-untuk-array-numpy">2. Masalah <em>copy</em> untuk <em>array</em> numpy</a></li>
   <li><a href="#metode-jacobi-algoritma-praktis" id="toc-metode-jacobi-algoritma-praktis" class="nav-link" data-scroll-target="#metode-jacobi-algoritma-praktis">3. Metode Jacobi, algoritma praktis</a></li>
   <li><a href="#metode-gauss-seidel-algoritma-praktis" id="toc-metode-gauss-seidel-algoritma-praktis" class="nav-link" data-scroll-target="#metode-gauss-seidel-algoritma-praktis">4. Metode Gauss-Seidel, algoritma praktis</a></li>
@@ -187,6 +189,7 @@ window.Quarto = {
   <li><a href="#pengayaan-metode-jacobi-dalam-bentuk-matriks-teoritis" id="toc-pengayaan-metode-jacobi-dalam-bentuk-matriks-teoritis" class="nav-link" data-scroll-target="#pengayaan-metode-jacobi-dalam-bentuk-matriks-teoritis">6. (<strong>Pengayaan</strong>) Metode Jacobi, dalam bentuk matriks (teoritis)</a></li>
   <li><a href="#pengayaan-metode-gauss-seidel-dalam-bentuk-matriks-teoritis" id="toc-pengayaan-metode-gauss-seidel-dalam-bentuk-matriks-teoritis" class="nav-link" data-scroll-target="#pengayaan-metode-gauss-seidel-dalam-bentuk-matriks-teoritis">7. (<strong>Pengayaan</strong>) Metode Gauss-Seidel, dalam bentuk matriks (teoritis)</a></li>
   <li><a href="#pengayaan-metode-sor-dalam-bentuk-matriks-teoritis" id="toc-pengayaan-metode-sor-dalam-bentuk-matriks-teoritis" class="nav-link" data-scroll-target="#pengayaan-metode-sor-dalam-bentuk-matriks-teoritis">8. (<strong>Pengayaan</strong>) Metode SOR, dalam bentuk matriks (teoritis)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -212,6 +215,8 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-6-praktikum-metode-numerik-metode-iteratif-untuk-spl" class="level1">
+<h1>Modul 6 Praktikum Metode Numerik: Metode Iteratif untuk SPL</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/metnum/metnum2024genap.html">Metode Numerik</a></p>
 <p>Ini adalah pertemuan terakhir praktikum Metode Numerik tahun ini.</p>
 <p>Outline:</p>
@@ -238,10 +243,10 @@ window.Quarto = {
 <li>Manhattan distance atau Taxicab norm, sering disebut <em>1-norm</em> atau <span class="math inline">\(L_1\)</span>-norm, yaitu menjumlahkan mutlak tiap elemen vektor. Penulisan: <span class="math inline">\(||\textbf{v}||_1\)</span></li>
 </ol>
 <p>Numpy bisa menghitung beberapa jenis norm, termasuk ketiga jenis norm di atas, menggunakan <code>numpy.linalg.norm(vektor, jenis_norm)</code>, di mana vektor dibuat dengan <code>numpy.array</code>.</p>
-<div id="cell-9" class="cell">
+<div id="cell-8" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell" data-outputid="07b5590d-9de0-4eee-ed09-5aae1aa85fff">
+<div id="cell-9" class="cell" data-outputid="07b5590d-9de0-4eee-ed09-5aae1aa85fff">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>vektor_kecil <span class="op">=</span> np.array([<span class="dv">3</span>,<span class="op">-</span><span class="dv">4</span>])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vektor_kecil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -249,7 +254,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Contoh norm-2, dengan <em>option</em> <code>ord=2</code>:</p>
-<div id="cell-12" class="cell" data-outputid="160a0f4c-5f97-4511-d334-ef764e6e8300">
+<div id="cell-11" class="cell" data-outputid="160a0f4c-5f97-4511-d334-ef764e6e8300">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(vektor_kecil, <span class="bu">ord</span><span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>5.0</code></pre>
@@ -257,14 +262,14 @@ window.Quarto = {
 </div>
 <p>Output adalah 5, karena <span class="math inline">\(||\textbf{v}||_2=\sqrt{3^2+\left(-4\right)^2}=\sqrt{25}=5\)</span>.</p>
 <p>Sebenarnya, “ord” tidak harus ditulis:</p>
-<div id="cell-15" class="cell" data-outputid="8a16f6f9-30ed-4493-ece2-ada2e3a03569">
+<div id="cell-14" class="cell" data-outputid="8a16f6f9-30ed-4493-ece2-ada2e3a03569">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(vektor_kecil, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>5.0</code></pre>
 </div>
 </div>
 <p>Contoh norm-infinity, dengan <em>option</em> <code>ord=numpy.inf</code>:</p>
-<div id="cell-17" class="cell" data-outputid="49fd448f-248c-4a6a-ecae-dfbb8e36602b">
+<div id="cell-16" class="cell" data-outputid="49fd448f-248c-4a6a-ecae-dfbb8e36602b">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(vektor_kecil, np.inf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>4.0</code></pre>
@@ -272,7 +277,7 @@ window.Quarto = {
 </div>
 <p>Output adalah 4, karena <span class="math inline">\(||\textbf{v}||_{\infty} = \max \left( |3|, |-4| \right) = \max \left( 3, 4 \right) = 4\)</span>.</p>
 <p>Contoh norm-1:</p>
-<div id="cell-20" class="cell" data-outputid="7430f1fe-2a8c-4079-834a-bef85aeff4bb">
+<div id="cell-19" class="cell" data-outputid="7430f1fe-2a8c-4079-834a-bef85aeff4bb">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(vektor_kecil, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>7.0</code></pre>
@@ -286,28 +291,28 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="masalah-copy-untuk-array-numpy">2. Masalah <em>copy</em> untuk <em>array</em> numpy</h2>
 <p>Ada satu hal yang perlu dibahas sebelum melanjutkan ke pembahasan metode iteratif untuk SPL.</p>
 <p>Salah satu kekurangan numpy (dan Python secara umum) adalah bahwa kita tidak bisa meng-<em>copy</em> suatu <em>array</em> (ataupun <em>list</em>) dengan <em>assignment</em>. Melakukan <em>assignment</em> seolah-olah hanya membuat “sinonim”, sehingga perubahan pada salah satu <em>array</em>/<em>list</em> juga akan mengubah <em>array</em>/<em>list</em> yang satunya (istilahnya <em>shallow copy</em>). Perhatikan,</p>
-<div id="cell-26" class="cell">
+<div id="cell-25" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-27" class="cell" data-outputid="c770c552-3f85-48cd-8f41-eb281a002e77">
+<div id="cell-26" class="cell" data-outputid="c770c552-3f85-48cd-8f41-eb281a002e77">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>array1 <span class="op">=</span> np.array([<span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[9 8 7 6]</code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah cara copy seperti ini?</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>array2 <span class="op">=</span> array1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-29" class="cell" data-outputid="b98b76d9-7897-4804-8c34-14997e426220">
+<div id="cell-28" class="cell" data-outputid="b98b76d9-7897-4804-8c34-14997e426220">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[9 8 7 6]</code></pre>
 </div>
 </div>
 <p>Seandainya <code>array2</code> diubah…</p>
-<div id="cell-31" class="cell" data-outputid="808e9394-25d7-4ef1-e43b-4308f13d7bbc">
+<div id="cell-30" class="cell" data-outputid="808e9394-25d7-4ef1-e43b-4308f13d7bbc">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>array2[<span class="dv">2</span>] <span class="op">=</span> <span class="dv">15</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -315,14 +320,14 @@ window.Quarto = {
 </div>
 </div>
 <p>… maka <code>array1</code> juga mengalami perubahan yang sama.</p>
-<div id="cell-33" class="cell" data-outputid="c28d5dc7-d756-4711-8dbc-35421972c98a">
+<div id="cell-32" class="cell" data-outputid="c28d5dc7-d756-4711-8dbc-35421972c98a">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 9  8 15  6]</code></pre>
 </div>
 </div>
 <p>Cara <em>copy</em> yang tepat untuk <em>array</em> maupun <em>list</em> adalah menggunakan akhiran <code>.copy()</code> seperti berikut ini.</p>
-<div id="cell-35" class="cell" data-outputid="258c49f5-a400-4a64-a241-768ec95bbe3d">
+<div id="cell-34" class="cell" data-outputid="258c49f5-a400-4a64-a241-768ec95bbe3d">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>array3 <span class="op">=</span> array1.copy()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -330,7 +335,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Sehingga, perubahan pada salah satu tidak akan mempengaruhi yang satunya lagi. Artinya, <em>copy</em> telah dilakukan secara sempurna (disebut <em>deep copy</em>).</p>
-<div id="cell-37" class="cell" data-outputid="5271e9e7-4e4b-42f0-c116-4e3d63d4a25e">
+<div id="cell-36" class="cell" data-outputid="5271e9e7-4e4b-42f0-c116-4e3d63d4a25e">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>array3[<span class="dv">3</span>] <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array3)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(array1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -349,7 +354,7 @@ window.Quarto = {
 <p><span class="math display">\[x_i^{(k)} = \frac{1}{a_{ii}} \left[ \sum_{j=1,j\ne i}^{n} \left(-a_{ij}x_j^{(k-1)} \right) + b_i \right],\hspace{0.5cm} i = 1, 2, \dots, n \]</span></p>
 <p>Kriteria pemberhentian iterasi bisa berupa * <em>error</em> mutlak: <span class="math inline">\(||\textbf{x}^{(k)}-\textbf{x}^{(k-1)}|| &lt; \epsilon\)</span> * <em>error</em> relatif: <span class="math inline">\(\frac{||\textbf{x}^{(k)}-\textbf{x}^{(k-1)}||}{||\textbf{x}^{(k)}||} &lt; \epsilon\)</span></p>
 <p>Pada kode berikut ini, kita akan menggunakan <em>error</em> mutlak dan norm tak hingga.</p>
-<div id="cell-43" class="cell">
+<div id="cell-42" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Jacobi(matriks, tebakan_awal, tol):</span>
@@ -387,7 +392,7 @@ window.Quarto = {
 <span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># jika keluar while loop maka metode selesai, x(k) adalah vektor hasil akhir</span></span>
 <span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-44" class="cell" data-outputid="ab6ff842-0586-4d5c-d4e5-dfc71e0dcbdb">
+<div id="cell-43" class="cell" data-outputid="ab6ff842-0586-4d5c-d4e5-dfc71e0dcbdb">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>matriks_diperbesar <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan matriks diperbesar: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>tebakan_awal <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan tebakan awal: "</span>)), dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># catatan: .astype(float) dan dtype=float melakukan hal yang sama,</span></span>
@@ -417,7 +422,7 @@ Hasil metode Jacobi adalah:
 <p><span class="math display">\[x_i^{(k)} = \frac{1}{a_{ii}} \left[ -\sum_{j=1}^{i-1} \left( a_{ij}x_j^{(k)} \right) - \sum_{j=i+1}^{n} \left( a_{ij}x_j^{(k-1)} \right) + b_i \right],\hspace{0.5cm} i = 1, 2, \dots, n \]</span></p>
 <p>Akibat selalu menggunakan nilai-nilai terbaru, metode Gauss-Seidel cenderung lebih cepat konvergen memenuhi toleransi daripada metode Jacobi.</p>
 <p>Secara algoritma, perubahan ini pun sebenarnya sangat kecil. Antara metode Jacobi dan metode Gauss-Seidel, perbedaannya hanya di satu baris saja…</p>
-<div id="cell-48" class="cell">
+<div id="cell-47" class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> GaussSeidel(matriks, tebakan_awal, tol):</span>
@@ -456,7 +461,7 @@ Hasil metode Jacobi adalah:
 <span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># jika keluar while loop maka metode selesai, x(k) adalah vektor hasil akhir</span></span>
 <span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-49" class="cell" data-outputid="f814aee0-cce2-4868-d417-a854c6abf613">
+<div id="cell-48" class="cell" data-outputid="f814aee0-cce2-4868-d417-a854c6abf613">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>matriks_diperbesar <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan matriks diperbesar: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>tebakan_awal <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan tebakan awal: "</span>)), dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>toleransi <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan toleransi: "</span>))</span>
@@ -481,7 +486,7 @@ Hasil Gauss-Seidel adalah:
 <p><span class="math display">\[x_i^{(k)} = \left(1-\omega\right)x_i^{(k-1)} + \frac{\omega}{a_{ii}} \left[ -\sum_{j=1}^{i-1} \left( a_{ij}x_j^{(k)} \right) - \sum_{j=i+1}^{n} \left( a_{ij}x_j^{(k-1)} \right) + b_i \right],\hspace{0.5cm} i = 1, 2, \dots, n \]</span></p>
 <p>Catatan: jika <span class="math inline">\(\omega = 1\)</span>, diperoleh metode Gauss-Seidel yang telah dibahas sebelumnya (tanpa relaksasi).</p>
 <p>Lagi-lagi, perbedaan kode antara metode Gauss-Seidel dan metode SOR hanya di satu baris saja…</p>
-<div id="cell-53" class="cell">
+<div id="cell-52" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SOR(matriks, tebakan_awal, tol, omega<span class="op">=</span><span class="dv">1</span>):</span>
@@ -520,7 +525,7 @@ Hasil Gauss-Seidel adalah:
 <span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># jika keluar while loop maka metode selesai, x(k) adalah vektor hasil akhir</span></span>
 <span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-54" class="cell" data-outputid="e5e277ae-1039-415a-d939-92923886f9c0">
+<div id="cell-53" class="cell" data-outputid="e5e277ae-1039-415a-d939-92923886f9c0">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>matriks_diperbesar <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan matriks diperbesar: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>tebakan_awal <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan tebakan awal: "</span>)), dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan faktor relaksasi (omega): "</span>))</span>
@@ -579,7 +584,7 @@ a_{11} &amp; 0 &amp; \dots &amp; 0 \\
 A = D - L_{neg} - U_{neg}
 \]</span></p>
 <p>Dengan demikian, kita bisa menyusun fungsi untuk memisahkan matriks koefisien <span class="math inline">\(A\)</span> menjadi <span class="math inline">\(D - L_{neg} - U_{neg}\)</span>.</p>
-<div id="cell-59" class="cell">
+<div id="cell-58" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> PisahDLnegUneg(matriks_A):</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># memperoleh ukuran n x n dari matriks A, ambil banyaknya baris aja</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> np.shape(matriks_A)[<span class="dv">0</span>]</span>
@@ -605,7 +610,7 @@ A = D - L_{neg} - U_{neg}
 <span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return tiga matriks sekaligus sebagai satu kesatuan</span></span>
 <span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (D, Lneg, Uneg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-60" class="cell" data-outputid="688aa86a-d292-4e7b-f267-271de8b6a637">
+<div id="cell-59" class="cell" data-outputid="688aa86a-d292-4e7b-f267-271de8b6a637">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contoh</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>matriks_koef <span class="op">=</span> np.array([</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
@@ -633,7 +638,7 @@ A = D - L_{neg} - U_{neg}
 <p><span class="math display">\[T_j = D^{-1}\left(L_{neg}+U_{neg}\right), \hspace{0.5cm} \textbf{c}_j = D^{-1}\textbf{b}\]</span></p>
 <p>sehingga rumus iterasi metode Jacobi menjadi</p>
 <p><span class="math display">\[\textbf{x}^{(k)} = T_j\textbf{x}^{(k-1)} + \textbf{c}_j\]</span></p>
-<div id="cell-62" class="cell">
+<div id="cell-61" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> JacobiTeoritis(matriks_koefisien, vektor_b, tebakan_awal, tol):</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># pisahkan dulu</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    D, Lneg, Uneg <span class="op">=</span> PisahDLnegUneg(matriks_koefisien)</span>
@@ -663,7 +668,7 @@ A = D - L_{neg} - U_{neg}
 <span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># jika sudah keluar while loop, toleransi sudah terpenuhi</span></span>
 <span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-63" class="cell" data-outputid="120fe7c6-4745-49df-8126-8a533bec1fbe">
+<div id="cell-62" class="cell" data-outputid="120fe7c6-4745-49df-8126-8a533bec1fbe">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>matriks_koef <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan matriks koefisien A: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>vektor_b <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan vektor b: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>tebakan_awal <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan tebakan awal: "</span>)), dtype<span class="op">=</span><span class="bu">float</span>)</span>
@@ -689,7 +694,7 @@ Hasil metode Jacobi (teoritis) adalah:
 <p><span class="math display">\[T_g = \left( D - L_{neg} \right)^{-1} U_{neg}, \hspace{0.5cm} \textbf{c}_g = \left( D - L_{neg} \right)^{-1} \textbf{b}\]</span></p>
 <p>Sehingga, rumus iterasi untuk metode Gauss-Seidel bentuk matriks bisa ditulis:</p>
 <p><span class="math display">\[\textbf{x}^{(k)} = T_g \textbf{x}^{(k-1)} + \textbf{c}_g\]</span></p>
-<div id="cell-66" class="cell">
+<div id="cell-65" class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> GaussSeidelTeoritis(matriks_koefisien, vektor_b, tebakan_awal, tol):</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># pisahkan dulu</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    D, Lneg, Uneg <span class="op">=</span> PisahDLnegUneg(matriks_koefisien)</span>
@@ -719,7 +724,7 @@ Hasil metode Jacobi (teoritis) adalah:
 <span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># jika sudah keluar while loop, toleransi sudah terpenuhi</span></span>
 <span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-67" class="cell" data-outputid="ee50a5ff-fd80-4d88-e1ba-b74c548e2b67">
+<div id="cell-66" class="cell" data-outputid="ee50a5ff-fd80-4d88-e1ba-b74c548e2b67">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>matriks_koef <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan matriks koefisien A: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>vektor_b <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan vektor b: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>tebakan_awal <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan tebakan awal: "</span>)), dtype<span class="op">=</span><span class="bu">float</span>)</span>
@@ -745,7 +750,7 @@ Hasil metode Gauss-Seidel (teoritis) adalah:
 <p><span class="math display">\[T_{\omega} = \left( D-\omega L \right)^{-1}\left[ (1-\omega)D + \omega U \right], \hspace{0.5cm} \textbf{c}_{\omega} = \omega \left( D-\omega L\right)^{-1} \textbf{b}\]</span></p>
 <p>Sehingga, rumus iterasi untuk metode SOR bentuk matriks bisa ditulis:</p>
 <p><span class="math display">\[\textbf{x}^{(k)} = T_{\omega} \textbf{x}^{(k-1)} + \textbf{c}_{\omega}\]</span></p>
-<div id="cell-70" class="cell">
+<div id="cell-69" class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> SORTeoritis(matriks_koefisien, vektor_b, tebakan_awal, omega, tol):</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># pisahkan dulu</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    D, Lneg, Uneg <span class="op">=</span> PisahDLnegUneg(matriks_koefisien)</span>
@@ -775,7 +780,7 @@ Hasil metode Gauss-Seidel (teoritis) adalah:
 <span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># jika sudah keluar while loop, toleransi sudah terpenuhi</span></span>
 <span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> xk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-71" class="cell" data-outputid="80a560f1-bd38-43b9-da89-1bf499e982d3">
+<div id="cell-70" class="cell" data-outputid="80a560f1-bd38-43b9-da89-1bf499e982d3">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>matriks_koef <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan matriks koefisien A: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>vektor_b <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan vektor b: "</span>))).astype(<span class="bu">float</span>)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>tebakan_awal <span class="op">=</span> np.array(<span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan tebakan awal: "</span>)), dtype<span class="op">=</span><span class="bu">float</span>)</span>
@@ -797,6 +802,7 @@ Hasil metode SOR (teoritis) adalah:
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -835,7 +841,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -867,47 +884,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -942,11 +919,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
