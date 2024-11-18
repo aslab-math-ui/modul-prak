@@ -12,14 +12,6 @@ knitr:
   opts_chunk:
     comment: ''
 format-links: false
-include-in-header:
-  - text: |
-      <style>
-      .cell-output-stdout code {
-        word-break: break-wor !important;
-        white-space: pre-wrap !important;
-      }
-      </style>
 editor: 
   markdown: 
     wrap: 72
@@ -31,7 +23,7 @@ Pada Bagian ini, kamu akan belajar cara melakukan semua itu (dan lebih banyak la
 
 Tujuan dari bab ini adalah memberikan gambaran umum tentang alat-alat penting untuk mentransformasi data frame. Kita akan mulai dengan fungsi yang bekerja pada baris dan kolom data frame, lalu beralih membahas tentang `pipe`, alat penting untuk menggabungkan berbagai fungsi. Setelah itu, kita akan mengenalkan cara bekerja dengan kelompok data (grouping). Bagian ini akan ditutup dengan sebuah studi kasus yang menunjukkan bagaimana semua fungsi ini digunakan. 
 
-## Pre-requisites
+## Prerequisites
 
 Di bab ini, kita akan fokus pada package `dplyr`, salah satu anggota inti dari ekosistem `tidyverse`. Kita akan menjelaskan konsep-konsep utama dengan menggunakan data dari package `nycflights13` dan memanfaatkan `ggplot2` untuk membantu memahami data tersebut.
 
@@ -45,7 +37,7 @@ Perhatikan dengan baik pesan conflicts yang muncul saat kamu memuat tidyverse. P
 Selama ini, kita cenderung mengabaikan asal paket suatu fungsi karena biasanya tidak terlalu penting. Namun, mengetahui asal paket dapat membantu kamu mencari dokumentasi atau menemukan fungsi-fungsi terkait. Oleh karena itu, saat kita perlu menyebutkan asal fungsi dengan jelas, kita akan menggunakan sintaks R seperti ini: `packagename::functionname()`.
 
 ## nycflights13
-Untuk mempelajari dasar-dasar verbs dalam dplyr, kita akan menggunakan dataset `nycflights13::flights`. Dataset ini mencakup semua 336.776 penerbangan yang berangkat dari New York City pada tahun 2013. Data ini berasal dari (US Bureau of Transportation Statistics)[https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&QO_fu146_anzr=b0-gvzr] dan dapat didokumentasikan lebih lanjut dengan menggunakan perintah `?flights`.
+Untuk mempelajari dasar-dasar verbs dalam dplyr, kita akan menggunakan dataset `nycflights13::flights`. Dataset ini mencakup semua 336.776 penerbangan yang berangkat dari New York City pada tahun 2013. Data ini berasal dari [US Bureau of Transportation Statistics](https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&QO_fu146_anzr=b0-gvzr) dan dapat didokumentasikan lebih lanjut dengan menggunakan perintah `?flights`.
 
 ```{r}
 flights
@@ -81,7 +73,7 @@ Kamu akan mempelajari verbs utama dalam `dplyr` (fungsi-fungsi), yang dapat memb
 
 Karena setiap verb hanya melakukan satu tugas dengan baik, menyelesaikan masalah kompleks biasanya memerlukan kombinasi beberapa verb. Kombinasi ini dilakukan dengan menggunakan *pipe* `(|>)`.
 
-Kita akan membahas pipe lebih lanjut di Bagian 3.4, tetapi secara singkat, pipe mengambil nilai di sebelah kirinya dan meneruskannya ke fungsi di sebelah kanannya. Contohnya:
+Kita akan membahas pipe lebih lanjut di Bagian Asinkronus, tetapi secara singkat, pipe mengambil nilai di sebelah kirinya dan meneruskannya ke fungsi di sebelah kanannya. Contohnya:
 
 - x |> f(y) setara dengan f(x, y).
 - x |> f(y) |> g(z) setara dengan g(f(x, y), z).
@@ -104,11 +96,15 @@ Mari kita mulai! 🚀
 
 *Verbs* paling penting yang bekerja pada baris dalam sebuah dataset adalah:
 
-1. filter() – Memilih baris yang akan ditampilkan tanpa mengubah urutannya.
-2. arrange() – Mengubah urutan baris tanpa memengaruhi baris yang ditampilkan.
+1. `filter()` – Memilih baris yang akan ditampilkan tanpa mengubah urutannya.
+2. `arrange()` – Mengubah urutan baris tanpa memengaruhi baris yang ditampilkan.
 Kedua fungsi ini hanya memengaruhi baris, **sementara** kolom tetap tidak berubah.
 
-Selain itu, ada juga `distinct()`, yang digunakan untuk mencari baris dengan nilai yang unik. Berbeda dengan `arrange()` dan `filter()`, fungsi ini juga dapat, jika diperlukan, mengubah kolom.
+Selain itu, ada juga:
+
+3. `distinct()`, yang digunakan untuk mencari baris dengan nilai yang unik. 
+
+Berbeda dengan `arrange()` dan `filter()`, fungsi ini juga dapat, jika diperlukan, mengubah kolom.
 
 ## filter()
 
@@ -153,7 +149,7 @@ flights |>
 
 Saat kamu menjalankan **filter(), dplyr** melakukan operasi pemfilteran, membuat *data frame* baru, lalu mencetak hasilnya. Namun, fungsi **dplyr** *tidak pernah* mengubah dataset yang ada, termasuk dataset **flights.**
 
-Jika kamu ingin menyimpan hasilnya, kamu harus menggunakan operator penugasan <-.
+Jika kamu ingin menyimpan hasilnya, kamu harus menggunakan operator penugasan `<-`.
 ```{r}
 jan1 <- flights |> 
   filter(month == 1 & day == 1)
@@ -167,7 +163,7 @@ Ketika baru mulai belajar R, salah satu kesalahan paling umum adalah menggunakan
 Jika kamu secara tidak sengaja menggunakan `=` di dalam `filter()`, R akan memberikan pesan kesalahan yang membantu kamu mengenali kesalahan ini.
 
 ```{r} 
-#| error = TRUE
+#| error : TRUE
 flights |> 
   filter(month == 1)
 ```
@@ -182,6 +178,25 @@ flights |>
 Kode tersebut tidak akan menghasilkan kesalahan tetapi juga tidak akan melakukan apa yang kamu inginkan. Masalahnya adalah operator `|` pertama-tama akan memeriksa kondisi `month == 1` dan kemudian memeriksa nilai 2 sebagai kondisi, yang sebenarnya tidak masuk akal untuk diperiksa.
 
 Kenapa tidak masuk akal? Karena R mencoba memeriksa apakah nilai 2 itu benar atau salah (logical value), dan ini tidak relevan dengan kolom month.
+
+::: {.callout-caution collapse == "true"}
+### Bagi yang belum mengerti
+
+Secara **intuisi** kita ingin mengambil bulan Januari atau (`|`) bulan Februari (Keduanya boleh). Tetapi, Perhatikan kalau konjungsi dan disjungsi dalam bahasa R ini proposisi atomik-nya harus berupa syntax `callable`.
+
+Perhatikan perbedaan kedua hal ini.
+- `filter(month == 1 | 2)`
+- `filter(month == 1 | day == 2)`
+
+Nanti, ketika syntax di atas dicompile, maka ia akan mengecek conditional_value dari kedua proposisi atomik di atas.
+
+- Yang pertama ia akan mengecek apakah `row` ke-i memiliki nilai `month` adalah `1` atau tidak. Jika `month == 1` maka proposisi atomik ruas kiri akan bernilai `TRUE`. Lalu, ia akan cek proposisi kanan operator `or` yakni 2. Ia akan menentukan apakan 2 ini `TRUE` atau `FALSE`. Akan tetapi, karena ia tidak merupakan coditional, ia tidak dapat ditentukan apakah 2 ini `TRUE` atau `FALSE`.
+- Yang kedua sama, kecuali pada proposisi atomik yang sebelah kanan, dapat ditentukan conditional_value miliknya.
+
+Perhatikan hal ini juga berlaku (bahkan lebih **worst** logika-nya [tidak masuk akal]) pada kasus konjungsi.
+
+- `filter(month == 1 & 2)`
+:::
 
 ## arrange()
 Fungsi arrange() digunakan untuk mengubah urutan baris dalam dataset berdasarkan nilai-nilai pada kolom-kolom yang diberikan. Fungsi ini menerima sebuah data frame dan satu set nama kolom (atau ekspresi yang lebih rumit) yang akan digunakan untuk menentukan urutan.
@@ -211,9 +226,9 @@ flights |>
 Perhatikan bahwa jumlah baris tidak berubah – kami hanya mengatur data, kami tidak memfilternya.
 
 ## distinct()
-Fungsi distinct() di dplyr digunakan untuk mencari dan mengembalikan baris-baris unik dalam sebuah dataset. Secara teknis, fungsi ini bekerja pada baris (rows) karena akan menghapus baris yang duplikat. Namun, lebih sering daripada itu, kamu mungkin ingin mencari kombinasi unik dari beberapa kolom tertentu dalam dataset, bukan seluruh baris.
+Fungsi `distinct()` di *dplyr* digunakan untuk mencari dan mengembalikan baris-baris unik dalam sebuah dataset. Secara teknis, fungsi ini bekerja pada baris (**rows**) karena akan menghapus baris yang duplikat. Namun, lebih sering daripada itu, kamu mungkin ingin mencari kombinasi unik dari beberapa kolom tertentu dalam dataset, bukan seluruh baris.
 
-Kamu bisa memberikan satu atau lebih nama kolom ke dalam distinct() untuk mendapatkan kombinasi unik dari kolom-kolom tersebut. Berikut adalah contoh penggunaannya:
+Kamu bisa memberikan satu atau lebih nama kolom ke dalam `distinct()` untuk mendapatkan kombinasi unik dari kolom-kolom tersebut. Berikut adalah contoh penggunaannya:
 ```{r}
 # Remove duplicate rows, if any
 flights |> 
@@ -243,15 +258,15 @@ flights |>
   count(origin, dest, sort = TRUE)
 ```
 
-### Latihan sebentar
+### Latihan 1
 1. Dalam satu alur(in a single pipeline) untuk setiap kondisi, temukan semua penerbangan yang memenuhi kondisi tersebut:
 
-- Memiliki penundaan kedatangan dua jam atau lebih
-- Terbang ke Houston (IAH atau HOU)
-- Dioperasikan oleh United, American, atau Delta
-- Berangkat pada musim panas (Juli, Agustus, dan September)
-- Tiba lebih dari dua jam terlambat tetapi tidak pulang terlambat
-- Ditunda setidaknya satu jam, tetapi dibuat lebih dari 30 menit dalam penerbangan
+  - Memiliki penundaan kedatangan dua jam atau lebih
+  - Terbang ke Houston (IAH atau HOU)
+  - Dioperasikan oleh United, American, atau Delta
+  - Berangkat pada musim panas (Juli, Agustus, dan September)
+  - Tiba lebih dari dua jam terlambat tetapi tidak pulang terlambat
+  - Ditunda setidaknya satu jam, tetapi dibuat lebih dari 30 menit dalam penerbangan
 
 2. Urutkan penerbangan untuk menemukan penerbangan dengan penundaan keberangkatan terlama. Temukan penerbangan yang berangkat paling awal di pagi hari.
 
@@ -263,7 +278,15 @@ flights |>
 
 6. Apakah penting urutan apa yang Anda gunakan `filter()` dan `arrange()` jika Anda menggunakan keduanya? Mengapa tidak? Pikirkan tentang hasil dan berapa banyak pekerjaan yang harus dilakukan oleh fungsi tersebut.
 
-# Kolom (columns)
+::: {.callout-note icon=false}
+
+## Pay Attention
+
+Coba kerjakan dahulu sendiri. Jawaban tersedia [disini](jawabanLatihanModul5-1.qmd)
+
+:::
+
+# Columns - Kolom
 Ada empat kata kerja penting yang memengaruhi kolom tanpa mengubah baris: `mutate()` membuat kolom baru yang diturunkan dari kolom yang ada, `select()` mengubah kolom mana yang ada, `rename()` mengubah nama kolom, dan `relocate()` mengubah posisi kolom.
 
 ## mutate()
@@ -277,7 +300,7 @@ flights |>
   )
 ```
 
-Secara default, `mutate()` menambahkan kolom baru di sisi kanan kumpulan data Anda, yang menyulitkan untuk melihat apa yang terjadi di sini. Kita bisa menggunakan .sebelum argumen untuk menambahkan variabel ke sisi kiri 2:
+Secara default, `mutate()` menambahkan kolom baru di sisi kanan kumpulan data Anda, yang menyulitkan untuk melihat apa yang terjadi di sini. Kita bisa menggunakan `.` sebelum argumen untuk menambahkan variabel ke sisi kiri 2:
 ```{r}
 flights |> 
   mutate(
@@ -307,7 +330,17 @@ flights |>
   )
 ```
 
-Perhatikan bahwa karena kami belum menetapkan hasil perhitungan di atas kembali ke `flights`, variabel baru `gain`, `hours`, dan `gain_per_hour` hanya akan dicetak tetapi tidak akan disimpan dalam bingkai data. Dan jika kita ingin hasilnya tersedia dalam bingkai data untuk penggunaan di masa mendatang, kita harus memikirkan dengan cermat apakah kita ingin hasilnya ditetapkan kembali ke `flights`, menimpa bingkai data asli dengan lebih banyak variabel, atau ke objek baru. Seringkali, jawaban yang benar adalah objek baru yang diberi nama secara informatif untuk menunjukkan isinya, mis., `delay_gain`, tetapi Anda mungkin juga memiliki alasan bagus untuk menimpa `flights`.
+::: {.callout-note appearance="simple"}
+
+## Pay Attention
+
+kita belum menetapkan hasil perhitungan di atas kembali ke `flights`, variabel baru `gain`, `hours`, dan `gain_per_hour` hanya akan dicetak tetapi tidak akan disimpan dalam `data frame`. 
+
+Dan jika kita ingin hasilnya tersedia dalam `data frame` untuk penggunaan di masa mendatang, kita harus memikirkan dengan cermat apakah kita ingin hasilnya ditetapkan kembali ke `flights`, menimpa `data frame` asli dengan lebih banyak variabel, atau ke objek baru. 
+
+Seringkali, jawaban yang benar adalah objek baru yang diberi nama secara informatif untuk menunjukkan isinya, mis., `delay_gain`, tetapi Anda mungkin juga memiliki alasan bagus untuk menimpa `flights`.
+
+:::
 
 ## select()
 Tidak jarang mendapatkan kumpulan data dengan ratusan atau bahkan ribuan variabel. Dalam situasi ini, tantangan pertama seringkali hanya berfokus pada variabel yang Anda minati. `select()` memungkinkan Anda memperbesar subset yang berguna dengan cepat menggunakan operasi berdasarkan nama variabel:
@@ -329,7 +362,12 @@ flights |>
 flights |> 
   select(!year:day)
 ```
-Secara historis, operasi ini dilakukan dengan `-` alih-alih `!`, jadi kemungkinan besar Anda akan melihatnya di alam liar. Kedua operator ini memiliki tujuan yang sama tetapi dengan perbedaan perilaku yang tidak kentara. Kami merekomendasikan penggunaan `!` karena terbaca sebagai "no" dan berpadu dengan baik dengan `&` dan `|`.
+Secara historis, operasi ini dilakukan dengan `-` alih-alih `!`, jadi kemungkinan besar Anda akan melihatnya di luar sana (*wild*). Kedua operator ini memiliki tujuan yang sama tetapi dengan perbedaan perilaku yang tidak kentara. 
+
+::: {.callout-tip}
+## Rekomendasi
+Kami merekomendasikan penggunaan `!` karena terbaca sebagai "no" dan berpadu dengan baik dengan `&` dan `|`.
+:::
 
 - Select all columns that are characters:
 ```{r}
@@ -351,7 +389,6 @@ Contoh: Kolom bernama data_ijk atau ijk_value.
 - num_range("x", 1:3): Memilih nama kolom dengan pola x1, x2, dan x3.
 Cocok untuk kolom yang diberi nama dengan format angka berurutan.
 
-
 Lihat dokumentasi `?select` untuk informasi lebih lanjut. Setelah kamu memahami ekspresi reguler (yang akan dibahas di Bagian asinkronus), kamu juga bisa menggunakan fungsi `matches()` untuk memilih variabel yang sesuai dengan pola tertentu.
 
 Anda dapat mengganti nama variabel saat Anda `select()` dengan menggunakan `=`. Nama baru muncul di sisi kiri `=`, dan variabel lama muncul di sisi kanan:
@@ -368,7 +405,7 @@ flights |>
   rename(tail_num = tailnum)
 ```
 
-Jika kamu memiliki banyak kolom dengan nama yang tidak konsisten dan memperbaikinya satu per satu akan memakan waktu, coba gunakan `janitor::clean_names()`, yang dapat membersihkan nama-nama kolom secara otomatis dengan cara yang berguna.
+Jika kamu memiliki banyak kolom dengan nama yang tidak konsisten dan memperbaikinya satu per satu akan memakan waktu, coba gunakan [`janitor::clean_names()`](https://sfirke.github.io/janitor/reference/clean_names.html), yang dapat membersihkan nama-nama kolom secara otomatis dengan cara yang berguna.
 
 ## relocate()
 
@@ -379,7 +416,7 @@ flights |>
   relocate(time_hour, air_time)
 ```
 
-Anda juga dapat menentukan di mana harus meletakkannya menggunakan `.before` dan `.setelah`.after` argumen, seperti di `mutate()`:
+Anda juga dapat menentukan di mana harus meletakkannya menggunakan `.before` dan `.after` argumen, seperti di `mutate()`:
 ```{r}
 flights |> 
   relocate(year:dep_time, .after = time_hour)
@@ -387,7 +424,7 @@ flights |>
   relocate(starts_with("arr"), .before = dep_time)
 ```
 
-##Latihan
+##Latihan 2
 1. Bandingkan `dep_time`, `sched_dep_time`, dan `dep_delay.` Bagaimana Anda mengharapkan ketiga angka itu terkait?
 
 2. Lakukan brainstorming sebanyak mungkin cara untuk memilih `dep_time`, `dep_delay`, `arr_time`, dan `arr_delay` dari `flights`.
@@ -409,10 +446,18 @@ flights |> select(contains("TIME"))
 Mengapa hal berikut tidak berhasil, dan apa arti kesalahannya?
 
 ```{r}
-#flights |> 
- # select(tailnum) |> 
- # arrange(arr_delay)
+#| error: TRUE
+flights |> 
+  select(tailnum) |> 
+  arrange(arr_delay)
 ```
+::: {.callout-note icon=false}
+
+## Pay Attention
+
+Coba kerjakan dahulu sendiri. Jawaban tersedia [disini](jawabanLatihanModul5-2.qmd)
+
+:::
 
 ## The pipe
 Kami telah menunjukkan contoh sederhana dari penggunaan pipe di atas, namun kekuatan sebenarnya dari pipe muncul saat kamu mulai menggabungkan beberapa fungsi (verbs). Misalnya, bayangkan kamu ingin mencari penerbangan tercepat ke bandara IAH di Houston. Untuk melakukan ini, kamu perlu menggabungkan fungsi `filter()`, `mutate()`, `select()`, dan `arrange()`.
@@ -426,7 +471,7 @@ flights |>
 
 Meskipun alur ini memiliki empat langkah, mudah untuk membaca sekilas karena kata kerja muncul di awal setiap baris: mulai dengan data `flights`, lalu filter, lalu mutate, lalu select, lalu arrange.
 
-Apa yang akan terjadi jika kita tidak memiliki pipa? Kita dapat menyarangkan setiap pemanggilan fungsi di dalam pemanggilan sebelumnya:
+Apa yang akan terjadi jika kita tidak memiliki `pipe`? Kita dapat menyarangkan setiap pemanggilan fungsi di dalam pemanggilan sebelumnya:
 
 ```{r}
 arrange(
@@ -450,21 +495,32 @@ flights2 <- mutate(flights1, speed = distance / air_time * 60)
 flights3 <- select(flights2, year:day, dep_time, carrier, flight, speed)
 arrange(flights3, desc(speed))
 ```
-Meskipun kedua bentuk (menggunakan pipe atau tanpa pipe) memiliki kelebihan dan kekurangannya masing-masing, penggunaan pipe umumnya menghasilkan kode analisis data yang lebih mudah ditulis dan dibaca.
+Meskipun kedua bentuk (menggunakan `pipe` atau tanpa `pipe`) memiliki kelebihan dan kekurangannya masing-masing, penggunaan `pipe` umumnya menghasilkan kode analisis data yang lebih mudah ditulis dan dibaca.
 
 #### Kenapa Pipe Lebih Baik?
 - Kemudahan Membaca: Kode yang menggunakan pip lebih mudah dibaca karena setiap langkah dalam proses analisis data dipecah menjadi bagian yang terpisah, dan urutannya jelas. Ini membuat alur logika lebih transparan.
 - Kemudahan Menulis: Dengan pipe, kita tidak perlu menulis fungsi-fungsi bersarang yang dapat membingungkan. Kode lebih ringkas dan mudah dimodifikasi.
 
 #### Menambahkan Pipe ke Kode:
-Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (%>%) secara otomatis ke dalam kode kamu.
+Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (|>) secara otomatis ke dalam kode kamu.
 
-#### Menggunakan `|>` daripada `%>%`:
-RStudio juga memungkinkan kamu untuk menggunakan operator pipe lainnya, yaitu `|>`, yang diperkenalkan dalam R 4.1.0. Untuk menggunakan operator pipe ini, kamu perlu mengubah pengaturan di RStudio agar `|>` menjadi default, bukan `%>%`. 
+![Gambar 1. Untuk memasukkan |>, pastikan “Use native pipe operator” option is checked.](./datasets/shortcut-pipe.png)
 
+::: {.callout-caution collapse == "true"}
 #### Perbedaan Antara `%>%` dan `|>`:
-- %>%: Ini adalah operator pipe yang umum digunakan di dplyr dan berbagai paket tidyverse lainnya. Ini juga berfungsi dalam banyak situasi di luar tidyverse.
-- |>: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan %>%, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi.
+- %>%: Ini adalah operator pipe yang umum digunakan di `dplyr` dan berbagai paket `tidyverse` lainnya. Ini juga berfungsi dalam banyak situasi di luar `tidyverse`.
+
+```{r}
+#|eval: FALSE
+library(tidyverse)
+
+mtcars %>% 
+  group_by(cyl) %>%
+  summarize(n = n())
+```
+
+- |>: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan `%>%`, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi.
+:::
 
 ## Groups
 Sejauh ini Anda telah mempelajari tentang fungsi yang berfungsi dengan baris dan kolom. dplyr menjadi lebih kuat saat Anda menambahkan kemampuan untuk bekerja dengan grup. Di bagian ini, kita akan fokus pada fungsi yang paling penting: `group_by()`, `summarize()` dan keluarga fungsi slice.
@@ -475,10 +531,10 @@ Gunakan `group_by()` untuk membagi kumpulan data Anda menjadi beberapa grup yang
 flights |> 
   group_by(month)
 ```
-`group_by()` tidak mengubah data tetapi, jika Anda melihat lebih dekat pada outputnya, Anda akan melihat bahwa outputnya menunjukkan bahwa itu "dikelompokkan berdasarkan" bulan (`Groups: month [12]`). Ini berarti operasi selanjutnya sekarang akan berfungsi "berdasarkan bulan". `group_by()` menambahkan fitur yang dikelompokkan ini (disebut sebagai kelas) ke bingkai data, yang mengubah perilaku kata kerja berikutnya yang diterapkan ke data.
+`group_by()` tidak mengubah data tetapi, jika Anda melihat lebih dekat pada outputnya, Anda akan melihat bahwa outputnya menunjukkan bahwa itu "dikelompokkan berdasarkan" bulan (`Groups: month [12]`). Ini berarti operasi selanjutnya sekarang akan berfungsi "berdasarkan bulan". `group_by()` menambahkan fitur yang dikelompokkan ini (disebut sebagai kelas *class*) ke `data frame`, yang mengubah perilaku kata kerja berikutnya yang diterapkan ke data.
 
 ## summarize()
-Operasi pengelompokan yang paling penting adalah ringkasan, yang, jika digunakan untuk menghitung statistik ringkasan tunggal, mengurangi bingkai data menjadi satu baris untuk setiap grup. Di dplyr, operasi ini dilakukan dengan `summarize()`, seperti yang ditunjukkan oleh contoh berikut, yang menghitung penundaan keberangkatan rata-rata menurut bulan:
+Operasi pengelompokan yang paling penting adalah ringkasan, yang mana jika digunakan untuk menghitung statistik ringkasan tunggal, mengurangi data frame menjadi satu baris untuk setiap grup. Di `dplyr`, operasi ini dilakukan dengan `summarize()`, seperti yang ditunjukkan oleh contoh berikut, yang menghitung penundaan keberangkatan rata-rata menurut bulan:
 
 ```{r}
 flights |> 
@@ -488,7 +544,7 @@ flights |>
   )
 ```
 
-Uh-oh! Ada yang tidak beres, dan semua hasil kami adalah NAs (diucapkan "NA"), simbol R untuk nilai yang hilang. Ini terjadi karena beberapa penerbangan yang diamati memiliki data yang hilang di kolom penundaan, jadi ketika kami menghitung rata-rata termasuk nilai tersebut, kami mendapatkan hasil NA. Kita akan kembali membahas nilai yang hilang secara detail di Bagian Asinkronus, tetapi untuk saat ini, kita akan memberi tahu fungsi `mean()` untuk mengabaikan semua nilai yang hilang dengan menyetel argumen `na.rm` menjadi `TRUE`:
+Uh-oh! Ada yang tidak beres, dan semua hasil kami adalah `NAs` (diucapkan "NA"), simbol R untuk nilai yang hilang. Ini terjadi karena beberapa penerbangan yang diamati memiliki data yang hilang di kolom penundaan, jadi ketika kami menghitung rata-rata termasuk nilai tersebut, kami mendapatkan hasil `NA`. Kita akan kembali membahas nilai yang hilang secara detail di Bagian Asinkronus, tetapi untuk saat ini, kita akan memberi tahu fungsi `mean()` untuk mengabaikan semua nilai yang hilang dengan menyetel argumen `na.rm` menjadi `TRUE`:
 ```{r}
 flights |> 
   group_by(month) |> 
@@ -536,7 +592,7 @@ Dengan menambahkan `with_ties` = `FALSE`, fungsi ini hanya akan mengambil satu b
 
 Ini mirip dengan perhitungan nilai maksimum menggunakan `summarize()`, tetapi dengan `slice_max()` atau `slice_min()`, kamu mendapatkan seluruh baris yang sesuai dengan nilai tersebut (atau beberapa baris jika ada tie), bukan hanya statistik ringkasan tunggal.
 
-# Grouping by multiple variables
+## Grouping by multiple variables
 Anda dapat membuat grup menggunakan lebih dari satu variabel. Misalnya, kita dapat membuat grup untuk setiap tanggal.
 ```{r}
 daily <- flights |>  
@@ -553,7 +609,7 @@ Untuk membuat hal ini lebih jelas, `dplyr` menampilkan pesan yang memberi tahu k
 daily_flights <- daily |> 
   summarize(n = n())
 ```
-Jika Anda senang dengan perilaku ini, Anda dapat memintanya secara eksplisit untuk menyembunyikan pesan tersebut:
+Jika Anda *happy* dengan perilaku ini, Anda dapat memintanya secara eksplisit untuk menyembunyikan pesan tersebut:
 ```{r}
 daily_flights <- daily |> 
   summarize(
@@ -563,7 +619,130 @@ daily_flights <- daily |>
 ```
 Atau, ubah perilaku default dengan menetapkan nilai yang berbeda, mis., "drop" untuk menghapus semua pengelompokan atau "keep" untuk mempertahankan grup yang sama.
 
-# Dataset Information
+## Ungrouping
+Anda mungkin juga ingin menghapus pengelompokan dari dataframe tanpa menggunakan `summarize()`. Anda dapat melakukannya dengan `ungroup()`.
+```{r}
+daily |> 
+  ungroup()
+```
+Sekarang mari kita lihat apa yang terjadi saat Anda summarize data frame yang tidak dikelompokkan.
+
+```{r}
+daily |> 
+  ungroup() |>
+  summarize(
+    avg_delay = mean(dep_delay, na.rm = TRUE), 
+    flights = n()
+  )
+```
+Anda mendapatkan satu baris kembali karena `dplyr` memperlakukan semua baris dalam data frame yang tidak dikelompokkan sebagai milik satu grup.
+
+## .by
+`dplyr` `1.1.0` menyertakan sintaks baru, eksperimental, untuk pengelompokan per operasi, argumen `.by`, `group_by()`, dan `ungroup()` tidak akan hilang, tetapi sekarang Anda juga dapat menggunakan argumen `.by` untuk mengelompokkan dalam satu operasi:
+```{r}
+flights |> 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = month
+  )
+```
+Atau jika Anda ingin mengelompokkan berdasarkan beberapa variabel:
+```{r}
+flights |> 
+  summarize(
+    delay = mean(dep_delay, na.rm = TRUE), 
+    n = n(),
+    .by = c(origin, dest)
+  )
+```
+`.by` bekerja dengan semua kata kerja dan memiliki keuntungan bahwa Anda tidak perlu menggunakan argumen `.group` untuk menekan pesan pengelompokan atau `ungroup()` setelah selesai.
+
+## Latihan 3
+
+1. Operator mana yang memiliki penundaan rata-rata terburuk? Tantangan: dapatkah Anda menguraikan efek dari bad airport v.s. bad carriers? Mengapa iya / mengapa tidak? (Petunjuk: pikirkan tentang `flights`|> group_by(carrier, dest)|> summarize(n()))
+
+2. Temukan penerbangan yang paling tertunda saat keberangkatan dari setiap tujuan.
+
+3. Bagaimana penundaan bervariasi sepanjang hari? Ilustrasikan jawaban Anda dengan sebuah plot.
+
+4. Apa yang terjadi jika Anda memberikan n negatif ke `slice_min()` dan teman-temannya?
+
+5. Jelaskan apa yang dilakukan count() dalam kaitannya dengan kata kerja `dplyr` yang baru saja Anda pelajari. Apa yang dilakukan argumen `sort` kepada `count()`?
+
+6. Misalkan kita memiliki bingkai data kecil berikut:
+```{r}
+df <- tibble(
+  x = 1:5,
+  y = c("a", "b", "a", "a", "b"),
+  z = c("K", "K", "L", "L", "K")
+)
+```
+  a. Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan `group_by()`.
+```{r}
+#| eval: FALSE
+    
+df |>
+  group_by(y)
+```
+
+  b. Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan `arrange()`. Juga, beri komentar tentang perbedaannya dari `group_by()` di bagian (a).
+```{r}
+#| eval: FALSE
+
+df |>
+  arrange(y)
+```
+
+  c. Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline.
+```{r}
+#| eval: FALSE
+
+df |>
+  group_by(y) |>
+  summarize(mean_x = mean(x))
+```
+
+  d. Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline. Kemudian, komentari apa yang dikatakan pesan tersebut.
+```{r}
+#| eval: FALSE
+
+df |>
+  group_by(y, z) |>
+  summarize(mean_x = mean(x))
+```
+
+  e. Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline. Bagaimana outputnya berbeda dari yang ada di bagian (d)?
+```{r}
+#| eval: FALSE
+
+df |>
+  group_by(y, z) |>
+  summarize(mean_x = mean(x), .groups = "drop")
+```
+
+  f. Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan setiap pipeline. Bagaimana output dari kedua pipeline berbeda?
+```{r}
+df |>
+  group_by(y, z) |>
+  summarize(mean_x = mean(x))
+
+df |>
+  group_by(y, z) |>
+  mutate(mean_x = mean(x))
+```
+
+::: {.callout-note icon=false}
+
+## Pay Attention
+
+Coba kerjakan dahulu sendiri. Jawaban tersedia [disini](jawabanLatihanModul5-3.qmd)
+
+:::
+
+# Studi kasus - Dataset Information
+
+Kita akan memberikan salah satu contoh pemula *pre-processing* dari data yang dibawah ini.
 
 ## Pendahuluan
 
@@ -689,19 +868,15 @@ Tipe Tipe Imputasi :
 | Numerical (continous) | Mean, Median, Mode. | Umur (14,16,17,19,20,24,50,60) |
 
 ```{r}
-install.packages("dplyr")
-library(dplyr)
-```
-
-```{r}
+#| eval: FALSE
 install.packages("tidyverse")
-library(tidyverse)
+install.packages("dplyr")
+
 ```
 
-`dplyr` dan `tidyverse` merupakan packages yang powerfull untuk
-melakukan preprocessing data.
-
 ```{r}
+library(dplyr)
+library(tidyverse)
 library(conflicted)
 ```
 
