@@ -1,0 +1,748 @@
+---
+title: "Studi Kasus dplyr"
+subtitle: "Pre-processing dengan dplyr"
+image: static\Plot regresi.png
+description: "Offline di Departemen Matematika"
+date: 11/18/2024
+page-navigation: true
+format:
+  html:
+    code-overflow: wrap
+knitr:
+  opts_chunk:
+    comment: ''
+format-links: false
+include-in-header:
+  - text: |
+      <style>
+      .cell-output-stdout code {
+        word-break: break-wor !important;
+        white-space: pre-wrap !important;
+      }
+      </style>
+editor: 
+  markdown: 
+    wrap: 72
+---
+# Pendahuluan
+Visualisasi adalah alat penting untuk mendapatkan wawasan, tetapi jarang sekali data yang kita miliki sudah dalam bentuk yang pas untuk membuat grafik yang kita inginkan. Sering kali, kita perlu membuat variabel baru atau meringkas data untuk menjawab pertanyaan yang ada. Kadang-kadang, kita juga mungkin ingin mengganti nama variabel atau mengatur ulang urutan data supaya lebih mudah digunakan. 
+
+Pada Bagian ini, kamu akan belajar cara melakukan semua itu (dan lebih banyak lagi!) dengan menggunakan package `dplyr` serta dataset baru tentang penerbangan yang berangkat dari New York City pada tahun 2013.
+
+Tujuan dari bab ini adalah memberikan gambaran umum tentang alat-alat penting untuk mentransformasi data frame. Kita akan mulai dengan fungsi yang bekerja pada baris dan kolom data frame, lalu beralih membahas tentang `pipe`, alat penting untuk menggabungkan berbagai fungsi. Setelah itu, kita akan mengenalkan cara bekerja dengan kelompok data (grouping). Bagian ini akan ditutup dengan sebuah studi kasus yang menunjukkan bagaimana semua fungsi ini digunakan. 
+
+## Pre-requisites
+
+Di bab ini, kita akan fokus pada package `dplyr`, salah satu anggota inti dari ekosistem `tidyverse`. Kita akan menjelaskan konsep-konsep utama dengan menggunakan data dari package `nycflights13` dan memanfaatkan `ggplot2` untuk membantu memahami data tersebut.
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+
+Perhatikan dengan baik pesan conflicts yang muncul saat kamu memuat tidyverse. Pesan ini memberitahukan bahwa `dplyr` menggantikan beberapa fungsi bawaan dari base R. Jika kamu ingin menggunakan versi fungsi bawaan setelah memuat `dplyr`, kamu perlu menuliskan nama lengkapnya, seperti `stats::filter()` dan `stats::lag()`.
+
+Selama ini, kita cenderung mengabaikan asal paket suatu fungsi karena biasanya tidak terlalu penting. Namun, mengetahui asal paket dapat membantu kamu mencari dokumentasi atau menemukan fungsi-fungsi terkait. Oleh karena itu, saat kita perlu menyebutkan asal fungsi dengan jelas, kita akan menggunakan sintaks R seperti ini: `packagename::functionname()`.
+
+## nycflights13
+Untuk mempelajari dasar-dasar verbs dalam dplyr, kita akan menggunakan dataset `nycflights13::flights`. Dataset ini mencakup semua 336.776 penerbangan yang berangkat dari New York City pada tahun 2013. Data ini berasal dari (US Bureau of Transportation Statistics)[https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&QO_fu146_anzr=b0-gvzr] dan dapat didokumentasikan lebih lanjut dengan menggunakan perintah `?flights`.
+
+```{r}
+flights
+```
+
+**flights** adalah sebuah *tibble*, yaitu tipe khusus dari data frame yang digunakan dalam `tidyverse` untuk menghindari beberapa masalah umum. Perbedaan utama antara **tibble** dan **data frame** terletak pada cara *tibble* ditampilkan. *Tibble* dirancang untuk menangani dataset besar, sehingga hanya menampilkan beberapa baris pertama dan kolom-kolom yang muat di layar.
+
+Ada beberapa cara untuk melihat keseluruhan data:
+
+- Jika kamu menggunakan **RStudio** (kita memang pakai RStudio), cara paling nyaman adalah dengan menjalankan `View(flights)`, yang membuka tampilan interaktif, dapat digulir, dan dapat difilter.
+- Kamu juga bisa menggunakan `print(flights, width = Inf)` untuk menampilkan semua kolom.
+- Atau gunakan `glimpse()` untuk melihat ringkasan struktur data secara keseluruhan.
+
+```{r}
+glimpse(flights)
+```
+
+Dalam kedua tampilan tersebut, nama variabel diikuti oleh singkatan yang menunjukkan tipe setiap variabel:
+
+- `<int>` berarti integer (bilangan bulat),
+- `<dbl>` berarti double (alias bilangan real),
+- `<chr>` berarti character (alias string atau teks),
+- `<dttm>` berarti date-time (tanggal dan waktu).
+
+Informasi ini penting karena operasi yang dapat dilakukan pada sebuah kolom sangat bergantung pada tipe datanya.
+
+## dplyr basics
+Kamu akan mempelajari verbs utama dalam `dplyr` (fungsi-fungsi), yang dapat membantu menyelesaikan sebagian besar tantangan manipulasi data. Namun, sebelum membahas perbedaan masing-masing fungsi, ada baiknya memahami kesamaan mereka:
+
+1. Argumen pertama selalu berupa sebuah data frame.
+2. Argumen selanjutnya biasanya mendeskripsikan kolom yang akan dioperasikan, menggunakan nama variabel (tanpa tanda kutip).
+3. Hasil keluaran selalu berupa data frame baru.
+
+Karena setiap verb hanya melakukan satu tugas dengan baik, menyelesaikan masalah kompleks biasanya memerlukan kombinasi beberapa verb. Kombinasi ini dilakukan dengan menggunakan *pipe* `(|>)`.
+
+Kita akan membahas pipe lebih lanjut di Bagian 3.4, tetapi secara singkat, pipe mengambil nilai di sebelah kirinya dan meneruskannya ke fungsi di sebelah kanannya. Contohnya:
+
+- x |> f(y) setara dengan f(x, y).
+- x |> f(y) |> g(z) setara dengan g(f(x, y), z).
+Cara termudah untuk membaca pipe adalah dengan mengartikannya sebagai “then” Ini memungkinkanmu memahami maksud kode berikut meskipun belum mempelajari detailnya.
+
+```{r}
+flights |>
+  filter(dest == "IAH") |> 
+  group_by(year, month, day) |> 
+  summarize(
+    arr_delay = mean(arr_delay, na.rm = TRUE)
+  )
+```
+
+Verbs dalam **dplyr** dikelompokkan menjadi empat kategori berdasarkan apa yang mereka operasikan: **baris**, **kolom**, **grup**, atau **tabel**. Pada bagian berikut, kamu akan mempelajari verbs paling penting untuk mengoperasikan baris, kolom, dan grup. Kemudian, kita akan kembali membahas join verbs yang bekerja pada tabel di Bagian Asinkronus.
+
+Mari kita mulai! 🚀
+
+# Rows - Baris
+
+*Verbs* paling penting yang bekerja pada baris dalam sebuah dataset adalah:
+
+1. filter() – Memilih baris yang akan ditampilkan tanpa mengubah urutannya.
+2. arrange() – Mengubah urutan baris tanpa memengaruhi baris yang ditampilkan.
+Kedua fungsi ini hanya memengaruhi baris, **sementara** kolom tetap tidak berubah.
+
+Selain itu, ada juga `distinct()`, yang digunakan untuk mencari baris dengan nilai yang unik. Berbeda dengan `arrange()` dan `filter()`, fungsi ini juga dapat, jika diperlukan, mengubah kolom.
+
+## filter()
+
+Fungsi **filter()** memungkinkan kamu memilih baris berdasarkan nilai kolom tertentu.
+
+- Argumen pertama adalah data frame.
+- Argumen kedua dan seterusnya adalah kondisi yang harus terpenuhi agar baris tersebut dipilih.
+Sebagai contoh, untuk menemukan semua penerbangan yang berangkat lebih dari 120 menit (dua jam) terlambat, kamu bisa menggunakan:
+
+```{r}
+flights |> 
+  filter(dep_delay > 120)
+```
+Selain operator > (lebih besar dari), kamu juga bisa menggunakan operator lain seperti:
+
+- `>=` (lebih besar atau sama dengan),
+- `<` (lebih kecil dari),
+- `<=` (lebih kecil atau sama dengan),
+- `==` (sama dengan),
+- `!=` (tidak sama dengan).
+Kamu juga bisa menggabungkan beberapa kondisi:
+
+Gunakan `&` atau tanda koma (`,`) untuk menunjukkan and (kedua kondisi harus terpenuhi).
+Gunakan `|` untuk menunjukkan `or` (salah satu kondisi cukup terpenuhi).
+
+```{r}
+# Flights that departed on January 1
+flights |> 
+  filter(month == 1 & day == 1)
+
+# Flights that departed in January or February
+flights |> 
+  filter(month == 1 | month == 2)
+```
+
+Ada sebuah shortcut yang berguna saat kamu menggabungkan `|` dengan `==`, yaitu operator `%in%`. Operator ini akan memilih baris di mana sebuah variabel sama dengan salah satu nilai yang ada di sebelah kanan.
+```{r}
+# A shorter way to select flights that departed in January or February
+flights |> 
+  filter(month %in% c(1, 2))
+```
+
+Saat kamu menjalankan **filter(), dplyr** melakukan operasi pemfilteran, membuat *data frame* baru, lalu mencetak hasilnya. Namun, fungsi **dplyr** *tidak pernah* mengubah dataset yang ada, termasuk dataset **flights.**
+
+Jika kamu ingin menyimpan hasilnya, kamu harus menggunakan operator penugasan <-.
+```{r}
+jan1 <- flights |> 
+  filter(month == 1 & day == 1)
+```
+
+## common mistakes
+Ketika baru mulai belajar R, salah satu kesalahan paling umum adalah menggunakan = alih-alih == untuk menguji kesetaraan.
+
+- `=` digunakan untuk penugasan, bukan untuk membandingkan nilai.
+- `==` digunakan untuk memeriksa apakah dua nilai sama.
+Jika kamu secara tidak sengaja menggunakan `=` di dalam `filter()`, R akan memberikan pesan kesalahan yang membantu kamu mengenali kesalahan ini.
+
+```{r}
+flights |> 
+  filter(month = 1)
+```
+
+Kesalahan umum lainnya adalah menulis pernyataan *"or"* seperti dalam bahasa Inggris, alih-alih mengikuti sintaks R.
+
+```{r}
+flights |> 
+  filter(month == 1 | 2)
+```
+
+Kode tersebut tidak akan menghasilkan kesalahan tetapi juga tidak akan melakukan apa yang kamu inginkan. Masalahnya adalah operator `|` pertama-tama akan memeriksa kondisi `month == 1` dan kemudian memeriksa nilai 2 sebagai kondisi, yang sebenarnya tidak masuk akal untuk diperiksa.
+
+Kenapa tidak masuk akal? Karena R mencoba memeriksa apakah nilai 2 itu benar atau salah (logical value), dan ini tidak relevan dengan kolom month.
+
+## arrange()
+Fungsi arrange() digunakan untuk mengubah urutan baris dalam dataset berdasarkan nilai-nilai pada kolom-kolom yang diberikan. Fungsi ini menerima sebuah data frame dan satu set nama kolom (atau ekspresi yang lebih rumit) yang akan digunakan untuk menentukan urutan.
+
+Jika kamu memberikan lebih dari satu nama kolom, kolom tambahan akan digunakan untuk memecahkan tie (nilai yang sama) pada kolom sebelumnya. Dengan kata lain, jika dua baris memiliki nilai yang sama di kolom pertama, arrange() akan memeriksa kolom kedua untuk menentukan urutan.
+
+```{r}
+flights |> 
+  arrange(year, month, day, dep_time)
+```
+
+Apa yang terjadi di sini?
+
+- Penerbangan akan diurutkan pertama berdasarkan tahun.
+- Jika ada penerbangan di tahun yang sama, maka urutan dilanjutkan berdasarkan bulan.
+- Kemudian berdasarkan hari dalam bulan tersebut.
+- Terakhir, penerbangan yang terjadi pada hari yang sama akan diurutkan berdasarkan waktu keberangkatan (dep_time).
+Dengan cara ini, kita mendapatkan urutan penerbangan dari yang paling awal hingga yang paling terlambat, dimulai dari tahun yang paling awal.
+
+Untuk mengurutkan data berdasarkan kolom dalam urutan menurun (dari yang besar ke kecil), kamu dapat menggunakan fungsi desc() di dalam arrange(). Fungsi desc() mengubah urutan kolom yang kamu tentukan sehingga data akan diurutkan dari nilai terbesar ke terkecil.
+
+```{r}
+flights |> 
+  arrange(desc(dep_delay))
+```
+
+Perhatikan bahwa jumlah baris tidak berubah – kami hanya mengatur data, kami tidak memfilternya.
+
+## distinct()
+Fungsi distinct() di dplyr digunakan untuk mencari dan mengembalikan baris-baris unik dalam sebuah dataset. Secara teknis, fungsi ini bekerja pada baris (rows) karena akan menghapus baris yang duplikat. Namun, lebih sering daripada itu, kamu mungkin ingin mencari kombinasi unik dari beberapa kolom tertentu dalam dataset, bukan seluruh baris.
+
+Kamu bisa memberikan satu atau lebih nama kolom ke dalam distinct() untuk mendapatkan kombinasi unik dari kolom-kolom tersebut. Berikut adalah contoh penggunaannya:
+```{r}
+# Remove duplicate rows, if any
+flights |> 
+  distinct()
+
+# Find all unique origin and destination pairs
+flights |> 
+  distinct(origin, dest)
+```
+Jika kamu ingin menjaga kolom-kolom lain saat mencari baris unik, kamu dapat menggunakan opsi `.keep_all = TRUE` dalam fungsi `distinct()`. Opsi ini memungkinkan kamu untuk mengembalikan seluruh kolom dalam dataset, bukan hanya kolom yang digunakan untuk menentukan keunikan.
+
+```{r}
+flights |> 
+  distinct(origin, dest, .keep_all = TRUE)
+```
+Penjelasan:
+
+- origin dan dest adalah kolom yang digunakan untuk menentukan keunikan.
+- Dengan menambahkan `.keep_all = TRUE`, fungsi **distinct()** akan mengembalikan seluruh baris yang unik berdasarkan kombinasi origin dan dest, tetapi tetap menyertakan semua kolom lainnya dalam dataset (seperti **dep_delay, arr_delay,** dll.).
+
+Bukan kebetulan bahwa semua penerbangan berbeda ini terjadi pada 1 Januari: `distinct()` akan menemukan kemunculan pertama dari baris unik dalam kumpulan data dan membuang sisanya.
+
+Jika Anda ingin menemukan jumlah kemunculan, Anda lebih baik menukar `distinct()` dengan `count()`. Dengan argumen `sort = TRUE`, Anda dapat mengaturnya dalam urutan menurun dari jumlah kemunculan.
+
+```{r}
+flights |>
+  count(origin, dest, sort = TRUE)
+```
+
+### Latihan sebentar
+1. Dalam satu alur(in a single pipeline) untuk setiap kondisi, temukan semua penerbangan yang memenuhi kondisi tersebut:
+
+- Memiliki penundaan kedatangan dua jam atau lebih
+- Terbang ke Houston (IAH atau HOU)
+- Dioperasikan oleh United, American, atau Delta
+- Berangkat pada musim panas (Juli, Agustus, dan September)
+- Tiba lebih dari dua jam terlambat tetapi tidak pulang terlambat
+- Ditunda setidaknya satu jam, tetapi dibuat lebih dari 30 menit dalam penerbangan
+
+2. Urutkan penerbangan untuk menemukan penerbangan dengan penundaan keberangkatan terlama. Temukan penerbangan yang berangkat paling awal di pagi hari.
+
+3. Urutkan penerbangan untuk menemukan penerbangan tercepat. (Petunjuk: Coba sertakan perhitungan matematika di dalam fungsi Anda.)
+
+4. Apakah ada penerbangan setiap hari di tahun 2013?
+
+5. Penerbangan mana yang menempuh jarak terjauh? Mana yang menempuh jarak paling sedikit?
+
+6. Apakah penting urutan apa yang Anda gunakan `filter()` dan `arrange()` jika Anda menggunakan keduanya? Mengapa tidak? Pikirkan tentang hasil dan berapa banyak pekerjaan yang harus dilakukan oleh fungsi tersebut.
+
+# Kolom (columns)
+Ada empat kata kerja penting yang memengaruhi kolom tanpa mengubah baris: `mutate()` membuat kolom baru yang diturunkan dari kolom yang ada, `select()` mengubah kolom mana yang ada, `rename()` mengubah nama kolom, dan `relocate()` mengubah posisi kolom.
+
+## mutate()
+Tugas `mutate()` adalah menambahkan kolom baru yang dihitung dari kolom yang ada. Dalam bab transform, Anda akan mempelajari sekumpulan besar fungsi yang dapat Anda gunakan untuk memanipulasi berbagai jenis variabel. Untuk saat ini, kita akan tetap menggunakan aljabar dasar, yang memungkinkan kita menghitung perolehan, berapa lama waktu penerbangan yang tertunda di udara, dan kecepatan dalam mil per jam:
+
+```{r}
+flights |> 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60
+  )
+```
+
+Secara default, `mutate()` menambahkan kolom baru di sisi kanan kumpulan data Anda, yang menyulitkan untuk melihat apa yang terjadi di sini. Kita bisa menggunakan .sebelum argumen untuk menambahkan variabel ke sisi kiri 2:
+```{r}
+flights |> 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60,
+    .before = 1
+  )
+```
+`.` menunjukkan bahwa `.before` adalah argumen untuk fungsi tersebut, bukan nama variabel baru ketiga yang sedang kita buat. Anda juga dapat menggunakan `.after` menambahkan setelah variabel, dan di keduanya `.before` dan `.after` Anda dapat menggunakan nama variabel alih-alih posisi. Misalnya, kita dapat menambahkan variabel baru setelah `day`:
+```{r}
+flights |> 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60,
+    .after = day
+  )
+```
+Sebagai alternatif, kamu bisa mengontrol variabel mana saja yang ingin disimpan menggunakan argumen `.keep`. Salah satu nilai yang berguna untuk `.keep` adalah `"used"`, yang artinya kita hanya menyimpan kolom-kolom yang terlibat atau dibuat dalam langkah `mutate()`. Misalnya, pada kode berikut, hasilnya hanya akan berisi variabel-variabel: `dep_delay`, `arr_delay`, `air_time`, `gain`, `hours`, dan `gain_per_hour`:
+
+```{r}
+flights |> 
+  mutate(
+    gain = dep_delay - arr_delay,
+    hours = air_time / 60,
+    gain_per_hour = gain / hours,
+    .keep = "used"
+  )
+```
+
+Perhatikan bahwa karena kami belum menetapkan hasil perhitungan di atas kembali ke `flights`, variabel baru `gain`, `hours`, dan `gain_per_hour` hanya akan dicetak tetapi tidak akan disimpan dalam bingkai data. Dan jika kita ingin hasilnya tersedia dalam bingkai data untuk penggunaan di masa mendatang, kita harus memikirkan dengan cermat apakah kita ingin hasilnya ditetapkan kembali ke `flights`, menimpa bingkai data asli dengan lebih banyak variabel, atau ke objek baru. Seringkali, jawaban yang benar adalah objek baru yang diberi nama secara informatif untuk menunjukkan isinya, mis., `delay_gain`, tetapi Anda mungkin juga memiliki alasan bagus untuk menimpa `flights`.
+
+## select()
+Tidak jarang mendapatkan kumpulan data dengan ratusan atau bahkan ribuan variabel. Dalam situasi ini, tantangan pertama seringkali hanya berfokus pada variabel yang Anda minati. `select()` memungkinkan Anda memperbesar subset yang berguna dengan cepat menggunakan operasi berdasarkan nama variabel:
+
+- Select columns by name:
+```{r}
+flights |> 
+  select(year, month, day)
+```
+
+- Select all columns between year and day (inclusive):
+```{r}
+flights |> 
+  select(year:day)
+```
+
+- Select all columns except those from year to day (inclusive):
+```{r}
+flights |> 
+  select(!year:day)
+```
+Secara historis, operasi ini dilakukan dengan `-` alih-alih `!`, jadi kemungkinan besar Anda akan melihatnya di alam liar. Kedua operator ini memiliki tujuan yang sama tetapi dengan perbedaan perilaku yang tidak kentara. Kami merekomendasikan penggunaan `!` karena terbaca sebagai "no" dan berpadu dengan baik dengan `&` dan `|`.
+
+- Select all columns that are characters:
+```{r}
+flights |> 
+  select(where(is.character))
+```
+
+Ada beberapa fungsi bantu (helper functions) yang dapat kamu gunakan di dalam `select()` untuk memilih kolom berdasarkan pola nama tertentu:
+
+- starts_with("abc"): Memilih nama kolom yang diawali dengan "abc".
+Contoh: Kolom bernama abc_data atau abc_result.
+
+- ends_with("xyz"): Memilih nama kolom yang diakhiri dengan "xyz".
+Contoh: Kolom bernama value_xyz atau output_xyz.
+
+- contains("ijk"): Memilih nama kolom yang mengandung "ijk".
+Contoh: Kolom bernama data_ijk atau ijk_value.
+
+- num_range("x", 1:3): Memilih nama kolom dengan pola x1, x2, dan x3.
+Cocok untuk kolom yang diberi nama dengan format angka berurutan.
+
+
+Lihat dokumentasi `?select` untuk informasi lebih lanjut. Setelah kamu memahami ekspresi reguler (yang akan dibahas di Bagian asinkronus), kamu juga bisa menggunakan fungsi `matches()` untuk memilih variabel yang sesuai dengan pola tertentu.
+
+Anda dapat mengganti nama variabel saat Anda `select()` dengan menggunakan `=`. Nama baru muncul di sisi kiri `=`, dan variabel lama muncul di sisi kanan:
+
+```{r}
+flights |> 
+  select(tail_num = tailnum)
+```
+
+## rename()
+Jika Anda ingin menyimpan semua variabel yang ada dan hanya ingin mengganti nama beberapa variabel, Anda dapat menggunakan `rename()` alih-alih `select()`:
+```{r}
+flights |> 
+  rename(tail_num = tailnum)
+```
+
+Jika kamu memiliki banyak kolom dengan nama yang tidak konsisten dan memperbaikinya satu per satu akan memakan waktu, coba gunakan `janitor::clean_names()`, yang dapat membersihkan nama-nama kolom secara otomatis dengan cara yang berguna.
+
+## relocate()
+
+Gunakan `relocate()` untuk memindahkan variabel di dalam dataset. Kamu mungkin ingin mengumpulkan variabel-variabel yang berhubungan bersama atau memindahkan variabel penting ke depan. Secara default, `relocate()` akan memindahkan variabel ke bagian depan dataset.
+
+```{r}
+flights |> 
+  relocate(time_hour, air_time)
+```
+
+Anda juga dapat menentukan di mana harus meletakkannya menggunakan `.before` dan `.setelah`.after` argumen, seperti di `mutate()`:
+```{r}
+flights |> 
+  relocate(year:dep_time, .after = time_hour)
+flights |> 
+  relocate(starts_with("arr"), .before = dep_time)
+```
+
+##Latihan
+1. Bandingkan `dep_time`, `sched_dep_time`, dan `dep_delay.` Bagaimana Anda mengharapkan ketiga angka itu terkait?
+
+2. Lakukan brainstorming sebanyak mungkin cara untuk memilih `dep_time`, `dep_delay`, `arr_time`, dan `arr_delay` dari `flights`.
+
+3. Apa yang terjadi jika Anda menentukan nama variabel yang sama beberapa kali dalam panggilan `select()`?
+
+4. Apa yang dilakukan fungsi `any_of()`? Mengapa ini bisa membantu dalam hubungannya dengan vektor ini?
+
+```{r}
+variables <- c("year", "month", "day", "dep_delay", "arr_delay")
+```
+5. Apakah hasil menjalankan kode berikut mengejutkan Anda? Bagaimana pembantu select menangani huruf besar dan kecil secara default? Bagaimana Anda bisa mengubah default itu?
+```{r}
+flights |> select(contains("TIME"))
+```
+
+6. Ganti nama `air_time` menjadi `air_time_min` untuk menunjukkan satuan pengukuran dan memindahkannya ke awal bingkai data.
+
+Mengapa hal berikut tidak berhasil, dan apa arti kesalahannya?
+
+```{r}
+flights |> 
+  select(tailnum) |> 
+  arrange(arr_delay)
+```
+
+## The pipe
+Kami telah menunjukkan contoh sederhana dari penggunaan pipe di atas, namun kekuatan sebenarnya dari pipe muncul saat kamu mulai menggabungkan beberapa fungsi (verbs). Misalnya, bayangkan kamu ingin mencari penerbangan tercepat ke bandara IAH di Houston. Untuk melakukan ini, kamu perlu menggabungkan fungsi `filter()`, `mutate()`, `select()`, dan `arrange()`.
+```{r}
+flights |> 
+  filter(dest == "IAH") |> 
+  mutate(speed = distance / air_time * 60) |> 
+  select(year:day, dep_time, carrier, flight, speed) |> 
+  arrange(desc(speed))
+```
+
+Meskipun alur ini memiliki empat langkah, mudah untuk membaca sekilas karena kata kerja muncul di awal setiap baris: mulai dengan data `flights`, lalu filter, lalu mutate, lalu select, lalu arrange.
+
+Apa yang akan terjadi jika kita tidak memiliki pipa? Kita dapat menyarangkan setiap pemanggilan fungsi di dalam pemanggilan sebelumnya:
+
+```{r}
+arrange(
+  select(
+    mutate(
+      filter(
+        flights, 
+        dest == "IAH"
+      ),
+      speed = distance / air_time * 60
+    ),
+    year:day, dep_time, carrier, flight, speed
+  ),
+  desc(speed)
+)
+```
+Atau kita bisa menggunakan banyak objek perantara:
+```{r}
+flights1 <- filter(flights, dest == "IAH")
+flights2 <- mutate(flights1, speed = distance / air_time * 60)
+flights3 <- select(flights2, year:day, dep_time, carrier, flight, speed)
+arrange(flights3, desc(speed))
+```
+Meskipun kedua bentuk (menggunakan pipe atau tanpa pipe) memiliki kelebihan dan kekurangannya masing-masing, penggunaan pipe umumnya menghasilkan kode analisis data yang lebih mudah ditulis dan dibaca.
+
+#### Kenapa Pipe Lebih Baik?
+- Kemudahan Membaca: Kode yang menggunakan pip lebih mudah dibaca karena setiap langkah dalam proses analisis data dipecah menjadi bagian yang terpisah, dan urutannya jelas. Ini membuat alur logika lebih transparan.
+- Kemudahan Menulis: Dengan pipe, kita tidak perlu menulis fungsi-fungsi bersarang yang dapat membingungkan. Kode lebih ringkas dan mudah dimodifikasi.
+
+#### Menambahkan Pipe ke Kode:
+Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (%>%) secara otomatis ke dalam kode kamu.
+
+#### Menggunakan `|>` daripada `%>%`:
+RStudio juga memungkinkan kamu untuk menggunakan operator pipe lainnya, yaitu `|>`, yang diperkenalkan dalam R 4.1.0. Untuk menggunakan operator pipe ini, kamu perlu mengubah pengaturan di RStudio agar `|>` menjadi default, bukan `%>%`. 
+
+#### Perbedaan Antara `%>%` dan `|>`:
+- %>%: Ini adalah operator pipe yang umum digunakan di dplyr dan berbagai paket tidyverse lainnya. Ini juga berfungsi dalam banyak situasi di luar tidyverse.
+- |>: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan %>%, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi.
+
+## Groups
+Sejauh ini Anda telah mempelajari tentang fungsi yang berfungsi dengan baris dan kolom. dplyr menjadi lebih kuat saat Anda menambahkan kemampuan untuk bekerja dengan grup. Di bagian ini, kita akan fokus pada fungsi yang paling penting: `group_by()`, `summarize()` dan keluarga fungsi slice.
+
+## group_by()
+Gunakan `group_by()` untuk membagi kumpulan data Anda menjadi beberapa grup yang bermakna untuk analisis Anda:
+```{r}
+flights |> 
+  group_by(month)
+```
+`group_by()` tidak mengubah data tetapi, jika Anda melihat lebih dekat pada outputnya, Anda akan melihat bahwa outputnya menunjukkan bahwa itu "dikelompokkan berdasarkan" bulan (`Groups: month [12]`). Ini berarti operasi selanjutnya sekarang akan berfungsi "berdasarkan bulan". `group_by()` menambahkan fitur yang dikelompokkan ini (disebut sebagai kelas) ke bingkai data, yang mengubah perilaku kata kerja berikutnya yang diterapkan ke data.
+
+## summarize()
+Operasi pengelompokan yang paling penting adalah ringkasan, yang, jika digunakan untuk menghitung statistik ringkasan tunggal, mengurangi bingkai data menjadi satu baris untuk setiap grup. Di dplyr, operasi ini dilakukan dengan `summarize()`, seperti yang ditunjukkan oleh contoh berikut, yang menghitung penundaan keberangkatan rata-rata menurut bulan:
+
+```{r}
+flights |> 
+  group_by(month) |> 
+  summarize(
+    avg_delay = mean(dep_delay)
+  )
+```
+
+Uh-oh! Ada yang tidak beres, dan semua hasil kami adalah NAs (diucapkan "NA"), simbol R untuk nilai yang hilang. Ini terjadi karena beberapa penerbangan yang diamati memiliki data yang hilang di kolom penundaan, jadi ketika kami menghitung rata-rata termasuk nilai tersebut, kami mendapatkan hasil NA. Kita akan kembali membahas nilai yang hilang secara detail di Bagian Asinkronus, tetapi untuk saat ini, kita akan memberi tahu fungsi `mean()` untuk mengabaikan semua nilai yang hilang dengan menyetel argumen `na.rm` menjadi `TRUE`:
+```{r}
+flights |> 
+  group_by(month) |> 
+  summarize(
+    avg_delay = mean(dep_delay, na.rm = TRUE)
+  )
+```
+
+Anda dapat membuat sejumlah ringkasan dalam satu panggilan ke summarize(). Anda akan mempelajari berbagai ringkasan berguna di bab-bab mendatang, tetapi satu ringkasan yang sangat berguna adalah n(), yang mengembalikan jumlah baris di setiap grup:
+
+```{r}
+flights |> 
+  group_by(month) |> 
+  summarize(
+    avg_delay = mean(dep_delay, na.rm = TRUE), 
+    n = n()
+  )
+```
+
+Means dan counts bisa ditemukan lebih lanjut dalam ilmu data!
+
+## The sclice function
+
+Berikut adalah lima fungsi berguna dalam `dplyr` yang memungkinkan kamu untuk mengekstrak baris tertentu dalam setiap grup:
+
+- slice_head(n = 1): Mengambil baris pertama dari setiap grup.
+- slice_tail(n = 1): Mengambil baris terakhir dari setiap grup.
+- slice_min(x, n = 1): Mengambil baris dengan nilai terkecil di kolom x.
+- slice_max(x, n = 1): Mengambil baris dengan nilai terbesar di kolom x.
+- slice_sample(n = 1): Mengambil satu baris secara acak.
+
+Kamu dapat menyesuaikan n untuk memilih lebih dari satu baris, atau kamu bisa menggunakan argumen prop untuk memilih proporsi tertentu dari baris. Misalnya, `prop = 0.1` akan memilih 10% dari baris di setiap grup.
+
+```{r}
+flights |> 
+  group_by(dest) |> 
+  slice_max(arr_delay, n = 1) |>
+  relocate(dest)
+```
+Perhatikan bahwa meskipun ada 105 tujuan, kita mendapatkan 108 baris di sini. Mengapa bisa begitu?
+
+Fungsi `slice_min()` dan `slice_max()` akan mempertahankan nilai yang terikat (tie), jadi meskipun kita menetapkan `n = 1`, jika ada beberapa baris dengan nilai yang sama (misalnya, keterlambatan yang sama), maka seluruh baris tersebut akan dimasukkan. Jika kamu hanya ingin satu baris per grup meskipun ada nilai yang terikat, kamu bisa menggunakan argumen `with_ties = FALSE`.
+
+Dengan menambahkan `with_ties` = `FALSE`, fungsi ini hanya akan mengambil satu baris per grup, bahkan jika ada beberapa baris yang memiliki nilai keterlambatan yang sama.
+
+Ini mirip dengan perhitungan nilai maksimum menggunakan `summarize()`, tetapi dengan `slice_max()` atau `slice_min()`, kamu mendapatkan seluruh baris yang sesuai dengan nilai tersebut (atau beberapa baris jika ada tie), bukan hanya statistik ringkasan tunggal.
+
+# Grouping by multiple variables
+Anda dapat membuat grup menggunakan lebih dari satu variabel. Misalnya, kita dapat membuat grup untuk setiap tanggal.
+```{r}
+daily <- flights |>  
+  group_by(year, month, day)
+daily
+```
+Ketika kamu melakukan *summary* pada sebuah tibble yang dikelompokkan berdasarkan lebih dari satu variabel, setiap *summary* akan memisahkan grup terakhir. Meskipun ini bukan cara terbaik untuk membuat fungsi ini bekerja, perubahan pada perilaku ini sulit dilakukan tanpa merusak kode yang sudah ada.
+
+Untuk membuat hal ini lebih jelas, `dplyr` menampilkan pesan yang memberi tahu kamu bagaimana cara mengubah perilaku ini. Pesan tersebut biasanya berbunyi seperti ini:
+
+"This is the default behavior of **summarize()** when grouping by multiple variables. To change this behavior, you can use **group_by()** followed by **ungroup()** or adjust the grouping inside **summarize()**."
+
+```{r}
+daily_flights <- daily |> 
+  summarize(n = n())
+```
+Jika Anda senang dengan perilaku ini, Anda dapat memintanya secara eksplisit untuk menyembunyikan pesan tersebut:
+```{r}
+daily_flights <- daily |> 
+  summarize(
+    n = n(), 
+    .groups = "drop_last"
+  )
+```
+Atau, ubah perilaku default dengan menetapkan nilai yang berbeda, mis., "drop" untuk menghapus semua pengelompokan atau "keep" untuk mempertahankan grup yang sama.
+
+# Dataset Information
+
+## Pendahuluan
+
+Dalam dunia transportasi online, layanan seperti greb telah mengubah
+cara kita memesan dan menggunakan transportasi. Seiring dengan
+pertumbuhan pesat teknologi, data yang dihasilkan oleh platform
+transportasi online semakin berharga. Untuk memanfaatkan potensi data
+ini, kami mengadakan kompetisi prediksi harga pesanan mobil. Tujuan dari
+kompetisi ini adalah untuk mengembangkan model prediksi yang akurat dan
+canggih untuk harga pesanan mobil berdasarkan fitur-fitur yang
+diberikan.
+
+## Evaluation
+
+Dalam kasus kali ini, kami akan menggunakan Root Mean Square Error
+(RMSE) sebagai metrik evaluasi utama untuk mengukur kinerja model
+prediksi harga pesanan mobil. RMSE mengukur sejauh mana prediksi harga
+yang dihasilkan oleh model mendekati harga aktual.
+
+RMSE didefinisikan sebagai berikut:
+
+$$\sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}$$ Hasil RMSE
+yang lebih rendah menunjukkan kinerja model yang lebih baik dalam
+memprediksi harga pesanan mobil. Peserta yang berhasil menghasilkan
+model dengan RMSE terendah akan diberi apresiasi.
+
+## Scoring System
+
+Dalam kasus kali ini, penilaian akan dinilai 100% dari metrik, dimana
+penilaian kalian akan bergantung pada evaluasi metrik. Semakin rendah
+hasil RMSE kalian, semakin tinggi poin yang akan kalian peroleh.
+
+## Penjelasan Dataset
+
+| Column Name   | Description                                            |
+|---------------|--------------------------------------------------------|
+| timestamp     | Memberikan informasi berupa waktu atau penanda.        |
+| api_calls     | Mencerminkan jumlah panggilan atau permintaan ke API.  |
+| clouds        | Memberikan informasi tentang kondisi awan.             |
+| distance_max  | Menggambarkan jarak terkait pesanan (jarak maksimum).  |
+| distance_mean | Menggambarkan jarak terkait pesanan (jarak rata-rata). |
+| distance_min  | Menggambarkan jarak terkait pesanan (jarak minimum).   |
+| humidity      | Menunjukkan tingkat kelembapan.                        |
+| rain          | Data terkait hujan atau curah hujan.                   |
+| surge_max     | Informasi lonjakan harga (lonjakan maksimum).          |
+| surge_mean    | Informasi lonjakan harga (lonjakan rata-rata).         |
+| surge_min     | Informasi lonjakan harga (lonjakan minimum).           |
+| temp          | Data terkait suhu.                                     |
+| price_mean    | Harga pesanan mobil                                    |
+
+# Main Notebook
+
+## Import Data
+
+```{r}
+train <- read.csv('https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/train.csv')
+test <- read.csv('https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/test.csv')
+```
+
+-   `train` : digunakan untuk melatih model , sekaligus mengevaluasi
+    model.
+-   `test` : digunakan untuk membuat prediksi menggunakan model setelah
+    selesai dibuat.
+
+```{r}
+head(train)
+```
+
+```{r}
+head(test)
+```
+
+## Collecting Data Information
+
+```{r}
+cat('Informasi Data Train')
+str(train)
+```
+
+```{r}
+cat('Informasi Data Test')
+str(test)
+```
+
+Dapat dilihat bahwa `timestamp` masih memiliki data type yang salah.
+Sehingga kita harus memastikan semua variabel yang kita miliki sesuai
+data type yang seharusnya. Oleh karena itu , pada bagian ini kita akan
+memperbaiki data type `timestamp` tersebut.
+
+```{r}
+train$timestamp <- as.Date(train$timestamp, format = "%Y-%m-%d")
+str(train$timestamp)
+```
+
+```{r}
+test$timestamp <- as.Date(test$timestamp, format = "%Y-%m-%d")
+str(test$timestamp)
+```
+
+## Missing Value Checking and Handling
+
+```{r}
+colSums(is.na(train))
+cat('Jumlah total Missing Value :' , sum(is.na(train)))
+```
+
+```{r}
+colSums(is.na(test))
+cat('Jumlah total Missing Value :' , sum(is.na(test)))
+```
+
+Dapat dilihat dari hasil sebelumnya bahwa terdapat missing value pada
+beberapa kolom. Sehingga kita perlu menentukan apakah kita akan handling
+missing value ini dengan `imputasi` atau menghapus observasi / row dari
+missing value tersebut. Pada kesempatan kali ini kita akan mengimputasi
+missing value tersebut.
+
+Tipe Tipe Imputasi :
+
+| Skala Data | Metode Imputasi | Contoh |
+|------------------|----------------------|--------------------------------|
+| Categorical | Buat NA Menjadi class baru. | Umur (Balita = 1 , Dewasa = 2, Lansia = 3) |
+| Numerical (continous) | Mean, Median, Mode. | Umur (14,16,17,19,20,24,50,60) |
+
+```{r}
+install.packages("dplyr")
+library(dplyr)
+```
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+`dplyr` dan `tidyverse` merupakan packages yang powerfull untuk
+melakukan preprocessing data.
+
+```{r}
+library(conflicted)
+```
+
+```{r}
+train <- train %>%
+  mutate(clouds = replace_na(clouds, mean(clouds, na.rm = TRUE)))
+
+sum(is.na(train$clouds))
+```
+
+```{r}
+train <- train %>%
+ mutate(humidity = replace_na(humidity, mean(humidity, na.rm = TRUE)))
+  
+train <- train %>%
+  mutate(rain = replace_na(rain, mean(rain, na.rm = TRUE)))
+  
+train <- train %>%
+  mutate(temp = replace_na(temp, mean(temp, na.rm = TRUE)))
+  
+ train <- train %>%
+  mutate(wind = replace_na(wind, mean(wind, na.rm = TRUE)))  
+```
+
+Setelah semua missing value diisi jangan lupa untuk recheck kembali data
+yang sudah diimputasi (Tujuannya adalah untuk memastikan kolom yang
+missing sudah ter isi)
+
+```{r}
+colSums(is.na(train))
+cat('Jumlah total Missing Value :' , sum(is.na(train)))
+```
+
+## Duplicated Data Detection
+
+```{r}
+cat('Jumlah Observasi yang duplikat pada data train:', sum(duplicated(train)))
+```
+
+```{r}
+cat('Jumlah Observasi yang duplikat pada data test:', sum(duplicated(test)))
+```
+
+Berdasarkan hasil yang diperoleh tidak terdapat data yang duplikat pada
+data train dan test.
