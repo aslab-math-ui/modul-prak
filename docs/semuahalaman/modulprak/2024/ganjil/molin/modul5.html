@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-11-18">
 <meta name="description" content="Offline di Departemen Matematika">
 
-<title>Lab Praktikum Departemen Matematika FMIPA UI - Studi Kasus dplyr</title>
+<title>Studi Kasus dplyr – Lab Praktikum Departemen Matematika FMIPA UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -148,7 +148,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -167,7 +167,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -605,7 +605,18 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </div>
 <p>Kode tersebut tidak akan menghasilkan kesalahan tetapi juga tidak akan melakukan apa yang kamu inginkan. Masalahnya adalah operator <code>|</code> pertama-tama akan memeriksa kondisi <code>month == 1</code> dan kemudian memeriksa nilai 2 sebagai kondisi, yang sebenarnya tidak masuk akal untuk diperiksa.</p>
 <p>Kenapa tidak masuk akal? Karena R mencoba memeriksa apakah nilai 2 itu benar atau salah (logical value), dan ini tidak relevan dengan kolom month.</p>
-<p>::: {.callout-caution collapse == “true”} ### Bagi yang belum mengerti</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Bagi yang belum mengerti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Secara <strong>intuisi</strong> kita ingin mengambil bulan Januari atau (<code>|</code>) bulan Februari (Keduanya boleh). Tetapi, Perhatikan kalau konjungsi dan disjungsi dalam bahasa R ini proposisi atomik-nya harus berupa syntax <code>callable</code>.</p>
 <p>Perhatikan perbedaan kedua hal ini. - <code>filter(month == 1 | 2)</code> - <code>filter(month == 1 | day == 2)</code></p>
 <p>Nanti, ketika syntax di atas dicompile, maka ia akan mengecek conditional_value dari kedua proposisi atomik di atas.</p>
@@ -615,8 +626,11 @@ $ time_hour      &lt;dttm&gt; 2013-01-01 05:00:00, 2013-01-01 05:00:00, 2013-01-
 </ul>
 <p>Perhatikan hal ini juga berlaku (bahkan lebih <strong>worst</strong> logika-nya [tidak masuk akal]) pada kasus konjungsi.</p>
 <ul>
-<li><code>filter(month == 1 &amp; 2)</code> :::</li>
+<li><code>filter(month == 1 &amp; 2)</code></li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section id="arrange" class="level2">
 <h2 class="anchored" data-anchor-id="arrange">arrange()</h2>
@@ -1337,11 +1351,25 @@ Pay Attention
 <p>Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (|&gt;) secara otomatis ke dalam kode kamu.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./datasets/shortcut-pipe.png" class="img-fluid figure-img"></p>
+<p><img src="./static/shortcut-pipe.png" class="img-fluid figure-img"></p>
 <figcaption>Gambar 1. Untuk memasukkan |&gt;, pastikan “Use native pipe operator” option is checked.</figcaption>
 </figure>
 </div>
-<p>::: {.callout-caution collapse == “true”} #### Perbedaan Antara <code>%&gt;%</code> dan <code>|&gt;</code>: - %&gt;%: Ini adalah operator pipe yang umum digunakan di <code>dplyr</code> dan berbagai paket <code>tidyverse</code> lainnya. Ini juga berfungsi dalam banyak situasi di luar <code>tidyverse</code>.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Perbedaan Antara <code>%&gt;%</code> dan <code>|&gt;</code>:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>%&gt;%: Ini adalah operator pipe yang umum digunakan di <code>dplyr</code> dan berbagai paket <code>tidyverse</code> lainnya. Ini juga berfungsi dalam banyak situasi di luar <code>tidyverse</code>.</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|eval: FALSE</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -1359,8 +1387,11 @@ Pay Attention
 </div>
 </div>
 <ul>
-<li>|&gt;: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan <code>%&gt;%</code>, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi. :::</li>
+<li>|&gt;: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan <code>%&gt;%</code>, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi.</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="groups" class="level2">
@@ -1789,7 +1820,7 @@ Pay Attention
 </section>
 <section id="penjelasan-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="penjelasan-dataset">Penjelasan Dataset</h2>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 21%">
 <col style="width: 78%">
@@ -2017,7 +2048,7 @@ distance_mean  distance_min      humidity          rain     surge_max
 </div>
 <p>Dapat dilihat dari hasil sebelumnya bahwa terdapat missing value pada beberapa kolom. Sehingga kita perlu menentukan apakah kita akan handling missing value ini dengan <code>imputasi</code> atau menghapus observasi / row dari missing value tersebut. Pada kesempatan kali ini kita akan mengimputasi missing value tersebut.</p>
 <p>Tipe Tipe Imputasi :</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 30%">
@@ -2150,18 +2181,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -2193,7 +2213,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -2228,7 +2288,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
