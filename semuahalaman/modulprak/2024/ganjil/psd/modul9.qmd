@@ -2,7 +2,7 @@
 title: "(Pertemuan 09) ANOVA dan Chi-Squared"
 subtitle: "ANOVA and Chi-Squared"
 description: "Offline di Departemen Matematika"
-date: 25/11/2024
+date: 11/25/2024
 page-navigation: true
 format: html
 ---
@@ -11,7 +11,7 @@ format: html
 
 Analysis of Variance (ANOVA) digunakan untuk melakukan uji hipotesis terhadap lebih dari dua populasi. Beberapa asumsi dalam anova adalah:
 
--   Sampel acak saling bebas/independen dan berukuran sama antar populasi
+-   Sampel acak saling bebas/independen
 -   Populasi berdistribusi normal
 -   Populasi memiliki variansi seragam
 
@@ -31,7 +31,7 @@ pops.2 <- rnorm(n=n2, mean=0.9, sd=1)
 pops.3 <- rnorm(n=n3, mean=1.1, sd=1)
 ```
 
-Selanjutnya, akan dibuat dataframe dari 30 sampel acak tersebut. Kolom pop.source menyatakan asal populasi (1,2,3) dan kolom pops.value menyatakan nilai sampel acak.
+Selanjutnya, akan dibuat dataframe dari sampel acak tersebut. Kolom pop.source menyatakan asal populasi (1,2,3) dan kolom pops.value menyatakan nilai sampel acak.
 
 ```{r}
 pop.source <- c(replicate(n1, "pops.1"), 
@@ -78,7 +78,7 @@ summary(av)
 
 Ingat lagi bahwa daerah kritis uji ANOVA adalah:
 
--   $F_\text{hitung} < F_{\alpha;(k-1);k(n-1)}\$
+-   $F_\text{hitung}< F_{\alpha;(k-1);k(n-1)}$
 -   *p-value* \< $\alpha$.
 
 Dengan $k$ adalah banyak populasi dan $n$ adalah ukuran sampel acak dalam satu populasi.
@@ -131,7 +131,7 @@ summary(av)
 
 Ingat lagi bahwa daerah kritis uji ANOVA adalah:
 
--   $F_\text{hitung} < F_{\alpha;(k-1);(N-k)}\$
+-   $F_\text{hitung}< F_{\alpha;(k-1);k(n-1)}$
 -   *p-value* \< $\alpha$.
 
 dengan $$N = \sum_1^kn_i$$
@@ -319,16 +319,22 @@ View(df)
 
 Misal kita ingin menguji apakah ada hubungan antara variabel kategorik treatment dengan variabel kategorik improvement.
 
-Kita dapat membuat tabel kontingensi berukuran $2x2$ dari variabel kategorik tersebut.
+Kita dapat membuat tabel kontingensi berukuran 2x2 dari variabel kategorik tersebut.
 
 ```{r}
 tabel <- table(df$treatment, df$improvement)
 tabel
 ```
 
-Ingat hipotesis yang akan diuji adalah: - $H_0$: treatment dan improvement tidak saling mempengaruhi (independen) - $H_1$: treatment dan improvement saling mempengaruhi (tidak independen)
+Ingat hipotesis yang akan diuji adalah:
 
-Dengan tingkat signfikasi $\alpha=0.05$, daerah kritis diberikan oleh - $\chi^2_\text{hitung} > \chi^2_{\alpha, (r-1)(c-1)}$ - *p-value* \< $\alpha$.
+-   $H_0$: treatment dan improvement tidak saling mempengaruhi (independen)
+-   $H_1$: treatment dan improvement saling mempengaruhi (tidak independen)
+
+Dengan tingkat signfikasi $\alpha=0.05$, daerah kritis diberikan oleh
+
+-   $\chi^2_\text{hitung} > \chi^2_{\alpha, (r-1)(c-1)}$
+-   *p-value* \< $\alpha$.
 
 Kita dapat melakukan uji chi-squared terhadap tabel kontingensi yang telah dibuat.
 
@@ -342,7 +348,7 @@ Untuk $\chi^2_{\alpha, (r-1)(c-1)}$
 qchisq(p=1-alpha, df=(2-1)*(2-1))
 ```
 
-Karena $\chi^2_\text{hitung} = 4.6626 > 3.841459 = \chi^2_{\alpha, k-1}$, dan p-value = 0.03083 \< \$ 0.05=\alpha\$, maka hasil uji berada di dalam daerah kritis. Dengan kata lain, terdapat bukti yang cukup untuk menolak $H_0$ di mana treatment dan improvement tidak saling mempengaruhi.
+Karena $\chi^2_\text{hitung} = 4.6626 > 3.841459 = \chi^2_{\alpha, k-1}$, dan p-value = 0.03083 \< 0.05= $\alpha$, maka hasil uji berada di dalam daerah kritis. Dengan kata lain, terdapat bukti yang cukup untuk menolak $H_0$ di mana treatment dan improvement tidak saling mempengaruhi.
 
 Akan tetapi, kita tidak bisa menyimpulkan bagaimana kedua variabel tersebut saling mempengaruhi. Jadi, kita hanya bisa mengindikasi adanya asosiasi antarvariabel tanpa mengetahui apa/bagaimana asosiasinya (perlu dilakukan uji lain untuk menjelaskan lebih lanjut)
 
@@ -376,7 +382,10 @@ chisq.test(tabel2)$expected
 
 Salah satu cara untuk melakukan uji independensi untuk kasus tersebut adalah dengan Fisher Exact Test.
 
-hipotesis yang akan diuji adalah: - $H_0$: carb dan cyl tidak saling mempengaruhi (independen) - $H_1$: carb dan cyl saling mempengaruhi (tidak independen)
+hipotesis yang akan diuji adalah:
+
+-   $H_0$: carb dan cyl tidak saling mempengaruhi (independen)
+-   $H_1$: carb dan cyl saling mempengaruhi (tidak independen)
 
 Dengan tingkat signfikasi $\alpha=0.05$, daerah kritis diberikan oleh *p-value* \< $\alpha$.
 
@@ -388,6 +397,6 @@ Karena *p-value* = 0.0003345 \< $\alpha$, maka hasil uji berada di dalam daerah 
 
 # Uji Hipotesis di Excel
 
-Silakan unduh worksheet berikut untuk melakukan uji hipotesis di Excel yang telah kita bahas.
+Silakan unduh worksheet berikut untuk melakukan uji hipotesis yang telah kita bahas di Microsoft Excel .
 
-[Worksheet Pertemuan 9 (Revisi)](./worksheet_pertemuan9.xlsx)
+[Worksheet Pertemuan 9](./worksheet_pertemuan9.xlsx)

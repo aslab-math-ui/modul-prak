@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-01-11">
+<meta name="dcterms.date" content="2024-11-25">
 <meta name="description" content="Offline di Departemen Matematika">
 
 <title>(Pertemuan 09) ANOVA dan Chi-Squared – Lab Praktikum Departemen Matematika FMIPA UI</title>
@@ -225,7 +225,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 11, 2026</p>
+      <p class="date">November 25, 2024</p>
     </div>
   </div>
   
@@ -241,7 +241,7 @@ window.Quarto = {
 <h1>ANOVA</h1>
 <p>Analysis of Variance (ANOVA) digunakan untuk melakukan uji hipotesis terhadap lebih dari dua populasi. Beberapa asumsi dalam anova adalah:</p>
 <ul>
-<li>Sampel acak saling bebas/independen dan berukuran sama antar populasi</li>
+<li>Sampel acak saling bebas/independen</li>
 <li>Populasi berdistribusi normal</li>
 <li>Populasi memiliki variansi seragam</li>
 </ul>
@@ -258,7 +258,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pops<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n2, <span class="at">mean=</span><span class="fl">0.9</span>, <span class="at">sd=</span><span class="dv">1</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pops<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span>n3, <span class="at">mean=</span><span class="fl">1.1</span>, <span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Selanjutnya, akan dibuat dataframe dari 30 sampel acak tersebut. Kolom pop.source menyatakan asal populasi (1,2,3) dan kolom pops.value menyatakan nilai sampel acak.</p>
+<p>Selanjutnya, akan dibuat dataframe dari sampel acak tersebut. Kolom pop.source menyatakan asal populasi (1,2,3) dan kolom pops.value menyatakan nilai sampel acak.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pop.source <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">replicate</span>(n1, <span class="st">"pops.1"</span>), </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">replicate</span>(n2, <span class="st">"pops.2"</span>), </span>
@@ -274,9 +274,9 @@ window.Quarto = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x),<span class="at">sd =</span> <span class="fu">sd</span>(x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  pop.source pops.value.mean pops.value.sd
-1     pops.1       0.8327999     1.2450658
-2     pops.2       0.9606372     1.0858013
-3     pops.3       0.7730302     1.4132571</code></pre>
+1     pops.1       1.0140308     0.7166648
+2     pops.2       1.4518575     1.1408228
+3     pops.3       1.3651208     1.1548174</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -305,7 +305,7 @@ window.Quarto = {
     One-way analysis of means
 
 data:  pops.value and pop.source
-F = 0.058301, num df = 2, denom df = 27, p-value = 0.9435</code></pre>
+F = 0.51209, num df = 2, denom df = 27, p-value = 0.6049</code></pre>
 </div>
 </div>
 <p>Fungsi lain yang dapat digunakan adalah aov()</p>
@@ -314,13 +314,13 @@ F = 0.058301, num df = 2, denom df = 27, p-value = 0.9435</code></pre>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(av)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)
-pop.source   2   0.18  0.0919   0.058  0.943
-Residuals   27  42.54  1.5755               </code></pre>
+pop.source   2  1.075  0.5375   0.512  0.605
+Residuals   27 28.338  1.0496               </code></pre>
 </div>
 </div>
 <p>Ingat lagi bahwa daerah kritis uji ANOVA adalah:</p>
 <ul>
-<li>$F_ &lt; F_{;(k-1);k(n-1)}$</li>
+<li><span class="math inline">\(F_\text{hitung}&lt; F_{\alpha;(k-1);k(n-1)}\)</span></li>
 <li><em>p-value</em> &lt; <span class="math inline">\(\alpha\)</span>.</li>
 </ul>
 <p>Dengan <span class="math inline">\(k\)</span> adalah banyak populasi dan <span class="math inline">\(n\)</span> adalah ukuran sampel acak dalam satu populasi.</p>
@@ -366,7 +366,7 @@ Residuals   27  42.54  1.5755               </code></pre>
     One-way analysis of means
 
 data:  pops.value and pop.source
-F = 0.91799, num df = 2, denom df = 31, p-value = 0.4099</code></pre>
+F = 0.86809, num df = 2, denom df = 31, p-value = 0.4297</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -374,13 +374,13 @@ F = 0.91799, num df = 2, denom df = 31, p-value = 0.4099</code></pre>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(av)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)
-pop.source   2   2.02   1.011   0.918   0.41
-Residuals   31  34.13   1.101               </code></pre>
+pop.source   2   2.56   1.278   0.868   0.43
+Residuals   31  45.64   1.472               </code></pre>
 </div>
 </div>
 <p>Ingat lagi bahwa daerah kritis uji ANOVA adalah:</p>
 <ul>
-<li>$F_ &lt; F_{;(k-1);(N-k)}$</li>
+<li><span class="math inline">\(F_\text{hitung}&lt; F_{\alpha;(k-1);k(n-1)}\)</span></li>
 <li><em>p-value</em> &lt; <span class="math inline">\(\alpha\)</span>.</li>
 </ul>
 <p>dengan <span class="math display">\[N = \sum_1^kn_i\]</span></p>
@@ -444,10 +444,10 @@ X-squared = 1.7, df = 5, p-value = 0.8889</code></pre>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dadu <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">runif</span>(<span class="at">n=</span>n_dadu, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max=</span><span class="dv">6</span>))</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>dadu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 6 6 5 3 3 6 3 3 4 5 3 5 3 2 1 2 2 1 5 5 1 2 3 3 6 5 1 4 3 5 1 2 6 5 4 1 5
- [38] 1 5 5 2 2 4 2 4 4 2 1 3 2 5 4 6 6 5 1 6 5 1 4 3 3 4 5 3 6 6 3 6 5 4 6 4 4
- [75] 4 5 4 6 4 1 4 1 4 4 1 2 4 2 5 1 4 1 5 4 3 2 5 4 2 3 6 5 2 6 4 3 5 1 5 4 3
-[112] 1 4 1 4 6 4 1 2 2</code></pre>
+<pre><code>  [1] 5 6 5 1 5 1 6 1 2 5 2 1 4 5 6 6 4 3 5 1 2 3 1 6 6 4 6 1 1 4 4 1 1 5 1 2 1
+ [38] 4 3 3 1 6 4 4 1 2 5 5 2 1 6 2 5 4 2 1 3 2 4 4 4 1 4 6 4 1 2 6 2 5 5 1 1 4
+ [75] 6 3 1 1 1 5 5 4 2 4 2 1 6 2 5 6 3 1 3 6 3 4 2 5 1 1 5 5 1 1 3 5 4 1 2 4 2
+[112] 4 5 1 3 5 2 1 2 3</code></pre>
 </div>
 </div>
 <p>Dengan cara yang sama, kita dapat melakukan uji chi-squared</p>
@@ -464,7 +464,7 @@ incorrect</code></pre>
     Chi-squared test for given probabilities
 
 data:  dadu
-X-squared = 90.056, df = 119, p-value = 0.9778</code></pre>
+X-squared = 119, df = 119, p-value = 0.4828</code></pre>
 </div>
 </div>
 <p>Terdapat pesan “Warning: Chi-squared approximation may be incorrect”. Hal ini terjadi karena terdapat beberapa pengulangan nilai pada ruang sampel, di mana masing-masing nilai tersebut dianggap sebagai observasi independen yang memiliki probabilitas <span class="math inline">\(\frac{1}{20}\)</span>. Sedangkan, kita ingin menguji apakah peluang masing-masing mata dadu muncul bernilai <span class="math inline">\(\frac{1}{6}\)</span>.</p>
@@ -474,7 +474,7 @@ X-squared = 90.056, df = 119, p-value = 0.9778</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>dadu
  1  2  3  4  5  6 
-19 17 18 27 23 16 </code></pre>
+32 19 12 21 21 15 </code></pre>
 </div>
 </div>
 <p>Maka, kita dapat melakukan uji chi-squared tanpa menggunakan fungsi chisq.test()</p>
@@ -488,7 +488,7 @@ X-squared = 90.056, df = 119, p-value = 0.9778</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>         [,1] [,2] [,3] [,4] [,5] [,6]
 val.dadu "1"  "2"  "3"  "4"  "5"  "6" 
-obs.dadu "19" "17" "18" "27" "23" "16"
+obs.dadu "32" "19" "12" "21" "21" "15"
 ex.dadu  "20" "20" "20" "20" "20" "20"</code></pre>
 </div>
 </div>
@@ -503,7 +503,7 @@ ex.dadu  "20" "20" "20" "20" "20" "20"</code></pre>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>chi.hitung <span class="ot">&lt;-</span> <span class="fu">sum</span>((obs.dadu<span class="sc">-</span>ex.dadu)<span class="sc">**</span><span class="dv">2</span><span class="sc">/</span>ex.dadu)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>chi.hitung</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.4</code></pre>
+<pre><code>[1] 11.8</code></pre>
 </div>
 </div>
 <p>dan <span class="math inline">\(\chi^2_{\alpha, k-1}\)</span></p>
@@ -614,7 +614,7 @@ ex.dadu  "20" "20" "20" "20" "20" "20"</code></pre>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Misal kita ingin menguji apakah ada hubungan antara variabel kategorik treatment dengan variabel kategorik improvement.</p>
-<p>Kita dapat membuat tabel kontingensi berukuran <span class="math inline">\(2x2\)</span> dari variabel kategorik tersebut.</p>
+<p>Kita dapat membuat tabel kontingensi berukuran 2x2 dari variabel kategorik tersebut.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>tabel <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>treatment, df<span class="sc">$</span>improvement)</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>tabel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -625,8 +625,16 @@ ex.dadu  "20" "20" "20" "20" "20" "20"</code></pre>
   treated           35           15</code></pre>
 </div>
 </div>
-<p>Ingat hipotesis yang akan diuji adalah: - <span class="math inline">\(H_0\)</span>: treatment dan improvement tidak saling mempengaruhi (independen) - <span class="math inline">\(H_1\)</span>: treatment dan improvement saling mempengaruhi (tidak independen)</p>
-<p>Dengan tingkat signfikasi <span class="math inline">\(\alpha=0.05\)</span>, daerah kritis diberikan oleh - <span class="math inline">\(\chi^2_\text{hitung} &gt; \chi^2_{\alpha, (r-1)(c-1)}\)</span> - <em>p-value</em> &lt; <span class="math inline">\(\alpha\)</span>.</p>
+<p>Ingat hipotesis yang akan diuji adalah:</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: treatment dan improvement tidak saling mempengaruhi (independen)</li>
+<li><span class="math inline">\(H_1\)</span>: treatment dan improvement saling mempengaruhi (tidak independen)</li>
+</ul>
+<p>Dengan tingkat signfikasi <span class="math inline">\(\alpha=0.05\)</span>, daerah kritis diberikan oleh</p>
+<ul>
+<li><span class="math inline">\(\chi^2_\text{hitung} &gt; \chi^2_{\alpha, (r-1)(c-1)}\)</span></li>
+<li><em>p-value</em> &lt; <span class="math inline">\(\alpha\)</span>.</li>
+</ul>
 <p>Kita dapat melakukan uji chi-squared terhadap tabel kontingensi yang telah dibuat.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tabel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -645,7 +653,7 @@ X-squared = 4.6626, df = 1, p-value = 0.03083</code></pre>
 <pre><code>[1] 3.841459</code></pre>
 </div>
 </div>
-<p>Karena <span class="math inline">\(\chi^2_\text{hitung} = 4.6626 &gt; 3.841459 = \chi^2_{\alpha, k-1}\)</span>, dan p-value = 0.03083 &lt; $ 0.05=$, maka hasil uji berada di dalam daerah kritis. Dengan kata lain, terdapat bukti yang cukup untuk menolak <span class="math inline">\(H_0\)</span> di mana treatment dan improvement tidak saling mempengaruhi.</p>
+<p>Karena <span class="math inline">\(\chi^2_\text{hitung} = 4.6626 &gt; 3.841459 = \chi^2_{\alpha, k-1}\)</span>, dan p-value = 0.03083 &lt; 0.05= <span class="math inline">\(\alpha\)</span>, maka hasil uji berada di dalam daerah kritis. Dengan kata lain, terdapat bukti yang cukup untuk menolak <span class="math inline">\(H_0\)</span> di mana treatment dan improvement tidak saling mempengaruhi.</p>
 <p>Akan tetapi, kita tidak bisa menyimpulkan bagaimana kedua variabel tersebut saling mempengaruhi. Jadi, kita hanya bisa mengindikasi adanya asosiasi antarvariabel tanpa mengetahui apa/bagaimana asosiasinya (perlu dilakukan uji lain untuk menjelaskan lebih lanjut)</p>
 <section id="kasus-khusus" class="level3">
 <h3 class="anchored" data-anchor-id="kasus-khusus">Kasus Khusus</h3>
@@ -701,7 +709,11 @@ X-squared = 24.389, df = 10, p-value = 0.006632</code></pre>
 </div>
 </div>
 <p>Salah satu cara untuk melakukan uji independensi untuk kasus tersebut adalah dengan Fisher Exact Test.</p>
-<p>hipotesis yang akan diuji adalah: - <span class="math inline">\(H_0\)</span>: carb dan cyl tidak saling mempengaruhi (independen) - <span class="math inline">\(H_1\)</span>: carb dan cyl saling mempengaruhi (tidak independen)</p>
+<p>hipotesis yang akan diuji adalah:</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: carb dan cyl tidak saling mempengaruhi (independen)</li>
+<li><span class="math inline">\(H_1\)</span>: carb dan cyl saling mempengaruhi (tidak independen)</li>
+</ul>
 <p>Dengan tingkat signfikasi <span class="math inline">\(\alpha=0.05\)</span>, daerah kritis diberikan oleh <em>p-value</em> &lt; <span class="math inline">\(\alpha\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(tabel2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -720,8 +732,8 @@ alternative hypothesis: two.sided</code></pre>
 </section>
 <section id="uji-hipotesis-di-excel" class="level1">
 <h1>Uji Hipotesis di Excel</h1>
-<p>Silakan unduh worksheet berikut untuk melakukan uji hipotesis di Excel yang telah kita bahas.</p>
-<p><a href="./worksheet_pertemuan9.xlsx">Worksheet Pertemuan 9 (Revisi)</a></p>
+<p>Silakan unduh worksheet berikut untuk melakukan uji hipotesis yang telah kita bahas di Microsoft Excel .</p>
+<p><a href="./worksheet_pertemuan9.xlsx">Worksheet Pertemuan 9</a></p>
 
 
 </section>
