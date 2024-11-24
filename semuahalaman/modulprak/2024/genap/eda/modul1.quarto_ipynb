@@ -1,0 +1,1198 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Pertemuan 1 : Python for Data Analysis\"\n",
+        "subtitle: \"Intro to Pandas\"\n",
+        "image: static\\images\\eda_py_img.png\n",
+        "description: \"Offline di Departemen Matematika: sesi 1 di lab komputer D.311, sesi 2 di lab statistika D.406\"\n",
+        "date: 02/27/2024\n",
+        "page-navigation: true\n",
+        "jupyter: python3\n",
+        "format: html\n",
+        "---\n",
+        "\n",
+        "\n",
+        "Kembali ke [EDA](./eda2024genap.qmd)\n",
+        "\n",
+        "# Data Analysis Libraries\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Library pada python adalah potongan kode yang *reusable* dan dapat kita akses dengan mengimpornya ke dalam program kita. Pada mata kuliah algoritma dan pemrograman yang telah kalian ambil di semester 1, telah diperkenalkan beberapa library yang dapat kalian import ke dalam script kalian seperti numpy, scipy, sympy, pandas, matplotlib dan lainnya.\n",
+        "\n",
+        "Dalam bidang data analysis, library python yang umum digunakan adalah `numpy` dan `pandas` untuk pengolahan data tabular, `matplotlib` dan  `seaborn` untuk visualisasi\n",
+        "\n",
+        "Jika anda menggunakan jupyter notebook secara local pada perangkat anda, anda perlu menginstall 3 library tersebut untuk praktikum ini. Gunakan python package manager (pip) untuk menginstall library `numpy`, `pandas`, `matplotlib` dan `seaborn` dengan memanggil `pip install <nama-library>` di terminal. Jika anda menggunakan conda atau google colab, library-library ini sudah terinstall secara otomatis dan dapat kita import secara langsung. \n",
+        "\n",
+        "Untuk mengecek apakah library yang diperlukan sudah terinstall, run blok kode di bawah ini.\n",
+        "\n",
+        "```python\n",
+        "# Untuk library lain, ubah `pandas` -> <nama-library>\n",
+        "import pandas\n",
+        "pandas.__version__\n",
+        "```\n",
+        "\n",
+        "Jika library sudah terinstall, maka output akan menunjukkan versi dari library yang terinstall.\n",
+        "\n",
+        "::: {.callout-tip}\n",
+        "## Kesepakatan Penamaan Library\n",
+        "\n",
+        "Komunitas python memiliki kesepakatan penamaan untuk beberapa library untuk memudahkan pembacaan kode. Beberapa diantaranya yang kita gunakan adalah\n",
+        "```python\n",
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "```\n",
+        ":::\n",
+        "</div>\n",
+        "\n",
+        "# Struktur Data Pandas (Series, DataFrame, Index Objects)\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Pada dasarnya, pandas dibuat atas struktur data yang terdapat pada library NumPy yaitu **Array**. Array sendiri sudah pernah dibahas dalam mata kuliah algoritma dan pemrograman sehingga kita tidak akan mendalaminya pada praktikum ini. \n",
+        "</div>\n",
+        "\n",
+        "## Series\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "**Series** adalah suatu object yang menyerupai array 1 dimensi yang memiliki nilai dengan array index yang berkaitan dengan masing-masing nilai.\n"
+      ],
+      "id": "502396c6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import pandas as pd\n",
+        "\n",
+        "obj = pd.Series([4, 7, -5, 3])\n",
+        "obj"
+      ],
+      "id": "958c89fa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "kolom kiri adalah ***index***, kolom kanan adalah ***Values*** (nilai).\n",
+        "\n",
+        "___\n",
+        "Untuk mengakses values saja :\n"
+      ],
+      "id": "0ff03a4f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj.values"
+      ],
+      "id": "6d440193",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Untuk mengakses index saja :\n"
+      ],
+      "id": "52ba10a0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj.index"
+      ],
+      "id": "bf306f9c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "___\n",
+        "### Perbedaan Series dengan Array\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Dengan Series kita bisa menggunakan index untuk mengakses value yang berkaitan dengan index tersebut."
+      ],
+      "id": "0094dae9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj[0]"
+      ],
+      "id": "ae4477dd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj[1] = 2\n",
+        "obj[[0, 1, 3]]"
+      ],
+      "id": "8b07fa0d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj[0:2]"
+      ],
+      "id": "bfa98a2b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "___\n",
+        "### Series dengan custom index\n",
+        "\n",
+        "<div style='text-align: justify;'>"
+      ],
+      "id": "2e221edf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj2 = pd.Series([0.25, 0.5, 0.75, 1.0], index=['d', 'b', 'a', 'c'])\n",
+        "obj2"
+      ],
+      "id": "0701f74b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-warning}\n",
+        "## Error warning\n",
+        "Perhatikan jumlah index harus sama dengan jumlah value yang ditetapkan.\n",
+        ":::\n"
+      ],
+      "id": "e2b4ff7b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj2.index"
+      ],
+      "id": "4f0778a4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj2['b']"
+      ],
+      "id": "43c85d07",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj2['d':'a']"
+      ],
+      "id": "8ebdcd58",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Untuk mengubah index suatu series bisa juga dengan mengubah nilai `<series>.index`"
+      ],
+      "id": "fa07cb82"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj2.index = ['A', 'B', 'C', 'D']\n",
+        "obj2"
+      ],
+      "id": "9f1ea0d8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "___\n",
+        "### Series as specialized dictionary\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Dictionary pada python adalah struktur data yang berisi pasangan *key-value*. Kita dapat melihat series sebagai pasangan key-value dengan index sebagai key. Bahkan kita bisa membuat suatu series dari sebuah dictionary.\n"
+      ],
+      "id": "760c9537"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data_dict = {\n",
+        "  'Jakarta': 400,\n",
+        "  'Bandung': 200,\n",
+        "  'Bogor': 300,\n",
+        "  'Depok': 500\n",
+        "}\n",
+        "data_dict"
+      ],
+      "id": "200d529b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data_series = pd.Series(data_dict)\n",
+        "data_series"
+      ],
+      "id": "4022c385",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Jika kita ingin index dengan urutan tertentu, maka kita dapat memasukkan argumen index berupa list index sesuai dengan urutan yang kita inginkan."
+      ],
+      "id": "f4f6856e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "kota = ['Surabaya', 'Bandung', 'Bogor', 'Jakarta']\n",
+        "data_series2 = pd.Series(data_dict, index=kota)\n",
+        "data_series2"
+      ],
+      "id": "b72bac3d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "Perhatikan bahwa jika kita memasukkan index yang tidak ada pada dictionary awal, index akan dimasukkan dengan nilai `NaN` (Not a Number)\n",
+        ":::\n",
+        "</div>\n",
+        "\n",
+        "___\n",
+        "### Operasi Aritmatika\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Series secara otomatis menyamakan index ketika melakukan operasi aritmatika.\n"
+      ],
+      "id": "43d2bafd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data_series + data_series2 # Silahkan coba untuk operasi aritmatika lainnya"
+      ],
+      "id": "4e503808",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "Perhatikan bahwa `Depok` dan `Surabaya` bernilai `NaN`. Hal ini dikarenakan kedua index tersebut tidak terdapat pada kedua series yang kita operasikan.\n",
+        ":::\n",
+        "</div>\n",
+        "\n",
+        "___\n",
+        "### `name` attribute\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Object series dan index pada pandas memiliki atribut `name` yaitu nama dari series/index tersebut."
+      ],
+      "id": "c6e9aff7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data_series.name = 'populasi'\n",
+        "data_series.index.name = 'kota'\n",
+        "data_series"
+      ],
+      "id": "3356a1a5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "## DataFrame\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "**DataFrame** adalah struktur data 2 dimensi yang terdiri atas baris dan kolom (disebut juga tabel). Kita dapat melihat dataframe sebagai gabungan dari 2 atau lebih series.\n",
+        "</div>\n",
+        "\n",
+        "![](static\\images\\series_dataframe.png)\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "\n",
+        "Karena memiliki 2 dimensi (baris dan kolom), DataFrame memiliki indeks untuk masing-masing baris dan kolom.\n",
+        "\n",
+        "___\n",
+        "Ada banyak cara untuk membangun DataFrame, salah satu yang paling umum adalah membuat *dictionary* dengan \n",
+        "\n",
+        "| *key*   : nama kolom\n",
+        "| *value* : nilai-nilai dalam list atau NumPy Array dengan panjang yang sama untuk setiap kolom.\n"
+      ],
+      "id": "fdd065b5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = {'kota': ['Bogor', 'Bogor', 'Bogor', 'Depok', 'Depok', 'Depok'],\n",
+        " 'tahun': [2000, 2001, 2002, 2001, 2002, 2003],\n",
+        " 'populasi': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}\n",
+        "\n",
+        "df = pd.DataFrame(data) # `df` adalah singkatan yang umum digunakan oleh komunitas python dalam mendefinisikan suatu `dataframe`\n",
+        "\n",
+        "df"
+      ],
+      "id": "c10fbfe5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "`pd.DataFrame()` menerima argumen `columns=` yang dapat digunakan untuk menentukan urutan kolom dataframe.\n"
+      ],
+      "id": "2407cba2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df2 = pd.DataFrame(data, columns=['tahun', 'kota', 'populasi'])\n",
+        "\n",
+        "df2"
+      ],
+      "id": "a8594127",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "- menambahkan kolom baru yang tidak ada pada data akan menghasilkan kolom berisi nilai `NaN` \n",
+        "- `pd.DataFrame` juga menerima argumen `index=` untuk mengubah index seperti pada `pd.Series`"
+      ],
+      "id": "d658c8b1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df2 = pd.DataFrame(data, columns=['tahun', 'kota', 'populasi', 'luas_wilayah'], \n",
+        "                   index=['one', 'two', 'three', 'four', 'five', 'six'])\n",
+        "\n",
+        "df2"
+      ],
+      "id": "8e370f85",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "</div>\n",
+        "\n",
+        "### Importing datasets\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Dalam mengolah suatu data, tidaklah mungkin kita harus menulis ulang seluruh data yang sudah tertulis dengan format tertentu (misalnya Spreadsheet/.xlsx, .csv, atau .dat) pastinya kita perlu suatu cara untuk mengimpor data yang memiliki berbagai format. Pandas memiliki beberapa function yang dapat kita gunakan untuk membaca data dengan berbagai format.\n",
+        "\n",
+        "- **.csv (comma separated values)**\n",
+        "\n",
+        "```python\n",
+        "df = pd.read_csv('<path-to-csv>')\n",
+        "```\n",
+        "\n",
+        "- **.xlsx (excel spreadsheet)**\n",
+        "\n",
+        "```python\n",
+        "df = pd.read_excel('<path-to-xlsx>')\n",
+        "```\n",
+        "\n",
+        "- **Others**\n",
+        "\n",
+        "Untuk tipe file lainnya, silahkan baca dokumentasi pandas di link berikut : [Pandas IO Tools](https://pandas.pydata.org/docs/user_guide/io.html#)\n",
+        "\n",
+        "</div>\n",
+        "\n",
+        "### DataFrame Attributes/Properties and Methods\n",
+        "<div style='text-align: justify;'>\n",
+        "Sejauh ini kita sudah berkenalan dengan 2 object pandas yaitu Series dan DataFrame. Dalam pemrograman python, sebuah object bisa memiliki suatu method, attribute/property, atau keduanya. \n",
+        "\n",
+        "Untuk materi selanjutnya, kita akan menggunakan dataset pokemon sebagai contoh. Jalankan code block di bawah ini."
+      ],
+      "id": "7c6f4630"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df = pd.read_csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/main/pokemon_data.csv')"
+      ],
+      "id": "eb13d193",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "___\n",
+        "#### `head()`\n",
+        "\n",
+        "Memanggil method head akan mengembalikan beberapa baris pertama dari suatu dataframe."
+      ],
+      "id": "431a681e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "class": "output"
+      },
+      "source": [
+        "df.head(3)  # Membaca 3 baris pertama"
+      ],
+      "id": "403d591a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "#### `tail()`\n",
+        "\n",
+        "Memanggil method tail akan mengembalikan beberapa baris terakhir dari suatu dataframe."
+      ],
+      "id": "c0adbf12"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.tail(3)  # Membaca 3 baris terakhir"
+      ],
+      "id": "a889dc1e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::{.callout-tip}\n",
+        "Secara default, method head() dan tail() akan mengembalikan 5 baris pertama/terakhir jika tidak diberikan suatu argumen.\n",
+        ":::\n",
+        "\n",
+        "\n",
+        "___\n",
+        "#### `shape`\n",
+        "\n",
+        "Memanggil attribute shape akan memberikan kita jumlah baris dan kolom dari suatu dataframe.\n"
+      ],
+      "id": "97543fe3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.shape  # Mengembalikan (jumlah_baris, jumlah_kolom)"
+      ],
+      "id": "a688865b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "#### `columns`\n",
+        "\n",
+        "Memanggil attribute columns akan memberikan kita index object berisi semua nama kolom dari suatu dataframe."
+      ],
+      "id": "edb50727"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.columns  # Mengembalikan index object berisi semua nama kolom dari suatu dataframe"
+      ],
+      "id": "a497d87f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "#### `index`\n",
+        "\n",
+        "Memanggil attribute columns akan memberikan kita index object berisi index baris suatu dataframe."
+      ],
+      "id": "850a3402"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.index  # Mengembalikan index object berisi index suatu dataframe"
+      ],
+      "id": "25ed7ff2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pandas dataframe memiliki banyak sekali methods dan attributes/properties. Untuk mempelajari lebih lanjut mengenai dataframe pandas, dokumentasi library pandas bisa diakses pada link berikut : [Pandas essential basic functionality](https://pandas.pydata.org/docs/user_guide/basics.html#head-and-tail)\n",
+        "\n",
+        "\n",
+        "## Index\n",
+        "<div style='text-align: justify;'>\n",
+        "\n",
+        "Perhatikan pada atribut `columns` dan `index` yang telah dibahas sebelumnya, output kode adalah object index. Apa itu object `index`? Dalam library *Pandas*, object index digunakan sebagai object yang menyimpan label suatu object lainnya.\n",
+        "\n",
+        "Contoh : dalam object DataFrame, index object digunakan untuk menyimpan label baris (`df.index`) dan kolom (`df.columns`).\n"
+      ],
+      "id": "1063dfd5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj = pd.Series(range(3), index=['a', 'b', 'c'])\n",
+        "obj.index"
+      ],
+      "id": "725034f0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj.index[1]"
+      ],
+      "id": "c3114390",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj.index[1:]"
+      ],
+      "id": "d774d310",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-warning}\n",
+        "## Error warning\n",
+        "Index object bersifat ***immutable***, artinya nilai dari suatu index tidak dapat diubah.\n"
+      ],
+      "id": "64701634"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| error: true\n",
+        "\n",
+        "obj.index[1] = 'd'"
+      ],
+      "id": "f751cdae",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "\n",
+        "Index object juga memiliki beberapa attribute dan methods. Beberapa diantaranya :\n",
+        "\n",
+        "![](static\\images\\index_attr.png)\n",
+        "</div>\n",
+        "\n",
+        "## Basic Functionality\n",
+        "### Indexing, Selection and Filtering\n",
+        "#### Indexing and Selection\n",
+        "<div style='text-align: justify;'>\n",
+        "Series indexing digunakan untuk mengambil value yang berkaitan dengan suatu index.\n"
+      ],
+      "id": "91e5f992"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "obj = pd.Series(np.arange(4.), index=['a', 'b', 'c', 'd'])\n",
+        "obj"
+      ],
+      "id": "39d6f7e0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj['b']  # Memanggil nilai dengan index `a`"
+      ],
+      "id": "2904efed",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "obj['a':'c']  # Memanggil nilai dengan index `a` hingga `c`"
+      ],
+      "id": "05bdeecf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::{.callout-important}\n",
+        "Perhatikan, saat melakukan slicing dengan explicit index (misal, `data['a':'c']`), final index diikutsertakan dalam outputnya (inklusif), sementara ketika melakukan slicing dengan implicit index (misal, `data[0:2]`), final index tidak diikutsertakan dalam outputnya (tidak inklusif).\n",
+        ":::\n",
+        "___\n",
+        "DataFrame indexing digunakan untuk mengambil 1 atau beberapa kolom dengan memanggil label/nama kolom yang bersesuaian.\n"
+      ],
+      "id": "44043592"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df['Name']"
+      ],
+      "id": "534b9cf6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[['Name']]"
+      ],
+      "id": "d92e00be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::{.callout-important}\n",
+        "| `df['<column-name>']` akan mengembalikan kolom yang bersesuaian dalam bentuk Series. \n",
+        "| `df[['<column-name>']]` akan mengembalikan kolom yang bersesuaian dalam bentuk dataframe.\n",
+        ":::\n"
+      ],
+      "id": "c65e79c1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[['Name','HP','Defense']]"
+      ],
+      "id": "8dd1b664",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Kita bisa membuat suatu kolom baru dari kolom-kolom yang sudah ada. Misalkan kita buat suatu variabel bernama `Total Attack` yang berisi hasil penjumlahan variabel `Attack` dan `Sp. Atk`"
+      ],
+      "id": "e464c251"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df['Total Attack'] = df['Attack'] + df['Sp. Atk']\n",
+        "df[['Attack','Sp. Atk','Total Attack']]"
+      ],
+      "id": "c4b3559f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Untuk indexing baris suatu dataframe, gunakan index baris\n"
+      ],
+      "id": "bf2e7bc9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[:3] # Mengambil baris dengan index 0 - 2"
+      ],
+      "id": "3ec595ae",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[0:5:2]  # Mengambil dengan index 0 sampai 4 dengan step 2"
+      ],
+      "id": "7358440d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "#### Filtering\n",
+        "<div style='text-align: justify;'>\n",
+        "Untuk melakukan filtering pada suatu dataframe :\n"
+      ],
+      "id": "bf037eda"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[df['HP'] == 50]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` == 50"
+      ],
+      "id": "ffeddbf4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[df['HP'] > 50]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` > 50"
+      ],
+      "id": "8db5fdfb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[(df['HP'] > 100) & (df['Type 1'] == 'Fire')]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` > 100 dan `Type 1` == Fire"
+      ],
+      "id": "eafa75ec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[(df['HP'] > 100) | (df['Type 1'] == 'Fire')]  # Mengambil data pada dataframe df yang memiliki nilai kolom `HP` > 100 atau `Type 1` == Fire"
+      ],
+      "id": "f55d4717",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk filter yang lebih rumit, disarankan untuk mendefinisikan variabel `condition` agar kode mudah terbaca.\n",
+        "\n",
+        "Contoh : Filter (`HP` >= 150) dan ((`Type 1` == Water) atau (`Legendary` == True))"
+      ],
+      "id": "e3691ed2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "condition = (df['HP'] >= 150) & ((df['Type 1'] == 'Water') | (df['Legendary'] == True))\n",
+        "df[condition]"
+      ],
+      "id": "1a997ca9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "___\n",
+        "\n",
+        "# Case Study (Toko Baju Unikloh)\n",
+        "<div style='text-align: justify;'>\n",
+        "Link Dataset : [Data Penjualan Toko Baju Unikloh](https://drive.google.com/file/d/15QnrvA6-0rlF-bh3n3Fylmfq07XSDRXk/view?usp=sharing)\n",
+        "\n",
+        "Sebuah toko baju unikloh membutuhkan jasa seorang analis untuk menganalisis data penjualan baju yang mereka miliki. Sebelum itu, Pak Joko selaku pemilik toko ingin tahu beberapa hal mengenai data yang dia miliki. Berikut yang beliau minta :\n"
+      ],
+      "id": "afedd37b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "sales_df = pd.read_csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/main/fashion_sales_data/sales.csv')"
+      ],
+      "id": "8ec3f3e7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "1. Ada berapa banyak data penjualan kita?"
+      ],
+      "id": "cb0598b5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint\"\n",
+        "# Jumlah data penjualan bisa kita akses dengan melihat `jumlah baris` suatu dataframe."
+      ],
+      "id": "432f339c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "sales_df.shape"
+      ],
+      "id": "516d9dd1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "2. Beliau minta 10 data pertama untuk melihat gambaran umum nilai masing-masing variabel."
+      ],
+      "id": "4e91a30b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint\"\n",
+        "# Gunakan method `.head()`"
+      ],
+      "id": "67520f97",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "sales_df.head(10)"
+      ],
+      "id": "ef2bc951",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "3. Beliau mau fokus melihat kolom `price_per_unit` dan `quantity` saja."
+      ],
+      "id": "a0748480"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint\"\n",
+        "# Untuk mengambil beberapa kolom dari suatu dataframe, gunakan `df[[<nama-kolom-1>, <nama-kolom-2>, <nama-kolom-3>, ...]]`"
+      ],
+      "id": "040898da",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "sales_df[['price_per_unit','quantity']]"
+      ],
+      "id": "2d45f63f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "4. Harusnya di data ini ada kolom total harga pembelian yang dinamakan `total_price`, tapi sepertinya kolomnya hilang. Tolong buatkan kolomnya berdasarkan data yang ada."
+      ],
+      "id": "6ebf0c98"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint 1\"\n",
+        "# Perhatikan bahwa total harga pembelian = kuantitas x harga per unit"
+      ],
+      "id": "e7841c96",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint 2\"\n",
+        "# Buat kolom baru dari hasil kali 2 kolom tersebut dengan df[...] = df[...]*df[...]."
+      ],
+      "id": "b894085c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "sales_df['total_price'] = sales_df['price_per_unit']*sales_df['quantity']"
+      ],
+      "id": "4f256008",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "5. Beliau mau tau ada berapa banyak penjualan yang total harganya lebih besar dari $200"
+      ],
+      "id": "444dfb8c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint\"\n",
+        "# Untuk memfilter suatu dataset, gunakan df[kondisi]"
+      ],
+      "id": "f56bd7da",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "sales_df[sales_df['total_price'] > 200]"
+      ],
+      "id": "0c525119",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "6. Beliau mau tau ada berapa banyak penjualan yang total harganya berada di kisaran $200-250"
+      ],
+      "id": "7dbcbb0c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint\"\n",
+        "# Gunakan `&` untuk filter dengan 2 kondisi yang dihubungkan operator `dan`."
+      ],
+      "id": "98eed7bf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "sales_df[(sales_df['total_price'] > 200) & (sales_df['total_price'] < 200)]"
+      ],
+      "id": "3c25b947",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "7. Terakhir, Beliau mau tau ada berapa banyak penjualan yang total harganya di kisaran $200-250 + penjualan 3 barang dalam satu pesanan."
+      ],
+      "id": "eea8c584"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Hint\"\n",
+        "# Gunakan `|` untuk filter dengan 2 kondisi yang dihubungkan operator `atau`."
+      ],
+      "id": "4c07490c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| code-fold: true\n",
+        "#| code-summary: \"Answer\"\n",
+        "#| output: false\n",
+        "condition = (((sales_df['total_price'] > 200) & (sales_df['total_price'] < 200)) | (sales_df['quantity'] == 3))\n",
+        "sales_df[condition]"
+      ],
+      "id": "69a580d0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "___"
+      ],
+      "id": "2a81a5f2"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

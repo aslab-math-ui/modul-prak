@@ -1,0 +1,1015 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "format: html\n",
+        "execute: \n",
+        "  enabled: false\n",
+        "---\n",
+        "\n",
+        "\n",
+        "# Week-02 (IO, conditional, loop,script, and function)\n",
+        "\n",
+        "Kembali ke [Persamaan Diferensial Numerik](../pdnum2023.qmd)\n",
+        "\n",
+        "## IO\n",
+        "\n",
+        "Dalam pemrograman, seringkali pengguna diminta memberi suatu input, entah suatu nilai, string, dll., ke program, lalu program tersebut akan menggunakan input tersebut sebagai nilai dari suatu variabel. Hal ini juga dapat dilakukan pada Octave. Untuk membuat Octave meminta input dari user, gunakan syntax input(prompt), dengan prompt adalah string yang berisi pesan dalam input.\n"
+      ],
+      "id": "86389791"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "    A = input(\"Masukkan suatu angka:\")"
+      ],
+      "id": "7e3eb234",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Jika tidak ingin membuat pesan input, cukup isi \"\" sebagai prompt\n"
+      ],
+      "id": "c386edf0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "    A = input(\"\")"
+      ],
+      "id": "942ae9e7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Perlu diketahui bahwa input yang diberikan pengguna akan dievaluasi sebagai ekspresi. Jadi, bisa saja input yang diberikan akan dievaluasi sebagai kode Octave. Sebagai contoh, jika kita memasukkan operasi bilangan pada inpu ….\n"
+      ],
+      "id": "b933a777"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B = input(\"Operasi bilangan: \")"
+      ],
+      "id": "10cccea6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "... , maka operasi tersebut akan dievaluasi dan memberikan hasil operasinya. Jika kita memasukkan kode Octave, seperti meng-assign suatu variabel ...\n"
+      ],
+      "id": "0985a39d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "C = input(\"Assign variabel: \")"
+      ],
+      "id": "7170225b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "..., maka nilai dari variabel yagn di-assign akan masuk ke variabel input ...\n"
+      ],
+      "id": "0e573362"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x"
+      ],
+      "id": "31e32092",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "sekaligus variabel yang di-assign di dalam input. Jika kalian ingin agar input yang dimasukkan tidak dievaluasi, input tersebut dapat diubah terlebih dahulu menjadi string.\n"
+      ],
+      "id": "93971c0e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        " D = input(\"Masukkan suatu string: \")"
+      ],
+      "id": "bd1ae131",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "typeinfo(D) % untuk menentukan tipe data variabel"
+      ],
+      "id": "60229420",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bisa juga dengan menambah argumen pada input() menjadi input(prompt, \"s\"). Jika menambahkan argumen, maka apapun input yang kalian masukkan akan menjadi string tanpa perlu menggunakan tanda petik.\n"
+      ],
+      "id": "820e6dc9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "E = input(\"Masukkan suatu string: \", \"s\")"
+      ],
+      "id": "982564d1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "typeinfo(E)"
+      ],
+      "id": "c8a5d86a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Selain menggunakan input(), kita juga bisa menggunakan syntax menu(title, op1, op2, ...). Syntax tersebut akan memunculkan kotak dialog dengan judul title dan pilihan op1, op2, dst. (sesuai yang dimasukkan). Syntax ini sangat berguna untuk program-program interaktif karena mempunyai GUI sendiri.\n"
+      ],
+      "id": "a2090246"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "F = menu(\"Pilih salah satu\", \"Pilihan 1\", \"Pilihan 2\", \"Pilihan 3\")"
+      ],
+      "id": "de244c58",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Tergantung pilihan kalian, variabel yang mengandung menu() akan diisi bilangan dari 1 hingga n tergantung banyaknya pilihan.\n",
+        "\n",
+        "\n",
+        "Untuk output, mungkin cukup untuk memanggil variabel itu sendiri, seperti..."
+      ],
+      "id": "ba717bbd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "C"
+      ],
+      "id": "fdd0fe1d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "..., namun kalian juga bisa hanya memunculkan nilai dari variabelnya tanpa sekaligus memunculkan variabel tersebut dengan menggunakan syntax disp(). Syntax ini digunakan jika yang di-output hanya suatu variabel atau string simpel, dll.\n"
+      ],
+      "id": "a87eb3ac"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "disp(C)"
+      ],
+      "id": "3b386735",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "disp(\"Ini adalah string\")"
+      ],
+      "id": "72522e32",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Jika yang ingin dimunculkan adalah pesan yang membutuhkan banyak formatting, kalian bisa menggunakan syntax printf(). Syntax tersebut dapat melakukan formatting pesan agar dapat menerima variabel selain string.\n"
+      ],
+      "id": "57da4240"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x=input(\"masukkan nilai x: \")"
+      ],
+      "id": "3eec8d91",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "printf(\"Ini adalah string %d\", x)"
+      ],
+      "id": "56054855",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada contoh di atas, kita ingin agar variabel x dapat di-output bersama dengan pesan string. Kita menggunakan %d agar nilai x dapat di-print sebagai bilangan desimal. Jika variabelnya berisi string, maka gunakan %s. Jika variabelnya berisi float, gunakan %f untuk print dalam bentuk desimal, atau %.nf untuk sekaligus mengatur angka di belakang koma sebanyak n.\n"
+      ],
+      "id": "bd23d155"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "printf(\"pi = %.3f\", pi)"
+      ],
+      "id": "f59e9d44",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Jika float tersebut ingin di-print dalam notasi saintifik, gunakan %e atau %E. Keduanya hanya berbeda di hasil output yang berupa E (besar) ataupun e (kecil).\n"
+      ],
+      "id": "2f0bca08"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "printf(\"pi = %.3e\", pi)"
+      ],
+      "id": "10099a90",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Jika ingin print karakter persen itu sendiri (%), gunakan %%.\n",
+        "\n",
+        "Jika ada lebih dari satu formatting di satu printf(), maka variabelnya juga harus dimasukkan secara berurutan.\n"
+      ],
+      "id": "24ab31cb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "printf(\"pi = %.3f dan e = %.3e\", pi, e)"
+      ],
+      "id": "5f6adeda",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Conditional\n",
+        "\n",
+        "Seperti halnya bahas pemrograman, Octave pun juga memiliki conditional statements. Secara umum, conditional statement pada Octave berbentuk:\n"
+      ],
+      "id": "5f069023"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "cond\n",
+        "  body\n",
+        "endcond"
+      ],
+      "id": "db4ecbe2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada potongan kode di atas, cond adalah jenis conditional statement yagn digunakan, bisa berupa if, for, dan lainnya, body berisi kode yang dijalankan ketika cond terpenuhi, dan endcond adalah bagian penutup dari conditional statement, bisa berupa endif, endfor, dan lainnya tergantung cond apa yang digunakan.\n",
+        "\n",
+        "Operasi dasar yang digunakan pada conditional statements adalah operasi perbandingan, dimana pada dasarnya, dua atau lebih nilai dibandingkan dengan operator dan dicek apakah memenuhi atau tidak. Jika memenuhi, maka nilainya 1, dan jika tidak, maka nilainya 0. Ada 6 operator dasar untuk perbandingan:\n",
+        "\n",
+        "    - sama dengan (==)\n",
+        "    - lebih dari (>)\n",
+        "    - kurang dari (<)\n",
+        "    - lebih dari atau sama dengan (>=)\n",
+        "    - kurang dari atau sama dengan (<=)\n",
+        "    - tidak sama dengan (!= atau ~=)\n"
+      ],
+      "id": "8ffba979"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "2<3"
+      ],
+      "id": "ba062d80",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "4==5"
+      ],
+      "id": "1a5affba",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Selain operator di atas, ada juga syntax untuk perbandingan:\n",
+        "\n",
+        "    - isequal(a, b, c, ...) mengecek apakah a, b, dan c semuanya sama.\n",
+        "    - strcmp(s1, s2) mengecek apakah s1 dan s2 adalah string yang sama.\n",
+        "    - strncmp(s1, s2, n) mengecek apakah n karakter pertama pada s1 dan s2 sama.\n",
+        "    - strcmpi(s1, s2) mirip strcmp(), namun tidak case-sensitive.\n",
+        "    - strncmpi(s1, s2, n) mirip strncmp(), namun tidak case-sensitive.\n"
+      ],
+      "id": "2f54b07d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "isequal(1, 3, 5)"
+      ],
+      "id": "3d3e58e1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "strcmp(\"ayam\", \"Ayam\")"
+      ],
+      "id": "7d55a92b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "strcmpi(\"ayam\", \"Ayam\")"
+      ],
+      "id": "18796e08",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "strncmp(\"sayamakan\", \"saya makan\", 4)"
+      ],
+      "id": "1647e83d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Berikut beberapa jenis conditional statement pada Octave. Kode-kode ini akan ditulis di editor.\n",
+        "\n",
+        "If adalah conditional statement dasar dalam decision-making melalui perbandingan nilai. If memiliki 3 bentuk. Bentuk pertama:\n"
+      ],
+      "id": "77cf603a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "if (cond)\n",
+        "  body;\n",
+        "endif"
+      ],
+      "id": "8fa27392",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bentuk ini adalah bentuk paling simpel dalam menggunakan if. Jika cond bernilai 1, maka body dieksekusi, dan sebaliknya. Contoh:\n"
+      ],
+      "id": "9199eefc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = input( \"Masukkan nilai x: \")\n",
+        "if x > 0\n",
+        "    printf(\"%d adalah bilangan positif.\\n\", x);\n",
+        "endif"
+      ],
+      "id": "4d4b0f26",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bukanlah if jika tidak ada else. Untuk menggunakannya, cukup menyelipkan bagian else layaknya if sehingga menjadi:\n"
+      ],
+      "id": "d0e97e44"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "if (cond)\n",
+        "  body1;\n",
+        "else\n",
+        "  body2;\n",
+        "endif"
+      ],
+      "id": "d561393d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Contoh:\n"
+      ],
+      "id": "58cb0182"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = input(\"Masukkan x: \");\n",
+        "if mod(x, 2) == 0\n",
+        "  printf(\"x genap.\\n\");\n",
+        "else\n",
+        "  printf(\"x ganjil.\\n\");\n",
+        "endif"
+      ],
+      "id": "9527fec4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita pun juga dapat membuat lebih dari 2 condition selain if dan else. Cukup tambahkan bagian elseif. Kita dapat menambahkan berapapun banyaknya elseif sesuka hati (dan komputer), selama bagian akhirnya adalah else.\n"
+      ],
+      "id": "205495c2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "if (cond1)\n",
+        "  body1;\n",
+        "elseif (cond2)\n",
+        "  body2;\n",
+        "else\n",
+        "  body3;\n",
+        "endif"
+      ],
+      "id": "cf8425aa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk beberapa kasus, lebih jelas jika kita menggunakan model kode seperti di atas. Namun, terkadang kita ingin membuat program berjalan sesuai input, dan jika menggunakan if-else, kodenya akan terlihat jelek. Maka, kita juga bisa menggantinya dengan kode switch. Bentuk umum dari switch adalah:\n"
+      ],
+      "id": "96394767"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "switch (var)\n",
+        "  case lab1\n",
+        "    body1;\n",
+        "  case lab2\n",
+        "    body2;\n",
+        "  otherwise\n",
+        "    body3;\n",
+        "endswitch"
+      ],
+      "id": "55968454",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada kode di atas, var akan dicocokkan dengan lab1, lab2, dst. yang sesuai. Jika tidak ada yang sesuai, kode akan masuk ke bagian otherwise. Layaknya elseif, kita juga dapat menambahkan berapapun banyaknya case sesuka hati, selama terdapat paling tidak satu case (bahkan bagian otherwise opsional).\n",
+        "\n",
+        "\n",
+        "Contoh:\n"
+      ],
+      "id": "18c10f45"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "mnu = input(\"Masukkan metode: \");\n",
+        "switch (mnu)\n",
+        "  case 1\n",
+        "    printf(\"Bisection.\\n\")\n",
+        "  case 2\n",
+        "    printf(\"Regula Falsi.\\n\")\n",
+        "  otherwise\n",
+        "    printf(\"Input tidak valid.\\n\")\n",
+        "endswitch"
+      ],
+      "id": "6ad53a81",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Jika case berisi array, kode akan masuk case tersebut jika var sesuai dengan salah satu elemen di array tersebut.\n"
+      ],
+      "id": "a03ca919"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = 7;\n",
+        "switch (A)\n",
+        "  case {6, 7}\n",
+        "    printf(\"A adalah 6 atau 7\");\n",
+        "  otherwise\n",
+        "    printf(\"A bukanlah 6 ataupun 7\");\n",
+        "endswitch"
+      ],
+      "id": "b50d085d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bentuk umum dari for adalah:\n",
+        "\n",
+        "## Loops\n",
+        "\n",
+        "### Loops: For loop"
+      ],
+      "id": "ba9d2cbc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "for var = expr\n",
+        "  body;\n",
+        "endfor"
+      ],
+      "id": "eb7d5d5b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Biasanya isi dari expr adalah a:b, yang menyebabkan var diiterasi dari a hingga b. Secara umum, for akan meng-assign tiap kolom pada expr ke var (bentuk range a:b secara umum adalah vektor baris, sehingga iterasi kolom pada a:b adalah dari a hingga b). Contoh:\n"
+      ],
+      "id": "c7ab28e2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fib = ones(1, 10); % ones(1, 10) = matriks 1x10 berisi 1.\n",
+        "for i = 3: 10\n",
+        "  fib(i) = fib(i-1) + fib(i-2);\n",
+        "endfor\n",
+        "disp(fib)"
+      ],
+      "id": "e918cafe",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Karena iterasinya antar kolom, maka jika expr adalah suatu matriks, maka var akan diiterasi sebagai vektor kolom. Contoh:\n"
+      ],
+      "id": "77abbc68"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "for i = [1, 2, 3; 4, 5, 6; 7, 8, 9]\n",
+        "  i\n",
+        "endfor"
+      ],
+      "id": "f595fd8a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bentuk umum dari while adalah:\n",
+        "\n",
+        "### Loops: while"
+      ],
+      "id": "7fe94ce1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "while (cond)\n",
+        "  body;\n",
+        "endwhile"
+      ],
+      "id": "5fd7afba",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Serupa dengan if, while akan menjalankan body jika cond bernilai taknol. Namun, akan diulang terus hingga cond bernilai nol, baru berhenti.\n"
+      ],
+      "id": "5252f42e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fib = ones(1, 10);\n",
+        "i = 3;\n",
+        "while i <= 10\n",
+        "  fib(i) = fib(i-1) + fib(i-2);\n",
+        "  i++;\n",
+        "endwhile\n",
+        "disp(fib)"
+      ],
+      "id": "15832962",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada contoh di atas, penting untuk memasukkan bagian i++ agar suatu saat nilai i akan lebih dari 10. Hati-hati menggunakan while, karena dapat mengakibatkan infinite loop.\n",
+        "\n",
+        "### Loops: Do\n",
+        "\n",
+        "Bentuk umum dari do adalah:\n"
+      ],
+      "id": "c1e41a09"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "do\n",
+        "  body\n",
+        "until (cond)"
+      ],
+      "id": "244cfd5b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Sekilas, do terlihat serupa dengan while. Yang membedakannya adalah do akan terus menjalankan body ketika cond bernilai 0 dan berhenti ketika cond bernilai taknol. Kondisi cond pada do juga berada di akhir, sehingga body pasti akan dijalankan paling tidak sekali. Perbedaan kecil selanjutnya adalah do tidak memakai enddo seperti layaknya endif, endwhile, dan sejenisnya.\n"
+      ],
+      "id": "eed3571c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fib = ones(1, 10);\n",
+        "i = 2;\n",
+        "do\n",
+        "  i++;\n",
+        "  fib(i) = fib(i-1) + fib(i-2);\n",
+        "until i == 10\n",
+        "disp(fib)"
+      ],
+      "id": "45331903",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Loops: Break dan Continue\n",
+        "\n",
+        "break dan continue adalah dua statement yang digunakan dan hanya digunakan dalam loop. Statement break akan langsung mengeluarkan program dari loop, sedangkan continue akan langsung menuju iterasi selanjutnya tanpa menyelesaikan sisa kode pada badan loop.\n",
+        "\n",
+        "Contoh perbedaan break dan continue:\n"
+      ],
+      "id": "161aff17"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = [];\n",
+        "for i = 1:10\n",
+        "  if mod(i, 5) == 0\n",
+        "    break;\n",
+        "  endif\n",
+        "  a = [a, i];\n",
+        "endfor\n",
+        "disp(a)"
+      ],
+      "id": "b0068b14",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = [];\n",
+        "for i = 1:10\n",
+        "  if mod(i, 5) == 0\n",
+        "    continue;\n",
+        "  endif\n",
+        "  a = [a, i];\n",
+        "endfor\n",
+        "disp(a)"
+      ],
+      "id": "2d498a8e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Function dan Script File\n",
+        "Sebelum kita lanjutkan, kita harus terlebih dahulu mengetahui tentang function file dan script file.\n",
+        "\n",
+        "Function file adalah file yang dapat digunakan oleh Octave untuk memanggil fungsi yang telah didefinisikan di dalamnya. Function file ini berguna jika kalian ingin menggunakan fungsi tersebut secara berkala.\n",
+        "\n",
+        "\n",
+        "Script file adalah file yang berisi kumpulan perintah Octave, layaknya script pemrograman. Script file berguna untuk pemrograman dan menjalankan/menyimpan suatu urutan perintah, sehingga bisa dijalankan kembali nantinya. Untuk selanjutnya, script file akan disebut \"program\".\n",
+        "\n",
+        "Permasalahannya, kedua jenis file tersebut mempunyai ekstensi yang serupa (.m), namun function file tidak dapat dijalankan layaknya program.\n",
+        "\n",
+        "Misal kita mempunyai fungsi yang ingin disimpan dalam program bernama testfile.m (untuk sekarang kita akan abaikan dulu maksud dari tiap bagian dari fungsi ini. Intinya fungsi ini akan menampilkan variabel message yang kita masukkan.\n"
+      ],
+      "id": "aa8641ba"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "function test(message)\n",
+        "  printf(\"%s\\n\", message);\n",
+        "endfunction\n",
+        "\n",
+        "test(\"AyatoBoba\");"
+      ],
+      "id": "daab16ee",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Jika program tersebut dijalankan, akan muncul pesan peringatan…\n",
+        "\n",
+        "`warning: function name 'test' does not agree with function filename...`\n",
+        "\n",
+        "…dan mungkin saja akan diikuti error lain. Jika kalian ingin membuat program, jangan gunakan function di line pertama yang dieksekusi.\n",
+        "\n",
+        "Sekarang kita modifikasi testfile.m di atas.\n"
+      ],
+      "id": "bee307ec"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "1;\n",
+        "function test(message)\n",
+        "  printf(\"%s\\n\", message);\n",
+        "endfunction\n",
+        "\n",
+        "test(\"AyatoBoba\");"
+      ],
+      "id": "aaf1b8e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Di sini, kita menambahkan line yang tidak berpengaruh apa-apa dalam program kita sebelum line pendefinisian fungsi. Untuk membedakan function file dengan program, Octave mengecek perintah pertama yang dieksekusi. Jika perintah tersebut adalah pendefinisian fungsi, maka file tersebut akan dianggap sebagai function file, dan jika bukan, maka file tersebut akan dianggap sebagai program.\n",
+        "\n",
+        "Sekarang kita masuk ke fungsi, pendefinisian, dan embel-embelnya. Fungsi adalah suatu bagian dari program yang nantinya akan dipanggil. Fungsi sangat berguna jika bagian program \n",
+        "\n",
+        "\n",
+        "tersebut nantinya akan digunakan berkali-kali. Fungsi juga berguna agar pengorganisasian kode program lebih bagus. Syntax untuk pendefinisian fungsi adalah:\n"
+      ],
+      "id": "767913db"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "function name\n",
+        "  body\n",
+        "endfunction\n",
+        " ```\n",
+        "\n",
+        "\n",
+        "Potongan kode di atas akan membuat fungsi name dengan body adalah isi dari fungsi tersebut. Untuk memanggil fungsi tersebut, cukup dengan memanggil name. Contoh:\n",
+        "\n",
+        "\n",
+        "```{python}\n",
+        "function bangun\n",
+        "  printf(\"BANGUN!!!!!\\n\");\n",
+        "endfunction\n",
+        "\n",
+        "bangun;"
+      ],
+      "id": "5c9f6dc4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada kedua contoh di atas, fungsinya tidak benar-benar memberikan suatu value, melainkan hanya sekedar output. Dalam kebanyakan kasus, kita menggunakan fungsi agar bisa mendapatkan suatu nilai yang dapat di-assign ke suatu variabel. Agar kita bisa mendapatkan value, maka kita harus meng-assign variabel untuk return. Strukturnya menjadi:\n"
+      ],
+      "id": "51515667"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "function retval = name (args)\n",
+        "  body\n",
+        "endfunction"
+      ],
+      "id": "7fcf10ed",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "retval adalah variabel lokal (namanya tidak harus retval) yang akan digunakan sebagai return value sehingga dapat di-assign. retval bisa berupa variabel, jika kita ingin me-return satu value, ataupun bisa berupa list dari variabel jika ingin me-return lebih dari satu value.\n",
+        "Contoh return satu nilai:\n"
+      ],
+      "id": "2507eab6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "function x = quadratic(a)\n",
+        "  x = a^2;\n",
+        "endfunction\n",
+        "\n",
+        "y = quadratic(2);\n",
+        "disp(y);"
+      ],
+      "id": "92f33a6f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "contoh return lebih dari satu nilai:\n"
+      ],
+      "id": "bcddd8d0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "function [am, gm] = AMGM(v)\n",
+        "  am = sum(v) / length(v);\n",
+        "  gm = nthroot(prod(v), length(v));\n",
+        "endfunction\n",
+        "\n",
+        "\n",
+        "V = [1, 2, 3, 4, 5, 6, 7, 8, 9];\n",
+        "[amean, gmean] = AMGM(V);\n",
+        "printf(\"Arithmetic mean of %s is %g\\n\", mat2str(V), amean);\n",
+        "printf(\"Geometric mean of %s is %g\\n\", mat2str(V), gmean);"
+      ],
+      "id": "4d01de76",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Octave juga mempunyai syntax return sendiri. Namun, return pada Octave tidak digunakan untuk me-return suatu value, melainkan untuk keluar dari fungsi (serupa dengan break pada loop).\n",
+        "\n",
+        "\n",
+        "\n",
+        "## Acknowledgement\n",
+        "\n",
+        "Kak ojan: untuk module tahun lalu-nya :D."
+      ],
+      "id": "03b76209"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

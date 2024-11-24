@@ -7,6 +7,8 @@ page-navigation: true
 format: html
 ---
 
+
+
 # ANOVA
 
 Analysis of Variance (ANOVA) digunakan untuk melakukan uji hipotesis terhadap lebih dari dua populasi. Beberapa asumsi dalam anova adalah:
@@ -21,6 +23,8 @@ Misalkan populasi 1 berdistribusi $N(\mu=1,\sigma^2=1)$, populasi 2 berdistribus
 
 Dilakukan pengambilan sampel acak dari ketiga populasi tersebut berukuran 10.
 
+
+
 ```{r}
 n1 <- 10
 n2 <- 10
@@ -31,7 +35,11 @@ pops.2 <- rnorm(n=n2, mean=0.9, sd=1)
 pops.3 <- rnorm(n=n3, mean=1.1, sd=1)
 ```
 
+
+
 Selanjutnya, akan dibuat dataframe dari sampel acak tersebut. Kolom pop.source menyatakan asal populasi (1,2,3) dan kolom pops.value menyatakan nilai sampel acak.
+
+
 
 ```{r}
 pop.source <- c(replicate(n1, "pops.1"), 
@@ -43,7 +51,11 @@ pops.value <- c(pops.1, pops.2, pops.3)
 data <- data.frame(pop.source, pops.value)
 ```
 
+
+
 Sebagai analisis pendahuluan, mari kita perhatikan mean, standar deviasi, dan boxplot dari sampel acak masing-masing populasi.
+
+
 
 ```{r}
 aggregate(pops.value~pop.source, data=data, 
@@ -54,6 +66,8 @@ aggregate(pops.value~pop.source, data=data,
 boxplot(pops.value~pop.source, data=data)
 ```
 
+
+
 Berdasarkan intuisi pengamatan terhadap sampel acak, kita dapat menebak bahwa mean ketiga populasi tersebut tidaklah berbeda signifikan secara statistik.
 
 Untuk memverifikasi, kita akan melakukan uji ANOVA satu arah. Dengan tingkat signifikansi $\alpha=0.05$, hipotesis dari uji ini adalah:
@@ -63,18 +77,26 @@ Untuk memverifikasi, kita akan melakukan uji ANOVA satu arah. Dengan tingkat sig
 
 Untuk menjalankan uji ANOVA satu arah, digunakan fungsi oneway.test()
 
+
+
 ```{r}
 oneway.test(pops.value ~ pop.source,
             data = data,
             var.equal = TRUE)
 ```
 
+
+
 Fungsi lain yang dapat digunakan adalah aov()
+
+
 
 ```{r}
 av <- aov(pops.value ~ pop.source, data = data)
 summary(av)
 ```
+
+
 
 Ingat lagi bahwa daerah kritis uji ANOVA adalah:
 
@@ -85,6 +107,8 @@ Dengan $k$ adalah banyak populasi dan $n$ adalah ukuran sampel acak dalam satu p
 
 Kita bisa mendapatkan nilai F tabel.
 
+
+
 ```{r}
 alpha = 0.05
 F_tabel = qf(p=1-alpha, df1 = 3-1, df2 = 3*(10-1))
@@ -92,11 +116,15 @@ F_tabel = qf(p=1-alpha, df1 = 3-1, df2 = 3*(10-1))
 F_tabel
 ```
 
+
+
 Didapatkan $$F_\text{hitung} = 0.18194 < 3.354131 = F_\text{tabel}$$ dan *p-value* = 0.8347 \> 0.05 = $\alpha$. Maka hasil uji berada di luar daerah kritis. Dengan kata lain, tidak terdapat bukti yang cukup untuk menolak $H_0$ di mana tidak ada perbedaan yang signifikan secara statistik antara nilai $\mu_1, \mu_2, \mu_3$
 
 ## Ukuran Sampel Tidak Seragam
 
 Untuk kasus pengambilan sampel acak dari ketiga populasi dengan ukuran tidak seragam, kita hanya perlu mengubah nilai $n_1, n_2, n_3$.
+
+
 
 ```{r}
 n1 <- 9
@@ -116,7 +144,11 @@ pops.value <- c(pops.1, pops.2, pops.3)
 data <- data.frame(pop.source, pops.value)
 ```
 
+
+
 Kita akan melakukan uji ANOVA satu arah dengan fungsi yang sama seperti sebelumnya.
+
+
 
 ```{r}
 oneway.test(pops.value ~ pop.source,
@@ -129,6 +161,8 @@ av <- aov(pops.value ~ pop.source, data = data)
 summary(av)
 ```
 
+
+
 Ingat lagi bahwa daerah kritis uji ANOVA adalah:
 
 -   $F_\text{hitung}< F_{\alpha;(k-1);k(n-1)}$
@@ -138,11 +172,15 @@ dengan $$N = \sum_1^kn_i$$
 
 Maka kita dapat F tabel.
 
+
+
 ```{r}
 F_tabel = qf(p=1-alpha, df1 = 3-1, df2 = n1+n2+n3 - 3)
 
 F_tabel
 ```
+
+
 
 Didapatkan $$F_\text{hitung} = 1.3941 < 3.304817 = F_\text{tabel}$$ dan *p-value* = 0.2632 \> 0.05 = $\alpha$. Maka hasil uji berada di luar daerah kritis. Dengan kata lain, tidak terdapat bukti yang cukup untuk menolak $H_0$ di mana tidak ada perbedaan yang signifikan secara statistik antara nilai $\mu_1, \mu_2, \mu_3$
 
@@ -160,10 +198,14 @@ Misalkan kita mempunyai data sampel acak berukuran 6 (lihat variabel "obs" dibaw
 
 Sampel acak tersebut berasal dari suatu populasi dengan ruang nilai diskrit. Dapatkah kita menyimpulkan bahwa populasi tersebut berdistribusi uniform?
 
+
+
 ```{r}
 obs <- c(20,22,17,18,19,24)
 prob = c(replicate(length(obs),1))/length(obs)
 ```
+
+
 
 Untuk menguji hipotesis tersebut, kita bisa menggunakan uji chi-squared. Hipotesis yang digunakan adalah:
 
@@ -174,15 +216,23 @@ Dengan tingkat signfikasi $\alpha=0.05$, daerah kritis diberikan oleh - $\chi^2_
 
 Uji chi-squared dapat dilakukan dengan fungsi chisq.test()
 
+
+
 ```{r}
 chisq.test(obs, p = prob)
 ```
 
+
+
 dan $\chi^2_{\alpha, k-1}$
+
+
 
 ```{r}
 qchisq(p=1-alpha, df=15-1)
 ```
+
+
 
 Karena $\chi^2_\text{hitung} = 1.7 < 23.68479 = \chi^2_{\alpha, k-1}$ dan p-value = 0.8889 \> $0.05 = \alpha$, maka hasil uji berada di luar daerah kritis. Dengan kata lain, tidak terdapat bukti yang cukup untuk menolak $H_0$ di mana populasi berdistribusi uniform.
 
@@ -190,13 +240,19 @@ Karena $\chi^2_\text{hitung} = 1.7 < 23.68479 = \chi^2_{\alpha, k-1}$ dan p-valu
 
 Misal kita ingin menguji apakah sebuah dadu seimbang dengan pengambilan sampel acak berukuran 120 pelemparan.
 
+
+
 ```{r}
 n_dadu <- 120
 dadu <- ceiling(runif(n=n_dadu, min = 0, max=6))
 dadu
 ```
 
+
+
 Dengan cara yang sama, kita dapat melakukan uji chi-squared
+
+
 
 ```{r}
 prob = c(replicate(length(dadu),1))/length(dadu)
@@ -204,16 +260,24 @@ prob = c(replicate(length(dadu),1))/length(dadu)
 chisq.test(dadu, p = prob)
 ```
 
+
+
 Terdapat pesan "Warning: Chi-squared approximation may be incorrect". Hal ini terjadi karena terdapat beberapa pengulangan nilai pada ruang sampel, di mana masing-masing nilai tersebut dianggap sebagai observasi independen yang memiliki probabilitas $\frac{1}{120}$. Sedangkan, kita ingin menguji apakah peluang masing-masing mata dadu muncul bernilai $\frac{1}{6}$.
+
+
 
 ```{r}
 x <- table(dadu)
 x
 ```
 
+
+
 Maka, kita dapat melakukan uji chi-squared tanpa menggunakan fungsi chisq.test()
 
 Karena kita ingin menguji apakah dadu seimbang, kita akan membandingkan nilai "observasi" kemunculan mata dadu dengan nilai "ekspektasi" kemunculan mata dadu jika dadu seimbang.
+
+
 
 ```{r}
 val.dadu <- names(x)
@@ -222,6 +286,8 @@ ex.dadu <- c(replicate(6, n_dadu/6))
 
 rbind(val.dadu, obs.dadu, ex.dadu)
 ```
+
+
 
 Ingat hipotesis yang digunakan adalah
 
@@ -232,22 +298,32 @@ Statistik uji yang digunakan adalah $$\chi^2 = \sum_i^k \frac{(o_i-e_i)^2}{e_i}$
 
 Didapat $\chi^2_\text{hitung}$
 
+
+
 ```{r}
 chi.hitung <- sum((obs.dadu-ex.dadu)**2/ex.dadu)
 chi.hitung
 ```
 
+
+
 dan $\chi^2_{\alpha, k-1}$
+
+
 
 ```{r}
 qchisq(p=1-alpha, df=6-1)
 ```
+
+
 
 Karena $\chi^2_\text{hitung} = 2.8 < 11.0705 = \chi^2_{\alpha, k-1}$, maka hasil uji berada di luar daerah kritis. Dengan kata lain, tidak terdapat bukti yang cukup untuk menolak $H_0$ di mana dadu seimbang.
 
 ### Membandingkan dengan distribusi non-uniform
 
 Misalkan kita memiliki populasi dengan ruang nilai kontinu \[1.45, 4.95\], dan dilakukan pengambilan sampel acak berukuran 40 yang dibagi ke dalam 7 kelas
+
+
 
 ```{r}
 lower_bound <- c()
@@ -261,9 +337,13 @@ obs_class <- c(2,1,4,15,10,5,3)
 data.frame(lower_bound, upper_bound, obs_class)
 ```
 
+
+
 Dapatkah kita menyimpulkan bahwa populasi asal sampel acak tersebut berdistribusi $N(\mu=3.5, \sigma^2 = 0.7^2)$
 
 Kita dapat mulai dengan membuat kolom nilai ekspektasi masing-masing kelas jika populasi berdistribusi $N(\mu=3.5, \sigma^2 = 0.7^2)$
+
+
 
 ```{r}
 mu = 3.5
@@ -286,7 +366,11 @@ class <- data.frame(lower_bound, upper_bound, obs_class,ex_class)
 class
 ```
 
+
+
 Perhatikan bahwa terdapat beberapa baris dengan nilai ekspektasi yang cukup kecil (\<5). Maka, untuk melakukan uji chi-squared yang lebih akurat, akan dilakukan penggabungan kelas-kelas berhimpit tersebut.
+
+
 
 ```{r}
 i <- 1
@@ -311,9 +395,13 @@ if (class[[4]][[nrow(class)]]<5){
 class
 ```
 
+
+
 Telah didapat data nilai observasi dan nilai ekspektasi yang diperbaiki.
 
 Sebagai intuisi awal, kita bisa memperhatikan barplot dari nilai observasi sampel acak dibandingkan dengan nilai ekspektasinya.
+
+
 
 ```{r}
 par(mfrow = c(1,2))
@@ -321,10 +409,14 @@ barplot(class$obs_class)
 barplot(class$ex_class)
 ```
 
+
+
 Selanjutnya, kita bisa melakukan uji chi-squared terhadap masing-masing kelas observasi dengan metode yang sama. Hipotesis uji adalah
 
 -   $H_0:$ populasi berdistribusi $N(\mu=3.5, \sigma^2 = 0.7^2)$
 -   $H_1:$ populasi tidak berdistribusi $N(\mu=3.5, \sigma^2 = 0.7^2)$
+
+
 
 ```{r}
 chi_hitung <- sum((class$obs_class-class$ex_class)**2/class$ex_class)
@@ -333,7 +425,9 @@ chi_hitung
 qchisq(p=1-alpha, df=7-1)
 ```
 
-Karena $\chi^2_\text{hitung} = 2.852626 < 12.59159 = \chi^2_{\alpha, k-1}$, maka hasil uji berada di luar daerah kritis. Dengan kata lain, tidak terdapat bukti yang cukup untuk menolak $H_0$ di mana populasi berdistribusi $N(\mu=3.5, \sigma^2 = 0.7^2)$.
+
+
+Karena $\chi^2_\text{hitung} = 9.108018 < 12.59159 = \chi^2_{\alpha, k-1}$, maka hasil uji berada di luar daerah kritis. Dengan kata lain, tidak terdapat bukti yang cukup untuk menolak $H_0$ di mana populasi berdistribusi $N(\mu=3.5, \sigma^2 = 0.7^2)$.
 
 ## Uji Independensi
 
@@ -341,19 +435,27 @@ Uji Independensi dilakukan untuk mengetahui apakah antarvariabel kategorik salin
 
 Pertama-tama kita akan mengimport dataset "treatment" dari situs github.
 
+
+
 ```{r}
 df <- read.csv("https://raw.githubusercontent.com/selva86/datasets/master/treatment.csv")
 View(df)
 ```
 
+
+
 Misal kita ingin menguji apakah ada hubungan antara variabel kategorik treatment dengan variabel kategorik improvement.
 
 Kita dapat membuat tabel kontingensi berukuran 2x2 dari variabel kategorik tersebut.
+
+
 
 ```{r}
 tabel <- table(df$treatment, df$improvement)
 tabel
 ```
+
+
 
 Ingat hipotesis yang akan diuji adalah:
 
@@ -367,15 +469,23 @@ Dengan tingkat signfikasi $\alpha=0.05$, daerah kritis diberikan oleh
 
 Kita dapat melakukan uji chi-squared terhadap tabel kontingensi yang telah dibuat.
 
+
+
 ```{r}
 chisq.test(tabel)
 ```
 
+
+
 Untuk $\chi^2_{\alpha, (r-1)(c-1)}$
+
+
 
 ```{r}
 qchisq(p=1-alpha, df=(2-1)*(2-1))
 ```
+
+
 
 Karena $\chi^2_\text{hitung} = 4.6626 > 3.841459 = \chi^2_{\alpha, k-1}$, dan p-value = 0.03083 \< 0.05= $\alpha$, maka hasil uji berada di dalam daerah kritis. Dengan kata lain, terdapat bukti yang cukup untuk menolak $H_0$ di mana treatment dan improvement tidak saling mempengaruhi.
 
@@ -383,31 +493,47 @@ Akan tetapi, kita tidak bisa menyimpulkan bagaimana kedua variabel tersebut sali
 
 ### Kasus Khusus
 
+
+
 ```{r}
 data("mtcars")
 View(mtcars)
 ```
 
+
+
 Perhatikan bahwa ruang nilai variabel carb dan cyl adalah bilangan asli, sehingga kita bisa menganggap bahwa kedua variabel tersebut adalah variabel kategorik.
 
 Misal kita ingin menguji apakah ada hubungan antara variabel kategorik carb dengan variabel cyl. Kita bisa mulai dengan membuat tabel kontingensi.
+
+
 
 ```{r}
 tabel2 <- table(mtcars$carb, mtcars$cyl)
 tabel2
 ```
 
+
+
 Dan dengan metode yang sama, kita lakukan uji chi-squared terhadap tabel tersebut
+
+
 
 ```{r}
 chisq.test(tabel2)
 ```
 
+
+
 Perhatikan muncul pesan "Warning: Chi-squared approximation may be incorrect". Hal ini terjadi karena terdapat beberapa observasi yang bernilai nol, yang mengakibatkan nilai ekspektasi untuk observasi tersebut bernilai kecil (kurang dari 1).
+
+
 
 ```{r}
 chisq.test(tabel2)$expected
 ```
+
+
 
 Salah satu cara untuk melakukan uji independensi untuk kasus tersebut adalah dengan Fisher Exact Test.
 
@@ -418,9 +544,13 @@ hipotesis yang akan diuji adalah:
 
 Dengan tingkat signfikasi $\alpha=0.05$, daerah kritis diberikan oleh *p-value* \< $\alpha$.
 
+
+
 ```{r}
 fisher.test(tabel2)
 ```
+
+
 
 Karena *p-value* = 0.0003345 \< $\alpha$, maka hasil uji berada di dalam daerah kritis. Dengan kata lain, terdapat bukti yang cukup untuk menolak $H_0$ di mana carb dan cyl tidak saling mempengaruhi.
 
@@ -429,3 +559,4 @@ Karena *p-value* = 0.0003345 \< $\alpha$, maka hasil uji berada di dalam daerah 
 Silakan unduh worksheet berikut untuk melakukan uji hipotesis yang telah kita bahas di Microsoft Excel .
 
 [Worksheet Pertemuan 9](./worksheet_pertemuan9.xlsx)
+
