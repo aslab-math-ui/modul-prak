@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -146,7 +146,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -165,7 +165,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -179,7 +179,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#metode-courant-isaacson-rees" id="toc-metode-courant-isaacson-rees" class="nav-link active" data-scroll-target="#metode-courant-isaacson-rees">Metode Courant-Isaacson-Rees</a>
+  <li><a href="#modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi" id="toc-modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi" class="nav-link active" data-scroll-target="#modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi">Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi</a>
+  <ul class="collapse">
+  <li><a href="#metode-courant-isaacson-rees" id="toc-metode-courant-isaacson-rees" class="nav-link" data-scroll-target="#metode-courant-isaacson-rees">Metode Courant-Isaacson-Rees</a>
   <ul class="collapse">
   <li><a href="#function-file" id="toc-function-file" class="nav-link" data-scroll-target="#function-file"><em>Function file</em></a></li>
   <li><a href="#contoh-penggunaan" id="toc-contoh-penggunaan" class="nav-link" data-scroll-target="#contoh-penggunaan">Contoh penggunaan</a></li>
@@ -193,6 +195,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#function-file-2" id="toc-function-file-2" class="nav-link" data-scroll-target="#function-file-2"><em>Function file</em></a></li>
   <li><a href="#contoh-penggunaan-2" id="toc-contoh-penggunaan-2" class="nav-link" data-scroll-target="#contoh-penggunaan-2">Contoh penggunaan</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -219,6 +222,8 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-9-persamaan-diferensial-numerik-pdp-orde-1-persamaan-transportadveksi" class="level1">
+<h1>Modul 9 Persamaan Diferensial Numerik: PDP orde 1, persamaan transport/adveksi</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/pdnum/pdnum2024genap.html">Persamaan Diferensial Numerik</a></p>
 <p>Ini adalah pertemuan terakhir praktikum Persamaan Diferensial Numerik tahun ini.</p>
 <p>Di pertemuan kali ini, kita akan membahas penyelesaian secara numerik untuk PDP orde 1, lebih tepatnya “persamaan transport” atau juga disebut persamaan adveksi. (Selain itu, semua PDP orde 1 tergolong hiperbolik.)</p>
@@ -247,7 +252,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true"><em>Function file</em> <code>courant_i_r.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="cell-15" class="cell" data-execution_count="31">
+<div id="cell-14" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> courant_i_r(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
@@ -285,7 +290,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true"><em>Script file</em> <code>coba_courant_i_r.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div id="cell-23" class="cell" data-execution_count="34">
+<div id="cell-22" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fu">sin</span>(<span class="op">-</span><span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>t)<span class="op">;</span></span>
@@ -374,7 +379,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true"><em>Function file</em> <code>richardson.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div id="cell-33" class="cell" data-execution_count="23">
+<div id="cell-32" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> richardson(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
@@ -411,7 +416,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true"><em>Script file</em> <code>coba_richardson.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
-<div id="cell-39" class="cell" data-execution_count="36">
+<div id="cell-38" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fu">sin</span>(<span class="op">-</span><span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>t)<span class="op">;</span></span>
@@ -498,7 +503,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true"><em>Function file</em> <code>lax.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
-<div id="cell-47" class="cell" data-execution_count="29">
+<div id="cell-46" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> u] <span class="op">=</span> lax(d<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> dx<span class="op">,</span> dt)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> dx <span class="op">:</span> xu<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> dt <span class="op">:</span> tu<span class="op">;</span></span>
@@ -535,7 +540,7 @@ window.Quarto = {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true"><em>Script file</em> <code>coba_lax.m</code> - nama <em>file</em> bebas</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
-<div id="cell-53" class="cell" data-execution_count="38">
+<div id="cell-52" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> @(x) <span class="fu">sin</span>(<span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>x)<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> @(t) <span class="fu">sin</span>(<span class="op">-</span><span class="fl">8</span><span class="op">*</span><span class="bu">pi</span><span class="op">*</span>t)<span class="op">;</span></span>
@@ -611,6 +616,7 @@ window.Quarto = {
 
 </section>
 </section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -648,7 +654,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -680,47 +697,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -755,11 +732,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

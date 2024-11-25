@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modul 3 Sains Data: Encoding Data Kategorik dan Imputasi Data – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 3 Sains Data: Encoding Data Kategorik dan Imputasi Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -104,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -149,7 +149,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -168,7 +168,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -182,7 +182,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#import-dataset" id="toc-import-dataset" class="nav-link active" data-scroll-target="#import-dataset">Import Dataset</a></li>
+  <li><a href="#modul-3-sains-data-encoding-data-kategorik-dan-imputasi-data" id="toc-modul-3-sains-data-encoding-data-kategorik-dan-imputasi-data" class="nav-link active" data-scroll-target="#modul-3-sains-data-encoding-data-kategorik-dan-imputasi-data">Modul 3 Sains Data: <em>Encoding</em> Data Kategorik dan Imputasi Data</a>
+  <ul class="collapse">
+  <li><a href="#import-dataset" id="toc-import-dataset" class="nav-link" data-scroll-target="#import-dataset">Import Dataset</a></li>
   <li><a href="#encoding-data-kategorik" id="toc-encoding-data-kategorik" class="nav-link" data-scroll-target="#encoding-data-kategorik">Encoding Data Kategorik</a></li>
   <li><a href="#metode-imputasi" id="toc-metode-imputasi" class="nav-link" data-scroll-target="#metode-imputasi">Metode Imputasi</a>
   <ul class="collapse">
@@ -196,6 +198,7 @@ window.Quarto = {
   <li><a href="#export-dataframe-yang-telah-diimputasi-ke-csv" id="toc-export-dataframe-yang-telah-diimputasi-ke-csv" class="nav-link" data-scroll-target="#export-dataframe-yang-telah-diimputasi-ke-csv">Export Dataframe yang telah diimputasi ke CSV</a></li>
   </ul></li>
   <li><a href="#regresi-linier" id="toc-regresi-linier" class="nav-link" data-scroll-target="#regresi-linier">Regresi Linier</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -221,8 +224,10 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-3-sains-data-encoding-data-kategorik-dan-imputasi-data" class="level1">
+<h1>Modul 3 Sains Data: <em>Encoding</em> Data Kategorik dan Imputasi Data</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/genap/saindat/saindat2024genap.html">Sains Data</a></p>
-<div id="cell-3" class="cell" data-execution_count="80">
+<div id="cell-2" class="cell" data-execution_count="80">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -231,7 +236,7 @@ window.Quarto = {
 <p>Install <code>scikit-learn</code> dengan:</p>
 <p><code>!pip install scikit-learn</code></p>
 <p>Lalu import <code>sklearn</code>:</p>
-<div id="cell-5" class="cell" data-execution_count="81">
+<div id="cell-4" class="cell" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="import-dataset" class="level2">
@@ -242,17 +247,17 @@ window.Quarto = {
 <li><p>Kaggle: <a href="https://www.kaggle.com/datasets/camnugent/california-housing-prices" class="uri">https://www.kaggle.com/datasets/camnugent/california-housing-prices</a></p></li>
 </ul>
 <p>Kemudian, baca sebagai dataframe:</p>
-<div id="cell-10" class="cell" data-execution_count="82">
+<div id="cell-9" class="cell" data-execution_count="82">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./housing.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Mari kita lihat isinya:</p>
-<div id="cell-12" class="cell" data-execution_count="83">
+<div id="cell-11" class="cell" data-execution_count="83">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="83">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -420,7 +425,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Ada satu data kategorik, yaitu <code>ocean_proximity</code>. Mari kita liat jenis-jenisnya (kategorinya):</p>
-<div id="cell-14" class="cell" data-execution_count="84">
+<div id="cell-13" class="cell" data-execution_count="84">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ocean_proximity"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="84">
 <pre><code>ocean_proximity
@@ -433,7 +438,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 <p>Apakah ada <em>missing value</em>?</p>
-<div id="cell-16" class="cell" data-execution_count="85">
+<div id="cell-15" class="cell" data-execution_count="85">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="85">
 <pre><code>longitude               0
@@ -449,13 +454,13 @@ ocean_proximity         0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-17" class="cell" data-execution_count="86">
+<div id="cell-16" class="cell" data-execution_count="86">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">"total_bedrooms"</span>].isna()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="86">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -640,41 +645,41 @@ dtype: int64</code></pre>
 <li><span class="math inline">\(1\)</span>, apabila data aslinya pada baris tersebut adalah <span class="math inline">\(D_i\)</span></li>
 <li><span class="math inline">\(0\)</span> apabila bukan <span class="math inline">\(D_i\)</span></li>
 </ul>
-<div id="cell-25" class="cell" data-execution_count="87">
+<div id="cell-24" class="cell" data-execution_count="87">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-26" class="cell" data-execution_count="88">
+<div id="cell-25" class="cell" data-execution_count="88">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> OneHotEncoder()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-27" class="cell" data-execution_count="89">
+<div id="cell-26" class="cell" data-execution_count="89">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>hasil_onehot <span class="op">=</span> encoder.fit_transform(df[[<span class="st">"ocean_proximity"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="90">
+<div id="cell-27" class="cell" data-execution_count="90">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(encoder.categories_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[array(['&lt;1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'],
       dtype=object)]</code></pre>
 </div>
 </div>
-<div id="cell-29" class="cell" data-execution_count="91">
+<div id="cell-28" class="cell" data-execution_count="91">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(encoder.categories_[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['&lt;1H OCEAN' 'INLAND' 'ISLAND' 'NEAR BAY' 'NEAR OCEAN']</code></pre>
 </div>
 </div>
-<div id="cell-30" class="cell" data-execution_count="92">
+<div id="cell-29" class="cell" data-execution_count="92">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>kolom_encoding <span class="op">=</span> <span class="bu">list</span>(encoder.categories_[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="93">
+<div id="cell-30" class="cell" data-execution_count="93">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kolom_encoding)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['&lt;1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN']</code></pre>
 </div>
 </div>
-<div id="cell-32" class="cell" data-execution_count="94">
+<div id="cell-31" class="cell" data-execution_count="94">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>onehot_array <span class="op">=</span> hasil_onehot.toarray()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-33" class="cell" data-execution_count="95">
+<div id="cell-32" class="cell" data-execution_count="95">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(onehot_array)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[0. 0. 0. 1. 0.]
@@ -686,16 +691,16 @@ dtype: int64</code></pre>
  [0. 1. 0. 0. 0.]]</code></pre>
 </div>
 </div>
-<div id="cell-34" class="cell" data-execution_count="96">
+<div id="cell-33" class="cell" data-execution_count="96">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>onehot_df <span class="op">=</span> pd.DataFrame(onehot_array, columns<span class="op">=</span>kolom_encoding)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-35" class="cell" data-execution_count="97">
+<div id="cell-34" class="cell" data-execution_count="97">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>onehot_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="97">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -802,16 +807,16 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-36" class="cell" data-execution_count="98">
+<div id="cell-35" class="cell" data-execution_count="98">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.concat([df, onehot_df], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-37" class="cell" data-execution_count="99">
+<div id="cell-36" class="cell" data-execution_count="99">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="99">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1038,16 +1043,16 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-38" class="cell" data-execution_count="100">
+<div id="cell-37" class="cell" data-execution_count="100">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop([<span class="st">"ocean_proximity"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-39" class="cell" data-execution_count="101">
+<div id="cell-38" class="cell" data-execution_count="101">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="101">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1267,26 +1272,26 @@ dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="metode-imputasi">Metode Imputasi</h2>
 <section id="median" class="level3">
 <h3 class="anchored" data-anchor-id="median">Median</h3>
-<div id="cell-43" class="cell" data-execution_count="102">
+<div id="cell-42" class="cell" data-execution_count="102">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df_fill_median <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-44" class="cell" data-execution_count="103">
+<div id="cell-43" class="cell" data-execution_count="103">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"total_bedrooms"</span>].median()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="103">
 <pre><code>435.0</code></pre>
 </div>
 </div>
-<div id="cell-45" class="cell" data-execution_count="104">
+<div id="cell-44" class="cell" data-execution_count="104">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>bedrooms_median <span class="op">=</span> df[<span class="st">"total_bedrooms"</span>].median()</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bedrooms_median)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>435.0</code></pre>
 </div>
 </div>
-<div id="cell-46" class="cell" data-execution_count="105">
+<div id="cell-45" class="cell" data-execution_count="105">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_fill_median[<span class="st">"total_bedrooms"</span>] <span class="op">=</span> df_fill_median[<span class="st">"total_bedrooms"</span>].fillna(bedrooms_median)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-47" class="cell" data-execution_count="106">
+<div id="cell-46" class="cell" data-execution_count="106">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>df_fill_median.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="106">
 <pre><code>longitude             0
@@ -1307,23 +1312,23 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Cara lain, menggunakan scikit-learn:</p>
-<div id="cell-49" class="cell" data-execution_count="107">
+<div id="cell-48" class="cell" data-execution_count="107">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>df_fill_median2 <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-50" class="cell" data-execution_count="108">
+<div id="cell-49" class="cell" data-execution_count="108">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-51" class="cell" data-execution_count="109">
+<div id="cell-50" class="cell" data-execution_count="109">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>median_imputer <span class="op">=</span> SimpleImputer(</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'median'</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-52" class="cell" data-execution_count="110">
+<div id="cell-51" class="cell" data-execution_count="110">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df_fill_median2[[<span class="st">"total_bedrooms"</span>]] <span class="op">=</span> median_imputer.fit_transform(</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    df_fill_median2[[<span class="st">"total_bedrooms"</span>]]</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-53" class="cell" data-execution_count="111">
+<div id="cell-52" class="cell" data-execution_count="111">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df_fill_median2.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="111">
 <pre><code>longitude             0
@@ -1346,33 +1351,33 @@ dtype: int64</code></pre>
 </section>
 <section id="modus" class="level3">
 <h3 class="anchored" data-anchor-id="modus">Modus</h3>
-<div id="cell-55" class="cell" data-execution_count="112">
+<div id="cell-54" class="cell" data-execution_count="112">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>df_fill_mode <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-56" class="cell" data-execution_count="113">
+<div id="cell-55" class="cell" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"total_bedrooms"</span>].mode()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="113">
 <pre><code>0    280.0
 Name: total_bedrooms, dtype: float64</code></pre>
 </div>
 </div>
-<div id="cell-57" class="cell" data-execution_count="114">
+<div id="cell-56" class="cell" data-execution_count="114">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"total_bedrooms"</span>].mode()[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="114">
 <pre><code>280.0</code></pre>
 </div>
 </div>
-<div id="cell-58" class="cell" data-execution_count="115">
+<div id="cell-57" class="cell" data-execution_count="115">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>bedrooms_mode <span class="op">=</span> df[<span class="st">"total_bedrooms"</span>].mode()[<span class="dv">0</span>]</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bedrooms_mode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>280.0</code></pre>
 </div>
 </div>
-<div id="cell-59" class="cell" data-execution_count="116">
+<div id="cell-58" class="cell" data-execution_count="116">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df_fill_mode[<span class="st">"total_bedrooms"</span>] <span class="op">=</span> df_fill_mode[<span class="st">"total_bedrooms"</span>].fillna(bedrooms_mode)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-60" class="cell" data-execution_count="117">
+<div id="cell-59" class="cell" data-execution_count="117">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>df_fill_mode.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="117">
 <pre><code>longitude             0
@@ -1393,20 +1398,20 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Cara lain, menggunakan scikit-learn:</p>
-<div id="cell-62" class="cell" data-execution_count="118">
+<div id="cell-61" class="cell" data-execution_count="118">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df_fill_mode2 <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-63" class="cell" data-execution_count="119">
+<div id="cell-62" class="cell" data-execution_count="119">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>mode_imputer <span class="op">=</span> SimpleImputer(</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'most_frequent'</span></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-64" class="cell" data-execution_count="120">
+<div id="cell-63" class="cell" data-execution_count="120">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>df_fill_mode2[[<span class="st">"total_bedrooms"</span>]] <span class="op">=</span> mode_imputer.fit_transform(</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    df_fill_mode2[[<span class="st">"total_bedrooms"</span>]]</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-65" class="cell" data-execution_count="121">
+<div id="cell-64" class="cell" data-execution_count="121">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df_fill_mode2.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="121">
 <pre><code>longitude             0
@@ -1429,32 +1434,32 @@ dtype: int64</code></pre>
 </section>
 <section id="mean-rata-rata" class="level3">
 <h3 class="anchored" data-anchor-id="mean-rata-rata">Mean (rata-rata)</h3>
-<div id="cell-67" class="cell" data-execution_count="122">
+<div id="cell-66" class="cell" data-execution_count="122">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-68" class="cell" data-execution_count="123">
+<div id="cell-67" class="cell" data-execution_count="123">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean[<span class="st">"total_bedrooms"</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="123">
 <pre><code>537.8705525375618</code></pre>
 </div>
 </div>
-<div id="cell-69" class="cell" data-execution_count="124">
+<div id="cell-68" class="cell" data-execution_count="124">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">round</span>(df_fill_mean[<span class="st">"total_bedrooms"</span>].mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="124">
 <pre><code>538.0</code></pre>
 </div>
 </div>
-<div id="cell-70" class="cell" data-execution_count="125">
+<div id="cell-69" class="cell" data-execution_count="125">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>bedrooms_mean <span class="op">=</span> np.<span class="bu">round</span>(df_fill_mean[<span class="st">"total_bedrooms"</span>].mean())</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bedrooms_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>538.0</code></pre>
 </div>
 </div>
-<div id="cell-71" class="cell" data-execution_count="126">
+<div id="cell-70" class="cell" data-execution_count="126">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean[<span class="st">"total_bedrooms"</span>] <span class="op">=</span> df_fill_mean[<span class="st">"total_bedrooms"</span>].fillna(bedrooms_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-72" class="cell" data-execution_count="127">
+<div id="cell-71" class="cell" data-execution_count="127">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="127">
 <pre><code>longitude             0
@@ -1475,20 +1480,20 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Cara lain, menggunakan scikit-learn:</p>
-<div id="cell-74" class="cell" data-execution_count="128">
+<div id="cell-73" class="cell" data-execution_count="128">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean2 <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-75" class="cell" data-execution_count="129">
+<div id="cell-74" class="cell" data-execution_count="129">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>mean_imputer <span class="op">=</span> SimpleImputer(</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'mean'</span></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-76" class="cell" data-execution_count="130">
+<div id="cell-75" class="cell" data-execution_count="130">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean2[[<span class="st">"total_bedrooms"</span>]] <span class="op">=</span> mean_imputer.fit_transform(</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    df_fill_mean2[[<span class="st">"total_bedrooms"</span>]]</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-77" class="cell" data-execution_count="131">
+<div id="cell-76" class="cell" data-execution_count="131">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>df_fill_mean2.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="131">
 <pre><code>longitude             0
@@ -1511,23 +1516,23 @@ dtype: int64</code></pre>
 </section>
 <section id="knnimputer" class="level3">
 <h3 class="anchored" data-anchor-id="knnimputer">KNNImputer</h3>
-<div id="cell-79" class="cell" data-execution_count="132">
+<div id="cell-78" class="cell" data-execution_count="132">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> KNNImputer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-80" class="cell" data-execution_count="133">
+<div id="cell-79" class="cell" data-execution_count="133">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>knn_imputer <span class="op">=</span> KNNImputer(n_neighbors<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-81" class="cell" data-execution_count="134">
+<div id="cell-80" class="cell" data-execution_count="134">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>df_fill_knn <span class="op">=</span> df.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>KNN Imputer memerlukan kolom-kolom lainnya sebagai acuan, dan hanya bisa bekerja dengan data numerik. Sehingga, kita perlu mem-filter terlebih dahulu kolom-kolom numerik dari dataset kita.</p>
-<div id="cell-83" class="cell" data-execution_count="135">
+<div id="cell-82" class="cell" data-execution_count="135">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>df_fill_knn.select_dtypes(include<span class="op">=</span><span class="st">'number'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="135">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1742,7 +1747,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-84" class="cell" data-execution_count="136">
+<div id="cell-83" class="cell" data-execution_count="136">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>df_fill_knn.select_dtypes(include<span class="op">=</span><span class="st">'number'</span>).columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="136">
 <pre><code>Index(['longitude', 'latitude', 'housing_median_age', 'total_rooms',
@@ -1752,13 +1757,13 @@ dtype: int64</code></pre>
       dtype='object')</code></pre>
 </div>
 </div>
-<div id="cell-85" class="cell" data-execution_count="137">
+<div id="cell-84" class="cell" data-execution_count="137">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>num_col <span class="op">=</span> df_fill_knn.select_dtypes(include<span class="op">=</span><span class="st">'number'</span>).columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-86" class="cell" data-execution_count="138">
+<div id="cell-85" class="cell" data-execution_count="138">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>df_fill_knn[num_col] <span class="op">=</span> knn_imputer.fit_transform(df_fill_knn[num_col])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-87" class="cell" data-execution_count="139">
+<div id="cell-86" class="cell" data-execution_count="139">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>df_fill_knn.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="139">
 <pre><code>longitude             0
@@ -1790,16 +1795,16 @@ dtype: int64</code></pre>
 <li>Compute the sum of squared errors between the reconstructed and the original data, for each method and each proportion of missing data.</li>
 </ol>
 <p>Langkah pertama, kita perlu memperoleh sample dari dataset kita yang tidak mengandung <em>missing value</em>, yang bisa disebut <em>ground truth</em>. Cara termudah adalah dengan menghapus baris-baris yang memiliki <em>missing value</em> (biasanya dipilih lagi sample hanya sebagian baris, tapi di sini tidak kita lakukan):</p>
-<div id="cell-91" class="cell" data-execution_count="140">
+<div id="cell-90" class="cell" data-execution_count="140">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df_ground_truth <span class="op">=</span> df.dropna()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-92" class="cell" data-execution_count="141">
+<div id="cell-91" class="cell" data-execution_count="141">
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>df_ground_truth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="141">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2015,10 +2020,10 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Selanjutnya, kita perlu membolong-bolongi dataset ini, agar sekian persen diisi <em>missing value</em>.</p>
-<div id="cell-94" class="cell" data-execution_count="142">
+<div id="cell-93" class="cell" data-execution_count="142">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-95" class="cell" data-execution_count="143">
+<div id="cell-94" class="cell" data-execution_count="143">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> missing_value_generator(df_original, percentage):</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>    df_miss <span class="op">=</span> df_original.copy()</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>    baris, kolom <span class="op">=</span> df_miss.shape</span>
@@ -2035,10 +2040,10 @@ dtype: int64</code></pre>
 <span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_miss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-96" class="cell" data-execution_count="144">
+<div id="cell-95" class="cell" data-execution_count="144">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>df_miss_5 <span class="op">=</span> missing_value_generator(df, <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-97" class="cell" data-execution_count="145">
+<div id="cell-96" class="cell" data-execution_count="145">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>df_miss_5.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="145">
 <pre><code>longitude             1021
@@ -2058,7 +2063,7 @@ NEAR OCEAN             981
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-98" class="cell" data-execution_count="146">
+<div id="cell-97" class="cell" data-execution_count="146">
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compare_imputation(df_ground_truth, methods, percentages):</span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>    list_missing_df <span class="op">=</span> []</span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> percent <span class="kw">in</span> percentages:</span>
@@ -2076,22 +2081,22 @@ dtype: int64</code></pre>
 <span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-99" class="cell" data-execution_count="147">
+<div id="cell-98" class="cell" data-execution_count="147">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>median_imputer <span class="op">=</span> SimpleImputer(missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'median'</span>)</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>mean_imputer <span class="op">=</span> SimpleImputer(missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'mean'</span>)</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>mode_imputer <span class="op">=</span> SimpleImputer(missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-100" class="cell" data-execution_count="148">
+<div id="cell-99" class="cell" data-execution_count="148">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>list_persen <span class="op">=</span> [<span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.15</span>, <span class="fl">0.20</span>, <span class="fl">0.25</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-101" class="cell" data-execution_count="149">
+<div id="cell-100" class="cell" data-execution_count="149">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>all_results <span class="op">=</span> compare_imputation(</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    df_ground_truth,</span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    [median_imputer, mean_imputer, mode_imputer],</span>
 <span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>    list_persen</span>
 <span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-102" class="cell" data-execution_count="150">
+<div id="cell-101" class="cell" data-execution_count="150">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>all_results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="150">
 <pre><code>[[16106399718053.193,
@@ -2111,7 +2116,7 @@ dtype: int64</code></pre>
   502638602704461.3]]</code></pre>
 </div>
 </div>
-<div id="cell-103" class="cell" data-execution_count="151">
+<div id="cell-102" class="cell" data-execution_count="151">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Median:"</span>, all_results[<span class="dv">0</span>])</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mean:"</span>, all_results[<span class="dv">1</span>])</span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Mode:"</span>, all_results[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2121,7 +2126,7 @@ Mean: [15149962314993.664, 26691038947100.4, 39993567341678.87, 54874386927172.0
 Mode: [104263768244576.97, 200631901715894.3, 302872434183477.3, 413821496079702.0, 502638602704461.3]</code></pre>
 </div>
 </div>
-<div id="cell-104" class="cell" data-execution_count="152">
+<div id="cell-103" class="cell" data-execution_count="152">
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>plt.plot(list_persen, all_results[<span class="dv">0</span>])</span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>plt.plot(list_persen, all_results[<span class="dv">1</span>])</span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>plt.plot(list_persen, all_results[<span class="dv">2</span>])</span>
@@ -2136,14 +2141,14 @@ Mode: [104263768244576.97, 200631901715894.3, 302872434183477.3, 413821496079702
 </div>
 </div>
 <p>Dari hasil tersebut, didapat bahwa secara keseluruhan, untuk setiap persentase missing values, metode imputasi dengan menggunakan mean menghasilkan SSE yang terkecil dibandingkan imputasi dengan median dan modus. Oleh karena itu, kita akan menggunakan metode imputasi menggunakan mean untuk mengisi missing value pada kolom “total_bedrooms” dari df asli.</p>
-<div id="cell-106" class="cell" data-execution_count="153">
+<div id="cell-105" class="cell" data-execution_count="153">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># melihat kembali df awal</span></span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="153">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2358,7 +2363,7 @@ Mode: [104263768244576.97, 200631901715894.3, 302872434183477.3, 413821496079702
 </div>
 </div>
 </div>
-<div id="cell-107" class="cell" data-execution_count="154">
+<div id="cell-106" class="cell" data-execution_count="154">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="154">
 <pre><code>longitude               0
@@ -2378,18 +2383,18 @@ NEAR OCEAN              0
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="cell-108" class="cell" data-execution_count="155">
+<div id="cell-107" class="cell" data-execution_count="155">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lakukan imputasi dengan metode terbaik yg telah didapat, yaitu dengan mean</span></span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'total_bedrooms'</span>]] <span class="op">=</span> mean_imputer.fit_transform(df[[<span class="st">'total_bedrooms'</span>]] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-109" class="cell" data-execution_count="156">
+<div id="cell-108" class="cell" data-execution_count="156">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="156">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -2604,7 +2609,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-110" class="cell" data-execution_count="157">
+<div id="cell-109" class="cell" data-execution_count="157">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="157">
 <pre><code>longitude             0
@@ -2626,7 +2631,7 @@ dtype: int64</code></pre>
 </div>
 <section id="export-dataframe-yang-telah-diimputasi-ke-csv" class="level3">
 <h3 class="anchored" data-anchor-id="export-dataframe-yang-telah-diimputasi-ke-csv">Export Dataframe yang telah diimputasi ke CSV</h3>
-<div id="cell-112" class="cell" data-execution_count="158">
+<div id="cell-111" class="cell" data-execution_count="158">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"housing_modified.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -2635,6 +2640,7 @@ dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="regresi-linier">Regresi Linier</h2>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2673,7 +2679,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -2705,47 +2722,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -2780,11 +2757,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

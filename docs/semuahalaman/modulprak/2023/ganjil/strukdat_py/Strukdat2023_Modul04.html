@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Modul 4 Struktur Data: Array, Searching, Sorting – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Modul 4 Struktur Data: Array, Searching, Sorting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -146,7 +146,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -165,7 +165,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
+          <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -179,7 +179,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#operasi-pada-array" id="toc-operasi-pada-array" class="nav-link active" data-scroll-target="#operasi-pada-array">Operasi pada array</a>
+  <li><a href="#modul-4-struktur-data-array-searching-sorting" id="toc-modul-4-struktur-data-array-searching-sorting" class="nav-link active" data-scroll-target="#modul-4-struktur-data-array-searching-sorting">Modul 4 Struktur Data: Array, Searching, Sorting</a>
+  <ul class="collapse">
+  <li><a href="#operasi-pada-array" id="toc-operasi-pada-array" class="nav-link" data-scroll-target="#operasi-pada-array">Operasi pada array</a>
   <ul class="collapse">
   <li><a href="#traversal" id="toc-traversal" class="nav-link" data-scroll-target="#traversal">Traversal</a></li>
   <li><a href="#insertion" id="toc-insertion" class="nav-link" data-scroll-target="#insertion">“Insertion”</a></li>
@@ -197,6 +199,7 @@ window.Quarto = {
   <li><a href="#selection-sort" id="toc-selection-sort" class="nav-link" data-scroll-target="#selection-sort">Selection Sort</a></li>
   <li><a href="#merge-sort" id="toc-merge-sort" class="nav-link" data-scroll-target="#merge-sort">Merge Sort</a></li>
   <li><a href="#quicksort" id="toc-quicksort" class="nav-link" data-scroll-target="#quicksort">Quicksort</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -223,42 +226,44 @@ window.Quarto = {
 </header>
 
 
+<section id="modul-4-struktur-data-array-searching-sorting" class="level1">
+<h1>Modul 4 Struktur Data: Array, Searching, Sorting</h1>
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2023/ganjil/strukdat_py/strukdat2023.html">Struktur Data (dengan Python)</a></p>
 <p>Pada pertemuan ini, kita akan membahas tentang operasi pada array, termasuk melihat beberapa algoritma-algoritma searching dan sorting pada array.</p>
 <section id="operasi-pada-array" class="level2">
 <h2 class="anchored" data-anchor-id="operasi-pada-array">Operasi pada array</h2>
 <p>Sebagian besar pembahasan di praktikum kali ini bisa menggunakan <code>list</code> biasa atau menggunakan <em>array</em> dari <code>numpy</code>, terutama materi searching dan sorting. Namun, untuk materi operasi pada <em>array</em>, kita akan menggunakan <em>array</em> dari <code>numpy</code>.</p>
-<div id="cell-6" class="cell" data-execution_count="45">
+<div id="cell-5" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="traversal" class="level3">
 <h3 class="anchored" data-anchor-id="traversal">Traversal</h3>
 <p>Traversal pada <em>array</em> adalah “mengunjungi” elemen <em>array</em> satu per satu, dari awal sampai akhir. Tujuannya bisa untuk print saja, atau untuk menjumlahkan, atau yang lain. Apapun tujuannya, kalau itu melibatkan mengunjungi elemen <em>array</em> satu per satu, maka itu termasuk traversal.</p>
 <p>Kita bisa mendeklarasikan suatu <em>array</em> dengan ukurannya saja, kemudian mengisi elemennya satu-per-satu.</p>
-<div id="cell-10" class="cell" data-execution_count="49">
+<div id="cell-9" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.empty(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="50">
+<div id="cell-10" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A) <span class="co"># isinya masih garbage value</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[0.  0.5 1.  1.5 2. ]</code></pre>
 </div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="51">
+<div id="cell-11" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">1</span>] <span class="op">=</span> <span class="dv">20</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">2</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">3</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">3</span>] <span class="op">=</span> <span class="dv">7</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">4</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">11</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="52">
+<div id="cell-12" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[  5.  20.  -3.   7. -11.]</code></pre>
 </div>
 </div>
 <p>Alternatifnya, kita bisa langsung saja menentukan elemen <em>array</em> sejak awal dibuat.</p>
-<div id="cell-15" class="cell" data-execution_count="46">
+<div id="cell-14" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([<span class="dv">5</span>, <span class="dv">20</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">7</span>, <span class="op">-</span><span class="dv">11</span>])</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -266,7 +271,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Berikut beberapa contoh traversal pada <em>array</em>.</p>
-<div id="cell-17" class="cell" data-execution_count="47">
+<div id="cell-16" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(A)):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(A[i])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -277,7 +282,7 @@ window.Quarto = {
 -11</code></pre>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="48">
+<div id="cell-17" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(A)):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">sum</span> <span class="op">+=</span> A[i]</span>
@@ -292,19 +297,19 @@ window.Quarto = {
 <p><em>Array</em> memiliki ukuran yang tetap. Terkadang, ketika kita membuat <em>array</em>, belum tentu keseluruhan <em>array</em> itu langsung kita gunakan semua. Bisa jadi, di awal kita hanya menggunakan sebagian saja, namun nantinya akan kita gunakan seutuhnya. Sehingga, untuk mengelola data yang kita simpan di dalam <em>array</em> (sebagai struktur data), perlu ada mekanisme “memasukkan” dan “menghapus” data pada <em>array</em>.</p>
 <p>(Pembahasan “insertion” dan “deletion” pada <em>array</em> mungkin agak aneh, tetapi sangat masuk akal untuk berbagai struktur data yang akan kita pelajari ke depannya, sehingga kita bahas terlebih dahulu untuk <em>array</em>.</p>
 <p>Misalkan kita hanya mendeklarasikan suatu <em>array</em>. Belum ada data yang dimasukkan, sehingga kita bisa menyimpan variabel untuk “ukuran” <em>array</em> saat ini adalah nol.</p>
-<div id="cell-23" class="cell" data-execution_count="60">
+<div id="cell-22" class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.empty(<span class="dv">5</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Saat ini, <em>array</em> tersebut masih sepenuhnya berisi <em>garbage value</em>.</p>
-<div id="cell-25" class="cell" data-execution_count="61">
+<div id="cell-24" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[13. 20.  3.  7. 11.]</code></pre>
 </div>
 </div>
 <p>Kita bisa memasukkan elemen, misalnya 13, seperti berikut.</p>
-<div id="cell-27" class="cell" data-execution_count="62">
+<div id="cell-26" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># insert 97</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>B[B_size] <span class="op">=</span> <span class="dv">97</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -313,49 +318,49 @@ window.Quarto = {
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Dengan begitu, <em>array</em> menjadi seperti ini:</p>
-<div id="cell-29" class="cell" data-execution_count="63">
+<div id="cell-28" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[97. 20.  3.  7. 11.]</code></pre>
 </div>
 </div>
 <p>Perhatikan nilai variabel “ukuran” yang kita simpan:</p>
-<div id="cell-31" class="cell" data-execution_count="64">
+<div id="cell-30" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1</code></pre>
 </div>
 </div>
 <p>Saat ini, baru satu elemen yang kita masukkan ke dalam <em>array</em>. Sehingga, semua elemen lainnya itu tidak kita anggap, karena masih berupa <em>garbage value</em> (data sampah).</p>
-<div id="cell-33" class="cell" data-execution_count="65">
+<div id="cell-32" class="cell" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># insert -17</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>B[B_size] <span class="op">=</span> <span class="op">-</span><span class="dv">17</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-34" class="cell" data-execution_count="66">
+<div id="cell-33" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 97. -17.   3.   7.  11.]</code></pre>
 </div>
 </div>
-<div id="cell-35" class="cell" data-execution_count="67">
+<div id="cell-34" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2</code></pre>
 </div>
 </div>
-<div id="cell-36" class="cell" data-execution_count="68">
+<div id="cell-35" class="cell" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># insert 43</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>B[B_size] <span class="op">=</span> <span class="dv">43</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-37" class="cell" data-execution_count="69">
+<div id="cell-36" class="cell" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 97. -17.  43.   7.  11.]</code></pre>
 </div>
 </div>
-<div id="cell-38" class="cell" data-execution_count="70">
+<div id="cell-37" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3</code></pre>
@@ -365,17 +370,17 @@ window.Quarto = {
 <section id="deletion" class="level3">
 <h3 class="anchored" data-anchor-id="deletion">“Deletion”</h3>
 <p>Selain memasukkan data, kita juga bisa menghapus data. Kalau kita hanya ingin menghapus elemen “terakhir” (di data kita yaitu 43), maka kita tinggal “melupakan” elemen tersebut (sehingga statusnya menjadi <em>garbage value</em>) dengan mengurangi variabel “ukuran”:</p>
-<div id="cell-41" class="cell" data-execution_count="71">
+<div id="cell-40" class="cell" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># delete elemen "terakhir" (dari yang sudah kita isi)</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">=</span> B_size <span class="op">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-42" class="cell" data-execution_count="72">
+<div id="cell-41" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 97. -17.  43.   7.  11.]</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-execution_count="73">
+<div id="cell-42" class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2</code></pre>
@@ -383,7 +388,7 @@ window.Quarto = {
 </div>
 <p>Memang <em>array</em> nya tidak berubah sama sekali, tapi ini masalah mindset (hehe). Tadinya, kita mengakui bahwa <em>array</em> berisi tiga buah data yang kita simpan, tetapi sekarang kita menganggap hanya berisi dua buah data. Sehingga, data ketiga yang tadi kita anggap data, itu sekarang menjadi <em>garbage value</em> yang bukan tanggung jawab kita.</p>
 <p>Mari kita coba insert beberapa elemen lagi.</p>
-<div id="cell-46" class="cell" data-execution_count="74">
+<div id="cell-45" class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># insert 53, -98, 71</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>B[B_size] <span class="op">=</span> <span class="dv">53</span></span>
@@ -395,32 +400,32 @@ window.Quarto = {
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>B[B_size] <span class="op">=</span> <span class="dv">71</span></span>
 <span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-47" class="cell" data-execution_count="75">
+<div id="cell-46" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 97. -17.  53. -98.  71.]</code></pre>
 </div>
 </div>
-<div id="cell-48" class="cell" data-execution_count="76">
+<div id="cell-47" class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>5</code></pre>
 </div>
 </div>
 <p>Sekarang <em>array</em> sudah penuh. Bagaimana kalau misalnya kita ingin menghapus elemen pada indeks 2 (yaitu 53)? Kita perlu menggeser elemen indeks 3 menjadi indeks 2, kemudian indeks 4 menjadi indeks 3, sehingga “ukuran” <em>array</em> menjadi berkurang satu (elemen terakhir menjadi <em>garbage value</em>).</p>
-<div id="cell-50" class="cell" data-execution_count="77">
+<div id="cell-49" class="cell" data-execution_count="77">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># delete elemen pada indeks 2</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="bu">len</span>(B)<span class="op">-</span><span class="dv">1</span>):</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    B[i] <span class="op">=</span> B[i<span class="op">+</span><span class="dv">1</span>]</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>B_size <span class="op">=</span> B_size <span class="op">-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-51" class="cell" data-execution_count="78">
+<div id="cell-50" class="cell" data-execution_count="78">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[ 97. -17. -98.  71.  71.]</code></pre>
 </div>
 </div>
-<div id="cell-52" class="cell" data-execution_count="79">
+<div id="cell-51" class="cell" data-execution_count="79">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(B_size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4</code></pre>
@@ -440,7 +445,7 @@ window.Quarto = {
 <section id="linear-search" class="level3">
 <h3 class="anchored" data-anchor-id="linear-search">Linear Search</h3>
 <p>Linear search adalah algoritma searching di mana setiap elemen pada list dibandingkan satu per satu dengan key. Pada algoritma ini, kita akan mencoba untuk mencari keberadaan key pada list, serta index dari key tersebut (jika ada). Kalau key tidak ditemukan, kita bisa return -1 (memang sudah tradisi untuk menandakan ketiadaan elemen pada <em>array</em>, lagipula mustahil ada indeks -1 pada <em>array</em>).</p>
-<div id="cell-59" class="cell" data-execution_count="38">
+<div id="cell-58" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> linear_search(arr, key):</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(arr)):</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> arr[i] <span class="op">==</span> key:</span>
@@ -449,7 +454,7 @@ window.Quarto = {
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># sampai sini, berarti elemen tidak ditemukan</span></span>
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-60" class="cell" data-execution_count="39">
+<div id="cell-59" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>linear_search(A, <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="39">
@@ -460,7 +465,7 @@ window.Quarto = {
 <section id="binary-search" class="level3">
 <h3 class="anchored" data-anchor-id="binary-search">Binary Search</h3>
 <p>Binary search adalah algoritma searching dimana suatu list dicek apakah nilai tengahnya adalah key. Jika tidak, list dipecah dua dan searching dilanjut tergantung posisi key relatif dari nilai tengah tersebut (apakah lebih kecil atau lebih besar).</p>
-<div id="cell-63" class="cell" data-execution_count="40">
+<div id="cell-62" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> binary_search(arr, key):</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    left_idx <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    right_idx <span class="op">=</span> <span class="bu">len</span>(A)</span>
@@ -476,7 +481,7 @@ window.Quarto = {
 <span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># keluar loop berarti tidak ditemukan</span></span>
 <span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-64" class="cell" data-execution_count="41">
+<div id="cell-63" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">16</span>, <span class="dv">18</span>, <span class="dv">20</span>]</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>binary_search(A, <span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="41">
@@ -499,7 +504,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="bubble-sort">Bubble Sort</h3>
 <p>Bubble sort adalah algoritma sorting yang cara kerjanya adalah dengan membandingkan elemen yang bersebelahan secara berurutan, lalu ditukar jika urutannya salah. Bubble sort melibatkan beberapa kali “pass”, yaitu beberapa kali melihat <em>array</em> dari awal sampai akhir.</p>
 <p>Tentunya, bubble sort akan berhenti ketika <em>array</em> sudah terurut. Namun, bagaimana cara mengetahui apakah <em>array</em> sudah terurut? Salah satu caranya, di tiap <em>pass</em>, kita bisa menganggap <em>array</em> sudah terurut (ditandai dengan variabel <em>boolean</em>), lalu melakukan <em>bubble sort</em>, dan apabila ada elemen yang masih belum terurut, maka ketika ditukar, kita menandai <em>array</em> tersebut belum terurut. Sedangkan, apabila semua elemen sudah terurut (tidak terjadi pertukaran), variabel <em>boolean</em> tetap bernilai <code>True</code>, sehingga <em>array</em> sudah terurut dan bubble sort sudah selesai. Untuk itu, digunakan while loop.</p>
-<div id="cell-70" class="cell" data-execution_count="32">
+<div id="cell-69" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bubble_sort_while(A):</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># di awal, array belum terurut</span></span>
@@ -516,7 +521,7 @@ window.Quarto = {
 <span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>                A[i], A[i<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> A[i<span class="op">+</span><span class="dv">1</span>], A[i]</span>
 <span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># pass selesai</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-71" class="cell" data-execution_count="34">
+<div id="cell-70" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>bubble_sort_while(A)</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -525,7 +530,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Sebenarnya, banyaknya pass tidak akan melebihi <span class="math inline">\((n-1)\)</span>. Sehingga, daripada menggunakan while loop dan menandai <em>array</em>, kita bisa menggunakan for loop saja, untuk pass ke-i.</p>
-<div id="cell-73" class="cell" data-execution_count="36">
+<div id="cell-72" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bubble_sort_for(A):</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Lakukan pass sebanyak (n-1) kali, yaitu pass ke-i, i=0, 1, ..., (n-2)</span></span>
@@ -537,7 +542,7 @@ window.Quarto = {
 <span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Maka tukar kedua elemen agar urutannya benar</span></span>
 <span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>                A[j], A[j<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> A[j<span class="op">+</span><span class="dv">1</span>], A[j]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-74" class="cell" data-execution_count="37">
+<div id="cell-73" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>bubble_sort_for(A)</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -549,7 +554,7 @@ window.Quarto = {
 <section id="insertion-sort" class="level3">
 <h3 class="anchored" data-anchor-id="insertion-sort">Insertion Sort</h3>
 <p>Cara kerja dari insertion sort adalah dengan membandingkan elemen baru dengan elemen sebelumnya dan ditempatkan di tempat yang sesuai. Insertion sort mulai dari indeks ke-1, yang mana elemen pada indeks tersebut dibandingkan dengan indeks sebelumnya. Jika posisinya tidak sesuai, maka elemen ditukar, dan seterusnya hingga posisinya sesuai. Lalu iterasi dilanjutkan dengan elemen indeks ke-2, hingga elemen telah diiterasi semua.</p>
-<div id="cell-77" class="cell" data-execution_count="9">
+<div id="cell-76" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insertion_sort(A):</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Untuk tiap elemen di array... (kecuali elemen paling pertama, indeks 0)</span></span>
@@ -565,7 +570,7 @@ window.Quarto = {
 <span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> j <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-78" class="cell" data-execution_count="10">
+<div id="cell-77" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>insertion_sort(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -576,7 +581,7 @@ window.Quarto = {
 <section id="selection-sort" class="level3">
 <h3 class="anchored" data-anchor-id="selection-sort">Selection Sort</h3>
 <p>Selection sort melakukan sorting dengan memasukkan nilai minimum dari suatu list. Jika diberikan suatu list <span class="math inline">\(A[0..(n-1)]\)</span>, maka algoritma mencari nilai minimum dari <span class="math inline">\(A[0..(n-1)]\)</span>, lalu ditukar dengan elemen <span class="math inline">\(A[0]\)</span>. Selanjutnya algoritma mencari nilai minimum dari <span class="math inline">\(A[1..(n-1)]\)</span>, lalu ditukar dengan elemen <span class="math inline">\(A[1]\)</span>, dan seterusnya.</p>
-<div id="cell-81" class="cell" data-execution_count="11">
+<div id="cell-80" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> selection_sort(A):</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Untuk tiap elemen ke-i, akan ditukarkan dengan elemen minimum yang</span></span>
@@ -597,7 +602,7 @@ window.Quarto = {
 <span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Tukar elemen minimum dengan elemen ke-i</span></span>
 <span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>        A[i], A[min_idx] <span class="op">=</span> A[min_idx], A[i]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-82" class="cell" data-execution_count="12">
+<div id="cell-81" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>selection_sort(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
@@ -608,7 +613,7 @@ window.Quarto = {
 <section id="merge-sort" class="level3">
 <h3 class="anchored" data-anchor-id="merge-sort">Merge Sort</h3>
 <p>Merge sort melakukan sort dengan memecah list menjadi dua secara rekursif. Lalu sorting dilakukan dengan melakukan merge pada hasil pecahan list. Merge adalah proses pada dua list yang menyatukan dua list terurut menjadi satu list terurut. Merge dilakukan hingga list utuh kembali.</p>
-<div id="cell-85" class="cell" data-execution_count="80">
+<div id="cell-84" class="cell" data-execution_count="80">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> merge_sort(A):</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(A)</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Seandainya hanya berisi satu elemen, tidak perlu dilakukan apa-apa</span></span>
@@ -660,7 +665,7 @@ window.Quarto = {
 <span id="cb65-49"><a href="#cb65-49" aria-hidden="true" tabindex="-1"></a>            j <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb65-50"><a href="#cb65-50" aria-hidden="true" tabindex="-1"></a>            k <span class="op">+=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-86" class="cell" data-execution_count="81">
+<div id="cell-85" class="cell" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>merge_sort(A)</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -687,7 +692,7 @@ window.Quarto = {
 <p>Untuk proses “partisi”, ada dua cara utama untuk melakukannya (algoritma partisi), yaitu algoritma partisi Hoare dan algoritma partisi Lomuto.</p>
 <section id="quicksort-dengan-partisi-hoare" class="level4">
 <h4 class="anchored" data-anchor-id="quicksort-dengan-partisi-hoare">Quicksort dengan partisi Hoare</h4>
-<div id="cell-90" class="cell" data-execution_count="17">
+<div id="cell-89" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition_hoare(A, left_idx, right_idx):</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Buat "pointer" low dan high (simpan indeksnya saja)</span></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    low_idx <span class="op">=</span> left_idx</span>
@@ -750,7 +755,7 @@ window.Quarto = {
 <span id="cb69-60"><a href="#cb69-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># supaya jadi tahu di mana garis baginya</span></span>
 <span id="cb69-61"><a href="#cb69-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pivot_idx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-91" class="cell" data-execution_count="15">
+<div id="cell-90" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quicksort_hoare(A, left_idx<span class="op">=</span><span class="va">None</span>, right_idx<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kalau left_idx dan right_idx tidak diinput, otomatis menjadi None</span></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dan kalau begitu, berarti sebenarnya quicksort mau dilakukan pada</span></span>
@@ -769,7 +774,7 @@ window.Quarto = {
 <span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kalau sewaktu-waktu menjadi tidak wajar, berarti array kosong, berarti</span></span>
 <span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># quicksort sudah selesai dan tidak perlu dilakukan apa-apa lagi</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-92" class="cell" data-execution_count="16">
+<div id="cell-91" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>quicksort_hoare(A)</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -780,7 +785,7 @@ window.Quarto = {
 </section>
 <section id="quicksort-dengan-partisi-lomuto" class="level4">
 <h4 class="anchored" data-anchor-id="quicksort-dengan-partisi-lomuto">Quicksort dengan partisi Lomuto</h4>
-<div id="cell-94" class="cell" data-execution_count="29">
+<div id="cell-93" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> partition_lomuto(A, left_idx, right_idx):</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pilih elemen pivot, sepertinya untuk Lomuto harus elemen terakhir</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    pivot_idx <span class="op">=</span> right_idx</span>
@@ -816,7 +821,7 @@ window.Quarto = {
 <span id="cb73-33"><a href="#cb73-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># supaya jadi tahu di mana garis baginya</span></span>
 <span id="cb73-34"><a href="#cb73-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pivot_idx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-95" class="cell" data-execution_count="30">
+<div id="cell-94" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quicksort_lomuto(A, left_idx<span class="op">=</span><span class="va">None</span>, right_idx<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> left_idx <span class="op">==</span> <span class="va">None</span>:</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>        left_idx <span class="op">=</span> <span class="dv">0</span></span>
@@ -828,7 +833,7 @@ window.Quarto = {
 <span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>        quicksort_lomuto(A, left_idx, pivot_idx <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>        quicksort_lomuto(A, pivot_idx <span class="op">+</span> <span class="dv">1</span>, right_idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-96" class="cell" data-execution_count="31">
+<div id="cell-95" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>]</span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>quicksort_lomuto(A)</span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -839,6 +844,7 @@ window.Quarto = {
 <p>Perhatikan bahwa, meskipun algoritma partisi Hoare dan partisi Lomuto sangat berbeda, ketika di fungsi <code>quicksort</code> (<code>quicksort_hoare</code> dan <code>quicksort_lomuto</code>), kodenya sama, hanya berbeda di fungsi partisi yang digunakan.</p>
 
 
+</section>
 </section>
 </section>
 </section>
@@ -879,7 +885,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -911,47 +928,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -986,11 +963,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
+      return note.innerHTML;
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

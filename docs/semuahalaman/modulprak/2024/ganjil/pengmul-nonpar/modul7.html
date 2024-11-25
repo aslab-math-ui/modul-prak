@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-11-26">
+<meta name="description" content="Offline di Departemen Matematika">
+
+<title>Lab Praktikum Departemen Matematika FMIPA UI - Pertemuan 7: MANOVA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Lab Praktikum Departemen Matematika FMIPA UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/praktikum.html"> 
+<span class="menu-text">Praktikum</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#anova" id="toc-anova" class="nav-link active" data-scroll-target="#anova">ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#manual" id="toc-manual" class="nav-link" data-scroll-target="#manual">Manual</a></li>
+  <li><a href="#fungsi-aov" id="toc-fungsi-aov" class="nav-link" data-scroll-target="#fungsi-aov">Fungsi <code>aov()</code></a></li>
+  </ul></li>
+  <li><a href="#manova" id="toc-manova" class="nav-link" data-scroll-target="#manova">MANOVA</a>
+  <ul class="collapse">
+  <li><a href="#manual-1" id="toc-manual-1" class="nav-link" data-scroll-target="#manual-1">Manual</a>
+  <ul class="collapse">
+  <li><a href="#matriks-h" id="toc-matriks-h" class="nav-link" data-scroll-target="#matriks-h">Matriks H</a></li>
+  <li><a href="#matriks-e" id="toc-matriks-e" class="nav-link" data-scroll-target="#matriks-e">Matriks E</a></li>
+  </ul></li>
+  <li><a href="#fungsi-manova" id="toc-fungsi-manova" class="nav-link" data-scroll-target="#fungsi-manova">Fungsi <code>manova()</code></a></li>
+  <li><a href="#wilks-lambda" id="toc-wilks-lambda" class="nav-link" data-scroll-target="#wilks-lambda">Wilk’s Lambda</a></li>
+  <li><a href="#roys-test" id="toc-roys-test" class="nav-link" data-scroll-target="#roys-test">Roy’s Test</a></li>
+  <li><a href="#pillai-test" id="toc-pillai-test" class="nav-link" data-scroll-target="#pillai-test">Pillai Test</a></li>
+  <li><a href="#lawley-hotelling-test" id="toc-lawley-hotelling-test" class="nav-link" data-scroll-target="#lawley-hotelling-test">Lawley-Hotelling Test</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Pertemuan 7: MANOVA</h1>
+<p class="subtitle lead">Pengantar Multivariat</p>
+</div>
+
+<div>
+  <div class="description">
+    Offline di Departemen Matematika
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 26, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="anova" class="level1">
+<h1>ANOVA</h1>
+<p>Hipotesis</p>
+<p><span class="math inline">\(H_0: \mu_1 = \mu_2 = ... = \mu_k\)</span> <span class="math inline">\(H_1: \text{Tidak Demikian}\)</span></p>
+<p>Statistik Uji:</p>
+<p><img src="static\fstat_anova.png" class="img-fluid"></p>
+<p>Aturan Penolakan:</p>
+<p>Tolak <span class="math inline">\(H_0\)</span> pada tingkat <span class="math inline">\(\alpha\)</span> jika <span class="math inline">\(F &gt; F_\alpha\)</span></p>
+<section id="manual" class="level2">
+<h2 class="anchored" data-anchor-id="manual">Manual</h2>
+<p>Kita akan menggunakan data dari tabel 6.2 buku Rencher (Rootstock Data)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">"https://raw.githubusercontent.com/kmyafi/Multivariate-Statistics-R/main/Data/T6_2_ROOT.DAT"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sep =</span> <span class="st">""</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Rootstock'</span>, <span class="st">'y1'</span>, <span class="st">'y2'</span>, <span class="st">'y3'</span>, <span class="st">'y4'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Rootstock   y1    y2   y3    y4
+1          1 1.11 2.569 3.58 0.760
+2          1 1.19 2.928 3.75 0.821
+3          1 1.09 2.865 3.93 0.928
+4          1 1.25 3.844 3.94 1.009
+5          1 1.11 3.027 3.60 0.766
+6          1 1.08 2.336 3.51 0.726
+7          1 1.11 3.211 3.98 1.209
+8          1 1.16 3.037 3.62 0.750
+9          2 1.05 2.074 4.09 1.036
+10         2 1.17 2.885 4.06 1.094
+11         2 1.11 3.378 4.87 1.635
+12         2 1.25 3.906 4.98 1.517
+13         2 1.17 2.782 4.38 1.197
+14         2 1.15 3.018 4.65 1.244
+15         2 1.17 3.383 4.69 1.495
+16         2 1.19 3.447 4.40 1.026
+17         3 1.07 2.505 3.76 0.912
+18         3 0.99 2.315 4.44 1.398
+19         3 1.06 2.667 4.38 1.197
+20         3 1.02 2.390 4.67 1.613
+21         3 1.15 3.021 4.48 1.476
+22         3 1.20 3.085 4.78 1.571
+23         3 1.20 3.308 4.57 1.506
+24         3 1.17 3.231 4.56 1.458
+25         4 1.22 2.838 3.89 0.944
+26         4 1.03 2.351 4.05 1.241
+27         4 1.14 3.001 4.05 1.023
+28         4 1.01 2.439 3.92 1.067
+29         4 0.99 2.199 3.27 0.693
+30         4 1.11 3.318 3.95 1.085
+31         4 1.20 3.601 4.27 1.242
+32         4 1.08 3.291 3.85 1.017
+33         5 0.91 1.532 4.04 1.084
+34         5 1.15 2.552 4.16 1.151
+35         5 1.14 3.083 4.79 1.381
+36         5 1.05 2.330 4.42 1.242
+37         5 0.99 2.079 3.47 0.673
+38         5 1.22 3.366 4.41 1.137
+39         5 1.05 2.416 4.64 1.455
+40         5 1.13 3.100 4.57 1.325
+41         6 1.11 2.813 3.76 0.800
+42         6 0.75 0.840 3.14 0.606
+43         6 1.05 2.199 3.75 0.790
+44         6 1.02 2.132 3.99 0.853
+45         6 1.05 1.949 3.34 0.610
+46         6 1.07 2.251 3.21 0.562
+47         6 1.13 3.064 3.63 0.707
+48         6 1.11 2.469 3.95 0.952</code></pre>
+</div>
+</div>
+<p>Pastikan tipe data variabel yang menyatakan anggota kelompok sebagai <code>factor</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Rootstock <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>Rootstock)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Misalkan ingin diuji apakah mean dari variabel y1 sama untuk setiap kelompok.</p>
+<p>Akan dicari nilai <span class="math inline">\(n_k\)</span>, <span class="math inline">\(\bar{y}_{1k}\)</span> dan vektor mean <span class="math inline">\(\bf{\bar{y}_1}\)</span> untuk menghitung nilai statistik uji <span class="math inline">\(F\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Jumlah Group</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"1"</span>, ])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"2"</span>, ])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>n3 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"3"</span>, ])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>n4 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"4"</span>, ])</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>n5 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"5"</span>, ])</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>n6 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"6"</span>, ])</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>mean1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"1"</span>, <span class="st">"y1"</span>]))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>mean2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"2"</span>, <span class="st">"y1"</span>]))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>mean3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"3"</span>, <span class="st">"y1"</span>]))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>mean4 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"4"</span>, <span class="st">"y1"</span>]))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>mean5 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"5"</span>, <span class="st">"y1"</span>]))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>mean6 <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"6"</span>, <span class="st">"y1"</span>]))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>overallMean <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>y1)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>SSH <span class="ot">&lt;-</span> <span class="fu">sum</span>(n1 <span class="sc">*</span> (mean1 <span class="sc">-</span> overallMean)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>             n2 <span class="sc">*</span> (mean2 <span class="sc">-</span> overallMean)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>             n3 <span class="sc">*</span> (mean3 <span class="sc">-</span> overallMean)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>             n4 <span class="sc">*</span> (mean4 <span class="sc">-</span> overallMean)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>             n5 <span class="sc">*</span> (mean5 <span class="sc">-</span> overallMean)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>             n6 <span class="sc">*</span> (mean6 <span class="sc">-</span> overallMean)<span class="sc">^</span><span class="dv">2</span>); SSH</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07356042</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>MSH <span class="ot">&lt;-</span> SSH<span class="sc">/</span>(k<span class="dv">-1</span>); MSH</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01471208</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">c</span>((<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"1"</span>, <span class="st">"y1"</span>]) <span class="sc">-</span> mean1)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>             (<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"2"</span>, <span class="st">"y1"</span>]) <span class="sc">-</span> mean2)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             (<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"3"</span>, <span class="st">"y1"</span>]) <span class="sc">-</span> mean3)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>             (<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"4"</span>, <span class="st">"y1"</span>]) <span class="sc">-</span> mean4)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>             (<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"5"</span>, <span class="st">"y1"</span>]) <span class="sc">-</span> mean5)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>             (<span class="fu">as.matrix</span>(df[df<span class="sc">$</span>Rootstock <span class="sc">==</span> <span class="st">"6"</span>, <span class="st">"y1"</span>]) <span class="sc">-</span> mean6)<span class="sc">^</span><span class="dv">2</span>)); SSE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3199875</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> SSE<span class="sc">/</span>(k<span class="sc">*</span>(n1<span class="dv">-1</span>)) ; MSE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00761875</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Fvalue <span class="ot">&lt;-</span> MSH<span class="sc">/</span>MSE; Fvalue</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.931036</code></pre>
+</div>
+</div>
+<p>Bandingkan dengan nilai <span class="math inline">\(F\)</span> tabel</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.95</span>, k<span class="dv">-1</span>, k<span class="sc">*</span>(n1<span class="dv">-1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.437693</code></pre>
+</div>
+</div>
+<p>Atau p-value</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(Fvalue, k<span class="dv">-1</span>, k<span class="sc">*</span>(n1<span class="dv">-1</span>), <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1094018</code></pre>
+</div>
+</div>
+<p>Kesimpulannya?</p>
+</section>
+<section id="fungsi-aov" class="level2">
+<h2 class="anchored" data-anchor-id="fungsi-aov">Fungsi <code>aov()</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>anova_result <span class="ot">&lt;-</span> <span class="fu">aov</span>(df<span class="sc">$</span>y1 <span class="sc">~</span> df<span class="sc">$</span>Rootstock, <span class="at">data =</span> df)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df Sum Sq  Mean Sq F value Pr(&gt;F)
+df$Rootstock  5 0.0736 0.014712   1.931  0.109
+Residuals    42 0.3200 0.007619               </code></pre>
+</div>
+</div>
+<p>Apakah sama?</p>
+</section>
+</section>
+<section id="manova" class="level1">
+<h1>MANOVA</h1>
+<p>Hipotesis:</p>
+<p><span class="math inline">\(H_0: \bf{\mu_1} = \bf{\mu_2} = ... = \bf{\mu_k}\)</span> <span class="math inline">\(H_1: \text{Tidak Demikian}\)</span></p>
+<section id="manual-1" class="level2">
+<h2 class="anchored" data-anchor-id="manual-1">Manual</h2>
+<p>Dengan data yang sama, akan diuji apakah <span class="math inline">\(\bf{\mu_1} = \bf{\mu_2} = ... = \bf{\mu_k}\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df<span class="sc">$</span>y1,df<span class="sc">$</span>y2,df<span class="sc">$</span>y3,df<span class="sc">$</span>y4); y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1]  [,2] [,3]  [,4]
+ [1,] 1.11 2.569 3.58 0.760
+ [2,] 1.19 2.928 3.75 0.821
+ [3,] 1.09 2.865 3.93 0.928
+ [4,] 1.25 3.844 3.94 1.009
+ [5,] 1.11 3.027 3.60 0.766
+ [6,] 1.08 2.336 3.51 0.726
+ [7,] 1.11 3.211 3.98 1.209
+ [8,] 1.16 3.037 3.62 0.750
+ [9,] 1.05 2.074 4.09 1.036
+[10,] 1.17 2.885 4.06 1.094
+[11,] 1.11 3.378 4.87 1.635
+[12,] 1.25 3.906 4.98 1.517
+[13,] 1.17 2.782 4.38 1.197
+[14,] 1.15 3.018 4.65 1.244
+[15,] 1.17 3.383 4.69 1.495
+[16,] 1.19 3.447 4.40 1.026
+[17,] 1.07 2.505 3.76 0.912
+[18,] 0.99 2.315 4.44 1.398
+[19,] 1.06 2.667 4.38 1.197
+[20,] 1.02 2.390 4.67 1.613
+[21,] 1.15 3.021 4.48 1.476
+[22,] 1.20 3.085 4.78 1.571
+[23,] 1.20 3.308 4.57 1.506
+[24,] 1.17 3.231 4.56 1.458
+[25,] 1.22 2.838 3.89 0.944
+[26,] 1.03 2.351 4.05 1.241
+[27,] 1.14 3.001 4.05 1.023
+[28,] 1.01 2.439 3.92 1.067
+[29,] 0.99 2.199 3.27 0.693
+[30,] 1.11 3.318 3.95 1.085
+[31,] 1.20 3.601 4.27 1.242
+[32,] 1.08 3.291 3.85 1.017
+[33,] 0.91 1.532 4.04 1.084
+[34,] 1.15 2.552 4.16 1.151
+[35,] 1.14 3.083 4.79 1.381
+[36,] 1.05 2.330 4.42 1.242
+[37,] 0.99 2.079 3.47 0.673
+[38,] 1.22 3.366 4.41 1.137
+[39,] 1.05 2.416 4.64 1.455
+[40,] 1.13 3.100 4.57 1.325
+[41,] 1.11 2.813 3.76 0.800
+[42,] 0.75 0.840 3.14 0.606
+[43,] 1.05 2.199 3.75 0.790
+[44,] 1.02 2.132 3.99 0.853
+[45,] 1.05 1.949 3.34 0.610
+[46,] 1.07 2.251 3.21 0.562
+[47,] 1.13 3.064 3.63 0.707
+[48,] 1.11 2.469 3.95 0.952</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>totalmeans <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(y); totalmeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.102708 2.758854 4.087292 1.083000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">dim</span>(df)[<span class="dv">1</span>] <span class="sc">/</span> <span class="fu">length</span>(<span class="fu">unique</span>(df<span class="sc">$</span>Rootstock)); n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.group <span class="ot">&lt;-</span> <span class="fu">split</span>(df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>], df<span class="sc">$</span>Rootstock)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df.means <span class="ot">&lt;-</span> <span class="fu">sapply</span>(df.group, <span class="cf">function</span>(x) {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(x, <span class="dv">2</span>, mean)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>}, <span class="at">simplify =</span> <span class="st">'data.frame'</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>df.means</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          1        2        3       4       5        6
+y1 1.137500 1.157500 1.107500 1.09750 1.08000 1.036250
+y2 2.977125 3.109125 2.815250 2.87975 2.55725 2.214625
+y3 3.738750 4.515000 4.455000 3.90625 4.31250 3.596250
+y4 0.871125 1.280500 1.391375 1.03900 1.18100 0.735000</code></pre>
+</div>
+</div>
+<section id="matriks-h" class="level3">
+<h3 class="anchored" data-anchor-id="matriks-h">Matriks H</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Matriks H ----</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(H)[<span class="dv">1</span>]) {</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    H[i,j] <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="fu">sum</span>((df.means[i,] <span class="sc">-</span> totalmeans[i]) <span class="sc">*</span> (df.means[j,] <span class="sc">-</span> totalmeans[j]))</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    H[j,i] <span class="ot">&lt;-</span> n <span class="sc">*</span> <span class="fu">sum</span>((df.means[j,] <span class="sc">-</span> totalmeans[j]) <span class="sc">*</span> (df.means[i,] <span class="sc">-</span> totalmeans[i]))</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>H</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]      [,2]      [,3]     [,4]
+[1,] 0.07356042 0.5373852 0.3322646 0.208470
+[2,] 0.53738521 4.1996619 2.3553885 1.637108
+[3,] 0.33226458 2.3553885 6.1139354 3.781044
+[4,] 0.20847000 1.6371084 3.7810438 2.493091</code></pre>
+</div>
+</div>
+</section>
+<section id="matriks-e" class="level3">
+<h3 class="anchored" data-anchor-id="matriks-e">Matriks E</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Matriks E ----</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(E)[<span class="dv">1</span>]) {</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>i) {</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    b <span class="ot">&lt;-</span> <span class="fu">c</span>() </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> df.group) {</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      a <span class="ot">&lt;-</span> <span class="fu">sum</span>((k[,i] <span class="sc">-</span> <span class="fu">mean</span>(k[,i])) <span class="sc">*</span> (k[,j] <span class="sc">-</span> <span class="fu">mean</span>(k[,j])))</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>      b <span class="ot">&lt;-</span> <span class="fu">append</span>(b, a)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    E[i,j] <span class="ot">&lt;-</span> <span class="fu">sum</span>(b)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    E[j,i] <span class="ot">&lt;-</span> <span class="fu">sum</span>(b)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>E</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]      [,2]      [,3]     [,4]
+[1,] 0.3199875  1.696564 0.5540875 0.217140
+[2,] 1.6965637 12.142790 4.3636125 2.110214
+[3,] 0.5540875  4.363613 4.2908125 2.481656
+[4,] 0.2171400  2.110214 2.4816563 1.722525</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="fungsi-manova" class="level2">
+<h2 class="anchored" data-anchor-id="fungsi-manova">Fungsi <code>manova()</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>manova_result <span class="ot">&lt;-</span> <span class="fu">manova</span>(<span class="fu">cbind</span>(y1,y2,y3,y4) <span class="sc">~</span> Rootstock, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="wilks-lambda" class="level2">
+<h2 class="anchored" data-anchor-id="wilks-lambda">Wilk’s Lambda</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan matriks E dan H</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Lambda <span class="ot">&lt;-</span> <span class="fu">det</span>(E)<span class="sc">/</span><span class="fu">det</span>(E <span class="sc">+</span> H); Lambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1540077</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan fungsi `manova()`</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(manova_result, <span class="at">test =</span><span class="st">"Wilks"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Df   Wilks approx F num Df den Df    Pr(&gt;F)    
+Rootstock  5 0.15401   4.9369     20  130.3 7.714e-09 ***
+Residuals 42                                             
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="roys-test" class="level2">
+<h2 class="anchored" data-anchor-id="roys-test">Roy’s Test</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan matriks E dan H</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>EinvH.eigen <span class="ot">&lt;-</span> <span class="fu">eigen</span>(<span class="fu">solve</span>(E) <span class="sc">%*%</span> H)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>roy.stat <span class="ot">&lt;-</span> EinvH.eigen<span class="sc">$</span>values[<span class="dv">1</span>]; roy.stat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.875671</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> roy.stat<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span>roy.stat); theta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6522551</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan fungsi `manova()`</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(manova_result, <span class="at">test =</span><span class="st">"Roy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Df    Roy approx F num Df den Df    Pr(&gt;F)    
+Rootstock  5 1.8757   15.756      5     42 1.002e-08 ***
+Residuals 42                                            
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="pillai-test" class="level2">
+<h2 class="anchored" data-anchor-id="pillai-test">Pillai Test</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan matriks E dan H</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>pillai.stat <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(<span class="fu">solve</span>(E <span class="sc">+</span> H) <span class="sc">%*%</span> H)); pillai.stat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.305472</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(EinvH.eigen<span class="sc">$</span>values <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> EinvH.eigen<span class="sc">$</span>values))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.305472</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan fungsi `manova()`</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(manova_result, <span class="at">test =</span><span class="st">"Pillai"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Df Pillai approx F num Df den Df    Pr(&gt;F)    
+Rootstock  5 1.3055   4.0697     20    168 1.983e-07 ***
+Residuals 42                                            
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="lawley-hotelling-test" class="level2">
+<h2 class="anchored" data-anchor-id="lawley-hotelling-test">Lawley-Hotelling Test</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan matriks E dan H</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>lawhot.stat <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(<span class="fu">solve</span>(E) <span class="sc">%*%</span> H)); lawhot.stat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.921368</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(EinvH.eigen<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.921368</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dengan fungsi `manova()`</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(manova_result, <span class="at">test =</span><span class="st">"Hotelling-Lawley"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Df Hotelling-Lawley approx F num Df den Df    Pr(&gt;F)    
+Rootstock  5           2.9214   5.4776     20    150 2.568e-10 ***
+Residuals 42                                                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
