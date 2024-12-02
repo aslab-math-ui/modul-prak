@@ -9,8 +9,6 @@ format: html
 
 Kembali ke [Pengantar Sains Data](./psd2024.qmd)
 
-(*Work in progress*, harap cek kembali nanti :D)
-
 # Korelasi dan Regresi Linear di Excel
 
 Silakan unduh *worksheet* berikut: [Worksheet Pertemuan 10](./worksheet_pertemuan10.xlsx)
@@ -31,7 +29,188 @@ mtcars
 View(mtcars)
 ```
 
-(*Work in progress*, harap cek kembali nanti :D)
+## Hitungan Korelasi
+
+Di R, ada fungsi `cor` yang menghitung korelasi untuk variabel numerik
+
+```{r}
+?cor
+```
+
+```{r}
+cor(mtcars)
+```
+
+Agar lebih mudah dibaca, bisa dibulatkan hingga dua digit di belakang koma:
+
+```{r}
+round(cor(mtcars), 2)
+```
+
+Baris-baris dan kolom-kolom berupa variabel numerik. Kita dapat membaca korelasi antara dua variabel, misal antara "x" dan "y", dengan membaca nilai di baris "x", kolom "y" (atau sama saja nilai di baris "y", kolom "x").
+
+- Nilai yang jauh dari nol (mendekati 1 atau -1): kedua variabel berkorelasi tinggi (berkaitan dengan erat).
+
+- Nilai positif: korelasi positif; jika nilai salah satu naik, nilai satunya cenderung ikut naik
+
+- Nilai negatif: korelasi negatif; jika nilai salah satu naik, nilai satunya malah cenderung turun; atau sebaliknya, jika nilai salah satu turun, nilai satunya malah cenderung naik
+
+Hitungan korelasi yang dipelajari di kuliah PSD disebut korelasi Pearson. Kita bisa memintanya secara spesifik,
+
+```{r}
+round(cor(mtcars, method = "pearson"), 2)
+```
+
+atau sewaktu-waktu kalian bisa mencoba hitungan korelasi lain, seperti korelasi Spearman atau korelasi Kendall
+
+```{r}
+round(cor(mtcars, method = "spearman"), 2)
+round(cor(mtcars, method = "kendall"), 2)
+```
+
+## Plot Korelasi
+
+Nilai-nilai korelasi bisa digambarkan/divisualisasikan dengan yang namanya *heatmap*, agar lebih mudah dibaca.
+
+Untuk itu, kita bisa gunakan *package* `corrplot`
+
+Seperti biasa, instal terlebih dahulu kalau belum:
+
+```r
+install.packages("corrplot")
+```
+
+Lalu aktifkan:
+
+```{r}
+library("corrplot")
+```
+
+Sebelum membuat *plot* korelasi, kita perlu simpan dulu matriks korelasi (tidak perlu membulatkan):
+
+```{r}
+matriks_korelasi <- cor(mtcars, method = "pearson")
+```
+
+Kemudian kita tinggal gunakan fungsi `corrplot`
+
+```{r}
+?corrplot
+```
+
+```{r}
+corrplot(matriks_korelasi,
+         type = "upper",
+         tl.col = "black")
+```
+
+```{r}
+corrplot(matriks_korelasi,
+         type = "upper",
+         tl.col = "black",
+         method = "color")
+```
+
+## Uji Korelasi
+
+Uji korelasi antar 2 variabel
+
+Misalkan, akan dilakukan uji antara variabel `disp` dan `wt` (masih data `mtcars`)
+
+- H0: korelasi $= 0$
+
+- H1: korelasi $\ne 0$
+
+```{r}
+?cor.test
+```
+
+```{r}
+cor.test(mtcars$disp,
+         mtcars$wt,
+         method = "pearson")
+```
+
+Hubungan antara kedua variabel juga bisa digambarkan, misalnya dengan fungsi `ggscatter` dari *package* `ggpubr`
+
+```r
+install.packages("ggpubr")
+```
+
+```{r}
+library("ggpubr")
+```
+
+```{r}
+ggscatter(mtcars, 
+          x = "disp",
+          y = "wt",
+          add = "reg.line",
+          cor.coef = TRUE,
+          cor.method = "pearson")
+```
+
+## Regresi Linear (Sederhana)
+
+Yang selalu diingat dalam regresi, ada variabel dependen dan independen
+
+Melanjutkan yang sebelumnya, misalkan dianggap variabel dependennya `wt` dan independennya `disp`
+
+Hubungan apa yang terjadi jika variabel dependen dan independennya seperti itu?
+
+Cari persamaan regresinya.
+
+Persamaan regresi linear sederhana:
+
+$$Y = \beta_0 + \beta_1 * X + \text{ error}$$
+
+dengan $\text{ error } \tilde N(0, sigma^2)$
+
+Karena $Y = \text{wt}$ dan $X = \text{disp}$, maka persamaan taksiran regresinya menjadi
+
+$$\text{wt } \approx \beta_0 + \beta_1 * \text{ disp } + \text{ error}$$
+
+Di R, kita bisa membentuk **model linear** dengan fungsi `lm` *(linear model)*
+
+```{r}
+?lm
+```
+
+Kedua cara penggunaan berikut ini sama saja:
+
+```{r}
+model1 <- lm(wt ~ disp, data = mtcars)
+```
+
+```{r}
+model2 <- lm(mtcars$wt ~ mtcars$disp)
+```
+
+Setelah itu, kita bisa melihat ringkasan dari model linear yang terbentuk:
+
+```{r}
+summary(model1)
+```
+
+$$\text{wt} \approx 1.6 + 0.007 \text{ disp}$$
+
+Interpretasi: Jika `disp` naik 1 satuan, maka RATA-RATA `wt` naik 0.007 kali
+
+Visualisasi sedikit:
+
+```{r}
+plot(mtcars$disp,
+     mtcars$wt,
+     pch = 16)
+abline(model1,
+       col = "red",
+       lwd = 2)
+legend("bottomright",
+       legend = "garis regresi",
+       col = "red",
+       lwd = 2,
+       bty = "n")
+```
 
 # Komunikasi Hasil: Markdown, Quarto, Pengantar LaTeX
 
