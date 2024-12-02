@@ -189,7 +189,13 @@ window.Quarto = {
   <li><a href="#uji-korelasi" id="toc-uji-korelasi" class="nav-link" data-scroll-target="#uji-korelasi">Uji Korelasi</a></li>
   <li><a href="#regresi-linear-sederhana" id="toc-regresi-linear-sederhana" class="nav-link" data-scroll-target="#regresi-linear-sederhana">Regresi Linear (Sederhana)</a></li>
   </ul></li>
-  <li><a href="#komunikasi-hasil-markdown-quarto-pengantar-latex" id="toc-komunikasi-hasil-markdown-quarto-pengantar-latex" class="nav-link" data-scroll-target="#komunikasi-hasil-markdown-quarto-pengantar-latex">Komunikasi Hasil: Markdown, Quarto, Pengantar LaTeX</a></li>
+  <li><a href="#komunikasi-hasil-markdown-quarto-pengantar-latex" id="toc-komunikasi-hasil-markdown-quarto-pengantar-latex" class="nav-link" data-scroll-target="#komunikasi-hasil-markdown-quarto-pengantar-latex">Komunikasi Hasil: Markdown, Quarto, Pengantar LaTeX</a>
+  <ul class="collapse">
+  <li><a href="#render-ke-.docx" id="toc-render-ke-.docx" class="nav-link" data-scroll-target="#render-ke-.docx">Render ke <code>.docx</code></a></li>
+  <li><a href="#render-ke-.pdf" id="toc-render-ke-.pdf" class="nav-link" data-scroll-target="#render-ke-.pdf">Render ke <code>.pdf</code></a></li>
+  <li><a href="#pengantar-markdown" id="toc-pengantar-markdown" class="nav-link" data-scroll-target="#pengantar-markdown">Pengantar Markdown</a></li>
+  <li><a href="#pengantar-latex" id="toc-pengantar-latex" class="nav-link" data-scroll-target="#pengantar-latex">Pengantar LaTeX</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -498,7 +504,7 @@ sample estimates:
 <p>Cari persamaan regresinya.</p>
 <p>Persamaan regresi linear sederhana:</p>
 <p><span class="math display">\[Y = \beta_0 + \beta_1 * X + \text{ error}\]</span></p>
-<p>dengan <span class="math inline">\(\text{ error } \tilde N(0, sigma^2)\)</span></p>
+<p>dengan <span class="math inline">\(\text{ error } \sim N(0, \sigma^2)\)</span></p>
 <p>Karena <span class="math inline">\(Y = \text{wt}\)</span> dan <span class="math inline">\(X = \text{disp}\)</span>, maka persamaan taksiran regresinya menjadi</p>
 <p><span class="math display">\[\text{wt } \approx \beta_0 + \beta_1 * \text{ disp } + \text{ error}\]</span></p>
 <p>Di R, kita bisa membentuk <strong>model linear</strong> dengan fungsi <code>lm</code> <em>(linear model)</em></p>
@@ -563,9 +569,111 @@ F-statistic: 111.8 on 1 and 30 DF,  p-value: 1.222e-11</code></pre>
 </section>
 <section id="komunikasi-hasil-markdown-quarto-pengantar-latex" class="level1">
 <h1>Komunikasi Hasil: Markdown, Quarto, Pengantar LaTeX</h1>
-<p>(<em>Work in progress</em>, harap cek kembali nanti :D)</p>
+<p>Kita telah memperhatikan hubungan antara variabel <code>wt</code> dengan variabel <code>disp</code>.</p>
+<p>Selain kemampuan menganalisis hingga membuat kesimpulan, kemampuan yang tidak kalah penting di dunia data adalah kemampuan berkomunikasi, seperti mengomunikasikan hasil analisis yang dilakukan.</p>
+<p>Sebagai praktikum untuk kuliah Pengantar Sains Data, kami ingin memperkenalkan <em>software</em> yang mempermudah dalam hal ini, yaitu Quarto: <a href="https://quarto.org/" class="uri">https://quarto.org/</a></p>
+<p>Untungnya, Quarto sudah tersedia di RStudio versi terbaru (sejak v2022.7) dan juga ada <em>package</em> <code>quarto</code> yang bisa diinstal. Mari kita eksplor!</p>
+<p>Buat terlebih dahulu suatu dokumen Quarto baru, yaitu <em>file</em> <code>.qmd</code>, seperti berikut:</p>
+<p><img src="./static/quarto_01.png" class="img-fluid"></p>
+<p><img src="./static/quarto_02.png" class="img-fluid"></p>
+<p>Kalian bisa memberi judul, atau sementara dibiarkan saja <code>Untitled</code>. Biarkan juga terpilih opsi <code>HTML</code>.</p>
+<p>Setelah terbuat, akan muncul tampilan seperti berikut:</p>
+<p><img src="./static/quarto_03.png" class="img-fluid"></p>
+<p>Kalian bisa mengubah pilihan “Visual” menjadi pilihan “Source” (yaitu kode mentah):</p>
+<p><img src="./static/quarto_04.png" class="img-fluid"></p>
+<p>Kalian juga bisa menghapus baris <code>editor: visual</code> agar <em>file</em> <code>.qmd</code> akan terbuka di tampilan <em>Source</em> secara <em>default</em>.</p>
+<p><img src="./static/quarto_05.png" class="img-fluid"></p>
+<p>Coba tekan tombol <strong>Render</strong>. Akan muncul laman seperti berikut:</p>
+<p><img src="./static/quarto_06.png" class="img-fluid"></p>
+<p>Perhatikan juga, di sebelah <em>file</em> <code>.qmd</code> di folder yang menyimpannya, ada <em>file</em> HTML yang bisa di-klik-kanan untuk dibuka:</p>
+<p><img src="./static/quarto_07.png" class="img-fluid"></p>
+<p>Sekarang coba <em>run</em>:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"quarto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Seperti berikut:</p>
+<p><img src="./static/quarto_08.png" class="img-fluid"></p>
+<p>Lalu:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"quarto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><em>Render</em> bisa dilakukan melalui perintah kode <code>quarto_render</code> seperti berikut:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quarto_render</span>(<span class="st">"Untitled.qmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="./static/quarto_09.png" class="img-fluid"></p>
+<p>Kita juga bisa <em>render</em> ke format lainnya.</p>
+<section id="render-ke-.docx" class="level2">
+<h2 class="anchored" data-anchor-id="render-ke-.docx">Render ke <code>.docx</code></h2>
+<p>Ubah bagian “format” seperti berikut:</p>
+<p><img src="./static/quarto_10.png" class="img-fluid"></p>
+<p>Sekarang tersedia dua pilihan <em>render</em>:</p>
+<p><img src="./static/quarto_11.png" class="img-fluid"></p>
+<p>Hasil <em>render</em> ke format Microsoft Word tampak seperti berikut:</p>
+<p><img src="./static/quarto_12.png" class="img-fluid"></p>
+</section>
+<section id="render-ke-.pdf" class="level2">
+<h2 class="anchored" data-anchor-id="render-ke-.pdf">Render ke <code>.pdf</code></h2>
+<p>Untuk bisa <em>render</em> ke PDF, kalian harus instal TinyTeX terlebih dahulu, seperti berikut:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Kalian bisa cek apakah sudah terinstal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">is_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Kemudian, kalian tinggal menambahkan <code>- pdf</code> di daftar <em>format</em>, akan muncul opsi untuk <em>render</em> ke PDF.</p>
+</section>
+<section id="pengantar-markdown" class="level2">
+<h2 class="anchored" data-anchor-id="pengantar-markdown">Pengantar Markdown</h2>
+<p>Bahasa yang digunakan dalam Quarto bernama <strong>markdown</strong>. Sederhana saja:</p>
+<ul>
+<li><p>Gunakan <code>*</code> dan <code>*</code> untuk <em>tulisan miring</em></p>
+<p>Contoh: <code>*tulisan miring*</code></p></li>
+<li><p>Gunakan <code>**</code> dan <code>**</code> untuk <strong>tulisan bercetak tebal</strong></p>
+<p>Contoh: <code>**tulisan bercetak tebal**</code></p></li>
+<li><p>Gunakan <code>***</code> dan <code>***</code> untuk <strong><em>tulisan miring bercetak tebal</em></strong></p>
+<p>Contoh: <code>***tulisan miring bercetak tebal***</code></p></li>
+</ul>
+<p>Coba ketik suatu kalimat dengan tulisan miring dan tulisan bercetak tebal, lalu <em>render</em>. Lihat hasilnya!</p>
+<p>Kalian bisa baca lebih lanjut di sini: <a href="https://quarto.org/docs/authoring/markdown-basics.html" class="uri">https://quarto.org/docs/authoring/markdown-basics.html</a></p>
+</section>
+<section id="pengantar-latex" class="level2">
+<h2 class="anchored" data-anchor-id="pengantar-latex">Pengantar LaTeX</h2>
+<p>Kalian juga bisa menulis rumus, yang akan muncul dengan rapi di hasil <em>render</em>. Nama format penulisan rumus di sini umum dikenal dengan sebutan “LaTeX”.</p>
+<p>Mudah saja, tulis rumus yang diapit dengan simbol dolar.</p>
+<p>Contoh:</p>
+<ul>
+<li><p>Ketikan: <code>$1 + 1 = 2$</code></p></li>
+<li><p>Hasil: <span class="math inline">\(1 + 1 = 2\)</span></p></li>
+</ul>
+<p>Kalian juga bisa menggunakan dua dolar, seperti <code>$$1 + 1 = 2$$</code> agar muncul besar di tengah-tengah:</p>
+<p><span class="math display">\[1 + 1 = 2\]</span></p>
+<p>Kalian bisa menulis pangkat dengan <code>^</code> misalnya <code>$$2^3 = 8$$</code></p>
+<p><span class="math display">\[2^3 = 8\]</span></p>
+<p>Kalian juga bisa menggunakan variabel, misalnya</p>
+<ul>
+<li><p><code>$x + 1 = 2$</code> menjadi <span class="math inline">\(x + 1 = 2\)</span></p></li>
+<li><p><code>$2^y = 8$</code> menjadi <span class="math inline">\(2^y = 8\)</span></p></li>
+</ul>
+<p>Tersedia juga simbol-simbol Yunani, seperti</p>
+<ul>
+<li><p><code>\alpha</code> yaitu <span class="math inline">\(\alpha\)</span></p></li>
+<li><p><code>\beta</code> yaitu <span class="math inline">\(\beta\)</span></p></li>
+<li><p><code>\varepsilon</code> yaitu <span class="math inline">\(\varepsilon\)</span></p></li>
+<li><p><code>\sigma</code> yaitu <span class="math inline">\(\sigma\)</span></p></li>
+<li><p><code>\Sigma</code> yaitu <span class="math inline">\(\Sigma\)</span></p></li>
+</ul>
+<p>Kalian juga bisa menulis <em>subscript</em> misalnya seperti berikut</p>
+<ul>
+<li><p><code>t_0</code> menjadi <span class="math inline">\(t_0\)</span></p></li>
+<li><p><code>\beta_0</code> menjadi <span class="math inline">\(\beta_0\)</span></p></li>
+<li><p><code>\beta_1</code> menjadi <span class="math inline">\(\beta_1\)</span></p></li>
+</ul>
+<p>Sehingga kalian bisa menulis persamaan regresi seperti berikut:</p>
+<p><code>$$y = \beta_0 + \beta_1 x + \varepsilon$$</code></p>
+<p><span class="math display">\[y = \beta_0 + \beta_1 x + \varepsilon\]</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
