@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
@@ -153,7 +182,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#korelasi-dan-regresi-linear-di-excel" id="toc-korelasi-dan-regresi-linear-di-excel" class="nav-link active" data-scroll-target="#korelasi-dan-regresi-linear-di-excel">Korelasi dan Regresi Linear di Excel</a></li>
-  <li><a href="#korelasi-dan-regresi-linear-di-r" id="toc-korelasi-dan-regresi-linear-di-r" class="nav-link" data-scroll-target="#korelasi-dan-regresi-linear-di-r">Korelasi dan Regresi Linear di R</a></li>
+  <li><a href="#korelasi-dan-regresi-linear-di-r" id="toc-korelasi-dan-regresi-linear-di-r" class="nav-link" data-scroll-target="#korelasi-dan-regresi-linear-di-r">Korelasi dan Regresi Linear di R</a>
+  <ul class="collapse">
+  <li><a href="#hitungan-korelasi" id="toc-hitungan-korelasi" class="nav-link" data-scroll-target="#hitungan-korelasi">Hitungan Korelasi</a></li>
+  <li><a href="#plot-korelasi" id="toc-plot-korelasi" class="nav-link" data-scroll-target="#plot-korelasi">Plot Korelasi</a></li>
+  <li><a href="#uji-korelasi" id="toc-uji-korelasi" class="nav-link" data-scroll-target="#uji-korelasi">Uji Korelasi</a></li>
+  <li><a href="#regresi-linear-sederhana" id="toc-regresi-linear-sederhana" class="nav-link" data-scroll-target="#regresi-linear-sederhana">Regresi Linear (Sederhana)</a></li>
+  </ul></li>
   <li><a href="#komunikasi-hasil-markdown-quarto-pengantar-latex" id="toc-komunikasi-hasil-markdown-quarto-pengantar-latex" class="nav-link" data-scroll-target="#komunikasi-hasil-markdown-quarto-pengantar-latex">Komunikasi Hasil: Markdown, Quarto, Pengantar LaTeX</a></li>
   </ul>
 </nav>
@@ -193,7 +228,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/ganjil/psd/psd2024.html">Pengantar Sains Data</a></p>
-<p>(<em>Work in progress</em>, harap cek kembali nanti :D)</p>
 <section id="korelasi-dan-regresi-linear-di-excel" class="level1">
 <h1>Korelasi dan Regresi Linear di Excel</h1>
 <p>Silakan unduh <em>worksheet</em> berikut: <a href="./worksheet_pertemuan10.xlsx">Worksheet Pertemuan 10</a></p>
@@ -245,7 +279,287 @@ Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</code></
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>(<em>Work in progress</em>, harap cek kembali nanti :D)</p>
+<section id="hitungan-korelasi" class="level2">
+<h2 class="anchored" data-anchor-id="hitungan-korelasi">Hitungan Korelasi</h2>
+<p>Di R, ada fungsi <code>cor</code> yang menghitung korelasi untuk variabel numerik</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>?cor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            mpg        cyl       disp         hp        drat         wt
+mpg   1.0000000 -0.8521620 -0.8475514 -0.7761684  0.68117191 -0.8676594
+cyl  -0.8521620  1.0000000  0.9020329  0.8324475 -0.69993811  0.7824958
+disp -0.8475514  0.9020329  1.0000000  0.7909486 -0.71021393  0.8879799
+hp   -0.7761684  0.8324475  0.7909486  1.0000000 -0.44875912  0.6587479
+drat  0.6811719 -0.6999381 -0.7102139 -0.4487591  1.00000000 -0.7124406
+wt   -0.8676594  0.7824958  0.8879799  0.6587479 -0.71244065  1.0000000
+qsec  0.4186840 -0.5912421 -0.4336979 -0.7082234  0.09120476 -0.1747159
+vs    0.6640389 -0.8108118 -0.7104159 -0.7230967  0.44027846 -0.5549157
+am    0.5998324 -0.5226070 -0.5912270 -0.2432043  0.71271113 -0.6924953
+gear  0.4802848 -0.4926866 -0.5555692 -0.1257043  0.69961013 -0.5832870
+carb -0.5509251  0.5269883  0.3949769  0.7498125 -0.09078980  0.4276059
+            qsec         vs          am       gear        carb
+mpg   0.41868403  0.6640389  0.59983243  0.4802848 -0.55092507
+cyl  -0.59124207 -0.8108118 -0.52260705 -0.4926866  0.52698829
+disp -0.43369788 -0.7104159 -0.59122704 -0.5555692  0.39497686
+hp   -0.70822339 -0.7230967 -0.24320426 -0.1257043  0.74981247
+drat  0.09120476  0.4402785  0.71271113  0.6996101 -0.09078980
+wt   -0.17471588 -0.5549157 -0.69249526 -0.5832870  0.42760594
+qsec  1.00000000  0.7445354 -0.22986086 -0.2126822 -0.65624923
+vs    0.74453544  1.0000000  0.16834512  0.2060233 -0.56960714
+am   -0.22986086  0.1683451  1.00000000  0.7940588  0.05753435
+gear -0.21268223  0.2060233  0.79405876  1.0000000  0.27407284
+carb -0.65624923 -0.5696071  0.05753435  0.2740728  1.00000000</code></pre>
+</div>
+</div>
+<p>Agar lebih mudah dibaca, bisa dibulatkan hingga dua digit di belakang koma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(mtcars), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+mpg   1.00 -0.85 -0.85 -0.78  0.68 -0.87  0.42  0.66  0.60  0.48 -0.55
+cyl  -0.85  1.00  0.90  0.83 -0.70  0.78 -0.59 -0.81 -0.52 -0.49  0.53
+disp -0.85  0.90  1.00  0.79 -0.71  0.89 -0.43 -0.71 -0.59 -0.56  0.39
+hp   -0.78  0.83  0.79  1.00 -0.45  0.66 -0.71 -0.72 -0.24 -0.13  0.75
+drat  0.68 -0.70 -0.71 -0.45  1.00 -0.71  0.09  0.44  0.71  0.70 -0.09
+wt   -0.87  0.78  0.89  0.66 -0.71  1.00 -0.17 -0.55 -0.69 -0.58  0.43
+qsec  0.42 -0.59 -0.43 -0.71  0.09 -0.17  1.00  0.74 -0.23 -0.21 -0.66
+vs    0.66 -0.81 -0.71 -0.72  0.44 -0.55  0.74  1.00  0.17  0.21 -0.57
+am    0.60 -0.52 -0.59 -0.24  0.71 -0.69 -0.23  0.17  1.00  0.79  0.06
+gear  0.48 -0.49 -0.56 -0.13  0.70 -0.58 -0.21  0.21  0.79  1.00  0.27
+carb -0.55  0.53  0.39  0.75 -0.09  0.43 -0.66 -0.57  0.06  0.27  1.00</code></pre>
+</div>
+</div>
+<p>Baris-baris dan kolom-kolom berupa variabel numerik. Kita dapat membaca korelasi antara dua variabel, misal antara “x” dan “y”, dengan membaca nilai di baris “x”, kolom “y” (atau sama saja nilai di baris “y”, kolom “x”).</p>
+<ul>
+<li><p>Nilai yang jauh dari nol (mendekati 1 atau -1): kedua variabel berkorelasi tinggi (berkaitan dengan erat).</p></li>
+<li><p>Nilai positif: korelasi positif; jika nilai salah satu naik, nilai satunya cenderung ikut naik</p></li>
+<li><p>Nilai negatif: korelasi negatif; jika nilai salah satu naik, nilai satunya malah cenderung turun; atau sebaliknya, jika nilai salah satu turun, nilai satunya malah cenderung naik</p></li>
+</ul>
+<p>Hitungan korelasi yang dipelajari di kuliah PSD disebut korelasi Pearson. Kita bisa memintanya secara spesifik,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(mtcars, <span class="at">method =</span> <span class="st">"pearson"</span>), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+mpg   1.00 -0.85 -0.85 -0.78  0.68 -0.87  0.42  0.66  0.60  0.48 -0.55
+cyl  -0.85  1.00  0.90  0.83 -0.70  0.78 -0.59 -0.81 -0.52 -0.49  0.53
+disp -0.85  0.90  1.00  0.79 -0.71  0.89 -0.43 -0.71 -0.59 -0.56  0.39
+hp   -0.78  0.83  0.79  1.00 -0.45  0.66 -0.71 -0.72 -0.24 -0.13  0.75
+drat  0.68 -0.70 -0.71 -0.45  1.00 -0.71  0.09  0.44  0.71  0.70 -0.09
+wt   -0.87  0.78  0.89  0.66 -0.71  1.00 -0.17 -0.55 -0.69 -0.58  0.43
+qsec  0.42 -0.59 -0.43 -0.71  0.09 -0.17  1.00  0.74 -0.23 -0.21 -0.66
+vs    0.66 -0.81 -0.71 -0.72  0.44 -0.55  0.74  1.00  0.17  0.21 -0.57
+am    0.60 -0.52 -0.59 -0.24  0.71 -0.69 -0.23  0.17  1.00  0.79  0.06
+gear  0.48 -0.49 -0.56 -0.13  0.70 -0.58 -0.21  0.21  0.79  1.00  0.27
+carb -0.55  0.53  0.39  0.75 -0.09  0.43 -0.66 -0.57  0.06  0.27  1.00</code></pre>
+</div>
+</div>
+<p>atau sewaktu-waktu kalian bisa mencoba hitungan korelasi lain, seperti korelasi Spearman atau korelasi Kendall</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(mtcars, <span class="at">method =</span> <span class="st">"spearman"</span>), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+mpg   1.00 -0.91 -0.91 -0.89  0.65 -0.89  0.47  0.71  0.56  0.54 -0.66
+cyl  -0.91  1.00  0.93  0.90 -0.68  0.86 -0.57 -0.81 -0.52 -0.56  0.58
+disp -0.91  0.93  1.00  0.85 -0.68  0.90 -0.46 -0.72 -0.62 -0.59  0.54
+hp   -0.89  0.90  0.85  1.00 -0.52  0.77 -0.67 -0.75 -0.36 -0.33  0.73
+drat  0.65 -0.68 -0.68 -0.52  1.00 -0.75  0.09  0.45  0.69  0.74 -0.13
+wt   -0.89  0.86  0.90  0.77 -0.75  1.00 -0.23 -0.59 -0.74 -0.68  0.50
+qsec  0.47 -0.57 -0.46 -0.67  0.09 -0.23  1.00  0.79 -0.20 -0.15 -0.66
+vs    0.71 -0.81 -0.72 -0.75  0.45 -0.59  0.79  1.00  0.17  0.28 -0.63
+am    0.56 -0.52 -0.62 -0.36  0.69 -0.74 -0.20  0.17  1.00  0.81 -0.06
+gear  0.54 -0.56 -0.59 -0.33  0.74 -0.68 -0.15  0.28  0.81  1.00  0.11
+carb -0.66  0.58  0.54  0.73 -0.13  0.50 -0.66 -0.63 -0.06  0.11  1.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(mtcars, <span class="at">method =</span> <span class="st">"kendall"</span>), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+mpg   1.00 -0.80 -0.77 -0.74  0.46 -0.73  0.32  0.59  0.47  0.43 -0.50
+cyl  -0.80  1.00  0.81  0.79 -0.55  0.73 -0.45 -0.77 -0.49 -0.51  0.47
+disp -0.77  0.81  1.00  0.67 -0.50  0.74 -0.30 -0.60 -0.52 -0.48  0.41
+hp   -0.74  0.79  0.67  1.00 -0.38  0.61 -0.47 -0.63 -0.30 -0.28  0.60
+drat  0.46 -0.55 -0.50 -0.38  1.00 -0.55  0.03  0.38  0.58  0.58 -0.10
+wt   -0.73  0.73  0.74  0.61 -0.55  1.00 -0.14 -0.49 -0.61 -0.54  0.37
+qsec  0.32 -0.45 -0.30 -0.47  0.03 -0.14  1.00  0.66 -0.17 -0.09 -0.51
+vs    0.59 -0.77 -0.60 -0.63  0.38 -0.49  0.66  1.00  0.17  0.27 -0.58
+am    0.47 -0.49 -0.52 -0.30  0.58 -0.61 -0.17  0.17  1.00  0.77 -0.06
+gear  0.43 -0.51 -0.48 -0.28  0.58 -0.54 -0.09  0.27  0.77  1.00  0.10
+carb -0.50  0.47  0.41  0.60 -0.10  0.37 -0.51 -0.58 -0.06  0.10  1.00</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-korelasi" class="level2">
+<h2 class="anchored" data-anchor-id="plot-korelasi">Plot Korelasi</h2>
+<p>Nilai-nilai korelasi bisa digambarkan/divisualisasikan dengan yang namanya <em>heatmap</em>, agar lebih mudah dibaca.</p>
+<p>Untuk itu, kita bisa gunakan <em>package</em> <code>corrplot</code></p>
+<p>Seperti biasa, instal terlebih dahulu kalau belum:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"corrplot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Lalu aktifkan:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"corrplot"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>corrplot 0.95 loaded</code></pre>
+</div>
+</div>
+<p>Sebelum membuat <em>plot</em> korelasi, kita perlu simpan dulu matriks korelasi (tidak perlu membulatkan):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>matriks_korelasi <span class="ot">&lt;-</span> <span class="fu">cor</span>(mtcars, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kemudian kita tinggal gunakan fungsi <code>corrplot</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>?corrplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(matriks_korelasi,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"upper"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul10_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(matriks_korelasi,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"upper"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"color"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul10_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="uji-korelasi" class="level2">
+<h2 class="anchored" data-anchor-id="uji-korelasi">Uji Korelasi</h2>
+<p>Uji korelasi antar 2 variabel</p>
+<p>Misalkan, akan dilakukan uji antara variabel <code>disp</code> dan <code>wt</code> (masih data <code>mtcars</code>)</p>
+<ul>
+<li><p>H0: korelasi <span class="math inline">\(= 0\)</span></p></li>
+<li><p>H1: korelasi <span class="math inline">\(\ne 0\)</span></p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>?cor.test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(mtcars<span class="sc">$</span>disp,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>         mtcars<span class="sc">$</span>wt,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  mtcars$disp and mtcars$wt
+t = 10.576, df = 30, p-value = 1.222e-11
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.7811586 0.9442902
+sample estimates:
+      cor 
+0.8879799 </code></pre>
+</div>
+</div>
+<p>Hubungan antara kedua variabel juga bisa digambarkan, misalnya dengan fungsi <code>ggscatter</code> dari <em>package</em> <code>ggpubr</code></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggpubr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggpubr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggscatter</span>(mtcars, </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">x =</span> <span class="st">"disp"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> <span class="st">"wt"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">add =</span> <span class="st">"reg.line"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">cor.coef =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">cor.method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul10_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regresi-linear-sederhana" class="level2">
+<h2 class="anchored" data-anchor-id="regresi-linear-sederhana">Regresi Linear (Sederhana)</h2>
+<p>Yang selalu diingat dalam regresi, ada variabel dependen dan independen</p>
+<p>Melanjutkan yang sebelumnya, misalkan dianggap variabel dependennya <code>wt</code> dan independennya <code>disp</code></p>
+<p>Hubungan apa yang terjadi jika variabel dependen dan independennya seperti itu?</p>
+<p>Cari persamaan regresinya.</p>
+<p>Persamaan regresi linear sederhana:</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 * X + \text{ error}\]</span></p>
+<p>dengan <span class="math inline">\(\text{ error } \tilde N(0, sigma^2)\)</span></p>
+<p>Karena <span class="math inline">\(Y = \text{wt}\)</span> dan <span class="math inline">\(X = \text{disp}\)</span>, maka persamaan taksiran regresinya menjadi</p>
+<p><span class="math display">\[\text{wt } \approx \beta_0 + \beta_1 * \text{ disp } + \text{ error}\]</span></p>
+<p>Di R, kita bisa membentuk <strong>model linear</strong> dengan fungsi <code>lm</code> <em>(linear model)</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>?lm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Kedua cara penggunaan berikut ini sama saja:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(wt <span class="sc">~</span> disp, <span class="at">data =</span> mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mtcars<span class="sc">$</span>wt <span class="sc">~</span> mtcars<span class="sc">$</span>disp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Setelah itu, kita bisa melihat ringkasan dari model linear yang terbentuk:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wt ~ disp, data = mtcars)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.89044 -0.29775 -0.00684  0.33428  0.66525 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 1.5998146  0.1729964   9.248 2.74e-10 ***
+disp        0.0070103  0.0006629  10.576 1.22e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4574 on 30 degrees of freedom
+Multiple R-squared:  0.7885,    Adjusted R-squared:  0.7815 
+F-statistic: 111.8 on 1 and 30 DF,  p-value: 1.222e-11</code></pre>
+</div>
+</div>
+<p><span class="math display">\[\text{wt} \approx 1.6 + 0.007 \text{ disp}\]</span></p>
+<p>Interpretasi: Jika <code>disp</code> naik 1 satuan, maka RATA-RATA <code>wt</code> naik 0.007 kali</p>
+<p>Visualisasi sedikit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mtcars<span class="sc">$</span>disp,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>     mtcars<span class="sc">$</span>wt,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(model1,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"red"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="st">"garis regresi"</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"red"</span>,</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul10_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="komunikasi-hasil-markdown-quarto-pengantar-latex" class="level1">
 <h1>Komunikasi Hasil: Markdown, Quarto, Pengantar LaTeX</h1>
