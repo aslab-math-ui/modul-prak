@@ -1,0 +1,579 @@
+---
+title: "(Pertemuan 1) Pendahuluan Sympy, Tabulate, dan Metode Root-finding"
+subtitle: "Pengenalan Sympy, Tabulate, dan Metode Root-Finding"
+author: "Tim Dosen Praktikum Metode Numerik"
+description: "Offline di Departemen Matematika"
+date: 03/04/2025
+page-navigation: true
+format: html
+---
+
+<style>
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.btn {
+  background-color: #3498db;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+</style>
+
+Kembali ke [Mata Kuliah Metode Numerik](./metnum2025genap.qmd)
+
+Pada praktikum ini, kalian akan diajarkan esensial-esensial yang dibutuhkan dan algoritma dasar untuk metode-metode pada Metnum.
+
+Semua modul telah diuji menggunakan Jupyter Notebook dengan Python 3.11, serta Google Colaboratory yang menggunakan Python 3.9. Semua kode pada modul masih bisa digunakan untuk semua Python versi 3.6 ke atas. 
+
+Algoritma dan Pemograman adalah syarat dari praktikum ini. Jadi, apabila kalian ada yang lupa beberapa materi praktikum ALPROG (algoritma dan pemograman) kalian bisa akses disini.
+
+<div class="contact-grid">
+<div class="contact-card">
+<a href="https://aslab-math-ui.github.io/modul-prak/semuahalaman/modulprak/2024/genap/metnum/modul0.html" class="btn">😋Review Python Singkat</a>
+</div>
+<div class="contact-card">
+<a href="https://aslab-math-ui.github.io/modul-prak/semuahalaman/modulprak/2024/ganjil/prak_alprog/prak_alprog_2024.html" class="btn">😥Review Alprog Lengkap</a>
+</div>
+</div>
+
+Kalian juga bisa menggunakan aplikasi/IDE (Integrated Development Environment) lainnya seperti PyCharm, Spyder, atau bahkan IDLE (IDLE adalah IDE bawaan Python yang diinstal dari python.org), namun kalian disarankan menggunakan Jupyter Notebook atau Google Colaboratory karena file tugas menggunakan file format .ipynb.
+
+Kerangka Belajar kita bisa 
+
+- Tabulate
+- SymPy
+- Metode Bisection
+- Metode Fixed Point
+- Metode Newton biasa (dengan turunan analitik)
+
+# Tabulate
+
+Untuk menyajikan hasil iterasi, tabel sering digunakan karena akan mudah membacanya. Di Python, terdapat package untuk membuat tabel dengan cara sederhana. Package tersebut bernama tabulate.
+
+Apabila  tabulate belum terinstall, kalian bisa mengetik `pip install tabulate` (atau `!pip install tabulate` dengan tanda seru)
+```{python}
+!pip install tabulate
+```
+dan seperti biasa, setelah instalasi selesai, mungkin kalian perlu menutup kemudian membuka kembali Jupyter Notebook sebelum bisa menggunakan tabulate.
+
+Seperti package umumnya, selanjutnya kita import terlebih dahulu.
+
+```{python}
+from tabulate import tabulate
+```
+
+Sekarang, buat konten tabel. Konten tabel disimpan dalam list/array 2-D dimana setiap array di dalamnya adalah baris.
+
+Headers dari tabel dapat kita buat sendiri. Jumlah dari headers harus sama dengan jumlah elemen pada setiap array.
+
+‘tablefmt’ adalah format bentuk tabel. Format yang biasa digunakan adalah “orgtbl”, dan ada macam-macam format tabel yang bisa dicari di https://pypi.org/project/tabulate/
+
+```{python}
+table = [["Jeruk", 1], ["Nanas", 2]]
+print(tabulate(table, headers = ["Buah", "Kuantitas"], tablefmt = "orgtbl"))
+```
+Dalam membuat konten tabel, panjang dari setiap list harus sama dengan banyak headers. Apabila ada baris yang banyak elemennya melebihi banyak headers, maka elemen yang diambil adalah elemen sebanyak headers yang pertama. Kolom paling kiri diisi terlebih dahulu.
+
+Perhatikan contoh berikut.
+```{python}
+table = [["Jeruk", 1, 4], ["Nanas", 2, 3, 5], ["Mangga", 3]]
+print(tabulate(table, headers = ["Buah", "Kuantitas", "Harga"], tablefmt = "orgtbl"))
+```
+Apabila baris pertama digunakan sebagai header, banyak kolom akan sama dengan banyak elemen yang paling banyak di antara semua baris tabel. Penamaan kolom dimulai dari kanan.
+
+Perhatikan contoh berikut.
+```{python}
+table = [["Saya", 1, 4], ["Tampan", 2, 3, 5], ["Banget", 3, 5]]
+print(tabulate(table, headers = "firstrow", tablefmt = "orgtbl"))
+```
+Tabulate sangat berguna untuk membentuk tabel secara “otomatis” atau secara pemrograman. Misalnya, kita bisa memanfaatkan looping dan pernyataan kondisional untuk membuat beberapa baris yang mengikuti pola dan syarat tertentu.
+
+Sebagai contoh, misalnya kita punya function yang menghitung bilangan kuadrat ke-i.
+```{python}
+def kuadrat(i):
+    return i**2
+
+print(kuadrat(5))
+```
+
+Kita bisa membuat tabel, misalnya, yang menjabarkan bilangan kuadrat ke-1 sampai ke-5. Perhatikan struktur tabel apabila dibuat secara manual:
+```{python}
+tabel_kuadrat = [
+    [1, 1],
+    [2, 4],
+    [3, 9],
+    [4, 16],
+    [5, 15]
+]
+print(tabulate(tabel_kuadrat, headers=["i", "kuadrat"]))
+```
+
+Terlihat bahwa tabel tersebut memiliki lima baris, dan tiap baris berupa list yang merupakan elemen dari list besar `tabel_kuadrat`. Kita bisa membuatnya secara “otomatis” atau secara pemrograman:
+```{python}
+tabel_mentah = []
+for i in range(1, 6): # mulai dari 1, lanjut selama kurang dari 6
+    calon_baris = [i, kuadrat(i)] # baris baru
+    tabel_mentah.append(calon_baris) # menambahkan baris baru ke list besar
+
+print(tabulate(tabel_mentah, headers=["i", "kuadrat"]))
+```
+
+Tentu saja, `calon_baris` tidak harus langsung jadi ketika baru didefinisikan. Tiap bagian dari suatu baris bisa saja ditambahkan secara berangsur-angsur:
+```{python}
+tabel_mentah = []
+for i in range(1, 6): # mulai dari 1, lanjut selama kurang dari 6
+    calon_baris = [] # baris baru
+    calon_baris.append(i) # bagian pertama pada baris
+
+    # bagian kedua pada baris
+    nilai_kedua = kuadrat(i)
+    calon_baris.append(nilai_kedua)
+
+    tabel_mentah.append(calon_baris) # menambahkan baris baru ke list besar
+
+print(tabulate(tabel_mentah, headers=["i", "kuadrat"]))
+```
+
+Adanya lebih dari dua kolom juga sangat memungkinkan, tinggal ditambahkan ke `calon_baris`:
+```{python}
+tabel_mentah = []
+for i in range(1, 6): # mulai dari 1, lanjut selama kurang dari 6
+    calon_baris = [] # baris baru
+
+    # bagian pertama pada baris
+    calon_baris.append(i)
+
+    # bagian kedua pada baris
+    nilai_kedua = kuadrat(i)
+    calon_baris.append(nilai_kedua)
+
+    # bagian ketiga
+    calon_baris.append(i**3)
+
+    # bagian keempat
+    calon_baris.append(i**4)
+
+    tabel_mentah.append(calon_baris) # menambahkan baris baru ke list besar
+
+print(tabulate(tabel_mentah, headers=["i", "kuadrat", "pangkat tiga","pangkat empat"]))
+```
+Apabila kita sudah memiliki data tiap kolom dalam bentuk list, kita bisa membentuk `calon_baris` pada tiap iterasi for loop dengan mengakses elemen ke-i dari tiap list.
+```{python}
+# misalnya data ini sudah ada, atau sudah diolah sebelumnya
+kolom_awal = [1, 2, 3, 4, 5]
+kolom_kuadrat = [1, 4, 9, 16, 25]
+kolom_tiga = [1, 8, 27, 64, 125]
+kolom_empat = [1, 16, 81, 256, 625]
+
+# mari kita buat tabel
+tabel_mentah = []
+for i in range(0, 5): # indeks list dimulai dari nol, lanjut selama i < 5
+    calon_baris = []
+
+    # elemen ke-i dari tiap list kolom
+    calon_baris.append(kolom_awal[i])
+    calon_baris.append(kolom_kuadrat[i])
+    calon_baris.append(kolom_tiga[i])
+    calon_baris.append(kolom_empat[i])
+
+    tabel_mentah.append(calon_baris)
+
+print(tabulate(tabel_mentah, headers=["i", "kuadrat", "pangkat tiga","pangkat empat"]))
+```
+
+Bagaimana kalau misalnya ada data yang tidak lengkap? Kita bisa saja menggunakan try-except, untuk memasukkan “X” ketika ada data yang tidak lengkap, sekaligus menghindari error:
+```{python}
+# contoh data
+kolom_awal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+kolom_kuadrat = [1, 4, 9, 16, 25]
+
+tabel_mentah = []
+for i in range(0, 10): # indeks list dimulai dari nol, lanjut selama i < 10
+    calon_baris = []
+
+    # elemen ke-i dari tiap list kolom
+    calon_baris.append(kolom_awal[i])
+    
+    try:
+        calon_baris.append(kolom_kuadrat[i])
+    except IndexError:
+        calon_baris.append("X")
+
+    tabel_mentah.append(calon_baris)
+
+print(tabulate(tabel_mentah, headers=["i", "kuadrat"]))
+```
+
+NumPy juga memiliki semacam tipe data atau nilai yang standar untuk menandakan data yang hilang atau tidak tersedia, yaitu NaN (Not a Number), melalui `numpy.nan`. Sehingga, "X" pada kode di atas bisa diganti dengan `numpy.nan`:
+
+Apabila  Numpy belum terinstall, kalian bisa mengetik `pip install numpy` (atau `!pip install numpy` dengan tanda seru)
+```{python}
+!pip install numpy
+```
+dan seperti biasa, setelah instalasi selesai, mungkin kalian perlu menutup kemudian membuka kembali Jupyter Notebook sebelum bisa menggunakan.
+
+```{python}
+import numpy as np
+
+# contoh data
+kolom_awal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+kolom_kuadrat = [1, 4, 9, 16, 25]
+
+tabel_mentah = []
+for i in range(0, 10): # indeks list dimulai dari nol, lanjut selama i < 10
+    calon_baris = []
+
+    # elemen ke-i dari tiap list kolom
+    calon_baris.append(kolom_awal[i])
+    
+    try:
+        calon_baris.append(kolom_kuadrat[i])
+    except IndexError:
+        calon_baris.append(np.nan)
+
+    tabel_mentah.append(calon_baris)
+
+print(tabulate(tabel_mentah, headers=["i", "kuadrat"]))
+```
+
+# Sympy
+
+Dalam pembelajaran metode numerik, seringkali kita perlu membandingkan hasil aproksimasi kita dengan nilai yang sesungguhnya. Seringkali pula, sebenarnya nilai yang sesungguhnya itu dapat kita peroleh (karena kita masih dalam tahap belajar; penerapan metode numerik di dunia nyata adalah pada kasus di mana nilai eksak tidak dapat diperoleh).
+
+Hasil perhitungan eksak (seperti perhitungan menggunakan aljabar biasa atau ilmu kalkulus) juga disebut hasil perhitungan analitik atau simbolik. Istilah “analitik” bisa dianggap antonim dari istilah “numerik”.
+
+Di Python, ada module/package bernama SymPy (symbolic Python) yang dapat melakukan perhitungan simbolik, seperti menghitung turunan, yang misalnya digunakan di metode Newton.
+
+(Fun fact: aplikasi/package di komputer yang dapat melakukan perhitungan simbolik disebut Computer Algebra System (CAS). Beberapa contoh CAS adalah SymPy, Wolfram Mathematica, dan Maple.)
+
+Apabila  Sympy belum terinstall, kalian bisa mengetik `pip install sympy` (atau `!pip install sympy` dengan tanda seru)
+```{python}
+!pip install sympy
+```
+dan seperti biasa, setelah instalasi selesai, mungkin kalian perlu menutup kemudian membuka kembali Jupyter Notebook sebelum bisa menggunakan.
+
+```{python}
+import sympy
+```
+
+Tentunya, penggunaan SymPy melibatkan variabel. Misalnya, kita ingin melakukan perhitungan simbolik dengan variabel $x$
+. Kita perlu memberitahu SymPy, dengan syntax seperti berikut:
+
+```{python}
+x = sympy.symbols("x")
+```
+
+Artinya, kita baru saja memberitahu SymPy bahwa, pada string apapun yang dijumpai oleh SymPy, huruf “x” perlu dianggap sebagai simbol, atau lebih tepatnya sebagai variabel.
+
+Perhatikan pula bahwa kode di atas adalah assignment ke variabel pemrograman yang juga bernama x. Dengan demikian, untuk ke depannya, variabel x yang kita ketik di mana saja pada program kita akan dianggap sebagai variabel “x” oleh SymPy.
+
+Dengan variabel x tersebut, kita dapat mendefinisikan suatu expression (ekspresi atau kalimat matematika), misal $5x^4$, seperti berikut:
+
+```{python}
+polinom = 5 * (x ** 4) / 2
+print(polinom)
+```
+
+SymPy memiliki fitur `pprint` (pretty print), yaitu menampilkan suatu ekspresi secara cantik atau indah, layaknya seperti kita tulis di kertas:
+```{python}
+sympy.pprint(polinom)
+```
+
+Untuk melakukan diferensiasi atau menghitung turunan (dalam hal ini secara simbolik/analitik), gunakan `sympy.diff`:
+```{python}
+turunan = sympy.diff(polinom, x)
+sympy.pprint(turunan)
+```
+
+dengan begitu, SymPy menghitung turunan dari ekspresi `polinom` yang kita berikan itu, terhadap variabel `x`. Sebenarnya, mengetik `sympy.diff(polinom)` saja sudah cukup, tapi lebih lengkap lebih baik.
+
+Sejauh ini, semua ekspresi yang kita jumpai masih berbentuk simbol/tulisan, sehingga kita belum bisa men-substitusi variabel x dengan sembarang nilai. Misalnya kita ingin menjadikan ekspresi di atas sebagai suatu fungsi `func(x)`, di mana kita bisa memasukkan nilai x apapun dan mendapatkan hasil. Caranya adalah menggunakan `sympy.lambdify`:
+
+```{python}
+func = sympy.lambdify(x, turunan)
+print(func(5))
+```
+
+Pada syntax `lambdify` di atas, kita perlu memberitahu SymPy terlebih dahulu, variabel apa yang digunakan pada ekspresi tersebut; barulah kita tuliskan ekspresinya. Dalam hal ini, kita mengetik `sympy.lambdify(x, turunan)` karena sedang menggunakan variabel `x` untuk ekspresi `turunan` yang ingin kita ubah menjadi fungsi yang bisa di-substitusi nilai x nya.
+
+Fungsi hasil `lambdify` sudah bisa digunakan seperti fungsi lainnya pada Python. Bahkan, kita bisa mencampur penggunaan SymPy dengan NumPy (maupun package lainnya). Contohnya, setelah tadi memperoleh `func(x)` dari SymPy:
+
+```{python}
+import numpy as np
+arr = np.array([2, 3, 5, 10])
+print(func(arr))
+```
+
+Seperti NumPy, SymPy juga memiliki fungsi `sin`, `cos`, `log`, `exp` dll, sehingga kita bisa melakukan perhitungan analitik yang melibatkan fungsi-fungsi tersebut.
+
+```{python}
+g = x**2 * sympy.cos(x) + sympy.exp(-5*x)
+print("Fungsinya:")
+sympy.pprint(g)
+
+gp = sympy.diff(g, x)
+print("Turunannya:")
+sympy.pprint(gp)
+```
+
+Meskipun kita bisa saja melakukan, misalnya, `from sympy import cos`, hal tersebut tidak disarankan, apalagi ketika program kita juga menggunkaan NumPy dengan `from numpy import cos` atau bahkan `from numpy import *`. Alasannya, dengan begitu, program bisa menjadi membingungkan, karena tidak ada pembeda antara `cos` dari NumPy (numerik) dengan `cos` dari SymPy (analitik/simbolik).
+
+Namun, kalau Anda berhati-hati dan hanya melakukan hal tersebut untuk salah satu package saja, silakan.
+
+Menariknya, SymPy bisa jadi lebih unggul daripada NumPy untuk beberapa perhitungan yang melibatkan akurasi tinggi, terutama untuk perhitungan yang sebenarnya bersifat analitik. Misalnya, kita tahu bahwa $sin(\pi) = 0$. Menurut SymPy,
+
+```{python}
+print("Menurut SymPy, sin(pi) = " + str(sympy.sin(sympy.pi)))
+```
+
+karena SymPy menghitung nilai sin dari $\pi$ secara analitik, yaitu tanpa perlu menghitung nilai $\pi$ (karena nilainya sudah jelas nol berdasarkan sifat fungsi sin). Sedangkan, NumPy mengaproksimasi nilai $\pi$ terlebih dahulu, barulah hasil aproksimasi tersebut yang masuk ke fungsi sin. Hasil perhitungan fungsi sin tersebut pun juga aproksimasi, sehingga didapatkan hasil seperti berikut, yaitu sangat kecil tetapi bukan nol:
+
+```{python}
+print("Menurut NumPy, sin(pi) = " + str(np.sin(np.pi)))
+```
+
+di mana “e-16” artinya “dikali 10 pangkat -16”.
+
+# Metode Bisection
+
+Metode Bisection adalah salah satu metode yang dapat kita gunakan dalam masalah pencarian akar (**root finding**). Akar dari suatu persamaan didefinisikan sebagai nilai $x$ yang memenuhi $f(x) = 0$. Misalkan $f$ adalah suatu fungsi kontinu terdefinisi di $[a,b]$, di mana $f(a)$ dan $f(b)$ berlawanan tanda (sehingga pasti ada akar pada interval tersebut, menurut Teorema Nilai Antara / *Intermediate Value Theorem*).
+
+Inti sari dari metode Bisection adalah
+
+1. menebak bahwa akar suatu persamaan ada di dalam interval tertentu $[a, b]$;
+2. menelusuri nilai fungsi pada nilai tengah atau rata-rata dari interval tersebut;
+3. mempersempit interval dengan memanfaatkan hasil rata-rata tersebut; dan
+4. terus mencari nilai tengah dari interval yang baru, yang kemudian dipersempit lalu dicari nilai tengahnya, dan seterusnya hingga akar ditemukan, atau hingga ukuran interval sudah cukup kecil sehingga memuaskan (yaitu sudah lebih kecil dari toleransi).
+
+Didefinisikan nilai tengah dari interval:
+
+$$p=\frac{(a+b)}{2}$$
+
+Akan dicari $f(p)$ dengan syarat sebagai berikut:
+
+* jika $f(p) = 0$, maka $p$ adalah akar dari $f$
+* jika $f(p)f(a) > 0$, maka $\text{sign}(f(p)) = \text{sign}(f(a))$. Sehingga, kita dapat mempersempit interval dengan memilih batasan baru yaitu a = p dan b tidak berubah.
+* jika $f(p)f(a) < 0$, maka $\text{sign}(f(p)) \neq \text{sign} (f(a))$, atau $\text{sign}(f(p)) = \text{sign}(f(b))$. Sehingga, kita dapat mempersempit interval dengan memilih batasan baru yaitu a tidak berubah dan b = p.
+
+Metode Bisection memiliki *order of convergence* = 1, atau disebut memiliki kekonvergenan linier (*linear convergence*). Artinya, dalam proses menemukan akar persamaan (konvergen menuju jawabannya), metode Bisection tidak secepat beberapa metode lainnya yang memiliki *order of convergence* yang lebih tinggi.
+
+```{python}
+def Bisection(f, lower, upper, tol):
+    if f(lower)*f(upper)<0:
+        p0=lower
+        p=(lower+upper)/2
+
+        if f(p)==0:
+            return p
+        elif f(p)*f(lower)>0:
+            lower=p
+        elif f(p)*f(lower)<0:
+            upper=p
+ 
+        abs_error=abs(p0-p)
+        p0=p
+ 
+        while abs_error > tol:
+            p=(lower+upper)/2
+            
+            if f(p)==0:
+                break
+            elif f(p)*f(lower)>0:
+                lower=p
+            elif f(p)*f(lower)<0:
+                upper=p
+        
+            abs_error=abs(p0-p)
+            p0=p
+ 
+        return p
+ 
+    elif f(lower)*f(upper)>0:
+        return "Metode gagal mengaproksimasi akar. Silakan ubah batas atas atau batas bawah"
+    elif f(lower)==0:
+        return lower
+    else: #f(upper)==0
+        return upper
+```
+
+```{python}
+ #| eval: false
+'''
+from numpy import sin, cos, tan, log, exp, sqrt, pi
+
+formula = input('Masukkan formula fungsi: ')
+
+def f(x):
+    return eval(formula)
+
+low_bound = eval(input("Masukkan batas bawah interval: "))
+up_bound = eval(input("Masukkan batas atas interval: "))
+toleransi = eval(input("Masukkan toleransi aproksimasi: "))
+
+akar_bisection=Bisection(f, low_bound, up_bound, toleransi)
+
+try:
+    print(f"Akar persamaan {formula} = 0 adalah x = {akar_bisection}")
+except ValueError:
+    print(akar_bisection)
+'''
+```
+
+# Metode Fixed Point
+
+Inti sari dari Metode Fixed-Point adalah mencari *fixed-point* (titik tetap) dari suatu fungsi (misal fungsi $g(x)$), yaitu suatu nilai $p$ sehingga $p = g(p)$, atau $p - g(p) = 0$. Titik $p$ disebut titik tetap, karena ketika nilai $p$ dimasukkan ke fungsi $g(x)$, hasilnya tetaplah $p$. Untuk nilai $x$ yang dekat dengan $p$, biasanya ada kecenderungan nilai $g(x)$ menjadi semakin mendekati $p$.
+
+Perhatikan bahwa, sembarang persamaan $f(x) = 0$ bisa diubah bentuknya dengan mendefinisikan fungsi $g(x) = x - f(x)$ (sehingga $f(x) = x - g(x)$). Dengan demikian, permasalahan mencari akar berubah menjadi permasalahan mencari fixed-point, yaitu mencari nilai $p$ sehingga $p = g(p)$ atau $p - g(p) = 0$ (sehingga nilai $p$ tersebut juga menyebabkan $f(p) = 0$).
+
+(Tentu saja, itu bukanlah satu-satunya cara untuk mengubah permasalahan mencari akar menjadi permasalahan mencari fixed-point. Bahkan, tidak semua pilihan $g(x)$ yang memungkinkan itu dijamin memiliki fixed-point.)
+
+Misalkan $g$ adalah fungsi **kontinu** dan memiliki **fixed-point** $p$ pada interval $[a,b]$ (dan diasumsikan bahwa $g$ memenuhi persyaratan untuk kekonvergenan metode fixed-point). Artinya, ada $p \in [a,b]$ sehingga $g(x) = x$. Untuk mengaproksimasi penyelesaian dari persamaan $g(x) = x$, diperlukan suatu tebakan awal $p_0$, kemudian iterasinya adalah:
+
+$$p_n = g(p_{n-1})$$
+
+Nilai tersebut terus dimasukkan ke dalam $g$ sehingga, diharapkan, nilai $p_n$ menjadi semakin mendekati suatu nilai $p$ yang membuat $g(p) = p$.
+
+Pada umumnya, metode fixed-point memiliki kekonvergenan linier. Ketika $g(x)$ dijamin memliki tepat satu fixed-point (atau fixed-point yang unik) pada suatu interval $[a,b]$, maka Metode Fixed-Point dengan $p_0$ pada interval tersebut pasti memiliki kekonvergenan linier. Terkadang Metode Fixed-Point lebih cepat daripada Metode Bisection, dan terkadang Metode Bisection lebih cepat daripada Metode Fixed-Point.
+
+Hati-hati, ada kemungkinan bahwa $g(p_n)$ malah menjauhi $p$, contohnya untuk $g(x) = x^2$ dan $p_0 > 1$ (padahal $g(1) = 1$). Pada kasus seperti itu, metode fixed-point tidak dijamin konvergen (artinya tidak dijamin bisa menemukan fixed-point).
+
+Sebagai contoh penggunaan metode fixed-point, kalian bisa mencoba untuk menyelesaikan persamaan (masalah mencari akar) berikut ini,
+
+$$f(x) = x^2 - x - 1 = 0$$
+
+dengan sedikit manipulasi aljabar (dibagi $x$, pindah ruas) agar mendapatkan bentuk $x = g(x)$,
+
+$$x = 1 + \frac{1}{x}$$
+
+sehingga, dengan $g(x) = 1 + \frac{1}{x}$ bisa digunakan metode fixed-point, misal dengan tebakan awal $x = 2$ atau $x = -3$.
+
+(Jelas metode ini akan gagal untuk $g(x)$ tersebut apabila dipilih tebakan awal seperti $x=0$, $x=-1$, atau bahkan $x=-\frac{1}{2}$ karena akan terjadi pembagian nol. Kemungkinan terjadinya pembagian nol itu bukan hanya dari metodenya seperti metode Newton, tetapi juga dari fungsi $f(x)$ atau $g(x)$ yang digunakan.)
+
+Silakan coba dengan kode di bawah ini!
+
+Sebagai pembanding, kalian bisa menyelesaikan persamaan kuadrat $f(x) = x^2 - x - 1 = 0$ di atas, dan mendapatkan solusi
+
+$$x_1 = \frac{1+\sqrt{5}}{2} \approx 1.618$$
+
+$$x_2 = \frac{1-\sqrt{5}}{2} \approx -0.618$$
+
+Kebetulan, konstanta berikut ini yang berlambang phi kecil ($\phi$),
+
+$$\phi = \frac{1+\sqrt{5}}{2}$$
+
+adalah konstanta istimewa yang bernama *golden ratio*.
+
+```{python}
+from tabulate import tabulate
+
+def FixedPoint(g, p0, tol):
+    table = [["iterasi","Aproksimasi"]]
+    iterasi = []
+    
+    i = 1
+    p = g(p0)
+    abs_error = abs(p-p0)
+    p0 = p
+    iterasi.append(i)
+    iterasi.append(p)
+    table.append(iterasi)
+
+    while abs_error > tol:
+        iterasi = []
+        i += 1
+        p = g(p0)
+        abs_error = abs(p-p0)
+        p0 = p
+        iterasi.append(i)
+        iterasi.append(p)
+        table.append(iterasi)
+    
+    tabel_siap_print = tabulate(table,headers = 'firstrow',tablefmt="pretty")
+    return p0, tabel_siap_print
+```
+
+```{python}
+'''
+ #| eval: false
+
+from numpy import cos, sin, tan, log, exp, sqrt
+
+formula = input("Masukkan formula g(x): ")
+
+def g(x):
+    return eval(formula)
+
+tebakan_awal = eval(input("Masukkan titik awal iterasi: "))
+toleransi = eval(input("Masukkan batas toleransi: "))
+
+fixed_point, tabel = FixedPoint(g, tebakan_awal, toleransi)
+
+print(tabel)
+print(f"Ditemukan fixed point dari g(x) = {formula} yaitu x = {fixed_point}")
+'''
+```
+
+# Metode Newton Biasa (dengan turunan analitik)
+
+Misalkan $f$ kontinu dan terturunkan (memiliki turunan) di $[a,b]$ dan ada tebakan awal $p_0 \in$ $[a,b]$ sedemikian sehingga $f'(p_0) \neq 0$. Iterasi pada metode Newton untuk menyelesaian $f(x) = 0$ adalah sebagai berikut:
+
+$$p_n = p_{n-1} - \frac{f(p_{n-1})}{f'(p_{n-1})}$$
+
+Diharapkan bahwa, setelah banyak iterasi, nilai $p_n$ yang diperoleh akan membuat $f(p) = 0$ atau setidaknya sangat dekat dengan nol (lebih kecil dari batas toleransi yang kita anggap sudah memuaskan).
+
+Metode Newton juga dapat dipandang sebagai metode fixed-point dengan $g(x) = x - \frac{f(x)}{f'(x)}$
+
+Metode Newton gagal apabila, pada suatu iterasi, tiba-tiba $f'(p_n) = 0$.
+
+Pada umumnya, Metode Newton memiliki *order of convergence* = 2, atau juga disebut memiliki kekonvergenan kuadratik (*quadratic convergence*). Artinya, selama berhasil, Metode Newton lebih cepat daripada Metode Bisection maupun Metode Fixed-Point.
+
+```{python}
+def NewtonAnalitik(f,fp,p0,tolerance):
+    p = p0 - f(p0)/fp(p0)
+    abs_error = abs(p-p0)
+    p0 = p
+
+    while abs_error > tolerance:
+
+        try:
+            p = p0 - f(p0)/fp(p0)
+        except ZeroDivisionError:
+            return "Metode gagal mengaproksimasi akar. Silakan pilih tebakan awal lain"
+        
+        abs_error = abs(p-p0)
+        p0 = p
+    return p
+```
+
+```{python}
+ #| eval: false
+'''
+import sympy
+from numpy import sin, cos, tan, log, exp, sqrt
+
+formula = input("Masukkan fungsi: ")
+def f(x):
+    return eval(formula)
+
+x = sympy.symbols("x")
+
+df_string = str(sympy.diff(formula, x))
+def fp(x): # turunan f
+    return eval(df_string)
+
+tebakan_awal = eval(input("Masukkan tebakan awal / titik awal iterasi: "))
+tolerance = eval(input("Masukkan toleransi aproksimasi: "))
+
+akar_newton = NewtonAnalitik(f, fp, tebakan_awal, tolerance)
+
+print(f"Akar dari persamaan f(x) = {formula} adalah x = {akar_newton}")
+'''
+```
