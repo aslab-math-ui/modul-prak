@@ -1,0 +1,970 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"(Pertemuan 1) Pendahuluan Sympy, Tabulate, dan Metode Root-finding\"\n",
+        "subtitle: \"Pengenalan Sympy, Tabulate, dan Metode Root-Finding\"\n",
+        "author: \"Tim Dosen Praktikum Metode Numerik\"\n",
+        "description: \"Offline di Departemen Matematika\"\n",
+        "date: 03/04/2025\n",
+        "page-navigation: true\n",
+        "format: html\n",
+        "---\n",
+        "\n",
+        "\n",
+        "<style>\n",
+        ".contact-grid {\n",
+        "  display: grid;\n",
+        "  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n",
+        "  gap: 1rem;\n",
+        "  margin: 2rem 0;\n",
+        "}\n",
+        "\n",
+        ".btn {\n",
+        "  background-color: #3498db;\n",
+        "  color: white;\n",
+        "  padding: 0.5rem 1rem;\n",
+        "  border-radius: 5px;\n",
+        "  text-decoration: none;\n",
+        "  display: inline-block;\n",
+        "  margin: 0.5rem 0;\n",
+        "}\n",
+        "</style>\n",
+        "\n",
+        "Kembali ke [Mata Kuliah Metode Numerik](./metnum2025genap.qmd)\n",
+        "\n",
+        "Pada praktikum ini, kalian akan diajarkan esensial-esensial yang dibutuhkan dan algoritma dasar untuk metode-metode pada Metnum.\n",
+        "\n",
+        "Semua modul telah diuji menggunakan Jupyter Notebook dengan Python 3.11, serta Google Colaboratory yang menggunakan Python 3.9. Semua kode pada modul masih bisa digunakan untuk semua Python versi 3.6 ke atas. \n",
+        "\n",
+        "Algoritma dan Pemograman adalah syarat dari praktikum ini. Jadi, apabila kalian ada yang lupa beberapa materi praktikum ALPROG (algoritma dan pemograman) kalian bisa akses disini.\n",
+        "\n",
+        "<div class=\"contact-grid\">\n",
+        "<div class=\"contact-card\">\n",
+        "<a href=\"https://aslab-math-ui.github.io/modul-prak/semuahalaman/modulprak/2024/genap/metnum/modul0.html\" class=\"btn\">😋Review Python Singkat</a>\n",
+        "</div>\n",
+        "<div class=\"contact-card\">\n",
+        "<a href=\"https://aslab-math-ui.github.io/modul-prak/semuahalaman/modulprak/2024/ganjil/prak_alprog/prak_alprog_2024.html\" class=\"btn\">😥Review Alprog Lengkap</a>\n",
+        "</div>\n",
+        "</div>\n",
+        "\n",
+        "Kalian juga bisa menggunakan aplikasi/IDE (Integrated Development Environment) lainnya seperti PyCharm, Spyder, atau bahkan IDLE (IDLE adalah IDE bawaan Python yang diinstal dari python.org), namun kalian disarankan menggunakan Jupyter Notebook atau Google Colaboratory karena file tugas menggunakan file format .ipynb.\n",
+        "\n",
+        "Kerangka Belajar kita bisa \n",
+        "\n",
+        "- Tabulate\n",
+        "- SymPy\n",
+        "- Metode Bisection\n",
+        "- Metode Fixed Point\n",
+        "- Metode Newton biasa (dengan turunan analitik)\n",
+        "\n",
+        "# Tabulate\n",
+        "\n",
+        "Untuk menyajikan hasil iterasi, tabel sering digunakan karena akan mudah membacanya. Di Python, terdapat package untuk membuat tabel dengan cara sederhana. Package tersebut bernama tabulate.\n",
+        "\n",
+        "Apabila  tabulate belum terinstall, kalian bisa mengetik `pip install tabulate` (atau `!pip install tabulate` dengan tanda seru)"
+      ],
+      "id": "d42480ae"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "!pip install tabulate"
+      ],
+      "id": "1eb0871e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "dan seperti biasa, setelah instalasi selesai, mungkin kalian perlu menutup kemudian membuka kembali Jupyter Notebook sebelum bisa menggunakan tabulate.\n",
+        "\n",
+        "Seperti package umumnya, selanjutnya kita import terlebih dahulu.\n"
+      ],
+      "id": "3772ec99"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from tabulate import tabulate"
+      ],
+      "id": "b2481da7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Sekarang, buat konten tabel. Konten tabel disimpan dalam list/array 2-D dimana setiap array di dalamnya adalah baris.\n",
+        "\n",
+        "Headers dari tabel dapat kita buat sendiri. Jumlah dari headers harus sama dengan jumlah elemen pada setiap array.\n",
+        "\n",
+        "‘tablefmt’ adalah format bentuk tabel. Format yang biasa digunakan adalah “orgtbl”, dan ada macam-macam format tabel yang bisa dicari di https://pypi.org/project/tabulate/\n"
+      ],
+      "id": "7d859db6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "table = [[\"Jeruk\", 1], [\"Nanas\", 2]]\n",
+        "print(tabulate(table, headers = [\"Buah\", \"Kuantitas\"], tablefmt = \"orgtbl\"))"
+      ],
+      "id": "77adc1db",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Dalam membuat konten tabel, panjang dari setiap list harus sama dengan banyak headers. Apabila ada baris yang banyak elemennya melebihi banyak headers, maka elemen yang diambil adalah elemen sebanyak headers yang pertama. Kolom paling kiri diisi terlebih dahulu.\n",
+        "\n",
+        "Perhatikan contoh berikut."
+      ],
+      "id": "75e6ddd5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "table = [[\"Jeruk\", 1, 4], [\"Nanas\", 2, 3, 5], [\"Mangga\", 3]]\n",
+        "print(tabulate(table, headers = [\"Buah\", \"Kuantitas\", \"Harga\"], tablefmt = \"orgtbl\"))"
+      ],
+      "id": "7c6ff918",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Apabila baris pertama digunakan sebagai header, banyak kolom akan sama dengan banyak elemen yang paling banyak di antara semua baris tabel. Penamaan kolom dimulai dari kanan.\n",
+        "\n",
+        "Perhatikan contoh berikut."
+      ],
+      "id": "e80fedb0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "table = [[\"Saya\", 1, 4], [\"Tampan\", 2, 3, 5], [\"Banget\", 3, 5]]\n",
+        "print(tabulate(table, headers = \"firstrow\", tablefmt = \"orgtbl\"))"
+      ],
+      "id": "80a706eb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Tabulate sangat berguna untuk membentuk tabel secara “otomatis” atau secara pemrograman. Misalnya, kita bisa memanfaatkan looping dan pernyataan kondisional untuk membuat beberapa baris yang mengikuti pola dan syarat tertentu.\n",
+        "\n",
+        "Sebagai contoh, misalnya kita punya function yang menghitung bilangan kuadrat ke-i."
+      ],
+      "id": "d112ac5c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def kuadrat(i):\n",
+        "    return i**2\n",
+        "\n",
+        "print(kuadrat(5))"
+      ],
+      "id": "b060e5ed",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita bisa membuat tabel, misalnya, yang menjabarkan bilangan kuadrat ke-1 sampai ke-5. Perhatikan struktur tabel apabila dibuat secara manual:"
+      ],
+      "id": "34fa06cb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "tabel_kuadrat = [\n",
+        "    [1, 1],\n",
+        "    [2, 4],\n",
+        "    [3, 9],\n",
+        "    [4, 16],\n",
+        "    [5, 15]\n",
+        "]\n",
+        "print(tabulate(tabel_kuadrat, headers=[\"i\", \"kuadrat\"]))"
+      ],
+      "id": "3de55e05",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Terlihat bahwa tabel tersebut memiliki lima baris, dan tiap baris berupa list yang merupakan elemen dari list besar `tabel_kuadrat`. Kita bisa membuatnya secara “otomatis” atau secara pemrograman:"
+      ],
+      "id": "6f708acf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "tabel_mentah = []\n",
+        "for i in range(1, 6): # mulai dari 1, lanjut selama kurang dari 6\n",
+        "    calon_baris = [i, kuadrat(i)] # baris baru\n",
+        "    tabel_mentah.append(calon_baris) # menambahkan baris baru ke list besar\n",
+        "\n",
+        "print(tabulate(tabel_mentah, headers=[\"i\", \"kuadrat\"]))"
+      ],
+      "id": "5657fe0e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Tentu saja, `calon_baris` tidak harus langsung jadi ketika baru didefinisikan. Tiap bagian dari suatu baris bisa saja ditambahkan secara berangsur-angsur:"
+      ],
+      "id": "2bb04db0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "tabel_mentah = []\n",
+        "for i in range(1, 6): # mulai dari 1, lanjut selama kurang dari 6\n",
+        "    calon_baris = [] # baris baru\n",
+        "    calon_baris.append(i) # bagian pertama pada baris\n",
+        "\n",
+        "    # bagian kedua pada baris\n",
+        "    nilai_kedua = kuadrat(i)\n",
+        "    calon_baris.append(nilai_kedua)\n",
+        "\n",
+        "    tabel_mentah.append(calon_baris) # menambahkan baris baru ke list besar\n",
+        "\n",
+        "print(tabulate(tabel_mentah, headers=[\"i\", \"kuadrat\"]))"
+      ],
+      "id": "6ba64090",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Adanya lebih dari dua kolom juga sangat memungkinkan, tinggal ditambahkan ke `calon_baris`:"
+      ],
+      "id": "40beef52"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "tabel_mentah = []\n",
+        "for i in range(1, 6): # mulai dari 1, lanjut selama kurang dari 6\n",
+        "    calon_baris = [] # baris baru\n",
+        "\n",
+        "    # bagian pertama pada baris\n",
+        "    calon_baris.append(i)\n",
+        "\n",
+        "    # bagian kedua pada baris\n",
+        "    nilai_kedua = kuadrat(i)\n",
+        "    calon_baris.append(nilai_kedua)\n",
+        "\n",
+        "    # bagian ketiga\n",
+        "    calon_baris.append(i**3)\n",
+        "\n",
+        "    # bagian keempat\n",
+        "    calon_baris.append(i**4)\n",
+        "\n",
+        "    tabel_mentah.append(calon_baris) # menambahkan baris baru ke list besar\n",
+        "\n",
+        "print(tabulate(tabel_mentah, headers=[\"i\", \"kuadrat\", \"pangkat tiga\",\"pangkat empat\"]))"
+      ],
+      "id": "c95156c4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Apabila kita sudah memiliki data tiap kolom dalam bentuk list, kita bisa membentuk `calon_baris` pada tiap iterasi for loop dengan mengakses elemen ke-i dari tiap list."
+      ],
+      "id": "92ddd860"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# misalnya data ini sudah ada, atau sudah diolah sebelumnya\n",
+        "kolom_awal = [1, 2, 3, 4, 5]\n",
+        "kolom_kuadrat = [1, 4, 9, 16, 25]\n",
+        "kolom_tiga = [1, 8, 27, 64, 125]\n",
+        "kolom_empat = [1, 16, 81, 256, 625]\n",
+        "\n",
+        "# mari kita buat tabel\n",
+        "tabel_mentah = []\n",
+        "for i in range(0, 5): # indeks list dimulai dari nol, lanjut selama i < 5\n",
+        "    calon_baris = []\n",
+        "\n",
+        "    # elemen ke-i dari tiap list kolom\n",
+        "    calon_baris.append(kolom_awal[i])\n",
+        "    calon_baris.append(kolom_kuadrat[i])\n",
+        "    calon_baris.append(kolom_tiga[i])\n",
+        "    calon_baris.append(kolom_empat[i])\n",
+        "\n",
+        "    tabel_mentah.append(calon_baris)\n",
+        "\n",
+        "print(tabulate(tabel_mentah, headers=[\"i\", \"kuadrat\", \"pangkat tiga\",\"pangkat empat\"]))"
+      ],
+      "id": "64e0813d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bagaimana kalau misalnya ada data yang tidak lengkap? Kita bisa saja menggunakan try-except, untuk memasukkan “X” ketika ada data yang tidak lengkap, sekaligus menghindari error:"
+      ],
+      "id": "03b3ec41"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# contoh data\n",
+        "kolom_awal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+        "kolom_kuadrat = [1, 4, 9, 16, 25]\n",
+        "\n",
+        "tabel_mentah = []\n",
+        "for i in range(0, 10): # indeks list dimulai dari nol, lanjut selama i < 10\n",
+        "    calon_baris = []\n",
+        "\n",
+        "    # elemen ke-i dari tiap list kolom\n",
+        "    calon_baris.append(kolom_awal[i])\n",
+        "    \n",
+        "    try:\n",
+        "        calon_baris.append(kolom_kuadrat[i])\n",
+        "    except IndexError:\n",
+        "        calon_baris.append(\"X\")\n",
+        "\n",
+        "    tabel_mentah.append(calon_baris)\n",
+        "\n",
+        "print(tabulate(tabel_mentah, headers=[\"i\", \"kuadrat\"]))"
+      ],
+      "id": "77aaf6d0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "NumPy juga memiliki semacam tipe data atau nilai yang standar untuk menandakan data yang hilang atau tidak tersedia, yaitu NaN (Not a Number), melalui `numpy.nan`. Sehingga, \"X\" pada kode di atas bisa diganti dengan `numpy.nan`:\n",
+        "\n",
+        "Apabila  Numpy belum terinstall, kalian bisa mengetik `pip install numpy` (atau `!pip install numpy` dengan tanda seru)"
+      ],
+      "id": "c2a0d5aa"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "!pip install numpy"
+      ],
+      "id": "ef13dce5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "dan seperti biasa, setelah instalasi selesai, mungkin kalian perlu menutup kemudian membuka kembali Jupyter Notebook sebelum bisa menggunakan.\n"
+      ],
+      "id": "b1b921b5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "# contoh data\n",
+        "kolom_awal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+        "kolom_kuadrat = [1, 4, 9, 16, 25]\n",
+        "\n",
+        "tabel_mentah = []\n",
+        "for i in range(0, 10): # indeks list dimulai dari nol, lanjut selama i < 10\n",
+        "    calon_baris = []\n",
+        "\n",
+        "    # elemen ke-i dari tiap list kolom\n",
+        "    calon_baris.append(kolom_awal[i])\n",
+        "    \n",
+        "    try:\n",
+        "        calon_baris.append(kolom_kuadrat[i])\n",
+        "    except IndexError:\n",
+        "        calon_baris.append(np.nan)\n",
+        "\n",
+        "    tabel_mentah.append(calon_baris)\n",
+        "\n",
+        "print(tabulate(tabel_mentah, headers=[\"i\", \"kuadrat\"]))"
+      ],
+      "id": "0a27e43d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Sympy\n",
+        "\n",
+        "Dalam pembelajaran metode numerik, seringkali kita perlu membandingkan hasil aproksimasi kita dengan nilai yang sesungguhnya. Seringkali pula, sebenarnya nilai yang sesungguhnya itu dapat kita peroleh (karena kita masih dalam tahap belajar; penerapan metode numerik di dunia nyata adalah pada kasus di mana nilai eksak tidak dapat diperoleh).\n",
+        "\n",
+        "Hasil perhitungan eksak (seperti perhitungan menggunakan aljabar biasa atau ilmu kalkulus) juga disebut hasil perhitungan analitik atau simbolik. Istilah “analitik” bisa dianggap antonim dari istilah “numerik”.\n",
+        "\n",
+        "Di Python, ada module/package bernama SymPy (symbolic Python) yang dapat melakukan perhitungan simbolik, seperti menghitung turunan, yang misalnya digunakan di metode Newton.\n",
+        "\n",
+        "(Fun fact: aplikasi/package di komputer yang dapat melakukan perhitungan simbolik disebut Computer Algebra System (CAS). Beberapa contoh CAS adalah SymPy, Wolfram Mathematica, dan Maple.)\n",
+        "\n",
+        "Apabila  Sympy belum terinstall, kalian bisa mengetik `pip install sympy` (atau `!pip install sympy` dengan tanda seru)"
+      ],
+      "id": "b717a956"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "!pip install sympy"
+      ],
+      "id": "c73c7245",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "dan seperti biasa, setelah instalasi selesai, mungkin kalian perlu menutup kemudian membuka kembali Jupyter Notebook sebelum bisa menggunakan.\n"
+      ],
+      "id": "540d286e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import sympy"
+      ],
+      "id": "677d0c01",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Tentunya, penggunaan SymPy melibatkan variabel. Misalnya, kita ingin melakukan perhitungan simbolik dengan variabel $x$\n",
+        ". Kita perlu memberitahu SymPy, dengan syntax seperti berikut:\n"
+      ],
+      "id": "5fff01ab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.symbols(\"x\")"
+      ],
+      "id": "19d25905",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Artinya, kita baru saja memberitahu SymPy bahwa, pada string apapun yang dijumpai oleh SymPy, huruf “x” perlu dianggap sebagai simbol, atau lebih tepatnya sebagai variabel.\n",
+        "\n",
+        "Perhatikan pula bahwa kode di atas adalah assignment ke variabel pemrograman yang juga bernama x. Dengan demikian, untuk ke depannya, variabel x yang kita ketik di mana saja pada program kita akan dianggap sebagai variabel “x” oleh SymPy.\n",
+        "\n",
+        "Dengan variabel x tersebut, kita dapat mendefinisikan suatu expression (ekspresi atau kalimat matematika), misal $5x^4$, seperti berikut:\n"
+      ],
+      "id": "e0885dd9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "polinom = 5 * (x ** 4) / 2\n",
+        "print(polinom)"
+      ],
+      "id": "b2af06cc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "SymPy memiliki fitur `pprint` (pretty print), yaitu menampilkan suatu ekspresi secara cantik atau indah, layaknya seperti kita tulis di kertas:"
+      ],
+      "id": "ac0028e1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.pprint(polinom)"
+      ],
+      "id": "e51bf12d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk melakukan diferensiasi atau menghitung turunan (dalam hal ini secara simbolik/analitik), gunakan `sympy.diff`:"
+      ],
+      "id": "6379fe2a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "turunan = sympy.diff(polinom, x)\n",
+        "sympy.pprint(turunan)"
+      ],
+      "id": "e79a4255",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "dengan begitu, SymPy menghitung turunan dari ekspresi `polinom` yang kita berikan itu, terhadap variabel `x`. Sebenarnya, mengetik `sympy.diff(polinom)` saja sudah cukup, tapi lebih lengkap lebih baik.\n",
+        "\n",
+        "Sejauh ini, semua ekspresi yang kita jumpai masih berbentuk simbol/tulisan, sehingga kita belum bisa men-substitusi variabel x dengan sembarang nilai. Misalnya kita ingin menjadikan ekspresi di atas sebagai suatu fungsi `func(x)`, di mana kita bisa memasukkan nilai x apapun dan mendapatkan hasil. Caranya adalah menggunakan `sympy.lambdify`:\n"
+      ],
+      "id": "2f0d3bd4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "func = sympy.lambdify(x, turunan)\n",
+        "print(func(5))"
+      ],
+      "id": "2644ffd5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada syntax `lambdify` di atas, kita perlu memberitahu SymPy terlebih dahulu, variabel apa yang digunakan pada ekspresi tersebut; barulah kita tuliskan ekspresinya. Dalam hal ini, kita mengetik `sympy.lambdify(x, turunan)` karena sedang menggunakan variabel `x` untuk ekspresi `turunan` yang ingin kita ubah menjadi fungsi yang bisa di-substitusi nilai x nya.\n",
+        "\n",
+        "Fungsi hasil `lambdify` sudah bisa digunakan seperti fungsi lainnya pada Python. Bahkan, kita bisa mencampur penggunaan SymPy dengan NumPy (maupun package lainnya). Contohnya, setelah tadi memperoleh `func(x)` dari SymPy:\n"
+      ],
+      "id": "d0f80c36"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "arr = np.array([2, 3, 5, 10])\n",
+        "print(func(arr))"
+      ],
+      "id": "9cb34d92",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Seperti NumPy, SymPy juga memiliki fungsi `sin`, `cos`, `log`, `exp` dll, sehingga kita bisa melakukan perhitungan analitik yang melibatkan fungsi-fungsi tersebut.\n"
+      ],
+      "id": "baf8c1bc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g = x**2 * sympy.cos(x) + sympy.exp(-5*x)\n",
+        "print(\"Fungsinya:\")\n",
+        "sympy.pprint(g)\n",
+        "\n",
+        "gp = sympy.diff(g, x)\n",
+        "print(\"Turunannya:\")\n",
+        "sympy.pprint(gp)"
+      ],
+      "id": "6b6525f5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Meskipun kita bisa saja melakukan, misalnya, `from sympy import cos`, hal tersebut tidak disarankan, apalagi ketika program kita juga menggunkaan NumPy dengan `from numpy import cos` atau bahkan `from numpy import *`. Alasannya, dengan begitu, program bisa menjadi membingungkan, karena tidak ada pembeda antara `cos` dari NumPy (numerik) dengan `cos` dari SymPy (analitik/simbolik).\n",
+        "\n",
+        "Namun, kalau Anda berhati-hati dan hanya melakukan hal tersebut untuk salah satu package saja, silakan.\n",
+        "\n",
+        "Menariknya, SymPy bisa jadi lebih unggul daripada NumPy untuk beberapa perhitungan yang melibatkan akurasi tinggi, terutama untuk perhitungan yang sebenarnya bersifat analitik. Misalnya, kita tahu bahwa $sin(\\pi) = 0$. Menurut SymPy,\n"
+      ],
+      "id": "3554f6e5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(\"Menurut SymPy, sin(pi) = \" + str(sympy.sin(sympy.pi)))"
+      ],
+      "id": "2223cbc2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "karena SymPy menghitung nilai sin dari $\\pi$ secara analitik, yaitu tanpa perlu menghitung nilai $\\pi$ (karena nilainya sudah jelas nol berdasarkan sifat fungsi sin). Sedangkan, NumPy mengaproksimasi nilai $\\pi$ terlebih dahulu, barulah hasil aproksimasi tersebut yang masuk ke fungsi sin. Hasil perhitungan fungsi sin tersebut pun juga aproksimasi, sehingga didapatkan hasil seperti berikut, yaitu sangat kecil tetapi bukan nol:\n"
+      ],
+      "id": "dbbfeec0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(\"Menurut NumPy, sin(pi) = \" + str(np.sin(np.pi)))"
+      ],
+      "id": "b1ec2892",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "di mana “e-16” artinya “dikali 10 pangkat -16”.\n",
+        "\n",
+        "# Metode Bisection\n",
+        "\n",
+        "Metode Bisection adalah salah satu metode yang dapat kita gunakan dalam masalah pencarian akar (**root finding**). Akar dari suatu persamaan didefinisikan sebagai nilai $x$ yang memenuhi $f(x) = 0$. Misalkan $f$ adalah suatu fungsi kontinu terdefinisi di $[a,b]$, di mana $f(a)$ dan $f(b)$ berlawanan tanda (sehingga pasti ada akar pada interval tersebut, menurut Teorema Nilai Antara / *Intermediate Value Theorem*).\n",
+        "\n",
+        "Inti sari dari metode Bisection adalah\n",
+        "\n",
+        "1. menebak bahwa akar suatu persamaan ada di dalam interval tertentu $[a, b]$;\n",
+        "2. menelusuri nilai fungsi pada nilai tengah atau rata-rata dari interval tersebut;\n",
+        "3. mempersempit interval dengan memanfaatkan hasil rata-rata tersebut; dan\n",
+        "4. terus mencari nilai tengah dari interval yang baru, yang kemudian dipersempit lalu dicari nilai tengahnya, dan seterusnya hingga akar ditemukan, atau hingga ukuran interval sudah cukup kecil sehingga memuaskan (yaitu sudah lebih kecil dari toleransi).\n",
+        "\n",
+        "Didefinisikan nilai tengah dari interval:\n",
+        "\n",
+        "$$p=\\frac{(a+b)}{2}$$\n",
+        "\n",
+        "Akan dicari $f(p)$ dengan syarat sebagai berikut:\n",
+        "\n",
+        "* jika $f(p) = 0$, maka $p$ adalah akar dari $f$\n",
+        "* jika $f(p)f(a) > 0$, maka $\\text{sign}(f(p)) = \\text{sign}(f(a))$. Sehingga, kita dapat mempersempit interval dengan memilih batasan baru yaitu a = p dan b tidak berubah.\n",
+        "* jika $f(p)f(a) < 0$, maka $\\text{sign}(f(p)) \\neq \\text{sign} (f(a))$, atau $\\text{sign}(f(p)) = \\text{sign}(f(b))$. Sehingga, kita dapat mempersempit interval dengan memilih batasan baru yaitu a tidak berubah dan b = p.\n",
+        "\n",
+        "Metode Bisection memiliki *order of convergence* = 1, atau disebut memiliki kekonvergenan linier (*linear convergence*). Artinya, dalam proses menemukan akar persamaan (konvergen menuju jawabannya), metode Bisection tidak secepat beberapa metode lainnya yang memiliki *order of convergence* yang lebih tinggi.\n"
+      ],
+      "id": "eb9ab301"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def Bisection(f, lower, upper, tol):\n",
+        "    if f(lower)*f(upper)<0:\n",
+        "        p0=lower\n",
+        "        p=(lower+upper)/2\n",
+        "\n",
+        "        if f(p)==0:\n",
+        "            return p\n",
+        "        elif f(p)*f(lower)>0:\n",
+        "            lower=p\n",
+        "        elif f(p)*f(lower)<0:\n",
+        "            upper=p\n",
+        " \n",
+        "        abs_error=abs(p0-p)\n",
+        "        p0=p\n",
+        " \n",
+        "        while abs_error > tol:\n",
+        "            p=(lower+upper)/2\n",
+        "            \n",
+        "            if f(p)==0:\n",
+        "                break\n",
+        "            elif f(p)*f(lower)>0:\n",
+        "                lower=p\n",
+        "            elif f(p)*f(lower)<0:\n",
+        "                upper=p\n",
+        "        \n",
+        "            abs_error=abs(p0-p)\n",
+        "            p0=p\n",
+        " \n",
+        "        return p\n",
+        " \n",
+        "    elif f(lower)*f(upper)>0:\n",
+        "        return \"Metode gagal mengaproksimasi akar. Silakan ubah batas atas atau batas bawah\"\n",
+        "    elif f(lower)==0:\n",
+        "        return lower\n",
+        "    else: #f(upper)==0\n",
+        "        return upper"
+      ],
+      "id": "1d60f067",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        " #| eval: false\n",
+        "'''\n",
+        "from numpy import sin, cos, tan, log, exp, sqrt, pi\n",
+        "\n",
+        "formula = input('Masukkan formula fungsi: ')\n",
+        "\n",
+        "def f(x):\n",
+        "    return eval(formula)\n",
+        "\n",
+        "low_bound = eval(input(\"Masukkan batas bawah interval: \"))\n",
+        "up_bound = eval(input(\"Masukkan batas atas interval: \"))\n",
+        "toleransi = eval(input(\"Masukkan toleransi aproksimasi: \"))\n",
+        "\n",
+        "akar_bisection=Bisection(f, low_bound, up_bound, toleransi)\n",
+        "\n",
+        "try:\n",
+        "    print(f\"Akar persamaan {formula} = 0 adalah x = {akar_bisection}\")\n",
+        "except ValueError:\n",
+        "    print(akar_bisection)\n",
+        "'''"
+      ],
+      "id": "02878eb9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Metode Fixed Point\n",
+        "\n",
+        "Inti sari dari Metode Fixed-Point adalah mencari *fixed-point* (titik tetap) dari suatu fungsi (misal fungsi $g(x)$), yaitu suatu nilai $p$ sehingga $p = g(p)$, atau $p - g(p) = 0$. Titik $p$ disebut titik tetap, karena ketika nilai $p$ dimasukkan ke fungsi $g(x)$, hasilnya tetaplah $p$. Untuk nilai $x$ yang dekat dengan $p$, biasanya ada kecenderungan nilai $g(x)$ menjadi semakin mendekati $p$.\n",
+        "\n",
+        "Perhatikan bahwa, sembarang persamaan $f(x) = 0$ bisa diubah bentuknya dengan mendefinisikan fungsi $g(x) = x - f(x)$ (sehingga $f(x) = x - g(x)$). Dengan demikian, permasalahan mencari akar berubah menjadi permasalahan mencari fixed-point, yaitu mencari nilai $p$ sehingga $p = g(p)$ atau $p - g(p) = 0$ (sehingga nilai $p$ tersebut juga menyebabkan $f(p) = 0$).\n",
+        "\n",
+        "(Tentu saja, itu bukanlah satu-satunya cara untuk mengubah permasalahan mencari akar menjadi permasalahan mencari fixed-point. Bahkan, tidak semua pilihan $g(x)$ yang memungkinkan itu dijamin memiliki fixed-point.)\n",
+        "\n",
+        "Misalkan $g$ adalah fungsi **kontinu** dan memiliki **fixed-point** $p$ pada interval $[a,b]$ (dan diasumsikan bahwa $g$ memenuhi persyaratan untuk kekonvergenan metode fixed-point). Artinya, ada $p \\in [a,b]$ sehingga $g(x) = x$. Untuk mengaproksimasi penyelesaian dari persamaan $g(x) = x$, diperlukan suatu tebakan awal $p_0$, kemudian iterasinya adalah:\n",
+        "\n",
+        "$$p_n = g(p_{n-1})$$\n",
+        "\n",
+        "Nilai tersebut terus dimasukkan ke dalam $g$ sehingga, diharapkan, nilai $p_n$ menjadi semakin mendekati suatu nilai $p$ yang membuat $g(p) = p$.\n",
+        "\n",
+        "Pada umumnya, metode fixed-point memiliki kekonvergenan linier. Ketika $g(x)$ dijamin memliki tepat satu fixed-point (atau fixed-point yang unik) pada suatu interval $[a,b]$, maka Metode Fixed-Point dengan $p_0$ pada interval tersebut pasti memiliki kekonvergenan linier. Terkadang Metode Fixed-Point lebih cepat daripada Metode Bisection, dan terkadang Metode Bisection lebih cepat daripada Metode Fixed-Point.\n",
+        "\n",
+        "Hati-hati, ada kemungkinan bahwa $g(p_n)$ malah menjauhi $p$, contohnya untuk $g(x) = x^2$ dan $p_0 > 1$ (padahal $g(1) = 1$). Pada kasus seperti itu, metode fixed-point tidak dijamin konvergen (artinya tidak dijamin bisa menemukan fixed-point).\n",
+        "\n",
+        "Sebagai contoh penggunaan metode fixed-point, kalian bisa mencoba untuk menyelesaikan persamaan (masalah mencari akar) berikut ini,\n",
+        "\n",
+        "$$f(x) = x^2 - x - 1 = 0$$\n",
+        "\n",
+        "dengan sedikit manipulasi aljabar (dibagi $x$, pindah ruas) agar mendapatkan bentuk $x = g(x)$,\n",
+        "\n",
+        "$$x = 1 + \\frac{1}{x}$$\n",
+        "\n",
+        "sehingga, dengan $g(x) = 1 + \\frac{1}{x}$ bisa digunakan metode fixed-point, misal dengan tebakan awal $x = 2$ atau $x = -3$.\n",
+        "\n",
+        "(Jelas metode ini akan gagal untuk $g(x)$ tersebut apabila dipilih tebakan awal seperti $x=0$, $x=-1$, atau bahkan $x=-\\frac{1}{2}$ karena akan terjadi pembagian nol. Kemungkinan terjadinya pembagian nol itu bukan hanya dari metodenya seperti metode Newton, tetapi juga dari fungsi $f(x)$ atau $g(x)$ yang digunakan.)\n",
+        "\n",
+        "Silakan coba dengan kode di bawah ini!\n",
+        "\n",
+        "Sebagai pembanding, kalian bisa menyelesaikan persamaan kuadrat $f(x) = x^2 - x - 1 = 0$ di atas, dan mendapatkan solusi\n",
+        "\n",
+        "$$x_1 = \\frac{1+\\sqrt{5}}{2} \\approx 1.618$$\n",
+        "\n",
+        "$$x_2 = \\frac{1-\\sqrt{5}}{2} \\approx -0.618$$\n",
+        "\n",
+        "Kebetulan, konstanta berikut ini yang berlambang phi kecil ($\\phi$),\n",
+        "\n",
+        "$$\\phi = \\frac{1+\\sqrt{5}}{2}$$\n",
+        "\n",
+        "adalah konstanta istimewa yang bernama *golden ratio*.\n"
+      ],
+      "id": "3e7e5c60"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from tabulate import tabulate\n",
+        "\n",
+        "def FixedPoint(g, p0, tol):\n",
+        "    table = [[\"iterasi\",\"Aproksimasi\"]]\n",
+        "    iterasi = []\n",
+        "    \n",
+        "    i = 1\n",
+        "    p = g(p0)\n",
+        "    abs_error = abs(p-p0)\n",
+        "    p0 = p\n",
+        "    iterasi.append(i)\n",
+        "    iterasi.append(p)\n",
+        "    table.append(iterasi)\n",
+        "\n",
+        "    while abs_error > tol:\n",
+        "        iterasi = []\n",
+        "        i += 1\n",
+        "        p = g(p0)\n",
+        "        abs_error = abs(p-p0)\n",
+        "        p0 = p\n",
+        "        iterasi.append(i)\n",
+        "        iterasi.append(p)\n",
+        "        table.append(iterasi)\n",
+        "    \n",
+        "    tabel_siap_print = tabulate(table,headers = 'firstrow',tablefmt=\"pretty\")\n",
+        "    return p0, tabel_siap_print"
+      ],
+      "id": "7d0b2786",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "'''\n",
+        " #| eval: false\n",
+        "\n",
+        "from numpy import cos, sin, tan, log, exp, sqrt\n",
+        "\n",
+        "formula = input(\"Masukkan formula g(x): \")\n",
+        "\n",
+        "def g(x):\n",
+        "    return eval(formula)\n",
+        "\n",
+        "tebakan_awal = eval(input(\"Masukkan titik awal iterasi: \"))\n",
+        "toleransi = eval(input(\"Masukkan batas toleransi: \"))\n",
+        "\n",
+        "fixed_point, tabel = FixedPoint(g, tebakan_awal, toleransi)\n",
+        "\n",
+        "print(tabel)\n",
+        "print(f\"Ditemukan fixed point dari g(x) = {formula} yaitu x = {fixed_point}\")\n",
+        "'''"
+      ],
+      "id": "53939e93",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Metode Newton Biasa (dengan turunan analitik)\n",
+        "\n",
+        "Misalkan $f$ kontinu dan terturunkan (memiliki turunan) di $[a,b]$ dan ada tebakan awal $p_0 \\in$ $[a,b]$ sedemikian sehingga $f'(p_0) \\neq 0$. Iterasi pada metode Newton untuk menyelesaian $f(x) = 0$ adalah sebagai berikut:\n",
+        "\n",
+        "$$p_n = p_{n-1} - \\frac{f(p_{n-1})}{f'(p_{n-1})}$$\n",
+        "\n",
+        "Diharapkan bahwa, setelah banyak iterasi, nilai $p_n$ yang diperoleh akan membuat $f(p) = 0$ atau setidaknya sangat dekat dengan nol (lebih kecil dari batas toleransi yang kita anggap sudah memuaskan).\n",
+        "\n",
+        "Metode Newton juga dapat dipandang sebagai metode fixed-point dengan $g(x) = x - \\frac{f(x)}{f'(x)}$\n",
+        "\n",
+        "Metode Newton gagal apabila, pada suatu iterasi, tiba-tiba $f'(p_n) = 0$.\n",
+        "\n",
+        "Pada umumnya, Metode Newton memiliki *order of convergence* = 2, atau juga disebut memiliki kekonvergenan kuadratik (*quadratic convergence*). Artinya, selama berhasil, Metode Newton lebih cepat daripada Metode Bisection maupun Metode Fixed-Point.\n"
+      ],
+      "id": "1f8f97ac"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def NewtonAnalitik(f,fp,p0,tolerance):\n",
+        "    p = p0 - f(p0)/fp(p0)\n",
+        "    abs_error = abs(p-p0)\n",
+        "    p0 = p\n",
+        "\n",
+        "    while abs_error > tolerance:\n",
+        "\n",
+        "        try:\n",
+        "            p = p0 - f(p0)/fp(p0)\n",
+        "        except ZeroDivisionError:\n",
+        "            return \"Metode gagal mengaproksimasi akar. Silakan pilih tebakan awal lain\"\n",
+        "        \n",
+        "        abs_error = abs(p-p0)\n",
+        "        p0 = p\n",
+        "    return p"
+      ],
+      "id": "b63d1c80",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        " #| eval: false\n",
+        "'''\n",
+        "import sympy\n",
+        "from numpy import sin, cos, tan, log, exp, sqrt\n",
+        "\n",
+        "formula = input(\"Masukkan fungsi: \")\n",
+        "def f(x):\n",
+        "    return eval(formula)\n",
+        "\n",
+        "x = sympy.symbols(\"x\")\n",
+        "\n",
+        "df_string = str(sympy.diff(formula, x))\n",
+        "def fp(x): # turunan f\n",
+        "    return eval(df_string)\n",
+        "\n",
+        "tebakan_awal = eval(input(\"Masukkan tebakan awal / titik awal iterasi: \"))\n",
+        "tolerance = eval(input(\"Masukkan toleransi aproksimasi: \"))\n",
+        "\n",
+        "akar_newton = NewtonAnalitik(f, fp, tebakan_awal, tolerance)\n",
+        "\n",
+        "print(f\"Akar dari persamaan f(x) = {formula} adalah x = {akar_newton}\")\n",
+        "'''"
+      ],
+      "id": "da920018",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\ZakiZ\\AppData\\Local\\Programs\\Python\\Python313\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

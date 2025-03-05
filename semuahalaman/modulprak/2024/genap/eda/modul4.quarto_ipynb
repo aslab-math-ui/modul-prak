@@ -1,0 +1,709 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Pertemuan 4 : Data Visualization (seaborn)\"\n",
+        "image: static\\images\\seaborn.png\n",
+        "description: \"Data visualization in python using seaborn\"\n",
+        "date: 04/30/2024\n",
+        "page-navigation: true\n",
+        "jupyter: python3\n",
+        "format: html\n",
+        "---\n",
+        "\n",
+        "\n",
+        "Kembali ke [EDA](./eda2024genap.qmd)\n",
+        "\n",
+        "# Seaborn\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Seaborn adalah library visualisasi data yang dibangun di atas **matplotlib**, dan menggunakan struktur data yang ada pada library **pandas**. Seaborn banyak digunakan karena penggunaannya yang cukup *simple* dibandingkan dengan matplotlib.pyplot dengan hasil visualisasi yang lebih beragam.\n",
+        "\n",
+        "baca dokumentasi seaborn di sini : [Seaborn](https://seaborn.pydata.org/tutorial/introduction.html)\n",
+        "</div>\n",
+        "___\n"
+      ],
+      "id": "306fc979"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "#load dataset yang disediakan oleh modul atau library seaborn\n",
+        "iris = sns.load_dataset('iris')\n",
+        "iris"
+      ],
+      "id": "5673e2fa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "<div style='text-align: justify;'>\n",
+        "Berikut salah satu contoh visualisasi dari data iris yang dihasilkan oleh seaborn.\n",
+        "</div>\n"
+      ],
+      "id": "e2598c4d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "\n",
+        "from matplotlib import pyplot as plt\n",
+        "import seaborn as sns\n",
+        "iris.groupby('species').size().plot(kind='barh', color=sns.palettes.mpl_palette('Dark2'))\n",
+        "plt.gca().spines[['top', 'right',]].set_visible(False)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "48908471",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "\n",
+        "# Inputs\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Seaborn memiliki 3 cara untuk menginput data sebagai parameter (sumbu y dan/atau sumbu x) dari fungsi-fungsi visualisasinya.\n",
+        "\n",
+        "1. List/Series/Array\n",
+        "2. Pandas Dataframe dan kolom\n",
+        "3. Langsung masuk ke dataframenya untuk diolah\n",
+        "\n",
+        "</div>\n",
+        "\n",
+        "## List/Series/Array\n"
+      ],
+      "id": "ec400f85"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#Mengambil isinya saja dari kolom sepal length dan sepal width\n",
+        "length = iris['sepal_length'].values\n",
+        "width = iris['sepal_width'].values\n",
+        "print(length, width)"
+      ],
+      "id": "4295b7c2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.scatterplot(x=length, y=width)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "daaec4b4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Dataframe dan kolomnya\n"
+      ],
+      "id": "e1a4e55c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.scatterplot(x=iris['sepal_length'], y=iris['sepal_width'])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "13f91814",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "atau\n"
+      ],
+      "id": "a2476b22"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.scatterplot(x='sepal_length', y='sepal_width', data=iris)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "93d7b675",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Olah dataframe\n"
+      ],
+      "id": "8b9b8e40"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.boxplot(data=iris)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "2cd9c720",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Plots\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Seaborn memiliki banyak sekali jenis plot dengan fungsi yang berbeda-beda. 5 diantaranya yang akan dibahas pada pertemuan ini :\n",
+        "\n",
+        "1. Distribution Plot\n",
+        "2. Count Plot\n",
+        "3. Heatmap\n",
+        "4. Scatter Plot\n",
+        "5. Box Plot\n",
+        "\n",
+        "untuk plot lainnya, silakan telusuri dokumentasi seaborn berikut :\n",
+        "\n",
+        "[Seaborn Plots](https://seaborn.pydata.org/examples/index.html)\n",
+        "</div>\n",
+        "\n",
+        "## Distribution Plot\n"
+      ],
+      "id": "1cc1a7c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.displot(iris['petal_length'])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "3043f3be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "iris['petal_length'].skew()"
+      ],
+      "id": "b879eeb7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.displot(iris['sepal_width'])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "a2cd5e18",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "iris['sepal_width'].skew()"
+      ],
+      "id": "e8b216d1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.histplot(iris['sepal_length'])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "b63fa5fa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.histplot(iris['sepal_width'])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "4b4574be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Histogram kumulatif dari sepal width\n",
+        "sns.histplot(iris['sepal_width'], cumulative=True)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "049b61fb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Count Plot\n"
+      ],
+      "id": "fa8e61da"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#tips dari seaborn\n",
+        "tips=sns.load_dataset('tips')\n",
+        "tips"
+      ],
+      "id": "5c21ed97",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n"
+      ],
+      "id": "35c11901"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Histogram kumulatif dari sepal width\n",
+        "sns.countplot(x='day', data=tips)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "edb06e6e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Histogram kumulatif dari sepal width\n",
+        "sns.countplot(x=tips['day'])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "7a180483",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Histogram kumulatif dari sepal width\n",
+        "sns.countplot(x='sex', data=tips, palette='Accent', hue='sex')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "0c2017c0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Histogram kumulatif dari sepal width\n",
+        "sns.countplot(x='day', data=tips, palette='Blues', hue='sex')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "8a3fff62",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Histogram kumulatif dari sepal width\n",
+        "sns.countplot(x='sex', data=tips, palette='Blues', hue='day')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "7d47be5a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#Jika ingin mengammbar dalam sumbu vertikal ya y=\n",
+        "sns.countplot(y='day', data=tips, palette='Blues', hue='sex')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "54436cb3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.countplot(x='sex', data=tips, hue='smoker')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "4dda1345",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.countplot(x='smoker', data=tips, hue='sex')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "395c9e25",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Heatmap\n"
+      ],
+      "id": "5ee212b6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "iris.drop('species', axis=1, inplace=True)\n",
+        "iris"
+      ],
+      "id": "19c2c19f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n"
+      ],
+      "id": "263b6c6c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "korelasi_iris = iris.corr()\n",
+        "korelasi_iris"
+      ],
+      "id": "7bad8109",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(iris.corr())\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "8772bc15",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(iris.corr(), cmap='YlGnBu')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "f8db411d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(iris.corr(), cmap='YlGnBu')\n",
+        "\n",
+        "plt.xticks(rotation=45)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "774a9863",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(iris.corr(), cmap='YlGnBu')\n",
+        "\n",
+        "plt.yticks(rotation=45)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "5609a56e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(iris.corr(), cmap='YlGnBu')\n",
+        "\n",
+        "plt.xticks(rotation=45)\n",
+        "\n",
+        "plt.yticks(rotation=45)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "8a0efaca",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(korelasi_iris[(korelasi_iris >= 0.5)])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "ca100475",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(korelasi_iris[(korelasi_iris >= 0.5) | (korelasi_iris <= -0.2)])\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "fbecbaa0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(korelasi_iris[(korelasi_iris >= 0.5) | (korelasi_iris <= -0.2)], annot = True)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "7070933d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(korelasi_iris[(korelasi_iris >= 0.5) | (korelasi_iris <= -0.2)], annot = True, cmap='Blues')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "eae541a5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.heatmap(korelasi_iris[(korelasi_iris >= 0.5) | (korelasi_iris <= -0.2) ], annot = True, cmap = 'Blues', linewidth = 1, linecolor = 'black')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "29f2cf64",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Scatter Plot\n"
+      ],
+      "id": "cf969d7f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "iris = sns.load_dataset('iris')\n",
+        "iris"
+      ],
+      "id": "683d7a9f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n"
+      ],
+      "id": "ef8628c3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.scatterplot(x='sepal_length', y='sepal_width', data=iris, palette='Accent_r', hue='species')\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "64fe2436",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.regplot(x='sepal_length', y='sepal_width', data=iris)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "9fe976d2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.regplot(x='petal_length', y='petal_width', data=iris)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "9a70dd4f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "iris['petal_length'].corr(iris['petal_width'])"
+      ],
+      "id": "6f646e3b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Box Plot\n"
+      ],
+      "id": "89939048"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.boxplot(x='petal_length', data=iris)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "5f39fc38",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.boxplot(x='sepal_width', data=iris)\n",
+        "\n",
+        "plt.show()"
+      ],
+      "id": "10a189e0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | eval: false\n",
+        "?sns.countplot"
+      ],
+      "id": "f59ff147",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\ZakiZ\\AppData\\Local\\Programs\\Python\\Python313\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

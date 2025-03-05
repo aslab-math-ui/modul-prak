@@ -1,0 +1,674 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Pertemuan 2 : Data Cleaning with Pandas\"\n",
+        "image: static\\images\\pandas.jpg\n",
+        "description: \"Handling Dirty Data using Pandas\"\n",
+        "date: 04/15/2024\n",
+        "page-navigation: true\n",
+        "jupyter: python3\n",
+        "format: html\n",
+        "---\n",
+        "\n",
+        "\n",
+        "Kembali ke [EDA](./eda2024genap.qmd)\n",
+        "\n",
+        "# Gathering Data\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Data yang kita terima seringkali tidak berupa 1 tabel yang lengkap berisi seluruh informasi yang dibutuhkan. Terkadang kita perlu menggabungkan 2 atau lebih data yang saling berhubungan. Pandas memiliki beberapa fungsi yang dapat kita gunakan untuk menggabungkan beberapa data tersebut.\n",
+        "</div>\n",
+        "\n",
+        "## Concatenate & Merge\n",
+        "\n",
+        "### Concatenate\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Concatenate digunakan untuk menggabungkan 2 atau lebih series/dataframe. Argumen `axis=` digunakan untuk mengatur opsi penggabungan data menurut index baris atau index kolom. Berikut contoh penggunaan pada 2 series :\n"
+      ],
+      "id": "d73f11e1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "\n",
+        "series1 = pd.Series(['a','b','c'])\n",
+        "series2 = pd.Series(['x','y','z'])"
+      ],
+      "id": "23358f7d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "`axis=0 (default)` akan menggabungkan data pada index **baris**."
+      ],
+      "id": "4745c562"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([series1,series2], axis=0)"
+      ],
+      "id": "5feef6b4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "`axis=1` akan menggabungkan data pada index **kolom**."
+      ],
+      "id": "8c7430d5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([series1,series2], axis=1)"
+      ],
+      "id": "e5c585eb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "`ignore_index=True` akan mengabaikan index awal dari masing-masing data sehingga hasil penggabungan memiliki index baru."
+      ],
+      "id": "acd4c7a7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([series1,series2], ignore_index=True)"
+      ],
+      "id": "405fdc79",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Kita dapat menambahkan `keys` sebagai penanda dari masing-masing series sebelum digabungkan."
+      ],
+      "id": "0d71c8a4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([series1,series2], keys=['Series 1','Series 2'])"
+      ],
+      "id": "3625eb58",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::{.callout-tip}\n",
+        "Hasil penggabungan dengan argumen `keys=` akan menambahkan keys sebagai index gabungan, sehingga pada contoh di atas, index dari masing-masing value adalah sebuah tuple yang merupakan pasangan index gabungan dan index masing-masing."
+      ],
+      "id": "2248c272"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([series1,series2], keys=['Series 1','Series 2']).index"
+      ],
+      "id": "35fbcca3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::\n",
+        "___\n",
+        "Berikut contoh penggunaan pada DataFrame :"
+      ],
+      "id": "6340135f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df1=pd.DataFrame({'col 1':['a','b','c'],'col 2':[0,1,2]})\n",
+        "df2=pd.DataFrame({'col 1':['x','y','z'],'col 2':[4,5,6]})"
+      ],
+      "id": "2a5f58ba",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df1"
+      ],
+      "id": "b543d78f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df2"
+      ],
+      "id": "81712140",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "`axis=0 (default)` akan menggabungkan data pada index **baris**."
+      ],
+      "id": "112101d1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([df1,df2])"
+      ],
+      "id": "efa6e2c1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "`axis=1` akan menggabungkan data pada index **kolom**."
+      ],
+      "id": "3e5234b0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([df1,df2], axis=1)"
+      ],
+      "id": "a40644f3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "___\n",
+        "Perhatikan bahwa nama kolom `df1` dan `df2` sama. Misalkan kita menggabungkan 2 dataframe dengan nama kolom yang berbeda."
+      ],
+      "id": "03986c63"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df3=pd.DataFrame({'col 2':[3,4,5],'col 3':['m','n','o']})\n",
+        "df3"
+      ],
+      "id": "ad009dae",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Concatenate pada DataFrame melihat index kolom sebagai acuan untuk penggabungan pada `axis=0` (baris). "
+      ],
+      "id": "2a0d8060"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([df1,df3])"
+      ],
+      "id": "287401f9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Karena `df1` dan `df3` memiliki nama kolom yang berbeda, maka terjadi penggabungan baris sekaligus kolom. \n",
+        "\n",
+        "___\n",
+        "Untuk kolom yang beririsan, bisa menggunakan argumen `join=` untuk mengatur bagaimana penggabungan dilakukan (pada keseluruhan data atau pada data yang beririsan saja)"
+      ],
+      "id": "cd135742"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([df1,df3], join='inner') # df1 ⋂ df3"
+      ],
+      "id": "6a33c48a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.concat([df1,df3], join='outer') # df1 ⋃ df3"
+      ],
+      "id": "5acb8a86",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "### Merge\n",
+        "\n",
+        "<div style='text-align: justify;'>\n",
+        "Fungsi merge pada pandas digunakan untuk menggabungkan 2 atau lebih dataframe berdasarkan index kolom tertentu.\n"
+      ],
+      "id": "bf265671"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "karyawan = pd.DataFrame({'id':[1,2,3,4],'nama':['Joko','Alvin','Rafi','Lita']})\n",
+        "karyawan"
+      ],
+      "id": "d09278ee",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "gaji = pd.DataFrame({'id':[2,1,3,5,4,6],'gaji':[100.0,200.0,300.0,400.0,500.0,600.0]})\n",
+        "gaji"
+      ],
+      "id": "0fab1cc0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pd.merge(karyawan, gaji, on='id')"
+      ],
+      "id": "d20b0473",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Data nama karyawan dan gaji digabungkan dalam 1 dataframe, dengan nilai-nilai pada kolom id sebagai acuan.\n",
+        "\n",
+        ":::{.callout-note}\n",
+        "## Merge & Join\n",
+        "Pada modul ini, hanya dibahas mengenai dasar penggunaan fungsi merge untuk menggabungkan dataset. Untuk penggunaan lebih spesifik dengan argumen `left=`, `right=`, `left_on=`, `right_on=` dan `how=` akan dibahas pada materi ***Data Wrangling***\n",
+        ":::\n",
+        "</div>\n",
+        "\n",
+        "# Assessing Data\n",
+        "<div style='text-align: justify;'>\n",
+        "Setelah memiliki data yang komplit, langkah selanjutnya adalah mengidentifikasi validitas data yang kita punya. Apakah data yang kita miliki sudah cukup baik? Apakah sudah bisa dilakukan analisis pada data yang ada? Perlukah perubahan dan perbaruan data?\n",
+        "\n",
+        "Pertama, kita perlu melihat keberadaan **data yang buruk** dalam kumpulan data kita.\n",
+        "\n",
+        "Data yang buruk dapat berupa:\n",
+        "\n",
+        "- Data dalam format yang salah (Data ***integer*** terbaca sebagai suatu ***string***)\n",
+        "- Sel yang kosong (***Missing***)\n",
+        "- Duplikat (Data yang sama muncul lebih dari 1 kali)\n",
+        "- Data yang salah (Data yang tidak masuk akal. Misalnya seseorang berumur 600 tahun)\n",
+        "</div>\n",
+        "\n",
+        "## df.info()\n",
+        "<div style='text-align: justify;'>\n",
+        "\n",
+        "Method `.info()` dapat digunakan untuk melihat informasi dasar suatu dataframe seperti **jumlah entri keseluruhan**, **nama kolom**, **jumlah nilai non-null tiap kolom**, **tipe data tiap kolom** hingga **penggunaan memori suatu dataframe**\n",
+        "\n",
+        "Misalkan kita gunakan dataset pokemon pada modul sebelumnya,\n"
+      ],
+      "id": "b7b8e310"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df = pd.read_csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/main/pokemon_data.csv')\n",
+        "df.head()"
+      ],
+      "id": "ec02a615",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.info()"
+      ],
+      "id": "410d449b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "## Missing Values\n",
+        "<div style='text-align: justify;'>\n",
+        "Terdapat 2 tipe missing value.\n",
+        "\n",
+        "1. Data bernilai `NaN` (Not a Number)\n",
+        "2. Data bernilai `0` (Null)\n",
+        "\n",
+        ":::{.callout-warning}\n",
+        "## Null\n",
+        "Data bernilai 0 (Null) tidak selalu bersifat sebagai data yang hilang, bisa juga data memang memiliki data yang bernilai 0. Oleh karena itu, penting bagi kita untuk mengetahui konteks dari data yang dianalisis.\n",
+        ":::\n",
+        "___"
+      ],
+      "id": "4b3ff9d3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df = pd.DataFrame({\"Evan\" : [np.nan,100,95,94,99],\"Boy\" : [100,np.nan,95,99,94],\"Maxwell\" : [95,100,99,np.nan,94]})\n",
+        "df"
+      ],
+      "id": "14ca4744",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk melihat data mana saja yang mengandung value `NaN` (Not a Number), kita gunakan method `.isna()` atau `.isnull()`. (Kedua method ini memiliki fungsi yang sama dan dapat digunakan secara bergantian/salah satu saja)\n"
+      ],
+      "id": "fb745adb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.isna()"
+      ],
+      "id": "0e153742",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk melihat jumlah value `NaN` pada data, tambahkan method `.sum()` pada kode di atas.\n"
+      ],
+      "id": "1631f22a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.isna().sum()"
+      ],
+      "id": "3738b386",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::{.callout-note}\n",
+        "## Method `.sum()`\n",
+        "Method `.sum()` digunakan untuk menjumlahkan nilai-nilai pada tiap kolom dataframe (Juga dalam suatu Series).\n",
+        ":::\n",
+        "\n",
+        "Untuk melihat entri-entri yang memiliki nilai `NaN` pada kolom tertentu, lakukan *filtering* pada dataframe dengan `df['<nama-kolom>'].isna()` sebagai kondisi yang diinginkan.\n"
+      ],
+      "id": "287487c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[df['Evan'].isna()]   # Entri yang memiliki nilai `NaN` pada kolom `Evan`"
+      ],
+      "id": "0dbd57c2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "## Duplicates\n",
+        "<div style='text-align: justify;'>\n",
+        "\n",
+        "Data duplikat pada dataframe adalah entri yang memiliki nilai yang sama **pada setiap kolom**. Jika terdapat setidaknya 1 nilai kolom yang berbeda antara 2 entri, data tersebut bukanlah sebuah duplikat.\n"
+      ],
+      "id": "04e78cd8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df = pd.DataFrame({\n",
+        "    \"id\" : [1,2,3,4,3,6],\n",
+        "    \"Karyawan\" : ['Joko','Alvin','Rafi','Lita','Rafi','Jennie'],\n",
+        "    \"Gaji\" : [100.0, 200.0, 300.0, 400.0, 300.0, 600.0]})\n",
+        "df"
+      ],
+      "id": "6e7967e0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk melihat data yang memiliki duplikat pada dataframe, kita gunakan method `.duplicated()`.\n"
+      ],
+      "id": "1783448b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.duplicated()"
+      ],
+      "id": "e107c420",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Perhatikan bahwa data yang terbaca sebagai duplikat adalah data yang muncul setelah kemunculan data pertama kali (data duplikat pertama tidak dianggap sebagai duplikat)\n",
+        "\n",
+        "Dengan cara yang sama seperti pada **Missing Value**, kita bisa menggunakan method `.sum()` untuk melihat jumlah data duplikat pada suatu dataframe.\n"
+      ],
+      "id": "894f4d32"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.duplicated().sum()"
+      ],
+      "id": "41f7da0c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk melihat entri-entri yang memiliki nilai duplikat pada kolom tertentu, lakukan *filtering* pada dataframe dengan `df['<nama-kolom>'].duplicated()` sebagai kondisi yang diinginkan.\n"
+      ],
+      "id": "6bb7060f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df[df['id'].duplicated()]   # Entri yang memiliki nilai `id` duplikat"
+      ],
+      "id": "bb452822",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "## Descriptive Statistics\n",
+        "<div style='text-align: justify;'>\n",
+        "\n",
+        "Untuk mengidentifikasi apakah terdapat data yang salah, jika kita perlu tahu konteks data tersebut. Seperti bagaimana cara data diperoleh? Apakah ada batas-batas nilai pada variabel-variabel tertentu?\n",
+        "\n",
+        "Salah satu cara mudah untuk mengidentifikasi persebaran suatu data adalah dengan melihat statistik deskriptif suatu data. Kita bisa menggunakan method `.describe()` untuk melihat ukuran persebaran data dari masing-masing variabel pada suatu dataframe.\n"
+      ],
+      "id": "ecc058de"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df = pd.read_csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/main/pokemon_data.csv')\n",
+        "df.head()"
+      ],
+      "id": "7a4fb463",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.describe()"
+      ],
+      "id": "713c9625",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Namun, metode ini hanya dapat digunakan pada data numerik. Sehingga untuk data non-numerik, perlu pemahaman lebih lanjut mengenai konteks data dan metode yang digunakan untuk mengonfirmasi validitas data.\n",
+        "\n",
+        "</div>\n",
+        "\n",
+        "# Cleaning Data\n",
+        "\n",
+        "## Memperbaiki Format Data yang Salah\n",
+        "<div style='text-align: justify;'>\n",
+        "\n",
+        "Terdapat lebih dari 1 cara untuk memperbaiki format data yang salah. Tidak disalahkan bagi anda untuk mencarinya di internet sendiri. Silakan merujuk pada berbagai sumber. Salah satunya adalah jawaban dari pertanyaan pada forum StackOverflow berikut : [Link](https://stackoverflow.com/questions/15891038/change-column-type-in-pandas)\n",
+        "</div>\n",
+        "\n",
+        "## Mengimputasi sel yang kosong\n",
+        "<div style='text-align: justify;'>\n"
+      ],
+      "id": "1deba4d1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.fillna(value='<value>', inplace=True)"
+      ],
+      "id": "0c90846f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>\n",
+        "\n",
+        "## Menghapus data duplikat\n",
+        "<div style='text-align: justify;'>\n"
+      ],
+      "id": "397a7c7f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "df.drop_duplicates(inplace=True)"
+      ],
+      "id": "a41a5fdc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "</div>"
+      ],
+      "id": "4321292f"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\ZakiZ\\AppData\\Local\\Programs\\Python\\Python313\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

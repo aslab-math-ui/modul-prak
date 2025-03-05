@@ -1,0 +1,619 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Pertemuan 6 : Interactive Data Visualization (plotly)\"\n",
+        "image: static\\images\\plotly.png\n",
+        "description: \"Interactive Data Visualization using Plotly\"\n",
+        "date: 05/14/2024\n",
+        "page-navigation: true\n",
+        "jupyter: python3\n",
+        "format: html\n",
+        "---\n",
+        "\n",
+        "\n",
+        "Kembali ke [EDA](./eda2024genap.qmd)\n",
+        "\n",
+        "# `plotly.express`\n",
+        "\n",
+        "Jika belum terinstall pada jupyter notebook anda, jalankan `pip install plotly` pada terminal.\n"
+      ],
+      "id": "cb320730"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "import plotly.express as px"
+      ],
+      "id": "711be03a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Basic Charts\n",
+        "\n",
+        "## Line Chart\n"
+      ],
+      "id": "d1793741"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# using the iris dataset\n",
+        "df = px.data.iris()\n",
+        " \n",
+        "# plotting the line chart\n",
+        "fig = px.line(df, y=\"sepal_width\")\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "ad7367b1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Apa bedanya dengan line plot biasa?\n",
+        "\n",
+        "___"
+      ],
+      "id": "eef2b4aa"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import matplotlib.pyplot as plt\n",
+        "import seaborn as sns\n",
+        "\n",
+        "# plotting the line chart\n",
+        "sns.lineplot(df, y=\"sepal_width\", x=df.index)\n",
+        "\n",
+        "# showing the plot\n",
+        "plt.show()"
+      ],
+      "id": "f9cbf135",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping \n"
+      ],
+      "id": "9e5e00d9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the line chart\n",
+        "fig = px.line(df, y=\"sepal_width\", line_group='species')\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "0888a1fe",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the line chart\n",
+        "fig = px.line(df, y=\"sepal_width\", line_dash='species',\n",
+        "              color='species')\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "ee532f30",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Bar Chart\n"
+      ],
+      "id": "616716e9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Loading the data\n",
+        "df = px.data.tips()\n",
+        " \n",
+        "# Creating the bar chart\n",
+        "fig = px.bar(df, x='day', y=\"total_bill\")\n",
+        " \n",
+        "fig.show()"
+      ],
+      "id": "18ae4d39",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping\n"
+      ],
+      "id": "4400dae8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Creating the bar chart\n",
+        "fig = px.bar(df, x='day', y=\"total_bill\", color='sex',\n",
+        "             facet_row='time', facet_col='sex')\n",
+        " \n",
+        "fig.show()"
+      ],
+      "id": "8960d2c5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Scatter Plot\n"
+      ],
+      "id": "13cc1407"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the scatter chart\n",
+        "fig = px.scatter(df, x='total_bill', y=\"tip\")\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "afeef91e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping\n"
+      ],
+      "id": "3c817ecc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the scatter chart\n",
+        "fig = px.scatter(df, x='total_bill', y=\"tip\", color='time',\n",
+        "                 symbol='sex', size='size', facet_row='day',\n",
+        "                 facet_col='time')\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "1d791e3c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Histogram\n"
+      ],
+      "id": "c7066d14"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the histogram\n",
+        "fig = px.histogram(df, x=\"total_bill\")\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "33dec5f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping\n"
+      ],
+      "id": "eafd08c4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the histogram\n",
+        "fig = px.histogram(df, x=\"total_bill\", color='sex',\n",
+        "                   nbins=50, histnorm='percent',\n",
+        "                   barmode='overlay')\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "e15d5aea",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Pie Chart\n"
+      ],
+      "id": "42f8ea0a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the pie chart\n",
+        "fig = px.pie(df, values=\"total_bill\", names=\"day\")\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "e5268c2e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Donut Chart\n"
+      ],
+      "id": "998bf6c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the donut chart\n",
+        "fig = px.pie(df, values=\"total_bill\", names=\"day\",\n",
+        "             color_discrete_sequence=px.colors.sequential.RdBu,\n",
+        "             opacity=0.7, hole=0.5)\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "5710cd94",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Box Plot\n"
+      ],
+      "id": "e0b9d96e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the boxplot\n",
+        "fig = px.box(df, x=\"day\", y=\"tip\")\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "7004a2ec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping\n"
+      ],
+      "id": "e101bf18"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the boxplot\n",
+        "fig = px.box(df, x=\"day\", y=\"tip\", color='sex',\n",
+        "             facet_row='time', boxmode='group',\n",
+        "             notched=True)\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "646d1911",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Violin Plot\n"
+      ],
+      "id": "97575500"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the violin plot\n",
+        "fig = px.violin(df, x=\"day\", y=\"tip\")\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "c59a8fea",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping\n"
+      ],
+      "id": "ffa980c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the violin plot\n",
+        "fig = px.violin(df, x=\"day\", y=\"tip\", color='sex',\n",
+        "                facet_row='time', box=True)\n",
+        " \n",
+        "# showing the plot\n",
+        "fig.show()"
+      ],
+      "id": "e5f52ff9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## 3D Plot\n"
+      ],
+      "id": "d5d2443c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the figure\n",
+        "fig = px.scatter_3d(df, x=\"total_bill\", y=\"sex\", z=\"tip\")\n",
+        " \n",
+        "fig.show()"
+      ],
+      "id": "f592ef0a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Grouping\n"
+      ],
+      "id": "9c8a7853"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# plotting the figure\n",
+        "fig = px.scatter_3d(df, x=\"total_bill\", y=\"sex\", z=\"tip\", color='day', \n",
+        "                    size='total_bill', symbol='time')\n",
+        " \n",
+        "fig.show()"
+      ],
+      "id": "d796c064",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Adding interaction\n",
+        "\n",
+        "Untuk memunculkan tombol-tombol interaktif pada plot, kita menggunakan submodule dari library plotly yaitu `plotly.graph_objects`\n",
+        "\n",
+        "## Dropdown Menu\n"
+      ],
+      "id": "08098461"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import plotly.graph_objects as go\n",
+        "\n",
+        "plot = go.Figure(data=[go.Scatter(\n",
+        "    x=df['day'],\n",
+        "    y=df['tip'],\n",
+        "    mode='markers',)\n",
+        "])\n",
+        " \n",
+        "# Add dropdown\n",
+        "plot.update_layout(\n",
+        "    updatemenus=[\n",
+        "        dict(buttons=list([\n",
+        "            dict(\n",
+        "                args=[\"type\", \"scatter\"],\n",
+        "                label=\"Scatter Plot\",\n",
+        "                method=\"restyle\"\n",
+        "            ),\n",
+        "            dict(\n",
+        "                args=[\"type\", \"bar\"],\n",
+        "                label=\"Bar Chart\",\n",
+        "                method=\"restyle\"\n",
+        "            )\n",
+        "        ]),\n",
+        "            direction=\"down\",\n",
+        "        ),\n",
+        "    ]\n",
+        ")\n",
+        " \n",
+        "plot.show()"
+      ],
+      "id": "39364d91",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ":::{.callout-note}\n",
+        "# `plotly.graph_objects`\n",
+        "\n",
+        "Pada saat kita menggunakan `plotly.express` (px), secara tidak langsung kita menggunakan `plotly.graph_objects` untuk menghasilkan suatu plot karena `plotly.express` dibangun di atas `plotly.graph_objects`, sehingga kedua library ini pada dasarnya memiliki fungsi yang sama. Hanya saja penggunaan pada plotly.express jauh lebih simple dan bersih.\n",
+        "\n",
+        "Lebih lanjut silakan baca dokumentasi berikut : [Dokumentasi `plotly.express`](https://plotly.com/python/graph-objects/)\n",
+        ":::\n",
+        "\n",
+        "## Buttons\n"
+      ],
+      "id": "049a7eb3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "plot = go.Figure(data=[go.Scatter(\n",
+        "    x=df['day'],\n",
+        "    y=df['tip'],\n",
+        "    mode='markers',)\n",
+        "])\n",
+        " \n",
+        "# Add dropdown\n",
+        "plot.update_layout(\n",
+        "    updatemenus=[\n",
+        "        dict(\n",
+        "            type=\"buttons\",\n",
+        "            direction=\"left\",\n",
+        "            buttons=list([\n",
+        "                dict(\n",
+        "                    args=[\"type\", \"scatter\"],\n",
+        "                    label=\"Scatter Plot\",\n",
+        "                    method=\"restyle\"\n",
+        "                ),\n",
+        "                dict(\n",
+        "                    args=[\"type\", \"bar\"],\n",
+        "                    label=\"Bar Chart\",\n",
+        "                    method=\"restyle\"\n",
+        "                )\n",
+        "            ]),\n",
+        "        ),\n",
+        "    ]\n",
+        ")\n",
+        " \n",
+        "plot.show()"
+      ],
+      "id": "3cf2dbfb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Sliders and Selectors\n"
+      ],
+      "id": "c2db3865"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = df['total_bill']\n",
+        "y = df['tip']\n",
+        " \n",
+        "plot = go.Figure(data=[go.Scatter(\n",
+        "    x=x,\n",
+        "    y=y,\n",
+        "    mode='markers',)\n",
+        "])\n",
+        " \n",
+        "plot.update_layout(\n",
+        "    xaxis=dict(\n",
+        "        rangeselector=dict(\n",
+        "            buttons=list([\n",
+        "                dict(count=1,\n",
+        "                    step=\"day\",\n",
+        "                    stepmode=\"backward\"),\n",
+        "            ])\n",
+        "        ),\n",
+        "        rangeslider=dict(\n",
+        "            visible=True\n",
+        "        ),\n",
+        "    )\n",
+        ")\n",
+        " \n",
+        "plot.show()"
+      ],
+      "id": "17bd99d2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Lebih lanjut silakan buka dokumentasi library plotly pada link berikut : [Dokumentasi Plotly](https://plotly.com/python/)\n",
+        "\n",
+        "___\n",
+        "\n",
+        "\n",
+        "Untuk memperbaiki dan meningkatkan kualitas praktikum kedepannya, silakan berikan feedback anda melalui link berikut : [Feedback Praktikum EDA 2023/2024](https://forms.gle/w48Jrx8RzGnRU7L96)"
+      ],
+      "id": "062a7842"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "C:\\Users\\ZakiZ\\AppData\\Local\\Programs\\Python\\Python313\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
