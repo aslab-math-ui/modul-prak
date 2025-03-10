@@ -1,0 +1,493 @@
+---
+title: "Modul Pembelajaran LaTeX untuk Pemula"
+author: "Tim Asisten Laboratorium Departemen Matematika FMIPA UI"
+date: 10/03/2025
+format: 
+ html:
+    css: latex-style.css
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    page-navigation: true
+---
+
+# **Pendahuluan**  
+
+LaTeX merupakan suatu sistem penyusunan dokumen yang sering digunakan oleh mahasiswa Departemen Matematika FMIPA UI dikarenakan kemudahannya dalam membuat dokumen yang mengandung banyak simbol dan rumus matematika. Pada kurikulum 2020, mahasiswa semester 2 Departemen Matematika FMIPA UI mendapatkan praktikum kalkulin (Kalkulus 2 dan Aljabar Linier 1). Pada praktikum tersebut, selain belajar mengenai penggunaan Wolfram Mathematica lebih lanjut, mahasiswa juga diperkenalkan LaTeX. Namun pada kurikulum 2024, mahasiswa semester 2 tidak lagi mendapatkan praktikum kalkulin. Oleh karena itu, kami dari tim asisten laboratorium telah menyiapkan modul mengenai dasar-dasar LaTeX agar mahasiswa tetap dapat belajar menggunakan LaTeX meskipun tanpa adanya praktikum kalkulin. Modul ini dirancang untuk membantu pemula memahami dasar-dasar LaTeX, dari instalasi hingga pembuatan dokumen yang kompleks. Setiap bab akan membahas aspek penting dalam LaTeX, dilengkapi dengan contoh kode yang dapat dibuka melalui overleaf.
+
+---
+
+# **Bab 1: Pengenalan LaTeX**  
+## 1.1 Apa itu LaTeX?  
+LaTeX adalah sistem penyusunan dokumen (*document preparation system*) berbasis markup language yang digunakan untuk membuat dokumen berkualitas tinggi, terutama dalam bidang akademik, teknis, dan ilmiah. LaTeX dirancang untuk menangani teks dengan format kompleks seperti:
+
+- Rumus matematika
+- Referensi silang (*cross-referencing*)
+- Bibliografi
+- Tabel dan gambar yang terstruktur
+- Format dokumen profesional
+
+LaTeX dikembangkan oleh Leslie Lamport pada tahun 1980-an sebagai penyempurnaan dari sistem TeX, yang dibuat oleh Donald Knuth. Berbeda dengan *Word Processors* seperti Microsoft Word atau Google Docs, LaTeX menggunakan pendekatan deklaratif dalam penulisan dokumen. Artinya, pengguna menulis teks dengan kode format (markup), dan LaTeX akan mengompilasi kode tersebut menjadi dokumen yang terformat dengan baik, biasanya dalam bentuk PDF.
+
+## 1.2 Kelebihan dan Kekurangan LaTeX  
+LaTeX memiliki banyak keunggulan dibandingkan dengan *word processors* seperti Microsoft Word atau Google Docs, terutama dalam pembuatan dokumen ilmiah dan teknis. Namun, LaTeX juga memiliki beberapa kelemahan yang perlu dipertimbangkan sebelum menggunakannya.
+
+### Kelebihan LaTeX
+
+ 1. **Format Dokumen yang Konsisten dan Profesional**
+
+    LaTeX secara otomatis mengatur tata letak teks, margin, spasi, dan elemen lainnya agar konsisten. Hasilnya terlihat lebih rapi dan profesional dibandingkan dengan pemformatan manual di Word.
+
+2. **Kemampuan Penulisan Matematika yang Superior**
+
+    LaTeX mendukung berbagai simbol, rumus, dan persamaan matematis yang kompleks menggunakan paket seperti `amsmath`. Contoh rumus dalam LaTeX:
+
+    ```latex
+    \begin{equation}
+        \int_{-1}^1\frac{1}{x}\sqrt{\frac{1+x}{1-x}}\ln\left(\frac{2x^2+2x+1}{2x^2-2x+1}\right)dx
+    \end{equation}
+    ```
+
+<a href="https://www.overleaf.com/read/yvmxmxqrvzcr#92528e" class="overleaf-button" target="_blank">
+    Buka di Overleaf
+</a>
+
+Hasilnya adalah sebagai berikut:
+
+![](\static\1.2-latex-eq.png){fig-align="center" width=60%}
+
+3. **Manajemen Referensi dan Bibliografi yang Mudah**
+
+    Dengan `bibtex` atau `biblatex`, LaTeX memungkinkan pengelolaan referensi secara otomatis. Tidak perlu menata ulang daftar pustaka secara manual jika ada penambahan atau perubahan sitasi.
+
+4. **Fleksibilitas dalam Struktur Dokumen Besar**
+
+    LaTeX cocok digunakan untuk membuat dokumen yang kompleks seperti skripsi, tesis, disertasi, jurnal ilmiah, dan buku. Hal ini dikarenakan LaTeX Memiliki fitur pembagian bab dan subbab yang terorganisir dengan baik.
+
+5. **Dukungan untuk Grafik dan Diagram**
+    
+    LaTeX mendukung pembuatan grafik vektor menggunakan paket seperti `pgfplots` dan `tikz`. Kedua package tersebut bisa digunakan untuk menggambar diagram teknis, grafik fungsi matematika, dan ilustrasi lainnya.
+
+6. **Open Source dan Gratis**
+    
+    LaTeX tersedia secara gratis dan dapat digunakan di berbagai sistem operasi (Windows, macOS, Linux) dan tidak memerlukan lisensi berbayar seperti Microsoft Office.
+
+7. **Kolaborasi yang Mudah dengan Overleaf**
+
+    Dengan Overleaf (platform LaTeX berbasis web), pengguna bisa menulis dan berkolaborasi secara real-time. Tidak perlu menginstal software tambahan di komputer. Meskipun sejak tanggal 29 Juli 2024, overleaf telah membatasi jumlah kolabolator dalam satu project maksimal satu orang. 
+
+### Kekurangan LaTeX
+1. **Kurva Belajar yang Curam**
+
+    Tidak seperti Microsoft Word yang berbasis WYSIWYG (What You See Is What You Get), LaTeX menggunakan kode markup yang perlu dipahami terlebih dahulu. Pemula mungkin akan mengalami kesulitan dalam memahami sintaks dasar LaTeX.
+
+2. **Tidak Bisa Langsung Melihat Hasil Akhir**
+
+    Hasil akhir dari suatu dokumen LaTeX tidak langsung terlihat saat menulis, karena harus dikompilasi terlebih dahulu. Jika ada kesalahan dalam kode, perlu mencari sumber masalahnya sebelum dokumen bisa dikompilasi dengan benar.
+
+3. **Instalasi dan Konfigurasi Awal yang Memakan Waktu**
+
+    Jika ingin menggunakan LaTeX secara offline, pengguna perlu menginstal distribusi LaTeX seperti TeX Live, MiKTeX, atau MacTeX, serta editor seperti TeXworks atau TeXstudio. Jika menggunakan Overleaf, tidak perlu instalasi, tetapi fitur gratisnya memiliki batasan.
+
+4. **Kurang Fleksibel untuk Dokumen yang Sederhana**
+
+    Untuk dokumen sederhana seperti surat atau laporan singkat, penggunaan LaTeX mungkin terasa lebih rumit dibandingkan dengan Word atau Google Docs.
+
+5. **Tidak Ramah dalam Penyuntingan Gambar**
+
+    LaTeX tidak memiliki fitur untuk menyisipkan dan mengedit gambar secara langsung seperti di Word. Harus menggunakan perintah `\includegraphics{}` dan mengatur posisi gambar secara manual.
+
+
+## 1.3 Perbedaan LaTeX vs Word  
+Salah satu perbedaan utama antara LaTeX dan Microsoft Word adalah cara penulisan dokumen. Microsoft Word menggunakan pendekatan *What You See Is What You Get* (WYSIWYG), di mana pengguna langsung melihat tampilan akhir dokumen saat menulis.
+LaTeX menggunakan pendekatan *What You See Is What You Mean* (WYSIWYM), di mana pengguna menulis kode perintah dalam source file, lalu mengompilasi menjadi dokumen akhir (PDF).
+Sebagai contoh Perbandingan misalnya, untuk menulis **Teks Tebal** dan *Teks Miring*:
+
+**Microsoft Word**:
+Anda dapat menekan tombol Bold dan Italic dalam menu toolbar seperti berikut:
+
+![](\static\1.3-bold-italic-word.png){fig-align="center" width=60%}
+
+**LaTeX**:
+Anda dapat menulis kode berikut dalam file `.tex`:
+
+```latex
+\textbf{Teks Tebal} dan \textit{Teks Miring}
+```
+
+<a href="https://www.overleaf.com/read/bmrwxbtcrfss#5c5364" class="overleaf-button" target="_blank">
+    Buka di Overleaf
+</a>
+
+dan hasilnya adalah sebagai berikut:
+
+![](\static\1.3-bold-italic-latex.png){fig-align="center" width=60%}
+
+
+Perbandingan LaTeX dan Word dalam berbagai aspek dapat dilihat pada tabel-tabel berikut.
+
+### 1. **Cara Kerja dan Pendekatan**
+
+| Aspek              | LaTeX                                      | Microsoft Word                                  |
+|--------------------|------------------------------------------|-----------------------------------------------|
+| **Pendekatan**     | *WYSIWYM* (*What You See Is What You Mean*)     | *WYSIWYG* (*What You See Is What You Get*)   |
+| **Penulisan**      | Menggunakan perintah format dalam file teks (`.tex`) | Mengetik langsung dalam dokumen visual   |
+| **Kompilasi**      | Perlu dikompilasi untuk melihat hasil akhir | Hasil langsung terlihat saat mengetik     |
+| **Pemformatan**    | Otomatis berdasarkan template            | Harus dilakukan secara manual               |
+| **Struktur Dokumen** | Lebih terorganisir, cocok untuk dokumen panjang | Bisa menjadi tidak konsisten jika tidak dirapikan |
+
+### 2. **Format dan Tampilan Dokumen**
+
+| Aspek                | LaTeX                                       | Microsoft Word                                       |
+|----------------------|-------------------------------------------|----------------------------------------------------|
+| **Tampilan Akhir**   | Konsisten dan profesional                | Tergantung pada pengeditan manual                 |
+| **Template & Style** | Banyak template akademik tersedia       | Template bawaan, tapi sering perlu penyesuaian   |
+| **Matematika & Simbol** | Sangat kuat, mendukung persamaan kompleks | Terbatas, kurang fleksibel untuk persamaan tingkat lanjut |
+
+### 3. **Manajemen Referensi dan Bibliografi**
+
+| Aspek                         | LaTeX                                     | Microsoft Word                                |
+|-------------------------------|------------------------------------------|---------------------------------------------|
+| **Manajemen Referensi**       | Otomatis dengan `bibtex` / `biblatex`    | Manual atau menggunakan Mendeley/Zotero    |
+| **Daftar Pustaka**            | Bisa dibuat otomatis dengan berbagai gaya kutipan | Harus disesuaikan manual |
+| **Numerasi & Cross-referencing** | Otomatis (`\cite{}` dan `\ref{}`)  | Bisa otomatis, tapi kadang error          |
+
+### 4. **Gambar, Tabel, dan Grafik**
+
+| Aspek                   | LaTeX                                      | Microsoft Word                                |
+|-------------------------|-------------------------------------------|---------------------------------------------|
+| **Menambahkan Gambar**  | `\includegraphics{}` dengan paket `graphicx` | Bisa di-drag & drop langsung  |
+| **Mengatur Posisi Gambar** | Harus menggunakan kode (`figure`, `float`) | Bisa dipindahkan langsung  |
+| **Membuat Tabel**       | Menggunakan `tabular` (lebih fleksibel untuk tabel besar) | Lebih mudah dibuat, tapi sulit untuk tabel kompleks  |
+| **Diagram & Grafik**    | Bisa menggunakan `TikZ` atau `pgfplots`   | Bisa menyisipkan dari Excel atau buat langsung  |
+
+Berdasarkan semua perbandingan diatas, bisa disimpulkan bahwa keduanya memiliki kelebihan dan kekurangan masing-masing. Jika anda butuh dokumen berkualitas tinggi dengan format konsisten, banyak rumus matematika, atau dokumen akademik yang kompleks, anda bisa gunakan LaTeX. Jika Anda hanya perlu membuat dokumen sederhana dengan cepat tanpa perlu belajar sintaks kode, anda bisa menggunakan Word. Sebagai seorang mahasiswa, apalagi di departemen Matematika, menguasai LaTeX akan sangat membantu dalam pembuatan tugas, makalah akademik, laporan ilmiah, dan lain-lain. 
+
+---
+
+# **Bab 2: Instalasi LaTeX di Windows**  
+Untuk menggunakan LaTeX di Windows, kita perlu menginstal dua komponen utama:
+
+1. Distribusi LaTeX:  Perangkat lunak utama yang berisi compiler dan package LaTeX.
+
+    - TeX Live (rekomendasi)
+    - MiKTeX (alternatif)
+
+2. Editor LaTeX: Aplikasi untuk menulis dan mengompilasi dokumen LaTeX.
+
+    - TeXworks (default dari MiKTeX)
+    - TeXstudio (populer dan lebih kaya fitur)
+    - VS Code (dengan ekstensi LaTeX Workshop)
+
+## 2.1 Instalasi Distrubusi LaTeX (TeX Live, MiKTeX)  
+
+Terdapat dua distribusi LaTeX di Windows yang dapat digunakan, yaitu TeX Live dan MikTeX.
+
+### 1. Instalasi TeX Live (Rekomendasi)
+
+TeX Live adalah distribusi LaTeX lengkap dengan semua package bawaan.
+
+**Langkah-langkah Instalasi TeX Live:**
+
+1. Unduh TeX Live Installer
+
+    - Kunjungi situs resminya: <a href="https://tug.org/texlive/"> https://tug.org/texlive/ </a>
+    - Cari dan pilih "install-tl-windows.exe" untuk mengunduh versi terbaru.
+
+2. Jalankan Instalasi
+
+    - Buka file install-tl-windows.exe.
+    - Pilih opsi "install" kemudian "next >".
+
+    ![](\static\2.1-texlive-install1.png){fig-align="center" width=60%}
+
+    - Klik "Install" dan tunggu hingga proses unpacking selesai.
+
+    ![](\static\2.1-texlive-install2.png){fig-align="center" width=60%}
+
+    - Setelah selesai, akan muncul tampilan seperti berikut. Tunggu hingga tampilan berubah. Namun jika terlalu lama, tekan specific mirror dan ubah repository-nya.
+
+    ![](\static\2.1-texlive-install3.png){fig-align="center" width=60%}
+
+    - Tampilan akan berubah menjadi seperti berikut. Anda bisa langsung mulai menginstal dengan menekan "Install" (secara default, anda akan menginstal semua package LaTeX dengan total penyimpanan 9 GB). 
+
+    ![](\static\2.1-texlive-install4.png){fig-align="center" width=60%}
+
+    - Jika anda menekan "Advance", akan muncul tampilan berikut. Disini anda dapat mengubah direktori penyimpanan, skema instalasi yaitu mengenai apa saja yang ingin anda instal, dan konfigurasi lainnya.
+
+    ![](\static\2.1-texlive-install5.png){fig-align="center" width=60%}
+
+    - Setelah selesai melakukan konfigurasi, tekan "Install", kemudian tunggu hingga instalasi selesai.
+
+3. Verifikasi Instalasi
+
+    - Buka Command Prompt (cmd).
+    - Ketik perintah berikut:
+    ```cmd
+    latex --version
+    ```
+    - Jika muncul versi TeX Live, berarti instalasi berhasil.
+
+### 2. Instalasi MiKTeX (Alternatif)
+MiKTeX lebih ringan dan mendukung instalasi paket secara otomatis.
+
+**Langkah-langkah Instalasi MiKTeX:**
+
+1. Unduh MiKTeX
+
+    - Kunjungi: <a href="https://miktex.org/download"> https://miktex.org/download  </a>
+    - Pilih "MiKTeX for Windows" dan unduh installer.
+
+2. Jalankan Instalasi
+
+    - Klik "Next" hingga selesai.
+    - Centang "Install missing packages on the fly" (agar package dapat diunduh otomatis saat dibutuhkan).
+    - Tunggu hingga instalasi selesai.
+
+3. Verifikasi Instalasi
+
+    - Buka Command Prompt (cmd).
+    - Ketik perintah berikut:
+
+    ```cmd
+    miktex --version
+    ```
+
+    - Jika muncul versi MiKTeX, berarti instalasi berhasil.
+
+## 2.2 Editor LaTeX: TeXworks, TeXstudio, VS Code + LaTeX Workshop  
+Setelah menginstal distribusi LaTeX (TeX Live atau MiKTeX), kita memerlukan editor LaTeX untuk menulis dan mengompilasi dokumen `.tex`. Beberapa editor populer untuk LaTeX di Windows adalah:
+
+- TeXworks: Editor sederhana (bawaan MiKTeX)
+- TeXstudio: Editor lengkap dengan banyak fitur
+- VS Code + LaTeX Workshop: Editor modern dengan ekstensi LaTeX
+
+### 1.  TeXworks (Bawaan MiKTeX & TeX Live)
+
+TeXworks adalah editor LaTeX minimalis yang sudah terinstal bersama MiKTeX dan TeX Live.
+
+**Cara Menggunakan TeXworks:**
+
+1. Buka TeXworks (Cari di Start Menu)
+2. Tulis kode LaTeX sederhana, misalnya:
+
+```latex
+\documentclass{article}
+\begin{document}
+Hello, \LaTeX!
+\end{document}
+```
+
+3. Pilih jenis compiler di bagian atas (misalnya pdfLaTeX + MakeIndex + BibTeX)
+
+![](latex\static\2.2-use-texworks.png){fig-align="center" width=60%}
+
+4. Tekan Ctrl + T atau klik tombol Compile untuk menghasilkan PDF
+
+### 2. TeXstudio (Editor LaTeX Lengkap - Rekomendasi)
+TeXstudio adalah editor LaTeX yang lebih kaya fitur dan direkomendasikan untuk pemula maupun pengguna lanjutan.
+
+**Cara Instalasi TeXstudio:**
+
+1. Unduh TeXstudio dari situs resminya: <a href="https://www.texstudio.org/"> https://www.texstudio.org/ </a>
+2. Instal dan jalankan TeXstudio
+3. Buat file baru (`.tex`), tulis kode LaTeX (bisa coba gunakan contoh sebelumnya), lalu tekan F5 untuk mengompilasi
+
+### 3. VS Code + LaTeX Workshop
+Visual Studio Code (VS Code) dengan ekstensi LaTeX Workshop cocok bagi pengguna yang ingin fleksibilitas lebih dalam mengedit dokumen LaTeX.
+
+**Cara Instalasi VS Code untuk LaTeX:**
+
+1. Unduh dan instal VS Code jika belum: <a href="https://code.visualstudio.com/"> https://code.visualstudio.com/ </a>
+2. Buka VS Code, lalu instal ekstensi LaTeX Workshop (bisa dengan Tekan Ctrl + Shift + X, cari "LaTeX Workshop", lalu klik Install)
+
+![](latex\static\2.2-use-vscode.png){fig-align="center" width=60%}
+
+3. Tekan Ctrl + Shift + P untuk memunculkan semua command, kemudian cari `Open User Settings JSON`. 
+
+![](latex\static\2.2-use-vscode2.png){fig-align="center" width=60%}
+
+4. Saat ditekan, akan terbuka file settings.json. Tambahkan code berikut kedalam file settings.json anda
+
+```json
+"latex-workshop.latex.tools": [
+ {
+  "name": "latexmk",
+  "command": "latexmk",
+  "args": [
+   "-synctex=1",
+   "-interaction=nonstopmode",
+   "-file-line-error",
+   "-pdf",
+   "-outdir=%OUTDIR%",
+   "%DOC%"
+  ],
+  "env": {}
+ },
+ {
+  "name": "xelatex",
+  "command": "xelatex",
+  "args": [
+   "-synctex=1",
+   "-interaction=nonstopmode",
+   "-file-line-error",
+   "%DOC%"
+  ],
+  "env": {}
+ },
+ {
+  "name": "pdflatex",
+  "command": "pdflatex",
+  "args": [
+   "-synctex=1",
+   "-interaction=nonstopmode",
+   "-file-line-error",
+   "%DOC%"
+  ],
+  "env": {}
+ },
+ {
+  "name": "bibtex",
+  "command": "bibtex",
+  "args": [
+   "%DOCFILE%"
+  ],
+  "env": {}
+ }
+],
+
+"latex-workshop.latex.recipes": [
+ {
+  "name": "pdfLaTeX",
+  "tools": [
+   "pdflatex"
+  ]
+ },
+ {
+  "name": "latexmk 🔃",
+  "tools": [
+   "latexmk"
+  ]
+ },
+ {
+  "name": "xelatex",
+  "tools": [
+   "xelatex"
+  ]
+ },
+ {
+  "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
+  "tools": [
+   "pdflatex",
+   "bibtex",
+   "pdflatex",
+   "pdflatex"
+  ]
+ },
+ {
+ "name": "xelatex ➞ bibtex ➞ xelatex`×2",
+ "tools": [
+   "xelatex",
+   "bibtex",
+   "xelatex",
+   "xelatex"
+  ]
+ }
+]
+```
+5. Buat file `.tex` baru dan tulis kode LaTeX. Tekan Ctrl + Alt + B untuk mengompilasi dokumen.
+
+
+---
+
+# **Bab 3: Menggunakan Overleaf untuk LaTeX**  
+## 3.1 Apa itu Overleaf?  
+Overleaf adalah editor LaTeX berbasis web yang memungkinkan pengguna menulis, mengedit, dan mengompilasi dokumen LaTeX langsung di browser, tanpa perlu menginstal perangkat lunak tambahan. Overleaf sangat populer di kalangan akademisi, mahasiswa, dan profesional karena fitur kolaborasinya yang mirip Google Docs untuk LaTeX.
+
+
+## 3.2 Membuat Akun dan Proyek Baru  
+### 1. Membuat Akun Overleaf
+Untuk menggunakan Overleaf, Anda perlu membuat akun terlebih dahulu. Berikut langkah-langkahnya:
+
+1. Buka situs Overleaf:  <a href="https://www.overleaf.com"> https://www.overleaf.com</a>
+2. Klik tombol "Sign Up" untuk membuat akun baru.
+3. Pilih cara pendaftaran:
+    - Gunakan email dan password
+    - Masuk dengan akun Google
+    - Masuk dengan akun ORCID (untuk akademisi)
+4. Setelah mendaftar, Anda bisa langsung mulai membuat proyek LaTeX.
+
+### 2. Membuat Proyek Baru
+Setelah anda berhasil membuat akun, tampilan awal anda adalah seperti berikut:
+
+![](latex\static\3.1-tampilan-awal-overleaf.png){fig-align="center" width=80%}
+
+Anda bisa langsung membuat proyek baru dengan memilih "Create a New Project". Kemudian anda dapat memilih salah satu opsi berikut:
+
+![](latex\static\3.1-start-project-overleaf.png){fig-align="center" width=30%}
+
+- **Blank Project**: Memulai dokumen LaTeX dari nol
+- <a href="https://www.overleaf.com/project/new/template/21445?id=71956308&latexEngine=pdflatex&mainFile=main.tex&templateName=Example+Project&texImage=texlive-full%3A2024.1"> **Example Project**</a>: Menggunakan contoh proyek yang sudah ada. 
+
+- **Upload Project**: Mengunggah file `.tex` dari komputer
+- **Import from Github**: Menghubungkan overleaf dengan akun GitHub anda, sehingga anda dapat melakukan perubahan pada file `.tex` yang berada di repositori anda menggunakan overleaf. Namun fitur ini merupakan fitur premium.
+
+Anda juga bisa memulai proyek baru dengan menggunakan berbagai template yang tersedia di <a href="https://www.overleaf.com/latex/templates"> gallery</a>. 
+
+## 3.3 Antarmuka Overleaf  
+Setelah anda membuat proyek baru, anda akan melihat tampilan berikut:
+
+![](latex\static\3.3-tampilan-interface-overleaf.png){fig-align="center" width=100%}
+
+
+
+---
+
+# **Bab 4: Struktur Dasar Dokumen LaTeX**  
+## 4.1 Struktur Utama Dokumen  
+## 4.2 Penggunaan Kelas Dokumen (`article`, `report`, `book`, dll.)  
+## 4.3 Menyusun Bagian dan Subbagian (`\section{}`, `\subsection{}`, dll.)  
+## 4.4 Pemformatan Teks (tebal, miring, underline, dsb.)  
+## 4.5 Paragraf dan Pemisahan Baris  
+## 4.6 Membuat Daftar (bullet, numbered, dan deskripsi)  
+## 4.7 Menulis Kutipan dan Blok Kode  
+## 4.8 Menambahkan Catatan Kaki  
+## 4.9 Dasar-dasar Penulisan Persamaan Matematika  
+
+---
+
+# **Bab 5: Elemen Visual dan Penggunaan Package dalam LaTeX**  
+## 5.1 Pengenalan package di LaTeX? 
+## 5.2 Menambahkan Gambar dengan Package `graphicx`
+## 5.3 Membuat Tabel dengan `tabular`  
+## 5.4 Menggunakan Package `table` dan `longtable`  
+## 5.5 Penggunaan Package `amsmath` untuk Rumus Lanjutan  
+## 5.6 Package `geometry` untuk Mengatur Margin  
+## 5.7 Package `hyperref` untuk Membuat Hyperlink  
+## 5.8 Package `tikz` untuk Grafik dan Diagram  
+## 5.9 Package Lainnya
+
+---
+
+# **Bab 6: Referensi dan Bibliografi dalam LaTeX**  
+## 6.1 Paket `biblatex` untuk Manajemen Referensi  
+## 6.2 Menggunakan `\cite{}` dan `\bibitem{}`  
+## 6.3 Menggunakan `bibtex` dan `biber`  
+## 6.4 Format Bibliografi dengan `biblatex`  
+## 6.5 Membuat Daftar Pustaka dengan Gaya Berbeda  
+
+---
+
+# **Bab 7: Presentasi dengan Beamer**  
+## 7.1 Apa Itu Beamer?  
+## 7.2 Struktur Dasar Presentasi LaTeX  
+## 7.3 Menambahkan Slide, Animasi, dan Efek Transisi  
+## 7.4 Menyesuaikan Tema dan Warna Beamer  
+
+---
+
+# **Bab 8: Sumber Belajar Lanjutan**  
+## 8.1 Sumber Belajar LaTeX Lebih Lanjut  
+## 8.2 Forum dan Komunitas LaTeX  
+
+---

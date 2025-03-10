@@ -7053,7 +7053,7 @@
     "href": "semuahalaman/modulprak/2025/genap/saindat/saindat2025genap.html",
     "title": "Praktikum Saindat (Sains Data) 2025 Genap (Kurikulum 2020)",
     "section": "",
-    "text": "Kembali ke Praktikum\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModul 1 Sains Data: Pengenalan Pandas, Transformasi Data\n\n\n\nMar 3, 2025\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Kembali ke Praktikum\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModul 1 Sains Data: Pengenalan Pandas, Transformasi Data\n\n\n\nMar 3, 2025\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data\n\n\n\nOct 3, 2025\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "semuahalaman/praktikum.html#tahun-2025",
@@ -7131,5 +7131,978 @@
     "title": "(Pertemuan 1) Pendahuluan Sympy, Tabulate, dan Metode Root-finding",
     "section": "Tambahan",
     "text": "Tambahan\n\nContoh Tabel Faktorial\nBagaimana kalau misalnya kita sudah punya suatu fungsi yang melakukan perhitungan secara iteratif dan hanya menampilkan hasil akhirnya, tetapi kita ingin memperoleh tiap hasil iterasi, bukan hasil akhirnya saja? Contohnya, fungsi menghitung faktorial \\(n! = n * (n-1) * \\dots * 3 * 2 * 1\\) berikut ini,\n\ndef faktorial(n):\n    \n    # nilai awal\n    hasil = 1\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n    \n    # mengembalikan hasil akhir setelah semua iterasi selesai\n    return hasil\n\n# peroleh hasil akhir dari fungsi faktorial, kemudian print\nprint(faktorial(5))\n\n120\n\n\nKita bisa saja melakukan print (di dalam fungsinya) tiap kali nilai hasil diperbarui.\n\ndef faktorial(n):\n    \n    # nilai awal\n    hasil = 1\n    print(hasil) # tampilkan hasil\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n        print(hasil) # tampilkan hasil yang baru\n    \n    # tidak perlu return karena sudah menggunakan print\n\n# fungsi cukup dipanggil saja,\n# karena print sudah ada di dalam fungsi\nfaktorial(5)\n\n1\n2\n6\n24\n120\n\n\nAlternatifnya, kita bisa memasukkan tiap hasil baru ke dalam suatu list, yang kemudian dikembalikan oleh fungsi, lalu kita bisa print list tersebut.\n\ndef ListFaktorial(n):\n    list_baru = []\n    \n    # nilai awal\n    hasil = 1\n    list_baru.append(hasil) # tambahkan ke list\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n        list_baru.append(hasil) # tambahkan tiap hasil baru ke list\n    \n    # kembalikan list semua hasil\n    return list_baru\n\n# peroleh list dari fungsi di atas, kemudian print\nprint(ListFaktorial(5))\n\n[1, 2, 6, 24, 120]\n\n\nBahkan, list ini bisa diubah menjadi tabel!\n\ndef ListFaktorial(n):\n    list_baru = []\n    \n    # nilai awal\n    hasil = 1\n    list_baru.append(hasil) # tambahkan ke list\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n        list_baru.append(hasil) # tambahkan tiap hasil baru ke list\n    \n    # kembalikan list semua hasil\n    return list_baru\n\n# kolom nilai i\nkolom_kiri = [1, 2, 3, 4, 5]\n# bisa juga dibuat dengan for loop dengan range(1,6) append i\n\n# peroleh list dari fungsi di atas\nkolom_kanan = ListFaktorial(5)\n\n# \"gabung\" kedua kolom menjadi satu tabel, seperti biasa\ntabel_mentah = []\nfor i in range(0,5):\n    calon_baris = []\n    calon_baris.append(kolom_kiri[i])\n    calon_baris.append(kolom_kanan[i])\n    tabel_mentah.append(calon_baris)\n\ntabel_olahan = tabulate(tabel_mentah, headers=[\"i\", \"faktorial\"])\nprint(tabel_olahan)\n\n  i    faktorial\n---  -----------\n  1            1\n  2            2\n  3            6\n  4           24\n  5          120\n\n\nPerhatikan bahwa kita memerlukan dua list untuk membentuk tabel di atas. Bisa saja, kita membentuk kedua list sepenuhnya di dalam fungsi. Dengan begitu, setelah menggunakan fungsi, kita tinggal membentuk tabel dari kedua list.\n\ndef DuaListFaktorial(n):\n    kolom_kiri = [] # berisi i\n    kolom_kanan = [] # berisi faktorial atau i!\n    \n    # nilai awal\n    hasil = 1\n\n    # tambahkan ke list\n    kolom_kiri.append(1)\n    kolom_kanan.append(hasil)\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n\n        # tambahkan tiap hasil baru ke list\n        kolom_kiri.append(i)\n        kolom_kanan.append(hasil)\n    \n    # kembalikan kedua list\n    return kolom_kiri, kolom_kanan\n\n# peroleh kedua list dari fungsi\nkolom_kiri, kolom_kanan = DuaListFaktorial(5)\n\n# \"gabung\" kedua kolom menjadi satu tabel, seperti biasa\ntabel_mentah = []\nfor i in range(0,5):\n    calon_baris = []\n    calon_baris.append(kolom_kiri[i])\n    calon_baris.append(kolom_kanan[i])\n    tabel_mentah.append(calon_baris)\n\ntabel_olahan = tabulate(tabel_mentah, headers=[\"i\", \"faktorial\"])\nprint(tabel_olahan)\n\n  i    faktorial\n---  -----------\n  1            1\n  2            2\n  3            6\n  4           24\n  5          120\n\n\nKalau mau, bahkan proses pembentukan tabel juga bisa dilakkukan di dalam fungsi, sehingga fungsi memberikan output berupa tabel yang siap diolah tabulate.\n\ndef TabelFaktorial(n):\n    kolom_kiri = [] # berisi i\n    kolom_kanan = [] # berisi faktorial atau i!\n    \n    # nilai awal\n    hasil = 1\n\n    # tambahkan ke list\n    kolom_kiri.append(1)\n    kolom_kanan.append(hasil)\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n\n        # tambahkan tiap hasil baru ke list\n        kolom_kiri.append(i)\n        kolom_kanan.append(hasil)\n    \n    tabel_mentah = []\n    for i in range(0,n):\n        # sampai indeks (n-1)\n        # nilai n tergantung banyaknya iterasi\n\n        calon_baris = []\n        calon_baris.append(kolom_kiri[i])\n        calon_baris.append(kolom_kanan[i])\n        tabel_mentah.append(calon_baris)\n    \n    return tabel_mentah\n\ntabel_mentah = TabelFaktorial(5)\n\ntabel_olahan = tabulate(tabel_mentah, headers=[\"i\", \"faktorial\"])\nprint(tabel_olahan)\n\n  i    faktorial\n---  -----------\n  1            1\n  2            2\n  3            6\n  4           24\n  5          120\n\n\nBahkan, pengolahan tabel bisa dilakukan di dalam fungsi…\n\ndef TabelFaktorial(n):\n    kolom_kiri = [] # berisi i\n    kolom_kanan = [] # berisi faktorial atau i!\n    \n    # nilai awal\n    hasil = 1\n\n    # tambahkan ke list\n    kolom_kiri.append(1)\n    kolom_kanan.append(hasil)\n\n    # iterasi\n    for i in range(2, n+1):\n        # mulai dari 2, lanjut selama i &lt; n + 1\n        # sehingga iterasi terakhir adalah untuk i = n\n\n        hasil = hasil * i\n\n        # tambahkan tiap hasil baru ke list\n        kolom_kiri.append(i)\n        kolom_kanan.append(hasil)\n    \n    tabel_mentah = []\n    for i in range(0,n):\n        # sampai indeks (n-1)\n        # nilai n tergantung banyaknya iterasi\n\n        calon_baris = []\n        calon_baris.append(kolom_kiri[i])\n        calon_baris.append(kolom_kanan[i])\n        tabel_mentah.append(calon_baris)\n    \n    # mengolah tabel di dalam fungsi\n    tabel_olahan = tabulate(tabel_mentah, headers=[\"i\", \"faktorial\"])\n    return tabel_olahan\n\ntabel_jadi = TabelFaktorial(5)\nprint(tabel_jadi)\n\n  i    faktorial\n---  -----------\n  1            1\n  2            2\n  3            6\n  4           24\n  5          120\n\n\nTentu saja, nilai 5 itu selalu bisa diganti menjadi sembarang bilangan bulat positif, seperti 7, 10, 15, 22, atau bahkan lebih besar lagi, dan banyaknya baris akan menyesuaikan, karena pembentukan tabel dilakukan secara otomatis.\n\ntabel_jadi = TabelFaktorial(22)\nprint(tabel_jadi)\n\n  i               faktorial\n---  ----------------------\n  1                       1\n  2                       2\n  3                       6\n  4                      24\n  5                     120\n  6                     720\n  7                    5040\n  8                   40320\n  9                  362880\n 10                 3628800\n 11                39916800\n 12               479001600\n 13              6227020800\n 14             87178291200\n 15           1307674368000\n 16          20922789888000\n 17         355687428096000\n 18        6402373705728000\n 19      121645100408832000\n 20     2432902008176640000\n 21    51090942171709440000\n 22  1124000727777607680000\n\n\n\n\nMetode Secant\nPada Metode Newton dengan Beda Hingga, nilai \\(h\\) konstan. Kalau kita punya dua tebakan awal yang saling dekat, misal \\(p_0\\) dan \\(p_1\\), kita bisa saja memanfaatkannya dengan memasang \\(h = p_1 - p_0\\). Bahkan, ketika iterasi \\(p_n\\) sudah semakin dekat menuju akar, jarak antara \\(p_{n-1}\\) dan \\(p_{n-2}\\) menjadi semakin kecil. Sehingga, dengan memasang nilai \\(h = p_{n-2} - p_{n-1}\\) atau \\(h = p_{n-1} - p_{n-2}\\), kita berhasil membuat limit \\(h\\) menuju nol.\nModifikasi ini disebut Metode Secant, dengan iterasi sebagai berikut untuk menentukan penyelesaian \\(f(x) = 0\\) dengan fungsi \\(f\\) yang kontinu:\n\\[\\begin{align*}\np_n &= p_{n-1} - \\frac{f(p_{n-1})}{\\left(\\frac{f(p_{n-1})-f(p_{n-2})}{p_{n-1}-p_{n-2}}\\right)} \\\\\n&= p_{n-1} - \\frac{f(p_{n-1})(p_{n-1} - p_{n-2})}{f(p_{n-1}) - f(p_{n-2})}\n\\end{align*}\\]\nDibandingkan Metode Newton yang biasa, Metode Secant menggantikan \\(f'(p_{n-1})\\) dengan\n\\[f'(p_{n-1}) \\approx \\frac{f(p_{n-1}) - f(p_{n-2})}{p_{n-1} - p_{n-2}}\\]\nsehingga, tidak seperti Metode Newton yang hanya memerlukan satu tebakan awal, Metode Secant membutuhkan dua tebakan awal, yaitu \\(p_0\\) dan \\(p_1\\). Namun, dibandingkan dengan Metode Newton dengan Beda Hingga, nilai \\(h\\) atau beda hingga tersebut tidak perlu ditentukan secara manual.\nMenariknya, Metode Secant memiliki order of convergence = \\(\\phi \\approx 1.618\\).\n\ndef Secant(f,p0,p1,tolerance):\n    p = p1 - (f(p1)*(p1-p0))/(f(p1)-f(p0))\n    abs_error = abs(p-p1)\n    p0 = p1\n    p1 = p\n\n    while abs_error &gt; tolerance:\n        p = p1 - (f(p1)*(p1-p0))/(f(p1)-f(p0))\n        abs_error = abs(p-p1)\n        p0 = p1\n        p1 = p\n    return p\n\n\nfrom numpy import sin, cos, tan, log, exp, sqrt\nformula = input(\"Masukkan formula fungsi: \")\n\ndef f(x):\n    return eval(formula)\n\ntitik_1 = eval(input(\"Masukkan titik awal pertama: \"))\ntitik_2 = eval(input(\"Masukkan titik awal kedua: \"))\ntolerance = eval(input(\"Masukkan toleransi aproksimasi: \"))\n\nakar_secant = Secant(f,titik_1,titik_2,tolerance)\n\nprint(f\"Akar dari persamaan f(x) = {formula} adalah x = {akar_secant}\")\n\nMasukkan formula fungsi: 2*x - 3*cos(x) + exp(-5*x) - 9\nMasukkan titik awal pertama: -1\nMasukkan titik awal kedua: -2\nMasukkan toleransi aproksimasi: 10**(-7)\nAkar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.5073224866425831\n\n\n\n\nMetode Regula Falsi (penjelasan tanpa kode)\nSejauh ini, kita sudah membahas beberapa metode root-finding atau aproksimasi akar, yaitu:\n\nMetode Bisection\nMetode Fixed-Point\nMetode Newton biasa (dengan turunan analitik)\nMetode Newton dengan Beda Hingga (finite-difference Newton’s method)\nMetode Secant\n\nDi antara semua metode tersebut, hanya Metode Bisection yang dijamin konvergen menuju akar di interval yang diberikan; semua metode lain ada kemungkinan divergen (menjauh dari akar, seperti metode fixed-point) atau gagal karena terjadi pembagian nol. Sayangnya, Metode Bisection termasuk metode yang pelan di antara metode numerik lainnya.\nUntuk menjaga jaminan kekonvergenan oleh Metode Bisection tetapi memperbaiki kecepatan kekonvergenannya, kita bisa memodifikasi Metode Bisection, yaitu memodifikasi cara menentukan \\(p\\) yang baru yang akan mempersempit interval. Perhatikan bahwa Metode Bisection membutuhkan dua “tebakan awal” (lebih tepatnya dua batasan interval), sedangkan metode di atas yang juga membutuhkan dua tebakan awal hanyalah Metode Secant.\nApakah kita bisa menggunakan Metode Bisection, tetapi dengan modifikasi menentukan \\(p\\) seperti Metode Secant, agar mendapatkan order of convergence seperti Metode Secant?\nJawabannya adalah bisa, dan modifikasi tersebut dinamakan Metode Regula Falsi. Sehingga, Metode Regula Falsi bisa disebut perpaduan antara Metode Bisection dan Metode Secant.\nSebenarnya, perbedaan algoritma Metode Bisection dan Metode Regula Falsi hanya di satu baris saja, yaitu mengubah baris\n\\[p=\\frac{a+b}{2}\\]\nmenjadi\n\\[p = b - \\frac{f(b)(b-a)}{f(b) - f(a)}\\]\nsesuai Metode Secant. Perhatikan bahwa Metode Secant biasanya membutuhkan dua tebakan awal yang tidak harus sama dengan batasan interval, sedangkan Metode Regula Falsi secara otomatis menggunakan kedua batasan interval \\([a,b]\\) sebagai dua tebakan awal.\nUntuk pembuatan kode Metode Regula Falsi, kami serahkan ke kalian. Gampang, kok! Tinggal mengubah beberapa baris saja (baris yang menentukan nilai \\(p\\) yang baru) pada kode Metode Bisection, yaitu mengambil baris tersebut dari kode Metode Secant, kemudian menyesuaikan kedua tebakan awal menjadi kedua batasan interval.\nSeperti Metode Secant, Metode Regula Falsi juga memiliki order of convergence = \\(\\phi \\approx 1.618\\).\n\n\nApa itu barisan? (penjelasan tanpa kode)\nSuatu “barisan” (sequence) adalah sekumpulan angka yang berurut. Artinya, pada suatu barisan, ada yang bisa disebut angka pertama (atau suku pertama), angka kedua (suku kedua), angka ketiga (suku ketiga), dan sebagainya. Banyaknya suku bisa berhingga maupun tak terhingga.\nSuku-suku pada suatu barisan itu bisa saja ditentukan secara manual atau sesuka hati, atau bisa juga menggunakan rumus. Intinya, suku-suku suatu barisan itu bisa diperoleh dari manapun, bahkan dari hasil iterasi metode numerik (\\(p_0\\), \\(p_1\\), \\(p_2\\), \\(p_3\\), …) juga bisa.\nOleh karena itu, contoh barisan berhingga adalah hasil iterasi fixed-point, misalnya dengan \\(g(x) = 1 + \\frac{1}{x}\\), tebakan awal \\(p_0 = 2\\), dan batas toleransi \\(10^{-7}\\):\n\\[\\begin{align*}\n(& 1.5, 1.6666666666666665, 1.6, \\\\\n& 1.625, 1.6153846153846154, \\\\\n& 1.619047619047619, \\dots, \\\\\n& 1.6180339631667064)\n\\end{align*}\\]\nProses tersebut berakhir setelah 17 iterasi, sehingga barisan tersebut memiliki 17 suku.\nBarisan tersebut bisa diberi nama, seperti \\(p_n\\) dengan \\(n = 1, 2, 3, \\dots, 17\\), yang bisa dituliskan \\(\\left\\{p_n\\right\\}_{n=1}^{17}\\) dengan kurung kurawal.\nContoh barisan tak berhingga adalah barisan aritmetika dan barisan geometri, seperti:\n\\[(-5, -2, 1, 4, 7, 10, 13, 16, 19, \\dots)\\]\n\\[\\left(16, 8, 4, 2, 1, \\frac{1}{2}, \\frac{1}{4}, \\frac{1}{8}, \\dots\\right)\\]\nBarisan tak berhingga dengan nama \\(p_n\\) yang mulai dari suku \\(n=1\\) bisa ditulis \\(\\left\\{p_n\\right\\}_{n=1}^{\\infty}\\) dengan kurung kurawal, atau singkatnya \\((p_n)\\) saja dengan kurung biasa (dengan begitu, biasanya ada asumsi bahwa barisan tersebut tak berhingga).\n\n\nMetode Aitken\nAlexander Aitken menemukan bahwa, untuk sembarang barisan (termasuk sembarang metode numerik) yang memiliki kekonvergenan linier, untuk nilai \\(n\\) yang besar, berlaku\n\\[\\frac{p_{n+1} - p}{p_n - p} \\approx \\frac{p_{n+2} - p}{p_{n+1} - p}\\]\ndi mana \\(p\\) adalah nilai yang ingin dicari, sedangkan \\(p_n\\), \\(p_{n+1}\\), dan \\(p_{n+2}\\) adalah tiga suku barisan (atau tiga hasil aproksimasi) berturut-turut. Artinya, perbandingan error (error ratio) antar dua pasang hasil iterasi (diperoleh dari tiga hasil iterasi berturut-turut) menjadi kurang lebih sama. Dengan manipulasi aljabar, diperoleh\n\\[p \\approx p_n - \\frac{\\left(p_{n+1} - p_n\\right)^2}{p_{n+2} - 2p_{n+1} + p_n}\\]\nseolah-olah ada jalur pintas untuk langsung mendapatkan nilai yang ingin dicari.\nTentu saja, sebelum menggunakan rumus ini, kita perlu menemukan tiga hasil aproksimasi pertama, yaitu \\(p_0\\), \\(p_1\\), dan \\(p_2\\). Kemudian, barulah kita tentukan \\(p_3\\) menggunakan rumus Aitken (hasil rumus Aitken biasa disebut \\(\\hat{p}_n\\), sehingga bisa ditulis \\(p_3 = \\hat{p}_0\\), karena perhitungan \\(p_3\\) memanfaatkan \\(p_0\\), \\(p_1\\) dan \\(p_2\\)).\nVariabel \\(\\hat{p}\\) biasa disebut p-hat atau p-cap (kata “hat” atau “cap” artinya topi).\nApabila kita definisikan \\(\\Delta p_n = p_{n+1} - p_n\\) dan \\(\\Delta^2 p_n = p_{n+2} - 2p_{n+1} + p_n\\), rumus Aitken bisa ditulis\n\\[\\hat{p}_n = p_n - \\frac{(\\Delta p_n)^2}{\\Delta^2 p_n}\\]\nsehingga teknik ini biasa disebut Aitken’s delta-squared (\\(\\Delta^2\\)) method.\nCatatan: dalam pembahasan metode Aitken/Steffensen, penulisan \\(\\Delta^2\\) BUKAN berarti \\((\\Delta)^2\\). Itu hanya penulisan saja.\nSecara umum, apabila kita punya suku-suku suatu barisan yang berturut-turut yaitu \\(p_1, p_2, p_3, \\dots, p_{k-3}, p_{k-2}, p_{k-1}, p_{k}\\), maka rumus Aitken bisa digunakan untuk menentukan \\(\\hat{p}_1, \\hat{p}_2, \\hat{p}_3, \\dots, \\hat{p}_{k-3}, \\hat{p}_{k-2}\\), yang semuanya merupakan aproksimasi nilai yang lebih akurat untuk hasil konvergen dari barisan tersebut (dengan asumsi kekonvergenan linier).\nPerhatikan: - Kita hanya bisa berhenti sampai \\(\\hat{p}_{k-2}\\), karena perhitungannya membutuhkan \\(p_{k-2}\\), \\(p_{k-1}\\) dan \\(p_k\\). - Harus ada minimal 3 suku yang diketahui, artinya \\(k \\ge 3\\).\n\ndef Aitken(p):\n    k = len(p)\n    if k &lt; 3:\n        return \"Maaf, dibutuhkan minimal 3 suku yang diketahui.\"\n    \n    # kalau lanjut ke sini, artinya k &gt;= 3\n    list_phat = []\n    for i in range(k-2):\n        Delta = p[i+1] - p[i]\n        DeltaSquared = p[i+2] - 2 * p[i+1] + p[i]\n        phat = p[i] - (Delta)**2 / DeltaSquared\n        list_phat.append(phat)\n    return list_phat\n\n\ntry:\n    # input suatu list\n    p = eval(input(\"Masukkan list suku-suku yang diketahui: \"))\nexcept:\n    print(\"Maaf, terjadi error. Harap masukkan list dengan benar.\")\nelse: # kalau tidak terjadi error \n    print(\"Berikut hasil metode Aitken:\") \n    print(Aitken(p))\n\nMasukkan list suku-suku yang diketahui: [2, 1.5, 1.6666666666666665, 1.6, 1.625]\nBerikut hasil metode Aitken:\n[1.625, 1.619047619047619, 1.6181818181818182]\n\n\n\n\nMetode Steffensen: Penerapan Metode Aitken pada Metode Fixed Point\nAitken hanya menemukan rumus. Johan Frederik Steffensen menemukan bahwa, karena Metode Fixed-Point memiliki kekonvergen linier, metode Aitken bisa digunakan untuk mempercepat Metode Fixed-Point.\nSecara umum, apabila kita berselang-seling antara menggunakan suatu metode dan rumus Aitken (misalnya setelah memperoleh tiga hasil aproksimasi), kita dapat mempercepat kekonvergenan (accelerating convergence), seolah-olah order of convergence menjadi lebih besar dari 1. Namun, bagaimana cara selang-selingnya?\nMenurut Steffensen, rumus Aitken bisa digunakan tiap tiga iterasi fixed-point, yaitu untuk \\(p_3\\), \\(p_6\\), \\(p_9\\), dan seterusnya.\nKita bisa memodifikasi rumus Aitken dengan menggeser indeks \\(n\\), yaitu menukar \\(n\\) dengan \\(n-3\\), untuk mendapatkan rumus iterasi:\n\\[\\hat{p} = p_{n-3} - \\frac{\\left(p_{n-2} - p_{n-3}\\right)^2}{p_{n-1} - 2p_{n-2} + p_{n-3}}\\]\ndan dalam hal ini, kita juga bisa mendefinisikan \\(\\Delta_1 = p_{n-2} - p_{n-3}\\) dan \\(\\Delta_2 = p_{n-1} - 2p_{n-2} + p_{n-3}\\) untuk mendapatkan bentuk:\n\\[\\hat{p} = p_{n-3} - \\frac{(\\Delta_1)^2}{(\\Delta_2)}\\]\n\ndef Steffensen(g, p0, tolerance):\n    # list semua nilai p agar mudah diakses\n    list_p = [p0]\n\n    # nilai sementara\n    abs_error = tolerance + 1 \n\n    iterasi = 1 # penghitung banyaknya iterasi\n    while abs_error &gt;= tolerance:\n        if iterasi % 3 == 0: # untuk kelipatan tiga, gunakan rumus Aitken\n            pn_3 = list_p[iterasi - 3] # p_(n-3)\n            pn_2 = list_p[iterasi - 2] # p_(n-2)\n            pn_1 = list_p[iterasi - 1] # p_(n-1)\n            Delta1 = pn_2 - pn_3\n            Delta2 = pn_1 - 2 * pn_2 + pn_3\n            pn = pn_3 - (Delta1)**2 / Delta2\n        else: # selain kelipatan 3, gunakan fixed point\n            pn_1 = list_p[iterasi - 1]\n            pn = g(pn_1)\n        \n        list_p.append(pn)\n        abs_error = abs( pn - pn_1 )\n        iterasi += 1\n    \n    # return bukan hanya p, tetapi juga banyaknya iterasi\n    return pn, iterasi\n\n\nfrom numpy import sin, cos, tan, log, exp, sqrt\n\nformula = input(\"Masukkan formula g(x): \")\n\ndef g(x):\n    return eval(formula)\n\nstarting_point = eval(input(\"Masukkan titik awal iterasi: \"))\ntolerance = eval(input(\"Masukkan batas toleransi: \"))\n\np_steffensen, i_steffensen = Steffensen(g, starting_point, tolerance)\n\nprint(\"Metode Steffensen\")\nprint(\"Hasil: \" + str(p_steffensen))\nprint(\"setelah banyaknya iterasi: \" + str(i_steffensen))\n\nprint(\"Bandingkan banyaknya iterasi dengan Metode Fixed-Point biasa:\")\n\nfixpoint_hasil, fixpoint_tabel = FixedPoint(g, starting_point, tolerance)\nprint(fixpoint_tabel)\n\nMasukkan formula g(x): 1 + 1/x\nMasukkan titik awal iterasi: 2\nMasukkan batas toleransi: 10**(-7)\nMetode Steffensen\nHasil: 1.618033988749648\nsetelah banyaknya iterasi: 11\nBandingkan banyaknya iterasi dengan Metode Fixed-Point biasa:\n+---------+--------------------+\n| iterasi |    Aproksimasi     |\n+---------+--------------------+\n|    1    |        1.5         |\n|    2    | 1.6666666666666665 |\n|    3    |        1.6         |\n|    4    |       1.625        |\n|    5    | 1.6153846153846154 |\n|    6    | 1.619047619047619  |\n|    7    | 1.6176470588235294 |\n|    8    | 1.6181818181818182 |\n|    9    | 1.6179775280898876 |\n|   10    | 1.6180555555555556 |\n|   11    | 1.6180257510729614 |\n|   12    | 1.6180371352785146 |\n|   13    | 1.6180327868852458 |\n|   14    | 1.618034447821682  |\n|   15    | 1.618033813400125  |\n|   16    | 1.6180340557275543 |\n|   17    | 1.6180339631667064 |\n+---------+--------------------+"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "",
+    "text": "LaTeX merupakan suatu sistem penyusunan dokumen yang sering digunakan oleh mahasiswa Departemen Matematika FMIPA UI dikarenakan kemudahannya dalam membuat dokumen yang mengandung banyak simbol dan rumus matematika. Pada kurikulum 2020, mahasiswa semester 2 Departemen Matematika FMIPA UI mendapatkan praktikum kalkulin (Kalkulus 2 dan Aljabar Linier 1). Pada praktikum tersebut, selain belajar mengenai penggunaan Wolfram Mathematica lebih lanjut, mahasiswa juga diperkenalkan LaTeX. Namun pada kurikulum 2024, mahasiswa semester 2 tidak lagi mendapatkan praktikum kalkulin. Oleh karena itu, kami dari tim asisten laboratorium telah menyiapkan modul mengenai dasar-dasar LaTeX agar mahasiswa tetap dapat belajar menggunakan LaTeX meskipun tanpa adanya praktikum kalkulin. Modul ini dirancang untuk membantu pemula memahami dasar-dasar LaTeX, dari instalasi hingga pembuatan dokumen yang kompleks. Setiap bab akan membahas aspek penting dalam LaTeX, dilengkapi dengan contoh kode yang dapat dibuka melalui overleaf."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.1 Apa itu LaTeX?",
+    "text": "1.1 Apa itu LaTeX?\nLaTeX adalah sistem penyusunan dokumen (document preparation system) berbasis markup language yang digunakan untuk membuat dokumen berkualitas tinggi, terutama dalam bidang akademik, teknis, dan ilmiah. LaTeX dirancang untuk menangani teks dengan format kompleks seperti:\n\nRumus matematika\nReferensi silang (cross-referencing)\nBibliografi\nTabel dan gambar yang terstruktur\nFormat dokumen profesional\n\nLaTeX dikembangkan oleh Leslie Lamport pada tahun 1980-an sebagai penyempurnaan dari sistem TeX, yang dibuat oleh Donald Knuth. Berbeda dengan Word Processors seperti Microsoft Word atau Google Docs, LaTeX menggunakan pendekatan deklaratif dalam penulisan dokumen. Artinya, pengguna menulis teks dengan kode format (markup), dan LaTeX akan mengompilasi kode tersebut menjadi dokumen yang terformat dengan baik, biasanya dalam bentuk PDF."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#sejarah-singkat-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#sejarah-singkat-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.2 Sejarah Singkat LaTeX",
+    "text": "1.2 Sejarah Singkat LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#kelebihan-dan-kekurangan-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#kelebihan-dan-kekurangan-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.2 Kelebihan dan Kekurangan LaTeX",
+    "text": "1.2 Kelebihan dan Kekurangan LaTeX\nLaTeX memiliki banyak keunggulan dibandingkan dengan word processors seperti Microsoft Word atau Google Docs, terutama dalam pembuatan dokumen ilmiah dan teknis. Namun, LaTeX juga memiliki beberapa kelemahan yang perlu dipertimbangkan sebelum menggunakannya.\n\nKelebihan LaTeX\n\nFormat Dokumen yang Konsisten dan Profesional\nLaTeX secara otomatis mengatur tata letak teks, margin, spasi, dan elemen lainnya agar konsisten. Hasilnya terlihat lebih rapi dan profesional dibandingkan dengan pemformatan manual di Word.\nKemampuan Penulisan Matematika yang Superior\nLaTeX mendukung berbagai simbol, rumus, dan persamaan matematis yang kompleks menggunakan paket seperti amsmath. Contoh rumus dalam LaTeX:\n\\begin{equation}\n    \\int_{-1}^1\\frac{1}{x}\\sqrt{\\frac{1+x}{1-x}}\\ln\\left(\\frac{2x^2+2x+1}{2x^2-2x+1}\\right)dx\n\\end{equation}\n\n Buka di Overleaf \nHasilnya adalah sebagai berikut:\n\n\n\n\n\n\nManajemen Referensi dan Bibliografi yang Mudah\nDengan bibtex atau biblatex, LaTeX memungkinkan pengelolaan referensi secara otomatis. Tidak perlu menata ulang daftar pustaka secara manual jika ada penambahan atau perubahan sitasi.\nFleksibilitas dalam Struktur Dokumen Besar\nLaTeX cocok digunakan untuk membuat dokumen yang kompleks seperti skripsi, tesis, disertasi, jurnal ilmiah, dan buku. Hal ini dikarenakan LaTeX Memiliki fitur pembagian bab dan subbab yang terorganisir dengan baik.\nDukungan untuk Grafik dan Diagram\nLaTeX mendukung pembuatan grafik vektor menggunakan paket seperti pgfplots dan tikz. Kedua package tersebut bisa digunakan untuk menggambar diagram teknis, grafik fungsi matematika, dan ilustrasi lainnya.\nOpen Source dan Gratis\nLaTeX tersedia secara gratis dan dapat digunakan di berbagai sistem operasi (Windows, macOS, Linux) dan tidak memerlukan lisensi berbayar seperti Microsoft Office.\nKolaborasi yang Mudah dengan Overleaf\nDengan Overleaf (platform LaTeX berbasis web), pengguna bisa menulis dan berkolaborasi secara real-time. Tidak perlu menginstal software tambahan di komputer. Meskipun sejak tanggal 29 Juli 2024, overleaf telah membatasi jumlah kolabolator dalam satu project maksimal satu orang.\n\n\n\nKekurangan LaTeX\n\nKurva Belajar yang Curam\nTidak seperti Microsoft Word yang berbasis WYSIWYG (What You See Is What You Get), LaTeX menggunakan kode markup yang perlu dipahami terlebih dahulu. Pemula mungkin akan mengalami kesulitan dalam memahami sintaks dasar LaTeX.\nTidak Bisa Langsung Melihat Hasil Akhir\nHasil akhir dari suatu dokumen LaTeX tidak langsung terlihat saat menulis, karena harus dikompilasi terlebih dahulu. Jika ada kesalahan dalam kode, perlu mencari sumber masalahnya sebelum dokumen bisa dikompilasi dengan benar.\nInstalasi dan Konfigurasi Awal yang Memakan Waktu\nJika ingin menggunakan LaTeX secara offline, pengguna perlu menginstal distribusi LaTeX seperti TeX Live, MiKTeX, atau MacTeX, serta editor seperti TeXworks atau TeXstudio. Jika menggunakan Overleaf, tidak perlu instalasi, tetapi fitur gratisnya memiliki batasan.\nKurang Fleksibel untuk Dokumen yang Sederhana\nUntuk dokumen sederhana seperti surat atau laporan singkat, penggunaan LaTeX mungkin terasa lebih rumit dibandingkan dengan Word atau Google Docs.\nTidak Ramah dalam Penyuntingan Gambar\nLaTeX tidak memiliki fitur untuk menyisipkan dan mengedit gambar secara langsung seperti di Word. Harus menggunakan perintah \\includegraphics{} dan mengatur posisi gambar secara manual."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#perbedaan-latex-vs-word",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#perbedaan-latex-vs-word",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.3 Perbedaan LaTeX vs Word",
+    "text": "1.3 Perbedaan LaTeX vs Word\nSalah satu perbedaan utama antara LaTeX dan Microsoft Word adalah cara penulisan dokumen. Microsoft Word menggunakan pendekatan What You See Is What You Get (WYSIWYG), di mana pengguna langsung melihat tampilan akhir dokumen saat menulis. LaTeX menggunakan pendekatan What You See Is What You Mean (WYSIWYM), di mana pengguna menulis kode perintah dalam source file, lalu mengompilasi menjadi dokumen akhir (PDF). Sebagai contoh Perbandingan misalnya, untuk menulis Teks Tebal dan Teks Miring:\nMicrosoft Word: Anda dapat menekan tombol Bold dan Italic dalam menu toolbar seperti berikut:\n\n\n\n\n\nLaTeX: Anda dapat menulis kode berikut dalam file .tex:\n\\textbf{Teks Tebal} dan \\textit{Teks Miring}\n Buka di Overleaf \ndan hasilnya adalah sebagai berikut:\n\n\n\n\n\nPerbandingan LaTeX dan Word dalam berbagai aspek dapat dilihat pada tabel-tabel berikut.\n\n1. Cara Kerja dan Pendekatan\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nPendekatan\nWYSIWYM (What You See Is What You Mean)\nWYSIWYG (What You See Is What You Get)\n\n\nPenulisan\nMenggunakan perintah format dalam file teks (.tex)\nMengetik langsung dalam dokumen visual\n\n\nKompilasi\nPerlu dikompilasi untuk melihat hasil akhir\nHasil langsung terlihat saat mengetik\n\n\nPemformatan\nOtomatis berdasarkan template\nHarus dilakukan secara manual\n\n\nStruktur Dokumen\nLebih terorganisir, cocok untuk dokumen panjang\nBisa menjadi tidak konsisten jika tidak dirapikan\n\n\n\n\n\n2. Format dan Tampilan Dokumen\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nTampilan Akhir\nKonsisten dan profesional\nTergantung pada pengeditan manual\n\n\nTemplate & Style\nBanyak template akademik tersedia\nTemplate bawaan, tapi sering perlu penyesuaian\n\n\nMatematika & Simbol\nSangat kuat, mendukung persamaan kompleks\nTerbatas, kurang fleksibel untuk persamaan tingkat lanjut\n\n\n\n\n\n3. Manajemen Referensi dan Bibliografi\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nManajemen Referensi\nOtomatis dengan bibtex / biblatex\nManual atau menggunakan Mendeley/Zotero\n\n\nDaftar Pustaka\nBisa dibuat otomatis dengan berbagai gaya kutipan\nHarus disesuaikan manual\n\n\nNumerasi & Cross-referencing\nOtomatis (\\cite{} dan \\ref{})\nBisa otomatis, tapi kadang error\n\n\n\n\n\n4. Gambar, Tabel, dan Grafik\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nMenambahkan Gambar\n\\includegraphics{} dengan paket graphicx\nBisa di-drag & drop langsung\n\n\nMengatur Posisi Gambar\nHarus menggunakan kode (figure, float)\nBisa dipindahkan langsung\n\n\nMembuat Tabel\nMenggunakan tabular (lebih fleksibel untuk tabel besar)\nLebih mudah dibuat, tapi sulit untuk tabel kompleks\n\n\nDiagram & Grafik\nBisa menggunakan TikZ atau pgfplots\nBisa menyisipkan dari Excel atau buat langsung\n\n\n\nBerdasarkan semua perbandingan diatas, bisa disimpulkan bahwa keduanya memiliki kelebihan dan kekurangan masing-masing. Jika anda butuh dokumen berkualitas tinggi dengan format konsisten, banyak rumus matematika, atau dokumen akademik yang kompleks, anda bisa gunakan LaTeX. Jika Anda hanya perlu membuat dokumen sederhana dengan cepat tanpa perlu belajar sintaks kode, anda bisa menggunakan Word. Sebagai seorang mahasiswa, apalagi di departemen Matematika, menguasai LaTeX akan sangat membantu dalam pembuatan tugas, makalah akademik, laporan ilmiah, dan lain-lain."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#struktur-dasar-file-.tex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#struktur-dasar-file-.tex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.4 Struktur Dasar File .tex",
+    "text": "1.4 Struktur Dasar File .tex"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.6 1.6 Latihan",
+    "text": "2.6 1.6 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-overleaf",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-overleaf",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.1 Apa itu Overleaf?",
+    "text": "3.1 Apa itu Overleaf?\nOverleaf adalah editor LaTeX berbasis web yang memungkinkan pengguna menulis, mengedit, dan mengompilasi dokumen LaTeX langsung di browser, tanpa perlu menginstal perangkat lunak tambahan. Overleaf sangat populer di kalangan akademisi, mahasiswa, dan profesional karena fitur kolaborasinya yang mirip Google Docs untuk LaTeX."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-akun-dan-proyek-baru",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-akun-dan-proyek-baru",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.2 Membuat Akun dan Proyek Baru",
+    "text": "3.2 Membuat Akun dan Proyek Baru\n\n1. Membuat Akun Overleaf\nUntuk menggunakan Overleaf, Anda perlu membuat akun terlebih dahulu. Berikut langkah-langkahnya:\n\nBuka situs Overleaf:  https://www.overleaf.com\nKlik tombol “Sign Up” untuk membuat akun baru.\nPilih cara pendaftaran:\n\nGunakan email dan password\nMasuk dengan akun Google\nMasuk dengan akun ORCID (untuk akademisi)\n\nSetelah mendaftar, Anda bisa langsung mulai membuat proyek LaTeX.\n\n\n\n2. Membuat Proyek Baru\nSetelah anda berhasil membuat akun, tampilan awal anda adalah seperti berikut:\n\n\n\n\n\nAnda bisa langsung membuat proyek baru dengan memilih “Create a New Project”. Kemudian anda dapat memilih salah satu opsi berikut:\n\n\n\n\n\n\nBlank Project: Memulai dokumen LaTeX dari nol\n Example Project: Menggunakan contoh proyek yang sudah ada.\nUpload Project: Mengunggah file .tex dari komputer\nImport from Github: Menghubungkan overleaf dengan akun GitHub anda, sehingga anda dapat melakukan perubahan pada file .tex yang berada di repositori anda menggunakan overleaf. Namun fitur ini merupakan fitur premium.\n\nAnda juga bisa memulai proyek baru dengan menggunakan berbagai template yang tersedia di  gallery."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#antarmuka-overleaf-dan-fitur-utama",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#antarmuka-overleaf-dan-fitur-utama",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.3 Antarmuka Overleaf dan Fitur Utama",
+    "text": "3.3 Antarmuka Overleaf dan Fitur Utama\nSetelah anda membuat proyek baru, anda akan melihat tampilan berikut:"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menulis-dan-mengompilasi-dokumen",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menulis-dan-mengompilasi-dokumen",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.4 Menulis dan Mengompilasi Dokumen",
+    "text": "3.4 Menulis dan Mengompilasi Dokumen"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#berkolaborasi-di-overleaf",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#berkolaborasi-di-overleaf",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.5 Berkolaborasi di Overleaf",
+    "text": "3.5 Berkolaborasi di Overleaf"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#mengunduh-dan-mengekspor-dokumen",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#mengunduh-dan-mengekspor-dokumen",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.6 Mengunduh dan Mengekspor Dokumen",
+    "text": "3.6 Mengunduh dan Mengekspor Dokumen"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-1",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-1",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.7 2.7 Latihan",
+    "text": "3.7 2.7 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#struktur-utama-dokumen",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#struktur-utama-dokumen",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.1 Struktur Utama Dokumen",
+    "text": "4.1 Struktur Utama Dokumen"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#penggunaan-kelas-dokumen-article-report-book-dll.",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#penggunaan-kelas-dokumen-article-report-book-dll.",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.2 Penggunaan Kelas Dokumen (article, report, book, dll.)",
+    "text": "4.2 Penggunaan Kelas Dokumen (article, report, book, dll.)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menyusun-bagian-dan-subbagian-section-subsection-dll.",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menyusun-bagian-dan-subbagian-section-subsection-dll.",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.3 Menyusun Bagian dan Subbagian (\\section{}, \\subsection{}, dll.)",
+    "text": "4.3 Menyusun Bagian dan Subbagian (\\section{}, \\subsection{}, dll.)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#pemformatan-teks-tebal-miring-underline-dsb.",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#pemformatan-teks-tebal-miring-underline-dsb.",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.4 Pemformatan Teks (tebal, miring, underline, dsb.)",
+    "text": "4.4 Pemformatan Teks (tebal, miring, underline, dsb.)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#paragraf-dan-pemisahan-baris",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#paragraf-dan-pemisahan-baris",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.5 Paragraf dan Pemisahan Baris",
+    "text": "4.5 Paragraf dan Pemisahan Baris"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-daftar-bullet-numbered-dan-deskripsi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-daftar-bullet-numbered-dan-deskripsi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.6 Membuat Daftar (bullet, numbered, dan deskripsi)",
+    "text": "4.6 Membuat Daftar (bullet, numbered, dan deskripsi)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menulis-kutipan-dan-blok-kode",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menulis-kutipan-dan-blok-kode",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.7 Menulis Kutipan dan Blok Kode",
+    "text": "4.7 Menulis Kutipan dan Blok Kode"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-catatan-kaki",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-catatan-kaki",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.8 Menambahkan Catatan Kaki",
+    "text": "4.8 Menambahkan Catatan Kaki"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-2",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-2",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.9 3.9 Latihan",
+    "text": "4.9 3.9 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-gambar-includegraphics",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-gambar-includegraphics",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.2 Menambahkan Gambar (\\includegraphics{})",
+    "text": "5.2 Menambahkan Gambar (\\includegraphics{})"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-tabel-dengan-tabular",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-tabel-dengan-tabular",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.3 Membuat Tabel dengan tabular",
+    "text": "5.3 Membuat Tabel dengan tabular"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-paket-table-dan-longtable",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-paket-table-dan-longtable",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.4 Menggunakan Paket table dan longtable",
+    "text": "5.4 Menggunakan Paket table dan longtable"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#dasar-dasar-penulisan-persamaan-matematika",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#dasar-dasar-penulisan-persamaan-matematika",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.9 Dasar-dasar Penulisan Persamaan Matematika",
+    "text": "4.9 Dasar-dasar Penulisan Persamaan Matematika"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#penggunaan-paket-amsmath-untuk-rumus-lanjutan",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#penggunaan-paket-amsmath-untuk-rumus-lanjutan",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.5 Penggunaan Paket amsmath untuk Rumus Lanjutan",
+    "text": "5.5 Penggunaan Paket amsmath untuk Rumus Lanjutan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-3",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-3",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.6 4.6 Latihan",
+    "text": "5.6 4.6 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-paket-di-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-paket-di-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.6 Apa Itu Paket di LaTeX?",
+    "text": "5.6 Apa Itu Paket di LaTeX?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-paket-graphicx-untuk-gambar",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-paket-graphicx-untuk-gambar",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.6 Menggunakan Paket graphicx untuk Gambar",
+    "text": "5.6 Menggunakan Paket graphicx untuk Gambar"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-geometry-untuk-mengatur-margin",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-geometry-untuk-mengatur-margin",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.8 Paket geometry untuk Mengatur Margin",
+    "text": "5.8 Paket geometry untuk Mengatur Margin"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-hyperref-untuk-membuat-hyperlink",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-hyperref-untuk-membuat-hyperlink",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.9 Paket hyperref untuk Membuat Hyperlink",
+    "text": "5.9 Paket hyperref untuk Membuat Hyperlink"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-biblatex-untuk-manajemen-referensi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-biblatex-untuk-manajemen-referensi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.1 Paket biblatex untuk Manajemen Referensi",
+    "text": "6.1 Paket biblatex untuk Manajemen Referensi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-tikz-untuk-grafik-dan-diagram",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-tikz-untuk-grafik-dan-diagram",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.11 Paket tikz untuk Grafik dan Diagram",
+    "text": "5.11 Paket tikz untuk Grafik dan Diagram"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-4",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-4",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.7 5.7 Latihan",
+    "text": "6.7 5.7 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-cite-dan-bibitem",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-cite-dan-bibitem",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.2 Menggunakan \\cite{} dan \\bibitem{}",
+    "text": "6.2 Menggunakan \\cite{} dan \\bibitem{}"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-bibtex-dan-biber",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-bibtex-dan-biber",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.3 Menggunakan bibtex dan biber",
+    "text": "6.3 Menggunakan bibtex dan biber"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#format-bibliografi-dengan-biblatex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#format-bibliografi-dengan-biblatex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.4 Format Bibliografi dengan biblatex",
+    "text": "6.4 Format Bibliografi dengan biblatex"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-daftar-pustaka-dengan-gaya-berbeda",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#membuat-daftar-pustaka-dengan-gaya-berbeda",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.5 Membuat Daftar Pustaka dengan Gaya Berbeda",
+    "text": "6.5 Membuat Daftar Pustaka dengan Gaya Berbeda"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-5",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-5",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.5 6.5 Latihan",
+    "text": "7.5 6.5 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-beamer",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-beamer",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.1 Apa Itu Beamer?",
+    "text": "7.1 Apa Itu Beamer?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#struktur-dasar-presentasi-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#struktur-dasar-presentasi-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.2 Struktur Dasar Presentasi LaTeX",
+    "text": "7.2 Struktur Dasar Presentasi LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-slide-animasi-dan-efek-transisi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-slide-animasi-dan-efek-transisi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.3 Menambahkan Slide, Animasi, dan Efek Transisi",
+    "text": "7.3 Menambahkan Slide, Animasi, dan Efek Transisi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menyesuaikan-tema-dan-warna-beamer",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menyesuaikan-tema-dan-warna-beamer",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.4 Menyesuaikan Tema dan Warna Beamer",
+    "text": "7.4 Menyesuaikan Tema dan Warna Beamer"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-6",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-6",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.5 7.5 Latihan",
+    "text": "8.5 7.5 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menulis-laporan-dan-skripsi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menulis-laporan-dan-skripsi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.1 Menulis Laporan dan Skripsi",
+    "text": "8.1 Menulis Laporan dan Skripsi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#format-standar-dokumen-akademik",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#format-standar-dokumen-akademik",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.2 Format Standar Dokumen Akademik",
+    "text": "8.2 Format Standar Dokumen Akademik"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-template-latex-untuk-skripsi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-template-latex-untuk-skripsi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.3 Menggunakan Template LaTeX untuk Skripsi",
+    "text": "8.3 Menggunakan Template LaTeX untuk Skripsi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#manajemen-bab-dan-subbab-dalam-laporan-panjang",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#manajemen-bab-dan-subbab-dalam-laporan-panjang",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.4 Manajemen Bab dan Subbab dalam Laporan Panjang",
+    "text": "8.4 Manajemen Bab dan Subbab dalam Laporan Panjang"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-7",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-7",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "9.5 8.5 Latihan",
+    "text": "9.5 8.5 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#troubleshooting-error-di-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#troubleshooting-error-di-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.1 Troubleshooting Error di LaTeX",
+    "text": "8.1 Troubleshooting Error di LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-makefile-untuk-automasi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-makefile-untuk-automasi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.2 Menggunakan Makefile untuk Automasi",
+    "text": "8.2 Menggunakan Makefile untuk Automasi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#konversi-latex-ke-pdf-word-dan-html",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#konversi-latex-ke-pdf-word-dan-html",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.3 Konversi LaTeX ke PDF, Word, dan HTML",
+    "text": "8.3 Konversi LaTeX ke PDF, Word, dan HTML"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#optimalisasi-dokumen-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#optimalisasi-dokumen-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.4 Optimalisasi Dokumen LaTeX",
+    "text": "8.4 Optimalisasi Dokumen LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-8",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-8",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "10.5 9.5 Latihan",
+    "text": "10.5 9.5 Latihan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#rangkuman-materi",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#rangkuman-materi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "11.1 10.1 Rangkuman Materi",
+    "text": "11.1 10.1 Rangkuman Materi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#sumber-belajar-latex-lebih-lanjut",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#sumber-belajar-latex-lebih-lanjut",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.1 Sumber Belajar LaTeX Lebih Lanjut",
+    "text": "8.1 Sumber Belajar LaTeX Lebih Lanjut"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#forum-dan-komunitas-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#forum-dan-komunitas-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.2 Forum dan Komunitas LaTeX",
+    "text": "8.2 Forum dan Komunitas LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-akhir",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#latihan-akhir",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "11.4 10.4 Latihan Akhir",
+    "text": "11.4 10.4 Latihan Akhir"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-windows-tex-live-miktex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-windows-tex-live-miktex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.1 Instalasi LaTeX di Windows (TeX Live, MiKTeX)",
+    "text": "2.1 Instalasi LaTeX di Windows (TeX Live, MiKTeX)\nTerdapat dua distribusi LaTeX di Windows yang dapat digunakan, yaitu TeX Live dan MikTeX.\n\n1. Instalasi TeX Live (Rekomendasi)\nTeX Live adalah distribusi LaTeX lengkap dengan semua package bawaan.\nLangkah-langkah Instalasi TeX Live:\n\nUnduh TeX Live Installer\n\nKunjungi situs resminya:  https://tug.org/texlive/ \nCari dan pilih “install-tl-windows.exe” untuk mengunduh versi terbaru.\n\nJalankan Instalasi\n\nBuka file install-tl-windows.exe.\nPilih opsi “install” kemudian “next &gt;”.\n\n\n\n\n\n\n\nKlik “Install” dan tunggu hingga proses unpacking selesai.\n\n\n\n\n\n\n\nSetelah selesai, akan muncul tampilan seperti berikut. Tunggu hingga tampilan berubah. Namun jika terlalu lama, tekan specific mirror dan ubah repository-nya.\n\n\n\n\n\n\n\nTampilan akan berubah menjadi seperti berikut. Anda bisa langsung mulai menginstal dengan menekan “Install” (secara default, anda akan menginstal semua package LaTeX dengan total penyimpanan 9 GB).\n\n\n\n\n\n\n\nJika anda menekan “Advance”, akan muncul tampilan berikut. Disini anda dapat mengubah direktori penyimpanan, skema instalasi yaitu mengenai apa saja yang ingin anda instal, dan konfigurasi lainnya.\n\n\n\n\n\n\n\nSetelah selesai melakukan konfigurasi, tekan “Install”, kemudian tunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nlatex --version\n\nJika muncul versi TeX Live, berarti instalasi berhasil.\n\n\n\n\n2. Instalasi MiKTeX (Alternatif)\nMiKTeX lebih ringan dan mendukung instalasi paket secara otomatis.\nLangkah-langkah Instalasi MiKTeX:\n\nUnduh MiKTeX\n\nKunjungi:  https://miktex.org/download \nPilih “MiKTeX for Windows” dan unduh installer.\n\nJalankan Instalasi\n\nKlik “Next” hingga selesai.\nCentang “Install missing packages on the fly” (agar package dapat diunduh otomatis saat dibutuhkan).\nTunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nmiktex --version\n\nJika muncul versi MiKTeX, berarti instalasi berhasil."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-macos-mactex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-macos-mactex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.2 Instalasi LaTeX di macOS (MacTeX)",
+    "text": "2.2 Instalasi LaTeX di macOS (MacTeX)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-linux-tex-live-paket-distro",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-linux-tex-live-paket-distro",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.3 Instalasi LaTeX di Linux (TeX Live, paket distro)",
+    "text": "2.3 Instalasi LaTeX di Linux (TeX Live, paket distro)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#editor-latex-texworks-texstudio-vs-code-latex-workshop",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#editor-latex-texworks-texstudio-vs-code-latex-workshop",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.2 Editor LaTeX: TeXworks, TeXstudio, VS Code + LaTeX Workshop",
+    "text": "2.2 Editor LaTeX: TeXworks, TeXstudio, VS Code + LaTeX Workshop\nSetelah menginstal distribusi LaTeX (TeX Live atau MiKTeX), kita memerlukan editor LaTeX untuk menulis dan mengompilasi dokumen .tex. Beberapa editor populer untuk LaTeX di Windows adalah:\n\nTeXworks: Editor sederhana (bawaan MiKTeX)\nTeXstudio: Editor lengkap dengan banyak fitur\nVS Code + LaTeX Workshop: Editor modern dengan ekstensi LaTeX\n\n\n1. TeXworks (Bawaan MiKTeX & TeX Live)\nTeXworks adalah editor LaTeX minimalis yang sudah terinstal bersama MiKTeX dan TeX Live.\nCara Menggunakan TeXworks:\n\nBuka TeXworks (Cari di Start Menu)\nTulis kode LaTeX sederhana, misalnya:\n\n\\documentclass{article}\n\\begin{document}\nHello, \\LaTeX!\n\\end{document}\n\nPilih jenis compiler di bagian atas (misalnya pdfLaTeX + MakeIndex + BibTeX)\n\n\n\n\n\n\n\nTekan Ctrl + T atau klik tombol Compile untuk menghasilkan PDF\n\n\n\n2. TeXstudio (Editor LaTeX Lengkap - Rekomendasi)\nTeXstudio adalah editor LaTeX yang lebih kaya fitur dan direkomendasikan untuk pemula maupun pengguna lanjutan.\nCara Instalasi TeXstudio:\n\nUnduh TeXstudio dari situs resminya:  https://www.texstudio.org/ \nInstal dan jalankan TeXstudio\nBuat file baru (.tex), tulis kode LaTeX (bisa coba gunakan contoh sebelumnya), lalu tekan F5 untuk mengompilasi\n\n\n\n3. VS Code + LaTeX Workshop\nVisual Studio Code (VS Code) dengan ekstensi LaTeX Workshop cocok bagi pengguna yang ingin fleksibilitas lebih dalam mengedit dokumen LaTeX.\nCara Instalasi VS Code untuk LaTeX:\n\nUnduh dan instal VS Code jika belum:  https://code.visualstudio.com/ \nBuka VS Code, lalu instal ekstensi LaTeX Workshop (bisa dengan Tekan Ctrl + Shift + X, cari “LaTeX Workshop”, lalu klik Install)\n\n\n\n\n\n\n\nTekan Ctrl + Shift + P untuk memunculkan semua command, kemudian cari Open User Settings JSON.\n\n\n\n\n\n\n\nSaat ditekan, akan terbuka file settings.json. Tambahkan code berikut kedalam file settings.json anda\n\n\"latex-workshop.latex.tools\": [\n {\n  \"name\": \"latexmk\",\n  \"command\": \"latexmk\",\n  \"args\": [\n   \"-synctex=1\",\n   \"-interaction=nonstopmode\",\n   \"-file-line-error\",\n   \"-pdf\",\n   \"-outdir=%OUTDIR%\",\n   \"%DOC%\"\n  ],\n  \"env\": {}\n },\n {\n  \"name\": \"xelatex\",\n  \"command\": \"xelatex\",\n  \"args\": [\n   \"-synctex=1\",\n   \"-interaction=nonstopmode\",\n   \"-file-line-error\",\n   \"%DOC%\"\n  ],\n  \"env\": {}\n },\n {\n  \"name\": \"pdflatex\",\n  \"command\": \"pdflatex\",\n  \"args\": [\n   \"-synctex=1\",\n   \"-interaction=nonstopmode\",\n   \"-file-line-error\",\n   \"%DOC%\"\n  ],\n  \"env\": {}\n },\n {\n  \"name\": \"bibtex\",\n  \"command\": \"bibtex\",\n  \"args\": [\n   \"%DOCFILE%\"\n  ],\n  \"env\": {}\n }\n],\n\n\"latex-workshop.latex.recipes\": [\n {\n  \"name\": \"pdfLaTeX\",\n  \"tools\": [\n   \"pdflatex\"\n  ]\n },\n {\n  \"name\": \"latexmk 🔃\",\n  \"tools\": [\n   \"latexmk\"\n  ]\n },\n {\n  \"name\": \"xelatex\",\n  \"tools\": [\n   \"xelatex\"\n  ]\n },\n {\n  \"name\": \"pdflatex ➞ bibtex ➞ pdflatex`×2\",\n  \"tools\": [\n   \"pdflatex\",\n   \"bibtex\",\n   \"pdflatex\",\n   \"pdflatex\"\n  ]\n },\n {\n \"name\": \"xelatex ➞ bibtex ➞ xelatex`×2\",\n \"tools\": [\n   \"xelatex\",\n   \"bibtex\",\n   \"xelatex\",\n   \"xelatex\"\n  ]\n }\n]\n\nBuat file .tex baru dan tulis kode LaTeX. Tekan Ctrl + Alt + B untuk mengompilasi dokumen."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#mengompilasi-dokumen-latex-secara-lokal",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#mengompilasi-dokumen-latex-secara-lokal",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.3 Mengompilasi Dokumen LaTeX Secara Lokal",
+    "text": "2.3 Mengompilasi Dokumen LaTeX Secara Lokal"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-preamble",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#apa-itu-preamble",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.2 Apa Itu Preamble?",
+    "text": "4.2 Apa Itu Preamble?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-paket-dasar-di-preamble",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#paket-paket-dasar-di-preamble",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.3 Paket-Paket Dasar di Preamble",
+    "text": "4.3 Paket-Paket Dasar di Preamble"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#pengenalan-package-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#pengenalan-package-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.6 Pengenalan package LaTeX?",
+    "text": "5.6 Pengenalan package LaTeX?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#pengenalan-package-di-latex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#pengenalan-package-di-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.1 Pengenalan package di LaTeX?",
+    "text": "5.1 Pengenalan package di LaTeX?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-gambar-dengan-pack",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-gambar-dengan-pack",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.2 Menambahkan Gambar dengan Pack",
+    "text": "5.2 Menambahkan Gambar dengan Pack"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-gambar-dengan-package-graphicx",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menambahkan-gambar-dengan-package-graphicx",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.2 Menambahkan Gambar dengan Package graphicx",
+    "text": "5.2 Menambahkan Gambar dengan Package graphicx"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-package-table-dan-longtable",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#menggunakan-package-table-dan-longtable",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.4 Menggunakan Package table dan longtable",
+    "text": "5.4 Menggunakan Package table dan longtable"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#penggunaan-package-amsmath-untuk-rumus-lanjutan",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#penggunaan-package-amsmath-untuk-rumus-lanjutan",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.5 Penggunaan Package amsmath untuk Rumus Lanjutan",
+    "text": "5.5 Penggunaan Package amsmath untuk Rumus Lanjutan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-geometry-untuk-mengatur-margin",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-geometry-untuk-mengatur-margin",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.6 Package geometry untuk Mengatur Margin",
+    "text": "5.6 Package geometry untuk Mengatur Margin"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-hyperref-untuk-membuat-hyperlink",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-hyperref-untuk-membuat-hyperlink",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.7 Package hyperref untuk Membuat Hyperlink",
+    "text": "5.7 Package hyperref untuk Membuat Hyperlink"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-tikz-untuk-grafik-dan-diagram",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-tikz-untuk-grafik-dan-diagram",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.8 Package tikz untuk Grafik dan Diagram",
+    "text": "5.8 Package tikz untuk Grafik dan Diagram"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-lainnya",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#package-lainnya",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.9 Package Lainnya",
+    "text": "5.9 Package Lainnya"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-macos-mactex-todo",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latex-di-macos-mactex-todo",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.2 Instalasi LaTeX di macOS (MacTeX) [TODO]",
+    "text": "2.2 Instalasi LaTeX di macOS (MacTeX) [TODO]"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latextex-live-miktex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-latextex-live-miktex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.1 Instalasi LaTeX(TeX Live, MiKTeX)",
+    "text": "2.1 Instalasi LaTeX(TeX Live, MiKTeX)\nTerdapat dua distribusi LaTeX di Windows yang dapat digunakan, yaitu TeX Live dan MikTeX.\n\n1. Instalasi TeX Live (Rekomendasi)\nTeX Live adalah distribusi LaTeX lengkap dengan semua package bawaan.\nLangkah-langkah Instalasi TeX Live:\n\nUnduh TeX Live Installer\n\nKunjungi situs resminya:  https://tug.org/texlive/ \nCari dan pilih “install-tl-windows.exe” untuk mengunduh versi terbaru.\n\nJalankan Instalasi\n\nBuka file install-tl-windows.exe.\nPilih opsi “install” kemudian “next &gt;”.\n\n\n\n\n\n\n\nKlik “Install” dan tunggu hingga proses unpacking selesai.\n\n\n\n\n\n\n\nSetelah selesai, akan muncul tampilan seperti berikut. Tunggu hingga tampilan berubah. Namun jika terlalu lama, tekan specific mirror dan ubah repository-nya.\n\n\n\n\n\n\n\nTampilan akan berubah menjadi seperti berikut. Anda bisa langsung mulai menginstal dengan menekan “Install” (secara default, anda akan menginstal semua package LaTeX dengan total penyimpanan 9 GB).\n\n\n\n\n\n\n\nJika anda menekan “Advance”, akan muncul tampilan berikut. Disini anda dapat mengubah direktori penyimpanan, skema instalasi yaitu mengenai apa saja yang ingin anda instal, dan konfigurasi lainnya.\n\n\n\n\n\n\n\nSetelah selesai melakukan konfigurasi, tekan “Install”, kemudian tunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nlatex --version\n\nJika muncul versi TeX Live, berarti instalasi berhasil.\n\n\n\n\n2. Instalasi MiKTeX (Alternatif)\nMiKTeX lebih ringan dan mendukung instalasi paket secara otomatis.\nLangkah-langkah Instalasi MiKTeX:\n\nUnduh MiKTeX\n\nKunjungi:  https://miktex.org/download \nPilih “MiKTeX for Windows” dan unduh installer.\n\nJalankan Instalasi\n\nKlik “Next” hingga selesai.\nCentang “Install missing packages on the fly” (agar package dapat diunduh otomatis saat dibutuhkan).\nTunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nmiktex --version\n\nJika muncul versi MiKTeX, berarti instalasi berhasil."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-distrubusi-latex-tex-live-miktex",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#instalasi-distrubusi-latex-tex-live-miktex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.1 Instalasi Distrubusi LaTeX (TeX Live, MiKTeX)",
+    "text": "2.1 Instalasi Distrubusi LaTeX (TeX Live, MiKTeX)\nTerdapat dua distribusi LaTeX di Windows yang dapat digunakan, yaitu TeX Live dan MikTeX.\n\n1. Instalasi TeX Live (Rekomendasi)\nTeX Live adalah distribusi LaTeX lengkap dengan semua package bawaan.\nLangkah-langkah Instalasi TeX Live:\n\nUnduh TeX Live Installer\n\nKunjungi situs resminya:  https://tug.org/texlive/ \nCari dan pilih “install-tl-windows.exe” untuk mengunduh versi terbaru.\n\nJalankan Instalasi\n\nBuka file install-tl-windows.exe.\nPilih opsi “install” kemudian “next &gt;”.\n\n\n\n\n\n\n\nKlik “Install” dan tunggu hingga proses unpacking selesai.\n\n\n\n\n\n\n\nSetelah selesai, akan muncul tampilan seperti berikut. Tunggu hingga tampilan berubah. Namun jika terlalu lama, tekan specific mirror dan ubah repository-nya.\n\n\n\n\n\n\n\nTampilan akan berubah menjadi seperti berikut. Anda bisa langsung mulai menginstal dengan menekan “Install” (secara default, anda akan menginstal semua package LaTeX dengan total penyimpanan 9 GB).\n\n\n\n\n\n\n\nJika anda menekan “Advance”, akan muncul tampilan berikut. Disini anda dapat mengubah direktori penyimpanan, skema instalasi yaitu mengenai apa saja yang ingin anda instal, dan konfigurasi lainnya.\n\n\n\n\n\n\n\nSetelah selesai melakukan konfigurasi, tekan “Install”, kemudian tunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nlatex --version\n\nJika muncul versi TeX Live, berarti instalasi berhasil.\n\n\n\n\n2. Instalasi MiKTeX (Alternatif)\nMiKTeX lebih ringan dan mendukung instalasi paket secara otomatis.\nLangkah-langkah Instalasi MiKTeX:\n\nUnduh MiKTeX\n\nKunjungi:  https://miktex.org/download \nPilih “MiKTeX for Windows” dan unduh installer.\n\nJalankan Instalasi\n\nKlik “Next” hingga selesai.\nCentang “Install missing packages on the fly” (agar package dapat diunduh otomatis saat dibutuhkan).\nTunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nmiktex --version\n\nJika muncul versi MiKTeX, berarti instalasi berhasil."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#anda-bisa-langsung-membuat-proyek-baru-dengan-memilih-create-a-new-project.-kemudian-anda-dapat-memilih-salah-satu-opsi-berikut",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#anda-bisa-langsung-membuat-proyek-baru-dengan-memilih-create-a-new-project.-kemudian-anda-dapat-memilih-salah-satu-opsi-berikut",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "Anda bisa langsung membuat proyek baru dengan memilih “Create a New Project”. Kemudian anda dapat memilih salah satu opsi berikut",
+    "text": "Anda bisa langsung membuat proyek baru dengan memilih “Create a New Project”. Kemudian anda dapat memilih salah satu opsi berikut"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#section",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#section",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "",
+    "text": "Example Project: Menggunakan contoh proyek yang sudah ada.  Buka di Overleaf"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/modul-latex.html#antarmuka-overleaf",
+    "href": "semuahalaman/modulprak/2025/genap/modul-latex.html#antarmuka-overleaf",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.3 Antarmuka Overleaf",
+    "text": "3.3 Antarmuka Overleaf\nSetelah anda membuat proyek baru, anda akan melihat tampilan berikut:"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "",
+    "text": "LaTeX merupakan suatu sistem penyusunan dokumen yang sering digunakan oleh mahasiswa Departemen Matematika FMIPA UI dikarenakan kemudahannya dalam membuat dokumen yang mengandung banyak simbol dan rumus matematika. Pada kurikulum 2020, mahasiswa semester 2 Departemen Matematika FMIPA UI mendapatkan praktikum kalkulin (Kalkulus 2 dan Aljabar Linier 1). Pada praktikum tersebut, selain belajar mengenai penggunaan Wolfram Mathematica lebih lanjut, mahasiswa juga diperkenalkan LaTeX. Namun pada kurikulum 2024, mahasiswa semester 2 tidak lagi mendapatkan praktikum kalkulin. Oleh karena itu, kami dari tim asisten laboratorium telah menyiapkan modul mengenai dasar-dasar LaTeX agar mahasiswa tetap dapat belajar menggunakan LaTeX meskipun tanpa adanya praktikum kalkulin. Modul ini dirancang untuk membantu pemula memahami dasar-dasar LaTeX, dari instalasi hingga pembuatan dokumen yang kompleks. Setiap bab akan membahas aspek penting dalam LaTeX, dilengkapi dengan contoh kode yang dapat dibuka melalui overleaf."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#apa-itu-latex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#apa-itu-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.1 Apa itu LaTeX?",
+    "text": "1.1 Apa itu LaTeX?\nLaTeX adalah sistem penyusunan dokumen (document preparation system) berbasis markup language yang digunakan untuk membuat dokumen berkualitas tinggi, terutama dalam bidang akademik, teknis, dan ilmiah. LaTeX dirancang untuk menangani teks dengan format kompleks seperti:\n\nRumus matematika\nReferensi silang (cross-referencing)\nBibliografi\nTabel dan gambar yang terstruktur\nFormat dokumen profesional\n\nLaTeX dikembangkan oleh Leslie Lamport pada tahun 1980-an sebagai penyempurnaan dari sistem TeX, yang dibuat oleh Donald Knuth. Berbeda dengan Word Processors seperti Microsoft Word atau Google Docs, LaTeX menggunakan pendekatan deklaratif dalam penulisan dokumen. Artinya, pengguna menulis teks dengan kode format (markup), dan LaTeX akan mengompilasi kode tersebut menjadi dokumen yang terformat dengan baik, biasanya dalam bentuk PDF."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#kelebihan-dan-kekurangan-latex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#kelebihan-dan-kekurangan-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.2 Kelebihan dan Kekurangan LaTeX",
+    "text": "1.2 Kelebihan dan Kekurangan LaTeX\nLaTeX memiliki banyak keunggulan dibandingkan dengan word processors seperti Microsoft Word atau Google Docs, terutama dalam pembuatan dokumen ilmiah dan teknis. Namun, LaTeX juga memiliki beberapa kelemahan yang perlu dipertimbangkan sebelum menggunakannya.\n\nKelebihan LaTeX\n\nFormat Dokumen yang Konsisten dan Profesional\nLaTeX secara otomatis mengatur tata letak teks, margin, spasi, dan elemen lainnya agar konsisten. Hasilnya terlihat lebih rapi dan profesional dibandingkan dengan pemformatan manual di Word.\nKemampuan Penulisan Matematika yang Superior\nLaTeX mendukung berbagai simbol, rumus, dan persamaan matematis yang kompleks menggunakan paket seperti amsmath. Contoh rumus dalam LaTeX:\n\\begin{equation}\n    \\int_{-1}^1\\frac{1}{x}\\sqrt{\\frac{1+x}{1-x}}\\ln\\left(\\frac{2x^2+2x+1}{2x^2-2x+1}\\right)dx\n\\end{equation}\n\n Buka di Overleaf \nHasilnya adalah sebagai berikut:\n\n\n\n\n\n\nManajemen Referensi dan Bibliografi yang Mudah\nDengan bibtex atau biblatex, LaTeX memungkinkan pengelolaan referensi secara otomatis. Tidak perlu menata ulang daftar pustaka secara manual jika ada penambahan atau perubahan sitasi.\nFleksibilitas dalam Struktur Dokumen Besar\nLaTeX cocok digunakan untuk membuat dokumen yang kompleks seperti skripsi, tesis, disertasi, jurnal ilmiah, dan buku. Hal ini dikarenakan LaTeX Memiliki fitur pembagian bab dan subbab yang terorganisir dengan baik.\nDukungan untuk Grafik dan Diagram\nLaTeX mendukung pembuatan grafik vektor menggunakan paket seperti pgfplots dan tikz. Kedua package tersebut bisa digunakan untuk menggambar diagram teknis, grafik fungsi matematika, dan ilustrasi lainnya.\nOpen Source dan Gratis\nLaTeX tersedia secara gratis dan dapat digunakan di berbagai sistem operasi (Windows, macOS, Linux) dan tidak memerlukan lisensi berbayar seperti Microsoft Office.\nKolaborasi yang Mudah dengan Overleaf\nDengan Overleaf (platform LaTeX berbasis web), pengguna bisa menulis dan berkolaborasi secara real-time. Tidak perlu menginstal software tambahan di komputer. Meskipun sejak tanggal 29 Juli 2024, overleaf telah membatasi jumlah kolabolator dalam satu project maksimal satu orang.\n\n\n\nKekurangan LaTeX\n\nKurva Belajar yang Curam\nTidak seperti Microsoft Word yang berbasis WYSIWYG (What You See Is What You Get), LaTeX menggunakan kode markup yang perlu dipahami terlebih dahulu. Pemula mungkin akan mengalami kesulitan dalam memahami sintaks dasar LaTeX.\nTidak Bisa Langsung Melihat Hasil Akhir\nHasil akhir dari suatu dokumen LaTeX tidak langsung terlihat saat menulis, karena harus dikompilasi terlebih dahulu. Jika ada kesalahan dalam kode, perlu mencari sumber masalahnya sebelum dokumen bisa dikompilasi dengan benar.\nInstalasi dan Konfigurasi Awal yang Memakan Waktu\nJika ingin menggunakan LaTeX secara offline, pengguna perlu menginstal distribusi LaTeX seperti TeX Live, MiKTeX, atau MacTeX, serta editor seperti TeXworks atau TeXstudio. Jika menggunakan Overleaf, tidak perlu instalasi, tetapi fitur gratisnya memiliki batasan.\nKurang Fleksibel untuk Dokumen yang Sederhana\nUntuk dokumen sederhana seperti surat atau laporan singkat, penggunaan LaTeX mungkin terasa lebih rumit dibandingkan dengan Word atau Google Docs.\nTidak Ramah dalam Penyuntingan Gambar\nLaTeX tidak memiliki fitur untuk menyisipkan dan mengedit gambar secara langsung seperti di Word. Harus menggunakan perintah \\includegraphics{} dan mengatur posisi gambar secara manual."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#perbedaan-latex-vs-word",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#perbedaan-latex-vs-word",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "1.3 Perbedaan LaTeX vs Word",
+    "text": "1.3 Perbedaan LaTeX vs Word\nSalah satu perbedaan utama antara LaTeX dan Microsoft Word adalah cara penulisan dokumen. Microsoft Word menggunakan pendekatan What You See Is What You Get (WYSIWYG), di mana pengguna langsung melihat tampilan akhir dokumen saat menulis. LaTeX menggunakan pendekatan What You See Is What You Mean (WYSIWYM), di mana pengguna menulis kode perintah dalam source file, lalu mengompilasi menjadi dokumen akhir (PDF). Sebagai contoh Perbandingan misalnya, untuk menulis Teks Tebal dan Teks Miring:\nMicrosoft Word: Anda dapat menekan tombol Bold dan Italic dalam menu toolbar seperti berikut:\n\n\n\n\n\nLaTeX: Anda dapat menulis kode berikut dalam file .tex:\n\\textbf{Teks Tebal} dan \\textit{Teks Miring}\n Buka di Overleaf \ndan hasilnya adalah sebagai berikut:\n\n\n\n\n\nPerbandingan LaTeX dan Word dalam berbagai aspek dapat dilihat pada tabel-tabel berikut.\n\n1. Cara Kerja dan Pendekatan\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nPendekatan\nWYSIWYM (What You See Is What You Mean)\nWYSIWYG (What You See Is What You Get)\n\n\nPenulisan\nMenggunakan perintah format dalam file teks (.tex)\nMengetik langsung dalam dokumen visual\n\n\nKompilasi\nPerlu dikompilasi untuk melihat hasil akhir\nHasil langsung terlihat saat mengetik\n\n\nPemformatan\nOtomatis berdasarkan template\nHarus dilakukan secara manual\n\n\nStruktur Dokumen\nLebih terorganisir, cocok untuk dokumen panjang\nBisa menjadi tidak konsisten jika tidak dirapikan\n\n\n\n\n\n2. Format dan Tampilan Dokumen\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nTampilan Akhir\nKonsisten dan profesional\nTergantung pada pengeditan manual\n\n\nTemplate & Style\nBanyak template akademik tersedia\nTemplate bawaan, tapi sering perlu penyesuaian\n\n\nMatematika & Simbol\nSangat kuat, mendukung persamaan kompleks\nTerbatas, kurang fleksibel untuk persamaan tingkat lanjut\n\n\n\n\n\n3. Manajemen Referensi dan Bibliografi\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nManajemen Referensi\nOtomatis dengan bibtex / biblatex\nManual atau menggunakan Mendeley/Zotero\n\n\nDaftar Pustaka\nBisa dibuat otomatis dengan berbagai gaya kutipan\nHarus disesuaikan manual\n\n\nNumerasi & Cross-referencing\nOtomatis (\\cite{} dan \\ref{})\nBisa otomatis, tapi kadang error\n\n\n\n\n\n4. Gambar, Tabel, dan Grafik\n\n\n\n\n\n\n\n\nAspek\nLaTeX\nMicrosoft Word\n\n\n\n\nMenambahkan Gambar\n\\includegraphics{} dengan paket graphicx\nBisa di-drag & drop langsung\n\n\nMengatur Posisi Gambar\nHarus menggunakan kode (figure, float)\nBisa dipindahkan langsung\n\n\nMembuat Tabel\nMenggunakan tabular (lebih fleksibel untuk tabel besar)\nLebih mudah dibuat, tapi sulit untuk tabel kompleks\n\n\nDiagram & Grafik\nBisa menggunakan TikZ atau pgfplots\nBisa menyisipkan dari Excel atau buat langsung\n\n\n\nBerdasarkan semua perbandingan diatas, bisa disimpulkan bahwa keduanya memiliki kelebihan dan kekurangan masing-masing. Jika anda butuh dokumen berkualitas tinggi dengan format konsisten, banyak rumus matematika, atau dokumen akademik yang kompleks, anda bisa gunakan LaTeX. Jika Anda hanya perlu membuat dokumen sederhana dengan cepat tanpa perlu belajar sintaks kode, anda bisa menggunakan Word. Sebagai seorang mahasiswa, apalagi di departemen Matematika, menguasai LaTeX akan sangat membantu dalam pembuatan tugas, makalah akademik, laporan ilmiah, dan lain-lain."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#instalasi-distrubusi-latex-tex-live-miktex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#instalasi-distrubusi-latex-tex-live-miktex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.1 Instalasi Distrubusi LaTeX (TeX Live, MiKTeX)",
+    "text": "2.1 Instalasi Distrubusi LaTeX (TeX Live, MiKTeX)\nTerdapat dua distribusi LaTeX di Windows yang dapat digunakan, yaitu TeX Live dan MikTeX.\n\n1. Instalasi TeX Live (Rekomendasi)\nTeX Live adalah distribusi LaTeX lengkap dengan semua package bawaan.\nLangkah-langkah Instalasi TeX Live:\n\nUnduh TeX Live Installer\n\nKunjungi situs resminya:  https://tug.org/texlive/ \nCari dan pilih “install-tl-windows.exe” untuk mengunduh versi terbaru.\n\nJalankan Instalasi\n\nBuka file install-tl-windows.exe.\nPilih opsi “install” kemudian “next &gt;”.\n\n\n\n\n\n\n\nKlik “Install” dan tunggu hingga proses unpacking selesai.\n\n\n\n\n\n\n\nSetelah selesai, akan muncul tampilan seperti berikut. Tunggu hingga tampilan berubah. Namun jika terlalu lama, tekan specific mirror dan ubah repository-nya.\n\n\n\n\n\n\n\nTampilan akan berubah menjadi seperti berikut. Anda bisa langsung mulai menginstal dengan menekan “Install” (secara default, anda akan menginstal semua package LaTeX dengan total penyimpanan 9 GB).\n\n\n\n\n\n\n\nJika anda menekan “Advance”, akan muncul tampilan berikut. Disini anda dapat mengubah direktori penyimpanan, skema instalasi yaitu mengenai apa saja yang ingin anda instal, dan konfigurasi lainnya.\n\n\n\n\n\n\n\nSetelah selesai melakukan konfigurasi, tekan “Install”, kemudian tunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nlatex --version\n\nJika muncul versi TeX Live, berarti instalasi berhasil.\n\n\n\n\n2. Instalasi MiKTeX (Alternatif)\nMiKTeX lebih ringan dan mendukung instalasi paket secara otomatis.\nLangkah-langkah Instalasi MiKTeX:\n\nUnduh MiKTeX\n\nKunjungi:  https://miktex.org/download \nPilih “MiKTeX for Windows” dan unduh installer.\n\nJalankan Instalasi\n\nKlik “Next” hingga selesai.\nCentang “Install missing packages on the fly” (agar package dapat diunduh otomatis saat dibutuhkan).\nTunggu hingga instalasi selesai.\n\nVerifikasi Instalasi\n\nBuka Command Prompt (cmd).\nKetik perintah berikut:\n\nmiktex --version\n\nJika muncul versi MiKTeX, berarti instalasi berhasil."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#editor-latex-texworks-texstudio-vs-code-latex-workshop",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#editor-latex-texworks-texstudio-vs-code-latex-workshop",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "2.2 Editor LaTeX: TeXworks, TeXstudio, VS Code + LaTeX Workshop",
+    "text": "2.2 Editor LaTeX: TeXworks, TeXstudio, VS Code + LaTeX Workshop\nSetelah menginstal distribusi LaTeX (TeX Live atau MiKTeX), kita memerlukan editor LaTeX untuk menulis dan mengompilasi dokumen .tex. Beberapa editor populer untuk LaTeX di Windows adalah:\n\nTeXworks: Editor sederhana (bawaan MiKTeX)\nTeXstudio: Editor lengkap dengan banyak fitur\nVS Code + LaTeX Workshop: Editor modern dengan ekstensi LaTeX\n\n\n1. TeXworks (Bawaan MiKTeX & TeX Live)\nTeXworks adalah editor LaTeX minimalis yang sudah terinstal bersama MiKTeX dan TeX Live.\nCara Menggunakan TeXworks:\n\nBuka TeXworks (Cari di Start Menu)\nTulis kode LaTeX sederhana, misalnya:\n\n\\documentclass{article}\n\\begin{document}\nHello, \\LaTeX!\n\\end{document}\n\nPilih jenis compiler di bagian atas (misalnya pdfLaTeX + MakeIndex + BibTeX)\n\n\n\n\n\n\n\nTekan Ctrl + T atau klik tombol Compile untuk menghasilkan PDF\n\n\n\n2. TeXstudio (Editor LaTeX Lengkap - Rekomendasi)\nTeXstudio adalah editor LaTeX yang lebih kaya fitur dan direkomendasikan untuk pemula maupun pengguna lanjutan.\nCara Instalasi TeXstudio:\n\nUnduh TeXstudio dari situs resminya:  https://www.texstudio.org/ \nInstal dan jalankan TeXstudio\nBuat file baru (.tex), tulis kode LaTeX (bisa coba gunakan contoh sebelumnya), lalu tekan F5 untuk mengompilasi\n\n\n\n3. VS Code + LaTeX Workshop\nVisual Studio Code (VS Code) dengan ekstensi LaTeX Workshop cocok bagi pengguna yang ingin fleksibilitas lebih dalam mengedit dokumen LaTeX.\nCara Instalasi VS Code untuk LaTeX:\n\nUnduh dan instal VS Code jika belum:  https://code.visualstudio.com/ \nBuka VS Code, lalu instal ekstensi LaTeX Workshop (bisa dengan Tekan Ctrl + Shift + X, cari “LaTeX Workshop”, lalu klik Install)\n\n\n\n\n\n\n\nTekan Ctrl + Shift + P untuk memunculkan semua command, kemudian cari Open User Settings JSON.\n\n\n\n\n\n\n\nSaat ditekan, akan terbuka file settings.json. Tambahkan code berikut kedalam file settings.json anda\n\n\"latex-workshop.latex.tools\": [\n {\n  \"name\": \"latexmk\",\n  \"command\": \"latexmk\",\n  \"args\": [\n   \"-synctex=1\",\n   \"-interaction=nonstopmode\",\n   \"-file-line-error\",\n   \"-pdf\",\n   \"-outdir=%OUTDIR%\",\n   \"%DOC%\"\n  ],\n  \"env\": {}\n },\n {\n  \"name\": \"xelatex\",\n  \"command\": \"xelatex\",\n  \"args\": [\n   \"-synctex=1\",\n   \"-interaction=nonstopmode\",\n   \"-file-line-error\",\n   \"%DOC%\"\n  ],\n  \"env\": {}\n },\n {\n  \"name\": \"pdflatex\",\n  \"command\": \"pdflatex\",\n  \"args\": [\n   \"-synctex=1\",\n   \"-interaction=nonstopmode\",\n   \"-file-line-error\",\n   \"%DOC%\"\n  ],\n  \"env\": {}\n },\n {\n  \"name\": \"bibtex\",\n  \"command\": \"bibtex\",\n  \"args\": [\n   \"%DOCFILE%\"\n  ],\n  \"env\": {}\n }\n],\n\n\"latex-workshop.latex.recipes\": [\n {\n  \"name\": \"pdfLaTeX\",\n  \"tools\": [\n   \"pdflatex\"\n  ]\n },\n {\n  \"name\": \"latexmk 🔃\",\n  \"tools\": [\n   \"latexmk\"\n  ]\n },\n {\n  \"name\": \"xelatex\",\n  \"tools\": [\n   \"xelatex\"\n  ]\n },\n {\n  \"name\": \"pdflatex ➞ bibtex ➞ pdflatex`×2\",\n  \"tools\": [\n   \"pdflatex\",\n   \"bibtex\",\n   \"pdflatex\",\n   \"pdflatex\"\n  ]\n },\n {\n \"name\": \"xelatex ➞ bibtex ➞ xelatex`×2\",\n \"tools\": [\n   \"xelatex\",\n   \"bibtex\",\n   \"xelatex\",\n   \"xelatex\"\n  ]\n }\n]\n\nBuat file .tex baru dan tulis kode LaTeX. Tekan Ctrl + Alt + B untuk mengompilasi dokumen."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#apa-itu-overleaf",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#apa-itu-overleaf",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.1 Apa itu Overleaf?",
+    "text": "3.1 Apa itu Overleaf?\nOverleaf adalah editor LaTeX berbasis web yang memungkinkan pengguna menulis, mengedit, dan mengompilasi dokumen LaTeX langsung di browser, tanpa perlu menginstal perangkat lunak tambahan. Overleaf sangat populer di kalangan akademisi, mahasiswa, dan profesional karena fitur kolaborasinya yang mirip Google Docs untuk LaTeX."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-akun-dan-proyek-baru",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-akun-dan-proyek-baru",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.2 Membuat Akun dan Proyek Baru",
+    "text": "3.2 Membuat Akun dan Proyek Baru\n\n1. Membuat Akun Overleaf\nUntuk menggunakan Overleaf, Anda perlu membuat akun terlebih dahulu. Berikut langkah-langkahnya:\n\nBuka situs Overleaf:  https://www.overleaf.com\nKlik tombol “Sign Up” untuk membuat akun baru.\nPilih cara pendaftaran:\n\nGunakan email dan password\nMasuk dengan akun Google\nMasuk dengan akun ORCID (untuk akademisi)\n\nSetelah mendaftar, Anda bisa langsung mulai membuat proyek LaTeX.\n\n\n\n2. Membuat Proyek Baru\nSetelah anda berhasil membuat akun, tampilan awal anda adalah seperti berikut:\n\n\n\n\n\nAnda bisa langsung membuat proyek baru dengan memilih “Create a New Project”. Kemudian anda dapat memilih salah satu opsi berikut:\n\n\n\n\n\n\nBlank Project: Memulai dokumen LaTeX dari nol\n Example Project: Menggunakan contoh proyek yang sudah ada.\nUpload Project: Mengunggah file .tex dari komputer\nImport from Github: Menghubungkan overleaf dengan akun GitHub anda, sehingga anda dapat melakukan perubahan pada file .tex yang berada di repositori anda menggunakan overleaf. Namun fitur ini merupakan fitur premium.\n\nAnda juga bisa memulai proyek baru dengan menggunakan berbagai template yang tersedia di  gallery."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#antarmuka-overleaf",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#antarmuka-overleaf",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "3.3 Antarmuka Overleaf",
+    "text": "3.3 Antarmuka Overleaf\nSetelah anda membuat proyek baru, anda akan melihat tampilan berikut:"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#struktur-utama-dokumen",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#struktur-utama-dokumen",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.1 Struktur Utama Dokumen",
+    "text": "4.1 Struktur Utama Dokumen"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#penggunaan-kelas-dokumen-article-report-book-dll.",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#penggunaan-kelas-dokumen-article-report-book-dll.",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.2 Penggunaan Kelas Dokumen (article, report, book, dll.)",
+    "text": "4.2 Penggunaan Kelas Dokumen (article, report, book, dll.)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menyusun-bagian-dan-subbagian-section-subsection-dll.",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menyusun-bagian-dan-subbagian-section-subsection-dll.",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.3 Menyusun Bagian dan Subbagian (\\section{}, \\subsection{}, dll.)",
+    "text": "4.3 Menyusun Bagian dan Subbagian (\\section{}, \\subsection{}, dll.)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#pemformatan-teks-tebal-miring-underline-dsb.",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#pemformatan-teks-tebal-miring-underline-dsb.",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.4 Pemformatan Teks (tebal, miring, underline, dsb.)",
+    "text": "4.4 Pemformatan Teks (tebal, miring, underline, dsb.)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#paragraf-dan-pemisahan-baris",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#paragraf-dan-pemisahan-baris",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.5 Paragraf dan Pemisahan Baris",
+    "text": "4.5 Paragraf dan Pemisahan Baris"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-daftar-bullet-numbered-dan-deskripsi",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-daftar-bullet-numbered-dan-deskripsi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.6 Membuat Daftar (bullet, numbered, dan deskripsi)",
+    "text": "4.6 Membuat Daftar (bullet, numbered, dan deskripsi)"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menulis-kutipan-dan-blok-kode",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menulis-kutipan-dan-blok-kode",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.7 Menulis Kutipan dan Blok Kode",
+    "text": "4.7 Menulis Kutipan dan Blok Kode"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menambahkan-catatan-kaki",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menambahkan-catatan-kaki",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.8 Menambahkan Catatan Kaki",
+    "text": "4.8 Menambahkan Catatan Kaki"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#dasar-dasar-penulisan-persamaan-matematika",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#dasar-dasar-penulisan-persamaan-matematika",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "4.9 Dasar-dasar Penulisan Persamaan Matematika",
+    "text": "4.9 Dasar-dasar Penulisan Persamaan Matematika"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#pengenalan-package-di-latex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#pengenalan-package-di-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.1 Pengenalan package di LaTeX?",
+    "text": "5.1 Pengenalan package di LaTeX?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menambahkan-gambar-dengan-package-graphicx",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menambahkan-gambar-dengan-package-graphicx",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.2 Menambahkan Gambar dengan Package graphicx",
+    "text": "5.2 Menambahkan Gambar dengan Package graphicx"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-tabel-dengan-tabular",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-tabel-dengan-tabular",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.3 Membuat Tabel dengan tabular",
+    "text": "5.3 Membuat Tabel dengan tabular"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menggunakan-package-table-dan-longtable",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menggunakan-package-table-dan-longtable",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.4 Menggunakan Package table dan longtable",
+    "text": "5.4 Menggunakan Package table dan longtable"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#penggunaan-package-amsmath-untuk-rumus-lanjutan",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#penggunaan-package-amsmath-untuk-rumus-lanjutan",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.5 Penggunaan Package amsmath untuk Rumus Lanjutan",
+    "text": "5.5 Penggunaan Package amsmath untuk Rumus Lanjutan"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-geometry-untuk-mengatur-margin",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-geometry-untuk-mengatur-margin",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.6 Package geometry untuk Mengatur Margin",
+    "text": "5.6 Package geometry untuk Mengatur Margin"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-hyperref-untuk-membuat-hyperlink",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-hyperref-untuk-membuat-hyperlink",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.7 Package hyperref untuk Membuat Hyperlink",
+    "text": "5.7 Package hyperref untuk Membuat Hyperlink"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-tikz-untuk-grafik-dan-diagram",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-tikz-untuk-grafik-dan-diagram",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.8 Package tikz untuk Grafik dan Diagram",
+    "text": "5.8 Package tikz untuk Grafik dan Diagram"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-lainnya",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#package-lainnya",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "5.9 Package Lainnya",
+    "text": "5.9 Package Lainnya"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#paket-biblatex-untuk-manajemen-referensi",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#paket-biblatex-untuk-manajemen-referensi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.1 Paket biblatex untuk Manajemen Referensi",
+    "text": "6.1 Paket biblatex untuk Manajemen Referensi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menggunakan-cite-dan-bibitem",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menggunakan-cite-dan-bibitem",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.2 Menggunakan \\cite{} dan \\bibitem{}",
+    "text": "6.2 Menggunakan \\cite{} dan \\bibitem{}"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menggunakan-bibtex-dan-biber",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menggunakan-bibtex-dan-biber",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.3 Menggunakan bibtex dan biber",
+    "text": "6.3 Menggunakan bibtex dan biber"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#format-bibliografi-dengan-biblatex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#format-bibliografi-dengan-biblatex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.4 Format Bibliografi dengan biblatex",
+    "text": "6.4 Format Bibliografi dengan biblatex"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-daftar-pustaka-dengan-gaya-berbeda",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#membuat-daftar-pustaka-dengan-gaya-berbeda",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "6.5 Membuat Daftar Pustaka dengan Gaya Berbeda",
+    "text": "6.5 Membuat Daftar Pustaka dengan Gaya Berbeda"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#apa-itu-beamer",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#apa-itu-beamer",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.1 Apa Itu Beamer?",
+    "text": "7.1 Apa Itu Beamer?"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#struktur-dasar-presentasi-latex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#struktur-dasar-presentasi-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.2 Struktur Dasar Presentasi LaTeX",
+    "text": "7.2 Struktur Dasar Presentasi LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menambahkan-slide-animasi-dan-efek-transisi",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menambahkan-slide-animasi-dan-efek-transisi",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.3 Menambahkan Slide, Animasi, dan Efek Transisi",
+    "text": "7.3 Menambahkan Slide, Animasi, dan Efek Transisi"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menyesuaikan-tema-dan-warna-beamer",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#menyesuaikan-tema-dan-warna-beamer",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "7.4 Menyesuaikan Tema dan Warna Beamer",
+    "text": "7.4 Menyesuaikan Tema dan Warna Beamer"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#sumber-belajar-latex-lebih-lanjut",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#sumber-belajar-latex-lebih-lanjut",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.1 Sumber Belajar LaTeX Lebih Lanjut",
+    "text": "8.1 Sumber Belajar LaTeX Lebih Lanjut"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#forum-dan-komunitas-latex",
+    "href": "semuahalaman/modulprak/2025/genap/latex/modul-latex.html#forum-dan-komunitas-latex",
+    "title": "Modul Pembelajaran LaTeX untuk Pemula",
+    "section": "8.2 Forum dan Komunitas LaTeX",
+    "text": "8.2 Forum dan Komunitas LaTeX"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "",
+    "text": "Kembali ke Sains Data\nPada modul ini kita akan mempelajari beberapa cara untuk membuat visualisasi data menggunakan package Matplotlib dan Seaborn. Seaborn merupakan salah satu package visualisasi data yang sangat sering digunakan karena fleksibilitas dan banyaknya jenis plot yang disediakan. Setelah itu akan dikenalkan metode-metode pada preprocessing seperti encoding data kategorik, imputasi missing values, dan mengatasi dataset unbalanced dengan teknik resampling."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#import-module",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#import-module",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Import Module",
+    "text": "Import Module\nSebelum memulai, mari kita import terlebih dahulu module - module yang diperlukan.\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#import-data",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#import-data",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Import Data",
+    "text": "Import Data\nPada module kali ini, akan digunakan tiga data csv yang berbeda untuk mempermudah kebutuhan visualisasi, yaitu:\n\nSpotify Dataset (spotify.csv), bisa di-download dari\n\nDirect link (langsung dari GitHub Pages ini)\nKaggle\nGoogle Drive: https://bit.ly/DataWeek2 atau langsung\n\nFlight Delays Dataset (flight_delays.csv), bisa di-download dari\n\nDirect link (langsung dari GitHub Pages ini)\nKaggle\nGoogle Drive: https://bit.ly/DataWeek2 atau langsung\n\nInsurance Dataset (insurance.csv), bisa di-download dari\n\nDirect link (langsung dari GitHub Pages ini)\nKaggle\nGoogle Drive: https://bit.ly/DataWeek2 atau langsung\n\n\natau langsung download ketiganya sekaligus, bisa dari:\n\nGoogle Drive: https://bit.ly/DataWeek2 atau langsung\n\nKemudian, baca tiap CSV sebagai dataframe:\n\nspotify_df = pd.read_csv(\"./spotify.csv\",\n                         index_col='Date',\n                         parse_dates=['Date'])\nflight_df = pd.read_csv(\"./flight_delays.csv\")\ninsurance_df = pd.read_csv(\"./insurance.csv\")"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#line-plot",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#line-plot",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Line Plot",
+    "text": "Line Plot\nLine plot biasa digunakan untuk melihat trend data dalam jangka waktu tertentu.\nUntuk membuat line plot pada seaborn, kita dapat menggunakan sns.lineplot(). Jika data yang ingin kita visualisasikan adalah dataframe, kita dapat memasukkan variabel dataframe tersebut pada parameter data, seperti code di bawah ini.\n\n\"\"\"\nMembuat line plot dengan module seaborn\n\"\"\"\n\nplt.subplots(figsize=(8,6))\nsns.lineplot(data=spotify_df)\nplt.show()\n\n\n\n\n\n\n\n\nFleksibilitas Seaborn membuat kita dapat memilih color palette yang sesuai dengan keinginan kita. Kita dapat memilih palette yang sudah disediakan oleh seaborn (antara lain: bright, deep, pastel, dan masih banyak lagi) atau kita dapat mengatur sendiri palette yang ingin kita gunakan.\nUntuk memilih palette yang akan digunakan untuk plot selanjutnya pada seaborn, kita dapat menggunakan sns.set_palette().\nJenis palette yang disediakan seaborn serta cara membuat color palette secara mandiri dapat dilihat pada:\nhttps://seaborn.pydata.org/tutorial/color_palettes.html#tools-for-choosing-color-palettes\n\n# Mengganti color palette menjadi \"bright\"\nsns.set_palette('bright')\n\n\n\"\"\"\nMembuat line plot setelah color palette diubah menjadi \"bright\"\n\"\"\"\n\n# Mengatur besar figur yang ingin ditampilkan\nplt.figure(figsize=(14,6))\n\n# Membuat line plot\nsns.lineplot(data=spotify_df)\n# Membuat judul figur\nplt.title(\"Daily Global Streams of Popular Songs in 2017-2018\")\n# Menampilkan plot\nplt.show()\n\n\n\n\n\n\n\n\nApabila tidak semua fitur pada data ingin kita visualisasikan, kita dapat menggunakan sns.lineplot() beberapa kali, sesuai dengan banyaknya fitur yang ingin kita tampilkan, seperti pada code di bawah.\n\nplt.figure(figsize=(14,6))\n\n# Membuat line plot hanya dengan lagu Shape of You\nsns.lineplot(data=spotify_df['Shape of You'], label=\"Shape of You\")\n# Menambahkan line plot pada figur dengan lagu Despacito\nsns.lineplot(data=spotify_df['Despacito'], label=\"Despacito\")\n\nplt.title(\"Daily Global Streams of Popular Songs in 2017-2018\")\nplt.xlabel(\"Date\")\nplt.ylabel('')\nplt.show()"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#bar-plot",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#bar-plot",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Bar Plot",
+    "text": "Bar Plot\nBar plot biasa digunakan untuk membandingkan kuantitas/nilai pada data bertipe kategori.\nSelanjutnya, kita akan menggunakan data flight_delays.csv, yaitu data rata-rata keterlambatan beberapa maskapai pesawat pada setiap bulannya.\n\nflight_df\n\n\n\n\n\n\n\n\n\nMonth\nAA\nAS\nB6\nDL\nEV\nF9\nHA\nMQ\nNK\nOO\nUA\nUS\nVX\nWN\n\n\n\n\n0\nJanuary\n6.955843\n-0.320888\n7.347281\n-2.043847\n8.537497\n18.357238\n3.512640\n18.164974\n11.398054\n10.889894\n6.352729\n3.107457\n1.420702\n3.389466\n\n\n1\nFebruary\n7.530204\n-0.782923\n18.657673\n5.614745\n10.417236\n27.424179\n6.029967\n21.301627\n16.474466\n9.588895\n7.260662\n7.114455\n7.784410\n3.501363\n\n\n2\nMarch\n6.693587\n-0.544731\n10.741317\n2.077965\n6.730101\n20.074855\n3.468383\n11.018418\n10.039118\n3.181693\n4.892212\n3.330787\n5.348207\n3.263341\n\n\n3\nApril\n4.931778\n-3.009003\n2.780105\n0.083343\n4.821253\n12.640440\n0.011022\n5.131228\n8.766224\n3.223796\n4.376092\n2.660290\n0.995507\n2.996399\n\n\n4\nMay\n5.173878\n-1.716398\n-0.709019\n0.149333\n7.724290\n13.007554\n0.826426\n5.466790\n22.397347\n4.141162\n6.827695\n0.681605\n7.102021\n5.680777\n\n\n5\nJune\n8.191017\n-0.220621\n5.047155\n4.419594\n13.952793\n19.712951\n0.882786\n9.639323\n35.561501\n8.338477\n16.932663\n5.766296\n5.779415\n10.743462\n\n\n6\nJuly\n3.870440\n0.377408\n5.841454\n1.204862\n6.926421\n14.464543\n2.001586\n3.980289\n14.352382\n6.790333\n10.262551\nNaN\n7.135773\n10.504942\n\n\n7\nAugust\n3.193907\n2.503899\n9.280950\n0.653114\n5.154422\n9.175737\n7.448029\n1.896565\n20.519018\n5.606689\n5.014041\nNaN\n5.106221\n5.532108\n\n\n8\nSeptember\n-1.432732\n-1.813800\n3.539154\n-3.703377\n0.851062\n0.978460\n3.696915\n-2.167268\n8.000101\n1.530896\n-1.794265\nNaN\n0.070998\n-1.336260\n\n\n9\nOctober\n-0.580930\n-2.993617\n3.676787\n-5.011516\n2.303760\n0.082127\n0.467074\n-3.735054\n6.810736\n1.750897\n-2.456542\nNaN\n2.254278\n-0.688851\n\n\n10\nNovember\n0.772630\n-1.916516\n1.418299\n-3.175414\n4.415930\n11.164527\n-2.719894\n0.220061\n7.543881\n4.925548\n0.281064\nNaN\n0.116370\n0.995684\n\n\n11\nDecember\n4.149684\n-1.846681\n13.839290\n2.504595\n6.685176\n9.346221\n-1.706475\n0.662486\n12.733123\n10.947612\n7.012079\nNaN\n13.498720\n6.720893\n\n\n\n\n\n\n\n\nUntuk membuat bar plot pada seaborn dengan dataframe, kita dapat menggunakan sns.barplot() dengan tiga parameter yang wajib kita set, yaitu:\n\ndata: dataframe yang ingin kita visualisasikan\nx: nama fitur pada dataframe yang ingin kita jadikan sumbu-x\ny: nama fitur pada dataframe yang ingin kita jadikan sumbu-y\n\nPada kode di bawah, juga digunakan satu parameter opsional, yaitu palette yang merupakan cara lain untuk mengatur color palette yang ingin kita gunakan\n\n\"\"\"\nMembuat bar plot keterlambatan maskapai EV setiap \nbulannya menggunakan seaborn\n\"\"\"\n\nplt.figure(figsize=(14,6))\n\nsns.barplot(data=flight_df, x='Month', y='EV',hue=\"Month\",\n            palette=sns.color_palette('deep', n_colors=12))\nplt.ylabel('EV Flight Delays (minute)')\nplt.title('Average EV Flight Delays per Month')\nplt.show()\n\n\n\n\n\n\n\n\nBerdasarkan hasil plot di atas, terlihat bahwa maskapai EV memiliki rata-rata keterlambatan terlama pada bulan Juni, serta tercepat pada bulan September.\nSelanjutnya, mari kita coba lihat urutan rata-rata keterlambatan semua maskapai dalam satu tahun (maskapai mana yang memiliki rata-rata keterlambatan terlama, serta maskapai mana yang tercepat).\nHal pertama yang perlu kita lakukan adalah, jadikan fitur Month sebagai index dataframe.\n\n# Set fitur \"Month\" menjadi index dataframe\nflight_df = flight_df.set_index('Month')\nflight_df.head(2)\n\n\n\n\n\n\n\n\n\nAA\nAS\nB6\nDL\nEV\nF9\nHA\nMQ\nNK\nOO\nUA\nUS\nVX\nWN\n\n\nMonth\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nJanuary\n6.955843\n-0.320888\n7.347281\n-2.043847\n8.537497\n18.357238\n3.512640\n18.164974\n11.398054\n10.889894\n6.352729\n3.107457\n1.420702\n3.389466\n\n\nFebruary\n7.530204\n-0.782923\n18.657673\n5.614745\n10.417236\n27.424179\n6.029967\n21.301627\n16.474466\n9.588895\n7.260662\n7.114455\n7.784410\n3.501363\n\n\n\n\n\n\n\n\nSelanjutnya, kita perlu hitung rata-rata keterlambatan tiap maskapai dalam satu tahun, yaitu hitung rata-rata tiap kolom pada dataframe menggunakan .mean() (Tambahan: apabila kita ingin menghitung rata-rata tiap barisnya, kita dapat menggunakan parameter axis=1 pada .mean()). .mean() akan menghasilkan pandas Series.\nLalu, agar mempermudah kita dalam melihat visualisasi bar plotnya, kita dapat menggunakan .sort_values().\n\n# Simpan rata-rata keterlambatan semua maskapai dalam satu tahun pada variabel flight_mean_inyear\nflight_mean_inyear = flight_df.mean()\n# Urutkan flight_mean_inyear secara ascending\nflight_mean_inyear = flight_mean_inyear.sort_values()\n\nflight_mean_inyear\n\nAS    -1.023656\nDL     0.231116\nHA     1.993205\nUS     3.776815\nAA     4.120776\nWN     4.275277\nVX     4.717718\nUA     5.413415\nOO     5.909658\nMQ     5.964953\nEV     6.543328\nB6     6.788370\nF9    13.035736\nNK    14.549663\ndtype: float64\n\n\nTerakhir, visualisasikan bar plot menggunakan cara seperti sebelumnya.\nKita dapat lihat pada code dibawah bahwa tidak digunakan parameter data, karena flight_mean_inyear merupakan pandas Series (bukan dataframe) sehingga lebih mudah jika kita langsung menggunakan parameter x dan y saja.\n\nplt.subplots(figsize=(14,6))\nsns.barplot(x=flight_mean_inyear.index, hue=flight_mean_inyear.index,\n            y=flight_mean_inyear.values,\n            palette=sns.color_palette('deep', n_colors=14))\nplt.title('Average Delay per Flight in a Year')\nplt.show()\n\n\n\n\n\n\n\n\nBerdasarkan plot diatas, NK merupakan maskapai dengan rata-rata keterlambatan terlama dalam satu tahun, sedangkan AS adalah yang tercepat (AS bernilai negatif yang berarti rata-rata kedatangan pesawat lebih cepat dari yang dijadwalkan dalam satu tahun."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#heatmap",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#heatmap",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Heatmap",
+    "text": "Heatmap\nHeatmap biasa digunakan untuk mempermudah melihat pola pada data berdasarkan warna yang dihasilkan.\nPada seaborn, kita dapat menggunakan heatmap dengan sns.heatmap() seperti pada kode dibawah. Parameter annot berfungsi untuk menampilkan nilai data (jika True) atau tidak (jika False).\nBar sebelah kanan heatmap menunjukkan bahwa, semakin lama keterlambatan pesawat, maka warna yang dihasilkan semakin terang. Sebaliknya, semakin gelap warna yang dihasilkan berarti semakin cepat pesawat datang tersebut.\n\n\"\"\"\nMembuat heatmap menggunakan Seaborn\n\"\"\"\nplt.figure(figsize=(14,10))\n\nsns.heatmap(data=flight_df, annot=True)\nplt.title(\"Average Arrival Delay for Each Airline, by Month\")\nplt.xlabel(\"Airline\")\nplt.show()\n\n\n\n\n\n\n\n\nBerdasarkan heatmap di atas, kita dapat melihat dengan mudah pada bulan apa suatu maskapai sangat terlambat (contoh: maskapai NK pada bulan Juni).\nHeatmap sangat sering digunakan untuk melihat korelasi antar fitur pada dataset agar kita dapat mengerti lebih jauh tentang fitur-fitur pada data, atau juga dapat dimanfaatkan untuk melakukan feature selection sebelum membuat sebuat model Machine Learning.\nUntuk melakukan hal tersebut, kita perlu menghitung dahulu korelasi antar fitur menggunakan pandas .corr(), yaitu fungsi yang akan menghitung korelasi antar dua fitur menggunakan korelasi Pearson.\nNotes: Metode korelasi dapat diubah dengan menggunakan parameter method pada .corr(), contoh: .corr(method='spearman'). Metode lainnya dapat dilihat pada:\nhttps://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html\n\n# Hitung korelasi antar dua fitur pada flight_df\nflight_corr = flight_df.corr()\n\nflight_corr\n\n\n\n\n\n\n\n\n\nAA\nAS\nB6\nDL\nEV\nF9\nHA\nMQ\nNK\nOO\nUA\nUS\nVX\nWN\n\n\n\n\nAA\n1.000000\n0.334980\n0.429854\n0.805229\n0.896523\n0.903986\n0.220065\n0.842701\n0.573716\n0.620477\n0.809874\n0.823713\n0.425237\n0.615664\n\n\nAS\n0.334980\n1.000000\n0.340359\n0.394359\n0.356608\n0.336791\n0.684979\n0.283977\n0.480863\n0.350657\n0.457414\n0.489025\n0.229571\n0.519228\n\n\nB6\n0.429854\n0.340359\n1.000000\n0.643313\n0.342627\n0.510718\n0.467905\n0.529724\n0.032038\n0.591115\n0.233021\n0.788345\n0.579750\n0.151750\n\n\nDL\n0.805229\n0.394359\n0.643313\n1.000000\n0.796951\n0.783265\n0.262251\n0.598765\n0.625277\n0.569073\n0.797339\n0.821757\n0.700605\n0.691805\n\n\nEV\n0.896523\n0.356608\n0.342627\n0.796951\n1.000000\n0.828515\n0.099369\n0.721468\n0.784026\n0.692697\n0.911499\n0.669736\n0.462638\n0.730115\n\n\nF9\n0.903986\n0.336791\n0.510718\n0.783265\n0.828515\n1.000000\n0.273878\n0.912984\n0.414064\n0.582509\n0.671986\n0.878874\n0.308397\n0.465765\n\n\nHA\n0.220065\n0.684979\n0.467905\n0.262251\n0.099369\n0.273878\n1.000000\n0.436015\n0.176485\n0.056941\n0.066821\n0.586160\n-0.008439\n-0.007296\n\n\nMQ\n0.842701\n0.283977\n0.529724\n0.598765\n0.721468\n0.912984\n0.436015\n1.000000\n0.281890\n0.586963\n0.503575\n0.660181\n0.150111\n0.239744\n\n\nNK\n0.573716\n0.480863\n0.032038\n0.625277\n0.784026\n0.414064\n0.176485\n0.281890\n1.000000\n0.365273\n0.827455\n0.293515\n0.395419\n0.742869\n\n\nOO\n0.620477\n0.350657\n0.591115\n0.569073\n0.692697\n0.582509\n0.056941\n0.586963\n0.365273\n1.000000\n0.626051\n0.590313\n0.561515\n0.548304\n\n\nUA\n0.809874\n0.457414\n0.233021\n0.797339\n0.911499\n0.671986\n0.066821\n0.503575\n0.827455\n0.626051\n1.000000\n0.477816\n0.536968\n0.926800\n\n\nUS\n0.823713\n0.489025\n0.788345\n0.821757\n0.669736\n0.878874\n0.586160\n0.660181\n0.293515\n0.590313\n0.477816\n1.000000\n0.333396\n0.242344\n\n\nVX\n0.425237\n0.229571\n0.579750\n0.700605\n0.462638\n0.308397\n-0.008439\n0.150111\n0.395419\n0.561515\n0.536968\n0.333396\n1.000000\n0.630278\n\n\nWN\n0.615664\n0.519228\n0.151750\n0.691805\n0.730115\n0.465765\n-0.007296\n0.239744\n0.742869\n0.548304\n0.926800\n0.242344\n0.630278\n1.000000\n\n\n\n\n\n\n\n\nPandas .corr() menghasilkan dataframe dengan nama baris dan kolom yang sama, serta berisi nilai korelasi antara baris dan kolom yang ditinjau (contoh: korelasi antara maskapai AA dan AS adalah 0,334980). Serta, dataframe yang dihasilkan adalah sebuat matriks simetris.\nTentu dengan hanya melihat dataframe di atas, tidak terlihat begitu jelas mana fitur yang memiliki korelasi tinggi dan mana yang yang memiliki korelasi rendah. Oleh karena itu, kita dapat memanfaatkan heatmap.\nPada code di bawah, untuk mempermudah pembacaan heatmap, kita menggunakan parameter vmin, vmax, dan center pada sns.heatmap(). vmin berfungsi untuk mengatur nilai terendah, vmax berfungsi untuk mengatur nilai tertinggi, dan center berfungsi untuk mengatur nilai tengah pada heatmap. Korelasi Pearson menghasilkan nilai antara -1 hingga 1, sehingga kita dapat set ketiga parameter tersebut seperti pada code di bawah.\n\nplt.figure(figsize=(14,10))\n\nsns.heatmap(data=flight_corr, vmin=-1, vmax=1, center=0, annot=True)\nplt.title(\"Pearson Correlation of Each Airline Flight Delays\")\nplt.xlabel(\"Airline\")\nplt.show()\n\n\n\n\n\n\n\n\nDengan menggunakan heatmap, sekarang terlihat bahwa mana maskapai yang keterlambatannya berkorelasi tinggi dan mana yang rendah. Misal, AA dan EV menghasilkan korelasi yang cukup tinggi positif, yaitu 0.9, yang artinya jika keterlambatan maskapai AA tinggi, begitu juga maskapai EV, dan sebaliknya jika keterlambatan maskapai AA rendah, begitu juga maskapai EV.\nUntuk meyakinkan kita dengan hal tersebut, kita dapat lihat pada materi selanjutnya, yaitu Scatter Plot."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#scatter-plot",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#scatter-plot",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Scatter Plot",
+    "text": "Scatter Plot\nScatter plot biasa digunakan untuk melihat korelasi antara dua fitur bertipe numerik.\nUntuk menggunakan scatter plot pada seaborn, kita dapat menggunakan sns.scatterplot(), dengan parameter yang sama seperti kita membuat bar plot.\n\n\"\"\"\nMembuat scatter plot untuk melihat \nketerkaitan pada keterlambatan pesawat\nmaskapai EV dan AA\n\"\"\"\n\nsns.scatterplot(data=flight_df, x='EV', y='AA')\nplt.show()\n\n\n\n\n\n\n\n\nMelalui scatter plot di atas, kita dapat semakin yakin bahwa kesimpulan yang kita ambil dengan melihat heatmap sebelumnya benar.\n\n\"\"\"\nTambahan scatter plot pada maskapai lain yang\nmemiliki korelasi tinggi\n\"\"\"\n\nsns.scatterplot(data=flight_df, x='EV', y='UA')\nplt.show()\n\n\n\n\n\n\n\n\n\n\"\"\"\nScatter plot pada maskapai yang memiliki\nkorelasi rendah (mendekati 0)\n\"\"\"\n\nsns.scatterplot(data=flight_df, x='UA', y='HA')\nplt.show()\n\n\n\n\n\n\n\n\nPada heatmap, terlihat bahwa maskapai UA dan HA memiliki korelasi yang rendah, yaitu 0.067. Sehingga, jika kita buat scatter plotnya, menghasilkan plot seperti di atas.\nSekarang kita akan menggunakan dataset lainnya, yaitu insurance.csv yang merupakan data berisi biaya asuransi (charges) beberapa orang.\n\ninsurance_df.head()\n\n\n\n\n\n\n\n\n\nage\nsex\nbmi\nchildren\nsmoker\nregion\ncharges\n\n\n\n\n0\n19\nfemale\n27.900\n0\nyes\nsouthwest\n16884.92400\n\n\n1\n18\nmale\n33.770\n1\nno\nsoutheast\n1725.55230\n\n\n2\n28\nmale\n33.000\n3\nno\nsoutheast\n4449.46200\n\n\n3\n33\nmale\n22.705\n0\nno\nnorthwest\n21984.47061\n\n\n4\n32\nmale\n28.880\n0\nno\nnorthwest\n3866.85520\n\n\n\n\n\n\n\n\nMisal, kita ingin melihat keterkaitan indeks massa tubuh (bmi) seseorang dengan biaya asuransi (charges) orang tersebut. Sama seperti sebelumnya, kita dapat melakukannya seperti pada code di bawah.\n\n# Mengubah palette menjadi default\nsns.set_palette('tab10')\n# Membuat scatter plot antara fitur bmi dan charges\nsns.scatterplot(data=insurance_df, x='bmi', y='charges')\n\nplt.show()\n\n\n\n\n\n\n\n\nScatter plot di atas menunjukkan bahwa korelasi antara bmi dan charges adalah cenderung positif, tetapi tidak terlalu tinggi. Yang artinya, orang dengan BMI tinggi, cenderung akan membayar biaya asuransi lebih tinggi.\nAgar kita semakin yakin dengan kesimpulan tersebut, kita dapat menambahakn garis regresi pada scatter plot tersebut dengan menggunakan sns.regplot().\n\nsns.regplot(data=insurance_df, x='bmi', y='charges', line_kws=dict(color=\"r\"))\nplt.show()\n\n\n\n\n\n\n\n\nBerdasarkan scatter plot dan garis regresi dihasilkan, terlihat bahwa kesimpulan yang kita ambil benar. Agar semakin yakin lagi, kita juga dapat menghitung langsung korelasi Pearsonnya menggunakan cara sebelumnya, yaitu pandas .corr().\n\ninsurance_df[['bmi', 'charges']].corr()\n\n\n\n\n\n\n\n\n\nbmi\ncharges\n\n\n\n\nbmi\n1.000000\n0.198341\n\n\ncharges\n0.198341\n1.000000\n\n\n\n\n\n\n\n\nDengan menggunakan seaborn, kita juga dapat memvisualisasikan scatter plot berdasarkan dengan pewarnaan yang berbeda berdasarkan fitur lainnya yang bertipe kategorik.\nMisal, kita ingin membuat scatter plot antara fitur bmi dan charges dengan pewarnaannya berdasarkan nilai dari fitur smoker, yaitu yes atau no. Kita dapat set parameter hue='smoker' pada sns.scatterplot() seperti pada code di bawah.\n\nsns.scatterplot(data=insurance_df, x='bmi', y='charges', hue='smoker')\nplt.show()\n\n\n\n\n\n\n\n\nSehingga dihasilkan pewarnaan yang berbeda untuk seseorang yang merupakan perokok (biru) dan yang tidak (orange). Berdasarkan scatter plot di atas, terlihat bahwa korelasi antara bmi dan charges untuk perokok cendering tinggi positif (semakin besar bmi, semakin besar juga charges). Sedangkan, untuk bukan perokok, korelasinya cenderung rendah (semakin besar bmi, tidak terlalu berpengaruh terhadap charges).\nSeperti cara sebelumnya, kita dapat menambahkan garis regresi. Namun, karena kita disini menggunakan hue, terdapat dua cara untuk menambahkan garis regresi, yaitu yang pertama adalah menggunakan sns.regplot() seperti di bawah ini.\n\nsns.regplot(data=insurance_df.query('smoker == \"yes\"'), x='bmi', y='charges', line_kws=dict(color=\"g\")) # axes 1\nsns.regplot(data=insurance_df.query('smoker == \"no\"'), x='bmi', y='charges', line_kws=dict(color=\"g\")) # axes 2\nplt.show()\n\n\n\n\n\n\n\n\nPerhatikan bahwa sns.regplot() dipanggil dua kali karena fungsi tersebut tidak memiliki parameter hue.\nUntuk mempermudah, kita dapat menggunakan cara kedua, yaitu menggunakan sns.lmplot(). Cara kerja sns.lmplot() yaitu menggabungkan dua (atau lebih) sns.regplot() dalam satu figur.\n\nsns.lmplot(data=insurance_df, x='bmi', y='charges', hue='smoker', line_kws=dict(color=\"g\"))\nplt.show()"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#box-plot-dan-swarm-plot",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#box-plot-dan-swarm-plot",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Box Plot dan Swarm Plot",
+    "text": "Box Plot dan Swarm Plot\nBox plot dan swarm plot biasa digunakan untuk melihat keterkaitan antara data kategorik dan data numerik. Swarm plot biasa disebut sebagai “categorical scatter plot”, karena plot yang dihasilkan mirip seperti scatter plot, tetapi untuk data kategorik.\nUntuk menggunakan box plot pada seaborn kita dapat menggunakan sns.boxplot().\nUntuk menggunakan swarm plot pada seaborn kita dapat menggunakan sns.swarmplot().\nMisal, kita ingin melihat keterkaitan antara fitur smoker dan charges menggunakan swarm plot. Maka, kita dapat menggunakan code seperti di bawah ini.\n\nplt.subplots(figsize=(10,6))\n\nsns.swarmplot(data=insurance_df, x='smoker', y='charges', size=3)\nplt.show()\n\n\n\n\n\n\n\n\nBerdasarkan swarm plot di atas, terlihat bahwa perokok cenderung memiliki biaya asuransi yang lebih tinggi dibandingkan yang bukan perokok. Selain itu, semakin lebar “swarm” pada suatu kategori berarti semakin banyak seseorang dengan nilai charges tersebut.\nApabila kita ingin menggunakan box plot, maka dapat digunakan code seperti di bawah ini.\n\nsns.boxplot(data=insurance_df, x='smoker', y='charges')\nplt.show()\n\n\n\n\n\n\n\n\nPada box plot, terdapat dua istilah yang umum digunakan, yaitu “box” dan “whiskers”. Pada box plot di atas, “box” merupakan persegi panjang berwarna biru dan orange. Garis di tengah box merupakan nilai mediannya, serta garis bawah dan garis atas box merupakan kuartil bawah (Q1) dan kuartil atas (Q3) secara berurutan. “Whiskers” adalah garis yang merupakan perpanjangan dari box. Ujung dari whiskers atas adalah Q3 + (1.5 x IQR) data, sedangkan ujung whiskers bawah adalah Q1 - (1.5 x IQR) data.\nTitik di luar box dan whiskers tersebut adalah titik yang biasa dijadikan sebagai outlier (penentuan outlier diserahkan ke diri masing-masing, apakah hanya dengan melihat box plot atau dengan menggunakan metode lain, tetapi untuk mempermudah dapat menggunakan box plot)."
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#histogram-dan-density-plot",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#histogram-dan-density-plot",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Histogram dan Density Plot",
+    "text": "Histogram dan Density Plot\nSelain box plot dan swarm plot, kita juga dapat melihat persebaran data menggunakan histogram dan density plot. Histogram biasa digunakan untuk melihat persebaran data secara diskrit, sedangkan density plot untuk melihat persebaran data secara kontinu.\nUntuk membuat histogram pada seaborn, kita dapat menggunakan sns.histplot().\nUntuk membuat density plot pada seaborn, kita dapat menggunakan sns.kdeplot().\nMisal, kita ingin melihat persebaran dari fitur charges pada insurance_df. Maka dapat digunakan code seperti di bawah.\n\nplt.subplots(figsize=(12,6))\n\nsns.histplot(data=insurance_df, x='charges')\nplt.show()\n\n\n\n\n\n\n\n\nBerdasarkan histogram di atas, terlihat bahwa distribusi charges cenderung “skew” atau miring ke kanan. “Skewness” atau tingkat kecondongan merupakan aspek yang penting untuk diperhatikan ketika kita ingin membuat model Machine Learning.\nSeperti scatter plot, kita juga dapat menentukan pewarnaan histogram berdasarkan fitur lainnya dengan menggunakan parameter hue seperti di bawah ini/\n\nplt.subplots(figsize=(12,6))\nsns.histplot(data=insurance_df, x='charges', hue='smoker')\nplt.show()\n\n\n\n\n\n\n\n\nJika ingin membuat density plot dari fitur charges, kita dapat menggunakan kode seperti di bawah ini. Parameter shade berfungsi untuk memberikan warna di bawah kurva.\n\nplt.subplots(figsize=(12,6))\nsns.kdeplot(data=insurance_df, x='charges', fill=True)\nplt.show()\n\n\n\n\n\n\n\n\nsns.kdeplot() juga dapat menggunakan parameter hue.\n\nplt.subplots(figsize=(12,6))\nsns.kdeplot(data=insurance_df, x='charges',\n            hue='smoker', fill=True)\nplt.show()\n\n\n\n\n\n\n\n\nApabila kita ingin menggabungkan histogram dan density plot dalam satu figur, kita dapat menggunakan sns.histplot() dengan parameter kde=True.\n\nplt.subplots(figsize=(12,6))\nsns.histplot(data=insurance_df, x='charges', hue='smoker', kde=True)\nplt.show()"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#joint-plot",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#joint-plot",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Joint Plot",
+    "text": "Joint Plot\nPada seaborn, kita juga dapat membuat dua plot yang berbeda dari dua fitur dalam satu figur yang sama menggunakan sns.jointplot().\nJenis plot yang dihasilkan dapat diatur pada parameter kind. Pilihan jenis kind yang disediakan dapat dilihat pada:\nhttps://seaborn.pydata.org/generated/seaborn.jointplot.html\n\nsns.jointplot(data=insurance_df, x='charges', y='bmi', hue='smoker', kind=\"scatter\")\n\nplt.show()\n\n\n\n\n\n\n\n\n\nsns.jointplot(data=insurance_df, x='charges', y='bmi', hue='smoker', kind=\"hist\")\n\nplt.show()\n\n\n\n\n\n\n\n\n\nsns.jointplot(data=insurance_df, x='charges', y='bmi', hue='smoker', kind=\"kde\")\n\nplt.show()"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#encoding-data-nominal-dengan-one-hot-encoding",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#encoding-data-nominal-dengan-one-hot-encoding",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Encoding Data Nominal dengan One-Hot Encoding",
+    "text": "Encoding Data Nominal dengan One-Hot Encoding\nMetode yang sering digunakan untuk melakukan encoding data nominal adalah one hot encoding. Misalnya ada satu fitur kategorik dengan \\(n\\) kemungkinan data, bernama \\(D_i\\) untuk \\(i = 1, 2, \\dots, n\\). Maka fitur tersebut diganti dengan \\(n\\) kolom baru, misal bernama \\(K_i\\) untuk \\(i = 1, 2, \\dots, n\\), di mana pada kolom ke-i, isinya adalah\n\n\\(1\\), apabila data aslinya pada baris tersebut adalah \\(D_i\\)\n\\(0\\) apabila bukan \\(D_i\\)\n\n\nfrom sklearn.preprocessing import OneHotEncoder\n\n\nencoder = OneHotEncoder()\n\n\nhasil_onehot = encoder.fit_transform(df_housing[[\"ocean_proximity\"]])\n\n\nprint(encoder.categories_)\n\n[array(['&lt;1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'],\n      dtype=object)]\n\n\n\nprint(encoder.categories_[0])\n\n['&lt;1H OCEAN' 'INLAND' 'ISLAND' 'NEAR BAY' 'NEAR OCEAN']\n\n\n\nkolom_encoding = list(encoder.categories_[0])\n\n\nonehot_array = hasil_onehot.toarray()\n\n\nprint(onehot_array)\n\n[[0. 0. 0. 1. 0.]\n [0. 0. 0. 1. 0.]\n [0. 0. 0. 1. 0.]\n ...\n [0. 1. 0. 0. 0.]\n [0. 1. 0. 0. 0.]\n [0. 1. 0. 0. 0.]]\n\n\n\nonehot_df = pd.DataFrame(onehot_array, columns=kolom_encoding)\n\n\nonehot_df\n\n\n\n\n\n\n\n\n\n&lt;1H OCEAN\nINLAND\nISLAND\nNEAR BAY\nNEAR OCEAN\n\n\n\n\n0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n1\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n3\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n4\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n\n\n20635\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20636\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20637\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20638\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20639\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n\n\n20640 rows × 5 columns\n\n\n\n\nSetelah dilakukan one-hot encoding, gabungkan dataframenya dengan dataframe awal\n\ndf_housing = pd.concat([df_housing, onehot_df], axis=1)\n\n\ndf_housing\n\n\n\n\n\n\n\n\n\nlongitude\nlatitude\nhousing_median_age\ntotal_rooms\ntotal_bedrooms\npopulation\nhouseholds\nmedian_income\nmedian_house_value\nocean_proximity\n&lt;1H OCEAN\nINLAND\nISLAND\nNEAR BAY\nNEAR OCEAN\n\n\n\n\n0\n-122.23\n37.88\n41.0\n880.0\n129.0\n322.0\n126.0\n8.3252\n452600.0\nNEAR BAY\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n1\n-122.22\n37.86\n21.0\n7099.0\n1106.0\n2401.0\n1138.0\n8.3014\n358500.0\nNEAR BAY\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2\n-122.24\n37.85\n52.0\n1467.0\n190.0\n496.0\n177.0\n7.2574\n352100.0\nNEAR BAY\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n3\n-122.25\n37.85\n52.0\n1274.0\n235.0\n558.0\n219.0\n5.6431\n341300.0\nNEAR BAY\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n4\n-122.25\n37.85\n52.0\n1627.0\n280.0\n565.0\n259.0\n3.8462\n342200.0\nNEAR BAY\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n20635\n-121.09\n39.48\n25.0\n1665.0\n374.0\n845.0\n330.0\n1.5603\n78100.0\nINLAND\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20636\n-121.21\n39.49\n18.0\n697.0\n150.0\n356.0\n114.0\n2.5568\n77100.0\nINLAND\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20637\n-121.22\n39.43\n17.0\n2254.0\n485.0\n1007.0\n433.0\n1.7000\n92300.0\nINLAND\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20638\n-121.32\n39.43\n18.0\n1860.0\n409.0\n741.0\n349.0\n1.8672\n84700.0\nINLAND\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20639\n-121.24\n39.37\n16.0\n2785.0\n616.0\n1387.0\n530.0\n2.3886\n89400.0\nINLAND\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n\n\n20640 rows × 15 columns\n\n\n\n\n\ndf_housing = df_housing.drop([\"ocean_proximity\"], axis=1)\n\n\ndf_housing\n\n\n\n\n\n\n\n\n\nlongitude\nlatitude\nhousing_median_age\ntotal_rooms\ntotal_bedrooms\npopulation\nhouseholds\nmedian_income\nmedian_house_value\n&lt;1H OCEAN\nINLAND\nISLAND\nNEAR BAY\nNEAR OCEAN\n\n\n\n\n0\n-122.23\n37.88\n41.0\n880.0\n129.0\n322.0\n126.0\n8.3252\n452600.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n1\n-122.22\n37.86\n21.0\n7099.0\n1106.0\n2401.0\n1138.0\n8.3014\n358500.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2\n-122.24\n37.85\n52.0\n1467.0\n190.0\n496.0\n177.0\n7.2574\n352100.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n3\n-122.25\n37.85\n52.0\n1274.0\n235.0\n558.0\n219.0\n5.6431\n341300.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n4\n-122.25\n37.85\n52.0\n1627.0\n280.0\n565.0\n259.0\n3.8462\n342200.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n20635\n-121.09\n39.48\n25.0\n1665.0\n374.0\n845.0\n330.0\n1.5603\n78100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20636\n-121.21\n39.49\n18.0\n697.0\n150.0\n356.0\n114.0\n2.5568\n77100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20637\n-121.22\n39.43\n17.0\n2254.0\n485.0\n1007.0\n433.0\n1.7000\n92300.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20638\n-121.32\n39.43\n18.0\n1860.0\n409.0\n741.0\n349.0\n1.8672\n84700.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20639\n-121.24\n39.37\n16.0\n2785.0\n616.0\n1387.0\n530.0\n2.3886\n89400.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n\n\n20640 rows × 14 columns"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#encoding-data-ordinal-dengan-label-encoding-ordinal-encoding-todo",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#encoding-data-ordinal-dengan-label-encoding-ordinal-encoding-todo",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Encoding Data Ordinal dengan Label Encoding & Ordinal Encoding (TODO)",
+    "text": "Encoding Data Ordinal dengan Label Encoding & Ordinal Encoding (TODO)\n\nfrom sklearn.preprocessing import LabelEncoder, OrdinalEncoder"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#median",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#median",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Median",
+    "text": "Median\n\ndf_fill_median = df_housing.copy()\n\n\ndf_housing[\"total_bedrooms\"].median()\n\n435.0\n\n\n\nbedrooms_median = df_housing[\"total_bedrooms\"].median()\nprint(bedrooms_median)\n\n435.0\n\n\n\ndf_fill_median[\"total_bedrooms\"] = df_fill_median[\"total_bedrooms\"].fillna(bedrooms_median)\n\n\ndf_fill_median.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64\n\n\nCara lain, menggunakan scikit-learn:\n\ndf_fill_median2 = df_housing.copy()\n\n\nfrom sklearn.impute import SimpleImputer\n\n\nmedian_imputer = SimpleImputer(\n    missing_values=np.nan, strategy='median'\n)\n\n\ndf_fill_median2[[\"total_bedrooms\"]] = median_imputer.fit_transform(\n    df_fill_median2[[\"total_bedrooms\"]]\n)\n\n\ndf_fill_median2.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#modus",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#modus",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Modus",
+    "text": "Modus\n\ndf_fill_mode = df_housing.copy()\n\n\ndf_housing[\"total_bedrooms\"].mode()\n\n0    280.0\nName: total_bedrooms, dtype: float64\n\n\n\ndf_housing[\"total_bedrooms\"].mode()[0]\n\n280.0\n\n\n\nbedrooms_mode = df_housing[\"total_bedrooms\"].mode()[0]\nprint(bedrooms_mode)\n\n280.0\n\n\n\ndf_fill_mode[\"total_bedrooms\"] = df_fill_mode[\"total_bedrooms\"].fillna(bedrooms_mode)\n\n\ndf_fill_mode.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64\n\n\nCara lain, menggunakan scikit-learn:\n\ndf_fill_mode2 = df_housing.copy()\n\n\nmode_imputer = SimpleImputer(\n    missing_values=np.nan, strategy='most_frequent'\n)\n\n\ndf_fill_mode2[[\"total_bedrooms\"]] = mode_imputer.fit_transform(\n    df_fill_mode2[[\"total_bedrooms\"]]\n)\n\n\ndf_fill_mode2.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#mean",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#mean",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Mean",
+    "text": "Mean\n\ndf_fill_mean = df_housing.copy()\n\n\ndf_fill_mean[\"total_bedrooms\"].mean()\n\n537.8705525375618\n\n\n\nnp.round(df_fill_mean[\"total_bedrooms\"].mean())\n\n538.0\n\n\n\nbedrooms_mean = np.round(df_fill_mean[\"total_bedrooms\"].mean())\nprint(bedrooms_mean)\n\n538.0\n\n\n\ndf_fill_mean[\"total_bedrooms\"] = df_fill_mean[\"total_bedrooms\"].fillna(bedrooms_mean)\n\n\ndf_fill_mean.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64\n\n\nCara lain, menggunakan scikit-learn:\n\ndf_fill_mean2 = df_housing.copy()\n\n\nmean_imputer = SimpleImputer(\n    missing_values=np.nan, strategy='mean'\n)\n\n\ndf_fill_mean2[[\"total_bedrooms\"]] = mean_imputer.fit_transform(\n    df_fill_mean2[[\"total_bedrooms\"]]\n)\n\n\ndf_fill_mean2.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#knn-imputer",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#knn-imputer",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "KNN Imputer",
+    "text": "KNN Imputer\n\nfrom sklearn.impute import KNNImputer\n\n\nknn_imputer = KNNImputer(n_neighbors=3)\n\n\ndf_fill_knn = df_housing.copy()\n\nKNN Imputer memerlukan kolom-kolom lainnya sebagai acuan, dan hanya bisa bekerja dengan data numerik. Sehingga, kita perlu mem-filter terlebih dahulu kolom-kolom numerik dari dataset kita.\n\ndf_fill_knn.select_dtypes(include='number')\n\n\n\n\n\n\n\n\n\nlongitude\nlatitude\nhousing_median_age\ntotal_rooms\ntotal_bedrooms\npopulation\nhouseholds\nmedian_income\nmedian_house_value\n&lt;1H OCEAN\nINLAND\nISLAND\nNEAR BAY\nNEAR OCEAN\n\n\n\n\n0\n-122.23\n37.88\n41.0\n880.0\n129.0\n322.0\n126.0\n8.3252\n452600.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n1\n-122.22\n37.86\n21.0\n7099.0\n1106.0\n2401.0\n1138.0\n8.3014\n358500.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2\n-122.24\n37.85\n52.0\n1467.0\n190.0\n496.0\n177.0\n7.2574\n352100.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n3\n-122.25\n37.85\n52.0\n1274.0\n235.0\n558.0\n219.0\n5.6431\n341300.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n4\n-122.25\n37.85\n52.0\n1627.0\n280.0\n565.0\n259.0\n3.8462\n342200.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n20635\n-121.09\n39.48\n25.0\n1665.0\n374.0\n845.0\n330.0\n1.5603\n78100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20636\n-121.21\n39.49\n18.0\n697.0\n150.0\n356.0\n114.0\n2.5568\n77100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20637\n-121.22\n39.43\n17.0\n2254.0\n485.0\n1007.0\n433.0\n1.7000\n92300.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20638\n-121.32\n39.43\n18.0\n1860.0\n409.0\n741.0\n349.0\n1.8672\n84700.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20639\n-121.24\n39.37\n16.0\n2785.0\n616.0\n1387.0\n530.0\n2.3886\n89400.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n\n\n20640 rows × 14 columns\n\n\n\n\n\nnum_col = df_fill_knn.select_dtypes(include='number').columns\nprint(num_col)\n\nIndex(['longitude', 'latitude', 'housing_median_age', 'total_rooms',\n       'total_bedrooms', 'population', 'households', 'median_income',\n       'median_house_value', '&lt;1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY',\n       'NEAR OCEAN'],\n      dtype='object')\n\n\n\ndf_fill_knn[num_col] = knn_imputer.fit_transform(df_fill_knn[num_col])\n\n\ndf_fill_knn.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#perbandingan-metode-imputasi",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#perbandingan-metode-imputasi",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Perbandingan Metode Imputasi",
+    "text": "Perbandingan Metode Imputasi\nKita bisa membandingkan beberapa metode imputasi (dan memilih yang mana yang terbaik) dengan langkah-langkah berikut.\n\nGunakan sample dari dataset awal yang tidak mengandung missing data (Sample data ini akan menjadi ground truth).\nPerkenalkan proporsi data hilang yang meningkat secara acak (contoh 5–50 % dengan kenaikan data hilang 5%).\nLakukan metode imputasi dengan metode-metode yang ingin di bandingkan.\nHitung jumlahan error kuadrat antara data yang dilakukan imputasi dan data original, untuk setiap metode, dan setiap proporsi data yang hilang.\n\nLangkah pertama, kita perlu memperoleh sample dari dataset kita yang tidak mengandung missing value, yang bisa disebut ground truth. Cara termudah adalah dengan menghapus baris-baris yang memiliki missing value (biasanya dipilih lagi sample hanya sebagian baris, tapi di sini tidak kita lakukan):\n\ndf_ground_truth = df_housing.dropna()\n\n\ndf_ground_truth.info()\n\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nIndex: 20433 entries, 0 to 20639\nData columns (total 14 columns):\n #   Column              Non-Null Count  Dtype  \n---  ------              --------------  -----  \n 0   longitude           20433 non-null  float64\n 1   latitude            20433 non-null  float64\n 2   housing_median_age  20433 non-null  float64\n 3   total_rooms         20433 non-null  float64\n 4   total_bedrooms      20433 non-null  float64\n 5   population          20433 non-null  float64\n 6   households          20433 non-null  float64\n 7   median_income       20433 non-null  float64\n 8   median_house_value  20433 non-null  float64\n 9   &lt;1H OCEAN           20433 non-null  float64\n 10  INLAND              20433 non-null  float64\n 11  ISLAND              20433 non-null  float64\n 12  NEAR BAY            20433 non-null  float64\n 13  NEAR OCEAN          20433 non-null  float64\ndtypes: float64(14)\nmemory usage: 2.3 MB\n\n\nSelanjutnya, kita perlu membolong-bolongi dataset ini, agar sekian persen diisi missing value.\n\nimport random\n\n\ndef missing_value_generator(df_original, percentage):\n    df_miss = df_original.copy()\n    baris, kolom = df_miss.shape\n    n_total = baris*kolom\n\n    permutasi = list(range(n_total))\n    random.shuffle(permutasi)\n\n    n_pilih = int(percentage * n_total)\n    pilihan = permutasi[0 : n_pilih]\n\n    for p in pilihan:\n        df_miss.iloc[ int(p/kolom), p%kolom ] = np.nan\n    \n    return df_miss\n\n\ndf_miss_5 = missing_value_generator(df_housing, 0.05)\n\n\ndf_miss_5.isna().sum()\n\nlongitude             1112\nlatitude              1032\nhousing_median_age    1051\ntotal_rooms           1005\ntotal_bedrooms        1170\npopulation            1000\nhouseholds            1026\nmedian_income         1052\nmedian_house_value    1021\n&lt;1H OCEAN             1041\nINLAND                1066\nISLAND                1036\nNEAR BAY              1020\nNEAR OCEAN            1018\ndtype: int64\n\n\n\ndef compare_imputation(df_ground_truth, methods, percentages):\n    list_missing_df = []\n    for percent in percentages:\n        df_miss = missing_value_generator(df_ground_truth, percent)\n        list_missing_df.append(df_miss)\n\n    all_results = []\n    for method in methods:\n        method_results = []\n        for df_miss in list_missing_df:\n            df_imputed = method.fit_transform(df_miss)\n            SSE = ((df_ground_truth - df_imputed)**2).sum().sum()\n            method_results.append(SSE)\n        all_results.append(method_results)\n\n    return all_results\n\n\nmedian_imputer = SimpleImputer(missing_values=np.nan, strategy='median')\nmean_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')\nmode_imputer = SimpleImputer(missing_values=np.nan, strategy=\"most_frequent\")\n\n\nlist_persen = [0.05, 0.10, 0.15, 0.20, 0.25]\n\n\nall_results = compare_imputation(\n    df_ground_truth,\n    [median_imputer, mean_imputer, mode_imputer],\n    list_persen\n)\n\n\nall_results\n\n[[13472556117040.742,\n  29200125925218.32,\n  44888219322432.08,\n  58760057941823.1,\n  71218852004932.02],\n [12893394505105.559,\n  27585393139970.81,\n  42959166785142.76,\n  55771678195422.18,\n  67446611118587.484],\n [98136114329477.44,\n  203833066224326.94,\n  320455690937897.0,\n  406196187048687.2,\n  505507295952070.3]]\n\n\n\nprint(\"Median:\", all_results[0])\nprint(\"Mean:\", all_results[1])\nprint(\"Mode:\", all_results[2])\n\nMedian: [13472556117040.742, 29200125925218.32, 44888219322432.08, 58760057941823.1, 71218852004932.02]\nMean: [12893394505105.559, 27585393139970.81, 42959166785142.76, 55771678195422.18, 67446611118587.484]\nMode: [98136114329477.44, 203833066224326.94, 320455690937897.0, 406196187048687.2, 505507295952070.3]\n\n\n\nplt.plot(list_persen, all_results[0])\nplt.plot(list_persen, all_results[1])\nplt.plot(list_persen, all_results[2])\nplt.legend([\"Median\", \"Mean\", \"Mode\"])\nplt.show()\n\n\n\n\n\n\n\n\nDari hasil tersebut, didapat bahwa secara keseluruhan, untuk setiap persentase missing values, metode imputasi dengan menggunakan mean menghasilkan SSE yang terkecil dibandingkan imputasi dengan median dan modus. Oleh karena itu, kita akan menggunakan metode imputasi menggunakan mean untuk mengisi missing value pada kolom “total_bedrooms” dari df asli.\n\n# melihat kembali df awal\ndf_housing\n\n\n\n\n\n\n\n\n\nlongitude\nlatitude\nhousing_median_age\ntotal_rooms\ntotal_bedrooms\npopulation\nhouseholds\nmedian_income\nmedian_house_value\n&lt;1H OCEAN\nINLAND\nISLAND\nNEAR BAY\nNEAR OCEAN\n\n\n\n\n0\n-122.23\n37.88\n41.0\n880.0\n129.0\n322.0\n126.0\n8.3252\n452600.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n1\n-122.22\n37.86\n21.0\n7099.0\n1106.0\n2401.0\n1138.0\n8.3014\n358500.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2\n-122.24\n37.85\n52.0\n1467.0\n190.0\n496.0\n177.0\n7.2574\n352100.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n3\n-122.25\n37.85\n52.0\n1274.0\n235.0\n558.0\n219.0\n5.6431\n341300.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n4\n-122.25\n37.85\n52.0\n1627.0\n280.0\n565.0\n259.0\n3.8462\n342200.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n20635\n-121.09\n39.48\n25.0\n1665.0\n374.0\n845.0\n330.0\n1.5603\n78100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20636\n-121.21\n39.49\n18.0\n697.0\n150.0\n356.0\n114.0\n2.5568\n77100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20637\n-121.22\n39.43\n17.0\n2254.0\n485.0\n1007.0\n433.0\n1.7000\n92300.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20638\n-121.32\n39.43\n18.0\n1860.0\n409.0\n741.0\n349.0\n1.8672\n84700.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20639\n-121.24\n39.37\n16.0\n2785.0\n616.0\n1387.0\n530.0\n2.3886\n89400.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n\n\n20640 rows × 14 columns\n\n\n\n\n\ndf_housing.isna().sum()\n\nlongitude               0\nlatitude                0\nhousing_median_age      0\ntotal_rooms             0\ntotal_bedrooms        207\npopulation              0\nhouseholds              0\nmedian_income           0\nmedian_house_value      0\n&lt;1H OCEAN               0\nINLAND                  0\nISLAND                  0\nNEAR BAY                0\nNEAR OCEAN              0\ndtype: int64\n\n\n\n# lakukan imputasi dengan metode terbaik yg telah didapat, yaitu dengan mean\n\ndf_housing[['total_bedrooms']] = mean_imputer.fit_transform(df_housing[['total_bedrooms']] )\n\n\ndf_housing\n\n\n\n\n\n\n\n\n\nlongitude\nlatitude\nhousing_median_age\ntotal_rooms\ntotal_bedrooms\npopulation\nhouseholds\nmedian_income\nmedian_house_value\n&lt;1H OCEAN\nINLAND\nISLAND\nNEAR BAY\nNEAR OCEAN\n\n\n\n\n0\n-122.23\n37.88\n41.0\n880.0\n129.0\n322.0\n126.0\n8.3252\n452600.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n1\n-122.22\n37.86\n21.0\n7099.0\n1106.0\n2401.0\n1138.0\n8.3014\n358500.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n2\n-122.24\n37.85\n52.0\n1467.0\n190.0\n496.0\n177.0\n7.2574\n352100.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n3\n-122.25\n37.85\n52.0\n1274.0\n235.0\n558.0\n219.0\n5.6431\n341300.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n4\n-122.25\n37.85\n52.0\n1627.0\n280.0\n565.0\n259.0\n3.8462\n342200.0\n0.0\n0.0\n0.0\n1.0\n0.0\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n20635\n-121.09\n39.48\n25.0\n1665.0\n374.0\n845.0\n330.0\n1.5603\n78100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20636\n-121.21\n39.49\n18.0\n697.0\n150.0\n356.0\n114.0\n2.5568\n77100.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20637\n-121.22\n39.43\n17.0\n2254.0\n485.0\n1007.0\n433.0\n1.7000\n92300.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20638\n-121.32\n39.43\n18.0\n1860.0\n409.0\n741.0\n349.0\n1.8672\n84700.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n20639\n-121.24\n39.37\n16.0\n2785.0\n616.0\n1387.0\n530.0\n2.3886\n89400.0\n0.0\n1.0\n0.0\n0.0\n0.0\n\n\n\n\n20640 rows × 14 columns\n\n\n\n\n\ndf_housing.isna().sum()\n\nlongitude             0\nlatitude              0\nhousing_median_age    0\ntotal_rooms           0\ntotal_bedrooms        0\npopulation            0\nhouseholds            0\nmedian_income         0\nmedian_house_value    0\n&lt;1H OCEAN             0\nINLAND                0\nISLAND                0\nNEAR BAY              0\nNEAR OCEAN            0\ndtype: int64"
+  },
+  {
+    "objectID": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#export-dataframe-yang-telah-diimputasi-ke-csv",
+    "href": "semuahalaman/modulprak/2025/genap/saindat/modul2.html#export-dataframe-yang-telah-diimputasi-ke-csv",
+    "title": "Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data",
+    "section": "Export Dataframe yang telah diimputasi ke CSV",
+    "text": "Export Dataframe yang telah diimputasi ke CSV\n\ndf_housing.to_csv(\"housing_modified.csv\")"
   }
 ]
