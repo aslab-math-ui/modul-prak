@@ -192,7 +192,7 @@ window.Quarto = {
   <ul>
   <li><a href="#metode-newton-dengan-beda-hingga-finite-difference-newtons-method" id="toc-metode-newton-dengan-beda-hingga-finite-difference-newtons-method" class="nav-link active" data-scroll-target="#metode-newton-dengan-beda-hingga-finite-difference-newtons-method">Metode Newton dengan Beda Hingga (<em>Finite-Difference Newton’s Method</em>)</a></li>
   <li><a href="#metode-secant" id="toc-metode-secant" class="nav-link" data-scroll-target="#metode-secant">Metode Secant</a></li>
-  <li><a href="#metode-regula-falsi-penjelasan-tanpa-kode" id="toc-metode-regula-falsi-penjelasan-tanpa-kode" class="nav-link" data-scroll-target="#metode-regula-falsi-penjelasan-tanpa-kode">Metode Regula Falsi (penjelasan tanpa kode)</a>
+  <li><a href="#metode-regula-falsi" id="toc-metode-regula-falsi" class="nav-link" data-scroll-target="#metode-regula-falsi">Metode Regula Falsi</a>
   <ul class="collapse">
   <li><a href="#apa-itu-barisan-penjelasan-tanpa-kode" id="toc-apa-itu-barisan-penjelasan-tanpa-kode" class="nav-link" data-scroll-target="#apa-itu-barisan-penjelasan-tanpa-kode">Apa itu barisan? (penjelasan tanpa kode)</a></li>
   </ul></li>
@@ -391,8 +391,8 @@ Akar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.50732248
 </div>
 </div>
 </section>
-<section id="metode-regula-falsi-penjelasan-tanpa-kode" class="level2">
-<h2 class="anchored" data-anchor-id="metode-regula-falsi-penjelasan-tanpa-kode">Metode Regula Falsi (penjelasan tanpa kode)</h2>
+<section id="metode-regula-falsi" class="level2">
+<h2 class="anchored" data-anchor-id="metode-regula-falsi">Metode Regula Falsi</h2>
 <p>Sejauh ini, kita sudah membahas beberapa metode <em>root-finding</em> atau aproksimasi akar, yaitu:</p>
 <ul>
 <li>Metode Bisection</li>
@@ -412,6 +412,47 @@ Akar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.50732248
 <p>sesuai Metode Secant. Perhatikan bahwa Metode Secant biasanya membutuhkan dua tebakan awal yang tidak harus sama dengan batasan interval, sedangkan Metode Regula Falsi secara otomatis menggunakan kedua batasan interval <span class="math inline">\([a,b]\)</span> sebagai dua tebakan awal.</p>
 <p>Untuk pembuatan kode Metode Regula Falsi, kami serahkan ke kalian. Gampang, kok! Tinggal mengubah beberapa baris saja (baris yang menentukan nilai <span class="math inline">\(p\)</span> yang baru) pada kode Metode Bisection, yaitu mengambil baris tersebut dari kode Metode Secant, kemudian menyesuaikan kedua tebakan awal menjadi kedua batasan interval.</p>
 <p>Seperti Metode Secant, Metode Regula Falsi juga memiliki <em>order of convergence = <span class="math inline">\(\phi \approx 1.618\)</span>.</em></p>
+<div id="cell-13" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> RegulaFalsi(f, p0, p1, tol, n <span class="op">=</span> <span class="dv">1000</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    q0 <span class="op">=</span> f(p0)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> f(p1)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;</span> n:</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> p1 <span class="op">-</span> q1<span class="op">*</span>(p1 <span class="op">-</span> p0)<span class="op">/</span>(q1 <span class="op">-</span> q0)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">abs</span>(p <span class="op">-</span> p1) <span class="op">&lt;</span> tol:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> p</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> f(p)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> q <span class="op">*</span> q1 <span class="op">&lt;</span> <span class="dv">0</span> :</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            p0 <span class="op">=</span> p1</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            q0 <span class="op">=</span> q1</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        p1 <span class="op">=</span> p</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        q1 <span class="op">=</span> q</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Aproksimasi Gagal"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-14" class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt, pi</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan formula fungsi: "</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">eval</span>(formula)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>titik_1 <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan titik awal pertama: "</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>titik_2 <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan titik awal kedua: "</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan toleransi aproksimasi: "</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>akar_falsi <span class="op">=</span> RegulaFalsi(f, titik_1, titik_2, tolerance)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Akar dari persamaan f(x) = </span><span class="sc">{</span>formula<span class="sc">}</span><span class="ss"> adalah x = </span><span class="sc">{</span>akar_falsi<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="apa-itu-barisan-penjelasan-tanpa-kode" class="level3">
 <h3 class="anchored" data-anchor-id="apa-itu-barisan-penjelasan-tanpa-kode">Apa itu barisan? (penjelasan tanpa kode)</h3>
 <p>Suatu “barisan” (<em>sequence</em>) adalah sekumpulan angka yang berurut. Artinya, pada suatu barisan, ada yang bisa disebut angka pertama (atau suku pertama), angka kedua (suku kedua), angka ketiga (suku ketiga), dan sebagainya. Banyaknya suku bisa berhingga maupun tak terhingga.</p>
@@ -446,30 +487,30 @@ Akar dari persamaan f(x) = 2*x - 3*cos(x) + exp(-5*x) - 9 adalah x = -0.50732248
 <p><strong>Catatan</strong>: dalam pembahasan metode Aitken/Steffensen, penulisan <span class="math inline">\(\Delta^2\)</span> BUKAN berarti <span class="math inline">\((\Delta)^2\)</span>. Itu hanya penulisan saja.</p>
 <p>Secara umum, apabila kita punya suku-suku suatu barisan yang berturut-turut yaitu <span class="math inline">\(p_1, p_2, p_3, \dots, p_{k-3}, p_{k-2}, p_{k-1}, p_{k}\)</span>, maka rumus Aitken bisa digunakan untuk menentukan <span class="math inline">\(\hat{p}_1, \hat{p}_2, \hat{p}_3, \dots, \hat{p}_{k-3}, \hat{p}_{k-2}\)</span>, yang semuanya merupakan aproksimasi nilai yang lebih akurat untuk hasil konvergen dari barisan tersebut (dengan asumsi kekonvergenan linier).</p>
 <p>Perhatikan: - Kita hanya bisa berhenti sampai <span class="math inline">\(\hat{p}_{k-2}\)</span>, karena perhitungannya membutuhkan <span class="math inline">\(p_{k-2}\)</span>, <span class="math inline">\(p_{k-1}\)</span> dan <span class="math inline">\(p_k\)</span>. - Harus ada minimal 3 suku yang diketahui, artinya <span class="math inline">\(k \ge 3\)</span>.</p>
-<div id="cell-17" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Aitken(p):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">len</span>(p)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> k <span class="op">&lt;</span> <span class="dv">3</span>:</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Maaf, dibutuhkan minimal 3 suku yang diketahui."</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># kalau lanjut ke sini, artinya k &gt;= 3</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    list_phat <span class="op">=</span> []</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k<span class="op">-</span><span class="dv">2</span>):</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        Delta <span class="op">=</span> p[i<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> p[i]</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        DeltaSquared <span class="op">=</span> p[i<span class="op">+</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> p[i<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> p[i]</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        phat <span class="op">=</span> p[i] <span class="op">-</span> (Delta)<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> DeltaSquared</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        list_phat.append(phat)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> list_phat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-19" class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Aitken(p):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="bu">len</span>(p)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> k <span class="op">&lt;</span> <span class="dv">3</span>:</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Maaf, dibutuhkan minimal 3 suku yang diketahui."</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># kalau lanjut ke sini, artinya k &gt;= 3</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    list_phat <span class="op">=</span> []</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k<span class="op">-</span><span class="dv">2</span>):</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        Delta <span class="op">=</span> p[i<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> p[i]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        DeltaSquared <span class="op">=</span> p[i<span class="op">+</span><span class="dv">2</span>] <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> p[i<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> p[i]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        phat <span class="op">=</span> p[i] <span class="op">-</span> (Delta)<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> DeltaSquared</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        list_phat.append(phat)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> list_phat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-18" class="cell" data-outputid="83602a68-58d8-44f9-e9c1-6d5a5426ab9c" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># input suatu list</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan list suku-suku yang diketahui: "</span>))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Maaf, terjadi error. Harap masukkan list dengan benar."</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>: <span class="co"># kalau tidak terjadi error </span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Berikut hasil metode Aitken:"</span>) </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(Aitken(p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-outputid="83602a68-58d8-44f9-e9c1-6d5a5426ab9c" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># input suatu list</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan list suku-suku yang diketahui: "</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Maaf, terjadi error. Harap masukkan list dengan benar."</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>: <span class="co"># kalau tidak terjadi error </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Berikut hasil metode Aitken:"</span>) </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(Aitken(p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Masukkan list suku-suku yang diketahui: [2, 1.5, 1.6666666666666665, 1.6, 1.625]
 Berikut hasil metode Aitken:
@@ -486,55 +527,55 @@ Berikut hasil metode Aitken:
 <p><span class="math display">\[\hat{p} = p_{n-3} - \frac{\left(p_{n-2} - p_{n-3}\right)^2}{p_{n-1} - 2p_{n-2} + p_{n-3}}\]</span></p>
 <p>dan dalam hal ini, kita juga bisa mendefinisikan <span class="math inline">\(\Delta_1 = p_{n-2} - p_{n-3}\)</span> dan <span class="math inline">\(\Delta_2 = p_{n-1} - 2p_{n-2} + p_{n-3}\)</span> untuk mendapatkan bentuk:</p>
 <p><span class="math display">\[\hat{p} = p_{n-3} - \frac{(\Delta_1)^2}{(\Delta_2)}\]</span></p>
-<div id="cell-21" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Steffensen(g, p0, tolerance):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># list semua nilai p agar mudah diakses</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    list_p <span class="op">=</span> [p0]</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># nilai sementara</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    abs_error <span class="op">=</span> tolerance <span class="op">+</span> <span class="dv">1</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    iterasi <span class="op">=</span> <span class="dv">1</span> <span class="co"># penghitung banyaknya iterasi</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> abs_error <span class="op">&gt;=</span> tolerance:</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> iterasi <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>: <span class="co"># untuk kelipatan tiga, gunakan rumus Aitken</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            pn_3 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">3</span>] <span class="co"># p_(n-3)</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            pn_2 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">2</span>] <span class="co"># p_(n-2)</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            pn_1 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">1</span>] <span class="co"># p_(n-1)</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>            Delta1 <span class="op">=</span> pn_2 <span class="op">-</span> pn_3</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            Delta2 <span class="op">=</span> pn_1 <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> pn_2 <span class="op">+</span> pn_3</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>            pn <span class="op">=</span> pn_3 <span class="op">-</span> (Delta1)<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> Delta2</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="co"># selain kelipatan 3, gunakan fixed point</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            pn_1 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">1</span>]</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            pn <span class="op">=</span> g(pn_1)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        list_p.append(pn)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        abs_error <span class="op">=</span> <span class="bu">abs</span>( pn <span class="op">-</span> pn_1 )</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        iterasi <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return bukan hanya p, tetapi juga banyaknya iterasi</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pn, iterasi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-23" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Steffensen(g, p0, tolerance):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># list semua nilai p agar mudah diakses</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    list_p <span class="op">=</span> [p0]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># nilai sementara</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    abs_error <span class="op">=</span> tolerance <span class="op">+</span> <span class="dv">1</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    iterasi <span class="op">=</span> <span class="dv">1</span> <span class="co"># penghitung banyaknya iterasi</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> abs_error <span class="op">&gt;=</span> tolerance:</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> iterasi <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>: <span class="co"># untuk kelipatan tiga, gunakan rumus Aitken</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            pn_3 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">3</span>] <span class="co"># p_(n-3)</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            pn_2 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">2</span>] <span class="co"># p_(n-2)</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            pn_1 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">1</span>] <span class="co"># p_(n-1)</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            Delta1 <span class="op">=</span> pn_2 <span class="op">-</span> pn_3</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            Delta2 <span class="op">=</span> pn_1 <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> pn_2 <span class="op">+</span> pn_3</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>            pn <span class="op">=</span> pn_3 <span class="op">-</span> (Delta1)<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> Delta2</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: <span class="co"># selain kelipatan 3, gunakan fixed point</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>            pn_1 <span class="op">=</span> list_p[iterasi <span class="op">-</span> <span class="dv">1</span>]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>            pn <span class="op">=</span> g(pn_1)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        list_p.append(pn)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        abs_error <span class="op">=</span> <span class="bu">abs</span>( pn <span class="op">-</span> pn_1 )</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        iterasi <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return bukan hanya p, tetapi juga banyaknya iterasi</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pn, iterasi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-outputid="ca037e0b-f371-4a1e-b0e5-655c56b83675" data-scrolled="false" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan formula g(x): "</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> g(x):</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">eval</span>(formula)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>starting_point <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan titik awal iterasi: "</span>))</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan batas toleransi: "</span>))</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>p_steffensen, i_steffensen <span class="op">=</span> Steffensen(g, starting_point, tolerance)</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Metode Steffensen"</span>)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hasil: "</span> <span class="op">+</span> <span class="bu">str</span>(p_steffensen))</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"setelah banyaknya iterasi: "</span> <span class="op">+</span> <span class="bu">str</span>(i_steffensen))</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bandingkan banyaknya iterasi dengan Metode Fixed-Point biasa:"</span>)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>fixpoint_hasil, fixpoint_tabel <span class="op">=</span> FixedPoint(g, starting_point, tolerance)</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fixpoint_tabel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-outputid="ca037e0b-f371-4a1e-b0e5-655c56b83675" data-scrolled="false" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> sin, cos, tan, log, exp, sqrt</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan formula g(x): "</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> g(x):</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">eval</span>(formula)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>starting_point <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan titik awal iterasi: "</span>))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>tolerance <span class="op">=</span> <span class="bu">eval</span>(<span class="bu">input</span>(<span class="st">"Masukkan batas toleransi: "</span>))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>p_steffensen, i_steffensen <span class="op">=</span> Steffensen(g, starting_point, tolerance)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Metode Steffensen"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hasil: "</span> <span class="op">+</span> <span class="bu">str</span>(p_steffensen))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"setelah banyaknya iterasi: "</span> <span class="op">+</span> <span class="bu">str</span>(i_steffensen))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bandingkan banyaknya iterasi dengan Metode Fixed-Point biasa:"</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>fixpoint_hasil, fixpoint_tabel <span class="op">=</span> FixedPoint(g, starting_point, tolerance)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fixpoint_tabel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Masukkan formula g(x): 1 + 1/x
 Masukkan titik awal iterasi: 2
