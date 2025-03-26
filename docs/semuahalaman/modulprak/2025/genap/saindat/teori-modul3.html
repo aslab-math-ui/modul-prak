@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-09-03">
 
-<title>Praktikum Saindat (Sains Data) 2025 Genap (Kurikulum 2020) – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>Modul 3.1 Sains Data: Regresi (Teori) – Lab Praktikum Departemen Matematika FMIPA UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +31,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
-<script src="../../../../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../../../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,65 +67,7 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-title','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
@@ -175,15 +116,54 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#regresi-linier-sederhana" id="toc-regresi-linier-sederhana" class="nav-link active" data-scroll-target="#regresi-linier-sederhana">Regresi Linier Sederhana</a>
+  <ul class="collapse">
+  <li><a href="#pengenalan-regresi-linier-sederhana" id="toc-pengenalan-regresi-linier-sederhana" class="nav-link" data-scroll-target="#pengenalan-regresi-linier-sederhana">Pengenalan Regresi Linier Sederhana</a></li>
+  <li><a href="#asumsi-model-regresi-linier-sederhana" id="toc-asumsi-model-regresi-linier-sederhana" class="nav-link" data-scroll-target="#asumsi-model-regresi-linier-sederhana">Asumsi Model Regresi Linier Sederhana</a></li>
+  <li><a href="#metode-least-squares-untuk-regresi-linier-sederhana" id="toc-metode-least-squares-untuk-regresi-linier-sederhana" class="nav-link" data-scroll-target="#metode-least-squares-untuk-regresi-linier-sederhana">Metode <em>Least Squares</em> Untuk Regresi Linier Sederhana</a></li>
+  <li><a href="#uji-signifikansi-parameter" id="toc-uji-signifikansi-parameter" class="nav-link" data-scroll-target="#uji-signifikansi-parameter">Uji Signifikansi Parameter</a></li>
+  <li><a href="#berbagai-variasi-model-regresi-linier-sederhana" id="toc-berbagai-variasi-model-regresi-linier-sederhana" class="nav-link" data-scroll-target="#berbagai-variasi-model-regresi-linier-sederhana">Berbagai Variasi Model Regresi Linier Sederhana</a>
+  <ul class="collapse">
+  <li><a href="#model-dengan-transformasi-prediktor-kuantitatif" id="toc-model-dengan-transformasi-prediktor-kuantitatif" class="nav-link" data-scroll-target="#model-dengan-transformasi-prediktor-kuantitatif">Model dengan Transformasi Prediktor Kuantitatif</a></li>
+  <li><a href="#model-dengan-prediktor-kualitatif" id="toc-model-dengan-prediktor-kualitatif" class="nav-link" data-scroll-target="#model-dengan-prediktor-kualitatif">Model dengan Prediktor Kualitatif</a></li>
+  </ul></li>
+  <li><a href="#koefisien-korelasi-dan-koefisien-determinasi" id="toc-koefisien-korelasi-dan-koefisien-determinasi" class="nav-link" data-scroll-target="#koefisien-korelasi-dan-koefisien-determinasi">Koefisien Korelasi dan Koefisien Determinasi</a></li>
+  </ul></li>
+  <li><a href="#regresi-linier-berganda" id="toc-regresi-linier-berganda" class="nav-link" data-scroll-target="#regresi-linier-berganda">Regresi Linier Berganda</a>
+  <ul class="collapse">
+  <li><a href="#bentuk-umum-regresi-linier-berganda" id="toc-bentuk-umum-regresi-linier-berganda" class="nav-link" data-scroll-target="#bentuk-umum-regresi-linier-berganda">Bentuk Umum Regresi Linier Berganda</a></li>
+  <li><a href="#asumsi-model-regresi-linier-berganda" id="toc-asumsi-model-regresi-linier-berganda" class="nav-link" data-scroll-target="#asumsi-model-regresi-linier-berganda">Asumsi Model Regresi Linier Berganda</a></li>
+  <li><a href="#metode-least-squares-untuk-regresi-linier-berganda" id="toc-metode-least-squares-untuk-regresi-linier-berganda" class="nav-link" data-scroll-target="#metode-least-squares-untuk-regresi-linier-berganda">Metode <em>Least Squares</em> Untuk Regresi Linier Berganda</a></li>
+  <li><a href="#uji-signifikansi-parameter-1" id="toc-uji-signifikansi-parameter-1" class="nav-link" data-scroll-target="#uji-signifikansi-parameter-1">Uji Signifikansi Parameter</a></li>
+  <li><a href="#berbagai-variasi-model-dan-interpretasi-parameter-regresi-linier-berganda" id="toc-berbagai-variasi-model-dan-interpretasi-parameter-regresi-linier-berganda" class="nav-link" data-scroll-target="#berbagai-variasi-model-dan-interpretasi-parameter-regresi-linier-berganda">Berbagai Variasi Model dan Interpretasi Parameter Regresi Linier Berganda</a>
+  <ul class="collapse">
+  <li><a href="#model-orde-satu-dengan-prediktor-kuantitatif" id="toc-model-orde-satu-dengan-prediktor-kuantitatif" class="nav-link" data-scroll-target="#model-orde-satu-dengan-prediktor-kuantitatif">Model Orde Satu dengan Prediktor Kuantitatif</a></li>
+  <li><a href="#model-orde-dua-dengan-prediktor-kuantitatif" id="toc-model-orde-dua-dengan-prediktor-kuantitatif" class="nav-link" data-scroll-target="#model-orde-dua-dengan-prediktor-kuantitatif">Model Orde Dua dengan Prediktor Kuantitatif</a></li>
+  <li><a href="#model-orde-satu-dengan-interaksi-antar-prediktor-kuantitatif" id="toc-model-orde-satu-dengan-interaksi-antar-prediktor-kuantitatif" class="nav-link" data-scroll-target="#model-orde-satu-dengan-interaksi-antar-prediktor-kuantitatif">Model Orde Satu dengan Interaksi antar Prediktor Kuantitatif</a></li>
+  <li><a href="#model-dengan-prediktor-kualitatif-1" id="toc-model-dengan-prediktor-kualitatif-1" class="nav-link" data-scroll-target="#model-dengan-prediktor-kualitatif-1">Model dengan Prediktor Kualitatif</a></li>
+  </ul></li>
+  <li><a href="#koefisien-determinasi" id="toc-koefisien-determinasi" class="nav-link" data-scroll-target="#koefisien-determinasi">Koefisien Determinasi</a></li>
+  </ul></li>
+  <li><a href="#regresi-logistik" id="toc-regresi-logistik" class="nav-link" data-scroll-target="#regresi-logistik">Regresi Logistik</a>
+  <ul class="collapse">
+  <li><a href="#bentuk-umum-model-logistik" id="toc-bentuk-umum-model-logistik" class="nav-link" data-scroll-target="#bentuk-umum-model-logistik">Bentuk Umum Model Logistik</a></li>
+  <li><a href="#interpretasi-parameter" id="toc-interpretasi-parameter" class="nav-link" data-scroll-target="#interpretasi-parameter">Interpretasi Parameter</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Praktikum Saindat (Sains Data) 2025 Genap (Kurikulum 2020)</h1>
+<h1 class="title">Modul 3.1 Sains Data: Regresi (Teori)</h1>
+<p class="subtitle lead">Regresi Linier Sederhana, Regresi Linier Berganda, dan Regresi Logistik</p>
 </div>
 
 
@@ -191,6 +171,12 @@ window.Quarto = {
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 3, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -200,95 +186,85 @@ window.Quarto = {
 </header>
 
 
-<hr>
-<p>Kembali ke <a href="../../../../../semuahalaman/praktikum.html">Praktikum</a></p>
+<section id="regresi-linier-sederhana" class="level1">
+<h1>Regresi Linier Sederhana</h1>
+<section id="pengenalan-regresi-linier-sederhana" class="level2">
+<h2 class="anchored" data-anchor-id="pengenalan-regresi-linier-sederhana">Pengenalan Regresi Linier Sederhana</h2>
+</section>
+<section id="asumsi-model-regresi-linier-sederhana" class="level2">
+<h2 class="anchored" data-anchor-id="asumsi-model-regresi-linier-sederhana">Asumsi Model Regresi Linier Sederhana</h2>
+</section>
+<section id="metode-least-squares-untuk-regresi-linier-sederhana" class="level2">
+<h2 class="anchored" data-anchor-id="metode-least-squares-untuk-regresi-linier-sederhana">Metode <em>Least Squares</em> Untuk Regresi Linier Sederhana</h2>
+</section>
+<section id="uji-signifikansi-parameter" class="level2">
+<h2 class="anchored" data-anchor-id="uji-signifikansi-parameter">Uji Signifikansi Parameter</h2>
+</section>
+<section id="berbagai-variasi-model-regresi-linier-sederhana" class="level2">
+<h2 class="anchored" data-anchor-id="berbagai-variasi-model-regresi-linier-sederhana">Berbagai Variasi Model Regresi Linier Sederhana</h2>
+<section id="model-dengan-transformasi-prediktor-kuantitatif" class="level3">
+<h3 class="anchored" data-anchor-id="model-dengan-transformasi-prediktor-kuantitatif">Model dengan Transformasi Prediktor Kuantitatif</h3>
+</section>
+<section id="model-dengan-prediktor-kualitatif" class="level3">
+<h3 class="anchored" data-anchor-id="model-dengan-prediktor-kualitatif">Model dengan Prediktor Kualitatif</h3>
+</section>
+</section>
+<section id="koefisien-korelasi-dan-koefisien-determinasi" class="level2">
+<h2 class="anchored" data-anchor-id="koefisien-korelasi-dan-koefisien-determinasi">Koefisien Korelasi dan Koefisien Determinasi</h2>
+</section>
+</section>
+<section id="regresi-linier-berganda" class="level1">
+<h1>Regresi Linier Berganda</h1>
+<section id="bentuk-umum-regresi-linier-berganda" class="level2">
+<h2 class="anchored" data-anchor-id="bentuk-umum-regresi-linier-berganda">Bentuk Umum Regresi Linier Berganda</h2>
+</section>
+<section id="asumsi-model-regresi-linier-berganda" class="level2">
+<h2 class="anchored" data-anchor-id="asumsi-model-regresi-linier-berganda">Asumsi Model Regresi Linier Berganda</h2>
+</section>
+<section id="metode-least-squares-untuk-regresi-linier-berganda" class="level2">
+<h2 class="anchored" data-anchor-id="metode-least-squares-untuk-regresi-linier-berganda">Metode <em>Least Squares</em> Untuk Regresi Linier Berganda</h2>
+</section>
+<section id="uji-signifikansi-parameter-1" class="level2">
+<h2 class="anchored" data-anchor-id="uji-signifikansi-parameter-1">Uji Signifikansi Parameter</h2>
+</section>
+<section id="berbagai-variasi-model-dan-interpretasi-parameter-regresi-linier-berganda" class="level2">
+<h2 class="anchored" data-anchor-id="berbagai-variasi-model-dan-interpretasi-parameter-regresi-linier-berganda">Berbagai Variasi Model dan Interpretasi Parameter Regresi Linier Berganda</h2>
+<section id="model-orde-satu-dengan-prediktor-kuantitatif" class="level3">
+<h3 class="anchored" data-anchor-id="model-orde-satu-dengan-prediktor-kuantitatif">Model Orde Satu dengan Prediktor Kuantitatif</h3>
+</section>
+<section id="model-orde-dua-dengan-prediktor-kuantitatif" class="level3">
+<h3 class="anchored" data-anchor-id="model-orde-dua-dengan-prediktor-kuantitatif">Model Orde Dua dengan Prediktor Kuantitatif</h3>
+</section>
+<section id="model-orde-satu-dengan-interaksi-antar-prediktor-kuantitatif" class="level3">
+<h3 class="anchored" data-anchor-id="model-orde-satu-dengan-interaksi-antar-prediktor-kuantitatif">Model Orde Satu dengan Interaksi antar Prediktor Kuantitatif</h3>
+</section>
+<section id="model-dengan-prediktor-kualitatif-1" class="level3">
+<h3 class="anchored" data-anchor-id="model-dengan-prediktor-kualitatif-1">Model dengan Prediktor Kualitatif</h3>
+</section>
+</section>
+<section id="koefisien-determinasi" class="level2">
+<h2 class="anchored" data-anchor-id="koefisien-determinasi">Koefisien Determinasi</h2>
+</section>
+</section>
+<section id="regresi-logistik" class="level1">
+<h1>Regresi Logistik</h1>
+<section id="bentuk-umum-model-logistik" class="level2">
+<h2 class="anchored" data-anchor-id="bentuk-umum-model-logistik">Bentuk Umum Model Logistik</h2>
+</section>
+<section id="interpretasi-parameter" class="level2">
+<h2 class="anchored" data-anchor-id="interpretasi-parameter">Interpretasi Parameter</h2>
+<p>Ensemble Learning adalah teknik dalam machine learning yang menggabungkan beberapa model untuk meningkatkan kinerja prediksi dibandingkan dengan model tunggal. Tujuan utama dari pendekatan ini adalah untuk mengurangi varians, bias, dan meningkatkan generalisasi model terhadap data yang belum pernah dilihat sebelumnya. Model yang paling umum digabungkan untuk ensemble learning adalah model Decision Tree.</p>
+<p>Jenis-jenis Ensemble Learning - Bagging (Bootstrap Aggregating), yaitu membangun beberapa model yang independen satu sama lain menggunakan dataset yang berbeda, yang diperoleh melalui bootstrap sampling (sampling dengan pengembalian). Hasil prediksi dari semua model kemudian digabungkan. Contohnya adalah Random Forest.</p>
+<ul>
+<li>Boosting, yaitu membangun beberapa model yang independen secara sekuensial, di mana setiap model berikutnya berusaha memperbaiki kesalahan model sebelumnya. Contohnya adalah AdaBoost (Adaptive Boosting) dan XGBoost (Extreme Gradient Boosting).</li>
+</ul>
+<p>Kita akan coba bandingkan model Decision Tree sebelumnya dengan model-model yang dibangun dengan ensemble learning.</p>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1740934800000" data-listing-file-modified-sort="1742695602116" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="402">
-<a href="../../../../../semuahalaman/modulprak/2025/genap/saindat/modul1.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../../../../semuahalaman/modulprak/2025/genap/saindat/static/pandas.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 1 Sains Data: Pengenalan Pandas, Transformasi Data
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 3, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1741539600000" data-listing-file-modified-sort="1742890887384" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3093">
-<a href="../../../../../semuahalaman/modulprak/2025/genap/saindat/modul2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../../../../semuahalaman/modulprak/2025/genap/saindat/static/seaborn.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 2 Sains Data: Eksplorasi, Visualisasi, dan Preprocessing Data
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 10, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1742144400000" data-listing-file-modified-sort="1742890887388" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1910">
-<a href="../../../../../semuahalaman/modulprak/2025/genap/saindat/modul3.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../../../../semuahalaman/modulprak/2025/genap/saindat/static/regresi.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 3 Sains Data: Model Regresi
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 17, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="1742749200000" data-listing-file-modified-sort="1742890887390" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="718">
-<a href="../../../../../semuahalaman/modulprak/2025/genap/saindat/modul4.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../../../../semuahalaman/modulprak/2025/genap/saindat/static/svm.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 4 Sains Data: Model Klasifikasi
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 24, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
