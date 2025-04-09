@@ -1,7 +1,183 @@
 ---
-title: "modulQuarto"
+title: "modul Quarto"
 author: "Asisten Lab Departemen Matematika UI"
 ---
+
+# Panduan Membuat website Quarto dari Nol
+## Gambaran Ikhtisar
+
+Websites Quarto adalah cara nyaman untuk mempublish kumpulan dokumen. Dokumen dipublish sebagai bagian dari website yang membagikan elemen Navigasi, opsi rendering dan style visual.
+
+Navigasi Website dapat di sajikan dalam sebuah navbar global, sebuah sidebar dengan link, atau kombinasi dari kedua untuk situs yang memiliki tingkatan multiple konten. Kalian dapat juga menyalakan *full text search* untuk website.
+
+Website quarto dapat dipublish ke dalam varietas destinasi yang lebih luas termasuk GitHub Pages, Netlify, Posit Connect, atau layanan hosting static atau intranet server web. Detail tambahan untuk dokumentasi [Publishing Websites](https://quarto.org/docs/publishing/).
+
+## Quick Start
+
+Ikuti Quick Start untuk alat kalian dari pilihan untuk langsung dapat up website dan running. Setelah dasarnya paham, baca untuk belajar tentang navigasi website dan fitur lebih website tingkat lanjut.
+
+::: {.panel-tabset group="tools-tabset"}
+
+### VS Code
+
+Untuk membuat sebuah project website baru dengan VS Code, eksekusi **Quarto: Create Project** command dari the command-palette:
+
+![](images/vscode-create-project-command.png)
+
+Maka, pilih **Website Project**:
+
+![](images/vscode-create-project-website.png){.border}
+
+Kalian akan di prompt untuk memilih direktori parent untuk membuat project di dalamnya. Kalian akan ditanya nama direktori untuk project website nya:
+
+![](images/vscode-create-project-directory.png){.border}
+
+Project website baru akan terbuat dan dibuka dalam VS Code. Click **preview** button (![](/docs/tools/images/vscode-preview-icon.svg){fig-alt="Preview icon"}) untuk preview websitenya:
+
+![](images/vscode-create-project-render.png)
+
+Preview ini akan menunjukkan tepat ke sumber file. Ketika re-render `index.qmd` atau render files lainnya seperti `about.qmd`, preview otomatis diperbarui.
+
+### RStudio
+
+Untuk membuat website projek baru dengan RStudio, gunakan **New Project** command dan pilih **Quarto Website**:
+
+:::{layout-ncol="2"}
+
+![](images/rstudio-project-new-directory.png){.border}
+
+![](images/rstudio-project-website.png){.border}
+:::
+
+Maka, sajikan sebuah nama direktori dan opsi relevan lainnya untuk website:
+
+![](images/rstudio-project-website-options.png){.border fig-alt="Sebuah bagian dari 'New Project Wizard' menu dari Rstudio. Bagian ini diberi judul Panduan 'Membuat website Quarto dari Nol'. Logo quarto ditampilkan di sebelah kiri. Di sebelah kanan adalah tempat untuk 'Nama Direktori' ('Directory name') dan 'Create project as subdirectory of:'. Dibawah opsi 'Engine' di set ke 'None'. Dibawah opsi 'Create a git repository', dan 'Use visual markdown editor'. Ada tombol untuk 'Create Project' dan 'Cancel' disusun samping-samping di bawah kanan window. Ada opsi 'Open in new session' di tombol sudut kiri."}
+
+Click tombol **Render** untuk preview website:
+
+![](images/rstudio-project-website-preview.png)
+
+Preview ini akan menunjukkan tepat ke sumber file. Ketika re-render `index.qmd` atau render files lainnya seperti `about.qmd`, preview otomatis diperbarui.
+
+### Terminal
+
+Untuk membuat project website baru dari Terminal, gunakan `quarto create project` command, diikuti prompt untuk memiliki tipe dan memberi nama untuk projek tersebut (yang akan digunakan untuk nama direktori tersebut):
+
+```{.bash filename="Terminal"}
+quarto create project website mysite
+```
+
+Ini akan membuat panggung untuk website sederhana di dalam `mysite` sub-directory. Gunakan `quarto preview` command untuk render dan preview website:
+
+```{.bash filename="Terminal"}
+quarto preview mysite
+```
+
+Preview website ini akan membuka di dalam web browser baru. Ketika kalian edit dan simpan `index.qmd` (atau file lain seperti `about.qmd`) preview  ini otomatis diperbarui.
+
+:::
+
+
+## Workflow atau alur cara kerja
+
+Di atas kita telah demonstrasikan bagaimana cara membuat dan edit website sederhana. Pada bagian ini kita lebih mendalam pada alur cara kerja website.
+
+### Config File
+
+Setiap website punya `_quarto.yml` file config itu menyajikan opsi website sebagaimana defaults untuk dokumen HTML yang dibuat di dalam site. Contoh, disini secara default config file untuk situs sederhana yang dibuat di atas:
+
+```{.yaml filename="_quarto.yml"}
+project:
+  type: website
+
+website:
+  title: "today"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+```
+
+Lihat dokumentasi di Navigasi Website dan alat website di bawah untuk detail tambahan untuk konfigurasi website. Lihat [HTML Documents](https://quarto.org/docs/output-formats/html-basics.html) untuk detail mengkustomisasi opsi format HTML.
+
+### Website Preview
+
+Jika menggunakan VS Code atau RStudio, tombol **Preview** (VS Code), atau tombol **Render** (RStudio), render secara otomatis renders dan jalankan `quarto preview` di dalam sebuah embedded window. Kalian juga bisa lakukan yang sama dari Terminal jika dibutuhkan:
+
+``` {.bash filename="Terminal"}
+# preview the website in the current directory
+quarto preview
+```
+
+Perhatikan bahwa ketika preview sebuah site (entah gunakan VS Code / RStudio alat terintegrasi atau dari terminal)  perubahan file configurasi (yakni `_quarto.yml`) sebagai sumber data situs (yakni thema atau file CSS) akan secara otomatis memperbaharui website.
+
+Kalian dapat mengkustomisasi perilaku bagaimana server preview (port, apakah di buka di browser terbuka dll.) gunakan opsi command line atau `_quarto.yml` file config. Lihat `quarto preview help` atau [project file reference](https://quarto.org/docs/reference/projects/options.html#preview) untuk detail tambahan.
+
+
+::: callout-important
+Ketika kalian preview situsmu, halaman akan dirender dan diperbaharui. Bagaimanapun juga, jika kamu buat perubahan di opsi global (yakni `_quarto.yml` atau termasuk file di dalamnya) kalian butuh secara penuh re-render situs kalian untuk memiliki semua perubahan yang direfleksikan. Konsekuensinya adalah kalian harus selalu `quarto render` situsnya sebelum deploy, bahkan jika kalian telah preview perubahan untuk beberapa halaman dengan preview server.
+:::
+
+
+### Website Render
+
+Untuk merender (tapi tidak preview) sebuah website, gunakan `quarto render` command, yang mana akan merender ke `_site` directory secara default:
+
+``` {.bash filename="Terminal"}
+# merender website dalam direktori ini
+quarto render 
+```
+
+Lihat artikel [Project Basics](https://quarto.org/docs/projects/quarto-projects.html) untuk mempelajari lebih tentang pekerjaan terkait dengan projects, termasuk secara spesifik list eksplisit file untuk dirender, sebagaimana tambahan custom pre dan post render scripts untuk project kalian.
+
+{{< include ./_render-targets.md >}}
+
+
+## Linking
+
+When creating links between pages in your site, you can provide the source file as the link target (rather than the `.html` file). You can also add hash identifiers (`#)` to the source file if you want to link to a particular section in the document. For example:
+
+``` markdown
+[about](about.qmd)
+[about](about.qmd#section)
+```
+
+One benefit of using this style of link as opposed to targeting `.html` files directly is that if you at some point convert your site to a [book](/docs/books/book-basics.qmd) the file-based links will automatically resolve to section links for formats that produce a single file (e.g. PDF or MS Word).
+
+## Website Theme
+
+The look of your website is controlled via [HTML themes](/docs/output-formats/html-themes.qmd). These options are set under the `format` option in your website configuration file:
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+```
+
+See [HTML Theming](/docs/output-formats/html-themes.qmd) for details on the available options.
+
+## Learning More
+
+Once you've got a basic website up and running check out these articles for various ways to enhance your site:
+
+- [Website Navigation](website-navigation.qmd) describes various ways to add navigation to a website, including top-level navigation bars, sidebars, or hybrid designs that uses both. This article also covers adding full-text search as well as a site-wide footer.
+
+- [Website Tools](website-tools.qmd) covers adding social metadata (e.g. for Twitter Cards) and Google Analytics to your site, as well as enabling users to toggle between dark and light color schemes.
+
+- [Website Options](/docs/reference/projects/websites.qmd) provides a comprehensive reference to all of the available website options.
+
+- [Code Execution](/docs/projects/code-execution.qmd) provides tips for optimizing the rendering of sites with large numbers of documents or expensive computations.
+
+- [Publishing Websites](/docs/publishing/index.qmd) enumerates the various options for publishing websites including GitHub Pages, Netlify, and Posit Connect.
+
 
 ## Overview
 
@@ -173,182 +349,6 @@ GeoScynce | Chief Analyst | Sept 2012 - April 2018
 ### This content appears below the formatted about page content.
 ```
 
-
-## Overview
-
-Quarto Websites are a convenient way to publish groups of documents. Documents published as part of a website share navigational elements, rendering options, and visual style.
-
-Website navigation can be provided through a global navbar, a sidebar with links, or a combination of both for sites that have multiple levels of content. You can also enable full text search for websites.
-
-Quarto websites can be published to a wide variety of destinations including GitHub Pages, Netlify, Posit Connect, or any other static hosting service or intranet web server. See the documentation on [Publishing Websites](/docs/publishing/index.qmd) for additional details.
-
-## Quick Start
-
-Follow the Quick Start for your tool of choice to get a simple website up and running. After covering the basics, read on to learn about website navigation and other more advanced website features.
-
-::: {.panel-tabset group="tools-tabset"}
-
-### VS Code
-
-To create a new website project within VS Code, execute the **Quarto: Create Project** command from the command-palette:
-
-![](images/vscode-create-project-command.png)
-
-Then, select **Website Project**:
-
-![](images/vscode-create-project-website.png){.border}
-
-You'll be prompted to select a parent directory to create the project within. Then, you'll be asked to name the directory for your website project:
-
-![](images/vscode-create-project-directory.png){.border}
-
-The new website project will be created and opened within VS Code. Click the **Preview** button (![](/docs/tools/images/vscode-preview-icon.svg){fig-alt="Preview icon"}) to preview the website:
-
-![](images/vscode-create-project-render.png)
-
-The preview will show to the right of the source file. As you re-render `index.qmd` or render other files like `about.qmd`, the preview is automatically updated.
-
-
-### RStudio
-
-To create a new website project within RStudio, use the **New Project** command and select **Quarto Website**:
-
-:::{layout-ncol="2"}
-
-![](images/rstudio-project-new-directory.png){.border}
-
-![](images/rstudio-project-website.png){.border}
-:::
-
-Then, provide a directory name and other relevant options for the website:
-
-![](images/rstudio-project-website-options.png){.border fig-alt="A section of the 'New Project Wizard' menu from Rstudio. This section is titled 'Create Quarto Website'. The Quarto logo is displayed on the left. On the right are fields for 'Directory name', and 'Create project as subdirectory of:'. Underneath that are options for 'Engine'. The option for 'Engine' is set to 'None'. Underneath are options for 'Create a git repository', and 'Use visual markdown editor'.There are buttons for 'Create Project' and 'Cancel' arranged side-by-side in the bottom right of the window. There is an option to 'Open in new session' in the button left corner."}
-
-Click the **Render** button to preview the website:
-
-![](images/rstudio-project-website-preview.png)
-
-The preview will show to the right of the source file. As you re-render `index.qmd` or render other files like `about.qmd`, the preview is automatically updated.
-
-
-### Terminal
-
-To create a new website project from the Terminal, use the `quarto create project` command, following the prompt to select the type and to provide a name for the project (will be used as the directory name):
-
-```{.bash filename="Terminal"}
-quarto create project website mysite
-```
-
-This will create the scaffolding for a simple website in the `mysite` sub-directory. Use the `quarto preview` command to render and preview the website:
-
-```{.bash filename="Terminal"}
-quarto preview mysite
-```
-
-The website preview will open in a new web browser. As you edit and save `index.qmd` (or other files like `about.qmd`) the preview is automatically updated.
-
-:::
-
-
-## Workflow
-
-Above we have demonstrated how to create and edit a simple website. In this section we go into more depth on website workflow.
-
-### Config File
-
-Every website has a `_quarto.yml` config file that provides website options as well as defaults for HTML documents created within the site. For example, here is the default config file for the simple site created above:
-
-```{.yaml filename="_quarto.yml"}
-project:
-  type: website
-
-website:
-  title: "today"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-    toc: true
-```
-
-See the documentation on [Website Navigation](website-navigation.qmd) and [Website Tools](website-tools.qmd) for additional details on website configuration. See [HTML Documents](/docs/output-formats/html-basics.qmd) for details on customizing HTML format options.
-
-### Website Preview
-
-If you are using VS Code or RStudio, the **Preview** button (VS Code), or **Render** button (RStudio), automatically renders and runs `quarto preview` in an embedded window. You can also do the same thing from the Terminal if need be:
-
-``` {.bash filename="Terminal"}
-# preview the website in the current directory
-quarto preview
-```
-
-Note that when you preview a site (either using VS Code / RStudio integrated tools or from the terminal)  changes to configuration files (e.g. `_quarto.yml`) as well as site resources (e.g. theme or CSS files) will cause an automatic refresh of the preview.
-
-You can customize the behavior of the preview server (port, whether it opens a browser, etc.) using command line options or the `_quarto.yml` config file. See `quarto preview help` or the [project file reference](/docs/reference/projects/options.qmd#preview) for additional details.
-
-
-::: callout-important
-As you preview your site, pages will be rendered and updated. However, if you make changes to global options (e.g. `_quarto.yml` or included files) you need to fully re-render your site to have all of the changes reflected. Consequently, you should always fully `quarto render` your site before deploying it, even if you have already previewed changes to some pages with the preview server.
-:::
-
-
-### Website Render
-
-To render (but not preview) a website, use the `quarto render` command, which will render the website into the `_site` directory by default:
-
-``` {.bash filename="Terminal"}
-# render the website in the current directory
-quarto render 
-```
-
-See the [Project Basics](/docs/projects/quarto-projects.qmd) article to learn more about working with projects, including specifying an explicit list of files to render, as well as adding custom pre and post render scripts to your project.
-
-{{< include ./_render-targets.md >}}
-
-
-## Linking
-
-When creating links between pages in your site, you can provide the source file as the link target (rather than the `.html` file). You can also add hash identifiers (`#)` to the source file if you want to link to a particular section in the document. For example:
-
-``` markdown
-[about](about.qmd)
-[about](about.qmd#section)
-```
-
-One benefit of using this style of link as opposed to targeting `.html` files directly is that if you at some point convert your site to a [book](/docs/books/book-basics.qmd) the file-based links will automatically resolve to section links for formats that produce a single file (e.g. PDF or MS Word).
-
-## Website Theme
-
-The look of your website is controlled via [HTML themes](/docs/output-formats/html-themes.qmd). These options are set under the `format` option in your website configuration file:
-
-```{.yaml filename="_quarto.yml"}
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-```
-
-See [HTML Theming](/docs/output-formats/html-themes.qmd) for details on the available options.
-
-## Learning More
-
-Once you've got a basic website up and running check out these articles for various ways to enhance your site:
-
-- [Website Navigation](website-navigation.qmd) describes various ways to add navigation to a website, including top-level navigation bars, sidebars, or hybrid designs that uses both. This article also covers adding full-text search as well as a site-wide footer.
-
-- [Website Tools](website-tools.qmd) covers adding social metadata (e.g. for Twitter Cards) and Google Analytics to your site, as well as enabling users to toggle between dark and light color schemes.
-
-- [Website Options](/docs/reference/projects/websites.qmd) provides a comprehensive reference to all of the available website options.
-
-- [Code Execution](/docs/projects/code-execution.qmd) provides tips for optimizing the rendering of sites with large numbers of documents or expensive computations.
-
-- [Publishing Websites](/docs/publishing/index.qmd) enumerates the various options for publishing websites including GitHub Pages, Netlify, and Posit Connect.
 
 
 ## Overview

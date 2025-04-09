@@ -1,14 +1,14 @@
 ## Render Targets
 
-By default, all valid Quarto input files (.qmd, .ipynb, .md, .Rmd) in the project directory will be rendered, save for ones with:
+Secara default, semua input Quarto yang valid (.qmd, .ipynb, .md, .Rmd) di dalam direktori project akan di render, simpan salah satu dari:
 
-1.  A file or directory prefix of `.` (hidden files)
+1.  Sebuah file atau prefix direktori `.` (hidden files)
 
-2.  A file or directory prefix of `_` (typically used for non top-level files, e.g. ones [included](../authoring/includes.qmd) in other files)
+2.  Sebuah file atau prefix direktori `_` (secara tipe digunakan untuk file non top-level, yakni termasuk A file or directory prefix of `_` (typically used for non top-level files, yakni satu [included](https://quarto.org/docs/authoring/includes.html) di file lain)
 
-3.  Files named `README.md` or `README.qmd` (which are typically not actual render targets but rather informational content about the source code to be viewed in the version control web UI).
+3.  File bernama `README.md` atau `README.qmd` (yang mana secara tipe tidak aktual render targets tapi konten informational sedikit sumber kode untuk dilihat di dalam web UI version control).
 
-If you don't want to render all of the target documents in a project, or you wish to control the order of rendering more precisely, you can add a `project: render: [files]` entry to your project metadata. For example:
+Jika kalian tidak ingin render semua target dokumen di dalam sebuah project, atau kalian harapkan untuk urutan secara precise rendering, kalian dapat menambahkan`project: render: [files]` entry untuk metadata project kalian. Contoh:
 
 ``` yaml
 project:
@@ -17,7 +17,7 @@ project:
     - section2.qmd
 ```
 
-Note that you can use wildcards when defining the `render` list. For example:
+Perhatikan bahwa kalian dapat menggunakan wildcards ketikan mendefinisikan list `render`. Misalnya:
 
 ``` yaml
 project:
@@ -25,7 +25,8 @@ project:
     - section*.qmd
 ```
 
-You can also use the prefix `!` to ignore some files or directories in the `render` list. Note that in that case you need to start by specifying everything you *do* want to render. For example:
+Kalian dapat juga menggunakan prefix (awalan `!` untuk menghiraukan beberapa file atau direktori dalam list `render`. 
+Perhatikan bahwa kasus kalian butuh dimulai dengan menspesifikasikan *semua* yang kalian ingin render. Misalnya:
 
 ``` yaml
 project:
@@ -36,7 +37,7 @@ project:
 ```
 
 ::: callout-note
-If the name of your output file needs to start with `.` or `_` (for instance `_index.md` for Hugo users), you must name the Quarto input file without the prefix (for instance `index.qmd`) and add an explicit `output-file` parameter in the YAML such as
+Jika sebuah nama dari file output membutuhkan dimulai dengan `.` atau `_` (misalnya `_index.md` untuk pengguna Hugo), Kalian harus memberi nama Quarto file input tanpa prefix (misalnya `index.qmd`) dan tambahkan secara eksplisit `output-file` parameter di dalam YAML seperti
 
 ``` yaml
 ---
