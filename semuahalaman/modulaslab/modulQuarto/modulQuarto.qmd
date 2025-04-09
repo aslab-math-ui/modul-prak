@@ -1,0 +1,2882 @@
+---
+title: "modulQuarto"
+author: "Asisten Lab Departemen Matematika UI"
+---
+
+## Overview
+
+Quarto makes it easy to create a simple about page for an individual or organization. When the `about` option is provided for a document, a special template will be used to layout the content of the current page with a custom layout designed to present a person or organization.
+
+For example:
+
+``` markdown
+---
+title: "Finley Malloc"
+about:
+  template: jolla
+  image: profile.jpg
+  links:
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com
+    - icon: github
+      text: Github
+      href: https://github.com
+---
+
+Finley Malloc is the Chief Data Scientist at Wengo Analytics. When not innovating on data platforms, Finley enjoys spending time unicycling and playing with her pet iguana.
+
+## Education
+
+University of California, San Diego | San Diego, CA
+PhD in Mathematics | Sept 2011 - June 2015
+
+Macalester College | St. Paul, MN
+B.A in Economics | Sept 2007 - June 2011
+
+## Experience
+
+Wengo Analytics | Head Data Scientist | April 2018 - present
+
+GeoScynce | Chief Analyst | Spet 2012 - April 2018
+```
+
+The contents of this page will be laid out using the `jolla` template with the `profile.jpg` image, and generate a set of links for the items specified in `links`.
+
+You can write and format the content of the page however you'd like - when the page is rendered, Quarto will use the content and options provided in the `about` option to create the about page, arranging the content of the `about` option with the content in the page itself.
+
+## Templates
+
+Quarto includes 5 built in templates, drawing inspiration from the [Postcards R Package](https://cran.r-project.org/web/packages/postcards/readme/README.html). Built-in templates include:
+
+-   `jolla`
+-   `trestles`
+-   `solana`
+-   `marquee`
+-   `broadside`
+
+Each template will position the about elements with the content in a different layout. Select the template using the `template` option:
+
+``` yaml
+about:
+  template: trestles
+```
+
+Here is a preview of each of the templates:
+
+::: panel-tabset
+### jolla
+
+![](images/about-jolla.png){.border fig-alt="Screenshot of About page with jolla template. Photo is a centered circle above a heading with the author's name. There is a centered paragraph below the header, a separator line, and then buttons for twitter and github centered at the bottom."}
+
+### trestles
+
+![](images/about-trestles.png){.border fig-alt="Screenshot of About page with trestles template. On the left-hand side there is a rectangular photo above the author's name, and two buttons (one for twitter, and one for github below). On the right hand side there is a paragraph of body text followed by headered sections for Education and Experience."}
+
+### solana
+
+![](images/about-solana.png){.border fig-alt="Screenshot of About page with solana template. The left-hand side has the name as a main header with buttons for twitter and github below it. Below the buttons there is a paragraph of body text, followed by headered sections for Education and Experience. In the upper right-hand column there is a rectangular image."}
+
+### marquee
+
+![](images/about-marquee.png){.border fig-alt="Screenshot of About page with marquee template. A large square image is at the top. Beneath that the author's name is a header, and there is a paragraph of body text, followed by headered sections for Education and Experience. Centered at the bottom of the page are links to Twitter and GitHub with their respective icons next to them."}
+
+### broadside
+
+![](images/about-broadside.png){.border fig-alt="Screenshot of About page with broadside template. The left side is a rectangular image. On the right-hand side the author's name is a header, and there is a paragraph of body text, followed by headered sections for Education and Experience. Centered at the bottom of the page are links to Twitter and GitHub with their respective icons next to them."}
+:::
+
+### Image
+
+The image for the about page will be read from the document-level `image` option:
+
+``` yaml
+title: Finley Malloc
+image: profile.jpg
+about:
+  template: jolla
+```
+
+In addition, you can customize how the image is displayed in the page to better meet your needs by setting the following options.
+
+| option        | description                                                                           | templates                     |
+|------------------|----------------------------------|--------------------|
+| `image-width` | A valid CSS width for your image.                                                     | all                           |
+| `image-shape` | The shape of the image on the about page. Choose from:`rectangle`, `round`, `rounded` | `jolla`, `solana`, `trestles` |
+| `image-alt`   | Alternative text for image                                                            | all                           |
+| `image-title` | Title for image                                                                       | all                           |
+
+For example:
+
+``` yaml
+title: Finley Malloc
+image: profile.png
+about:
+  template: trestles
+  image-width: 10em
+  image-shape: round
+```
+
+### Links
+
+Your about page also may contain a set of links to other resources about you or your organization. Each template will render these links in a slightly different way. Here are the options that you can specify for each link:
+
+| Option       | Description                                                                                                                        |
+|-------------------|-----------------------------------------------------|
+| `href`       | Link to file contained with the project or an external URL.                                                                        |
+| `text`       | Text to display for navigation item (defaults to the document `title` if not provided).                                            |
+| `icon`       | Name of one of the standard [Bootstrap 5 icons](https://icons.getbootstrap.com/) (e.g. "github", "twitter", "share", etc.).        |
+| `aria-label` | [Accessible label](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label) for the navigation item. |
+
+## Partial Page Content
+
+By default, the about page will be generated using the entire contents of the page. If you'd like, however, you may also choose to use only a portion of the page's content to populate the about template. In this case, you can specify an `id` for the about page in the document front matter. When rendering the page, Quarto will find any `div` with that `id` and use the contents of that `div` to populate the about template. The `div` that provided the contents will be replaced with the formatted 'about' content. For example, you could write:
+
+``` markdown
+---
+title: "Finley Malloc"
+about:
+  id: hero-heading
+  template: jolla
+  image: profile.jpg
+  links:
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com
+    - icon: github
+      text: Github
+      href: https://github.com
+---
+
+### This content appears above the formatted about page content.
+
+:::{#hero-heading}
+
+Finley Malloc is the Chief Data Scientist at Wengo Analytics. When not innovating on data platforms, Finley enjoys spending time unicycling and playing with her pet iguana.
+
+## Education
+
+University of California, San Diego | San Diego, CA
+PhD in Mathematics | Sept 2011 - June 2015
+
+Macalester College | St. Paul, MN
+B.A in Economics | Sept 2007 - June 2011
+
+## Experience
+
+Wengo Analytics | Head Data Scientist | April 2018 - present
+
+GeoScynce | Chief Analyst | Sept 2012 - April 2018
+
+:::
+
+### This content appears below the formatted about page content.
+```
+
+
+## Overview
+
+Quarto Websites are a convenient way to publish groups of documents. Documents published as part of a website share navigational elements, rendering options, and visual style.
+
+Website navigation can be provided through a global navbar, a sidebar with links, or a combination of both for sites that have multiple levels of content. You can also enable full text search for websites.
+
+Quarto websites can be published to a wide variety of destinations including GitHub Pages, Netlify, Posit Connect, or any other static hosting service or intranet web server. See the documentation on [Publishing Websites](/docs/publishing/index.qmd) for additional details.
+
+## Quick Start
+
+Follow the Quick Start for your tool of choice to get a simple website up and running. After covering the basics, read on to learn about website navigation and other more advanced website features.
+
+::: {.panel-tabset group="tools-tabset"}
+
+### VS Code
+
+To create a new website project within VS Code, execute the **Quarto: Create Project** command from the command-palette:
+
+![](images/vscode-create-project-command.png)
+
+Then, select **Website Project**:
+
+![](images/vscode-create-project-website.png){.border}
+
+You'll be prompted to select a parent directory to create the project within. Then, you'll be asked to name the directory for your website project:
+
+![](images/vscode-create-project-directory.png){.border}
+
+The new website project will be created and opened within VS Code. Click the **Preview** button (![](/docs/tools/images/vscode-preview-icon.svg){fig-alt="Preview icon"}) to preview the website:
+
+![](images/vscode-create-project-render.png)
+
+The preview will show to the right of the source file. As you re-render `index.qmd` or render other files like `about.qmd`, the preview is automatically updated.
+
+
+### RStudio
+
+To create a new website project within RStudio, use the **New Project** command and select **Quarto Website**:
+
+:::{layout-ncol="2"}
+
+![](images/rstudio-project-new-directory.png){.border}
+
+![](images/rstudio-project-website.png){.border}
+:::
+
+Then, provide a directory name and other relevant options for the website:
+
+![](images/rstudio-project-website-options.png){.border fig-alt="A section of the 'New Project Wizard' menu from Rstudio. This section is titled 'Create Quarto Website'. The Quarto logo is displayed on the left. On the right are fields for 'Directory name', and 'Create project as subdirectory of:'. Underneath that are options for 'Engine'. The option for 'Engine' is set to 'None'. Underneath are options for 'Create a git repository', and 'Use visual markdown editor'.There are buttons for 'Create Project' and 'Cancel' arranged side-by-side in the bottom right of the window. There is an option to 'Open in new session' in the button left corner."}
+
+Click the **Render** button to preview the website:
+
+![](images/rstudio-project-website-preview.png)
+
+The preview will show to the right of the source file. As you re-render `index.qmd` or render other files like `about.qmd`, the preview is automatically updated.
+
+
+### Terminal
+
+To create a new website project from the Terminal, use the `quarto create project` command, following the prompt to select the type and to provide a name for the project (will be used as the directory name):
+
+```{.bash filename="Terminal"}
+quarto create project website mysite
+```
+
+This will create the scaffolding for a simple website in the `mysite` sub-directory. Use the `quarto preview` command to render and preview the website:
+
+```{.bash filename="Terminal"}
+quarto preview mysite
+```
+
+The website preview will open in a new web browser. As you edit and save `index.qmd` (or other files like `about.qmd`) the preview is automatically updated.
+
+:::
+
+
+## Workflow
+
+Above we have demonstrated how to create and edit a simple website. In this section we go into more depth on website workflow.
+
+### Config File
+
+Every website has a `_quarto.yml` config file that provides website options as well as defaults for HTML documents created within the site. For example, here is the default config file for the simple site created above:
+
+```{.yaml filename="_quarto.yml"}
+project:
+  type: website
+
+website:
+  title: "today"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+```
+
+See the documentation on [Website Navigation](website-navigation.qmd) and [Website Tools](website-tools.qmd) for additional details on website configuration. See [HTML Documents](/docs/output-formats/html-basics.qmd) for details on customizing HTML format options.
+
+### Website Preview
+
+If you are using VS Code or RStudio, the **Preview** button (VS Code), or **Render** button (RStudio), automatically renders and runs `quarto preview` in an embedded window. You can also do the same thing from the Terminal if need be:
+
+``` {.bash filename="Terminal"}
+# preview the website in the current directory
+quarto preview
+```
+
+Note that when you preview a site (either using VS Code / RStudio integrated tools or from the terminal)  changes to configuration files (e.g. `_quarto.yml`) as well as site resources (e.g. theme or CSS files) will cause an automatic refresh of the preview.
+
+You can customize the behavior of the preview server (port, whether it opens a browser, etc.) using command line options or the `_quarto.yml` config file. See `quarto preview help` or the [project file reference](/docs/reference/projects/options.qmd#preview) for additional details.
+
+
+::: callout-important
+As you preview your site, pages will be rendered and updated. However, if you make changes to global options (e.g. `_quarto.yml` or included files) you need to fully re-render your site to have all of the changes reflected. Consequently, you should always fully `quarto render` your site before deploying it, even if you have already previewed changes to some pages with the preview server.
+:::
+
+
+### Website Render
+
+To render (but not preview) a website, use the `quarto render` command, which will render the website into the `_site` directory by default:
+
+``` {.bash filename="Terminal"}
+# render the website in the current directory
+quarto render 
+```
+
+See the [Project Basics](/docs/projects/quarto-projects.qmd) article to learn more about working with projects, including specifying an explicit list of files to render, as well as adding custom pre and post render scripts to your project.
+
+{{< include ./_render-targets.md >}}
+
+
+## Linking
+
+When creating links between pages in your site, you can provide the source file as the link target (rather than the `.html` file). You can also add hash identifiers (`#)` to the source file if you want to link to a particular section in the document. For example:
+
+``` markdown
+[about](about.qmd)
+[about](about.qmd#section)
+```
+
+One benefit of using this style of link as opposed to targeting `.html` files directly is that if you at some point convert your site to a [book](/docs/books/book-basics.qmd) the file-based links will automatically resolve to section links for formats that produce a single file (e.g. PDF or MS Word).
+
+## Website Theme
+
+The look of your website is controlled via [HTML themes](/docs/output-formats/html-themes.qmd). These options are set under the `format` option in your website configuration file:
+
+```{.yaml filename="_quarto.yml"}
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+```
+
+See [HTML Theming](/docs/output-formats/html-themes.qmd) for details on the available options.
+
+## Learning More
+
+Once you've got a basic website up and running check out these articles for various ways to enhance your site:
+
+- [Website Navigation](website-navigation.qmd) describes various ways to add navigation to a website, including top-level navigation bars, sidebars, or hybrid designs that uses both. This article also covers adding full-text search as well as a site-wide footer.
+
+- [Website Tools](website-tools.qmd) covers adding social metadata (e.g. for Twitter Cards) and Google Analytics to your site, as well as enabling users to toggle between dark and light color schemes.
+
+- [Website Options](/docs/reference/projects/websites.qmd) provides a comprehensive reference to all of the available website options.
+
+- [Code Execution](/docs/projects/code-execution.qmd) provides tips for optimizing the rendering of sites with large numbers of documents or expensive computations.
+
+- [Publishing Websites](/docs/publishing/index.qmd) enumerates the various options for publishing websites including GitHub Pages, Netlify, and Posit Connect.
+
+
+## Overview
+
+Quarto websites include integrated support for blogging. Blogs consist of a collection of posts along with a navigational page that lists them in reverse chronological order. Blogs can include a custom about page, publish an RSS feed, and use a wide variety of themes.
+
+You can create websites that consist entirely of a single blog, websites that have multiple blogs, or you can add a blog to a website that contains other content.
+
+## Quick Start
+
+Follow the Quick Start for your tool of choice to get a simple blog up and running. After covering the basics, read on to learn about more advanced blog features.
+
+::: {.panel-tabset group="tools-tabset"}
+### VS Code
+
+To create a new blog project within VS Code, execute the **Quarto: Create Project** command from the command-palette:
+
+![](images/vscode-create-project-command.png)
+
+Then, select **Blog Project**:
+
+![](images/vscode-create-project-blog.png){.border}
+
+You'll be prompted to select a parent directory to create the project within. Then, you'll be asked to name the directory for your blog project:
+
+![](images/vscode-create-project-directory.png){.border}
+
+The new blog project will be created and opened within VS Code. Click the **Preview** button (![](/docs/tools/images/vscode-preview-icon.svg){fig-alt="Preview icon"}) to preview the blog:
+
+![](images/vscode-create-project-render-blog.png)
+
+The preview will show to the right of the source file. As you re-render `index.qmd` or render other files like `about.qmd`, the preview is automatically updated.
+
+### RStudio
+
+To create a new blog project within RStudio, use the **New Project** command and select **Quarto Blog**:
+
+::: {layout-ncol="2"}
+![](images/rstudio-project-new-directory.png){.border}
+
+![](images/rstudio-project-blog.png){.border}
+:::
+
+Then, provide a directory name and other relevant options for the blog:
+
+![](images/rstudio-project-blog-options.png){.border}
+
+Click the **Render** button to preview the blog:
+
+![](images/rstudio-project-blog-preview.png)
+
+The preview will show to the right of the source file. As you re-render `index.qmd` or render other files like `about.qmd`, the preview is automatically updated.
+
+### Terminal
+
+To create a new blog project from the Terminal, use the `quarto create project` command with `blog`, specifying the directory that will hold the new project as first argument:
+
+``` {.bash filename="Terminal"}
+quarto create project blog myblog
+```
+
+This will create the scaffolding for a simple blog in the `myblog` sub-directory. Use the `quarto preview` command to render and preview the blog:
+
+``` {.bash filename="Terminal"}
+quarto preview myblog
+```
+
+The blog preview will open in a new web browser. As you edit and save `index.qmd` (or other files like `about.qmd`) the preview is automatically updated.
+:::
+
+Here's a summary of the key files created within the starter blog project:
+
+| File                  | Description                |
+|:----------------------|:---------------------------|
+| `_quarto.yml`         | Quarto project file.       |
+| `index.qmd`           | Blog home page.            |
+| `about.qmd`           | Blog about page.           |
+| `posts/`              | Directory containing posts |
+| `posts/_metadata.yml` | Shared options for `posts` |
+| `styles.css`          | Custom CSS for website     |
+
+In the following sections we'll take a closer look at the various components of the project.
+
+## Home Page
+
+The home page is a [listing page](website-listings.qmd) for all of the documents in the `posts` directory:
+
+![](images/myblog.png){.border fig-alt="Screenshot of a blog page. There is a navigation bar at the top with the blog title ('myblog') on the left, and on the right: 'About', a GitHub icon, a Twitter icon, and a Search icon. The body has two posts listed with titles, tags, description and preview ordered by date. On the right of the body are categories with counts of posts next to them."}
+
+Here's the source code for the home page:
+
+``` yaml
+---
+title: "myblog"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+---
+```
+
+When you render a new post, the listing page will automatically updated, adding the most recent post to the top of the list.
+
+::: callout-warning
+It is not recommended that you use dynamic dates (for example `today` or `last-modified`) in your blog posts. This will cause the order of your blog and feed to be changed each time the document is rendered or modified.
+:::
+
+See the article on [Listing Pages](website-listings.qmd) to learn more about customizing listings, including use a grid layout rather than the default shown above.
+
+### Categories
+
+The listing page is configured to enable categories, which display in the right margin of the page:
+
+``` yaml
+---
+title: "myblog"
+listing:
+  # (additional metadata excluded for brevity)
+  categories: true
+---
+```
+
+The categories are read from the front matter of documents included in the listing. For example, here is sample post metadata that includes categories:
+
+``` yaml
+---
+title: "Post With Code"
+description: "Post description"
+author: "Fizz McPhee"
+date: "5/22/2021"
+categories:
+  - news
+  - code
+  - analysis
+---
+```
+
+See the article on [Categories](website-listings.qmd#categories) to learn more.
+
+## About Page
+
+The `about.qmd` document includes additional information on the blog and its author. For example:
+
+![](images/about-jolla.png){.border fig-alt="Screenshot of an about page. It has a large round circle in the top center with an image shown. Below that is a name in large type, with smaller placeholder body text beneath it. There are two buttons at the bottom, one for twitter, and one for GitHub."}
+
+Here's what the source code of an `about.qmd` might look like:
+
+``` markdown
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com
+    # (additional links excluded for brevity)
+---
+
+## About this blog
+
+This is the contents of the about page for my blog.
+```
+
+See the article on [About Pages](/docs/websites/website-about.qmd) to learn about the various options available for customizing page output.
+
+## Posts Directory
+
+The posts that make up the contents of the blog are located in the `posts` directory.
+
+Add a new post to your blog by creating a sub-directory within `posts`, and adding an `index.qmd` file to the directory. That `qmd` file is the new blog post and when you render that, the blog home page will automatically update to include the newest post at the top of the listing.
+
+### Drafts
+
+Add `draft: true` to the document options to indicate a post is a draft. For example:
+
+``` yaml
+---
+title: "My Post"
+description: "Post description"
+author: "Fizz McPhee"
+date: "5/22/2021"
+draft: true
+---
+```
+
+Draft posts will appear when you preview the site, but will be blank when you render the site and will not appear in listings, navigation, the site map, or site search. You can read more about drafts in [Website Drafts](website-drafts.qmd).
+
+To publish the post when it is complete, simply remove `draft: true` from the document options and then render it.
+
+### Last Updated
+To indicate the date of the last modification, but preserve the original publication date, you can add the `date-modified` field to the document options. For example:
+
+``` yaml
+---
+title: "My Post"
+description: "Post description"
+author: "Fizz McPhee"
+date: "5/22/2021"
+date-modified: "5/23/2021"
+---
+```
+
+### Freezing Posts
+
+Blogs posts that contain executable code often have the problem that posts created last year can't be rendered this year (for example, because the packages used by the post have changed). A similar problem can also arise when a blog has multiple contributors and not everyone has the right software (or the right versions) to render all of the posts. Finally, posts that include computations can often take a while to render, and you don't want the cumulative time required to render the site to grow too large.
+
+The solution to these problems is to *freeze* the output of computational blog posts. When a post is rendered with `freeze: true`, the markdown output from the underlying engine (e.g. Jupyter or Knitr) is saved. When the entire site is rendered these computations are not re-run, but rather read from the previously frozen results.
+
+The only time an article with `freeze: true` is rendered is when you explicitly re-render it. By specifying this option for blog posts you can ensure that posts rendered now will always re-render well with the rest of the site, even if the software required to originally render them isn't available.
+
+In the default blog we include a file (`_metadata.yml`) that establishes [shared metadata](/docs/projects/quarto-projects.qmd#shared-metadata) for all documents within the `posts` directory. In this file, we specify that we want `freeze: true` set by default for all posts:
+
+``` yaml
+# options apply to all posts in this folder
+
+# freeze computational output
+freeze: true
+```
+
+See the article on the [`freeze`](/docs/projects/code-execution.qmd#freeze) option to learn more about freezing computational output within websites.
+
+## Themes
+
+Blogs can use any of the 25 [Bootswatch](https://bootswatch.com/) themes included with Quarto. You can also [create your own](/docs/output-formats/html-themes.qmd#theme-options) themes. The default blog generated by `quarto create project` uses the [cosmo](https://bootswatch.com/cosmo/) theme. Here are links to the available themes along with thumbnails of what the simple default blog looks like under a few of them:
+
+::: {layout="[40,60]"}
+::: theme-list
+-   [default](https://bootswatch.com/default/)
+-   [cerulean](https://bootswatch.com/cerulean/)
+-   [cosmo](https://bootswatch.com/cosmo/)
+-   [cyborg](https://bootswatch.com/cyborg/)
+-   [darkly](https://bootswatch.com/darkly/)
+-   [flatly](https://bootswatch.com/flatly/)
+-   [journal](https://bootswatch.com/journal/)
+-   [litera](https://bootswatch.com/litera/)
+-   [lumen](https://bootswatch.com/lumen/)
+-   [lux](https://bootswatch.com/lux/)
+-   [materia](https://bootswatch.com/materia/)
+-   [minty](https://bootswatch.com/minty/)
+-   [morph](https://bootswatch.com/morph/)
+-   [pulse](https://bootswatch.com/pulse/)
+-   [quartz](https://bootswatch.com/quartz/)
+-   [sandstone](https://bootswatch.com/sandstone/)
+-   [simplex](https://bootswatch.com/simplex/)
+-   [sketchy](https://bootswatch.com/sketchy/)
+-   [slate](https://bootswatch.com/slate/)
+-   [solar](https://bootswatch.com/solar/)
+-   [spacelab](https://bootswatch.com/spacelab/)
+-   [superhero](https://bootswatch.com/superhero/)
+-   [united](https://bootswatch.com/united/)
+-   [vapor](https://bootswatch.com/vapor/)
+-   [yeti](https://bootswatch.com/yeti/)
+-   [zephyr](https://bootswatch.com/zephyr/)
+:::
+
+::: theme-thumbnails
+**litera**
+
+[![](images/theme-litera.png){style="border: solid silver 1px;" fig-alt="Screenshot of blog with litera theme."}](https://bootswatch.com/litera/)
+
+**solar**
+
+[![](images/theme-solar.png){style="border: solid silver 1px;" fig-alt="Screenshot of blog with solar theme."}](https://bootswatch.com/solar/)
+
+**morph**
+
+[![](images/theme-morph.png){style="border: solid silver 1px;" fig-alt="Screenshot of blog with morph theme."}](https://bootswatch.com/morph/)
+:::
+:::
+
+## RSS Feed
+
+Blogs typically include an RSS feed that allows their content to be easily syndicated to feed readers and other websites. You can enable RSS for a blog by doing the following:
+
+1.  In the `_quarto.yml` file, add a `site-url` and `description` to the `website` key (without these options being set in the project file, Quarto cannot generate a feed). For example:
+
+    ``` yaml
+    website:
+      title: "myblog"
+      site-url: https://www.myblogexample.io
+      description: "A great sample blog"
+    ```
+
+2.  In your blog home page `index.qmd` add the `feed: true` option to the listing. For example:
+
+    ``` yaml
+    ---
+    title: "myblog"
+    listing:
+      contents: posts
+      sort: "date desc"
+      type: default
+      categories: true
+      feed: true
+    ---
+    ```
+
+Now, when your site is rendered, an RSS feed will also be generated. To learn more, see the article on [RSS Feeds](/docs/websites/website-listings.qmd#feeds).
+
+::: callout-tip
+## Including an RSS Link on the Navbar
+
+You can add an RSS link to your navbar by including the following in your `_quarto.yml` project file. For example:
+
+``` yaml
+website:
+  title: "myblog"
+  site-url: https://www.myblogexample.io
+  description: "A great sample blog"
+  navbar:
+    right:
+      - icon: rss
+        href: index.xml
+```
+:::
+
+### Category Feeds
+
+You can also generate RSS feeds for specific categories in your blog. For example, to create feeds for the categories `news` and `posts` in a blog, you could write the following:
+
+``` yaml
+---
+title: "myblog"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  feed:
+    categories: [news, posts]
+---
+```
+
+This will create an `index.xml` file with the RSS feed for the listing, but also create an `index-news.xml` and `index-posts.xml` file with RSS feeds for the respective categories.
+
+## Publishing
+
+There are a wide variety of ways to publish Quarto blogs. Blog content is by default written to the `_site` sub-directory. Publishing is simply a matter of copying this directory to a web server or web hosting service.
+
+The article on [Publishing Websites](/docs/publishing/index.qmd) describes in more detail how to publish to the following services:
+
+-   [Quarto Pub](/docs/publishing/quarto-pub.qmd)
+-   [GitHub Pages](/docs/publishing/github-pages.qmd)
+-   [Netlify](/docs/publishing/netlify.qmd)
+-   [Posit Connect](/docs/publishing/rstudio-connect.qmd)
+-   [Firebase](/docs/publishing/other.qmd#google-firebase)
+-   [Site44](/docs/publishing/other.qmd#site44)
+-   [Amazon S3](/docs/publishing/other.qmd#amazon-s3)
+
+## Subscriptions
+
+You may want to allow readers of your blog to subscribe to updates via email. You can use a third party email service to manage and send these emails.
+
+Third party email services will typically take your RSS Feed as input (e.g. `https://www.myblogexample.io/index.xml`) and provide HTML for a subscription widget that you can place on your blog. A good place to locate that widget is often right margin of your blog.
+
+Here are the steps required to add a subscription widget:
+
+1.  Use your email service features to generate the HTML for your subscription widget. MailChimp, for example, provides HTML like this for a minimal subscription widget.
+
+    ``` html
+    <span style="font-weight: 600;">Subscribe</span>
+
+    <!-- Begin Mailchimp Signup Form -->
+    <link href="http://cdn-images.mailchimp.com/embedcode/slim-10_7_dtp.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif;  width:170px;}
+        /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+        #mc-embedded-subscribe-form{margin-left:-5px;}
+    </style>
+    <div id="mc_embed_signup">
+    <form action="<site_url>" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div id="mc_embed_signup_scroll">
+
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_f718424fc5df77c22533bdaa6_a3c37fb57b" tabindex="-1" value=""></div>
+            <div class="optionalParent">
+                <div class="clear foot" style="margin-top: 10px;">
+                    <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+                    <p class="brandingLogo"></p>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <!--End mc_embed_signup-->
+    ```
+
+    ::: callout-warning
+    The above widget HTML will not work in your blog as the subscription HTML needs to contain value specific to your blog. See your email service provider's instructions for generating a subscription widget.
+    :::
+
+2.  Create the file `subscribe.html` in the root of your project.
+
+3.  Paste the HTML for your subscription widget into `subscribe.html` and save the file.
+
+4.  Add `subscribe.html` to the `margin-header` in your `_quarto.yml` file:
+
+    ``` yaml
+    website:
+      # (additional metadata excluded for brevity)
+      margin-header: subscribe.html
+    ```
+
+The result looks like this:
+
+![](images/myblog-subscribe.png){.border fig-alt="Screenshot of blog with a Subscribe section in the top of the right-hand section of the bofy. There is an input field marked 'email address' and a button below it labelled 'Subscribe'."}
+
+## Overview
+
+Use drafts to preview and plan content before it is ready to publish. By default, draft pages will be blank in your rendered site, and will not appear in navigation, listings, search results, or the sitemap. On this page, learn how to specify pages as drafts, control how drafts appear in rendered sites and how drafts appear in site previews.
+
+## Specifying Drafts
+
+To specify a page or post is a draft, you can add `draft: true` to the document YAML:
+
+``` {.yaml filename="posts/post-with-code/index.qmd"}
+---
+title: "Post with Code"
+draft: true
+---
+```
+
+To specify all documents in directory are drafts set `draft: true` in the [directory metadata](/docs/projects/quarto-projects.html#directory-metadata): 
+
+``` {.yaml filename="posts/_metadata.yml"}
+draft: true
+```
+
+As an alternative to the `draft` document option, you can also specify the website option `drafts` in `_quarto.yml`:
+
+``` {.yaml filename="_quarto.yml"}
+website:
+  title: "Cool Website."
+  drafts:
+    - posts/post-with-code/index.qmd
+```
+
+If you would like to specify a list of paths in a separate file, use a [metadata include](/docs/projects/quarto-projects.html#metadata-includes). For example, you could specify your drafts in `drafts.yml`:
+
+``` {.yaml filename="drafts.yml"}
+website:
+  drafts:
+    - posts/post-with-code/index.qmd
+```
+
+Then, provide this file to `metadata-files`:
+
+``` {.yaml filename="_quarto.yml"}
+website:
+  title: "Cool Website."
+
+metadata-files:
+  - drafts.yml
+```
+
+You can also set the website `drafts` option using [project profiles](/docs/projects/profiles.html).
+
+## Appearance of Drafts
+
+You can use the `draft-mode` option to control the content and linking of draft documents in the rendered website. 
+The values for `draft-mode` are:
+
+-   `gone`(default)---Empty and unlinked
+-   `unlinked`---Rendered and unlinked
+-   `visible`---Rendered and linked
+
+A URL will exist for an empty page but the page itself will be blank. Drafts that are rendered will additionally include a draft banner:
+
+![A rendered draft document will include a "Draft" banner](images/website-drafts-banner.png){.border fig-alt="Screenshot of a post titled 'Post With Code', displaying a banner at the top of the page titled 'Draft'."}
+
+When a draft is unlinked it will not appear in search results, listings, the sitemap, or navigation (sidebars, navbars, and footers).  If another page links to an unlinked draft document, the link will be omitted leaving the content of the link without the hyperlink itself.
+
+As a complete example, consider the following website configuration:
+
+:::{#lst-example}
+
+```{.yaml filename="_quarto.yml"}
+project:
+  type: website
+
+website:
+  title: "Cool Website."
+  navbar:
+    left:
+      - stuff/item1.qmd
+      - stuff/item2.qmd
+  drafts:                   # <1>
+    - stuff/item2.qmd       # <1>
+  draft-mode: unlinked      # <2>
+```
+
+1. The project is providing a simple list of draft documents. The same thing could be specified using `draft: true` in `stuff/item2.qmd`'s front matter.
+
+2. The draft mode is set to `unlinked`, so drafts are rendered but not linked to. 
+
+A complete `_quarto.yml` example
+
+:::
+
+When rendered the navbar in the above site will omit the item for `stuff/item2.qmd`:
+
+![](images/website-drafts-nav.png){.border fig-alt="Navigation bar for a site with title 'Cool Website.' showing a single navigation item 'Item 1'."}
+
+However, `stuff/item2.qmd` is still available at `stuff/item2.html` and shows the draft banner:
+
+![](images/website-drafts-item2.png){.border fig-alt="Screenshot of a webpage with title 'Item 2'. The navigation bar shows a single navigation item 'Item 1'. Above the navigation bar is a banner with the text 'Draft'."}
+
+## Previewing Drafts
+
+Regardless of the `draft-mode` setting, when you preview a site with `quarto preview` drafts will be `visible`. 
+Draft pages will be rendered and display a draft banner, and any links or navigation items pointing at the draft pages will be visible and active. 
+For example, when the site described in @lst-example, is previewed a link to `stuff/item2.html` appears in the navigation:
+
+![](images/website-drafts-preview.png){.border fig-alt="Screenshot of a webpage with title 'Item 2'. The navigation bar shows two navigation items 'Item 1' and 'Item 2'. Above the navigation bar is a banner with the text 'Draft'."}
+
+This preview behaviour includes previews generated with the **Render** button in RStudio, and the **Preview** button in VS Code.
+
+## Overview
+
+In addition to the 3 built in types of listings, you can also build a completely custom display of the items. This custom display can generate any HTML and can optionally still take advantage of the sorting, filtering, and pagination provided by listings.
+
+## Listing Templates
+
+To build a custom listing display, you create an [EJS template](https://ejs.co) that will be used to generate the HTML for a set of items that are passed to the template. EJS templates allow you to generate HTML using plain javascript, making it easy to loop through items and output their values in your custom HTML.
+
+
+To use a custom template, pass it in the `template` option for a listing:
+
+``` yaml
+listing:
+  template: gallery.ejs
+```
+
+When a listing with a custom template is rendered, the listing contents will be read and processed into a set of items that are passed to the template for rendering. For example, in this case, all the documents in the posts directory will be read into items and passed to the `gallery.ejs` template.
+
+``` yaml
+listing:
+  contents: posts
+  template: gallery.ejs
+```
+
+A simple template for outputing a list of documents might look like:
+
+``` html
+<ul>
+<% for (const item of items) { %>
+  <li><a href="<%- item.path %>"><%= item.title %></a></li>
+<% } %>
+</ul>
+```
+
+which produces simple HTML output like:
+
+![](images/listing-custom-output.png){.border}
+
+When rendered, the above template will receive an array of listing items called `items`. When the contents of a listing are loaded from a list of documents, each of those items will be populated with the fields described in [Listing Fields](website-listings.qmd#listing-fields). In addition, any other fields included in a documents metadata will be passed as a property of the item, making it possible to use custom metadata in your documents and the listing display.
+
+::: {.callout-note}
+
+Note that Quarto uses `lodash` to render the EJS templates. The `lodash` uses different syntax for HTML escaping text in templates. 
+
+````
+HTML escaped value:   <%- value %>
+HTML unescaped value: <%= value %>
+````
+
+:::
+
+## Metadata Listings
+
+The `contents` option for a listing most commonly contains a list of paths or globs, but it can also contain metadata. When contents are metadata, the metadata will be read into items and passed to the template. For example:
+
+``` yaml
+listing:
+  template: custom.ejs
+  contents:
+    - name: First Item
+      href: https://www.quarto.org
+      custom-field: A custom value
+    - name: Second Item
+      href: https://www.rstudio.org
+      custom-field: A second custom value
+```
+
+could be rendered using:
+
+```` html
+```{=html}
+<ul>
+<% for (const item of items) { %>
+  <li>
+    <a href="<%- item.href %>"><%= item.name %></a><br/>
+    <%= item['custom-field'] %>
+  </li>
+<% } %>
+</ul>
+```
+````
+
+which produces a simple HTML display like:
+
+![](images/listing-custom-metadata.png){.border}
+
+## Metadata File Listings
+
+The `contents` option for a listing can also point to one or more `yaml` files (which contain metadata). In that case, the metadata will be read from the files into items and passed to the template. For example:
+
+``` yaml
+listing:
+  template: custom.ejs
+  contents:
+    - items.yml
+```
+
+where the contents of `items.yml` is:
+
+``` yaml
+- name: First Item
+  href: https://www.quarto.org
+  custom-field: A custom value
+- name: Second Item
+  href: https://www.rstudio.org
+  custom-field: A second custom value
+```
+
+### Template Examples
+
+Portions of this website are built using custom listings. The best place to start is with [our gallery](/docs/gallery/index.qmd), which is a listing built using a custom template and a metadata file. You can view the source code used to create the gallery page in our [Github repository](https://github.com/quarto-dev/quarto-web).
+
+| File                                                                                       | Description                                                                          |
+|-------------------------------------|-----------------------------------|
+| [gallery.yml](https://github.com/quarto-dev/quarto-web/blob/main/docs/gallery/gallery.yml) | The metadata that controls what items are displayed in the gallery listing.          |
+| [gallery.ejs](https://github.com/quarto-dev/quarto-web/blob/main/docs/gallery/gallery.ejs) | The template used to display the items on the page.                                  |
+| [index.qmd](https://github.com/quarto-dev/quarto-web/blob/main/docs/gallery/index.qmd)     | The Quarto document that configures and positions the listing in the `#gallery` div. |
+
+: {tbl-colwidths="\[30,70\]"}
+
+## Sorting, Filtering, and Pagination
+
+By default, sorting, filtering, and pagination are disabled for custom listings templates, but with some simple changes to your template and listing options, you can add this capability to your custom listing. To do this, you need to include the following three things in your custom template:
+
+1.  Include a `list` class on the HTML tag that contains the list of items.
+
+2.  For each item, include `<%= metadataAttrs(item) %>` in the HTML tag that contains the item. This will allow Quarto to write custom attributes that are used for sorting and filtering.
+
+3.  Within each item, include a class that identifies the tag whose text represents the contents of an item's field. The class must be the name of the field prefixed with `listing-`, for example the tag whose inner text is the `item.name` should include a class `listing-name`.
+
+For example, we can modify the above `custom.ejs` template as follows:
+
+``` html
+<ul class="list">
+<% for (const item of items) { %>
+  <li <%= metadataAttrs(item) %>>
+    <a href="<%- item.href %>" class="listing-name"><%= item.name %></a><br/>
+    <span class="listing-custom-field"><%= item['custom-field'] %><span>
+  </li>
+<% } %>
+</ul>
+```
+
+Once you have included these items in your template, you can then enable the options in your listing:
+
+``` yaml
+listing:
+  sort-ui: true
+  filter-ui: true
+  page-size: 10
+```
+
+The UI elements will now appear on the page and should interact properly with your custom listing.
+
+### Field Display Names
+
+You may want to provide a custom display name for your field to provide a better name than the field name. For example, the field name would appear in the sort UI. You can use `field-display-names` to create mapping from a field to a display name. For example:
+
+``` yaml
+listing:
+  template: custom.ejs
+  contents:
+    - items.yml
+  sort-ui: true
+  filter-ui: true
+  page-size: 10
+  field-display-names:
+    name: "Name"
+    custom-field: "Custom"
+```
+
+### Date Sorting and Formatting
+
+To properly format and sort date values, you can specify type information for fields in your items. If you specify a field is a date, it will automatically be formatted using the specified date formatting (either default or specified using `date-format`) and will support date sorting in ascending or descending order. If you specify a field as a number, it will support ascending and descending numeric sorting.
+
+You can specify field types as follows:
+
+``` yaml
+listing:
+  template: custom.ejs
+  contents:
+    - items.yml
+  field-types:
+    custom-date: date
+    custom-number: number
+```
+
+### Required Fields
+
+Since listings are generated using fields that are specified in other documents or via metadata, it can be helpful to ensure that required fields are present. You can note required fields as following:
+
+``` yaml
+listing:
+  template: custom.ejs
+  contents:
+    - items.yml
+  field-required: [name, custom-field]
+```
+
+If the listing page is rendered and any of contents is missing a value for either of the required fields, an error will be thrown noting the field that is required and the file or metadata that has omitted it.
+
+## Template Parameters
+
+You may also make your custom template more dynamic by using parameters to control its behavior. You can provide parameters for custom templates using the `template-params` option like:
+
+```yaml
+listing:
+  template: custom.ejs
+  contents:
+    - items.yml
+  template-params:
+    param1: "param-value"
+```
+
+Template parameters can then be accessed in your template using `<%= templateParams.param1 %>`. For example, we can modify the above `custom.ejs` template as follows:
+
+``` html
+<h3><%= templateParams.param1 %></h3>
+<ul class="pub-list list">
+  <% for (const item of items) { %>
+      <li <%= metadataAttrs(item) %>>
+        <span class="listing-title"><%= item.title %>.</span>
+      </li>
+  <% } %>
+</ul>
+```
+
+## Overview
+
+Listings enable you to automatically generate the contents of a page (or region of a page) from a list of Quarto documents or other custom data.
+
+Listings are useful for creating blogs, providing navigation for large numbers of documents, or any other scenario where you'd like the contents of a page to be automatically updated as documents are added, updated, and removed.
+
+You can enable listings on a page using the `listing` option in the document front matter. This will instruct Quarto to generate additional content (the 'listings') when the page is rendered. For example, the following YAML in the front matter of a document:
+
+``` yaml
+---
+title: "Listing Example"
+listing: default
+---
+```
+
+will result in a listing of all documents in the directory (with the exception of the current document). It might look something like this:
+
+![](images/listing-example.png){.border fig-alt="Screenshot of Listing Example page. There is a navbar at the top with the site name on the left, and a collapsed menu icon on the right. The header (Listing example). Below on the left there is a sortable dropdown for the order in which the items are displayed. On the right, across, is a search input box. The items are listed full-width rows that display the item’s metadata (author and date), title, description, and image."}
+
+## Listing Contents
+
+You can control what documents are included in the listing by using the `contents` option, which allows you to provide a set of input files (or globs of input files) that should be included in the listing. For each of the inputs that matches the `contents` of a listing, an item will be included using the metadata in the front matter of the document. 
+
+::: {.callout-note}
+To have an item in the list, it must contain at least the "title" metadata.
+:::
+
+For example to include all the Quarto documents in the `posts` directory, you would write:
+
+``` yaml
+---
+title: "Listing Example"
+listing:
+  contents: posts
+---
+```
+
+You can write much more complex rules for including content by using globs and using a list of targets in the contents, such as:
+
+``` yaml
+---
+title: "Listing Example"
+listing:
+  contents:
+    - "reports/*.qmd"
+    - "lab-notes/*reports.qmd"
+```
+
+Review the [Quarto Glob Reference](/docs/reference/globs.qmd) for more information about supported glob syntax.
+
+::: callout-note
+If you provide a path to a directory, it will be treated as `<directory>/**` - the directory will be searched recursively for project inputs.
+:::
+
+It is important to note that when providing a list of targets, these will be identified _relative_ to the location of the listings page, not the root of the project file.  For example, if your listings page is located at `/pages/listings.qmd` specifying `contents: "reports/*.qmd"` will search in `/pages/reports/` not `/reports/` for the targeted files.
+
+In addition to specifying lists of files or globs, contents can contain lists of metadata as well. For more about this, see [Custom Listings](website-listings-custom.qmd).
+
+## Listing Types
+
+There are three built-in types of listings that you can choose from. Use the `type` option to choose the appearance of the listing:
+
+``` yaml
+---
+listing:
+  contents: posts
+  type: default
+---
+```
+
+The type field accepts the following values:
+
++----------------+----------------------------------+
+| Type           | Description                      |
++================+==================================+
+| `default`      | A blog style list of items.      |
++----------------+----------------------------------+
+| `table`        | A table of listings.             |
++----------------+----------------------------------+
+| `grid`         | A grid of listing cards.         |
++----------------+----------------------------------+
+
+::: panel-tabset
+#### Default
+
+By default, listings will appear in full width rows that display the item's metadata (author and date), title, description, and image.
+
+![](images/listing-default.png){.border alt="A default style listing." fig-alt="The default layout for listings page. The top is a header (Listing Example). Below on the left there is a sortable dropdown for the order in which the items are displayed. On the right, across, is a search input box. The items are listed full-width rows that display the item’s metadata (author and date), title, description, and image."}
+
+#### Grid
+
+Grid style listings display a card for each item.
+
+![](images/listing-grid.png){.border alt="A grid style listing." fig-alt="Listing Example page with grid-style layout cards for each item."}
+
+#### Table
+
+The table listing style provides a traditional tabular layout.
+
+![](images/listing-table.png){.border alt="A table type listing." fig-alt="Listing Example with a text table displaying (from left to right): Date, Title, and Author."}
+:::
+
+## Sorting Items
+
+By default, listings created from documents will be ordered by their title. Use the `sort` option to control the order of the listing. For example:
+
+``` yaml
+listing:
+  contents: posts
+  sort: "date"
+```
+
+Each `sort` key can include a field name and optionally either `asc` or `desc` to control whether to sort in ascending or descending order. When only the name is specified, sorting by that field will be in ascending order.
+
+The sort key can also contain one or more fields to sort by. For example:
+
+``` yaml
+listing:
+  contents: posts
+  sort:
+    - "date"
+    - "title desc"
+```
+
+This will sort the documents in the `posts` directory first by their date in ascending order, then by their title in descending order.
+
+If you'd like to disable sorting entirely and display the items in the order in which they are specified, you can pass `sort: false` (which will disable sorting and preserve the item's original order).
+
+## Listing Options
+
+It is possible to customize the appearance of listings using the following options for each type of listing display.
+
+### Default
+
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option              | Description                                                                                                                                                  |
++=====================+==============================================================================================================================================================+
+| `max-items`         | The maximum number of items to include in this listing.                                                                                                      |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-align`       | Whether to place the image on the right or left side of the post content. Defaults to `right`.                                                               |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-height`      | The height of the image being displayed. The width is automatically determined and the image will fill the rectangle without scaling (i.e. cropped to fill). |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-placeholder` | The default image for items if they have no image.                                                                                                           |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+### Grids
+
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option              | Description                                                                                                                                                  |
++=====================+==============================================================================================================================================================+
+| `max-items`         | The maximum number of items to include in this listing.                                                                                                      |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-height`      | The height of the image being displayed. The width is automatically determined and the image will fill the rectangle without scaling (i.e. cropped to fill). |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-placeholder` | The default image for items if they have no image.                                                                                                           |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `grid-columns`      | The number of columns in the grid display. Defaults to 3.                                                                                                    |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `grid-item-border`  | Whether to display a border around the item card. Defaults to `true`.                                                                                        |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `grid-item-align`   | Aligns the content within the card (`left`, `right`, or `center`). Defaults to `left`.                                                                       |
++---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+### Tables
+
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Options             | Description                                                                                                                                              |
++=====================+==========================================================================================================================================================+
+| `max-items`         | The maximum number of items to include in this listing.                                                                                                  |
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-height`      | The height of the image being displayed. The width is automatically select and the image will fill the rectangle without scaling (i.e. cropped to fill). |
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-placeholder` | The default image for items if they have no image.                                                                                                       |
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `table-striped`     | Display the table rows with alternating background colors (`true` or `false`). Defaults to `false`                                                       |     
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `table-hover`       | Highlight rows of the table when the user hovers the mouse over them (`true` or `false`). Defaults to `false`.                                           |
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `field-links`       | A list of fields that should link to the document in the table (defaults to `title`).                                                                    |
++---------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+### Advanced Options
+
++--------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                   | Description                                                                                                                                                                                                                      |
++==========================+==================================================================================================================================================================================================================================+
+| `field-display-names`    | A mapping that provides display name for specific fields. For example, to display the title column as 'Report' in a table listing you would write:                                                                               |
+|                          |                                                                                                                                                                                                                                  |
+|                          | ``` yaml                                                                                                                                                                                                                         |
+|                          | listing:                                                                                                                                                                                                                         |
+|                          |   field-display-names:                                                                                                                                                                                                           |
+|                          |     title: "Report"                                                                                                                                                                                                              |
+|                          | ```                                                                                                                                                                                                                              |
++--------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-lazy-loading`     | When `true`, listing images are loaded only as they come into view. When `false`, images are automatically loaded. Default: `true`                                                                                               |
++--------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `max-description-length` | The maximum length of the description displayed in the listing (in characters). Defaults to 175.                                                                                                                                 |
++--------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `date-format`            | The date format to use when displaying dates (e.g. `d-M-yyyy`).                                                                                                                                                                  |
+|                          |                                                                                                                                                                                                                                  |
+|                          | You may either provide a date style (`full`, `long`, `medium`, `short` or `iso`) or a format string for formatting the date.                                                                                                     |
+|                          | The behavior of date styles varies depending upon locale, but examples in the `en` locale are as follows:                                                                                                                        |
+|                          |                                                                                                                                                                                                                                  |
+|                          | full                                                                                                                                                                                                                             |
+|                          |                                                                                                                                                                                                                                  |
+|                          | :   Saturday, February 5, 2022                                                                                                                                                                                                   |
+|                          |                                                                                                                                                                                                                                  |
+|                          | long                                                                                                                                                                                                                             |
+|                          |                                                                                                                                                                                                                                  |
+|                          | :   February 5, 2022                                                                                                                                                                                                             |
+|                          |                                                                                                                                                                                                                                  |
+|                          | medium                                                                                                                                                                                                                           |
+|                          |                                                                                                                                                                                                                                  |
+|                          | :   Feb 5, 2022                                                                                                                                                                                                                  |
+|                          |                                                                                                                                                                                                                                  |
+|                          | short                                                                                                                                                                                                                            |
+|                          |                                                                                                                                                                                                                                  |
+|                          | :   2/5/22                                                                                                                                                                                                                       |
+|                          |                                                                                                                                                                                                                                  |
+|                          | iso                                                                                                                                                                                                                              |
+|                          |                                                                                                                                                                                                                                  |
+|                          | :   2022-05-22                                                                                                                                                                                                                   |
+|                          |                                                                                                                                                                                                                                  |
+|                          | Learn more about supported date formatting values [here](/docs/reference/dates.qmd).                                                                                                                                             |
++--------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+In addition to the above listing-wide options, each listing type has a variety of options to customize its appearance.
+
+## Categories
+
+In addition to displaying the listing contents, listings can also automatically add a list of categories to the page that they appear on. To enable categories you can set the `categories` option like:
+
+``` yaml
+listing:
+  categories: true
+```
+
+which results in categories appearing in the right sidebar:
+
+![](images/listing-categories.png){.border .column-page-right fig-alt="Default layout listings page with a sidebar on the right showing categories and the counts of items for each category."}
+
+When users click a category, the page will be updated to show only the listing items that match the selected category.
+
+#### Category Appearance
+
+You can choose between a few different display styles for categories:
+
++--------------+------------------------------------------------------------------------------------------------------------------------------------+
+| Option       | Description                                                                                                                        |
++==============+====================================================================================================================================+
+| `numbered`   | Displays a list of categories in alphabetical order with the number of items in that category displayed next to the category name. |
++--------------+------------------------------------------------------------------------------------------------------------------------------------+
+| `unnumbered` | Display a list of categories in alphabetical order.                                                                                |
++--------------+------------------------------------------------------------------------------------------------------------------------------------+
+| `cloud`      | Displays a 'word cloud' of categories.                                                                                             |
++--------------+------------------------------------------------------------------------------------------------------------------------------------+
+
+When multiple listings appear on the page, categories will be enabled based upon the option set in the first listing. If categories are enabled for the first listing, all listings on the page will contribute their item categories to the list of categories and all will be filtered when the user clicks a category.
+
+## Feeds
+
+You can also have an RSS feed generated based upon the contents of a listing. This is great to allow your content to be syndicated or to be accessible via RSS Readers. Include a feed for your listing by including the `feed` option:
+
+``` yaml
+listing:
+  contents: posts
+  feed: true
+```
+
+When a feed is enabled for a listing on a page, an RSS file will be automatically generated using the name of the file. For example, `index.qmd` will produce a feed at `index.xml`. A link to the feed will be included in the `head` of the page as well.
+
+Generating feeds requires that the `site-url` be set for the site in your `_quarto.yml` file. For example:
+
+```{.yaml filename="_quarto.yml"}
+website:
+  site-url: "https://www.quarto.org"
+```
+
+You can further customize your feed by passing options to the `feed` key:
+
+```yaml
+listing:
+  contents: posts
+  feed: 
+    items: 10
+```
+
+The following options are available:
+
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option        | Description                                                                                                                                                                                                   |
++===============+===============================================================================================================================================================================================================+
+| `items`       | The number of items to include in your feed. Defaults to 20.                                                                                                                                                  |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `type`        | `full`, `partial` or `metadata`. `full`, the default, includes the full contents of each document in the feed.                                                                                                |
+|               | `partial` includes the description, if available, otherwise the first paragraph in the feed.                                                                                                                  |
+|               | `metadata` includes only the title, description, and other document metadata in the feed.                                                                                                                     |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `title`       | The title for this feed. Defaults to the site title provided in your `_quarto.yml` file.                                                                                                                      |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image`       | The image for this feed. If not specified, the image for the page the listing appears on will be used, otherwise an image will be used if specified for the site in your `_quarto.yml` file.                  |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `description` | The description of this feed. If not specified, the description for the page the listing appears on will be used, otherwise the description of the site will be used if specified in your `_quarto.yml` file. |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `language`    | The language of the feed. Omitted if not specified. See <https://www.rssboard.org/rss-language-codes> for a list of valid language codes.                                                                     |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `categories`  | Generates a separate feed for each of the categories included in this list of category names.                                                                                                                 |
++---------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+## Listing Fields
+
+When reading the contents of a listing, Quarto uses the metadata read from the front matter of the document or the contents of the document itself to populate the following fields for each item:
+
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Field Name      | Description                                                                                                                                                                                                                                                                               |
++=================+===========================================================================================================================================================================================================================================================================================+
+| `title`         | The title of the item, read from the `title` field of the front matter (or the first H1 of the document).                                                                                                                                                                                 |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `subtitle`      | The subtitle of the item, read from the `subtitle` field of the front matter.                                                                                                                                                                                                             |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `author`        | The author of the item, read from the `author` field of the front matter.                                                                                                                                                                                                                 |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `description`   | The description of the item, read from the `description` or `abstract` field of the front matter or from the first paragraph of the document.                                                                                                                                             |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `date`          | The date of the item, read from the `date` field of the front matter.                                                                                                                                                                                                                     |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image`         | The image for this item, read from the `image` field of the front matter, or automatically discovered by taking the first of an image of class `preview-image`, an image with a file name starting with `feature`, `cover`, or `thumbnail`, or the first image to appear in the document. |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image-alt`     | The alt text for the image for this item.                                                                                                                                                                                                                                                 |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `word-count`    | A word count for this item.                                                                                                                                                                                                                                                               |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `reading-time`  | An estimate of the reading time for this item, computed by counting the words in the item and assuming a reading speed of 200 words per minute.                                                                                                                                           |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `categories`    | Categories for the item, read from the `categories` field of the front matter.                                                                                                                                                                                                            |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `filename`      | The name of the input file.                                                                                                                                                                                                                                                               |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `file-modified` | The last modified date of this input file.                                                                                                                                                                                                                                                |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Depending upon the type of listing that you are using, different fields are displayed automatically:
+
++---------------+---------------+--------------+--------------+
+| Field         | Type: Default | Type: Table  | Type: Grid   |
++===============+:=============:+:============:+:============:+
+| `title`       | x             | x            | x            |
++---------------+---------------+--------------+--------------+
+| `subtitle`    | x             |              |              |
++---------------+---------------+--------------+--------------+
+| `author`      | x             | x            | x            |
++---------------+---------------+--------------+--------------+
+| `description` | x             |              | x            |
++---------------+---------------+--------------+--------------+
+| `date`        | x             | x            | x            |
++---------------+---------------+--------------+--------------+
+| `image`       | x             |              | x            |
++---------------+---------------+--------------+--------------+
+
+### Customizing Fields
+
+Though specific columns are displayed by default, each of the types will allow you to display any of the above columns by using the `fields` options. For example, to display more fields in a table (as columns), you write:
+
+``` yaml
+listing:
+  type: table
+  contents: posts
+  fields: [image, date, title, author, reading-time]
+```
+
+which produces:
+
+![](images/list-fields-list.png){fig-alt="Table with small image thumbnail for each item and custom list of fields: Date, Title, Author, and Reading Time."}
+
+Each type of listing will handle the fields in different ways.
+
+Default
+
+:   For default type listings, the various fields will be placed logically, with the `image` in the right column, the `title`, `subtitle`, and `description` in the center column, and any other fields in the left column.
+
+    ![](images/default-fields.png){.border .column-page-right fig-alt="Default listings layout with the image in the right column, the title, subtitle, and description in the center column, and author, date, reading time, file, and file modified fields in the left column."}
+
+Tables
+
+:   For table type listings, the list of fields will be displayed as columns in the order that the fields appear in the list.
+
+Grid
+
+:   For grid listings, the `image`, `title`, `subtitle`, `reading-time`, `categories`, `description`, `author`, and `date` fields will be arranged on the body of the card. The `filename` and `file-modified` fields will appear in the card footer. Any other fields will appear in a table at the bottom of the card body.
+
+    ![](images/grid-fields.png){.border fig-alt="Grid listing layout item with image thumbnail at the top of the card, followed below by the title, then subtitle, reading time, category tags, and description. Below the description there is a line with author and date, and another line with file and file modified."}
+
+## Including or Excluding Items
+
+You can control what documents are included or excluding based upon the metadata of the items by using the `include` and `exclude` options. These options allow you to specify one or more field names and values that must be present or absent in order for the item to be included or excluded. For example, to include only items authored by `Harlow` or `Tristan`, you write:
+
+``` yaml
+listing:
+  contents: posts
+  type: grid
+  include:
+    author: "{Harlow,Tristan}*"
+```
+
+To exclude any items authored by `Charles`, you write:
+
+``` yaml
+listing:
+  contents: posts
+  type: grid
+  exclude:
+    author: "Charles*"
+```
+
+When including or excluding items based upon a string field value, Quarto will use glob syntax when comparing values. Any other type of comparison will be done by testing for equality.
+
+## User Tools
+
+Listings support interactive tools to allow the viewer of the listing to sort, filter, or page through listings.
+
+### Sorting
+
+Users can use the select box to choose how to sort the items in the listing (or in the case of tables, by clicking on the column headings). By default, the sorting control will allow the user to sort by `title`, `date`, or `author`. You can stop this UI from being displayed to the user with the option:
+
+``` yml
+listing:
+  sort-ui: false
+```
+
+You can control which fields are included in the sort list by providing a list of field names in the `sort-ui` key:
+
+``` yaml
+listing:
+  sort-ui: [title, date]
+```
+
+### Filtering
+
+Listings include a filter box positioned on the top right of the listing content. The filter box allows readers to perform a 'typeahead' search of the listing contents. You can disable the filtering control using the option:
+
+``` yaml
+listing:
+  filter-ui: false
+```
+
+By default, if the filtering control is enabling, all fields that are being displayed in the listing will be searchable. If you'd like to limit searching / filtering to specific fields, you can do so by providing a field list in the `filter-ui` key:
+
+``` yaml
+listing:
+  filter-ui: [title, date]
+```
+
+### Pagination
+
+Listings also natively support pagination of the items. The default number of items displayed on a page depends up the listing type:
+
+| Listing Type | Items Per Page |
+|--------------|:--------------:|
+| `default`    |       25       |
+| `table`      |       30       |
+| `grid`       |       18       |
+
+You can control the number of items displayed per page using the option `page-size`:
+
+``` yaml
+listing:
+  page-size: 36
+```
+
+## Listing Location
+
+By default, listings will simply be appended to the main content region of the page. If you'd like to control where a listing appears, set an `id` for that listing and use that `id` on a corresponding div in the page. For example, updating the page used in the previous example to this:
+
+``` yaml
+---
+title: "Listing Example"
+listing:
+  id: sample-listings
+  contents: posts
+  sort: "date desc"
+  type: table
+---
+
+You can review the following documents for additional information:
+
+::: {#sample-listings}
+:::
+
+Learn more about Quarto [here](https://www.quarto.com).
+```
+
+Results in a listing page like:
+
+![](images/listing-example-id.png){fig-alt="Default layout listings page with a footer that reads 'Learn more about Quarto here'."}
+
+## Multiple Listings
+
+You can place any number of listings on a single page. The following would populate two listings on a single page:
+
+``` yaml
+---
+title: Team Documents
+listing: 
+  - id: lab-reports
+    contents: "lab-reports/*.qmd"
+    type: table
+  - id: meeting-notes
+    contents: "meeting-notes/*.qmd"
+    type: table
+---
+
+## Lab Reports
+
+:::{#lab-reports}
+:::
+
+## Meeting Notes
+
+:::{#meeting-notes}
+:::
+```
+
+## YAML Listing Content
+
+In addition to populating a listing with inputs that match one or more globs, you can also provide items explicitly via a YAML file. For example, the following listing:
+
+``` yaml
+---
+title: "Listing Example"
+listing:
+  id: sample-listings
+  contents: 
+    - posts
+    - archived-items.yaml
+  sort: "date desc"
+  type: table
+---
+```
+
+will include all the documents in the `posts` directory, but will also merge in the contents of the `archived-items.yaml` file. The contents of the `archived-items.yaml` file should be a list of items, each of which is a map of field names to values. For example:
+
+``` yaml
+- title: "Archived Item 1"
+  author: Norah Jones
+  date: 2020-01-01
+  path: "archived/archived-item-.html"
+  categories: [archived, technology]
+```
+
+This is useful for cases such as migrating existing content to Quarto - you can begin creating new content as Quarto documents, but still include existing content in your listings by providing their metadata via a yaml file.
+
+## Overview
+
+There are a variety of options available for providing website navigation, including:
+
+-   Using top navigation (a navbar) with optional sub-menus.
+
+-   Using side navigation with a hierarchy of pages.
+
+-   Combining top and side navigation (where top navigation links to different sections of the site with their own side navigation).
+
+In addition, you can add full text search to either the top or side navigation interface.
+
+## Top Navigation
+
+To add top-navigation to a website, add a `navbar` entry to the `website` config in `_quarto.yml`. For example, the following YAML:
+
+``` yaml
+website:
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - talks.qmd
+      - about.qmd 
+```
+
+Results in a navigation bar that looks something like this:
+
+![](images/nav-bar.png){fig-alt="A navigation bar. The title 'My Site' is on the left. To the right of the title are the words 'Home', 'Talks', and 'About'. 'Home' is slightly lighter than the other two words. On the far right side of the navigation bar is a search box."}
+
+Above we use the `left` option to specify items for the left side of the navigation bar. You can also use the `right` option to specify items for the right side.
+
+The text for navigation bar items will be taken from the underlying target document's title. Note that in the above example we provide a custom `text: "Home"` value for `index.qmd`.
+
+You can also create a navigation bar menu by including a `menu` (which is a list of items much like `left` and `right)`. For example:
+
+``` yaml
+left:
+  - text: "More"
+    menu:
+      - talks.qmd
+      - about.qmd 
+```
+
+Here are all of the options available for top navigation:
+
+| Option           | Description                                                                                                                                                                                                                 |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `title`          | Navbar title (uses the `site: title` if none is specified). Use `title: false` to suppress the display of the title on the navbar.                                                                                          |
+| `logo`           | Logo image to be displayed left of the title.                                                                                                                                                                               |
+| `logo-alt`       | Alternate text for the logo image.                                                                                                                                                                                          |
+| `logo-href`      | Target href from navbar logo / title. By default, the logo and title link to the root page of the site (`/index.html`).                                                                                                     |
+| `background`     | Background color ("primary", "secondary", "success", "danger", "warning", "info", "light", "dark", or hex color).                                                                                                           |
+| `foreground`     | Foreground color ("primary", "secondary", "success", "danger", "warning", "info", "light", "dark", or hex color). The foreground color will be used to color navigation elements, text and links that appear in the navbar. |
+| `search`         | Include a search box (true or false).                                                                                                                                                                                       |
+| `tools`          | List of navbar tools (e.g., link to github or twitter, etc.). See [Navbar Tools](#navbar-tools) for details.                                                                                                                |
+| `left` / `right` | Lists of navigation items for left and right side of navbar.                                                                                                                                                                |
+| `pinned`         | Always show the navbar (true or false). Defaults to false, and uses [headroom.js](https://wicky.nillia.ms/headroom.js/) to automatically show the navbar when the user scrolls up on the page.                              |
+| `collapse`       | Collapse the navbar items into a hamburger menu when the display gets narrow (defaults to true).                                                                                                                            |
+| `collapse-below` | Responsive breakpoint at which to collapse navbar items to a hamburger menu ("sm", "md", "lg", "xl", or "xxl", defaults to "lg").                                                                                           |
+| `toggle-position`| The position of the collapsed navbar hamburger menu when in responsive mode ("left" or "right", defaults to "left").                                                                                                        |
+| `tools-collapse` | Collapse tools into the navbar menu when the display becomes narrow.                                                                                                                                                        |
+
+
+Here are the options available for individual navigation items:
+
+| Option       | Description                                                                                                                                  |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| `href`       | Link to file contained with the project or external URL.                                                                                     |
+| `text`       | Text to display for navigation item (defaults to the document `title` if not provided).                                                      |
+| `icon`       | Name of one of the standard [Bootstrap 5 icons](https://icons.getbootstrap.com/) (e.g., "github", "twitter", "share", etc.).                 |
+| `aria-label` | [Accessible label](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label) for the navigation item.           |
+| `rel`        | Value for [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel) attribute. Multiple space-separated values are permitted.  |
+| `target`     | Value for [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target) attribute. E.g., `_blank` to open in a new tab.       |
+| `menu`       | List of navigation items to populate a drop-down menu.                                                                                       |
+
+: {tbl-colwidths="30,70"}
+
+For more information on controlling the appearance of the navigation bar using HTML themes, see [HTML Themes - Navigation](/docs/output-formats/html-themes.qmd#navigation).
+
+### Navbar Tools {#navbar-tools}
+
+{{< include ./_require-1.3.qmd >}}
+
+In addition to traditional navigation, the navbar can also display a set of tools (e.g., social actions, GitHub view or edit actions, etc.) A tool definition consists of an icon name and an href to follow when clicked. For icon, use the icon name of any of the 1,300+ Bootstrap Icons.
+
+For example:
+
+::: {layout="[60,40]"}
+``` yaml
+website:
+  navbar:
+    tools:
+      - icon: twitter
+        href: https://twitter.com
+      - icon: github
+        menu:
+          - text: Source Code
+            href:  https://code.com
+          - text: Report a Bug
+            href:  https://bugs.com
+```
+
+![](images/navbar-tools.png){.border alt="The right section of a Quarto navbar containing a Twitter and Github logo. The Github logo is selected and a menu is underneath it with two items: 'Source Code' and 'Report a Bug"}
+:::
+
+Tools specified for a navigation bar will appear on the right side of the Navbar. If you specify a dark theme or reader mode for your website, the controls for those options will appear with any specified tools.
+
+When the navbar is collapsed into a menu on smaller screens, the tools will be placed at the bottom of the menu.
+
+## Side Navigation {#side-navigation}
+
+If your site consists of more than a handful of documents, you might prefer to use side navigation, which enables you to display an arbitrarily deep hierarchy of articles.
+
+If you are reading this page on a desktop device then you will see the default side navigation display on the left (otherwise you'll see a title bar at the top which you can click or touch to reveal the navigation).
+
+To add side navigation to a website, add a `sidebar` entry to the `website` section of `_quarto.yml`. For example:
+
+``` yaml
+website:
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - text: "Introduction"
+        href: introduction.qmd
+      - section: "Basics"
+        href: basics-summary.qmd
+        contents:
+          - index.qmd
+          - basics-knitr.qmd
+          - basics-jupyter.qmd
+      - section: "Layout"
+        contents:
+          - layout.qmd
+          - layout-knitr.qmd
+          - layout-jupyter.qmd
+      - section: advanced.qmd
+        contents:
+          - raw-code.qmd
+          - custom-theme.qmd
+      - acknowlegment.qmd
+```
+
+There are two styles of side navigation available: "docked" which shows the navigation in a sidebar with a distinct background color, and "floating" which places it closer to the main body text. Here's what the "docked" and "floating" styles look like (respectively):
+
+::: column-screen-inset-shaded
+|                                                                                                                                                                                                                                                                                            |                                                                                                                                                         |
+|:--------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ![](images/nav-side-anchored.png){.preview-image fig-alt="A screenshot of a Quarto document where the sidebar is colored gray."} | ![](images/nav-side-floating.png){fit-alt="A screenshot of a Quarto document where the sidebar has a white background and is closer to the body text."} |
+:::
+
+Here are all of the options available for side navigation:
+
+| Option           | Description                                                                                                                                                                                                                                                        |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `id`             | Optional identifier (used only for hybrid navigation, described below).                                                                                                                                                                                            |
+| `title`          | Sidebar title (uses the project title if none is specified).                                                                                                                                                                                                       |
+| `logo`           | Optional logo image.                                                                                                                                                                                                                                               |
+| `logo-alt`       | Alternate text for the logo image.                                                                                                                                                                                                                                 |
+| `logo-href`      | Target href from sidebar logo. By default, the logo and title link to the root page of the site (`/index.html`).                                                                                                                                                   |
+| `search`         | Include a search box (true or false). Note that if there is already a search box on the top navigation bar it won't be displayed on the sidebar.                                                                                                                   |
+| `tools`          | List of sidebar tools (e.g., link to github or twitter, etc.). See the next section for details.                                                                                                                                                                   |
+| `contents`       | List of navigation items to display (typically top level items will in turn have a list of sub-items).                                                                                                                                                             |
+| `style`          | "docked" or "floating".                                                                                                                                                                                                                                            |
+| `type`           | "dark" or "light" (hint to make sure the text color is the inverse of the background).                                                                                                                                                                             |
+| `background`     | Background color ("none", "primary", "secondary", "success", "danger", "warning", "info", "light", "dark", or "white"). Defaults to "light".                                                                                                                       |
+| `foreground`     | Foreground color ("primary", "secondary", "success", "danger", "warning", "info", "light", "dark", or hex color). The foreground color will be used to color navigation elements, text and links that appear in the sidebar.                                       |
+| `border`         | Whether to show a border on the sidebar. "true" or "false".                                                                                                                                                                                                        |
+| `alignment`      | Alignment ("left", "right", or "center").                                                                                                                                                                                                                          |
+| `collapse-level` | Whether to show sidebar navigation collapsed by default. The default is 2, which shows the top and next level fully expanded (but leaves the 3rd and subsequent levels collapsed).                                                                                 |
+| `pinned`         | Always show a title bar that expands to show the sidebar at narrower screen widths (true or false). Defaults to false, and uses [headroom.js](https://wicky.nillia.ms/headroom.js/) to automatically show the navigation bar when the user scrolls up on the page. |
+
+A single `sidebar` item without an `id` or `title` will result in a global sidebar applied to all pages. A sidebar with an `id` or `title` will only be applied to pages within the contents of the sidebar or pages that specify the sidebar id.
+
+To use a specific sidebar on a page or a group of pages, specify the `sidebar` ID in the front matter of the page or in the `_metadata.yml` file.
+For example, to include the sidebar with `id: tutorials` on a page, add the following to the page's front matter:
+
+```yaml
+sidebar: tutorials
+```
+
+For more information on controlling the appearance of the side navigation using HTML themes, see [HTML Themes - Navigation](/docs/output-formats/html-themes.qmd#navigation). If you need to control the width of the sidebar, see [Page Layout - Grid Customization](/docs/output-formats/page-layout.qmd#grid-customization).
+
+### Auto Generation
+
+Above we describe how to explicitly populate the `contents` of your sidebar with navigation items. You can also automatically generate sidebar navigation from the filesystem. The most straightforward way to do this is to specify the `contents` option as follows:
+
+``` yaml
+sidebar:
+  contents: auto
+```
+
+Using `contents: auto` at the root level will result in all documents in your website being included within the navigation (save for the home page which can be navigated to via the title link). Navigation is constructed using the following rules:
+
+1.  Navigation item titles will be read from the `title` field of documents.
+
+2.  Sub-directories will create sections and will be automatically titled based on the directory name (including adding capitalization and substituting spaces for dashes and underscores). Use an `index.qmd` in the directory to provide an explicit `title` if you don't like the automatic one.
+
+3.  Order is alphabetical (by filename) unless a numeric `order` field is provided in document metadata.
+
+Automatic navigation automatically includes items in sub-directories. If you prefer not to do this, use an explicit `/*` to indicate only the documents in the root directory:
+
+``` yaml
+sidebar:
+  contents: /*
+```
+
+Rather than specifying that all documents should be included, you can also specify a directory name or a glob pattern. For example, the following values for `contents` are all valid (note that the second form for `reports` is non-recursive):
+
+``` yaml
+sidebar:
+  contents: reports
+  
+sidebar:
+  contents: reports/*
+  
+sidebar:
+  contents: "*.ipynb"
+```
+
+Note that in YAML we need to quote any strings that begin with `*` (as we do above for `*.ipynb`).
+
+You can automatically build sidebar `contents` anywhere within a sidebar hierarchy. For example, here we add a section that is automatically generated from a directory:
+
+``` yaml
+sidebar:
+  contents:
+    - about.qmd
+    - contributing.qmd
+    - section: Reports
+      contents: reports
+```
+
+You can also include automatically generated items in the middle of a list of normal items by including an item with an `auto` property. Here we add an `auto` entry in the middle of a list of items:
+
+``` yaml
+sidebar:
+  contents:
+    - about.qmd
+    - contributing.qmd
+    - auto: "*-report.qmd"
+```
+
+Note again that we quote the `auto` entry with a `*` in it so that it is correctly parsed.
+
+### Sidebar Tools
+
+In addition to traditional navigation, the sidebar can also display a set of tools (e.g., social actions, GitHub view or edit actions, etc.) A tool definition consists of an icon name and an href to follow when clicked. For `icon`, use the icon name of any of the 1,300+ [Bootstrap Icons](https://icons.getbootstrap.com).
+
+For example:
+
+::: {layout="[60,40]"}
+``` yaml
+website:
+  sidebar:
+    tools:
+      - icon: twitter
+        href: https://twitter.com
+      - icon: github
+        menu:
+          - text: Source Code
+            href:  https://code.com
+          - text: Report a Bug
+            href:  https://bugs.com
+```
+
+![](images/tools.png){fit-alt="The top section of a Quarto sidebar containing a Twitter and Github logo. The Github logo is selected and a menu is underneath it with two items: 'Source Code' and 'Report a Bug'"}
+:::
+
+## Hybrid Navigation
+
+If you have a website with dozens or even hundreds of pages, you will likely want to use top and side navigation together, where the top navigation links to various sections, each with their own side navigation.
+
+To do this, provide a group of `sidebar` entries and link each group of `sidebar` entries with a `navbar` entry by matching their `title`s and listing the page linked from the `navbar` as the first content in the `sidebar` group. For example, if you are using the [Diátaxis Framework](https://diataxis.fr/) for documentation, you might have separate sections for tutorials, how-to guides, explanations, and reference documents, your page might look like the following.
+
+![](images/nav-bar-hybrid.png){fig-alt="A navigation bar titled 'ProjectX' on the left. To the right of the title are the menu items 'Home', 'Tutorials', 'How-To', 'Fundamentals', and 'Reference'. There is a search bar on the far right side of the navigation bar."}
+
+With hybrid navigation, if then you click on, say, Tutorials, you might land in a page like the following.
+
+![](images/nav-bar-hybrid-sidebar.png){fig-alt="A navigation bar titled 'ProjectX' on the left. To the right of the title are the menu items 'Home', 'Tutorials', 'How-To', 'Fundamentals', and 'Reference'. There is a search bar on the far right side of the navigation bar. The contents of the 'Tutorials' page is shown, with the sidebar showing the items 'Tutorials', 'Tutorial 1', and 'Tutorial 2'."}
+
+To achieve this layout, your site configuration needs to look something like this:
+
+``` yaml
+website:
+  title: ProjectX
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Tutorials"
+        href: tutorials.qmd
+      - text: "How-To"
+        href: howto.qmd
+      - text: "Fundamentals"
+        href: fundamentals.qmd
+      - text: "Reference"
+        href: reference.qmd
+
+  sidebar:
+    - title: "Tutorials"
+      style: "docked"
+      background: light
+      contents:
+        - tutorials.qmd
+        - tutorial-1.qmd
+        - tutorial-2.qmd
+
+    - title: "How-To"
+      contents:
+        - howto.qmd
+        # navigation items
+
+    - title: "Fundamentals"
+      contents:
+        - fundamentals.qmd
+        # navigation items
+
+    - title: "Reference"
+      contents:
+        - reference.qmd
+        # navigation items
+    
+```
+
+Note that the first sidebar definition contains a few options (e.g., `style` and `background`). These options are automatically inherited by the other sidebars.
+
+An alternative approach is to make the `sidebar` entries available from a drop down menu from the `navbar` items they're grouped with. To do this, provide a list of `sidebar` entries and give them each an `id`, which you then use to reference them from the `navbar`.
+
+::: callout-note
+A page that doesn't appear in any sidebar will inherit and display the first sidebar without an `id` or `title` - you can prevent the sidebar from showing on a page by setting `sidebar: false` in its front matter.
+:::
+
+![](images/nav-bar-hybrid-dropdown.png){fig-alt="A navigation bar titled 'ProjectX' on the left. To the right of the title are the menu items 'Home', 'Tutorials', 'How-To', 'Fundamentals', and 'Reference'. 'Home' is in a lighter color than the other menu options. The other menu options have a triangle pointing down next to each one, indicating the existence of a drop-down menu. There is a search bar on the far right side of the navigation bar."}
+
+To achieve this, your site configuration needs to look something like this:
+
+``` yaml
+website:
+  title: ProjectX
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      - sidebar:tutorials
+      - sidebar:howto
+      - sidebar:fundamentals
+      - sidebar:reference
+
+  sidebar:
+    - id: tutorials
+      title: "Tutorials"
+      style: "docked"
+      background: light
+      collapse-level: 2
+      contents: 
+        # navigation items
+        
+    - id: howto
+      title: "How-To"
+      contents:
+        # navigation items
+        
+    - id: fundamentals
+      title: "Fundamentals"
+      contents: :
+        # navigation items
+        
+    - id: reference
+      title: "Reference"
+      contents: 
+        # navigation items
+```
+
+## Breadcrumbs
+
+By default, navigational breadcrumbs are displayed above the page title on each page that is nested deeper than one level in the sidebar navigation. For example, given this `sidebar` definition:
+
+``` .yaml
+website:
+  sidebar:
+    - contents:
+      - section: "Tutorials"
+        contents:
+          - text: "Tutorial Landing"
+            href: tutorials.qmd
+```
+
+The page `tutorials.html` contains the following breadcrumb:
+
+![](images/nav-breadcrumbs.png){.border fig-alt="Screenshot of a webpage. Above the header 'Tutorials' is the linked text 'Tutorials > Tutorial Landing'." width=50%}
+
+You can disable breadcrumbs for a website using the `bread-crumbs` option:
+
+```{.yaml filename="_quarto.yml"}
+website:
+  bread-crumbs: false
+```
+
+You can also disable breadcrumbs on individual pages:
+
+```{.yaml filename="document.qmd"}
+---
+title: Page without breadcrumbs
+bread-crumbs: false
+---
+```
+
+{{< include _page-navigation.md >}}
+
+### Separators
+
+If you include a page separator in the sidebar (either between sections or items), page navigation controls will not appear to continue pagination across the separator. For example, in the following sidebar:
+
+``` yaml
+{{< meta project-type >}}:
+  sidebar:
+    contents:
+      - section: "First Section"
+        contents:
+          - href: document1.qmd
+          - href: document2.qmd
+          - href: document3.qmd
+      - text: "---"
+      - section: "Second Section"
+        contents:
+          - href: document4.qmd
+          - href: document5.qmd
+          - href: document6.qmd
+```
+
+When the user reaches the bottom of document3.qmd, they will see previous navigation to go back to document2.qmd, but they will not see next navigation to continue onto document 4. This behavior is useful when you have sections of contents that don't naturally flow together in sequential order. Use the separator to denote this in the sidebar with a horizontal line and to break up pagination.
+
+## Back to Top
+
+You can include a "Back to top" link at the bottom of documents in a website using the `back-to-top-navigation` option. For example:
+
+``` yaml
+{{< meta project-type >}}:
+  back-to-top-navigation: true
+```
+
+Note that you can disable back to top navigation on a page by page basis by specifying `back-to-top-navigation: false`.
+
+{{< include _footer.md >}}
+
+## Hiding Navigation
+
+For some pages (especially those with a completely custom layout) you can hide navigation altogether (`navbar`, `sidebar`, or both). In these case, add the following to the page front matter:
+
+``` yaml
+# Hides the sidebar on this page
+sidebar: false
+
+# Hides the navbar on this page
+navbar: false
+```
+
+## Reader Mode
+
+If you'd like users to be able to hide the side navigation and table of contents and have a more focused reading experience, you can enabled `reader-mode`. When enabled, a `reader-mode` toggle will appear on the navbar, if present, or on the sidebar. When pressed, the toggle will 'roll up' the sidebar and table of contents.
+
+![](images/reader-mode.png){fig-alt="Reader mode toggle appearing the top navigation."}
+
+To enable `reader-mode`, use the following in your project:
+
+``` yaml
+website:
+  reader-mode: true
+```
+
+## Site Search
+
+You can add site search by including `search: true` in either your `site-navbar` or `site-sidebar` configuration. For example:
+
+``` yaml
+website:
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Basics"
+        contents:
+          - index.qmd
+          - basics-jupyter.md
+        # etc
+```
+
+## GitHub Links
+
+You can add various links (e.g., to edit pages, report issues, etc.) to the GitHub repository where your site source code is hosted. To do this, add a `repo-url` along with one or more actions in `repo-actions`. For example:
+
+``` yaml
+website:
+  repo-url: https://github.com/quarto-dev/quarto-demo
+  repo-actions: [edit, source, issue]
+```
+
+The links will be displayed immediately below the page's table of contents:
+
+![](images/repo-actions.png){fig-alt="A screen shot of a Quarto document. Underneath the page table of contents on the right side are three options: 'Edit this page', 'View source' and 'Report an issue'. There is a Github icon to the left of 'Edit this Page.'"}
+
+There are a couple of additional options that enable you to customize the behavior of repository links:
+
+| Option             | Description                                                                                                |
+|--------------------|------------------------------------------------------------------------------------------------------------|
+| `repo-subdir`      | Subdirectory of repository containing source files (defaults to root directory).                           |
+| `repo-branch`      | Repository branch containing the source files (defaults to `main`)                                         |
+| `issue-url`        | Provide an explicit URL for the 'Report an Issue' action.                                                  |
+| `repo-link-target` | The `target` attribute to use for repo action links. E.g., set to "_blank" to open in a new tab or window. |
+| `repo-link-rel`    | The `rel` attribute to use for repo action links.                                                          | 
+
+: {tbl-colwidths="\[40,60\]"}
+
+If you want to suppress the GitHub links on a specific page, you can set `repo-actions` to `false` in the document YAML:
+
+```{.yaml filename="page.qmd"}
+---
+repo-actions: false
+---
+```
+
+## Redirects
+
+If you rename or move a page on your site, you may want to create redirects from the old URLs so that existing links don't break. You can do this by adding `aliases` from old pages to renamed pages.
+
+For example, let's say you renamed `page.qmd` to `renamed-page.qmd`. You would add the following `aliases` entry to `renamed-page.qmd` to create the redirect:
+
+``` yaml
+---
+title: "Renamed Page"
+aliases:
+  - page.html
+---
+```
+
+This can also be useful for situations where you re-organize content on your site into a different directory hierarchy or break one large article into smaller ones. For this case, you may want to add the URL hash of the section that you have broken into a new page. For example:
+
+``` yaml
+---
+title: "Learning More"
+aliases:
+  - overview.html#learning-more
+---
+```
+
+::: callout-tip
+Depending on where you are deploying your site there may be more powerful tools available for defining redirects based on patterns. For example, Netlify [`_redirects`](https://docs.netlify.com/routing/redirects/) files or [`.htaccess`](https://www.danielmorell.com/guides/htaccess-seo/redirects/introduction-to-redirects) files. Search your web host's documentation for "redirects" to see if any of these tools are available.
+:::
+
+## 404 Pages {#pages-404}
+
+When a browser can't find a requested web page, it displays a [404 error](https://en.wikipedia.org/wiki/HTTP_404) indicating that the file can't be found. Browser default 404 pages can be pretty stark, so you may want to create a custom page with a more friendly message and perhaps pointers on how users might find what they are looking for.
+
+Most web serving platforms (e.g., Netlify, GitHub Pages, etc.) will use a file named `404.html` in the root of your website as a custom error page if you provide it. You can include a custom 404 page in a Quarto website by creating a markdown file named `404.qmd` in the root of your project. For example:
+
+``` markdown
+---
+title: Page Not Found
+---
+
+The page you requested cannot be found (perhaps it was moved or renamed).
+
+You may want to try searching to find the page's new location.
+```
+
+Note that you can use HTML alongside markdown within your `404.qmd` file in order to get exactly the appearance and layout you want.
+
+Your 404 page will appear within the chrome of your site (e.g., fonts, css, layout, navigation, etc.). This is so that users don't feel that they've irrecoverably "left" your site when they get a 404 error. If you don't want this behavior, then provide a `404.html` rather than `404.qmd`.
+
+Here are some examples of how various popular websites handle custom 404 pages: <https://blog.fluidui.com/top-404-error-page-examples/>.
+
+#### Non-Root Site Paths
+
+If your website is served from the root of a domain (e.g., `https://example.com/`) then simply providing a `404.qmd` file as described above is all that's required to create a custom 404 page.
+
+However, if your website is **not** served from the root of a domain then you need to provide one additional bit of configuration to make sure that resources (e.g., your site's CSS) are resolved correctly within 404 pages.
+
+For example, if your site is served from `https://example.com/mysite/` then you'd add the following to your project `website` configuration within `_quarto.yml`:
+
+``` yaml
+website:
+  title: "My Site"
+  site-path: "/mysite/"
+```
+
+Note that if you are already providing a `site-url` (which is required for generation of sitemaps and [social metadata](website-tools.qmd#social-metadata) preview images) then it's enough to simply include the path within the `site-url`:
+
+``` yaml
+website:
+  title: "My Site"
+  site-url: "https://example.com/mysite/"
+```
+
+
+## Overview
+
+Quarto includes support for full text search of websites and books. By default, Quarto will automatically index the contents of your site and make it searchable using a locally built index. You can also configure Quarto search to use a hosted [Algolia](https://www.algolia.com/products/search-and-discovery/hosted-search-api/) index.
+
+## Search Appearance
+
+Search is enabled by default for websites and books. If the site has a navbar the search UI will appear on the navbar, otherwise it will appear on the sidebar. You can control the location of search with the following options:
+
+| Option     | Description                                                                                                 |
+|------------|-------------------------------------------------------------------------------------------------------------|
+| `location` | `navbar` or `sidebar` (defaults to `navbar` if one is present on the page).                                 |
+| `type`     | `overlay` or `textbox` (`overlay` provides a button that pops up a search UI, `textbox` does search inline).|
+
+For example:
+
+``` yaml
+website:
+  search: 
+    location: navbar
+    type: overlay
+```
+
+Note that the above example reflects the default behavior so need not be explicitly specified. Note also that search is enabled by default for websites (you can disable it with `search: false`).
+
+The `overlay` option displays the search UI as follows:
+
+![](images/navbar-overlay.png){.border .column-page-outset-right fig-alt="Quarto page with algolia search overlay in 'detached' mode. The webpage behind the search dialog is darkened, and the search dialog itself has a field for entering input tect, and displays a list of matching documents and preview of their tect below."}
+
+The `textbox` option displays search like this:
+
+![](images/navbar-textbox.png){.border .column-page-outset-right fig-alt="Algolia search with textbox in navbar. The search dialog opens as a dropdown in the right-hand side of the screen as an expansion of the textbox."}
+
+When the search is displayed as a textbox, by default, there is no placeholder text. You can specify placeholder text using the `search-text-placeholder` key of the `language` option (note that this is at the top-level, not inside the `website` option):
+
+::: {layout-ncol="2"}
+``` yaml
+language: 
+  search-text-placeholder: Search
+```
+
+![](images/search-placeholder-text.png){fig-alt="Search box showing the placeholder text 'Search'."}
+:::
+
+## Keyboard Shortcut
+
+In addition to clicking on the search UI, users can activate search using the keyboard shortcuts {{< kbd s >}}, {{< kbd f >}} or {{< kbd / >}}. You can override these shortcuts by specifying the `keyboard-shortcut` option. In this example, search will be activated with {{< kbd ? >}} or {{< kbd H >}}:
+
+``` yaml
+website:
+  search:
+    keyboard-shortcut: ["?", "H"]
+```
+
+## Customizing Results
+
+You can use the following `search` options to customize how search results are displayed:
+
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option             | Description                                                                                                                                                                                                                       |
++====================+===================================================================================================================================================================================================================================+
+| `limit`            | The number of results to display in the search results. Defaults to 20.                                                                                                                                                           |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `collapse-after`   | The number of sections matching a document to show before hiding additional sections behind a 'more matches' link. Defaults to 2.                                                                                                 |
+|                    |                                                                                                                                                                                                                                   |
+|                    | ![](images/collapse-after.png){.border fig-alt="Part of a search result that shows a matching result for the search term, and at the bottom reads '3 more matches in this document'"}                                             |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `copy-button`      | If true, the search textbox will include a small icon that when clicked will copy a url to the search results to the clipboard (this is useful if users would like to share a particular search with results). Defaults to false. |
+|                    |                                                                                                                                                                                                                                   |
+|                    | ![](images/copy-button.png){.border fig-alt="search box with clickable clipboard icon on the right hand side that, if clicked, will copy the resulting url."}                                                                     |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `show-item-context`| Control whether page parents are displayed next to items in search results. Use `tree`, `parent`, `root`, or boolean (if true, `tree` is the default). E.g. `tree` results in "Guide \> Authoring \> Figures":                    |
+|                    |                                                                                                                                                                                                                                   |
+|                    | ![](images/search-item-context.png){.border fig-alt="search box with navigational context shown above the title of the first result." width="260"}                                                                                |
++--------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+## Using Algolia
+
+In addition to the built-in search capability, Quarto websites can also be configured to use an external Algolia search index. When rendering a website, Quarto will produce a JSON file (`search.json` in the site output directory) which can be used to update an Algolia index. For more on creating indexes with Algolia, see [Send and Update Your Data](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/) using Algolia.
+
+### Basic Configuration
+
+In order for Quarto to connect to your Algolia index, you need to provide basic connection information in your Quarto project file. You can find this connection information for your Algolia index in the Dashboard in the [API Keys](https://www.algolia.com/doc/guides/security/api-keys/) section. The following basic connection information is required:
+
++-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                | Description                                                                                                                                                                                      |
++=======================+==================================================================================================================================================================================================+
+| `index-name`          | The name of the index to use when performing a search.                                                                                                                                           |
++-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `application-id`      | The unique ID used by Algolia to identify your application.                                                                                                                                      |
++-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `search-only-api-key` | The Search-Only API key to use to connect to Algolia.                                                                                                                                            |
+|                       |                                                                                                                                                                                                  |
+|                       | ::: callout-important                                                                                                                                                                            |
+|                       | Be sure to use the **Search Only** API key, which provides read only access to your index and is safe to include in project files. Never use your Admin API key in a Quarto document or project. |
+|                       | :::                                                                                                                                                                                              |
++-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `show-logo`           | Displays a 'search by Algolia' logo in the footer of search results.                                                                                                                             |
++-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+For example:
+
+``` yaml
+website:
+  search:
+    algolia:
+      index-name: <my-index-name>
+      application-id: <my-application-id>
+      search-only-api-key: <my-search-only-api-key>
+```
+
+### Custom Index Schema
+
+If you are simply using the `search.json` file generated by Quarto as your Algolia index, the above configuration information is all that is required to set up search using Algolia.
+
+However, if you are generating an index in some other fashion, you may need to provide additional information to specify which fields Quarto should use when searching. You do this by including an `index-fields` key under `algolia` which specifies the names of specific fields in your index.
+
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option    | Description                                                                                                                                                                                                                |
++===========+============================================================================================================================================================================================================================+
+| `href`    | The field to use to read the URL to this index entry. The user will be navigated to this URL when they select the matching search result. Note that Quarto groups results by URL (not including the anchor when grouping). |
+|           |                                                                                                                                                                                                                            |
+|           | This field is required (either as an existing field in your index or with a mapped field name).                                                                                                                            |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `title`   | The field to use to read the title of the index entry.                                                                                                                                                                     |
+|           |                                                                                                                                                                                                                            |
+|           | This field is required (either as an existing field in your index or with a mapped field name).                                                                                                                            |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `text`    | The field to use to read the text of the index entry.                                                                                                                                                                      |
+|           |                                                                                                                                                                                                                            |
+|           | This field is required (either as an existing field in your index or with a mapped field name).                                                                                                                            |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `section` | The field to use to read the section of the index entry. Quarto groups results by URL and uses the section information (if present) to show matching subsections of the same document.                                     |
+|           |                                                                                                                                                                                                                            |
+|           | This field is optional.                                                                                                                                                                                                    |
++-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Any or all of the above may be specified in your Quarto project file. For example:
+
+``` yaml
+website:
+  search:
+    algolia:
+      index-name: <my-index-name>
+      application-id: <my-application-id>
+      search-only-api-key: <my-search-only-api-key>
+      index-fields:
+        href: url
+        section: sec
+        text: body
+```
+
+### Algolia Insights
+
+By default, Algolia provides a number of insights based upon the performance of your Algolia search. In addition, it may be helpful to understand more detailed tracking of the results that are viewed and clicked. You can enable click and conversion tracking using Algolia by setting the `analytics-events` to true:
+
+``` yaml
+website:
+  search:
+    algolia:
+      index-name: <my-index-name>
+      application-id: <my-application-id>
+      search-only-api-key: <my-search-only-api-key>
+      analytics-events: true
+```
+
+You can confirm that events are being properly sent to Algolia using the [Event Debugger](https://www.algolia.com/events/debugger). Note that the click and conversion events use cookies to maintain an anonymous user identifier---if [cookie consent](website-tools.qmd#cookie-consent) is enabled, search events will only be enabled if cookie consent has been granted.
+
+### Advanced Configuration
+
+In addition to the above configuration, you may also pass Algolia specific parameters when executing a search. For example, you may want to limit results to a particular facet or set of tags. To specify parameters, add the `params` key to your `algolia` yaml and provide params. For information about available parameters, see Algolia's [Search API Parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/).
+
+For example:
+
+``` yaml
+website:
+  search:
+    algolia:
+      index-name: <my-index-name>
+      application-id: <my-application-id>
+      search-only-api-key: <my-search-only-api-key>
+      index-fields:
+        href: url
+        section: sec
+        text: body
+      params:
+        tagFilters: ['tag1','tag2']
+```
+
+## Disabling/Forcing Search
+
+You can disable search for an individual document by adding `search: false` to the document metadata. For example:
+
+``` yaml
+---
+title: "My Document"
+search: false
+---
+```
+
+If you'd like to disable search support for an entire website, you can do so by including the following in your `_quarto.yml` file:
+
+``` yaml
+website:
+  search: false
+```
+
+### Forcing the inclusion of individual elements
+
+If you need elements from the document to be included in the search that otherwise wouldn't, add the `quarto-include-in-search-index` class to the element.
+To include only a portion of a paragraph, etc, wrap the text in a span or a div and add the class to the element.
+
+
+## Headers & Footers
+
+You can provide standard headers and footers for pages on your site. These can apply to the main document body or to the sidebar. Available options include:
+
++-----------------+---------------------------------------------------------------------------------------------+
+| Value           | Description                                                                                 |
++=================+=============================================================================================+
+| `body-header`   | Markdown to insert at the beginning of each page's body (below the title and author block). |
++-----------------+---------------------------------------------------------------------------------------------+
+| `body-footer`   | Markdown to insert below each page's body.                                                  |
++-----------------+---------------------------------------------------------------------------------------------+
+| `margin-header` | Markdown to insert above right margin content (i.e. table of contents).                     |
++-----------------+---------------------------------------------------------------------------------------------+
+| `margin-footer` | Markdown to insert below right margin content.                                              |
++-----------------+---------------------------------------------------------------------------------------------+
+
+For example (included in \_quarto.yml) :
+
+``` yaml
+body-header: | 
+  This page brought to you by <https://example.com>
+margin-header: |
+  ![Logo image](/img/logo.png)
+```
+
+Note that links to figures should start with a `/` to work on each level of the website.
+
+## Announcement Bar
+
+![Captured view of the Quarto website, showcasing the dynamic announcement bar feature.](images/website-announcement.png){.border fig-alt="Screenshot showing an announcement bar on Quarto website with an 'info-circle' icon, a dismiss button, and a primary colour type. The content reads 'Alert - this is some information that you should pay attention to'."}
+
+Add an announcement to display a prominent, customizable bar at the top of your website that grabs visitors' attention.
+It's perfect for highlighting important information, such as alerts, promotions, or updates.
+You can set an icon, make it dismissable, and even include formatted content like bold text.
+The announcement bar can be positioned to fit seamlessly within your site's layout (*e.g.*, `below-navbar` or `above-navbar`), ensuring the message is both impactful and integrated.
+
+Here's an example of how you might configure it:
+
+```{.yaml filename="_quarto.yml"}
+website:
+  announcement: 
+    icon: info-circle # <1>
+    dismissable: true # <2>
+    content: "**Alert** - this is some information that you should pay attention to" # <3>
+    type: primary # <4>
+    position: below-navbar # <5>
+```
+
+1. `icon` - The Bootstrap icon to display in the announcement bar. You can choose from any of the [Bootstrap icons](https://icons.getbootstrap.com/).
+2. `dismissable` - Whether the announcement bar can be dismissed by the user. It can be `true` or `false`.
+3. `content` - The content of the announcement bar. You can use markdown to format the content.
+4. `type` - The type of the announcement bar. It can be one of `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light`, `dark`.
+5. `position` - The position of the announcement bar. It can be one of `below-navbar` or `above-navbar`.
+
+## Social Metadata
+
+You can enhance your website and the content that you publish to it by including additional types of metadata, including:
+
+-   Favicon
+-   Twitter Cards
+-   Open Graph
+
+{{< include ./_book-vs-website-key.qmd >}}
+
+As you read the documentation below, keep in mind to substitute `book` for `website` if you are authoring a book.
+
+### Favicon
+
+The favicon for your site provides an icon for browser tabs and other sites that link to yours. Use the `favicon` option to provide the path to a favicon image. For example:
+
+``` yaml
+website:
+  favicon: logo.png
+```
+
+### Twitter Cards
+
+[Twitter Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards) provide an enhanced appearance when someone links to your site on Twitter. When a link to your site is included in a Tweet, Twitter automatically crawls your site and fetches any Twitter Card metadata. To enable the automatic generation of Twitter Card metadata for your site, you can add the following to your `_quarto.yml` configuration file:
+
+``` yaml
+website:
+  twitter-card: true
+```
+
+In this case, Quarto will automatically generate a title, description, and preview image for the content. For more information about how Quarto finds preview images, see [Preview Images].
+
+You may also provide additional metadata to be used when generating the Twitter Card, including:
+
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Key           | Description                                                                                                                                                                                                                                                                            |
++===============+========================================================================================================================================================================================================================================================================================+
+| `title`       | The title of the page. Quarto will automatically use the `title` metadata from the page metadata. If you'd like you can override this just for the Twitter Card by including a `title` in the `twitter-card` metadata.                                                                 |
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `description` | A short description of the content. Quarto will automatically use the `description` metadata from the page metadata. If you'd like you can override this just for the Twitter Card by including a `description` in the `twitter-card` metadata.                                        |
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image`       | The path to a preview image for this content.  By default, Quarto will use the `image` value from the document metadata, or if that isn't specified, the `image` value from the `website:` metadata.                                                                                   |
+|               | If you provide an image, you may also optionally provide an `image-width` and `image-height` to improve the appearance of your Twitter Card.                                                                                                                                           |
+|               |                                                                                                                                                                                                                                                                                        |
+|               | If `image` is not provided, Quarto will automatically attempt to locate a preview image. For more information, see [Preview Images].                                                                                                                                                   |
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `card-style`  | Either `summary` or `summary_large_image`. If this is not provided, the best style will automatically selected based upon other metadata. You can learn more about Twitter Card styles [here](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards). |
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `creator`     | `@username` of the content creator. Note that strings with special characters such as `@` must be quoted in yaml.                                                                                                                                                                      |
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `site`        | `@username` of website. Note that strings with special characters such as `@` must be quoted in yaml.                                                                                                                                                                                  |
++---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Here is a more comprehensive example of specifying Twitter Card metadata in a `quarto.yml` file:
+
+``` yaml
+website:
+  twitter-card:
+    creator: "@dragonstyle"
+    site: "@rstudio"
+```
+
+Quarto will automatically merge global metadata found in the `website: twitter-card` key with any metadata provided in the document itself in the `twitter-card` key. This is useful when you need to specify a mix of global options (for example, `site`) with per document options such as `title` or `image`.
+
+### Open Graph
+
+The [Open Graph protocol](http://ogp.me/) is a specification that enables richer sharing of links to articles on the web. It will improve the previews of your content when a link to it is pasted into applications like Slack, Discord, Facebook, Linkedin, and more. To enable the automatic generation of Open Graph metadata for your content, include the following in your `_quarto.yml` configuration file:
+
+``` yaml
+website:
+  open-graph: true
+```
+
+In this case, Quarto will automatically generate a title, description, and preview image for the content. For more information about how Quarto finds preview images, see [Preview Images].
+
+You may also provide additional metadata to be used when generating the Open Graph metadata, including:
+
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Key           | Description                                                                                                                                                                                                                                          |
++===============+======================================================================================================================================================================================================================================================+
+| `title`       | The title of the page. Quarto will automatically use the `title` metadata from the page metadata. If you'd like you can override this just for the Open Graph metadata by including a `title` in the `open-graph` metadata.                          |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `description` | A short description of the content. Quarto will automatically use the `description` metadata from the page metadata. If you'd like you can override this just for the Open Graph metadata by including a `description` in the `open-graph` metadata. |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `image`       | The path to a preview image for this content.  By default, Quarto will use the `image` value from the document metadata, or if that isn't specified, the `image` value from the `website:` metadata.                                                 |
+|               | If you provide an image, you may also optionally provide an `image-width` and `image-height` to improve the appearance of your Twitter Card.                                                                                                         |
+|               |                                                                                                                                                                                                                                                      |
+|               | If `image` is not provided, Quarto will automatically attempt to locate a preview image. For more information, see [Preview Images].                                                                                                                 |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `locale`      | The locale that the Open Graph metadata is marked up in.                                                                                                                                                                                             |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `site-name`   | The name which should be displayed for the overall site. If not explicitly provided in the `open-graph` metadata, Quarto will use the `website:title` value.                                                                                         |
++---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Here is a more comprehensive example of specifying Open Graph metadata in a `quarto.yml` file:
+
+``` yaml
+website:
+  open-graph:
+    locale: es_ES
+    site-name: Quarto
+```
+
+Quarto will automatically merge global metadata found in the `website: open-graph` key with any metadata provided in the document itself in the `open-graph` key. This is useful when you need to specify a mix of global options (for example, `site`) with per document options such as `title` or `image`.
+
+### Preview Images
+
+You can specify a preview image for your article in several different ways:
+
+1.  **Full URL**: You can explicitly provide a full url to the preview image using the `image` field in the appropriate metadata. For example:
+
+    ``` {.yaml filename="page.qmd"}
+    title: "My Document"
+    image: "https://quarto.org/docs/websites/images/tools.png"
+    ```
+
+2.  **Relative Path**: You may provide a document relative path to an image (such as `images/preview-code.png`) or a project relative path to an image (such as `/images/preview-code.png`). If you provide a relative path such as this, you must also provide a `site-url` in your site's metadata. For example in your `_quarto.yml` configuration file:
+
+    ``` {.yaml filename="_quarto.yml"}
+    website:
+      site-url: "https://www.quarto.org"
+    ```
+
+    and in your document front matter:
+
+    ``` {.yaml filename="page.qmd"}
+    title: "My Document"
+    image: "/docs/websites/images/tools.png"
+    ```
+
+3.  **Image Class**: Any image that is being rendered in the page may also be used as a preview image by giving it the class name `preview-image`. Quarto will select the first image it finds with this class. For example, the following image will be used as the preview image when included on a page:
+
+    ``` markdown
+    ![](images/tools.png){.preview-image}
+    ```
+
+    If you label an image with this class, you must also provide a `site-url` in your site's metadata.
+
+4.  **Image Filename**: If none of the above ways of specifying a preview image have been used, Quarto will attempt to find a preview image by looking for an image included in the rendered document with one of the following names: `preview.png`, `feature.png`, `cover.png`, or `thumbnail.png`.
+
+If you'd like to provide a default that is used when pages specify a preview image in none of the above ways, specify it at the site level:
+
+```{.yaml filename="_quarto.yml"}
+website:
+  image: "https://quarto.org/quarto-dark-bg.jpeg"
+```
+
+If you would like to prevent preview image discovery on a page, set `image` to `false`:
+
+```{.yaml filename="page.qmd"}
+---
+image: false
+---
+```
+
+## Google Analytics
+
+You can add [Google Analytics](https://analytics.google.com/) to your website by adding a `google-analytics` key to your `_quarto.yml` file. In its simplest form, you can just pass your Google Analytics tracking Id (e.g. `UA-xxxxxxx`) or Google Tag measurement Id (e.g. `G-xxxxxxx`) like:
+
+``` yaml
+website:
+  google-analytics: "UA-XXXXXXXX"
+```
+
+Quarto will use the key itself to determine whether to embed Google Analytics (analytics.js) or Google Tags (gtag) as appropriate.
+
+In addition to this basic configuration, you can exercise more fine grained control of your site analytics using the following keys.
+
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Key            | Description                                                                                                                                                                                         |
++================+=====================================================================================================================================================================================================+
+| `tracking-id`  | The Google tracking Id or measurement Id of this website.                                                                                                                                           |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `storage`      | **cookies -** Use cookies to store unique user and session identification (default).                                                                                                                |
+|                |                                                                                                                                                                                                     |
+|                | **none -** Do not use cookies to store unique user and session identification.                                                                                                                      |
+|                |                                                                                                                                                                                                     |
+|                | For more about choosing storage options see [Storage].                                                                                                                                              |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `anonymize-ip` | Anonymize the user ip address. For more about this feature, see [IP Anonymization (or IP masking) in Google Analytics](https://support.google.com/analytics/answer/2763052?hl=en).                  |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `version`      | The version number of Google Analytics to use. Currently supports either 3 (for analytics.js) or 4 (for gtag). This is automatically detected based upon the `tracking-id`, but you may specify it. |
++----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+: {tbl-colwidths="[20,80]"}
+
+### Storage
+
+Google Analytics uses cookies to distinguish unique users and sessions. If you choose to use cookies to store this user data, you should consider whether you need to enable [Cookie Consent] in order to permit the viewer to control any tracking that you enable.
+
+If you choose `none` for storage, this will have the following effects:
+
+-   For Google Analytics v3 (analytics.js)\
+    No tracking cookies will be used. Individual page hits will be properly tracked, enabling you to see which pages are viewed and how often they are viewed. Unique user and session tracking will not report data correctly since the tracking cookies they rely upon are not set.
+
+-   For Google Tags (gtag)\
+    User consent for ad and analytics tracking cookies will be withheld. In this mode, Google Analytics will still collect user data without the user identification, but that data is currently not displayed in the Google Analytics reports.
+
+## Cookie Consent
+
+Quarto includes the ability to request cookie consent before enabling scripts that set cookies, using [Cookie Consent](https://www.cookieconsent.com).
+
+The user's cookie preferences will automatically control [Google Analytics] (if enabled) and can be used to control custom scripts you add as well (see [Custom Scripts and Cookie Consent]). You can enable the default request for cookie consent using the following:
+
+``` yaml
+website:
+  cookie-consent: true
+```
+
+You can further customize the appearance and behavior of the consent using the following:
+
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Key          | Description                                                                                                                                                                          |
++==============+======================================================================================================================================================================================+
+| `type`       | The type of consent that should be requested, using one of these two values:                                                                                                         |
+|              |                                                                                                                                                                                      |
+|              | **implied -** (default) This will notify the user that the site uses cookies and permit them to change preferences, but not block cookies unless the user changes their preferences. |
+|              |                                                                                                                                                                                      |
+|              | **express -** This will block cookies until the user expressly agrees to allow them (or continue blocking them if the user doesn't agree).                                           |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `style`      | The style of the consent banner that is displayed:                                                                                                                                   |
+|              |                                                                                                                                                                                      |
+|              | **simple -** (default) A simple dialog in the lower right corner of the website.                                                                                                     |
+|              |                                                                                                                                                                                      |
+|              | **headline -** A full width banner across the top of the website.                                                                                                                    |
+|              |                                                                                                                                                                                      |
+|              | **interstitial -** A semi-transparent overlay of the entire website.                                                                                                                 |
+|              |                                                                                                                                                                                      |
+|              | **standalone -** An opaque overlay of the entire website.                                                                                                                            |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `palette`    | Whether to use a dark or light appearance for the consent banner:                                                                                                                    |
+|              |                                                                                                                                                                                      |
+|              | **light -** A light colored banner.                                                                                                                                                  |
+|              |                                                                                                                                                                                      |
+|              | **dark -** A dark colored banner.                                                                                                                                                    |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `language`   | The language to be used when displaying the cookie consent prompt specified using an IETF language tag.                                                                              |
+|              | If not specified, the document language will be used.                                                                                                                                |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `policy-url` | The url to the website's cookie or privacy policy.                                                                                                                                   |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `prefs-text` | The text to display for the cookie preferences link in the website footer.                                                                                                           |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+: {tbl-colwidths="[20,80]"}
+
+A custom example might look more like:
+
+``` yaml
+website:
+  cookie-consent:
+    type: express
+    style: headline
+    palette: dark
+  google-analytics:
+    tracking-id: "G-XXXXXXX"
+    anonymize-ip: true
+```
+
+### Cookie Preferences
+
+In addition to requesting consent when a new user visits your website, Cookie Consent will also add a cookie preferences link to the footer of the website. You can control the text of this link using `prefs-text`. If you would rather position this link yourself, just add a link with the id `#open_preferences_center` to the website and Cookie Consent will not add the preferences link to the footer. For example:
+
+``` markdown
+Change [cookie preferences]{#open_preferences_center}
+```
+
+### Custom Scripts and Cookie Consent
+
+Cookie Consent works by preventing the execution of scripts unless the user has expressed their consent. To control your custom scripts using Cookie Consent:
+
+1.  Insert script tags as `type='text/plain'` (when the user consents, the type will be switched to `text/javascript` and the script will be executed).
+
+<!-- -->
+
+2.  Add a `cookie-consent` attribute to your script tag, setting it one of the following 4 levels:
+
+    +----------------------+------------------------------------------------------------------------------------------------------------------------+
+    | Level                | Description                                                                                                            |
+    +======================+========================================================================================================================+
+    | `strictly-necessary` | Strictly scripts are loaded automatically and cannot be disabled by the user.                                          |
+    +----------------------+------------------------------------------------------------------------------------------------------------------------+
+    | `functionality`      | Scripts that are required for basic functionality of the website, for example, remembering a user language preference. |
+    +----------------------+------------------------------------------------------------------------------------------------------------------------+
+    | `tracking`           | Scripts that are used to track users, for example [Google Analytics].                                                  |
+    +----------------------+------------------------------------------------------------------------------------------------------------------------+
+    | `targeting`          | Scripts that are used for the purpose of advertising to ad targeting, for example Google AdSense remarketing.          |
+    +----------------------+------------------------------------------------------------------------------------------------------------------------+
+
+An example script that is used for user tracking would look like:
+
+``` javascript
+<script type="text/plain" cookie-consent="tracking">
+
+// My tracking JS code here
+
+</script>
+```
+
+## Site Resources
+
+Besides input and configuration files, your site likely also includes a variety of resources (e.g. images) that you will want to publish along with your site. Quarto will automatically detect any files that you reference within your site and copy them to the output directory (e.g. `_site`).
+
+Quarto also recognizes the following files and copies them to your output directory: 
+
+* `404.html`, one option for providing a [404 Page](/docs/websites/website-navigation.qmd#pages-404)
+* `robots.txt`, a file specified by the [Robots Exclusion Protocol](https://datatracker.ietf.org/doc/html/rfc9309){.external} that tells search engine crawlers which pages or files on your website they can or cannot access
+* `_redirects`, a file used by some publishing providers to provide page redirects, e.g. [Netlify](https://docs.netlify.com/routing/redirects/#syntax-for-the-redirects-file){.external}
+* `CNAME`, a file used by some publishing providers to specify a custom domain, e.g. [GitHub Pages](/docs/publishing/github-pages.qmd#custom-domain)
+* `.nojekyll`, a file used by GitHub pages to bypass building with Jekyll, e.g. when [publishing from `docs/`](/docs/publishing/github-pages.qmd#render-to-docs)
+
+If this auto-detection fails for any reason, or if you want to publish a file not explicitly linked to from within your site, you can add a `resources` entry to your configuration. For example, here we specify that we want to include all Excel spreadsheets within the project directory as part of the website:
+
+``` {.yaml .yml}
+project:
+  type: website
+  resources: 
+    - "*.xlsx"
+```
+
+Note that the `*.xlsx` value is quoted: this is because YAML requires that strings that begin with non-alphanumeric characters be quoted.
+
+You can also add a `resources` metadata value to individual files. For example:
+
+``` yaml
+title: "My Page"
+resources:
+  - "sheet.xlsx"
+```
+
+Images are the most commonly used type of resource file. If you have global images (e.g. a logo) that you want to reference from various pages within your site, you can use a site-absolute path to refer to the images, and it will be automatically converted to a relative path during publishing. For example:
+
+``` markdown
+![](/images/logo.png)
+```
+
+## Dark Mode
+
+Quarto websites can support both a light and dark mode. For example, you may use the `flatly` and `darkly` themes (which are designed to be used in tandem as dark and light appearances) as:
+
+``` yaml
+theme:
+  light: flatly
+  dark: darkly
+```
+
+For more about selecting the dark and light themes for your website, see [Dark Mode](/docs/output-formats/html-themes.qmd#dark-mode).
+
+::: column-page-outset
++--------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
+| Light                                                                                                        | Dark                                                                                                      |
++==============================================================================================================+===========================================================================================================+
+| ![](images/site-light.png){fig-alt="A Quarto sidebar showing a light theme. The 'Dark mode' toggle is off."} | ![](images/site-dark.png){fig-alt="A Quarto sidebar showing a dark theme. The 'Dark mode' toggle is on."} |
++--------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
+:::
+
+When enabled, a toggle that allows your reader to control the appearance of the website will appear. The toggle will automatically be added to the website navigation as follows:
+
+1.  If a navbar has been specified, the toggle will appear in the top right corner of the nav bar.
+2.  If there is no navbar present, but a sidebar has been specified, the toggle will appear in the same location that the sidebar tools appears (adjacent to the title or logo in the sidebar).
+3.  If there is no navbar or sidebar present, the toggle will appear in the top right corner of the page.
