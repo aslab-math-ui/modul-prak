@@ -262,7 +262,15 @@ window.Quarto = {
 <h1>K-Means Clustering</h1>
 <p>K-Means merupakan salah satu metode clustering yang mempartisi data ke dalam bentuk satu atau lebih cluster/kelompok. Pada K-Means, data dengan karakteristik yang serupa akan dikelompokkan ke dalam satu cluster dan data yang memiliki karakteristik berbeda akan dikelompokkan ke dalam cluster lain. K-means clustering menggunakan rata-rata dan jarak antara data dan centroid untuk menentukan kluster.</p>
 <p><strong>Langkah-Langkah:</strong></p>
-<p>Misalkan kita memiliki dataset <span class="math inline">\(X=\{x_1, x_2,..., x_n\}\subset\mathbb{R}^d\)</span>. 1. Tentukan jumlah <span class="math inline">\(k\)</span> (banyak cluster) 2. Inisialisasi centroid untuk setiap cluster secara acak, misalkan <span class="math inline">\(\mu_1, \mu_2, ..., \mu_k\in \mathbb{R}^d\)</span> 3. menghitung jarak antara setiap data dan centroid dengan jarak euclidean <span class="math display">\[ \|x_i-\mu_j\|^2 = \sum_{m=1}^d (x_{im}-\mu_{jm})^2,\hspace{3mm} \forall i = 1,2,..., n,\hspace{2mm} j = 1,2,...,k\]</span> 4. Assign data ke dalam cluster dengan jarak antar data tersebut ke centroid paling dekat <span class="math display">\[c_i := \arg\min_j \|x_i-\mu_j\|^2\hspace{3mm}\forall i=1,2,...,n\]</span> 5. Menentukan centroid baru untuk setiap cluster dengan menjumlahkan semua nilai pada cluster yang sama dibagi jumlah data pada cluster tersebut <span class="math display">\[\mu_j := \frac{1}{N_j}\sum_{\substack{i=1\\c_i=j}}^{N_j} x_i\hspace{3mm}\forall j=1,2,..., k\]</span> dengan <span class="math inline">\(N_j=\)</span> banyaknya data di cluster <span class="math inline">\(j\)</span>, 6. Ulangi langkah 3 - 5 hingga tidak ada data yang berpindah ke cluster lain</p>
+<p>Misalkan kita memiliki dataset <span class="math inline">\(X=\{x_1, x_2,..., x_n\}\subset\mathbb{R}^d\)</span>.</p>
+<ol type="1">
+<li>Tentukan jumlah <span class="math inline">\(k\)</span> (banyak cluster)</li>
+<li>Inisialisasi centroid untuk setiap cluster secara acak, misalkan <span class="math inline">\(\mu_1, \mu_2, ..., \mu_k\in \mathbb{R}^d\)</span></li>
+<li>menghitung jarak antara setiap data dan centroid dengan jarak euclidean <span class="math display">\[ \|x_i-\mu_j\|^2 = \sum_{m=1}^d (x_{im}-\mu_{jm})^2,\hspace{3mm} \forall i = 1,2,..., n,\hspace{2mm} j = 1,2,...,k\]</span></li>
+<li>Assign data ke dalam cluster dengan jarak antar data tersebut ke centroid paling dekat <span class="math display">\[c_i := \arg\min_j \|x_i-\mu_j\|^2\hspace{3mm}\forall i=1,2,...,n\]</span></li>
+<li>Menentukan centroid baru untuk setiap cluster dengan menjumlahkan semua nilai pada cluster yang sama dibagi jumlah data pada cluster tersebut <span class="math display">\[\mu_j := \frac{1}{N_j}\sum_{\substack{i=1\\c_i=j}}^{N_j} x_i\hspace{3mm}\forall j=1,2,..., k\]</span> dengan <span class="math inline">\(N_j=\)</span> banyaknya data di cluster <span class="math inline">\(j\)</span>,</li>
+<li>Ulangi langkah 3 - 5 hingga tidak ada data yang berpindah ke cluster lain</li>
+</ol>
 <section id="import-module" class="level2">
 <h2 class="anchored" data-anchor-id="import-module">Import Module</h2>
 <div id="cell-9" class="cell" data-execution_count="2">
@@ -907,18 +915,23 @@ memory usage: 501.3 KB</code></pre>
 <h3 class="anchored" data-anchor-id="metode-silhouete-untuk-mencari-k-optimal">Metode Silhouete Untuk Mencari k Optimal</h3>
 <p>Nilai Silhouette mengukur seberapa mirip sebuah titik dengan klasternya sendiri (kohesi) dibandingkan dengan klaster lain (pemisahan). Kisaran nilai Silhouette adalah antara +1 dan -1. Nilai yang tinggi diinginkan dan mengindikasikan bahwa titik tersebut ditempatkan pada klaster yang benar. Jika banyak titik yang memiliki nilai Silhouette negatif, hal ini dapat mengindikasikan bahwa kita telah membuat terlalu banyak atau terlalu sedikit cluster. Untuk setiap data point $x_i $, definisikan:</p>
 <ul>
-<li>$ a(i)$: rata-rata jarak antara $ x_i $ dan semua titik lain dalam <strong>cluster yang sama</strong>.</li>
-<li><span class="math inline">\(b(i)\)</span>: <strong>rata-rata jarak minimum</strong> dari $ x_i $ ke semua titik dari <strong>cluster terdekat (bukan miliknya)</strong>.</li>
+<li><span class="math inline">\(a(i)\)</span>: rata-rata jarak antara <span class="math inline">\(x_i\)</span> dan semua titik lain dalam <strong>cluster yang sama</strong>.</li>
+<li><span class="math inline">\(b(i)\)</span>: <strong>rata-rata jarak minimum</strong> dari <span class="math inline">\(x_i\)</span> ke semua titik dari <strong>cluster terdekat (bukan miliknya)</strong>.</li>
 </ul>
 <p>Lalu <strong>silhouette coefficient</strong> dari <span class="math inline">\(x_i\)</span> adalah:</p>
 <p><span class="math display">\[
 s(i) = \frac{b(i) - a(i)}{\max\{a(i), b(i)\}} \in [-1, 1]
 \]</span></p>
-<p>Interpretasi: - $ s(i) $: $ x_i $ berada dalam cluster yang <strong>kompak dan jauh dari cluster lain</strong>. - $ s(i) $: $ x_i $ berada <strong>dekat dengan batas antara dua cluster</strong>. - $ s(i) &lt; 0 $: $x_i $ <strong>salah tempat</strong> (lebih dekat ke cluster lain daripada cluster-nya sendiri).</p>
+<p>Interpretasi:</p>
+<ul>
+<li><span class="math inline">\(s(i) \approx 1\)</span>: <span class="math inline">\(x_i\)</span> berada dalam cluster yang <strong>kompak dan jauh dari cluster lain</strong>.</li>
+<li><span class="math inline">\(s(i) \approx 0\)</span>: <span class="math inline">\(x_i\)</span> berada <strong>dekat dengan batas antara dua cluster</strong>.</li>
+<li><span class="math inline">\(s(i) &lt; 0\)</span>: <span class="math inline">\(x_i\)</span> <strong>salah tempat</strong> (lebih dekat ke cluster lain daripada cluster-nya sendiri).</li>
+</ul>
 <p>Untuk keseluruhan data: <span class="math display">\[
 S(k) = \frac{1}{n} \sum_{i=1}^n s(i)
 \]</span></p>
-<p>Nilai $S(k) $ dihitung untuk berbagai nilai $ k $. Nilai $ k $ dengan <strong>rata-rata silhouette terbesar</strong> dianggap optimal.</p>
+<p>Nilai <span class="math inline">\(S(k)\)</span> dihitung untuk berbagai nilai <span class="math inline">\(k\)</span>. Nilai <span class="math inline">\(k\)</span> dengan <strong>rata-rata silhouette terbesar</strong> dianggap optimal.</p>
 <div id="cell-44" class="cell" data-execution_count="93">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
