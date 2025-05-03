@@ -1,0 +1,1672 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Sesi 1: Praktikum Kalkulus\"\n",
+        "description: \"Offline di Departemen Matematika\"\n",
+        "date: 11/09/2024\n",
+        "page-navigation: true\n",
+        "format: html\n",
+        "engine: jupyter\n",
+        "jupyter: \n",
+        "  kernelspec:\n",
+        "    name: \"wolframlanguage13.1\"\n",
+        "    language: \"wolfram\"\n",
+        "    display_name: \"Wolfram Language 13.1\"\n",
+        "---\n",
+        "\n",
+        "\n",
+        "Kembali ke [MIPA Open House](./mipa_open_house.qmd)\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "\n",
+        "## *Recap* apa yang sudah dibahas\n",
+        "\n",
+        "Terima kasih banyak sudah mengikuti *(preview)* Praktikum Kalkulus di Departemen Matematika FMIPA UI, sebagai bagian dari rangkaian acara MIPA Open House tahun 2024, ya!\n",
+        "\n",
+        "Halaman modul praktikum ini lebih detail daripada apa yang sempat kita bahas tadi siang. Apabila misalnya kalian hanya ingin melihat apa yang sempat kita bahas, silakan lompat ke bagian ***Recap*** di halaman paling bawah.\n",
+        "\n",
+        "Tentunya, kalian juga bisa belajar lebih lanjut tentang Wolfram Mathematica dari sumber-sumber yang ada di internet, misalnya dokumentasi resmi Wolfram Mathematica: <https://reference.wolfram.com/language/index.html.en>\n",
+        "\n",
+        "Semangat dan selamat belajar!\n",
+        "\n",
+        ":::\n",
+        "\n",
+        "Selamat datang di Praktikum Kalkulus! Di sini, kalian akan mendapat *preview* tentang apa yang dipelajari dan biasa dilakukan di praktikum untuk Kalkulus 1 (mata kuliah Praktikum Matematika Dasar) dan praktikum untuk Kalkulus 2.\n",
+        "\n",
+        "*Fun fact:* perangkat lunak atau *software* yang dibahas di sini juga biasa digunakan untuk praktikum-praktikum Aljabar Linier.\n",
+        "\n",
+        "# Setup: Menggunakan Wolfram Cloud\n",
+        "\n",
+        "Wolfram Mathematica adalah salah satu *software* CAS *(Computer Algebra System)* yang cukup fleksibel dan bisa digunakan untuk banyak keperluan, seperti kalkulator fungsi, kalkulator *plot* (grafik), analisis data, bahkan hingga *machine learning*.\n",
+        "\n",
+        "Namun, sebagai CAS, Wolfram Mathematica umumnya digunakan sebagai penunjang dalam berbagai hal matematika, seperti kalkulus, aljabar linear, persamaan diferensial, dan sebagainya.\n",
+        "\n",
+        "Wolfram Mathematica sebenarnya adalah *software* berbayar. Kebetulan, Wolfram menyediakan opsi gratis melalui situs resminya, yaitu Wolfram Cloud, dengan beberapa keterbatasan (Wolfram Cloud Basic).\n",
+        "\n",
+        "Kali ini, kita akan menggunakan Wolfram Cloud Basic. Ikuti langkah berikut:\n",
+        "\n",
+        "1. Buka <https://www.wolframcloud.com/>\n",
+        "\n",
+        "2. Pilih \"Sign up for free\"\n",
+        "\n",
+        "3. Isi *email* dan sebagainya, centang \"I agree to...\", lalu tekan \"Create Wolfram ID\"\n",
+        "\n",
+        "    ***Note:* tidak harus menggunakan nama asli**\n",
+        "\n",
+        "4. Buka kembali link <https://www.wolframcloud.com/>, pastikan sudah signed in\n",
+        "\n",
+        "5. Pilih New Notebook\n",
+        "\n",
+        "Setelah selesai menggunakan, jangan lupa simpan *file* nya dalam waktu dekat.\n",
+        "\n",
+        "Cara *save:* Lihat *taskbar* di atas, pilih File > Download\n",
+        "\n",
+        "::: {.callout-warning}\n",
+        "\n",
+        "## *File* bisa kedaluwarsa!\n",
+        "\n",
+        "Kita sedang menggunakan versi gratis dari Wolfram Cloud, yaitu Wolfram Cloud Basic. Sesuai penjelasan [di situs resminya](https://support.wolfram.com/53990), **tiap file akan *expire* (kedaluwarsa) setelah 60 hari.** Nanti setelah pulang, jangan lupa simpan/unduh *file* nya ke komputer/laptop pribadi, ya!\n",
+        "\n",
+        ":::\n",
+        "\n",
+        "# Mengenal Wolfram Mathematica\n",
+        "\n",
+        "## Operasi Dasar dan Penulisan\n",
+        "\n",
+        "Untuk memulai pemrograman di Wolfram Mathematica, Anda harus membuat sel terlebih dahulu. Sel adalah struktur dasar dari *notebook* Wolfram Mathematica. Sebuah sel dapat berisi perintah, teks ilmiah, grafik, ekspresi matematika, elemen interaktif dinamis, dan sebagainya.\n",
+        "\n",
+        "Anda dapat membuat sel di Wolfram Mathematica dengan cara menekan tombol kiri pada *mouse* saat kursor menunjukkan simbol I horizontal. Setelah muncul garis horizontal pada *notebook*, silakan ketik hal yang Anda inginkan. Alternatifnya, ketika kursor menunjukkan simbol I horizontal, Anda dapat menekan tombol kanan pada *mouse* lalu pilih fitur **Insert New Cell**, kemudian pilih tipe sel yang Anda inginkan.\n",
+        "\n",
+        "Sebuah sel di Wolfram Mathematica dapat dihapus dengan cara menekan tombol *backspace* setelah memilih \"kurung sel\" yang bersesuaian dengan sel yang ingin dihapus. \"Kurung sel\" yang dimaksud terletak di pojok kanan *notebook*. Alternatifnya, Anda dapat menekan Ctrl + . hingga Wolfram Mathematica menyorot \"kurung sel\" yang bersesuaian dengan sel yang ingin dihapus.\n",
+        "\n",
+        "Secara default, sel di Wolfram Mathematica memiliki gaya input (Alt + 9). Sel dengan gaya input digunakan untuk menjalankan perintah pemrograman di Wolfram Mathematica. Jika Anda ingin menulis teks biasa di Wolfram Mathematica, gunakan gaya text dengan cara menekan Alt + 7 secara bersamaan. Ketika Anda berpindah sel, sel yang baru tidak mengikuti gaya sel sebelumnya. Sehingga, jika Anda ingin membuat sejumlah sel dengan gaya text, maka Anda harus menekan Alt + 7 untuk setiap sel yang ingin dijadikan teks. Dalam sel yang bergaya text, Anda dapat menulis kode dengan cara menekan Ctrl + ( secara bersamaan hingga muncul sebuah kotak. Kotak tersebut dapat Anda isi sesuai dengan kebutuhan. Misalkan, seperti $e^{\\pi * i} + 1 = 0$. Selain itu, dalam sel yang bergaya text, terdapat tiga shortcut lain yang cukup penting, yaitu bold (Ctrl + b), italic (Ctrl + i), dan underline (Ctrl + u).\n",
+        "\n",
+        "Selain gaya input dan text, Wolfram Mathematica memiliki banyak gaya penulisan lain melalui fitur Style pada menu Format. Pada fitur Style, terdapat shortcut untuk setiap gaya penulisan yang tersedia. Jadi, jika Anda lupa shortcut untuk gaya tertentu, Anda dapat mengeceknya melalui fitur Style.\n",
+        "\n",
+        "Untuk menjalankan perintah di Wolfram Mathematica, Anda dapat menekan **Shift + Enter** secara bersamaan. Sebagai permulaan, Anda dapat menghitung nilai dari 3 + 4 seperti ini.\n"
+      ],
+      "id": "75afa17a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "3 + 4"
+      ],
+      "id": "73d620f2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Wolfram Mathematica akan memberikan pasangan input dan *output* seperti ilustrasi di atas. Anda dapat membedakan pasangan input dan *output* tertentu berdasarkan labelnya. Untuk mengolah kembali output terakhir yang diberikan oleh Wolfram Mathematica, Anda dapat menggunakan simbol persen \"%\" seperti contoh di bawah ini.\n"
+      ],
+      "id": "695e27e8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "% + 5"
+      ],
+      "id": "a330e427",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Anda juga bisa menjalankan sejumlah perintah sekaligus di Wolfram Mathematica. Caranya, pisahkan perintah yang berbeda pada baris berbeda dengan menekan **Enter**. Setelah sudah diketik semua, baru tekan **Shift + Enter** seperti biasa untuk menjalani semua perintah sekaligus.\n"
+      ],
+      "id": "26048c00"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "3 + 4\n",
+        "3 + 5\n",
+        "3 + 6"
+      ],
+      "id": "d61a5764",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada contoh di atas, terdapat satu kumpulan input dan tiga buah *output* yang terpisah. Jika Anda hanya ingin melihat *output* dari sebagian perintahnya saja, Anda dapat memberikan simbol titik koma \";\" di akhir setiap perintah yang tidak ingin dilihat *output*-nya, seperti contoh di bawah ini. \n"
+      ],
+      "id": "ebb38ac9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "3 + 4\n",
+        "% + 5;\n",
+        "% + 5"
+      ],
+      "id": "a486da01",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Pada contoh di atas, *output* yang ditampilkan hanyalah *output* untuk perintah pada baris pertama dan ketiga.\n",
+        "\n",
+        "Wolfram Mathematica dapat mengerjakan kalkulasi dasar dengan akurasi dan presisi tinggi. Beberapa operasi dasar yang dapat dilakukan di Wolfram Mathematica, yaitu:\n"
+      ],
+      "id": "623cfdd4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "3+4 (*Penjumlahan*)\n",
+        "3-4 (*Pengurangan*)\n",
+        "3*4 (*Perkalian*)\n",
+        "3/4 (*Pembagian*)\n",
+        "3^4 (*Perpangkatan*)"
+      ],
+      "id": "c3fb1168",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Untuk menulis *comment* di Wolfram Mathematica, gunakan simbol kurung lengkung bintang `(*` dan `*)`\n",
+        "\n",
+        "*Comment* adalah catatan pada kode, yang gunanya hanya sebagai catatan kita, sehingga tidak akan dibaca oleh Wolfram Mathematica.\n",
+        "\n",
+        "Tentunya, perhitungan juga bisa dilakukan dengan desimal, misalnya\n"
+      ],
+      "id": "5da6ff78"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "0.1 + 0.2"
+      ],
+      "id": "9822200a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Tambahan:\n",
+        "\n",
+        "- Input pecahan bisa dibuat lebih bagus dengan menekan **Ctrl + /**\n",
+        "\n",
+        "- Input berupa pangkat juga bisa dibuat lebih bagus dengan menekan **Ctrl + 6**\n",
+        "\n",
+        "- Kalian bisa tekan `Insert > Special Characters` untuk memasukkan simbol-simbol tertentu seperti konstanta $\\pi$\n",
+        "\n",
+        "## Numerik\n",
+        "\n",
+        "Perhitungan di Wolfram bersifat **simbolik**. Oleh karena itu, pecahan seperti $\\frac{3}{4}$ akan dibiarkan begitu saja, tidak dihitung, kecuali kalau kita minta. Kita bisa meminta perhitungan **numerik** dengan `N` seperti berikut\n"
+      ],
+      "id": "21623310"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[3/4]"
+      ],
+      "id": "c963f4f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kalian bisa melihat penjelasan dengan `N` dengan bertanya, dengan mengetik tanda tanya `?` diikuti namanya yaitu `N`\n"
+      ],
+      "id": "9aa858df"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?N"
+      ],
+      "id": "c0751294",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Dengan demikian, kita bisa coba misalnya memperoleh bentuk numerik dari $\\pi$, hingga digit yang kita inginkan:\n"
+      ],
+      "id": "541f2bf3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Pi"
+      ],
+      "id": "cc9f5ecc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[Pi]"
+      ],
+      "id": "c3766a04",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[Pi, 100]"
+      ],
+      "id": "a5d6dd2b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Wolfram Mathematica juga menyediakan konstanta $e$ yang bisa ditulis `E`\n"
+      ],
+      "id": "e87f8409"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "E"
+      ],
+      "id": "4bdf4b38",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[E]"
+      ],
+      "id": "575c047e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[E, 100]"
+      ],
+      "id": "f5e271b2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Keuntungan dari pendekatan simbolik adalah presisi tingkat tinggi. Kita hanya mengubah ke dalam bentuk numerik ketika memang diperlukan. Misalnya, coba hitung\n"
+      ],
+      "id": "8cdda650"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "7/3 - 1"
+      ],
+      "id": "5a6ec6c5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bandingkan dengan hasil kalkulator.\n",
+        "\n",
+        "Apabila nilai $\\frac{4}{3}$ yang diperoleh itu memang ingin dihitung menjadi bentuk numerik, barulah kita bisa gunakan `N`\n"
+      ],
+      "id": "4d3b6097"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[4/3]"
+      ],
+      "id": "a5db5a20",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Variabel\n",
+        "\n",
+        "Dalam Wolfram Mathematica, simbol sama dengan \"=\" digunakan untuk memberikan nilai ke suatu variabel.\n"
+      ],
+      "id": "66396d65"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = 3"
+      ],
+      "id": "10db03df",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Sekarang, variabel `a` bernilai 3. Kita dapat mengecek kembali nilai dari sebuah variabel dengan cara memanggil namanya\n"
+      ],
+      "id": "0518c92c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a"
+      ],
+      "id": "46e61404",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Variabel itu bisa digunakan untuk perhitungan.\n"
+      ],
+      "id": "fda22fab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a + 2"
+      ],
+      "id": "9132276f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bahkan, kita bisa menyimpan hasil tersebut di variabel lain.\n"
+      ],
+      "id": "9c490551"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "b = a + 2"
+      ],
+      "id": "d82848f9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "b"
+      ],
+      "id": "587aa5c2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Memanfaatkan sifat simbolik dari Wolfram Mathematica, kita bisa membuat variabel baru berdasarkan variabel lain yang bahkan belum ada!\n"
+      ],
+      "id": "bb452b91"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y = x^2 + 2 x + 1"
+      ],
+      "id": "467fdc40",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Ketika Anda menjalankan perintah di atas, akan terdapat perbedaan warna untuk variabel `x` dan `y`. Variabel berwarna hitam di Wolfram Mathematica maknanya sudah memiliki nilai, sedangkan variabel berwarna biru di Wolfram Mathematica maknanya belum memiliki nilai.\n",
+        "\n",
+        "Anda dapat mensubstitusikan suatu nilai ke variabel `x` yang juga akan berdampak pada nilai dari variabel `y`\n"
+      ],
+      "id": "40287300"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = 2"
+      ],
+      "id": "36084e89",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Saat ini, variabel `x` sudah memiliki nilai 2. Sehingga, ketika Anda cek kembali nilai dari `y`,\n"
+      ],
+      "id": "0308e49f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y"
+      ],
+      "id": "39c248a8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Variabel `y` kini bernilai 9.\n",
+        "\n",
+        "Anda perlu berhati-hati dengan sebuah variabel di Wolfram Mathematica. Jika Anda menggunakan nama variabel yang sama di dua tempat yang berbeda, maka perintah yang Anda jalankan rawan mengalami eror. Untuk menghindari terjadinya eror, Anda disarankan untuk menghapus nilai dari sebuah variabel setiap kali Anda selesai dengan urusan tertentu menggunakan fungsi built-in **Clear**\n"
+      ],
+      "id": "535b4cce"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Clear"
+      ],
+      "id": "4dc778ce",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Clear[a, b, x, y]"
+      ],
+      "id": "cca7544c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Setelah Anda menjalankan perintah di atas, variabel yang telah digunakan akan kehilangan nilainya ketika warnanya berubah menjadi biru.\n",
+        "\n",
+        "## Fungsi dan *Plot*\n",
+        "\n",
+        "Selain `N` dan `Clear`, Wolfram Mathematica menyediakan fungsi trigonometri seperti `Sin` dan `Cos`\n"
+      ],
+      "id": "7cc7ecee"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Sin"
+      ],
+      "id": "91fbc38c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Sin[0]"
+      ],
+      "id": "3e5e584c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Sin[Pi/4]"
+      ],
+      "id": "886ce389",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Cos[Pi/4]"
+      ],
+      "id": "b0caa9d4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita juga bisa mendefinisikan fungsi sendiri.\n",
+        "\n",
+        "Untuk mendefinisikan sebuah fungsi di Wolfram Mathematica, Anda perlu:\n",
+        "\n",
+        "1. Memberikan nama untuk fungsi tersebut. Pastikan bahwa nama fungsi yang Anda gunakan belum pernah digunakan di Wolfram Mathematica. Indikasi nama fungsi yang belum pernah digunakan adalah dari warnanya yang biru. Jika nama fungsi yang Anda berikan berwarna hitam, maka Anda diimbau untuk menggunakan nama lain karena tandanya nama tersebut sudah digunakan oleh Wolfram Mathematica.\n",
+        "\n",
+        "2. Menggunakan simbol kurung siku \"[ ]\" untuk menampung input atau parameter-parameter fungsinya.\n",
+        "\n",
+        "3. Memberikan simbol *underscore* \"_\" di akhir setiap parameter fungsi.\n",
+        "\n",
+        "4. Jika terdapat lebih dari satu parameter, maka pisahkan parameter yang berbeda dengan simbol koma \",\".\n",
+        "\n",
+        "5. Menggunakan simbol titik dua sama dengan \":=\" untuk mendefinisikan fungsinya.\n",
+        "\n",
+        "Contoh fungsi yang didefinisikan dengan baik di Wolfram Mathematica adalah sebagai berikut.\n"
+      ],
+      "id": "47cd47b0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_] = x^2 + 2 x + 1"
+      ],
+      "id": "896a9a9d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Dengan didefinisikannya fungsi `f[x]` di atas, Anda dapat memanggil kembali fungsi tersebut dengan mengetik seperti ini.\n"
+      ],
+      "id": "f4f5cad9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_]"
+      ],
+      "id": "8f2a19f2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Selain itu, Anda dapat mengevaluasi fungsi `f[x]` untuk nilai `x` tertentu.\n"
+      ],
+      "id": "099a78b7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[2]"
+      ],
+      "id": "08334f37",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Selain fungsi satu variabel (parameter), Anda juga dapat mendefinisikan sebuah fungsi dengan lebih dari satu variabel (parameter) dengan aturan yang sama.\n"
+      ],
+      "id": "fb71ec77"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g[x_, y_] := x^2 + y^2 + 1"
+      ],
+      "id": "4ceb375a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g[x,y]"
+      ],
+      "id": "89bd7d97",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g[5,8]"
+      ],
+      "id": "5163d087",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Fungsi built-in Wolfram Mathematica yang dapat Anda gunakan untuk menggambar grafik fungsi adalah fungsi `Plot`\n"
+      ],
+      "id": "1ff902d9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Plot"
+      ],
+      "id": "a49783bc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Berdasarkan deskripsi fungsi `Plot` di atas, terdapat banyak versi syntax yang dapat digunakan untuk menggambar grafik fungsi sesuai dengan kebutuhan Anda.\n",
+        "\n",
+        "Bentuk syntax yang paling sederhana adalah `Plot[f[x], {x, a, b}]` dengan\n",
+        "\n",
+        "- `f[x]` menyatakan fungsi yang ingin digambar,\n",
+        "\n",
+        "- `a` menyatakan batas awal grafik, dan\n",
+        "\n",
+        "- `b` menyatakan batas akhir grafik\n"
+      ],
+      "id": "748442b0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[x^2, {x, -5, 5}]"
+      ],
+      "id": "5bfaa0e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Selain menuliskan formula dari fungsinya secara manual, Anda juga bisa memberikan nama fungsi beserta variabelnya saja. Tentu, hal ini hanya bisa dilakukan jika sebelumnya fungsi tersebut sudah terdefinisi.\n"
+      ],
+      "id": "bd8c575a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[f[x], {x, -5, 5}]"
+      ],
+      "id": "8145bcc6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[Sin[x], {x, -5, 5}]"
+      ],
+      "id": "75f3f759",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kemudian, fungsi `Plot` juga bisa digunakan untuk menggambar lebih dari satu grafik fungsi di tempat yang sama. Jika terdapat lebih dari satu fungsi yang ingin digambar grafiknya, Anda perlu mengumpulkan fungsi-fungsi tersebut di dalam simbol kurung kurawal \"{ }\".\n"
+      ],
+      "id": "3e193c4c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[{f[x], Sin[x] Cos[x]}, {x, -5, 5}]"
+      ],
+      "id": "a6a3c75b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Limit\n",
+        "\n",
+        "Misalkan kita buat fungsi berikut\n",
+        "\n",
+        "$$f(x) = \\frac{x^3 - 1}{x - 1}$$\n"
+      ],
+      "id": "d1a50c4b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_] := (x^3 - 1) / (x - 1)"
+      ],
+      "id": "511675da",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Mari kita lihat dengan `Plot`\n"
+      ],
+      "id": "777c93ea"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[f[x], {x, 0, 3}]"
+      ],
+      "id": "a183265b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita bisa hitung nilainya di 0, 1, 2...\n"
+      ],
+      "id": "f436eb47"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[0]"
+      ],
+      "id": "b5202d20",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[1]"
+      ],
+      "id": "6adf82e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[2]"
+      ],
+      "id": "38b60777",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Ups! Ketika menghitung nilainya di 1, terjadi pembagian nol. Tapi kalau kita lihat grafiknya, harusnya ada nilainya, yaitu 3.\n",
+        "\n",
+        "Kita juga bisa menghitung nilai `f[x]` untuk $x$ yang sangat dekat dengan 1. Misalnya, bisa \"dari kiri\" (dari nilai yang sedikit lebih kecil, terus mendekat)\n"
+      ],
+      "id": "9d43da01"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[0.9]"
+      ],
+      "id": "4049bcd5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[0.99]"
+      ],
+      "id": "8338519d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[0.99]"
+      ],
+      "id": "5f3c4b75",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Bisa juga \"dari kanan\" (dari nilai yang sedikit lebih besar, terus mendekat)\n"
+      ],
+      "id": "4e0e9470"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[1.1]"
+      ],
+      "id": "531f3b64",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[1.01]"
+      ],
+      "id": "f235ac9a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[1.001]"
+      ],
+      "id": "0a35b4d2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Nilainya sama-sama mendekati 3, baik dari kiri ataupun dari kanan. Seolah-olah, nilai di $x=1$ harusnya memang 3.\n",
+        "\n",
+        "Konsep ini disebut **limit** dan kita bisa tulis\n",
+        "\n",
+        "$$\\lim_{x \\to 1} f(x) = 3$$\n",
+        "\n",
+        "yaitu ketika nilai $x$ mendekati 1, nilai $f(x)$ mendekati 3. Limit bisa ada, walaupun hasil fungsinya tidak ada ketika dihitung persis di nilai itu.\n",
+        "\n",
+        "Wolfram Mathematica bisa menghitung limit:\n"
+      ],
+      "id": "9651e206"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Limit[f[x], x -> 1]"
+      ],
+      "id": "a26c5bc0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Gunakan tanda panah untuk melambangkan \"menuju\". Bisa diketik dengan `->`\n",
+        "\n",
+        "Contoh lain dari limit, perhaikan fungsi\n",
+        "\n",
+        "$$g(x) = \\frac{1}{x}$$\n"
+      ],
+      "id": "4779ff90"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g[x_] := 1/x"
+      ],
+      "id": "79f22b75",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita bisa gambar\n"
+      ],
+      "id": "fe83370a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[g[x], {x, -5, 5}]"
+      ],
+      "id": "ed0ce85f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Lihat di sekitar $x=0$. Kita bisa mendekati $x=0$ dari kiri menggunakan **limit kiri**, dengan memberi keterangan `Direction -> 1`\n"
+      ],
+      "id": "5ccb96b9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Limit[g[x], x -> 0, Direction -> 1]"
+      ],
+      "id": "6d1f502e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Karena mendekati dari bilangan negatif, hasil limit kiri bisa ditulis\n",
+        "\n",
+        "$$\\lim_{x \\to 0^-} g(x) = -\\infty$$\n",
+        "\n",
+        "Sedangkan, kita bisa mendekati dari kanan, yaitu menghitung **limit kanan**, dengan memberi keterangan `Direction -> -1`\n"
+      ],
+      "id": "8d051aac"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Limit[g[x], x -> 0, Direction -> -1]"
+      ],
+      "id": "81ddafdf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Karena mendekati dari bilangan positif, hasil limit kanan bisa ditulis\n",
+        "\n",
+        "$$\\lim_{x \\to 0^+} g(x) = \\infty$$\n",
+        "\n",
+        "Suatu fungsi memiliki **limit** (saja) apabila\n",
+        "\n",
+        "- memiliki limit kiri,\n",
+        "\n",
+        "- memiliki limit kanan, dan\n",
+        "\n",
+        "- limit kiri sama dengan limit kanan\n",
+        "\n",
+        "Sayangnya, untuk fungsi $g(x)$, limit kiri dan limit kanan untuk $x=0$ tidak sama. Sehingga,\n",
+        "\n",
+        "$$\\lim_{x \\to 0} g(x) \\quad \\text{tidak ada}$$\n"
+      ],
+      "id": "f6632c00"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Limit[g[x], x -> 0]"
+      ],
+      "id": "4947e83a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Turunan\n",
+        "\n",
+        "$$f(x) = x^3$$\n"
+      ],
+      "id": "a0c962f6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_] := x^3"
+      ],
+      "id": "5761b853",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_]"
+      ],
+      "id": "b461fc10",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Turunannya adalah $f'(x) = 3x^2$\n"
+      ],
+      "id": "dcd5c25d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f'[x_]"
+      ],
+      "id": "4d8ced8b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Sintaks (penulisan) lain: dengan fungsi `D`\n"
+      ],
+      "id": "780301b3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?D"
+      ],
+      "id": "0b0cfbcd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "D[f[x], x]"
+      ],
+      "id": "7f112f0c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "D[f[x], {x, 1}]"
+      ],
+      "id": "621ca63d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kalian juga bisa menghitung $f''(x)$ dengan mengganti angka 1 menjadi 2\n"
+      ],
+      "id": "6a4f02af"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "D[f[x], {x, 2}]"
+      ],
+      "id": "c77ae647",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Juga bisa $f'''(x)$ dan seterusnya dengan cara yang sama\n"
+      ],
+      "id": "df72453a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "D[f[x], {x, 3}]"
+      ],
+      "id": "24e85f5b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "D[f[x], {x, 4}]"
+      ],
+      "id": "e45ad6aa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "D[f[x], {x, 5}]"
+      ],
+      "id": "660b22b8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Sumasi dan Integral\n",
+        "\n",
+        "Untuk menghitung jumlahan seperti $1 + 2 + \\dots + 100$, yaitu\n",
+        "\n",
+        "$$\\sum_{i=1}^{100} i$$\n",
+        "\n",
+        "Gunakan fungsi `Sum`\n"
+      ],
+      "id": "42cfcae6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Sum"
+      ],
+      "id": "437bc74e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Sum[i, {i, 1, 100}]"
+      ],
+      "id": "d404937e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Contoh lain, jumlahan $1^2 + 2^2 + \\dots + 100^2$, yaitu\n",
+        "\n",
+        "$$\\sum_{i=1}^{100} i^2$$\n"
+      ],
+      "id": "b1b0d67e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Sum[i^2, {i, 1, 100}]"
+      ],
+      "id": "ca1d627c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Integral adalah luas di bawah kurva. Perhatikan fungsi berikut\n",
+        "\n",
+        "$$f(x) = x+1$$\n"
+      ],
+      "id": "e8713f86"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_] := x + 1"
+      ],
+      "id": "f0ae6260",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[f[x], {x, 0, 2}]"
+      ],
+      "id": "871e44be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Perhitungan integral bisa dilakukan dengan fungsi *integrate*\n"
+      ],
+      "id": "547c4ca7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Integrate"
+      ],
+      "id": "b94e6a37",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita bisa menghitung integral tak tentu *(indefinite integral)* seperti berikut.\n"
+      ],
+      "id": "02feb43f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Integrate[f[x], x]"
+      ],
+      "id": "90debd76",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita juga bisa menghitung *definite integral* (integral tentu). Misalkan kita ingin menghitung luas di bawah kurva $f(x)$ dari $x=0$ sampai $x=2$. Artinya, kita ingin menghitung integral\n",
+        "\n",
+        "$$\\int_{0}^{2} f(x) dx$$\n"
+      ],
+      "id": "519a76ad"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Integrate[f[x], {x, 0, 2}]"
+      ],
+      "id": "ced6f604",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# *Recap*\n",
+        "\n",
+        "Wolfram Mathematica bisa digunakan sebagai kalkulator:\n"
+      ],
+      "id": "70bd6dde"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "3+4"
+      ],
+      "id": "42ff23d5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "3-4\n",
+        "3*4\n",
+        "3/4"
+      ],
+      "id": "0113db4b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Perhitungan dalam Wolfram Mathematica bersifat simbolik, sehingga misalnya pecahan $\\frac{3}{4}$ dibiarkan begitu saja, tidak dihitung. Apabila dibutuhkan bentuk numerik, gunakan fungsi `N`\n"
+      ],
+      "id": "050a9da4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[3/4]"
+      ],
+      "id": "fec32bbf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Keuntungan dari pendekatan simbolik adalah bahwa perhitungan atau aljabar yang melibatkan pecahan akan dilakukan dengan presisi tinggi, misalnya\n"
+      ],
+      "id": "14c9b461"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "7/3 - 1"
+      ],
+      "id": "b434094c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Apabila memang dibutuhkan bentuk numeriknya, bisa gunakan `N` lagi\n"
+      ],
+      "id": "6a287df0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[4/3]"
+      ],
+      "id": "5915d103",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "atau bahkan bisa langsung,\n"
+      ],
+      "id": "b43c139f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[7/3 - 1]"
+      ],
+      "id": "04707c8c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Wolfram Mathematica juga menyediakan konstanta yang umum dikenal di matematika, seperti `Pi` yaitu $\\pi$\n"
+      ],
+      "id": "6697c7d3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Pi"
+      ],
+      "id": "058c6faf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Gunakan `N` untuk memperoleh bentuk numerik\n"
+      ],
+      "id": "ee9e40e1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[Pi]"
+      ],
+      "id": "5d9c26a6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita bisa \"bertanya\" kepada Wolfram Mathematica tentang cara menggunakan fungsi tertentu, misalnya `N`, dengan mengetik terlebih dahulu tanda tanya `?`, baru nama fungsinya, misalnya seperti berikut\n"
+      ],
+      "id": "58edf674"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?N"
+      ],
+      "id": "720bcceb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Berdasarkan penjelasan di atas, `N` bisa juga diberikan presisi atau banyaknya digit yang diinginkan:\n"
+      ],
+      "id": "f7f1bcf0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "N[Pi, 100]"
+      ],
+      "id": "7bce59a9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Wolfram Mathematica juga menyediakan fungsi trigonometri seperti `Sin` dan `Cos`\n"
+      ],
+      "id": "85863232"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Sin[Pi/4]"
+      ],
+      "id": "d7d6c0f1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Kita juga bisa mendefinisikan fungsi sendiri, misalnya\n",
+        "\n",
+        "$$f(x) = \\sin(x) + \\cos(x)$$\n",
+        "\n",
+        "seperti berikut:\n"
+      ],
+      "id": "8b747d3d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f[x_] := Sin[x] + Cos[x]"
+      ],
+      "id": "2d8a4d99",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Fungsi tersebut bisa kita hitung turunannya,\n"
+      ],
+      "id": "653146ca"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f'[x]"
+      ],
+      "id": "9c7afc74",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "bisa kita gambar dengan `Plot`,\n"
+      ],
+      "id": "43e97b1e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Plot"
+      ],
+      "id": "867cadc1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Plot[f[x], {x, -5, 5}]"
+      ],
+      "id": "7ccb7413",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "dan bisa kita integralkan dengan `Integrate`\n"
+      ],
+      "id": "7be51764"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "?Integrate"
+      ],
+      "id": "3b5581cb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Integrate[f[x], x]"
+      ],
+      "id": "c5b93f79",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Integrate[f[x], {x, 0, Pi}]"
+      ],
+      "id": "6869b56f",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "wolframlanguage13.1",
+      "language": "wolfram",
+      "display_name": "Wolfram Language 13.1"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
