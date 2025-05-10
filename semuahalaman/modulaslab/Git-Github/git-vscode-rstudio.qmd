@@ -1,0 +1,123 @@
+---
+title: "🐙 Panduan Git di RStudio & VSCode"
+description: "Langkah demi langkah penggunaan Git di Windows lewat terminal RStudio (CMD) dan terminal VSCode. Lengkap dengan best practice dan link resmi tutorial."
+keywords: [git rstudio windows, git vscode windows, source control rstudio, git terminal vs code, panduan git asisten lab]
+format:
+  html:
+    toc: true
+    toc-title: "Daftar Isi"
+    toc-location: left
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+---
+
+# 🔧 Persiapan Awalan
+
+Sebelum masuk ke IDE, pastikan:
+
+- **Git** sudah terpasang (`Git Bash`, atau installer resmi di Windows)  
+- **VSCode** terinstal: https://code.visualstudio.com/  
+- **RStudio** terinstal: https://posit.co/download/rstudio  
+
+Jika belum, ikuti panduan instalasi Git Bash di Windows pada modul sebelumnya.
+
+---
+
+# 1️⃣ Git di RStudio (Windows + CMD)
+
+RStudio di Windows menggunakan **Command Prompt** (`cmd.exe`) atau **PowerShell**. Berikut cara mengaktifkan dan menggunakannya untuk Git:
+
+## 1.1. Aktifkan Git di RStudio
+
+1. Buka **Tools → Global Options → Git/SVN**  
+2. Centang **Enable version control interface for RStudio projects**  
+3. Pastikan path ke `git.exe` benar, misal:  
+   ```
+   C:/Program Files/Git/cmd/git.exe
+   ```  
+4. Klik **Apply** dan **OK**.  
+5. Restart RStudio.
+
+## 1.2. Membuat & Mengelola Proyek Git
+
+1. **File → New Project → Version Control → Git**  
+2. Masukkan URL repo (GitHub/GitLab), contohnya:  
+   ```
+   https://github.com/username/repo-praktikum.git
+   ```  
+3. Pilih folder lokal, klik **Create Project**.
+
+## 1.3. Workflow Dasar di RStudio
+
+Di tab **Git** (kanan atas):
+
+```bash
+# di panel terminal RStudio (Cmd/Powershell)
+git status
+git add nama_file.qmd
+git commit -m "Menambahkan panduan"
+git push origin main
+```
+
+- Tombol **Commit** → centang file → isi pesan → **Commit**, lalu **Push**.  
+- Gunakan **Pull** sebelum mulai kerja untuk sinkronisasi.
+
+> 🔗 Referensi resmi RStudio Git setup: https://r-bio.github.io/git-installation/
+
+---
+
+# 2️⃣ Git di VSCode (Windows + Integrated Terminal)
+
+VSCode memiliki integrasi Git yang powerful dan terminal bawaan (PowerShell by default).
+
+## 2.1. Buka & Clone Repo
+
+1. Jalankan VSCode  
+2. Tekan `Ctrl+Shift+P` → ketik **Git: Clone**  
+3. Tempel URL repo, misal:  
+   ```
+   https://github.com/username/repo-praktikum.git
+   ```  
+4. Pilih folder lokal, tunggu proses clone selesai.
+
+## 2.2. Integrated Terminal
+
+- Buka terminal dengan `Ctrl+\`` (backtick)  
+- Default menggunakan PowerShell. Jika ingin Bash:  
+  - Tekan tombol ⌄ di pojok kanan terminal → pilih **Select Default Profile → Git Bash**  
+  - Restart terminal.
+
+## 2.3. Workflow Dasar di VSCode
+
+### A. Menggunakan GUI Source Control
+
+1. Klik icon **Source Control** (ikon percabangan)  
+2. Centang perubahan → tulis pesan commit → **✔️ Commit**  
+3. Klik **… → Push** atau otomatis muncul tombol **Push**.
+
+### B. Menggunakan Terminal
+
+```bash
+git status
+git add .
+git commit -m "Memperbarui modul Quarto"
+git pull    # tarik perubahan terbaru
+git push    # kirim commit lokal
+```
+
+> 🔗 Tutorial resmi Git di VSCode: https://code.visualstudio.com/docs/sourcecontrol/intro-to-git
+
+---
+
+# 💡 Tips Retensi & Konsistensi
+
+- **Satu perintah berlaku di semua OS**: `ls`, `cd`, `git status`, dll.  
+- **Biasakan GUI + Terminal**: GUI memudahkan pemula, terminal menguatkan ingatan sintaks.  
+- **Selalu `pull` sebelum `push`**: Hindari konflik merge.  
+- **Gunakan branch**: untuk fitur baru (`git checkout -b fitur-XYZ`).
+
+---
+
+Semoga panduan ini membantu kamu menguasai Git secara mulus di kedua IDE. Setelah nyaman, lanjut ke topik **Continuous Integration (CI)** atau **best practices branching**!

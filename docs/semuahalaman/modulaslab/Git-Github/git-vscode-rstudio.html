@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="panduan asisten laboratorium, belajar Quarto, Quarto, quarto untuk asisten lab, git untuk pemula, github untuk asisten laboratorium, git praktikum, panduan git dan github indonesia, version control modul praktikum">
-<meta name="description" content="Belajar Git dan GitHub dari nol untuk asisten laboratorium. Gunakan Git untuk mengelola versi modul, kolaborasi tim, dan praktik CI CD di RStudio atau VSCode.">
+<meta name="keywords" content="git rstudio windows, git vscode windows, source control rstudio, git terminal vs code, panduan git asisten lab">
+<meta name="description" content="Langkah demi langkah penggunaan Git di Windows lewat terminal RStudio (CMD) dan terminal VSCode. Lengkap dengan best practice dan link resmi tutorial.">
 
-<title>🔧 Panduan Git dan GitHub untuk Kolaborasi Asisten Lab. – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>🐙 Panduan Git di RStudio &amp; VSCode – Lab Praktikum Departemen Matematika FMIPA UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -155,20 +155,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Daftar Isi</h2>
    
   <ul>
-  <li><a href="#github-pages-mengapa-asisten-lab-butuh-git-github" id="toc-github-pages-mengapa-asisten-lab-butuh-git-github" class="nav-link active" data-scroll-target="#github-pages-mengapa-asisten-lab-butuh-git-github"><span class="header-section-number">1</span> <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" class="img-fluid" style="width:10.0%" alt="Github Pages"> Mengapa Asisten Lab Butuh Git &amp; GitHub?</a></li>
-  <li><a href="#instalasi-git" id="toc-instalasi-git" class="nav-link" data-scroll-target="#instalasi-git"><span class="header-section-number">2</span> 🛠️ Instalasi Git</a>
+  <li><a href="#persiapan-awalan" id="toc-persiapan-awalan" class="nav-link active" data-scroll-target="#persiapan-awalan"><span class="header-section-number">1</span> 🔧 Persiapan Awalan</a></li>
+  <li><a href="#git-di-rstudio-windows-cmd" id="toc-git-di-rstudio-windows-cmd" class="nav-link" data-scroll-target="#git-di-rstudio-windows-cmd"><span class="header-section-number">2</span> 1️⃣ Git di RStudio (Windows + CMD)</a>
   <ul class="collapse">
-  <li><a href="#windows-mac-linux" id="toc-windows-mac-linux" class="nav-link" data-scroll-target="#windows-mac-linux"><span class="header-section-number">2.1</span> 🔹 Windows / Mac / Linux</a></li>
-  <li><a href="#cek-git-di-terminal" id="toc-cek-git-di-terminal" class="nav-link" data-scroll-target="#cek-git-di-terminal"><span class="header-section-number">2.2</span> 🔹 Cek Git di Terminal</a></li>
+  <li><a href="#aktifkan-git-di-rstudio" id="toc-aktifkan-git-di-rstudio" class="nav-link" data-scroll-target="#aktifkan-git-di-rstudio"><span class="header-section-number">2.1</span> 1.1. Aktifkan Git di RStudio</a></li>
+  <li><a href="#membuat-mengelola-proyek-git" id="toc-membuat-mengelola-proyek-git" class="nav-link" data-scroll-target="#membuat-mengelola-proyek-git"><span class="header-section-number">2.2</span> 1.2. Membuat &amp; Mengelola Proyek Git</a></li>
+  <li><a href="#workflow-dasar-di-rstudio" id="toc-workflow-dasar-di-rstudio" class="nav-link" data-scroll-target="#workflow-dasar-di-rstudio"><span class="header-section-number">2.3</span> 1.3. Workflow Dasar di RStudio</a></li>
   </ul></li>
-  <li><a href="#setting-git-pertama-kali" id="toc-setting-git-pertama-kali" class="nav-link" data-scroll-target="#setting-git-pertama-kali"><span class="header-section-number">3</span> 🧰 Setting Git Pertama Kali</a></li>
-  <li><a href="#gunakan-git-di-rstudio-vscode" id="toc-gunakan-git-di-rstudio-vscode" class="nav-link" data-scroll-target="#gunakan-git-di-rstudio-vscode"><span class="header-section-number">4</span> 💡 Gunakan Git di RStudio &amp; VSCode</a>
+  <li><a href="#git-di-vscode-windows-integrated-terminal" id="toc-git-di-vscode-windows-integrated-terminal" class="nav-link" data-scroll-target="#git-di-vscode-windows-integrated-terminal"><span class="header-section-number">3</span> 2️⃣ Git di VSCode (Windows + Integrated Terminal)</a>
   <ul class="collapse">
-  <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio"><span class="header-section-number">4.1</span> 🔸 RStudio</a></li>
-  <li><a href="#vscode" id="toc-vscode" class="nav-link" data-scroll-target="#vscode"><span class="header-section-number">4.2</span> 🔸 VSCode</a></li>
+  <li><a href="#buka-clone-repo" id="toc-buka-clone-repo" class="nav-link" data-scroll-target="#buka-clone-repo"><span class="header-section-number">3.1</span> 2.1. Buka &amp; Clone Repo</a></li>
+  <li><a href="#integrated-terminal" id="toc-integrated-terminal" class="nav-link" data-scroll-target="#integrated-terminal"><span class="header-section-number">3.2</span> 2.2. Integrated Terminal</a></li>
+  <li><a href="#workflow-dasar-di-vscode" id="toc-workflow-dasar-di-vscode" class="nav-link" data-scroll-target="#workflow-dasar-di-vscode"><span class="header-section-number">3.3</span> 2.3. Workflow Dasar di VSCode</a>
+  <ul class="collapse">
+  <li><a href="#a.-menggunakan-gui-source-control" id="toc-a.-menggunakan-gui-source-control" class="nav-link" data-scroll-target="#a.-menggunakan-gui-source-control"><span class="header-section-number">3.3.1</span> A. Menggunakan GUI Source Control</a></li>
+  <li><a href="#b.-menggunakan-terminal" id="toc-b.-menggunakan-terminal" class="nav-link" data-scroll-target="#b.-menggunakan-terminal"><span class="header-section-number">3.3.2</span> B. Menggunakan Terminal</a></li>
   </ul></li>
-  <li><a href="#alur-kerja-git-dasar" id="toc-alur-kerja-git-dasar" class="nav-link" data-scroll-target="#alur-kerja-git-dasar"><span class="header-section-number">5</span> 🔃 Alur Kerja Git Dasar</a></li>
-  <li><a href="#gunakan-branch-baru-kalau-kerja-bareng-agar-tidak-konflik" id="toc-gunakan-branch-baru-kalau-kerja-bareng-agar-tidak-konflik" class="nav-link" data-scroll-target="#gunakan-branch-baru-kalau-kerja-bareng-agar-tidak-konflik"><span class="header-section-number">6</span> 💡 Gunakan branch baru kalau kerja bareng agar tidak konflik</a></li>
+  </ul></li>
+  <li><a href="#tips-retensi-konsistensi" id="toc-tips-retensi-konsistensi" class="nav-link" data-scroll-target="#tips-retensi-konsistensi"><span class="header-section-number">4</span> 💡 Tips Retensi &amp; Konsistensi</a></li>
   </ul>
 </nav>
 </nav>
@@ -181,12 +185,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">🔧 Panduan Git dan GitHub untuk Kolaborasi Asisten Lab.</h1>
+<h1 class="title">🐙 Panduan Git di RStudio &amp; VSCode</h1>
 </div>
 
 <div>
   <div class="description">
-    Belajar Git dan GitHub dari nol untuk asisten laboratorium. Gunakan Git untuk mengelola versi modul, kolaborasi tim, dan praktik CI CD di RStudio atau VSCode.
+    Langkah demi langkah penggunaan Git di Windows lewat terminal RStudio (CMD) dan terminal VSCode. Lengkap dengan best practice dan link resmi tutorial.
   </div>
 </div>
 
@@ -202,91 +206,139 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>panduan asisten laboratorium, belajar Quarto, Quarto, quarto untuk asisten lab, git untuk pemula, github untuk asisten laboratorium, git praktikum, panduan git dan github indonesia, version control modul praktikum</p>
+    <p>git rstudio windows, git vscode windows, source control rstudio, git terminal vs code, panduan git asisten lab</p>
   </div>
 </div>
 
 </header>
 
 
-<section id="github-pages-mengapa-asisten-lab-butuh-git-github" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" class="img-fluid" style="width:10.0%" alt="Github Pages"> Mengapa Asisten Lab Butuh Git &amp; GitHub?</h1>
-<p>Sebagai asisten, kamu mungkin akan:</p>
+<section id="persiapan-awalan" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 🔧 Persiapan Awalan</h1>
+<p>Sebelum masuk ke IDE, pastikan:</p>
 <ul>
-<li>Mengedit modul bareng tim</li>
-<li>Mengelola revisi tugas</li>
-<li>Mendistribusikan file praktikum</li>
+<li><strong>Git</strong> sudah terpasang (<code>Git Bash</code>, atau installer resmi di Windows)<br>
+</li>
+<li><strong>VSCode</strong> terinstal: https://code.visualstudio.com/<br>
+</li>
+<li><strong>RStudio</strong> terinstal: https://posit.co/download/rstudio</li>
 </ul>
-<p>Di sinilah <strong>Git dan GitHub</strong> sangat berguna: kontrol versi, backup otomatis, dan kolaborasi jadi lebih rapi.</p>
+<p>Jika belum, ikuti panduan instalasi Git Bash di Windows pada modul sebelumnya.</p>
 <hr>
 </section>
-<section id="instalasi-git" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> 🛠️ Instalasi Git</h1>
-<section id="windows-mac-linux" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="windows-mac-linux"><span class="header-section-number">2.1</span> 🔹 Windows / Mac / Linux</h2>
+<section id="git-di-rstudio-windows-cmd" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 1️⃣ Git di RStudio (Windows + CMD)</h1>
+<p>RStudio di Windows menggunakan <strong>Command Prompt</strong> (<code>cmd.exe</code>) atau <strong>PowerShell</strong>. Berikut cara mengaktifkan dan menggunakannya untuk Git:</p>
+<section id="aktifkan-git-di-rstudio" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="aktifkan-git-di-rstudio"><span class="header-section-number">2.1</span> 1.1. Aktifkan Git di RStudio</h2>
 <ol type="1">
-<li>Download dari: <a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li>
-<li>Ikuti wizard install (biarkan pengaturan default)</li>
+<li><p>Buka <strong>Tools → Global Options → Git/SVN</strong><br>
+</p></li>
+<li><p>Centang <strong>Enable version control interface for RStudio projects</strong><br>
+</p></li>
+<li><p>Pastikan path ke <code>git.exe</code> benar, misal:</p>
+<pre><code>C:/Program Files/Git/cmd/git.exe</code></pre></li>
+<li><p>Klik <strong>Apply</strong> dan <strong>OK</strong>.<br>
+</p></li>
+<li><p>Restart RStudio.</p></li>
 </ol>
-<blockquote class="blockquote">
-<p>📸 <em>Tambahkan screenshot saat memilih installer Git</em><br>
-Nama file: <code>images/git-download.png</code></p>
-</blockquote>
 </section>
-<section id="cek-git-di-terminal" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="cek-git-di-terminal"><span class="header-section-number">2.2</span> 🔹 Cek Git di Terminal</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p>📸 <em>Tampilkan hasil terminal Git versi muncul</em> Nama file: <code>images/git-version.png</code></p>
-</blockquote>
-<hr>
+<section id="membuat-mengelola-proyek-git" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="membuat-mengelola-proyek-git"><span class="header-section-number">2.2</span> 1.2. Membuat &amp; Mengelola Proyek Git</h2>
+<ol type="1">
+<li><p><strong>File → New Project → Version Control → Git</strong><br>
+</p></li>
+<li><p>Masukkan URL repo (GitHub/GitLab), contohnya:</p>
+<pre><code>https://github.com/username/repo-praktikum.git</code></pre></li>
+<li><p>Pilih folder lokal, klik <strong>Create Project</strong>.</p></li>
+</ol>
 </section>
-</section>
-<section id="setting-git-pertama-kali" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 🧰 Setting Git Pertama Kali</h1>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Nama Kamu"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"emailkamu@example.com"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Ini penting supaya setiap commit tercatat atas nama kamu.</p>
-<hr>
-</section>
-<section id="gunakan-git-di-rstudio-vscode" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> 💡 Gunakan Git di RStudio &amp; VSCode</h1>
-<section id="rstudio" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="rstudio"><span class="header-section-number">4.1</span> 🔸 RStudio</h2>
+<section id="workflow-dasar-di-rstudio" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="workflow-dasar-di-rstudio"><span class="header-section-number">2.3</span> 1.3. Workflow Dasar di RStudio</h2>
+<p>Di tab <strong>Git</strong> (kanan atas):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># di panel terminal RStudio (Cmd/Powershell)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add nama_file.qmd</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Menambahkan panduan"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li><p>Buka <strong>Global Options → Git/SVN → Enable version control</strong></p></li>
-<li><p>Restart RStudio</p></li>
-<li><p>Buat proyek baru dari Git</p></li>
+<li>Tombol <strong>Commit</strong> → centang file → isi pesan → <strong>Commit</strong>, lalu <strong>Push</strong>.<br>
+</li>
+<li>Gunakan <strong>Pull</strong> sebelum mulai kerja untuk sinkronisasi.</li>
 </ul>
 <blockquote class="blockquote">
-<p>📸 <em>Screenshot pengaturan Git di RStudio</em> Nama file: <code>images/rstudio-git-setting.png</code></p>
-</blockquote>
-</section>
-<section id="vscode" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="vscode"><span class="header-section-number">4.2</span> 🔸 VSCode</h2>
-<ul>
-<li><p>Install ekstensi GitHub &amp; GitLens</p></li>
-<li><p>Clone repo via Terminal / GUI</p></li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/namakamu/repo-praktikum.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p>📸 <em>Screenshot penggunaan Git di VSCode</em> Nama file: <code>images/vscode-git-clone.png</code></p>
+<p>🔗 Referensi resmi RStudio Git setup: https://r-bio.github.io/git-installation/</p>
 </blockquote>
 <hr>
 </section>
 </section>
-<section id="alur-kerja-git-dasar" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 🔃 Alur Kerja Git Dasar</h1>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"update modul praktikum"</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="git-di-vscode-windows-integrated-terminal" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 2️⃣ Git di VSCode (Windows + Integrated Terminal)</h1>
+<p>VSCode memiliki integrasi Git yang powerful dan terminal bawaan (PowerShell by default).</p>
+<section id="buka-clone-repo" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="buka-clone-repo"><span class="header-section-number">3.1</span> 2.1. Buka &amp; Clone Repo</h2>
+<ol type="1">
+<li><p>Jalankan VSCode<br>
+</p></li>
+<li><p>Tekan <code>Ctrl+Shift+P</code> → ketik <strong>Git: Clone</strong><br>
+</p></li>
+<li><p>Tempel URL repo, misal:</p>
+<pre><code>https://github.com/username/repo-praktikum.git</code></pre></li>
+<li><p>Pilih folder lokal, tunggu proses clone selesai.</p></li>
+</ol>
 </section>
-<section id="gunakan-branch-baru-kalau-kerja-bareng-agar-tidak-konflik" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> 💡 Gunakan branch baru kalau kerja bareng agar tidak konflik</h1>
+<section id="integrated-terminal" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="integrated-terminal"><span class="header-section-number">3.2</span> 2.2. Integrated Terminal</h2>
+<ul>
+<li>Buka terminal dengan `Ctrl+`` (backtick)<br>
+</li>
+<li>Default menggunakan PowerShell. Jika ingin Bash:
+<ul>
+<li>Tekan tombol ⌄ di pojok kanan terminal → pilih <strong>Select Default Profile → Git Bash</strong><br>
+</li>
+<li>Restart terminal.</li>
+</ul></li>
+</ul>
+</section>
+<section id="workflow-dasar-di-vscode" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="workflow-dasar-di-vscode"><span class="header-section-number">3.3</span> 2.3. Workflow Dasar di VSCode</h2>
+<section id="a.-menggunakan-gui-source-control" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="a.-menggunakan-gui-source-control"><span class="header-section-number">3.3.1</span> A. Menggunakan GUI Source Control</h3>
+<ol type="1">
+<li>Klik icon <strong>Source Control</strong> (ikon percabangan)<br>
+</li>
+<li>Centang perubahan → tulis pesan commit → <strong>✔️ Commit</strong><br>
+</li>
+<li>Klik <strong>… → Push</strong> atau otomatis muncul tombol <strong>Push</strong>.</li>
+</ol>
+</section>
+<section id="b.-menggunakan-terminal" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="b.-menggunakan-terminal"><span class="header-section-number">3.3.2</span> B. Menggunakan Terminal</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Memperbarui modul Quarto"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull    <span class="co"># tarik perubahan terbaru</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push    <span class="co"># kirim commit lokal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
-<p><strong><em>Coming Soon</em></strong></p>
+<p>🔗 Tutorial resmi Git di VSCode: https://code.visualstudio.com/docs/sourcecontrol/intro-to-git</p>
 </blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="tips-retensi-konsistensi" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 💡 Tips Retensi &amp; Konsistensi</h1>
+<ul>
+<li><strong>Satu perintah berlaku di semua OS</strong>: <code>ls</code>, <code>cd</code>, <code>git status</code>, dll.<br>
+</li>
+<li><strong>Biasakan GUI + Terminal</strong>: GUI memudahkan pemula, terminal menguatkan ingatan sintaks.<br>
+</li>
+<li><strong>Selalu <code>pull</code> sebelum <code>push</code></strong>: Hindari konflik merge.<br>
+</li>
+<li><strong>Gunakan branch</strong>: untuk fitur baru (<code>git checkout -b fitur-XYZ</code>).</li>
+</ul>
+<hr>
+<p>Semoga panduan ini membantu kamu menguasai Git secara mulus di kedua IDE. Setelah nyaman, lanjut ke topik <strong>Continuous Integration (CI)</strong> atau <strong>best practices branching</strong>!</p>
 
 
 </section>
