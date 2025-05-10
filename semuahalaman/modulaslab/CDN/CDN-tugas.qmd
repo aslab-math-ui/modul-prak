@@ -28,7 +28,7 @@ format:
 # 📥 Link Unduhan Langsung dari Google Drive
 
 1. **Atur permission** file di Google Drive ke **“Anyone with the link”**.  
-2. Salin **shareable link** (`https://drive.google.com/file/d/FILE_ID/view?usp=sharing`).  
+2. Salin **shareable link**.  
 3. Buka tool **gdocs2direct**:  
 
 ```bash
@@ -37,8 +37,7 @@ https://sites.google.com/site/gdocs2direct/
 
 4. Paste link Drive → Klik **Create Direct Link** → Salin **direct download URL**.
 
-> 📸 *Siapkan screenshot proses di gdocs2direct*  
-> Nama file: `images/gdrive-direct.png`
+![*screenshot proses di gdocs2direct*](https://res.cloudinary.com/tahun2025/image/upload/v1746844108/google-drive-direct-link-generator_qmxyvo.png)
 
 **Contoh penggunaan di Quarto**
 
@@ -46,10 +45,15 @@ https://sites.google.com/site/gdocs2direct/
 [📥 Download Soal Praktikum (PDF)](https://docs.google.com/uc?export=download&id=FILE_ID)
 ```
 
+Hasilnya akan terlihat seperti ini
+[📥 Download Soal Praktikum (PDF)](https://docs.google.com/uc?export=download&id=FILE_ID)
+
+
 ---
 
-# Embedding PDF Langsung di Halaman Quarto
-## Mendaftarkan PDF sebagai Resource di project.yaml (***Not Recommended***)
+# 🎯 Embedding PDF Langsung di Halaman Quarto
+## 📃 Mendaftarkan PDF sebagai Resource di project.yaml (<text style="color : red">not recommended</text>)
+
 Tambahkan di file `project.yaml` pada folder proyek Quarto kamu:
 ```yaml
 project:
@@ -60,12 +64,209 @@ Lalu di `.qmd`:
 ```markdown
 [📄 Buka Praktikum PDF](docs/praktikum.pdf)
 ```
-Browser akan menampilkan PDF sesuai plugin atau setting user.
+# ![drive logo](https://1000logos.net/wp-content/uploads/2021/04/Google-Drive-logo.png){width=8%}Embedding PDF dari Google Drive ke Quarto
 
-> 📸 *Siapkan cuplikan project.yaml*
-> Nama file: `images/project-yaml.png`
+Selain menyimpan PDF di server lokal, kamu juga bisa menyematkan langsung file PDF dari Google Drive. Ini berguna jika kamu ingin:
 
-# Opsi CDN Lain untuk Aset Statis
+- Mahasiswa langsung membaca file tanpa mengunduhnya
+- Tidak menyimpan file besar langsung di GitHub repo
+
+## 📌 Langkah-Langkah:
+
+1. Upload PDF ke Google Drive
+2. Klik kanan file PDF → pilih **Get link**
+3. Pastikan file disetel sebagai: **Anyone with the link → Viewer**
+4. Salin ID file dari link seperti:
+
+```markdown
+https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/view?usp=sharing
+```
+5. Gunakan format berikut di Quarto dengan `iframe` dan HTML literal:
+
+Begitu kamu copy, tambahkan penutup code ```
+
+```markdown
+```{=html}
+<iframe
+  src="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview"
+  width="100%"
+  height="600"
+  allow="autoplay"
+  style="border: 1px solid #ccc; margin-top: 20px;"
+>Browser Anda tidak mendukung iframe.
+<a href="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview">Download PDF</a>.
+</iframe>
+
+```
+
+
+Nanti hasil akhir 📄 Embed PDF dari Google Drive akan seperti ini.
+
+```{=html}
+<iframe
+  src="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview"
+  width="100%"
+  height="600"
+  allow="autoplay"
+  style="border: 1px solid #ccc; margin-top: 20px;"
+>Browser Anda tidak mendukung iframe.
+<a href="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview">Download PDF</a>.
+</iframe>
+
+```
+
+```markdown
+🔗 Link Langsung Unduh
+```{=html}
+<a href="https://drive.google.com/uc?export=download&id=1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx" 
+   target="_blank" 
+   class="btn btn-success">
+  ⬇️ Download PDF
+</a>
+
+```
+Contohnya akan seperti ini ⬇️.
+```{=html}
+<a href="https://drive.google.com/uc?export=download&id=1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx" 
+   target="_blank" 
+   class="btn btn-success">
+  ⬇️ Download PDF
+</a>
+
+```
+
+## Penjelasan:
+- `class="btn btn-success"` akan otomatis mengikuti palet warna dari tema Cosmo.
+- Jika ingin warna lain:
+  - `btn-primary` (biru),
+  - `btn-danger` (merah),
+  - `btn-warning` (kuning/oranye),
+  - `btn-info` (biru muda),
+  - `btn-secondary` (abu),
+  - `btn-light` dan `btn-dark`.
+
+Kamu tinggal pilih `btn-[warna]` sesuai konteks.
+
+---
+
+
+## 📝 Tips Tambahan
+
+- Gunakan `width="100%"` agar tampil responsif di semua ukuran layar
+
+- Tambahkan `height="600"` atau sesuai kebutuhan agar PDF tidak terlalu kecil
+
+
+
+---
+
+# 〽️ Alternatif Embed PDF di Quarto: `<embed>`, `<iframe>`, dan `<object>`
+
+Kadang kita ingin menyisipkan PDF langsung di halaman Quarto. Selain `iframe`, kamu bisa gunakan `embed` dan `object`. Masing-masing punya kelebihan dan fallback jika browser tidak support salah satunya.
+
+## 📎 Persiapan:
+Pastikan file PDF sudah disimpan di:
+- Google Drive (gunakan link langsung)
+- CDN seperti Cloudinary
+- Atau di dalam project Quarto kamu (di folder `files/` atau `assets/`)
+
+---
+
+### 📘 Menggunakan `<iframe>` (paling umum)
+
+```markdown
+```{=html}
+<iframe 
+  src="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/preview"
+  width="100%" 
+  height="600" 
+  allow="autoplay"
+  style="border: 1px solid #ccc;">
+</iframe>
+```
+
+Hasilnya sebagai berikut
+
+```{=html}
+<iframe 
+  src="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/preview"
+  width="100%" 
+  height="600" 
+  allow="autoplay"
+  style="border: 1px solid #ccc;">
+</iframe>
+```
+
+
+🟢 **Kelebihan**: Familiar dan mendukung file dari Google Drive langsung  
+🔴 **Catatan**: Beberapa browser memblokir karena policy cross-origin
+
+---
+
+### 📙 Menggunakan `<embed>`
+
+```markdown
+```{=html}
+<embed 
+  src="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/preview" 
+  type="application/pdf" 
+  width="100%" 
+  height="600px">
+```
+
+```{=html}
+<embed 
+  src="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/preview" 
+  type="application/pdf" 
+  width="100%" 
+  height="600px">
+```
+
+🟢 **Kelebihan**: Ringan, langsung tampil jika browser mendukung  
+🔴 **Catatan**: Kurang fleksibel untuk mobile view
+
+---
+
+### 📗 Menggunakan `<object>`
+
+```markdown
+```{=html}
+<object 
+  data="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/preview" 
+  type="application/pdf" 
+  width="100%" 
+  height="600">
+  <p>PDF tidak bisa ditampilkan. <a href="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/edit">Klik di sini untuk mengunduh</a>.</p>
+</object>
+```
+Hasilnya sebagai berikut
+
+```{=html}
+<object 
+  data="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/preview" 
+  type="application/pdf" 
+  width="100%" 
+  height="600">
+  <p>PDF tidak bisa ditampilkan. <a href="https://drive.google.com/file/d/1xeY7YVTyiWfsN5tUhYz4FQ6Dadf6tOYD/edit">Klik di sini untuk mengunduh</a>.</p>
+</object>
+```
+
+🟢 **Kelebihan**: Bisa disediakan fallback jika PDF gagal ditampilkan  
+🔴 **Catatan**: Beberapa plugin browser perlu aktif
+
+---
+
+## 🧪 Saran Penggunaan
+
+| Metode     | Cocok untuk        | Kelebihan                  | Kekurangan                |
+|------------|--------------------|----------------------------|---------------------------|
+| `iframe`   | Google Drive embed | Mudah dan langsung tampil  | Bisa gagal di mobile      |
+| `embed`    | File CDN           | Simple dan ringan          | Tidak semua browser oke   |
+| `object`   | File lokal/CDN     | Fallback jika gagal tampil | Butuh struktur HTML lebih |
+
+---
+
+# 😋 Opsi CDN Lain untuk Aset Statis
 
 Jika diperlukan hosting aset lain (JS, CSS, font, gambar kecil), pertimbangkan:
 
@@ -85,60 +286,3 @@ Jika diperlukan hosting aset lain (JS, CSS, font, gambar kecil), pertimbangkan:
 ```
 
 ---
-
-
-# Embed PDF dari Google Drive ke Quarto
-
-Selain menyimpan PDF di server lokal, kamu juga bisa menyematkan langsung file PDF dari Google Drive. Ini berguna jika kamu ingin:
-
-- Mahasiswa langsung membaca file tanpa mengunduhnya
-- Tidak menyimpan file besar langsung di GitHub repo
-
-## 📌 Langkah-Langkah:
-
-1. Upload PDF ke Google Drive
-2. Klik kanan file PDF → pilih **Get link**
-3. Pastikan file disetel sebagai: **Anyone with the link → Viewer**
-4. Salin ID file dari link seperti:
-
-```markdown
-https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/view?usp=sharing
-```
-5. Gunakan format berikut di Quarto dengan `iframe` dan HTML literal:
-
-## 📄 Contoh Embed PDF dari Google Drive
-
-```{=html}
-<iframe
-src="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview"
-width="100%"
-height="600"
-allow="autoplay"
->Browser Anda tidak mendukung iframe.<a href="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview">Download PDF</a>.</iframe>
-
-```
-
-syntax untuk menampilkan seperti di atas, ada di bawah ini. Begitu kamu copy, kata **akhir** cukup hapus saja.
-
-```markdown
-```{=html}
-<iframe
-src="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview"
-width="100%"
-height="600"
-allow="autoplay"
->Browser Anda tidak mendukung iframe.<a href="https://drive.google.com/file/d/1kJJeabYl-NH4nsNV8kLs-qTUYESbUfMx/preview">Download PDF</a>.</iframe>
-
-akhir```
-```
-
-
-## 📝 Tips Tambahan
-
-- Gunakan `width="100%"` agar tampil responsif di semua ukuran layar
-- Tambahkan `height="600"` atau sesuai kebutuhan agar PDF tidak terlalu kecil
-- Pastikan mahasiswa memiliki koneksi internet stabil untuk akses file dari Google Drive
-
----
-
-🔁 Selanjutnya, kamu bisa gabungkan teknik ini dengan tombol unduh langsung dari link Google Drive agar mahasiswa bisa **baca dan simpan file sekaligus**.
