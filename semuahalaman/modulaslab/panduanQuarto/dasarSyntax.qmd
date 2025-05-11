@@ -1,0 +1,388 @@
+---
+title: "🖋️ Dasar Lengkap Markdown & YAML di Quarto"
+description: "Panduan menyeluruh tentang sintaks Markdown dan konfigurasi YAML untuk Quarto. Cocok untuk membuat dokumen praktikum interaktif, laporan, dan website."
+keywords: [markdown quarto, yaml quarto, panduan lengkap markdown, sintaks markdown, konfigurasi yaml, quarto tips]
+format:
+  html:
+    toc: true
+    toc-title: "Daftar Isi"
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+---
+
+# 📚 Pendahuluan
+
+Markdown dan YAML adalah blok bangunan utama dalam Quarto. Dengan memahami kedua hal ini secara mendalam, kalian bisa membuat dokumen, modul, dan website praktikum yang **interaktif**, **mudah dibaca**, dan **mudah dikelola**.
+
+---
+
+## 📑 Daftar Isi
+
+1. [Markdown Dasar](#markdown-dasar)  
+2. [Markdown Lanjutan](#markdown-lanjutan)  
+3. [Fitur Quarto Khusus Markdown](#fitur-quarto-khusus-markdown)  
+4. [YAML Dasar](#yaml-dasar)  
+5. [YAML Lanjutan & Quarto](#yaml-lanjutan--quarto)  
+6. [Contoh Kasus: Dokumen Praktikum Interaktif](#contoh-kasus-dokumen-praktikum-interaktif)  
+
+---
+
+## Markdown Dasar {#markdown-dasar}
+
+### Heading dan Paragraf
+Gunakan `#` untuk heading, pisahkan paragraf dengan satu baris kosong.
+```{.markdown filename="Quarto"}
+# Heading 1
+## Heading 2
+### Heading 3
+
+Ini paragraf pertama.
+
+Ini paragraf kedua.
+```
+
+### Penekanan Teks
+```{.markdown filename="Quarto"}
+**Tebal** atau __Tebal__  
+*Miring* atau _Miring_  
+~~Coret~~  
+```
+Hasilnya seperti berikut.
+
+**Tebal** atau __Tebal__  
+*Miring* atau _Miring_  
+~~Coret~~
+
+---
+
+### Daftar
+- Daftar tak bernomor:
+  ```{.markdown filename="Quarto"}
+  - Item A
+    - Sub-item A1
+  - Item B
+  ```
+1. Daftar bernomor:
+   ```{.markdown filename="Quarto"}
+   1. Langkah 1
+   2. Langkah 2
+      1. Sub-langkah
+   ```
+
+### Tautan dan Gambar
+```{.markdown filename="Quarto"}
+[Tautan ke Posit](https://posit.co)
+
+![Alt Text](images/diagram.png){width=300px}
+```
+
+### Kode dan Blok Kode
+
+- **Inline code**: 
+```{.markdown filename="Quarto"}
+``Gunakan `print()` untuk skrip sederhana.``
+```
+Hasilnya sebagai berikut.
+``Gunakan `print()` untuk skrip sederhana.``
+- **Blok kode**:
+   
+```{.python filename="Python"}
+def hello():
+   print("Hello, Quarto!")
+```
+
+### Kutipan & Garis Horizontal
+```{.markdown filename="Quarto"}
+> Ini adalah kutipan.
+
+---
+```
+
+### Tabel Sederhana
+```{.markdown filename="Quarto"}
+| Nama   | Nilai |
+|--------|-------|
+| Alice  | 85    |
+| Bob    | 90    |
+```
+
+::: {.callout-tip title="Tips buat table di markdown & Quarto"}
+Gunakan [tablesgenerator.com bagian markdown tabel](https://www.tablesgenerator.com/markdown_tables#) agar membantu buat tabel lebih cepat
+:::
+
+---
+
+## Markdown Lanjutan {#markdown-lanjutan}
+
+### Footnotes
+```{.markdown filename="Quarto"}
+Teks utama[^1]
+
+[^1]: Ini catatan kaki.
+```
+Tampilan:
+
+Teks utama[^1]
+
+[^1]: Ini catatan kaki.
+---
+
+### Daftar Definisi
+```{.markdown filename="Quarto"}
+Term 1
+:   Definisi untuk term 1.
+
+Term 2
+:   Definisi untuk term 2.
+```
+Tampilan
+---
+
+Term 1
+:   Definisi untuk term 1.
+
+Term 2
+:   Definisi untuk term 2.
+---
+
+### Checklist
+```{.markdown filename="Quarto"}
+- [x] Selesai
+- [ ] Belum selesai
+```
+Tampilan:
+
+- [x] Selesai
+- [ ] Belum selesai
+
+### Emoji & Unicode
+```{.markdown filename="Quarto"}
+Gunakan emoji untuk memperjelas 📚✨
+```
+
+### Raw HTML
+```{.markdown filename="Quarto"}
+```{=html}
+<div style="background:#f0f0f0; padding:10px;">
+  <strong>Catatan:</strong> Ini HTML mentah.
+</div>
+```
+
+Tampilannya akan seperti ini seperti ini[^2]:
+
+[^2]: seperti biasa, untuk code yang tidak lengkap seperti di atas, diakhir berikan backtick 3 kali ```
+```{=html}
+<div style="background:#f0f0f0; padding:10px;">
+  <strong>Catatan:</strong> Ini HTML mentah.
+</div>
+```
+
+
+### Math & Persamaan
+```{.markdown filename="Quarto"}
+Inline: $E = mc^2$
+
+Block:
+$$
+\int_0^1 x^2 dx = \frac{1}{3}
+$$
+```
+
+Tampilannya sebagai berikut:
+
+Inline: $E = mc^2$
+
+Block:
+$$
+\int_0^1 x^2 dx = \frac{1}{3}
+$$
+
+
+---
+
+## Fitur Quarto Khusus Markdown {#fitur-quarto-khusus-markdown}
+
+- **Admonitions / Callouts**:
+  ```{.markdown filename="Quarto"}
+  ::: {.callout-note}
+  Ini catatan penting.
+  :::
+  ```
+  
+  Tampilannya sebagai berikut:
+  
+  ::: {.callout-note}
+  Ini catatan penting.
+  :::
+  
+  Ada banyak jenis tampilan:
+    
+    - Note
+    ```markdown
+    {.callout-note}
+    ```
+    - Warning
+    ```markdown
+    {.callout-warning}
+    ```
+    - Important
+    ```markdown
+    {.callout-important}
+    ```
+    - Tips
+    ```markdown
+    {.callout-tip}
+    ```
+    - Caution
+    ```markdown
+    {.callout-caution}
+    ```
+    
+  Lalu, bisa diberi atribut, seperti: 
+  
+    - `title=""`
+    - `collapse="true"`
+    
+```{.bash filename="Quarto"}
+# contoh
+
+::: {.callout-tip title="Ini tips lah" collapse="true"}
+betul-betul-betul
+:::
+```
+    <text Hasilnya akan seperti ini. >
+    
+::: {.callout-tip title="Ini tips lah" collapse="true"}
+betul-betul-betul
+:::
+  
+- **Cross-reference**:
+  ```markdown
+  Lihat Tabel <a href="#tabel-contoh">Tabel Contoh</a>.
+  ```
+- **Citation & Bibliografi**:
+  Tambahkan di YAML:
+  ```yaml
+  bibliography: references.bib
+  csl: apa.csl
+  ```
+  Lalu di teks:
+  ```markdown
+  Menurut studi [@doe2020], ...
+  ```
+- **Parameters & Parameterized Documents**:
+  ```yaml
+  params:
+    tahun: 2025
+  ```
+  ```markdown
+  Tahun: `r params$tahun`
+  ```
+
+---
+
+## YAML Dasar {#yaml-dasar}
+
+```yaml
+---
+title: "Judul Dokumen"
+author: "Nama Kamu"
+date: "2025-05-11"
+format: html
+---
+```
+
+- **title**, **author**, **date**: metadata utama.  
+- **format**: format output (html, pdf, docx).  
+
+---
+
+## YAML Lanjutan & Quarto {#yaml-lanjutan--quarto}
+
+### Pengaturan Format HTML
+```yaml
+format:
+  html:
+    toc: true
+    toc-title: "Daftar Isi"
+    toc-location: left
+    toc-depth: 3
+    theme: cosmo
+    code-fold: true
+```
+
+### PDF & Word
+```yaml
+format:
+  pdf:
+    documentclass: article
+  docx: default
+```
+
+### Daftar Isi, Navigasi, & Sidebar
+```yaml
+toc: true
+toc-depth: 4
+number-sections: true
+```
+
+### Bibliografi & Citation Style
+```yaml
+bibliography: references.bib
+csl: apa.csl
+link-citations: true
+```
+
+### Project vs Dokumen
+- **project.yaml**: untuk pengaturan seluruh website/proyek.  
+- **YAML di tiap `.qmd`**: untuk metadata dokumen tunggal.  
+
+---
+
+## Contoh Kasus: Dokumen Praktikum Interaktif {#contoh-kasus-dokumen-praktikum-interaktif}
+
+Kompleksitas sederhana menggabungkan semua fitur:
+
+```yaml
+---
+title: "Modul Praktikum Statistik"
+author: "Asisten Lab"
+date: "`r Sys.Date()`"
+bibliography: references.bib
+csl: chicago-author-date.csl
+format:
+  html:
+    toc: true
+    code-fold: true
+    theme: cosmo
+params:
+  sigma: 1.5
+---
+```
+
+```markdown
+::: callout-tip
+**Parameter `sigma`**: nilai standar deviasi yang bisa kamu ubah di header YAML.
+:::
+
+# Pengantar
+Nilai sigma: `r params$sigma`
+
+## Simulasi
+```python
+import numpy as np
+np.random.seed(123)
+data = np.random.normal(0, params$sigma, size=100)
+```
+
+| Simulasi | Hasil |
+|----------|-------|
+| Mean     | `r mean(data)` |
+| Std Dev  | `r sd(data)`   |
+
+```{=html}
+<iframe src="docs/hasil_simulasi.pdf" width="100%" height="400px"></iframe>
+```

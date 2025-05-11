@@ -1,0 +1,131 @@
+---
+title: "🔁 Git CLI & CI untuk Kolaborasi Asisten Laboratorium"
+description: "Panduan praktis penggunaan Git melalui CLI dan pengantar Continuous Integration (CI) untuk asisten laboratorium matematika, statistika, dan aktuaria."
+keywords: [git cli, continuous integration, asisten laboratorium, git praktikum, git di rstudio, git di vscode]
+format:
+  html:
+    toc: true
+    toc-title: "Daftar Isi"
+    toc-location: left
+    toc-depth: 3
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+---
+
+# 🔧 Apa Itu Git CLI?
+
+**CLI (Command Line Interface)** dalam Git mengacu pada penggunaan Git melalui terminal. Dibandingkan GUI, CLI memberikan kontrol lebih penuh dan efisiensi lebih tinggi saat mengelola proyek kolaboratif.
+
+## ✅ Kelebihan Git CLI
+- Cepat, ringan, dan bebas mouse
+- Mudah diotomasi (otomatisasi dengan script)
+- Bisa digunakan di semua OS: Windows, Mac, Linux
+
+## 🚀 Perintah Git Dasar di CLI
+
+Berikut beberapa perintah yang wajib kamu kuasai:
+
+```bash
+# Mengecek status file
+git status
+
+# Menambahkan file ke staging
+git add nama_file.ext
+
+# Commit perubahan dengan pesan
+git commit -m "Pesan commit"
+
+# Menghubungkan remote repo
+git remote add origin https://github.com/username/repo.git
+
+# Mendorong commit ke GitHub
+git push origin main
+
+# Menarik perubahan terbaru
+git pull origin main
+```
+
+> 💡 Tips: Gunakan Git Bash di Windows untuk pengalaman terminal yang mirip Linux/macOS.
+
+# 🔁 Apa Itu Continuous Integration (CI)?
+**Continuous Integration (CI)** adalah proses otomatisasi untuk memastikan perubahan kode yang dilakukan oleh anggota tim tidak merusak sistem utama. Di dunia asistensi lab, ini berguna saat:
+
+- Beberapa asisten mengedit modul atau materi yang sama
+
+- Perubahan didorong ke GitHub dan dicek otomatis
+
+- Sistem memberi tahu jika ada konflik atau kesalahan
+
+> 🎯 Tujuan CI adalah *mendeteksi kesalahan sedini mungkin secara otomatis* setelah commit atau push dilakukan.
+
+---
+
+# 🧩 Struktur CI: Komponen dan Fungsinya
+
+Mari kita lihat bagaimana CI bekerja dalam GitHub Actions (paling umum dipakai di kampus & lab):
+
+## ✅ **Trigger**
+CI bekerja secara otomatis saat terjadi sesuatu, misalnya:
+- `push` ke branch tertentu
+- `pull request` dibuat
+- Atau dijadwalkan (`schedule`)
+
+Contoh:
+```yaml
+on:
+  push:
+    branches: [main]
+```
+
+> Artinya: **jalankan CI** setiap ada push ke branch `main`.
+
+## 🧱 Jobs
+
+Satu CI bisa punya banyak **job**. Misalnya:
+
+- Job 1: Render Quarto
+
+- Job 2: Jalankan R Script
+
+- Job 3: Lakukan spell-check atau format
+
+Contoh:
+```yaml
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      ...
+
+```
+## 🔨 Steps
+Setiap job terdiri dari **langkah-langkah (steps)** yang dijalankan satu per satu, seperti:
+
+Clone repo
+
+- Install dependencies (misalnya Quarto)
+
+- Render file
+
+- Upload hasil
+
+Contoh:
+```yaml
+steps:
+  - uses: actions/checkout@v3
+  - name: Install Quarto
+    uses: quarto-dev/quarto-actions/setup@v2
+  - name: Render Project
+    run: quarto render
+```
+
+## 🛠️ Tools CI yang Sering Digunakan
+
+- **GitHub Actions**
+
+- GitLab CI/CD
+
+- CircleCI, TravisCI, Jenkins
+
+# Guide lebih lanjut Coming Soon

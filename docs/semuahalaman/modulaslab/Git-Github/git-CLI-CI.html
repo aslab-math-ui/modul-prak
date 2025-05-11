@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="keywords" content="panduan asisten laboratorium, belajar Quarto, Git untuk praktikum, CDN kuliah, LaTeX dasar">
-<meta name="description" content="Panduan lengkap untuk asisten laboratorium matematika, statistika, dan aktuaria.">
+<meta name="keywords" content="git cli, continuous integration, asisten laboratorium, git praktikum, git di rstudio, git di vscode">
+<meta name="description" content="Panduan praktis penggunaan Git melalui CLI dan pengantar Continuous Integration (CI) untuk asisten laboratorium matematika, statistika, dan aktuaria.">
 
-<title>Panduan Lengkap Asisten Laboratorium Matematika – Lab Praktikum Departemen Matematika FMIPA UI</title>
+<title>🔁 Git CLI &amp; CI untuk Kolaborasi Asisten Laboratorium – Lab Praktikum Departemen Matematika FMIPA UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,25 +22,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="floating nav-fixed">
@@ -80,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">Lab Praktikum Departemen Matematika FMIPA UI</span>
     </a>
   </div>
@@ -91,19 +125,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../semuahalaman/about.html"> 
+    <a class="nav-link" href="../../../semuahalaman/about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../semuahalaman/praktikum.html"> 
+    <a class="nav-link" href="../../../semuahalaman/praktikum.html"> 
 <span class="menu-text">Praktikum</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../semuahalaman/Jadwal.html"> 
+    <a class="nav-link" href="../../../semuahalaman/Jadwal.html"> 
 <span class="menu-text">Informasi Praktikum Departemen Matematika</span></a>
   </li>  
 </ul>
@@ -121,30 +155,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Daftar Isi</h2>
    
   <ul>
-  <li><a href="#modul-quarto-untuk-asisten-laboratorium-pemula" id="toc-modul-quarto-untuk-asisten-laboratorium-pemula" class="nav-link active" data-scroll-target="#modul-quarto-untuk-asisten-laboratorium-pemula"><span class="header-section-number">1</span> 📘 Modul Quarto untuk Asisten Laboratorium Pemula</a>
+  <li><a href="#apa-itu-git-cli" id="toc-apa-itu-git-cli" class="nav-link active" data-scroll-target="#apa-itu-git-cli"><span class="header-section-number">1</span> 🔧 Apa Itu Git CLI?</a>
   <ul class="collapse">
-  <li><a href="#apa-itu-quarto" id="toc-apa-itu-quarto" class="nav-link" data-scroll-target="#apa-itu-quarto"><span class="header-section-number">1.1</span> Apa itu Quarto?</a>
+  <li><a href="#kelebihan-git-cli" id="toc-kelebihan-git-cli" class="nav-link" data-scroll-target="#kelebihan-git-cli"><span class="header-section-number">1.1</span> ✅ Kelebihan Git CLI</a></li>
+  <li><a href="#perintah-git-dasar-di-cli" id="toc-perintah-git-dasar-di-cli" class="nav-link" data-scroll-target="#perintah-git-dasar-di-cli"><span class="header-section-number">1.2</span> 🚀 Perintah Git Dasar di CLI</a></li>
+  </ul></li>
+  <li><a href="#apa-itu-continuous-integration-ci" id="toc-apa-itu-continuous-integration-ci" class="nav-link" data-scroll-target="#apa-itu-continuous-integration-ci"><span class="header-section-number">2</span> 🔁 Apa Itu Continuous Integration (CI)?</a></li>
+  <li><a href="#struktur-ci-komponen-dan-fungsinya" id="toc-struktur-ci-komponen-dan-fungsinya" class="nav-link" data-scroll-target="#struktur-ci-komponen-dan-fungsinya"><span class="header-section-number">3</span> 🧩 Struktur CI: Komponen dan Fungsinya</a>
   <ul class="collapse">
-  <li><a href="#topik-dalam-panduan-quarto" id="toc-topik-dalam-panduan-quarto" class="nav-link" data-scroll-target="#topik-dalam-panduan-quarto"><span class="header-section-number">1.1.1</span> 🔹 Topik dalam Panduan Quarto</a></li>
+  <li><a href="#trigger" id="toc-trigger" class="nav-link" data-scroll-target="#trigger"><span class="header-section-number">3.1</span> ✅ <strong>Trigger</strong></a></li>
+  <li><a href="#jobs" id="toc-jobs" class="nav-link" data-scroll-target="#jobs"><span class="header-section-number">3.2</span> 🧱 Jobs</a></li>
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">3.3</span> 🔨 Steps</a></li>
+  <li><a href="#tools-ci-yang-sering-digunakan" id="toc-tools-ci-yang-sering-digunakan" class="nav-link" data-scroll-target="#tools-ci-yang-sering-digunakan"><span class="header-section-number">3.4</span> 🛠️ Tools CI yang Sering Digunakan</a></li>
   </ul></li>
-  <li><a href="#cara-pakai-panduan-quarto-hands-on" id="toc-cara-pakai-panduan-quarto-hands-on" class="nav-link" data-scroll-target="#cara-pakai-panduan-quarto-hands-on"><span class="header-section-number">1.2</span> Cara Pakai Panduan Quarto Hands-On</a></li>
-  </ul></li>
-  <li><a href="#github-pages-git-github-untuk-kolaborasi-asisten-lab" id="toc-github-pages-git-github-untuk-kolaborasi-asisten-lab" class="nav-link" data-scroll-target="#github-pages-git-github-untuk-kolaborasi-asisten-lab"><span class="header-section-number">2</span> <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" class="img-fluid" style="width:10.0%" alt="Github Pages"> Git &amp; GitHub untuk Kolaborasi Asisten Lab</a>
-  <ul class="collapse">
-  <li><a href="#panduan-git-dasar" id="toc-panduan-git-dasar" class="nav-link" data-scroll-target="#panduan-git-dasar"><span class="header-section-number">2.1</span> 🔹 Panduan Git Dasar</a></li>
-  <li><a href="#panduan-github" id="toc-panduan-github" class="nav-link" data-scroll-target="#panduan-github"><span class="header-section-number">2.2</span> 🔹 Panduan GitHub</a></li>
-  </ul></li>
-  <li><a href="#cdn-content-delivery-network-untuk-materi-praktikum" id="toc-cdn-content-delivery-network-untuk-materi-praktikum" class="nav-link" data-scroll-target="#cdn-content-delivery-network-untuk-materi-praktikum"><span class="header-section-number">3</span> 🌐 CDN (Content Delivery Network) untuk Materi Praktikum</a>
-  <ul class="collapse">
-  <li><a href="#apa-yang-bisa-disimpan-di-cdn" id="toc-apa-yang-bisa-disimpan-di-cdn" class="nav-link" data-scroll-target="#apa-yang-bisa-disimpan-di-cdn"><span class="header-section-number">3.1</span> 🔹 Apa yang Bisa Disimpan di CDN?</a></li>
-  <li><a href="#panduan-spesifik" id="toc-panduan-spesifik" class="nav-link" data-scroll-target="#panduan-spesifik"><span class="header-section-number">3.2</span> 🔹 Panduan Spesifik</a></li>
-  <li><a href="#panduan-mendatang" id="toc-panduan-mendatang" class="nav-link" data-scroll-target="#panduan-mendatang"><span class="header-section-number">3.3</span> 🔹 Panduan Mendatang</a></li>
-  </ul></li>
-  <li><a href="#latex-latex-untuk-pelaporan-akademik" id="toc-latex-latex-untuk-pelaporan-akademik" class="nav-link" data-scroll-target="#latex-latex-untuk-pelaporan-akademik"><span class="header-section-number">4</span> <img src="https://logowik.com/content/uploads/images/latex6119.logowik.com.webp" class="img-fluid" style="width:20.0%" alt="Latex"> LaTeX untuk Pelaporan Akademik</a>
-  <ul class="collapse">
-  <li><a href="#dasar-latex-yang-harus-dikuasai" id="toc-dasar-latex-yang-harus-dikuasai" class="nav-link" data-scroll-target="#dasar-latex-yang-harus-dikuasai"><span class="header-section-number">4.1</span> 🔹 Dasar LaTeX yang Harus Dikuasai</a></li>
-  </ul></li>
-  <li><a href="#kapan-harus-balik-lagi-ke-blog-ini" id="toc-kapan-harus-balik-lagi-ke-blog-ini" class="nav-link" data-scroll-target="#kapan-harus-balik-lagi-ke-blog-ini"><span class="header-section-number">5</span> 💡 Kapan Harus Balik Lagi ke Blog Ini?</a></li>
+  <li><a href="#guide-lebih-lanjut-coming-soon" id="toc-guide-lebih-lanjut-coming-soon" class="nav-link" data-scroll-target="#guide-lebih-lanjut-coming-soon"><span class="header-section-number">4</span> Guide lebih lanjut Coming Soon</a></li>
   </ul>
 </nav>
 </nav>
@@ -157,12 +181,12 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Panduan Lengkap Asisten Laboratorium Matematika</h1>
+<h1 class="title">🔁 Git CLI &amp; CI untuk Kolaborasi Asisten Laboratorium</h1>
 </div>
 
 <div>
   <div class="description">
-    Panduan lengkap untuk asisten laboratorium matematika, statistika, dan aktuaria.
+    Panduan praktis penggunaan Git melalui CLI dan pengantar Continuous Integration (CI) untuk asisten laboratorium matematika, statistika, dan aktuaria.
   </div>
 </div>
 
@@ -178,121 +202,119 @@ ul.task-list li input[type="checkbox"] {
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>panduan asisten laboratorium, belajar Quarto, Git untuk praktikum, CDN kuliah, LaTeX dasar</p>
+    <p>git cli, continuous integration, asisten laboratorium, git praktikum, git di rstudio, git di vscode</p>
   </div>
 </div>
 
 </header>
 
 
-<p>Halo pembaca! Semoga kalian dalam keadaan sehat dan semangat belajar. Kalau kalian membaca ini, besar kemungkinan kalian adalah <strong>Asisten Laboratorium Matematika, Statistika, atau Aktuaria</strong> ya?</p>
-<p>Jika iya, selamat datang! Blog ini disusun khusus untuk <strong>asisten lab pemula di tingkat sarjana</strong> di Indonesia agar kalian bisa cepat menyesuaikan diri dalam tugas-tugas asistensi. Di dalamnya akan dibahas panduan teknis serta alat bantu yang umum digunakan, supaya kalian bisa:</p>
+<section id="apa-itu-git-cli" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 🔧 Apa Itu Git CLI?</h1>
+<p><strong>CLI (Command Line Interface)</strong> dalam Git mengacu pada penggunaan Git melalui terminal. Dibandingkan GUI, CLI memberikan kontrol lebih penuh dan efisiensi lebih tinggi saat mengelola proyek kolaboratif.</p>
+<section id="kelebihan-git-cli" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="kelebihan-git-cli"><span class="header-section-number">1.1</span> ✅ Kelebihan Git CLI</h2>
 <ul>
-<li>Membuat dan menyusun modul sendiri</li>
-<li>Mengelola materi praktikum secara profesional</li>
-<li>Berkolaborasi dengan tim melalui Git &amp; GitHub</li>
-<li>Memanfaatkan penyimpanan luar seperti CDN</li>
-<li>Menyusun laporan formal dengan LaTeX</li>
-</ul>
-<hr>
-<section id="modul-quarto-untuk-asisten-laboratorium-pemula" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> 📘 Modul Quarto untuk Asisten Laboratorium Pemula</h1>
-<section id="apa-itu-quarto" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="apa-itu-quarto"><span class="header-section-number">1.1</span> Apa itu Quarto?</h2>
-<p>Quarto adalah platform dokumentasi dan publishing berbasis Markdown yang powerful. Cocok untuk membuat <strong>modul praktikum interaktif</strong> atau <strong>website lab</strong>.</p>
-<section id="topik-dalam-panduan-quarto" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="topik-dalam-panduan-quarto"><span class="header-section-number">1.1.1</span> 🔹 Topik dalam Panduan Quarto</h3>
-<ul>
-<li><a href="../../semuahalaman/modulaslab/panduanQuarto/install.html">Instalasi Quarto di Komputer Lokal</a></li>
-<li><a href="../../semuahalaman/modulaslab/panduanQuarto/dasarSyntax.html">Dasar-Dasar Syntax Markdown &amp; YAML di Quarto</a></li>
-<li><a href="#">Cara Membuat Website Praktikum di Quarto</a></li>
-<li><a href="../../semuahalaman/modulaslab/modulQuarto/modulQuarto.html">Panduan Menyusun Modul Praktikum Interaktif</a></li>
+<li>Cepat, ringan, dan bebas mouse</li>
+<li>Mudah diotomasi (otomatisasi dengan script)</li>
+<li>Bisa digunakan di semua OS: Windows, Mac, Linux</li>
 </ul>
 </section>
-</section>
-<section id="cara-pakai-panduan-quarto-hands-on" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="cara-pakai-panduan-quarto-hands-on"><span class="header-section-number">1.2</span> Cara Pakai Panduan Quarto Hands-On</h2>
-<p>Panduan ini didesain modular agar mudah diikuti dan di-update. Bookmark halaman ini dan cek kembali saat ada update ya.</p>
+<section id="perintah-git-dasar-di-cli" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="perintah-git-dasar-di-cli"><span class="header-section-number">1.2</span> 🚀 Perintah Git Dasar di CLI</h2>
+<p>Berikut beberapa perintah yang wajib kamu kuasai:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mengecek status file</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Menambahkan file ke staging</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add nama_file.ext</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Commit perubahan dengan pesan</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Pesan commit"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Menghubungkan remote repo</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin https://github.com/username/repo.git</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Mendorong commit ke GitHub</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Menarik perubahan terbaru</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
-<p>🔗 <a href="../../semuahalaman/modulaslab/modulQuarto/modulQuarto.html">Klik di sini untuk mulai dengan Modul Quarto</a></p>
+<p>💡 Tips: Gunakan Git Bash di Windows untuk pengalaman terminal yang mirip Linux/macOS.</p>
+</blockquote>
+</section>
+</section>
+<section id="apa-itu-continuous-integration-ci" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 🔁 Apa Itu Continuous Integration (CI)?</h1>
+<p><strong>Continuous Integration (CI)</strong> adalah proses otomatisasi untuk memastikan perubahan kode yang dilakukan oleh anggota tim tidak merusak sistem utama. Di dunia asistensi lab, ini berguna saat:</p>
+<ul>
+<li><p>Beberapa asisten mengedit modul atau materi yang sama</p></li>
+<li><p>Perubahan didorong ke GitHub dan dicek otomatis</p></li>
+<li><p>Sistem memberi tahu jika ada konflik atau kesalahan</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>🎯 Tujuan CI adalah <em>mendeteksi kesalahan sedini mungkin secara otomatis</em> setelah commit atau push dilakukan.</p>
 </blockquote>
 <hr>
 </section>
-</section>
-<section id="github-pages-git-github-untuk-kolaborasi-asisten-lab" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> <img src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" class="img-fluid" style="width:10.0%" alt="Github Pages"> Git &amp; GitHub untuk Kolaborasi Asisten Lab</h1>
-<p>Git dan GitHub sangat membantu untuk pengelolaan versi dokumen dan kerja tim. Terutama kalau kalian mengembangkan modul bersama tim dosen atau sesama asisten.</p>
-<p>Sebelum masuk ke panduan Git dan Github. Pastikan kalian sudah <a href="https://github.com/signup">daftar akun github</a> terlebih dahulu. Ketika sudah ada di halaman <code>github.com</code> kalian. Silahkan ikuti panduan untuk Git &amp; Github di bawah ini.</p>
-<section id="panduan-git-dasar" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="panduan-git-dasar"><span class="header-section-number">2.1</span> 🔹 Panduan Git Dasar</h2>
-<ul>
-<li><a href="../../semuahalaman/modulaslab/Git-Github/git-bash.html">Instalasi git bash (Opsional)</a></li>
-<li><a href="../../semuahalaman/modulaslab/Git-Github/git-vscode-rstudio.html">Instalasi Git di RStudio &amp; VSCode</a></li>
-<li><a href="../../semuahalaman/modulaslab/Git-Github/git-CLI-CI.html">Modul Git CI untuk Praktikum</a></li>
-</ul>
-</section>
-<section id="panduan-github" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="panduan-github"><span class="header-section-number">2.2</span> 🔹 Panduan GitHub</h2>
-<ul>
-<li><a href="../../semuahalaman/modulaslab/Git-Github/git1.html">Modul GitHub untuk Pemula</a></li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="cdn-content-delivery-network-untuk-materi-praktikum" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> 🌐 CDN (Content Delivery Network) untuk Materi Praktikum</h1>
-<p>Agar GitHub tetap ringan, file besar seperti video, audio, dan gambar bisa disimpan di luar GitHub melalui <strong>CDN</strong>.</p>
-<section id="apa-yang-bisa-disimpan-di-cdn" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="apa-yang-bisa-disimpan-di-cdn"><span class="header-section-number">3.1</span> 🔹 Apa yang Bisa Disimpan di CDN?</h2>
-<ul>
-<li>File gambar dan video untuk dokumentasi</li>
-<li>File tugas dalam format PDF/ZIP</li>
-<li>Audio untuk materi presentasi</li>
-</ul>
-</section>
-<section id="panduan-spesifik" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="panduan-spesifik"><span class="header-section-number">3.2</span> 🔹 Panduan Spesifik</h2>
-<ul>
-<li><a href="../../semuahalaman/modulaslab/CDN/CDN-materi.html">Panduan CDN untuk Materi Pembelajaran</a></li>
-<li><a href="../../semuahalaman/modulaslab/CDN/CDN-tugas.html">Panduan CDN untuk Tugas Praktikum</a></li>
-</ul>
-</section>
-<section id="panduan-mendatang" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="panduan-mendatang"><span class="header-section-number">3.3</span> 🔹 Panduan Mendatang</h2>
-<ul>
-<li>Panduan CDN dengan API Cloudinary</li>
-<li>Panduan CDN dengan layanan sharing file lainnya.</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="latex-latex-untuk-pelaporan-akademik" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> <img src="https://logowik.com/content/uploads/images/latex6119.logowik.com.webp" class="img-fluid" style="width:20.0%" alt="Latex"> LaTeX untuk Pelaporan Akademik</h1>
-<p>Sebagai asisten lab, kamu juga akan membuat laporan atau membantu mahasiswa dalam penulisan laporan. LaTeX menjadi alat penting untuk ini.</p>
-<section id="dasar-latex-yang-harus-dikuasai" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="dasar-latex-yang-harus-dikuasai"><span class="header-section-number">4.1</span> 🔹 Dasar LaTeX yang Harus Dikuasai</h2>
-<ul>
-<li>Penulisan simbol matematika</li>
-<li>Format dokumen formal (judul, daftar isi, dll)</li>
-<li>Kompilasi dokumen offline dan online</li>
-</ul>
+<section id="struktur-ci-komponen-dan-fungsinya" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 🧩 Struktur CI: Komponen dan Fungsinya</h1>
+<p>Mari kita lihat bagaimana CI bekerja dalam GitHub Actions (paling umum dipakai di kampus &amp; lab):</p>
+<section id="trigger" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="trigger"><span class="header-section-number">3.1</span> ✅ <strong>Trigger</strong></h2>
+<p>CI bekerja secara otomatis saat terjadi sesuatu, misalnya: - <code>push</code> ke branch tertentu - <code>pull request</code> dibuat - Atau dijadwalkan (<code>schedule</code>)</p>
+<p>Contoh:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
-<p>🔗 <a href="../../semuahalaman/modulaslab/latex/modul-latex.html">Modul Dasar LaTeX Offline &amp; Online</a></p>
+<p>Artinya: <strong>jalankan CI</strong> setiap ada push ke branch <code>main</code>.</p>
 </blockquote>
-<hr>
 </section>
-</section>
-<section id="kapan-harus-balik-lagi-ke-blog-ini" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> 💡 Kapan Harus Balik Lagi ke Blog Ini?</h1>
-<p>Karena blog ini terus diperbarui, kamu bisa bookmark dan kembali saat:</p>
+<section id="jobs" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="jobs"><span class="header-section-number">3.2</span> 🧱 Jobs</h2>
+<p>Satu CI bisa punya banyak <strong>job</strong>. Misalnya:</p>
 <ul>
-<li><p>Akan mulai menyusun modul baru</p></li>
-<li><p>Perlu setup ulang Git atau Quarto</p></li>
-<li><p>Butuh contoh penyusunan dokumen</p></li>
-<li><p>Ingin eksplorasi tools pendukung baru</p></li>
+<li><p>Job 1: Render Quarto</p></li>
+<li><p>Job 2: Jalankan R Script</p></li>
+<li><p>Job 3: Lakukan spell-check atau format</p></li>
 </ul>
-<hr>
-<p>Semoga blog ini bisa jadi teman belajar kalian sepanjang perjalanan sebagai <strong>asisten laboratorium matematika</strong>. Selamat bertumbuh dan semoga sukses!</p>
+<p>Contoh:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">      ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="steps" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="steps"><span class="header-section-number">3.3</span> 🔨 Steps</h2>
+<p>Setiap job terdiri dari <strong>langkah-langkah (steps)</strong> yang dijalankan satu per satu, seperti:</p>
+<p>Clone repo</p>
+<ul>
+<li><p>Install dependencies (misalnya Quarto)</p></li>
+<li><p>Render file</p></li>
+<li><p>Upload hasil</p></li>
+</ul>
+<p>Contoh:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v3</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install Quarto</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> quarto-dev/quarto-actions/setup@v2</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Render Project</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">run</span><span class="kw">:</span><span class="at"> quarto render</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="tools-ci-yang-sering-digunakan" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="tools-ci-yang-sering-digunakan"><span class="header-section-number">3.4</span> 🛠️ Tools CI yang Sering Digunakan</h2>
+<ul>
+<li><p><strong>GitHub Actions</strong></p></li>
+<li><p>GitLab CI/CD</p></li>
+<li><p>CircleCI, TravisCI, Jenkins</p></li>
+</ul>
+</section>
+</section>
+<section id="guide-lebih-lanjut-coming-soon" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Guide lebih lanjut Coming Soon</h1>
 
 
 </section>
