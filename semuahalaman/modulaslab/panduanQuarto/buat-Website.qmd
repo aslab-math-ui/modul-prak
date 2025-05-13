@@ -1274,7 +1274,7 @@ Beberapa contoh tema yang bisa kamu pilih di antaranya:
 -   [united](https://bootswatch.com/united/)
 -   [vapor ☁️](https://bootswatch.com/vapor/)
 -   [yeti](https://bootswatch.com/yeti/)
--   [zephyr](https://bootswatch.com/zephyr/)- Cerulean
+-   [zephyr](https://bootswatch.com/zephyr/)
 -   Dan masih banyak lagi!
 
 :::
@@ -1446,3 +1446,269 @@ website:
 ```
 
 ![](https://quarto.org/docs/websites/images/myblog-subscribe.png){.border fig-alt="Gambar blog menunjukkan bagian Subscribe di sisi kanan halaman, dengan kolom input bertuliskan 'email address' dan tombol bertuliskan 'Subscribe'."}
+
+# 4. 🦫 Draft Website
+## 4.1 📝 Ikhtisar: Konsep Draf
+
+Gunakan fitur *draft* (draf) untuk meninjau dan merencanakan konten sebelum benar-benar dipublikasikan. Secara default, halaman draf akan tampil kosong di situs yang dirender, dan tidak akan muncul di navigasi, daftar postingan, hasil pencarian, atau *sitemap* 🕵️‍️. Di bagian ini, kamu akan belajar cara menandai halaman sebagai draf, mengatur bagaimana draf ditampilkan di situs akhir, dan seperti apa tampilannya saat *preview* situs. Di halaman ini, kamu akan belajar cara:
+
+- Menandai halaman sebagai draft
+- Mengatur tampilan draft di situs yang dirender
+- Meninjau draft melalui pratinjau situs
+
+---
+
+## 4.2 ✍️ Menandai Halaman Sebagai Draft
+
+Untuk menandai halaman atau postingan sebagai *draft*, tambahkan `draft: true` pada YAML dokumen:
+
+```yaml
+---
+title: "Postingan dengan Kode"
+draft: true
+---
+```
+
+Untuk menjadikan seluruh dokumen dalam suatu direktori sebagai draf, gunakan `draft: true` di [metadata direktori](https://quarto.org/docs/projects/quarto-projects.html#directory-metadata).
+
+``` {.yaml filename="posts/_metadata.yml"}
+draft: true
+```
+
+Sebagai alternatif, kamu bisa juga menentukan opsi `drafts` di bagian `website` dalam file `_quarto.yml`.
+
+``` {.yaml filename="_quarto.yml"}
+website:
+  title: "Cool Website."
+  drafts:
+    - posts/post-with-code/index.qmd
+```
+
+Kalau kamu ingin menyimpan daftar path draf dalam file terpisah, gunakan fitur [**metadata include**](https://quarto.org/docs/projects/quarto-projects.html#metadata-includes). Misalnya, kamu bisa menulis daftar draf ke dalam `drafts.yml`.
+
+``` {.yaml filename="drafts.yml"}
+website:
+  drafts:
+    - posts/post-with-code/index.qmd
+```
+
+Lalu tambahkan file tersebut ke bagian `metadata-files` di `_quarto.yml`.
+
+``` {.yaml filename="_quarto.yml"}
+website:
+  title: "Cool Website."
+
+metadata-files:
+  - drafts.yml
+```
+
+Opsi `drafts` di bagian `website` juga bisa dikonfigurasi lewat [**project profiles**](https://quarto.org/docs/projects/profiles.html).
+
+## 4.3 🎨 Tampilan Halaman Draf
+Kamu bisa menggunakan opsi `draft-mode` untuk mengatur apakah konten draf akan ditampilkan dan bisa diakses di situs akhir. Nilai yang tersedia untuk `draft-mode` adalah:
+
+- `gone` (default) — Tidak ditampilkan dan tidak memiliki tautan ❌
+- `unlinked` — Ditampilkan tapi tidak ditautkan 🔗🚫
+- `visible` — Ditampilkan dan ditautkan 🌐✅
+
+URL untuk halaman kosong tetap akan tersedia, tetapi isi halamannya akan kosong. Halaman draf yang dirender juga akan menampilkan spanduk *Draft* di atasnya.
+
+![A rendered draft document will include a "Draft" banner](https://quarto.org/docs/websites/images/website-drafts-banner.png){.border fig-alt="Cuplikan layar dari sebuah postingan berjudul 'Post With Code', menampilkan spanduk bertuliskan 'Draft' di bagian atas halaman."}
+
+Jika draf disetel sebagai *unlinked*, maka halaman tersebut tidak akan muncul di hasil pencarian, daftar, sitemap, maupun navigasi (seperti sidebar, navbar, atau footer). Kalau halaman lain menautkan ke draf ini, tautannya akan dihilangkan — hanya isi teks tautan yang ditampilkan tanpa hyperlink-nya.
+
+Contoh konfigurasi lengkap seperti berikut:
+
+:::{#lst-example}
+
+```{.yaml filename="_quarto.yml"}
+project:
+  type: website
+
+website:
+  title: "Cool Website."
+  navbar:
+    left:
+      - stuff/item1.qmd
+      - stuff/item2.qmd
+  drafts:                   # <1>
+    - stuff/item2.qmd       # <1>
+  draft-mode: unlinked      # <2>
+```
+
+1. Proyek menyediakan daftar halaman draf secara eksplisit. Hal yang sama bisa juga dilakukan dengan menambahkan `draft: true` langsung di halaman `stuff/item2.qmd`.
+
+2. *Draft mode* disetel ke `unlinked`, artinya draf tetap dirender tetapi tidak ditautkan dari mana pun.
+
+![](https://quarto.org/docs/websites/images/website-drafts-nav.png){.border fig-alt="Bilah navigasi untuk situs berjudul 'Cool Website.' hanya menampilkan satu item navigasi 'Item 1'."}
+:::
+
+
+Namun, `stuff/item2.qmd` masih bisa diakses lewat URL `stuff/item2.html` dan menampilkan spanduk Draft.
+
+![](https://quarto.org/docs/websites/images/website-drafts-item2.png){.border fig-alt="Cuplikan layar dari halaman web berjudul 'Item 2'. Bilah navigasi hanya menampilkan 'Item 1'. Di atas navbar terdapat spanduk bertuliskan 'Draft'."}
+
+## 4.4 🔍 Meninjau Halaman Draf
+
+Terlepas dari nilai yang kamu atur di `draft-mode`, saat kamu menjalankan `quarto preview`, semua halaman draf akan diperlakukan sebagai `visible`. Artinya, halaman akan ditampilkan lengkap dengan spanduk Draft, dan semua tautan atau item navigasi menuju draf akan aktif dan terlihat.
+
+Misalnya, saat *preview* dari situs yang dikonfigurasi di atas dijalankan, tautan ke `stuff/item2.html` akan muncul di navigasi.
+
+![](https://quarto.org/docs/websites/images/website-drafts-preview.png){.border fig-alt="Cuplikan layar dari halaman web berjudul 'Item 2'. Bilah navigasi menampilkan dua item: 'Item 1' dan 'Item 2'. Di atas navbar terdapat spanduk bertuliskan 'Draft'."}
+
+Perilaku ini juga berlaku untuk tombol **Render** di RStudio dan **Preview** di VS Code. 🧪💡
+
+# 5. 🔍 Pencarian Website
+## 5.1 📝 Ikhtisar Fitur Pencarian
+Quarto mendukung pencarian teks penuh di dalam situs kamu. Secara default, Quarto akan membuat indeks lokal dari konten situs kamu supaya bisa dicari dengan mudah. Kalau kamu butuh solusi yang lebih canggih dan terhosting, kamu juga bisa menggunakan [Algolia](https://www.algolia.com/products/search-and-discovery/hosted-search-api/).
+
+## 5.2📍 Penempatan Pencarian
+
+Pencarian diaktifkan secara otomatis di website dan buku. Kalau situs kamu punya navbar, UI pencarian akan muncul di navbar. Kalau tidak, maka pencarian akan muncul di sidebar. Kamu bisa mengatur lokasi ini dengan opsi berikut:
+
+| Opsi       | Deskripsi                                                                 |
+|------------|---------------------------------------------------------------------------|
+| `location` | Posisi pencarian: `navbar` atau `sidebar` (default-nya `navbar` jika ada)|
+| `type`     | Jenis tampilan: `overlay` (pop-up) atau `textbox` (langsung di navbar)   |
+
+Contohnya:
+
+``` yaml
+website:
+  search: 
+    location: navbar
+    type: overlay
+```
+
+### 🔘 Opsi Lokasi:
+- `navbar`: Pencarian muncul di bilah navigasi atas.
+- `sidebar`: Pencarian muncul di bilah samping.
+
+### 🖊️ Opsi Tampilan:
+- `overlay`: Tombol yang membuka jendela pencarian pop-up.
+
+![](https://quarto.org/docs/websites/images/navbar-overlay.png){.border .column-page-outset-right fig-alt="Halaman Quarto dengan overlay pencarian Algolia dalam mode 'terpisah'. Latar belakang halaman digelapkan dan dialog pencarian muncul dengan hasil pencarian di bawahnya."}
+
+- `textbox`: Kotak input langsung di navbar/sidebar.
+
+![](https://quarto.org/docs/websites/images/navbar-textbox.png){.border .column-page-outset-right fig-alt="Pencarian Algolia dengan textbox di navbar. Dialog pencarian muncul sebagai dropdown di sisi kanan layar."}
+
+Secara default, textbox pencarian tidak memiliki teks placeholder. Kamu bisa menambahkan teks ini dengan opsi `search-text-placeholder` di bagian `language`.
+
+::: {layout-ncol="2"}
+
+``` yaml
+language: 
+  search-text-placeholder: Search
+```
+
+![](https://quarto.org/docs/websites/images/search-placeholder-text.png){fig-alt="Kotak pencarian menampilkan teks placeholder 'Search'."}
+:::
+
+⚠️ Catatan: Opsi ini adalah default, jadi tidak wajib ditulis kecuali ingin mengubahnya.
+
+## 5.3 ⌨️ Pintasan Keyboard
+
+Selain klik, pencarian juga bisa dibuka dengan pintasan keyboard:
+
+- `s`
+- `f`
+- `/`
+
+Kamu juga bisa mengganti pintasannya. Misalnya:
+
+``` yaml
+website:
+  search:
+    keyboard-shortcut: ["?", "H"]
+```
+
+Contoh:
+Pencarian bisa dibuka dengan tombol `?` atau `H`.
+
+
+## 5.4 🎨 Kustomisasi Hasil Pencarian
+
+Kamu bisa mengatur bagaimana hasil pencarian ditampilkan dengan opsi berikut:
+
+| Opsi                | Deskripsi                                                                                                                                                                                     |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `limit`             | Jumlah maksimal hasil pencarian yang ditampilkan (default: 20).                                                                                                                               |
+| `collapse-after`    | Jumlah bagian hasil yang ditampilkan sebelum disembunyikan dalam link "more matches". (default: 2)                                                                                            |
+|                     | ![](https://quarto.org/docs/websites/images/collapse-after.png){.border fig-alt="Sebagian hasil pencarian yang menampilkan teks '3 more matches in this document' di bawah hasil pencarian."} |
+| `copy-button`       | Menambahkan ikon salin URL hasil pencarian ke clipboard. Berguna untuk berbagi pencarian tertentu.                                                                                            |
+|                     | ![](https://quarto.org/docs/websites/images/copy-button.png){.border fig-alt="Kotak pencarian dengan ikon clipboard di sisi kanan."}                                                          |
+| `show-item-context` | Menampilkan konteks halaman di hasil pencarian (contoh: `Panduan > Menulis > Gambar`)                                                                                                         |
+|                     | ![](https://quarto.org/docs/websites/images/search-item-context.png){.border fig-alt="Kotak pencarian yang menampilkan konteks navigasi di atas judul hasil pencarian pertama." width="260"}  |
+
+
+## 5.5 🌐 Menggunakan Algolia
+
+Kalau kamu mau pakai sistem pencarian eksternal yang lebih kuat, Quarto bisa dikonfigurasi untuk menggunakan Algolia. Saat membuat situs, Quarto akan menghasilkan file `search.json` di folder output situs — ini bisa digunakan untuk memperbarui indeks Algolia. 📦 Untuk informasi lebih lanjut tentang membuat indeks dengan Algolia, lihat panduan [Mengirim dan Memperbarui Data Anda](https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/) menggunakan Algolia.
+
+### 🔧 Konfigurasi Dasar
+
+Agar Quarto bisa tersambung dengan indeks Algolia-mu, kamu perlu menyertakan informasi berikut di file proyek `_quarto.yml`:
+
+Contoh:
+
+``` yaml
+website:
+  search:
+    algolia:
+      index-name: <my-index-name>
+      application-id: <my-application-id>
+      search-only-api-key: <my-search-only-api-key>
+```
+
+### 🛠️ Skema Indeks Khusus (Custom Index Schema)
+
+Kalau kamu tidak menggunakan `search.json` default dari Quarto, kamu harus memberi tahu Quarto struktur data apa yang digunakan di indeks Algolia kamu.
+
+You can enable this using:
+
+🧩 Opsi Skema:
+- `href`: URL dari hasil pencarian (wajib).
+- `title`: Judul dari hasil pencarian (wajib).
+- `text`: Teks konten (wajib).
+- `section`: Bagian/subjudul dari dokumen (opsional).
+
+Contoh: hasil pencarian dikelompokkan berdasarkan URL dan teks.
+
+### 📊 Algolia Insights
+
+Algolia otomatis menyediakan statistik performa pencarian. Kalau kamu ingin melacak klik dan konversi pengguna lebih lanjut, aktifkan opsi ini:
+
+You can enable this using:
+
+📍 Catatan:
+Tracking menggunakan cookie anonim. Kalau situsmu pakai sistem izin cookie, maka tracking hanya aktif setelah pengguna menyetujui.
+
+### ⚙️ Konfigurasi Lanjutan
+
+Kamu juga bisa mengirim parameter khusus ke Algolia untuk membatasi hasil berdasarkan tag atau kategori tertentu.
+
+You can enable this using:
+
+Contoh:
+Batasi hasil pencarian hanya untuk tag tertentu seperti `tag1` dan `tag2`.
+
+📚 Dokumentasi lengkap: [Search API Parameters](https://www.algolia.com/doc/api-reference/search-api-parameters/)
+
+## 5.6 🚫 Menonaktifkan atau Memaksa Pencarian
+
+Untuk menonaktifkan pencarian di satu dokumen, tambahkan `search: false` di metadata YAML.
+
+You can enable this using:
+
+Kalau kamu ingin menonaktifkan pencarian untuk seluruh situs, tambahkan `website.search: false` di `_quarto.yml`
+
+📌 Memaksa elemen tertentu ikut diindeks
+
+Kalau ada bagian dari dokumen yang ingin kamu paksa masuk ke hasil pencarian, tambahkan kelas berikut:
+
+```html
+<div class="quarto-include-in-search-index">Konten penting ini akan selalu bisa dicari!</div>
+```
+
+Gunakan tag `<span>` atau `<div>` di sekeliling teks yang ingin dipastikan masuk indeks.
