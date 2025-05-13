@@ -225,13 +225,13 @@ Begitu websitemu sudah jalan, kamu bisa:
 
 - [🔗 Tambahkan navigasi: Website Navigation](#Website-Navigation) mendeskripsikan berbagai cara untuk menambahkan navigasi ke website, termasuk bar navigasi tingkat tinggi, sidebar atau menggunakan kedua desain hybrid. Bagian ini juga meliputi penambahan pencarian full-text dan juga footer situs yang lebar.
 
-- [🧰 Tambahkan fitur sosial & analytics: Website Tools](modelQuarto.qmd#Website Tools) meliputi penambahan metadata social (seperti kartu twitter) dan analitik Google untuk situsmu, sebagaimana pengguna memverifikasi toggle di antara skema warna terang dan gelap.
+- [🧰 Tambahkan fitur sosial & analytics: Website Tools](https://quarto.org/docs/websites/website-tools.html) meliputi penambahan metadata social (seperti kartu twitter) dan analitik Google untuk situsmu, sebagaimana pengguna memverifikasi toggle di antara skema warna terang dan gelap.
 
-- [⚙️ Kustomisasi opsi website: Website Options](modelQuarto.qmd#Website Options) menyajikan referensi komprehensif kepada semua opsi website yang tersedia.
+- [⚙️ Kustomisasi opsi website: Website Options](https://quarto.org/docs/reference/projects/websites.html) menyajikan referensi komprehensif kepada semua opsi website yang tersedia.
 
-- [🧮 Optimalkan eksekusi kode: Code Execution](modelQuarto.qmd#Code Execution) menyajikan tips untuk optimisasi merender website dengan banyak dokumen atau komputasi yang mahal.
+- [🧮 Optimalkan eksekusi kode: Code Execution](https://quarto.org/docs/projects/code-execution.html) menyajikan tips untuk optimisasi merender website dengan banyak dokumen atau komputasi yang mahal.
 
-- [🚀 Publikasikan websitemu: Publishing Websites](modelQuarto.qmd#Publishing Websites) menyebutkan berbagai opsi untuk menerbitkan situs web termasuk Halaman GitHub, Netlify, dan Posit Connect.
+- [🚀 Publikasikan websitemu: Publishing Websites](https://quarto.org/docs/publishing/) menyebutkan berbagai opsi untuk menerbitkan situs web termasuk Halaman GitHub, Netlify, dan Posit Connect.
 
 # 2. 🧭 Navigasi Website {#Website-Navigation}
 ## 2.1 😗 Gambaran Ikhtisar
@@ -994,7 +994,7 @@ website:
 ---
 
 🧭 Catatan Tambahan!
-Kalau kamu sudah menyetel `site-url` (yang dibutuhkan untuk sitemap dan [pratinjau metadata sosial](website-tools.qmd#social-metadata)), kamu cukup memasukkan path situs langsung ke `site-url`.
+Kalau kamu sudah menyetel `site-url` (yang dibutuhkan untuk sitemap dan [pratinjau metadata sosial](https://quarto.org/docs/websites/website-tools.html#social-metadata)), kamu cukup memasukkan path situs langsung ke `site-url`.
 
 ```{.yaml filename="yaml"}
 website:
@@ -1002,6 +1002,447 @@ website:
   site-url: "https://contoh.com/situsku/"
 ```
 
-# 3. Fitur Blog di Quarto
+# 3. 📖 Fitur Blog di Quarto
+## 3.1 📝 Gambaran Umum
 
-*coming soon*
+Situs web Quarto punya dukungan bawaan untuk fitur blog. Blog terdiri dari kumpulan postingan ✍️ disertai halaman navigasi yang menampilkannya secara urut dari yang terbaru. Blog juga bisa punya halaman profil khusus, menerbitkan RSS feed 📡, dan menggunakan beragam tema keren 🎨.
+
+Kamu bisa bikin:
+
+- Situs web yang *hanya* berisi blog 📚
+- Situs dengan beberapa blog 🧩
+- Atau menambahkan blog ke situs yang punya konten lain 📦
+
+## 3.2 ⚡ Mulai Cepat (Quick Start)
+
+Ikuti langkah Mulai Cepat sesuai alat yang kamu gunakan untuk membuat blog sederhana yang langsung bisa jalan. Setelah memahami dasar-dasarnya, lanjut baca bagian berikutnya untuk fitur blog yang lebih canggih 🔧.
+
+::: {.panel-tabset group="tools-tabset"}
+### 💻 VS Code
+
+Untuk membuat proyek blog baru di dalam VS Code:
+1. Jalankan perintah **Quarto: Create Project** dari *command palette*.
+
+![](https://quarto.org/docs/websites/images/vscode-create-project-command.png)
+
+2. Pilih **Blog Project** dari daftar pilihan.
+
+![](https://quarto.org/docs/websites/images/vscode-create-project-blog.png)
+
+3. Tentukan direktori induk dan nama folder untuk proyek blog kamu.
+
+![](https://quarto.org/docs/websites/images/vscode-create-project-directory.png)
+
+4. Klik tombol **Preview** ▶️ untuk melihat pratinjau blog.
+
+![](https://quarto.org/docs/websites/images/vscode-create-project-render-blog.png)
+
+Preview akan otomatis diperbarui saat kamu menyimpan atau merender ulang `index.qmd` atau file lainnya seperti `about.qmd`.
+
+### 📊 RStudio
+
+Untuk membuat proyek blog baru di RStudio:
+
+1. Gunakan perintah **New Project** & Pilih **Quarto Blog**
+
+::: {layout-ncol="2"}
+
+![](https://quarto.org/docs/websites/images/rstudio-project-new-directory.png){.border}
+
+![](https://quarto.org/docs/websites/images/rstudio-project-blog.png)
+:::
+
+
+2. Masukkan nama folder dan pengaturan lain sesuai kebutuhan
+
+![](https://quarto.org/docs/websites/images/rstudio-project-blog-options.png)
+
+3. Klik tombol **Render** ▶️ untuk melihat pratinjau
+
+![](https://quarto.org/docs/websites/images/rstudio-project-blog-preview.png)
+
+Preview akan muncul di sisi kanan file sumber, dan otomatis diperbarui setiap kamu merender ulang `index.qmd` atau file lain seperti `about.qmd`.
+
+### 🖥️ Terminal
+
+Untuk membuat proyek blog dari Terminal:
+
+``` {.bash filename="Terminal"}
+quarto create project blog myblog
+```
+
+---
+
+📂 Setelah membuat proyek blog dengan `quarto create`, struktur dasar blog akan disiapkan di folder tujuan. Kamu bisa menggunakan `quarto preview` untuk merender dan menampilkan blog di browser.
+
+``` {.bash filename="Terminal"}
+quarto preview myblog
+```
+
+Preview akan terbuka otomatis di browser 🧭 dan akan diperbarui setiap kamu menyimpan atau merender ulang file seperti `index.qmd` dan `about.qmd`.
+
+:::
+
+📁 Ringkasan File Proyek Blog
+
+Berikut ini adalah ringkasan file penting yang dibuat saat kamu memulai proyek blog dengan template bawaan Quarto:
+
+| File                  | Deskripsi 📄                         |
+|:----------------------|:-------------------------------------|
+| `_quarto.yml`         | File utama konfigurasi proyek Quarto |
+| `index.qmd`           | Halaman utama blog 🏠                |
+| `about.qmd`           | Halaman tentang penulis 📃           |
+| `posts/`              | Folder berisi semua postingan 📂     |
+| `posts/_metadata.yml` | Pengaturan bersama untuk postingan ⚙️ |
+| `styles.css`          | CSS kustom untuk tampilan situs 🎨   |
+
+🎯 Di bagian selanjutnya, kita akan bahas satu per satu komponen ini lebih dalam.
+
+## 3.3 🏠 Halaman Utama Blog
+
+Halaman utama blog kamu adalah **[listing page](https://quarto.org/docs/websites/website-listings.html)** — yaitu halaman daftar semua dokumen yang ada di folder `posts`. Postingan ditampilkan secara otomatis dalam urutan terbaru ke terlama 🕒:
+
+![](https://quarto.org/docs/websites/images/myblog.png){.border fig-alt="Gambar menampilkan: Navbar berisi judul blog ('myblog') di kiri dan tautan 'About', ikon GitHub, ikon Twitter, serta ikon Search di kanan. Di bawahnya ada daftar postingan dengan judul, tag, deskripsi, dan preview yang diurutkan berdasarkan tanggal. Di sisi kanan tampak daftar kategori dan jumlah post tiap kategori."} 
+
+
+🛠️ Ketika kamu membuat post baru, daftar ini akan otomatis diperbarui — post terbaru akan muncul di bagian paling atas.
+
+:::{.callout-warning title="**Peringatan penting:**"}  
+Sebaiknya jangan gunakan tanggal dinamis seperti `today` atau `last-modified` di post blog kamu. Ini akan mengacaukan urutan postingan di halaman utama dan RSS feed karena akan berubah setiap kali file dirender ulang.
+:::
+
+### 🏷️ Kategori di Halaman Blog
+
+Halaman daftar post (listing page) bisa menampilkan kategori 📚 di sisi kanan halaman, yang membantu pembaca menjelajahi konten berdasarkan topik.
+
+```{.yaml filename="yaml"}
+---
+title: "myblog"
+listing:
+  categories: true
+---
+```
+
+Kategori ini diambil dari metadata (bagian depan) setiap dokumen yang ditampilkan. Misalnya, kamu bisa memberi label seperti `news`, `code`, atau `analysis` ke dalam satu post agar lebih mudah ditemukan 💡.
+
+```{.yaml filename="yaml"}
+---
+title: "Post With Code"
+description: "Post description"
+author: "Fizz McPhee"
+date: "5/22/2021"
+categories:
+  - news
+  - code
+  - analysis
+---
+```
+Lihat artikel [Categories](https://quarto.org/docs/websites/website-listings.html#categories) untuk mempelajari lebih lanjut.
+
+## 3.4 ℹ️ Halaman Tentang (About)
+
+File `about.qmd` digunakan untuk memberikan informasi tambahan tentang blog kamu dan penulisnya ✍️. Misalnya, kamu bisa menampilkan foto profil, nama, deskripsi singkat, dan tautan ke media sosial seperti Twitter atau GitHub 🌐.
+
+```{.markdown filename="about.qmd"}
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com
+    # (additional links excluded for brevity)
+---
+
+## About this blog
+
+This is the contents of the about page for my blog.
+```
+
+Kamu bisa menggunakan berbagai gaya tampilan (template) untuk halaman ini, salah satunya adalah template `jolla` yang tampak modern dan terstruktur rapi.
+
+![](https://quarto.org/docs/websites/images/about-jolla.png){.border fig-alt="Screenshot halaman about dengan foto di tengah atas, nama besar, teks deskripsi, dan dua tombol untuk Twitter & GitHub."}
+
+Untuk mempelajari lebih banyak pengaturan halaman About, lihat artikel [About Pages](https://quarto.org/docs/websites/website-about.html).
+
+## 3.5 📂 Direktori Postingan
+
+Semua konten blog kamu tersimpan dalam folder `posts`. Untuk menambah post baru, cukup buat sub-folder di dalam `posts/` lalu tambahkan file `index.qmd` di dalamnya. Post tersebut akan otomatis muncul di halaman utama setelah kamu render 🆕.
+
+📌 Post terbaru akan muncul paling atas secara otomatis.
+
+### 📝 Draft (Draf)
+
+Kamu bisa menandai sebuah post sebagai *draf* jika belum siap dipublikasikan. Cukup tambahkan `draft: true` di metadata post.
+
+```{.markdown filename="yaml"}
+---
+title: "My Post"
+description: "Post description"
+author: "Fizz McPhee"
+date: "5/22/2021"
+draft: true
+---
+```
+
+📌 Post dengan status draft akan muncul saat kamu preview situs, tapi tidak akan muncul di hasil render akhir, listing, navigasi, peta situs, maupun fitur pencarian 🔒.
+
+Untuk mempublikasikannya, cukup hapus `draft: true` lalu render ulang post-nya ✅.
+
+```markdown
+---
+draft: true
+---
+```
+
+### 📅 Pembaruan Terakhir (Last Updated)
+
+Untuk menampilkan tanggal modifikasi terakhir tanpa mengubah tanggal publikasi asli, kamu bisa menambahkan `date-modified` di metadata post.
+
+```{.markdown filename="yaml"}
+---
+title: "My Post"
+description: "Post description"
+author: "Fizz McPhee"
+date: "5/22/2021"
+date-modified: "5/23/2021"
+---
+```
+
+Ini berguna agar pembaca tahu kapan konten terakhir diperbarui 🔄.
+
+```markdown
+---
+date-modified: "5/23/2021"
+---
+```
+
+### 🧊 Membekukan Hasil Eksekusi Post (Freezing Posts)
+
+Kalau blog kamu punya post dengan kode program, mungkin akan sulit di-render di masa depan — misalnya karena paketnya sudah berubah ⚠️. Juga, post dengan perhitungan berat bisa bikin waktu render seluruh situs jadi lama 🐢.
+
+Solusinya: [**freeze**](https://quarto.org/docs/projects/code-execution.html#freeze) hasil render post kamu. Saat kamu menggunakan `freeze: true`, hasil render disimpan dan tidak dihitung ulang tiap kali kamu render situs ⛔🖥️.
+
+Ini membuat situs tetap stabil dan cepat, walaupun ada banyak post dengan kode dan analisis rumit. Kamu hanya perlu re-render post tersebut kalau memang perlu diubah.
+
+📦 Default blog dari Quarto menyertakan file `_metadata.yml` di dalam folder `posts/` untuk menetapkan `freeze: true` ke semua post dalam folder itu secara otomatis.
+
+#### 🗂️ Metadata Bersama di Blog Default
+
+Pada blog default, Quarto menyertakan sebuah file bernama `_metadata.yml` yang berfungsi untuk menetapkan [metadata bersama](https://quarto.org/docs/projects/quarto-projects.html#shared-metadata) untuk semua dokumen di dalam folder `posts` 📄.
+
+Di dalam file ini, kita bisa menentukan agar semua post secara default menggunakan `freeze: true` ❄️ — artinya hasil eksekusi kode akan disimpan dan tidak dihitung ulang saat situs dirender.
+
+```markdown
+# options apply to all posts in this folder
+freeze: true
+```
+## 3.6 🎨 Tema Blog
+
+Blog di Quarto bisa memakai salah satu dari 25 tema [Bootswatch](https://bootswatch.com/) yang sudah tersedia. Kamu juga bisa [membuat tema sendiri](https://quarto.org/docs/output-formats/html-themes.html#theme-options) jika ingin tampilan yang lebih personal 🧑‍🎨.
+
+Secara default, proyek blog yang dibuat menggunakan `quarto create project` akan memakai tema [cosmo](https://bootswatch.com/cosmo/).
+
+::: {layout="[40,60]"}
+::: theme-list
+Beberapa contoh tema yang bisa kamu pilih di antaranya:
+
+-   [default](https://bootswatch.com/default/)
+-   [cerulean](https://bootswatch.com/cerulean/)
+-   [cosmo](https://bootswatch.com/cosmo/)
+-   [cyborg 🌌](https://bootswatch.com/cyborg/)
+-   [darkly 🌃](https://bootswatch.com/darkly/)
+-   [flatly](https://bootswatch.com/flatly/)
+-   [journal](https://bootswatch.com/journal/)
+-   [litera 📖](https://bootswatch.com/litera/)
+-   [lumen](https://bootswatch.com/lumen/)
+-   [lux](https://bootswatch.com/lux/)
+-   [materia](https://bootswatch.com/materia/)
+-   [minty](https://bootswatch.com/minty/)
+-   [morph 🌀](https://bootswatch.com/morph/)
+-   [pulse](https://bootswatch.com/pulse/)
+-   [quartz](https://bootswatch.com/quartz/)
+-   [sandstone](https://bootswatch.com/sandstone/)
+-   [simplex](https://bootswatch.com/simplex/)
+-   [sketchy](https://bootswatch.com/sketchy/)
+-   [slate](https://bootswatch.com/slate/)
+-   [solar ☀️](https://bootswatch.com/solar/)
+-   [spacelab](https://bootswatch.com/spacelab/)
+-   [superhero](https://bootswatch.com/superhero/)
+-   [united](https://bootswatch.com/united/)
+-   [vapor ☁️](https://bootswatch.com/vapor/)
+-   [yeti](https://bootswatch.com/yeti/)
+-   [zephyr](https://bootswatch.com/zephyr/)- Cerulean
+-   Dan masih banyak lagi!
+
+:::
+::: theme-thumbnails
+
+**litera**
+
+[![](https://quarto.org/docs/websites/images/theme-litera.png){style="border: solid silver 1px;" fig-alt="Screenshot of blog with litera theme."}](https://bootswatch.com/litera/)
+
+**solar**
+
+[![](https://quarto.org/docs/websites/images/theme-solar.png){style="border: solid silver 1px;" fig-alt="Screenshot of blog with solar theme."}](https://bootswatch.com/solar/)
+
+**morph**
+
+[![](https://quarto.org/docs/websites/images/theme-morph.png){style="border: solid silver 1px;" fig-alt="Screenshot of blog with morph theme."}](https://bootswatch.com/morph/)
+
+:::
+:::
+
+Setiap tema punya tampilan berbeda, jadi kamu bisa pilih yang sesuai dengan gaya blog kamu ✨.
+
+## 3.7 📡 RSS Feed untuk Blog
+
+Blog biasanya menyertakan RSS Feed agar pembaca bisa mengikuti konten terbaru menggunakan feed reader 📬 atau aplikasi lainnya.
+
+Untuk mengaktifkan RSS, kamu perlu melakukan dua langkah penting:
+
+1. 1️⃣ Tambahkan `site-url` dan `description` di file `_quarto.yml` agar Quarto bisa menghasilkan feed 📄.
+
+    ``` yaml
+    website:
+      title: "myblog"
+      site-url: https://www.myblogexample.io
+      description: "A great sample blog"
+    ```
+
+2. 2️⃣ Aktifkan opsi `feed: true` di halaman utama blog (`index.qmd`) agar feed otomatis dibuat ketika situs dirender 🔄.
+
+    ``` yaml
+    ---
+    title: "myblog"
+    listing:
+      contents: posts
+      sort: "date desc"
+      type: default
+      categories: true
+      feed: true
+    ---
+    ```
+    
+Untuk belajar lebih lanjut tentang [RSS feed](https://quarto.org/docs/websites/website-listings.html#feeds).
+
+::: callout-tip
+
+💡 Menambahkan Tautan RSS di Navbar
+
+Kalau kamu ingin pengunjung mudah berlangganan RSS feed blog kamu, kamu bisa menambahkan ikon RSS ke navigasi atas (navbar) 🧭.
+
+``` yaml
+website:
+  title: "myblog"
+  site-url: https://www.myblogexample.io
+  description: "A great sample blog"
+  navbar:
+    right:
+      - icon: rss
+        href: index.xml
+```
+:::
+
+### 📁 Feed Berdasarkan Kategori
+
+Kamu juga bisa membuat RSS feed khusus untuk kategori tertentu dalam blogmu.
+
+Misalnya, kalau kamu punya kategori `news` dan `posts`, kamu bisa menghasilkan feed seperti `index-news.xml` dan `index-posts.xml` secara otomatis 🗃️.
+
+``` yaml
+---
+title: "myblog"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  feed:
+    categories: [news, posts]
+---
+```
+
+📂 Ini akan menghasilkan file `index.xml` berisi RSS feed utama untuk semua postingan, serta file `index-news.xml` dan `index-posts.xml` yang berisi RSS feed khusus untuk kategori `news` dan `posts` 📰📬.
+
+## 3.8 🚀 Publikasi
+
+Ada banyak cara untuk mempublikasikan blog Quarto kamu. Secara default, konten blog akan ditulis ke dalam sub-direktori `_site`. Proses publikasi hanyalah soal menyalin direktori ini ke server web atau layanan hosting yang kamu gunakan 🗂️➡️🌐.
+
+Artikel [Publikasi Website](https://quarto.org/docs/publishing/) menjelaskan lebih detail cara mempublikasikan ke layanan berikut ini:
+
+- [Quarto Pub 🌐](https://quarto.org/docs/publishing/quarto-pub.html)
+- [GitHub Pages 🐙](https://quarto.org/docs/publishing/github-pages.html)
+- [Netlify 🚦](https://quarto.org/docs/publishing/netlify.html)
+- [Posit Connect 🔗](https://quarto.org/docs/publishing/rstudio-connect.html)
+- [Firebase 🔥](https://quarto.org/docs/publishing/other.html#google-firebase)
+- [Site44 🧱](https://quarto.org/docs/publishing/other.html#site44)
+- [Amazon S3 ☁️](https://quarto.org/docs/publishing/other.html#amazon-s3)
+
+## 3.9 📬 Langganan (Subscriptions)
+
+Kamu bisa memberikan opsi kepada pembaca blog agar bisa berlangganan update via email ✉️📥. Untuk ini, kamu bisa menggunakan layanan email pihak ketiga untuk mengelola dan mengirimkan email langganan tersebut.
+
+Biasanya, layanan email pihak ketiga ini akan menerima input dari RSS Feed kamu (misalnya: `https://www.myblogexample.io/index.xml`) dan memberi HTML widget langganan yang bisa kamu pasang di blog.
+
+🧩 Tempat terbaik untuk meletakkan widget ini biasanya di margin kanan blog kamu.
+
+Berikut langkah-langkah untuk menambahkan widget langganan:
+
+1. Gunakan fitur dari layanan email kamu (seperti Mailchimp) untuk membuat HTML widget langganan 📄🔧.
+
+    ```{.html filename="html"}
+    <span style="font-weight: 600;">Subscribe</span>
+
+    <!-- Awal dari Formulir Pendaftaran Mailchimp -->
+    
+    <link href="http://cdn-images.mailchimp.com/embedcode/slim-10_7_dtp.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif;  width:170px;}
+        /* Tambahkan penyesuaian gaya formulir Mailchimp milikmu sendiri dalam stylesheet situs atau di dalam blok <style> ini.
+           Kami menyarankan untuk memindahkan blok ini dan link CSS sebelumnya ke bagian HEAD dari file HTML kamu. */
+        #mc-embedded-subscribe-form{margin-left:-5px;}
+    </style>
+    
+    <div id="mc_embed_signup">
+    <form action="<site_url>" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div id="mc_embed_signup_scroll">
+    
+        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+        <!-- Orang sungguhan sebaiknya tidak mengisi bagian ini dan berharap hasil baik – jangan hapus bagian ini agar terhindar dari pendaftaran bot -->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="b_f718424fc5df77c22533bdaa6_a3c37fb57b" tabindex="-1" value="">
+        </div>
+    
+        <div class="optionalParent">
+            <div class="clear foot" style="margin-top: 10px;">
+                <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+                <p class="brandingLogo"></p>
+            </div>
+        </div>
+    
+        </div>
+    </form>
+    </div>
+    
+    <!-- Akhir dari Formulir Pendaftaran Mailchimp -->
+    ```
+    
+    
+::: {.callout-warning}
+⚠️ HTML widget di atas **tidak akan langsung bekerja** di blog kamu karena HTML untuk langganan harus berisi informasi **yang spesifik untuk blog kamu** (seperti alamat situs dan pengaturan unik lainnya). Silakan ikuti panduan dari penyedia layanan email yang kamu gunakan untuk menghasilkan widget langganan yang sesuai.
+:::
+
+2. Buat file `subscribe.html` di root proyek kamu 📁.
+3. Tempelkan kode HTML widget langganan ke dalam file `subscribe.html` dan simpan 💾.
+4. Tambahkan `subscribe.html` ke bagian `margin-header` di file `_quarto.yml` seperti ini:
+
+```yaml
+website:
+  # (metadata tambahan disembunyikan)
+  margin-header: subscribe.html
+```
+
+![](https://quarto.org/docs/websites/images/myblog-subscribe.png){.border fig-alt="Gambar blog menunjukkan bagian Subscribe di sisi kanan halaman, dengan kolom input bertuliskan 'email address' dan tombol bertuliskan 'Subscribe'."}
