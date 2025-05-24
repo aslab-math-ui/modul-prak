@@ -1,0 +1,92 @@
+---
+title: "Tugas 3 Praktikum Sains Data: Klasifikasi Gambar"
+image: static\svm.png
+description: "Deadline: Sabtu, 8 Juni 2025"
+date: 06/08/2025
+page-navigation: true
+format: html
+---
+<style>
+.btn {
+  background-color: #3498db;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+</style>
+
+Kembali ke [Sains Data](./saindat2025genap.qmd)
+
+# Petunjuk Umum
+
+1. Kerjakan secara individu.
+
+2. Kerjakan tugas ini menggunakan bahasa pemrograman Python dengan file format berupa interactive Python notebook (yaitu file berbentuk **.ipynb** BUKAN .py), yang bisa dibuat misalnya menggunakan Jupyter Notebook atau Google Colaboratory.
+
+3. **Harap sertakan penjelasan untuk setiap proses secara singkat** di samping potongan kode (bisa dengan teks / *text box* maupun dengan comment, ‘#').
+
+4. Format nama *file* untuk Tugas 2 adalah:
+
+    **Nama Lengkap_NPM_Kelas SIAK_Tugas3PrakSaindat.ipynb**
+
+    Contoh penamaan yang benar:
+
+    William Rowan Hamilton_2201234567_Kelas H_Tugas3PrakSaindat.ipynb
+
+    Untuk mengumpulkan lebih dari satu *file*, gunakan `.zip` dengan format nama yang sama (dan *file* `.ipynb` yang di dalamnya juga masih menggunakan format nama yang sama).
+
+5. Apabila ada yang ingin direvisi setelah pengumpulan, lakukan pengumpulan ulang di Google Forms yang sama, tambahkan keterangan bahwa ada revisi, dan tambahkan kata “revisi” pada bagian akhir nama *file,* contohnya menjadi
+
+    William Rowan Hamilton_2201234567_Kelas H_Tugas3PrakSaindat_revisi.ipynb (atau .zip)
+
+    William Rowan Hamilton_2201234567_Kelas H_Tugas3PrakSaindat_revisi2.ipynb
+
+    William Rowan Hamilton_2201234567_Kelas H_Tugas3PrakSaindat_revisi3.ipynb
+
+    (tentunya gunakan `.zip` kalau ada lebih dari satu *file* yang ingin dikumpulkan)
+
+    **(Revisi boleh dilakukan berkali-kali selama masa pengerjaan.)**
+
+6. Pengumpulan tugas dilakukan ke Google Forms berikut ini, sesuai dengan kelas Anda di SIAK NG (link akan selalu sama untuk semua tugas praktikum Sains Data):
+
+    - Kelas A: <https://docs.google.com/forms/d/e/1FAIpQLSclHN9JbUJB9nNtF2WdiDq7X32d3m6AVkjOjt1fWtiNHDMnbA/viewform?usp=dialog> 
+
+    - Kelas B: <https://docs.google.com/forms/d/e/1FAIpQLSclHN9JbUJB9nNtF2WdiDq7X32d3m6AVkjOjt1fWtiNHDMnbA/viewform?usp=dialog>
+
+7. Gunakan module (python package) yang telah dipelajari di praktikum atau kelas. Anda diperbolehkan untuk menggunakan module (python package) lain dengan catatan bahwa Anda harus menuliskan penjelasan singkat mengenai module tersebut.
+
+8. Untuk setiap proses sains data (pembersihan data, transformasi data, EDA, dan pemodelan) yang dilakukan Anda diperlukan untuk menuliskan justifikasi-nya. Justifikasi yang dimaksud dapat berupa penjelasan singkat mengenai proses yang dilakukan, dan penjelasan mengenai alasan mengapa anda melakukan proses tersebut.
+
+9. Sesuai standar Universitas Indonesia, **plagiarisme dilarang keras** dan bisa menyebabkan nilai tugas praktikum **menjadi nol untuk semua pihak yang terlibat, tanpa peringatan apapun.** Namun, Anda boleh memanfaatkan kode apapun yang ada di [modul praktikum](./saindat2025genap.qmd).
+
+10. Narahubung:
+
+    - Tugas 2 Saindat: Pandu (LINE: pandu.adj)
+    - Umum: Zaki (LINE: linenyazaki)
+
+# Soal
+
+Diberikan dataset gambar CIFAR-10 yang dapat dimuat menggunakan fungsi berikut di Python
+
+from keras.datasets import cifar10
+(X_train, y_train), (X_test, y_test) = cifar10.load_data()
+
+Dataset ini berisi 60.000 gambar berwarna berukuran 32x32 piksel dalam 10 kelas berbeda, seperti: pesawat, mobil, burung, kucing, rusa, anjing, katak, kuda, kapal, dan truk. Dataset ini sudah terbagi menjadi 50.000 data latih dan 10.000 data uji.
+Tujuan Anda adalah membangun model klasifikasi untuk memprediksi kelas dari gambar-gambar ini (multi-class classification). Lakukan *end-to-end Deep Learning*, atau lebih tepatnya *end-to-end CNN Image Classification*, yang meliputi:
+
+a. Langkah ***preprocessing*** yang sekiranya diperlukan.
+
+b. **EDA:** Lakukan eksplorasi data dengan membuat visualisasi dari sebagian gambar dan distribusi kelas
+
+c. ***Modelling:*** Buatlah minimal 2 model masing-masing:
+    - Model CNN sederhana
+
+    - Gunakan model berbasis transfer learning, seperti ResNet, VGGNet, EfficientNet, dsb., yaitu model yang sebelumnya sudah dilatih (pretrained) di dataset besar seperti ImageNet, lalu kalian adaptasikan untuk tugas klasifikasi pada CIFAR-10.
+
+d. **Evaluasi model klasifikasi:** Untuk kedua model klasifikasi yang telah Anda bangun, lakukan evaluasi dengan:
+    - Menampilkan atau menghitung metrik evaluasi untuk klasifikasi multi-kelas (misalnya akurasi, precision, recall, F1-score, dsb).
+    - Menampilkan grafik garis (line plot) yang membandingkan train accuracy vs validation accuracy selama proses pelatihan.
+    - Berdasarkan hasil evaluasi tersebut, bandingkan performa kedua model dari sisi metrik evaluasi, jumlah total parameter, dan waktu komputasi (running time). Tentukan model mana yang menurut Anda paling baik secara keseluruhan, disertai dengan alasannya
