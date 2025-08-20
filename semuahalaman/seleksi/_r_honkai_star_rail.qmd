@@ -1,0 +1,71 @@
+#### Simulasi: Gacha Relic
+
+-   **Durasi Pengerjaan:** 5 Hari
+-   **Tools:** R (Scripting, tidak perlu laporan Quarto)
+-   **Luaran (Deliverable):**
+    -   1 file R Script (`.R`) yang berisi fungsi dan solusi Anda.
+    -   1 file teks (`.txt`) atau Markdown (`.md`) yang berisi output contoh dari fungsi Anda.
+
+##### Latar Belakang Misi: Perang Cawan Suci di Penacony
+
+Di sebuah planet mimpi yang jauh bernama Penacony, turun suatu artefak misterius yang dikenal sebagai Cawan Suci, sebuah piala mahakuasa pengabul keinginan. Sang pebisnis terkemuka Penacony pun mengundang tamu-tamu terhormat untuk berpartisipasi dalam Perang Cawan Suci untuk memperebutkannya. Roh Pahlawan yang menyendiri melintasi malam takdir yang panjang, termasuk sang raja-ksatria dari Camelot, yang dikenal dengan nama Saber.
+
+Namun, di planet mimpi penuh kemewahan ini, Cawan Suci yang agung kini telah direduksi menjadi sekadar chip judi, hadiah utama dalam sebuah acara varietas. Merasa ritual sakral ini telah dinodai, Saber dan para Servant legendaris lainnya pun melangkah untuk mengakhiri parodi Perang Cawan Suci ini dan merebut Cawan tersebut.
+
+Untuk menyelesaikan misinya, Saber bertekad untuk mengumpulkan **RELIC** yang sangat kuat dan langka. Relic tersebut harus memiliki **SUBSTAT** (Subsidiary Stat) yang bisa meningkatkan kemampuannya secara signifikan. Namun, mendapatkan Relic dengan substat yang tepat sangatlah sulit dan bergantung pada keberuntungan. Misi Anda adalah membuat simulasi di R untuk mencari tahu seberapa besar 'keberuntungan' yang dibutuhkan untuk mendapatkan Relic impian ini.
+
+##### Mekanisme Relic: Substat dan Bobotnya
+
+Terdapat 12 kemungkinan Substat yang bisa muncul pada sebuah Relic, masing-masing dengan bobot kemunculan yang berbeda:
+
+| Substat | Bobot | | Substat | Bobot |
+| :--- | :-: | :--- | :--- | :-: |
+| HP | 10 | | CRIT Rate % | 6 |
+| ATK | 10 | | CRIT DMG % | 6 |
+| DEF | 10 | | Effect Hit Rate | 8 |
+| HP% | 10 | | Effect RES | 8 |
+| ATK% | 10 | | Break Effect | 8 |
+| DEF% | 10 | | SPD | 4 |
+
+##### Perintah Soal
+
+Buatlah sebuah fungsi dalam R yang menjalankan simulasi Gacha Relic berikut:
+
+1.  **Input:** Fungsi menerima 1 hingga 3 nama `Substat` yang Anda inginkan sebagai target (contoh: `c("CRIT Rate %", "CRIT DMG %")`).
+2.  **Proses Gacha (Loop):** Program akan melakukan iterasi berulang kali hingga kondisi sempurna tercapai. Setiap iterasi melakukan:
+    * Secara acak menghasilkan satu `Relic` baru. Relic ini berisi **3 atau 4 Substat yang unik**, diambil dari daftar di atas sesuai dengan `Bobot`-nya.
+    * Memeriksa apakah `Relic` yang baru digacha **memiliki semua** Substat yang Anda inginkan. Jika tidak, iterasi berlanjut.
+3.  **Proses Upgrade (Jika Target Tercapai):**
+    * **Jika Relic memiliki 3 Substat:** Tambahkan 1 Substat acak baru yang belum ada di Relic tersebut (berdasarkan bobot). Setelah itu, simulasikan **4 kali** upgrade (memilih secara acak dengan pengulangan dari 4 Substat yang ada).
+    * **Jika Relic memiliki 4 Substat:** Langsung simulasikan **5 kali** upgrade (memilih secara acak dengan pengulangan dari 4 Substat yang ada).
+4.  **Kondisi Sempurna (Berhenti):**
+    * Loop akan berhenti jika hasil dari **semua simulasi upgrade** hanya terdiri dari **2 Substat spesifik yang Anda inginkan** (misalnya, semua dari 5 kali upgrade hanya jatuh pada "CRIT Rate %" atau "CRIT DMG %", tidak yang lain).
+5.  **Output:**
+    * Program harus menampilkan total **jumlah iterasi** yang diperlukan.
+    * Tampilkan **Substat** pada Relic sempurna yang berhasil didapatkan.
+    * Tampilkan **hasil dari 5 (atau 4) kali upgrade** yang memenuhi kondisi.
+
+##### Hint
+* Buatlah sebuah fungsi R yang menerima input berupa vektor karakter.
+* Gunakan `sample()` untuk menarik Gacha dan simulasi upgrade, jangan lupa parameter `prob` untuk bobot dan `replace` untuk pengulangan.
+
+##### Contoh Output yang Diharapkan
+```
+============================================
+       HASIL SIMULASI RELIC SEMPURNA
+============================================
+Target Substat: CRIT Rate %, CRIT DMG %
+
+Jumlah Iterasi Dibutuhkan: 210,451 iterasi
+
+--- Relic yang Didapat ---
+[1] "CRIT Rate %" "CRIT DMG %"  "ATK"         "SPD"        
+
+--- Hasil Upgrade (5x) ---
+[1] "CRIT Rate %" "CRIT DMG %"  "CRIT Rate %" "CRIT Rate %"
+[5] "CRIT DMG %" 
+```
+
+##### Catatan Tambahan
+* Simulasi Anda tidak perlu menghasilkan output yang sama persis dengan contoh di atas.
+* Untuk referensi mekanisme game, Anda dapat mengunjungi: `https://honkai-star-rail.fandom.com/wiki/Relic/Stats`
