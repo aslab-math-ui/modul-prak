@@ -1,18 +1,17 @@
 window.document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById('arsip-praktikum')) {
-    // PERUBAHAN DI SINI: valueNames disederhanakan
     var options = {
       valueNames: [ 
         'nama-praktikum', 
         'deskripsi', 
-        'tahun',      // Langsung baca teks dari class .tahun
-        'semester'    // Langsung baca teks dari class .semester
+        'tahun',      
+        'semester'    
       ]
     };
 
     var praktikumList = new List('arsip-praktikum', options);
 
-    // Fungsi untuk filter tetap sama, tetapi sekarang akan bekerja
+    // Fungsi untuk filter
     window.filterPraktikum = function(button) {
       const filter = button.getAttribute('data-filter');
       
