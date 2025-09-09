@@ -1,16 +1,18 @@
 window.document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById('arsip-praktikum')) {
+    // PERUBAHAN DI SINI: valueNames disederhanakan
     var options = {
       valueNames: [ 
         'nama-praktikum', 
         'deskripsi', 
-        { data: ['tahun', 'semester'] } 
+        'tahun',      // Langsung baca teks dari class .tahun
+        'semester'    // Langsung baca teks dari class .semester
       ]
     };
 
     var praktikumList = new List('arsip-praktikum', options);
 
-    // Fungsi untuk filter
+    // Fungsi untuk filter tetap sama, tetapi sekarang akan bekerja
     window.filterPraktikum = function(button) {
       const filter = button.getAttribute('data-filter');
       
@@ -18,8 +20,8 @@ window.document.addEventListener("DOMContentLoaded", function () {
         if (filter === 'all') {
           return true;
         } else {
-          // Filter berdasarkan tahun
-          return item.values().tahun.includes(filter);
+          // Membandingkan nilai teks yang dibaca dari class .tahun
+          return item.values().tahun.trim() === filter;
         }
       });
 
