@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-09-11">
+
+<title>Modul 1: Pengenalan R dan RStudio – Lab Matematika UI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../../">
+<script src="../../../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../../site_libs/bootstrap/bootstrap-278d1e8669be43b75f739a5a8d678136.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../../site_libs/bootstrap/bootstrap-dark-6d1cd67ad40a76e4adc3a0ca1068378a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="icon" type="image/png" href="../../../../../../ico/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="../../../../../../ico/favicon.svg">
+<link rel="shortcut icon" href="../../../../../../ico/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../../../../../ico/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="MyWebSite">
+<link rel="manifest" href="../../../../../../ico/site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../../../../index.html">
+    <span class="navbar-title">Lab Matematika UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../../index.html"> <i class="bi bi-house" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../../semuahalaman/about.html"> 
+<span class="menu-text">Tentang Kami</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../../blog.html"> 
+<span class="menu-text">Berita</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-informasi-praktikum" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-circle" role="img">
+</i> 
+ <span class="menu-text">Informasi Praktikum</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-informasi-praktikum">    
+        <li>
+    <a class="dropdown-item" href="../../../../../../semuahalaman/praktikum.html">
+ <span class="dropdown-text">Arsip Modul Praktikum</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../../semuahalaman/Jadwal.html">
+ <span class="dropdown-text">Jadwal Asistensi</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aslab-math-ui/modul-prak"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tujuan-pembelajaran" id="toc-tujuan-pembelajaran" class="nav-link active" data-scroll-target="#tujuan-pembelajaran">Tujuan Pembelajaran</a></li>
+  <li><a href="#pengenalan-r" id="toc-pengenalan-r" class="nav-link" data-scroll-target="#pengenalan-r">Pengenalan R</a>
+  <ul class="collapse">
+  <li><a href="#operasi-dasar-di-r" id="toc-operasi-dasar-di-r" class="nav-link" data-scroll-target="#operasi-dasar-di-r">Operasi Dasar di R</a></li>
+  </ul></li>
+  <li><a href="#instalasi-excel-r-dan-rstudio" id="toc-instalasi-excel-r-dan-rstudio" class="nav-link" data-scroll-target="#instalasi-excel-r-dan-rstudio">Instalasi Excel, R, dan RStudio</a>
+  <ul class="collapse">
+  <li><a href="#aktivasi-microsoft-office-dan-instalasi-excel" id="toc-aktivasi-microsoft-office-dan-instalasi-excel" class="nav-link" data-scroll-target="#aktivasi-microsoft-office-dan-instalasi-excel">Aktivasi Microsoft Office dan Instalasi Excel</a></li>
+  <li><a href="#aktivasi-microsoft-office-dengan-email-ui-dan-login" id="toc-aktivasi-microsoft-office-dengan-email-ui-dan-login" class="nav-link" data-scroll-target="#aktivasi-microsoft-office-dengan-email-ui-dan-login">Aktivasi Microsoft Office dengan email UI dan <em>login</em></a></li>
+  <li><a href="#instalasi-dan-penggunaan-excel" id="toc-instalasi-dan-penggunaan-excel" class="nav-link" data-scroll-target="#instalasi-dan-penggunaan-excel">Instalasi dan Penggunaan Excel</a></li>
+  <li><a href="#download-dan-instalasi-r" id="toc-download-dan-instalasi-r" class="nav-link" data-scroll-target="#download-dan-instalasi-r"><em>Download</em> dan Instalasi R</a></li>
+  <li><a href="#download-dan-instalasi-rstudio" id="toc-download-dan-instalasi-rstudio" class="nav-link" data-scroll-target="#download-dan-instalasi-rstudio"><em>Download</em> dan Instalasi RStudio</a></li>
+  </ul></li>
+  <li><a href="#pengenalan-r-lebih-detail" id="toc-pengenalan-r-lebih-detail" class="nav-link" data-scroll-target="#pengenalan-r-lebih-detail">Pengenalan R lebih detail</a></li>
+  <li><a href="#operasi-dasar" id="toc-operasi-dasar" class="nav-link" data-scroll-target="#operasi-dasar">Operasi Dasar</a></li>
+  <li><a href="#mendefinisikan-variabel-di-r" id="toc-mendefinisikan-variabel-di-r" class="nav-link" data-scroll-target="#mendefinisikan-variabel-di-r">Mendefinisikan Variabel di R</a>
+  <ul class="collapse">
+  <li><a href="#latihan" id="toc-latihan" class="nav-link" data-scroll-target="#latihan">Latihan</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Modul 1: Pengenalan R dan RStudio</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Instalasi, Antarmuka, dan Operasi Dasar</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 11, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="../../../../../../semuahalaman/modulprak/2025/ganjil/psd/psd2025.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke arsip PSD </a></p>
+<section id="tujuan-pembelajaran" class="level2">
+<h2 class="anchored" data-anchor-id="tujuan-pembelajaran">Tujuan Pembelajaran</h2>
+<p>Setelah menyelesaikan modul ini, mahasiswa diharapkan mampu:</p>
+<ul>
+<li><strong>1. Memahami Konsep Dasar Lingkungan Kerja Sains Data</strong>
+<ul>
+<li>Menjelaskan peran dan kegunaan dasar Bahasa R dalam analisis data.</li>
+<li>Membedakan fungsi antara R sebagai <em>engine</em> komputasi dan RStudio sebagai <em>Integrated Development Environment</em> (IDE).</li>
+</ul></li>
+<li><strong>2. Melakukan Persiapan dan Instalasi Perangkat Lunak</strong>
+<ul>
+<li>Melakukan aktivasi lisensi Microsoft 365 dan menginstal Microsoft Excel menggunakan akun mahasiswa UI.</li>
+<li>Mengunduh dan menginstal Bahasa R dengan benar sesuai dengan sistem operasi yang digunakan (Windows/macOS).</li>
+<li>Mengunduh dan menginstal RStudio Desktop sebagai antarmuka utama untuk pemrograman R.</li>
+</ul></li>
+<li><strong>3. Mengaplikasikan Dasar-Dasar Pemrograman R</strong>
+<ul>
+<li>Menggunakan konsol R sebagai kalkulator untuk melakukan operasi aritmatika dasar.</li>
+<li>Mendefinisikan, memanggil, dan melakukan operasi antar variabel menggunakan operator <code>&lt;-</code> dan <code>=</code>.</li>
+<li>Mengelola variabel di <em>environment</em> RStudio, termasuk melihat daftar variabel yang aktif dan menghapusnya.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="pengenalan-r" class="level2">
+<h2 class="anchored" data-anchor-id="pengenalan-r">Pengenalan R</h2>
+<div class="justify">
+<p>R adalah bahasa pemrograman dan lingkungan perangkat lunak gratis untuk komputasi statistik dan grafik. R banyak digunakan oleh para statistisi dan penambang data untuk mengembangkan perangkat lunak statistik dan analisis data.</p>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Apa Bedanya R dan RStudio?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pikirkan R sebagai <strong>mesin mobil</strong>—ini adalah inti yang melakukan semua pekerjaan komputasi. Sementara itu, RStudio adalah <strong>dasbor mobil</strong> (setir, pedal, spion, GPS)—ini adalah <em>Integrated Development Environment</em> (IDE) yang memberikan antarmuka grafis yang nyaman untuk bekerja dengan R. Kita menulis dan menjalankan kode di RStudio, tetapi R-lah yang mengeksekusinya di belakang layar.</p>
+</div>
+</div>
+<section id="operasi-dasar-di-r" class="level3">
+<h3 class="anchored" data-anchor-id="operasi-dasar-di-r">Operasi Dasar di R</h3>
+<p>Kita bisa menggunakan R sebagai kalkulator canggih. Berikut adalah contoh beberapa operasi dasar.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Aritmatika</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Logika</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Contoh kode untuk operasi aritmatika dasar.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Penjumlahan</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Pengurangan</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Perkalian</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">*</span> <span class="dv">6</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pembagian</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="dv">40</span> <span class="sc">/</span> <span class="dv">8</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Pangkat</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Operasi logika menghasilkan nilai <code>TRUE</code> atau <code>FALSE</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah 5 lebih besar dari 3?</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah 10 sama dengan 10? (gunakan ==)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">==</span> <span class="dv">10</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah 7 tidak sama dengan 8? (gunakan !=)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">!=</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="instalasi-excel-r-dan-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="instalasi-excel-r-dan-rstudio">Instalasi Excel, R, dan RStudio</h2>
+<p>Selama praktikum PSD (Pengantar Sains Data), kita akan menggunakan <em>software</em> Microsoft Excel, serta bahasa pemrograman R melalui <em>software</em> RStudio. Berikut ini adalah petunjuk untuk menginstal <em>software</em> tersebut.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Link Modul
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Untuk modul instalasi yang lebih spesifik pada masing-masing <em>operating system</em>, silakan lihat di link berikut:</p>
+<p><a href="https://drive.google.com/file/d/1I69RV903anr4Bbr7AcWkKcu-hDoaZZZj/view?usp=sharing">Modul Instalasi Excel, R, RStudio Windows</a></p>
+<p><a href="https://drive.google.com/file/d/1yjKVNj88rdQUcMvVAKETTeoKK-i1dCzG/view?usp=sharing">Modul Instalasi Excel, R, RStudio MacOS</a></p>
+</div>
+</div>
+<section id="aktivasi-microsoft-office-dan-instalasi-excel" class="level3">
+<h3 class="anchored" data-anchor-id="aktivasi-microsoft-office-dan-instalasi-excel">Aktivasi Microsoft Office dan Instalasi Excel</h3>
+<p>Microsoft Excel sebenarnya adalah <em>software</em> berbayar, sebagaimana produk Microsoft lainnya dalam serial Office 365. Untungnya, Universitas Indonesia menyediakan layanan Office 365 untuk tiap email UI, meliputi aplikasi berikut:</p>
+<ul>
+<li>Microsoft Word</li>
+<li>Microsoft Excel</li>
+<li>Microsoft PowerPoint</li>
+<li>Microsoft Outlook</li>
+<li>Microsoft OneDrive</li>
+<li>Microsoft Teams</li>
+</ul>
+<p>Sehingga, tiap mahasiswa UI bisa melakukan aktivasi Office 365 agar bisa menggunakan <em>software</em> tersebut secara gratis. Tidak hanya untuk PSD, produk Microsoft akan cukup menunjang selama perkuliahan, terutama ketika ada tugas kuliah yang diketik, seperti menyiapkan makalah dan presentasi, apalagi tugas kelompok (bisa bekerja sama, memanfaatkan OneDrive).</p>
+<p>Setelah aktivasi, barulah produk yang diinginkan bisa di-<em>download</em> lalu diinstal, agar bisa digunakan. Berikut ini kami jelaskan langkah-langkahnya.</p>
+<p>Informasi lebih lanjut juga bisa dilihat di tautan resmi berikut: <a href="https://dsti.ui.ac.id/mulai-dengan-office-365/" class="uri">https://dsti.ui.ac.id/mulai-dengan-office-365/</a></p>
+<p><img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568639/2024/psd/link_dsti_office_365.png" class="img-fluid"></p>
+</section>
+<section id="aktivasi-microsoft-office-dengan-email-ui-dan-login" class="level3">
+<h3 class="anchored" data-anchor-id="aktivasi-microsoft-office-dengan-email-ui-dan-login">Aktivasi Microsoft Office dengan email UI dan <em>login</em></h3>
+<ol type="1">
+<li>Buka tautan <a href="https://sso.ui.ac.id/office365" class="uri">https://sso.ui.ac.id/office365</a></li>
+</ol>
+<p>&nbsp; &nbsp; Tampilannya seperti berikut:</p>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568583/2024/psd/aktivasi_microsoft_01.png" class="img-fluid"></p>
+<ol start="2" type="1">
+<li><p>Masukkan <em>username</em> SSO UI serta <em>password</em> milik pribadi, lalu tekan “Login”. Akun SSO yang dimaksud adalah akun yang sama yang biasa digunakan untuk <em>login</em> ke SIAK NG, ke EMAS2, dan sebagainya, yaitu tanpa akhiran <code>@ui.ac.id</code> maupun akhiran <code>@office.ui.ac.id</code></p></li>
+<li><p>Tunggu sekitar 5 (lima) menit, lalu buka <em>tautan</em> <a href="https://office365.ui.ac.id" class="uri">https://office365.ui.ac.id</a></p></li>
+</ol>
+<p>&nbsp; &nbsp; Apabila perlu <em>login</em>, seperti pada tampilan berikut, silakan <em>login</em> dengan akun SSO yang sama seperti langkah sebelumnya.</p>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568585/2024/psd/aktivasi_microsoft_03.png" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>Untuk halaman ini, bebas memilih No atau Yes. Sebaiknya pilih Yes agar tidak terlalu sering <em>login</em> ke depannya.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568587/2024/psd/aktivasi_microsoft_04.jpg" class="img-fluid"></p>
+<p>&nbsp; &nbsp; <em>Login</em> berhasil.</p>
+</section>
+<section id="instalasi-dan-penggunaan-excel" class="level3">
+<h3 class="anchored" data-anchor-id="instalasi-dan-penggunaan-excel">Instalasi dan Penggunaan Excel</h3>
+<ol type="1">
+<li><p>Kunjungi tautan <a href="https://office365.ui.ac.id" class="uri">https://office365.ui.ac.id</a> dan lakukan <em>login</em> kalau belum.</p></li>
+<li><p>Pilih “Install and more”, lalu tekan “Install Microsoft 365 apps”, seperti berikut.</p></li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568588/2024/psd/download_excel_02.png" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>Akan muncul tampilan seperti berikut. Tekan tombol “Install Office” untuk men-<em>download</em> suatu <em>installer</em> berukuran sekitar 3 GB.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568589/2024/psd/download_excel_03.png" class="img-fluid"></p>
+<ol start="4" type="1">
+<li><p>Ikuti petunjuk instalasi yang diberikan. Pastikan Excel terpilih sebagai salah satu aplikasi yang ingin diinstal.</p></li>
+<li><p>Setelah instalasi selesai, bukalah Excel. Akan muncul tampilan seperti berikut. Tekan tombol “Sign in”.</p></li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568591/2024/psd/download_excel_05.png" class="img-fluid"></p>
+<ol start="6" type="1">
+<li>Setelah itu, muncul tampilan <em>login</em> seperti berikut. Masukkan email UI, tetapi dengan akhiran <code>@office.ui.ac.id</code>, lalu tekan “Next”</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568592/2024/psd/download_excel_06.png" class="img-fluid"></p>
+<ol start="7" type="1">
+<li>Akan muncul tampilan <em>login</em> SSO, seperti berikut. Gunakan <em>username</em> SSO UI dan <em>password</em>, lalu tekan “Login”</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568593/2024/psd/download_excel_07.png" class="img-fluid"></p>
+<p>&nbsp; &nbsp; Selamat, <em>login</em> berhasil. Excel sudah bisa digunakan, bahkan <em>file</em> yang disimpan di OneDrive juga bisa diakses.</p>
+</section>
+<section id="download-dan-instalasi-r" class="level3">
+<h3 class="anchored" data-anchor-id="download-dan-instalasi-r"><em>Download</em> dan Instalasi R</h3>
+<ol type="1">
+<li>Kunjungi tautan <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a> (atau coba <em>searching</em> “CRAN R” dan pencet <em>website</em> pertama yang muncul). Isinya akan seperti berikut:</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568607/2024/psd/download_r_01.png" class="img-fluid"></p>
+<ol start="2" type="1">
+<li>Pilih tautan yang sesuai dengan <em>operating system</em> (sistem operasi) dari <em>laptop</em> atau perangkat yang sedang digunakan.</li>
+</ol>
+<p>&nbsp; &nbsp; - Apabila perangkatmu menggukanan <em>operating system</em> Windows, tekan “Download R for Windows”.</p>
+<p>&nbsp; &nbsp; - Apabila perangkatmu menggukanan <em>operating system</em> macOS, tekan “Download R for macOS”.</p>
+<p>Langkah ketiga dan seterusnya tergantung <em>operating system</em>, tetapi harusnya cukup mirip.</p>
+<section id="untuk-windows" class="level4">
+<h4 class="anchored" data-anchor-id="untuk-windows">Untuk Windows</h4>
+<ol start="3" type="1">
+<li>Setelah itu, muncul laman seperti berikut. Tekan “base”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568628/2024/psd/download_r_windows_03.png" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>Di laman berikut, akan muncul versi R terbaru yang tersedia. Tekan <em>tautan</em> “Download R-… for Windows” tersebut untuk memulai <em>download</em>.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568630/2024/psd/download_r_windows_04.png" class="img-fluid"></p>
+<p>(Lakukan instalasi dengan membuka <em>file</em> tersebut dan menyetujui segalanya.)</p>
+</section>
+<section id="untuk-macos" class="level4">
+<h4 class="anchored" data-anchor-id="untuk-macos">Untuk macOS</h4>
+<ol start="3" type="1">
+<li>Setelah itu, muncul laman seperti berikut. <em>Scroll</em> ke bawah sedikit, tersedia beberapa pilihan versi R yang bisa di-<em>download</em>, tergantung versi macOS yang sedang digunakan.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568609/2024/psd/download_r_mac_03.png" class="img-fluid"></p>
+<p>&nbsp; &nbsp; Pada gambar di atas, versi R terbaru yang tersedia adalah R-4.4.1 untuk versi minimum macOS 11. Tersedia dua tautan untuk men-<em>download</em> versi R tersebut, yaitu</p>
+<p>&nbsp; &nbsp; - <code>R-4.4.1-arm64.pkg</code> untuk Mac M1, M2 dan seterusnya, yaitu menggunakan prosesor Apple Silicon &nbsp; &nbsp; &nbsp; &nbsp; - <code>R-4.4.1-x86_64.pkg</code> untuk Mac yang dirilis sebelum M1, yaitu menggunakan prosesor Intel</p>
+<p>&nbsp; &nbsp; Apabila versi minimum macOS terpenuhi, silakan pilih tautan <em>download</em> yang lebih cocok di antara kedua pilihan tersebut.</p>
+<p>&nbsp; &nbsp; Namun, apabila versi macOS yang sedang digunakan tidak memenuhi kriteria di atas, <em>scroll</em> lagi ke bawah untuk melihat pilihan versi R yang terpenuhi versi minimumnya untuk macOS.</p>
+<p>&nbsp; &nbsp; Contohnya, di bagian bawah pada gambar di atas, terlihat pilihan <em>download</em> <code>R-4.2.3.pkg</code> yaitu R versi 4.2.3, untuk versi minimum macOS 10.13.</p>
+<ol start="4" type="1">
+<li>Setelah memilih dan menekan tautan tersebut, R akan mulai ter-<em>download</em>. Setelah selesai, bukalah <em>file</em> <code>.pkg</code> tersebut. Akan muncul tampilan seperti berikut. Tekan “Continue”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568611/2024/psd/download_r_mac_04.jpg" class="img-fluid"></p>
+<ol start="5" type="1">
+<li>Kemudian, ada sedikit penjelasan tentang versi yang sedang diinstal, seperti berikut. Tekan “Continue”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568612/2024/psd/download_r_mac_05.jpg" class="img-fluid"></p>
+<ol start="6" type="1">
+<li>Ada sedikit himbauan tentang lisensi yang digunakan oleh R, yaitu GNU GPL, seperti berikut. Intinya, <em>software</em> ini bebas digunakan dan disebarkan secara gratis. Tekan “Continue”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568613/2024/psd/download_r_mac_06.jpg" class="img-fluid"></p>
+<ol start="7" type="1">
+<li>Muncul semacam permintaan konfirmasi terkait persetujuan lisensi, seperti berikut. Setujuilah dengan menekan “Agree”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568615/2024/psd/download_r_mac_07.jpg" class="img-fluid"></p>
+<ol start="8" type="1">
+<li>Ada konfirmasi tentang tempat men-<em>download</em> dan <em>storage</em> yang dibutuhkan. Tekan “Continue”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568616/2024/psd/download_r_mac_08.jpg" class="img-fluid"></p>
+<ol start="9" type="1">
+<li>Ada konfirmasi sekali lagi sebelum benar-benar memulai instalasi. Setelah yakin, tekan “Continue”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568617/2024/psd/download_r_mac_09.jpg" class="img-fluid"></p>
+<ol start="10" type="1">
+<li>Bisa saja muncul konfirmasi sekali lagi, seperti berikut, kali ini membutuhkan <em>password</em> untuk <em>laptop</em> yang digunakan. Masukkan, lalu tekan “Install Software”. Kalau <em>laptop</em> yang digunakan sebenarnya tidak terpasang <em>password</em>, langsung tekan “Install Software” tanpa mengetik apapun.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568619/2024/psd/download_r_mac_10.jpg" class="img-fluid"></p>
+<ol start="11" type="1">
+<li>Instalasi akan berjalan selama sekitar beberapa menit, dengan tampilan seperti berikut. Harap ditunggu, boleh sambil melakukan hal lain.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568620/2024/psd/download_r_mac_11.jpg" class="img-fluid"></p>
+<ol start="12" type="1">
+<li>Setelah instalasi selesai, tampilan akan seperti berikut. Tekan “Close”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568622/2024/psd/download_r_mac_12.jpg" class="img-fluid"></p>
+<ol start="13" type="1">
+<li>Sebelum benar-benar menutupnya, ada konfirmasi apakah <em>installer</em> yang telah di-<em>download</em> sebelumnya itu ingin tetap disimpan atau dihapus. Pilihan ini terserah, tetapi sangat dipersilakan untuk menghapus, karena R akan tetap bisa digunakan walaupun <em>installer</em>-nya sudah dihapus.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568623/2024/psd/download_r_mac_13.jpg" class="img-fluid"></p>
+<ol start="14" type="1">
+<li>Silakan buka <em>folder</em> “Applications”, kemudian <em>scroll</em> ke bawah hingga menemukan R, untuk membuka R.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568626/2024/psd/download_r_mac_14.jpg" class="img-fluid"></p>
+<ol start="15" type="1">
+<li>Tampilan R setelah dibuka akan seperti berikut. Perintah-perintah bahasa R sudah bisa diketik dan dijalankan.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568627/2024/psd/download_r_mac_15.png" class="img-fluid"></p>
+<p>&nbsp; &nbsp; Daripada langsung menggunakan R, sebaiknya gunakan RStudio (yang perlu diinstal secara terpisah) untuk memperoleh tampilan yang lebih nyaman digunakan.</p>
+</section>
+</section>
+<section id="download-dan-instalasi-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="download-dan-instalasi-rstudio"><em>Download</em> dan Instalasi RStudio</h3>
+<ol type="1">
+<li>Kunjungi tautan <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a> (atau coba <em>searching</em> “RStudio Desktop” dan pencet <em>website</em> pertama yang muncul). Isinya akan seperti berikut, tergantung <em>operating system</em> yang sedang digunakan:</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568594/2024/psd/download_rstudio_01.png" class="img-fluid"></p>
+<p>&nbsp; &nbsp; Tekan tombol “Download” di sebelah kanan, apabila memenuhi kriteria versi <em>operating system</em> yang digunakan. &nbsp; &nbsp; &nbsp; &nbsp; Apabila tidak memenuhi, kunjungi <a href="https://dailies.rstudio.com/rstudio/" class="uri">https://dailies.rstudio.com/rstudio/</a> dan carilah versi RStudio yang kompatibel dengan versi <em>operating system</em> yang digunakan. Tampilan <em>website</em> tersebut seperti berikut.</p>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568637/2024/psd/link_dailies_rstudio.jpg" class="img-fluid"></p>
+<p>Langkah kedua dan seterusnya tergantung <em>operating system</em>.</p>
+<section id="instalasi-rstudio-di-macos" class="level4">
+<h4 class="anchored" data-anchor-id="instalasi-rstudio-di-macos">Instalasi RStudio di macOS</h4>
+<ol start="2" type="1">
+<li>Bukalah <em>file</em> yang telah di-<em>download</em>. Akan muncul tampilan seperti berikut.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568596/2024/psd/download_rstudio_mac_02.jpg" class="img-fluid"></p>
+<ol start="3" type="1">
+<li>Tarik aplikasi RStudio menuju <em>folder</em> Applications, seperti berikut, lalu lepas.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568598/2024/psd/download_rstudio_mac_03.jpg" class="img-fluid"></p>
+<ol start="4" type="1">
+<li>Tunggulah sebentar, karena aplikasi RStudio sedang dipasang di Mac yang sedang digunakan, degnan munculnya tampilan <em>loading</em> seperti berikut.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568601/2024/psd/download_rstudio_mac_05.jpg" class="img-fluid"></p>
+<ol start="5" type="1">
+<li>Apabila tampilan tersebut hilang, RStudio sudah selesai terpasang. Silakan buka <em>folder</em> “Applications”, kemudian <em>scroll</em> ke bawah hingga menemukan RStudio, untuk membuka RStudio.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568602/2024/psd/download_rstudio_mac_06.png" class="img-fluid"></p>
+<ol start="6" type="1">
+<li>Setelah membuka, akan ada tampilan <em>loading</em> seperti berikut. Harap ditunggu, boleh sambil melakukan hal lain.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568603/2024/psd/download_rstudio_mac_07.png" class="img-fluid"></p>
+<ol start="7" type="1">
+<li>Setelah <em>loading</em> selesai, akan muncul tampilan seperti ini, untuk memastikan bahwa RStudio–yang barusan di-<em>download</em> dari internet–ingin dibuka. Konfirmasikan dengan menekan “Open”.</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568605/2024/psd/download_rstudio_mac_08.png" class="img-fluid"></p>
+<ol start="8" type="1">
+<li>RStudio akan terbuka dengan tampilan seperti berikut. Selamat menjalani praktikum!</li>
+</ol>
+<p>&nbsp; &nbsp; <img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568605/2024/psd/download_rstudio_mac_08.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="pengenalan-r-lebih-detail" class="level2">
+<h2 class="anchored" data-anchor-id="pengenalan-r-lebih-detail">Pengenalan R lebih detail</h2>
+</section>
+<section id="operasi-dasar" class="level2">
+<h2 class="anchored" data-anchor-id="operasi-dasar">Operasi Dasar</h2>
+<p>Operasi Dasar. Layaknya matematika pada umumnya, R dapat melakukan operasi dasar.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cara Run Program
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cara me-run sebaris program adalah dengan menekan <code>ctrl</code> + <code>Enter</code></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">-</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">/</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">**</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mendefinisikan-variabel-di-r" class="level2">
+<h2 class="anchored" data-anchor-id="mendefinisikan-variabel-di-r">Mendefinisikan Variabel di R</h2>
+<p>Pendefinisian variabel pada R dapat menggunakan tanda <code>&lt;-</code> atau <code>=</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>jeruk <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>jeruk <span class="co"># sama seperti print(jeruk)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>apel <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(apel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>Layaknya sebuah angka, variable tersebut dapat melakukan operasi dasar</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">+</span> jeruk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">-</span> jeruk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">*</span> jeruk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">/</span> jeruk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>Variabel juga dapat didefinisikan oleh variabel variabel lainnya</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>banyakbuah <span class="ot">&lt;-</span> jeruk <span class="sc">+</span> apel </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>banyakbuah</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>Variabel yang telah terdefinisi dapat dilihat pada environment (sebelah kanan script)</p>
+<p><img src="https://res.cloudinary.com/tahun2025/image/upload/v1757568631/2024/psd/environment.jpg" class="img-fluid"></p>
+<p>atau menggunakan syntax berikut</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>untuk menghapus variabel, gunakan fungsi rm</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(banyakbuah)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>untuk menghapus semua variabel gunakan</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="latihan" class="level3">
+<h3 class="anchored" data-anchor-id="latihan">Latihan</h3>
+<p>Coba jalankan perintah-perintah berikut di <em>console</em> RStudio Anda dan amati hasilnya:</p>
+<ol type="1">
+<li>Hitung luas lingkaran dengan jari-jari 7 menggunakan rumus <span class="math inline">\(\pi r^2\)</span>. Buatlah variabel <code>r</code> untuk menyimpan nilai jari-jari dan <code>luas</code> untuk menyimpan hasilnya. (Gunakan <code>pi</code> untuk nilai <span class="math inline">\(\pi\)</span>).</li>
+<li>Tentukan apakah <code>(5 + 3) * 2</code> lebih besar dari <code>4^2</code>.</li>
+</ol>
+<hr>
+<p><a href="../../../../../../semuahalaman/modulprak/2025/ganjil/psd/psd2025.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum PSD 2025 </a></p>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Modul 1: Pengenalan R dan RStudio"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Instalasi, Antarmuka, dan Operasi Dasar"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "today"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> "https://res.cloudinary.com/tahun2025/image/upload/v1757568667/2024/psd/r_excel.jpg"</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>&lt;a href="../psd2025.qmd" class="btn btn-outline-primary mb-4"&gt;</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>&lt;i class="fa-solid fa-arrow-left"&gt;&lt;/i&gt; Kembali ke arsip PSD</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>&lt;/a&gt;</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tujuan Pembelajaran</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>Setelah menyelesaikan modul ini, mahasiswa diharapkan mampu:</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**1. Memahami Konsep Dasar Lingkungan Kerja Sains Data**</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Menjelaskan peran dan kegunaan dasar Bahasa R dalam analisis data.</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Membedakan fungsi antara R sebagai *engine* komputasi dan RStudio sebagai *Integrated Development Environment* (IDE).</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**2. Melakukan Persiapan dan Instalasi Perangkat Lunak**</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Melakukan aktivasi lisensi Microsoft 365 dan menginstal Microsoft Excel menggunakan akun mahasiswa UI.</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Mengunduh dan menginstal Bahasa R dengan benar sesuai dengan sistem operasi yang digunakan (Windows/macOS).</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Mengunduh dan menginstal RStudio Desktop sebagai antarmuka utama untuk pemrograman R.</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**3. Mengaplikasikan Dasar-Dasar Pemrograman R**</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Menggunakan konsol R sebagai kalkulator untuk melakukan operasi aritmatika dasar.</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Mendefinisikan, memanggil, dan melakukan operasi antar variabel menggunakan operator <span class="in">`&lt;-`</span> dan <span class="in">`=`</span>.</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="ss">    * </span>Mengelola variabel di *environment* RStudio, termasuk melihat daftar variabel yang aktif dan menghapusnya.</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pengenalan R</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>&lt;div class="justify"&gt;</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>R adalah bahasa pemrograman dan lingkungan perangkat lunak gratis untuk komputasi statistik dan grafik. R banyak digunakan oleh para statistisi dan penambang data untuk mengembangkan perangkat lunak statistik dan analisis data.</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>&lt;/div&gt;</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>:::{.callout-note}</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Apa Bedanya R dan RStudio?</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>Pikirkan R sebagai **mesin mobil**—ini adalah inti yang melakukan semua pekerjaan komputasi. Sementara itu, RStudio adalah **dasbor mobil** (setir, pedal, spion, GPS)—ini adalah *Integrated Development Environment* (IDE) yang memberikan antarmuka grafis yang nyaman untuk bekerja dengan R. Kita menulis dan menjalankan kode di RStudio, tetapi R-lah yang mengeksekusinya di belakang layar.</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### Operasi Dasar di R</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>Kita bisa menggunakan R sebagai kalkulator canggih. Berikut adalah contoh beberapa operasi dasar.</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset}</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Aritmatika</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>Contoh kode untuk operasi aritmatika dasar.</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Penjumlahan</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Pengurangan</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Perkalian</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">*</span> <span class="dv">6</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Pembagian</span></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a><span class="dv">40</span> <span class="sc">/</span> <span class="dv">8</span></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Pangkat</span></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">5</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Logika</span></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>Operasi logika menghasilkan nilai <span class="in">`TRUE`</span> atau <span class="in">`FALSE`</span>.</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah 5 lebih besar dari 3?</span></span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span></span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah 10 sama dengan 10? (gunakan ==)</span></span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">==</span> <span class="dv">10</span></span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a><span class="co"># Apakah 7 tidak sama dengan 8? (gunakan !=)</span></span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">!=</span> <span class="dv">8</span></span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Instalasi Excel, R, dan RStudio</span></span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>Selama praktikum PSD (Pengantar Sains Data), kita akan menggunakan *software* Microsoft Excel, serta bahasa pemrograman R melalui *software* RStudio. Berikut ini adalah petunjuk untuk menginstal *software* tersebut.</span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a><span class="fu">### Link Modul</span></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>Untuk modul instalasi yang lebih spesifik pada masing-masing *operating system*, silakan lihat di link berikut: </span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Modul Instalasi Excel, R, RStudio Windows</span><span class="co">](https://drive.google.com/file/d/1I69RV903anr4Bbr7AcWkKcu-hDoaZZZj/view?usp=sharing)</span></span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Modul Instalasi Excel, R, RStudio MacOS</span><span class="co">](https://drive.google.com/file/d/1yjKVNj88rdQUcMvVAKETTeoKK-i1dCzG/view?usp=sharing)</span></span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a><span class="fu">### Aktivasi Microsoft Office dan Instalasi Excel</span></span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a>Microsoft Excel sebenarnya adalah *software* berbayar, sebagaimana produk Microsoft lainnya dalam serial Office 365. Untungnya, Universitas Indonesia menyediakan layanan Office 365 untuk tiap email UI, meliputi aplikasi berikut:</span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Microsoft Word</span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Microsoft Excel</span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Microsoft PowerPoint</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Microsoft Outlook</span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Microsoft OneDrive</span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Microsoft Teams</span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>Sehingga, tiap mahasiswa UI bisa melakukan aktivasi Office 365 agar bisa menggunakan *software* tersebut secara gratis. Tidak hanya untuk PSD, produk Microsoft akan cukup menunjang selama perkuliahan, terutama ketika ada tugas kuliah yang diketik, seperti menyiapkan makalah dan presentasi, apalagi tugas kelompok (bisa bekerja sama, memanfaatkan OneDrive).</span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>Setelah aktivasi, barulah produk yang diinginkan bisa di-*download* lalu diinstal, agar bisa digunakan. Berikut ini kami jelaskan langkah-langkahnya.</span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>Informasi lebih lanjut juga bisa dilihat di tautan resmi berikut: <span class="ot">&lt;https://dsti.ui.ac.id/mulai-dengan-office-365/&gt;</span></span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568639/2024/psd/link_dsti_office_365.png)</span></span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a><span class="fu">### Aktivasi Microsoft Office dengan email UI dan *login*</span></span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Buka tautan <span class="ot">&lt;https://sso.ui.ac.id/office365&gt;</span></span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; Tampilannya seperti berikut:</span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; ![](https://res.cloudinary.com/tahun2025/image/upload/v1757568583/2024/psd/aktivasi_microsoft_01.png)</span></span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Masukkan *username* SSO UI serta *password* milik pribadi, lalu tekan "Login". Akun SSO yang dimaksud adalah akun yang sama yang biasa digunakan untuk *login* ke SIAK NG, ke EMAS2, dan sebagainya, yaitu tanpa akhiran <span class="in">`@ui.ac.id`</span> maupun akhiran <span class="in">`@office.ui.ac.id`</span></span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Tunggu sekitar 5 (lima) menit, lalu buka *tautan* <span class="ot">&lt;https://office365.ui.ac.id&gt;</span></span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; Apabila perlu *login*, seperti pada tampilan berikut, silakan *login* dengan akun SSO yang sama seperti langkah sebelumnya.</span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; ![](https://res.cloudinary.com/tahun2025/image/upload/v1757568585/2024/psd/aktivasi_microsoft_03.png)</span></span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Untuk halaman ini, bebas memilih No atau Yes. Sebaiknya pilih Yes agar tidak terlalu sering *login* ke depannya.</span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568587/2024/psd/aktivasi_microsoft_04.jpg)</span></span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; *Login* berhasil.</span></span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### Instalasi dan Penggunaan Excel</span></span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Kunjungi tautan <span class="ot">&lt;https://office365.ui.ac.id&gt;</span> dan lakukan *login* kalau belum.</span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Pilih "Install and more", lalu tekan "Install Microsoft 365 apps", seperti berikut.</span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568588/2024/psd/download_excel_02.png)</span></span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Akan muncul tampilan seperti berikut. Tekan tombol "Install Office" untuk men-*download* suatu *installer* berukuran sekitar 3 GB.</span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568589/2024/psd/download_excel_03.png)</span></span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Ikuti petunjuk instalasi yang diberikan. Pastikan Excel terpilih sebagai salah satu aplikasi yang ingin diinstal.</span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Setelah instalasi selesai, bukalah Excel. Akan muncul tampilan seperti berikut. Tekan tombol "Sign in".</span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568591/2024/psd/download_excel_05.png)</span></span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Setelah itu, muncul tampilan *login* seperti berikut. Masukkan email UI, tetapi dengan akhiran <span class="in">`@office.ui.ac.id`</span>, lalu tekan "Next"</span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568592/2024/psd/download_excel_06.png)</span></span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Akan muncul tampilan *login* SSO, seperti berikut. Gunakan *username* SSO UI dan *password*, lalu tekan "Login"</span>
+<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568593/2024/psd/download_excel_07.png)</span></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Selamat, *login* berhasil. Excel sudah bisa digunakan, bahkan *file* yang disimpan di OneDrive juga bisa diakses.</span></span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### *Download* dan Instalasi R</span></span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Kunjungi tautan <span class="ot">&lt;https://cran.r-project.org/&gt;</span> (atau coba *searching* "CRAN R" dan pencet *website* pertama yang muncul). Isinya akan seperti berikut:</span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568607/2024/psd/download_r_01.png)</span></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Pilih tautan yang sesuai dengan *operating system* (sistem operasi) dari *laptop* atau perangkat yang sedang digunakan.</span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a><span class="ss">&nbsp; &nbsp; - </span>Apabila perangkatmu menggukanan *operating system* Windows, tekan "Download R for Windows".</span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a><span class="ss">&nbsp; &nbsp; - </span>Apabila perangkatmu menggukanan *operating system* macOS, tekan "Download R for macOS".</span>
+<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a>Langkah ketiga dan seterusnya tergantung *operating system*, tetapi harusnya cukup mirip.</span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Untuk Windows</span></span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Setelah itu, muncul laman seperti berikut. Tekan "base".</span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568628/2024/psd/download_r_windows_03.png)</span></span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Di laman berikut, akan muncul versi R terbaru yang tersedia. Tekan *tautan* "Download R-... for Windows" tersebut untuk memulai *download*.</span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568630/2024/psd/download_r_windows_04.png)</span></span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a>(Lakukan instalasi dengan membuka *file* tersebut dan menyetujui segalanya.)</span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Untuk macOS</span></span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Setelah itu, muncul laman seperti berikut. *Scroll* ke bawah sedikit, tersedia beberapa pilihan versi R yang bisa di-*download*, tergantung versi macOS yang sedang digunakan.</span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568609/2024/psd/download_r_mac_03.png)</span></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Pada gambar di atas, versi R terbaru yang tersedia adalah R-4.4.1 untuk versi minimum macOS 11. Tersedia dua tautan untuk men-*download* versi R tersebut, yaitu</span></span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; - `R-4.4.1-arm64.pkg` untuk Mac M1, M2 dan seterusnya, yaitu menggunakan prosesor Apple Silicon</span></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; </span></span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; - `R-4.4.1-x86_64.pkg` untuk Mac yang dirilis sebelum M1, yaitu menggunakan prosesor Intel</span></span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Apabila versi minimum macOS terpenuhi, silakan pilih tautan *download* yang lebih cocok di antara kedua pilihan tersebut.</span></span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Namun, apabila versi macOS yang sedang digunakan tidak memenuhi kriteria di atas, *scroll* lagi ke bawah untuk melihat pilihan versi R yang terpenuhi versi minimumnya untuk macOS.</span></span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Contohnya, di bagian bawah pada gambar di atas, terlihat pilihan *download* `R-4.2.3.pkg` yaitu R versi 4.2.3, untuk versi minimum macOS 10.13.</span></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Setelah memilih dan menekan tautan tersebut, R akan mulai ter-*download*. Setelah selesai, bukalah *file* <span class="in">`.pkg`</span> tersebut. Akan muncul tampilan seperti berikut. Tekan "Continue".</span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568611/2024/psd/download_r_mac_04.jpg)</span></span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Kemudian, ada sedikit penjelasan tentang versi yang sedang diinstal, seperti berikut. Tekan "Continue".</span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568612/2024/psd/download_r_mac_05.jpg)</span></span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Ada sedikit himbauan tentang lisensi yang digunakan oleh R, yaitu GNU GPL, seperti berikut. Intinya, *software* ini bebas digunakan dan disebarkan secara gratis. Tekan "Continue".</span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568613/2024/psd/download_r_mac_06.jpg)</span></span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Muncul semacam permintaan konfirmasi terkait persetujuan lisensi, seperti berikut. Setujuilah dengan menekan "Agree".</span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568615/2024/psd/download_r_mac_07.jpg)</span></span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>Ada konfirmasi tentang tempat men-*download* dan *storage* yang dibutuhkan. Tekan "Continue".</span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568616/2024/psd/download_r_mac_08.jpg)</span></span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a><span class="ss">9. </span>Ada konfirmasi sekali lagi sebelum benar-benar memulai instalasi. Setelah yakin, tekan "Continue".</span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568617/2024/psd/download_r_mac_09.jpg)</span></span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a><span class="ss">10. </span>Bisa saja muncul konfirmasi sekali lagi, seperti berikut, kali ini membutuhkan *password* untuk *laptop* yang digunakan. Masukkan, lalu tekan "Install Software". Kalau *laptop* yang digunakan sebenarnya tidak terpasang *password*, langsung tekan "Install Software" tanpa mengetik apapun.</span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568619/2024/psd/download_r_mac_10.jpg)</span></span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a><span class="ss">11. </span>Instalasi akan berjalan selama sekitar beberapa menit, dengan tampilan seperti berikut. Harap ditunggu, boleh sambil melakukan hal lain.</span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568620/2024/psd/download_r_mac_11.jpg)</span></span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a><span class="ss">12. </span>Setelah instalasi selesai, tampilan akan seperti berikut. Tekan "Close".</span>
+<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568622/2024/psd/download_r_mac_12.jpg)</span></span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a><span class="ss">13. </span>Sebelum benar-benar menutupnya, ada konfirmasi apakah *installer* yang telah di-*download* sebelumnya itu ingin tetap disimpan atau dihapus. Pilihan ini terserah, tetapi sangat dipersilakan untuk menghapus, karena R akan tetap bisa digunakan walaupun *installer*-nya sudah dihapus.</span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568623/2024/psd/download_r_mac_13.jpg)</span></span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a><span class="ss">14. </span>Silakan buka *folder* "Applications", kemudian *scroll* ke bawah hingga menemukan R, untuk membuka R.</span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568626/2024/psd/download_r_mac_14.jpg)</span></span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a><span class="ss">15. </span>Tampilan R setelah dibuka akan seperti berikut. Perintah-perintah bahasa R sudah bisa diketik dan dijalankan.</span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568627/2024/psd/download_r_mac_15.png)</span></span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Daripada langsung menggunakan R, sebaiknya gunakan RStudio (yang perlu diinstal secara terpisah) untuk memperoleh tampilan yang lebih nyaman digunakan.</span></span>
+<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a><span class="fu">### *Download* dan Instalasi RStudio</span></span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Kunjungi tautan <span class="ot">&lt;https://posit.co/download/rstudio-desktop/&gt;</span> (atau coba *searching* "RStudio Desktop" dan pencet *website* pertama yang muncul). Isinya akan seperti berikut, tergantung *operating system* yang sedang digunakan:</span>
+<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568594/2024/psd/download_rstudio_01.png)</span></span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Tekan tombol "Download" di sebelah kanan, apabila memenuhi kriteria versi *operating system* yang digunakan.</span></span>
+<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; </span></span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; Apabila tidak memenuhi, kunjungi &lt;https://dailies.rstudio.com/rstudio/&gt; dan carilah versi RStudio yang kompatibel dengan versi *operating system* yang digunakan. Tampilan *website* tersebut seperti berikut.</span></span>
+<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a><span class="in">&nbsp; &nbsp; ![](https://res.cloudinary.com/tahun2025/image/upload/v1757568637/2024/psd/link_dailies_rstudio.jpg)</span></span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a>Langkah kedua dan seterusnya tergantung *operating system*.</span>
+<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Instalasi RStudio di macOS</span></span>
+<span id="cb18-282"><a href="#cb18-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-283"><a href="#cb18-283" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Bukalah *file* yang telah di-*download*. Akan muncul tampilan seperti berikut.</span>
+<span id="cb18-284"><a href="#cb18-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-285"><a href="#cb18-285" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568596/2024/psd/download_rstudio_mac_02.jpg)</span></span>
+<span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Tarik aplikasi RStudio menuju *folder* Applications, seperti berikut, lalu lepas.</span>
+<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568598/2024/psd/download_rstudio_mac_03.jpg)</span></span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Tunggulah sebentar, karena aplikasi RStudio sedang dipasang di Mac yang sedang digunakan, degnan munculnya tampilan *loading* seperti berikut.</span>
+<span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568601/2024/psd/download_rstudio_mac_05.jpg)</span></span>
+<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-295"><a href="#cb18-295" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Apabila tampilan tersebut hilang, RStudio sudah selesai terpasang. Silakan buka *folder* "Applications", kemudian *scroll* ke bawah hingga menemukan RStudio, untuk membuka RStudio.</span>
+<span id="cb18-296"><a href="#cb18-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568602/2024/psd/download_rstudio_mac_06.png)</span></span>
+<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Setelah membuka, akan ada tampilan *loading* seperti berikut. Harap ditunggu, boleh sambil melakukan hal lain.</span>
+<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568603/2024/psd/download_rstudio_mac_07.png)</span></span>
+<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-303"><a href="#cb18-303" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Setelah *loading* selesai, akan muncul tampilan seperti ini, untuk memastikan bahwa RStudio--yang barusan di-*download* dari internet--ingin dibuka. Konfirmasikan dengan menekan "Open".</span>
+<span id="cb18-304"><a href="#cb18-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-305"><a href="#cb18-305" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568605/2024/psd/download_rstudio_mac_08.png)</span></span>
+<span id="cb18-306"><a href="#cb18-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-307"><a href="#cb18-307" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>RStudio akan terbuka dengan tampilan seperti berikut. Selamat menjalani praktikum!</span>
+<span id="cb18-308"><a href="#cb18-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-309"><a href="#cb18-309" aria-hidden="true" tabindex="-1"></a>&nbsp; &nbsp; <span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568605/2024/psd/download_rstudio_mac_08.png)</span></span>
+<span id="cb18-310"><a href="#cb18-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-311"><a href="#cb18-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-312"><a href="#cb18-312" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pengenalan R lebih detail</span></span>
+<span id="cb18-313"><a href="#cb18-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-314"><a href="#cb18-314" aria-hidden="true" tabindex="-1"></a><span class="fu">## Operasi Dasar</span></span>
+<span id="cb18-315"><a href="#cb18-315" aria-hidden="true" tabindex="-1"></a>Operasi Dasar. Layaknya matematika pada umumnya, R dapat melakukan operasi dasar. </span>
+<span id="cb18-316"><a href="#cb18-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-317"><a href="#cb18-317" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb18-318"><a href="#cb18-318" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cara Run Program</span></span>
+<span id="cb18-319"><a href="#cb18-319" aria-hidden="true" tabindex="-1"></a>Cara me-run sebaris program adalah dengan menekan <span class="in">`ctrl`</span> + <span class="in">`Enter`</span></span>
+<span id="cb18-320"><a href="#cb18-320" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb18-321"><a href="#cb18-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-324"><a href="#cb18-324" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-325"><a href="#cb18-325" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb18-326"><a href="#cb18-326" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-331"><a href="#cb18-331" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="sc">-</span> <span class="dv">5</span></span>
+<span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-336"><a href="#cb18-336" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-337"><a href="#cb18-337" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">5</span></span>
+<span id="cb18-338"><a href="#cb18-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-339"><a href="#cb18-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">/</span> <span class="dv">4</span></span>
+<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-345"><a href="#cb18-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-348"><a href="#cb18-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-349"><a href="#cb18-349" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">**</span> <span class="dv">3</span></span>
+<span id="cb18-350"><a href="#cb18-350" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-351"><a href="#cb18-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a><span class="fu">## Mendefinisikan Variabel di R</span></span>
+<span id="cb18-353"><a href="#cb18-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-354"><a href="#cb18-354" aria-hidden="true" tabindex="-1"></a>Pendefinisian variabel pada R dapat menggunakan tanda <span class="in">`&lt;-`</span> atau <span class="in">`=`</span></span>
+<span id="cb18-357"><a href="#cb18-357" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-358"><a href="#cb18-358" aria-hidden="true" tabindex="-1"></a>jeruk <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb18-359"><a href="#cb18-359" aria-hidden="true" tabindex="-1"></a>jeruk <span class="co"># sama seperti print(jeruk)</span></span>
+<span id="cb18-360"><a href="#cb18-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-361"><a href="#cb18-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-364"><a href="#cb18-364" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-365"><a href="#cb18-365" aria-hidden="true" tabindex="-1"></a>apel <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb18-366"><a href="#cb18-366" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(apel)</span>
+<span id="cb18-367"><a href="#cb18-367" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-368"><a href="#cb18-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-369"><a href="#cb18-369" aria-hidden="true" tabindex="-1"></a>___</span>
+<span id="cb18-370"><a href="#cb18-370" aria-hidden="true" tabindex="-1"></a>Layaknya sebuah angka, variable tersebut dapat melakukan operasi dasar</span>
+<span id="cb18-371"><a href="#cb18-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-374"><a href="#cb18-374" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-375"><a href="#cb18-375" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">+</span> jeruk</span>
+<span id="cb18-376"><a href="#cb18-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-377"><a href="#cb18-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-380"><a href="#cb18-380" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-381"><a href="#cb18-381" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">-</span> jeruk</span>
+<span id="cb18-382"><a href="#cb18-382" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-383"><a href="#cb18-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-386"><a href="#cb18-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-387"><a href="#cb18-387" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">*</span> jeruk</span>
+<span id="cb18-388"><a href="#cb18-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-389"><a href="#cb18-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-392"><a href="#cb18-392" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-393"><a href="#cb18-393" aria-hidden="true" tabindex="-1"></a>apel <span class="sc">/</span> jeruk</span>
+<span id="cb18-394"><a href="#cb18-394" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-395"><a href="#cb18-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-396"><a href="#cb18-396" aria-hidden="true" tabindex="-1"></a>___</span>
+<span id="cb18-397"><a href="#cb18-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-398"><a href="#cb18-398" aria-hidden="true" tabindex="-1"></a>Variabel juga dapat didefinisikan oleh variabel variabel lainnya</span>
+<span id="cb18-399"><a href="#cb18-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-402"><a href="#cb18-402" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-403"><a href="#cb18-403" aria-hidden="true" tabindex="-1"></a>banyakbuah <span class="ot">&lt;-</span> jeruk <span class="sc">+</span> apel </span>
+<span id="cb18-404"><a href="#cb18-404" aria-hidden="true" tabindex="-1"></a>banyakbuah</span>
+<span id="cb18-405"><a href="#cb18-405" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-406"><a href="#cb18-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-407"><a href="#cb18-407" aria-hidden="true" tabindex="-1"></a>___</span>
+<span id="cb18-408"><a href="#cb18-408" aria-hidden="true" tabindex="-1"></a>Variabel yang telah terdefinisi dapat dilihat pada environment (sebelah kanan script) </span>
+<span id="cb18-409"><a href="#cb18-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-410"><a href="#cb18-410" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://res.cloudinary.com/tahun2025/image/upload/v1757568631/2024/psd/environment.jpg)</span></span>
+<span id="cb18-411"><a href="#cb18-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-412"><a href="#cb18-412" aria-hidden="true" tabindex="-1"></a>atau menggunakan syntax berikut</span>
+<span id="cb18-413"><a href="#cb18-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-416"><a href="#cb18-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-417"><a href="#cb18-417" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span>
+<span id="cb18-418"><a href="#cb18-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-419"><a href="#cb18-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-420"><a href="#cb18-420" aria-hidden="true" tabindex="-1"></a>untuk menghapus variabel, gunakan fungsi rm</span>
+<span id="cb18-421"><a href="#cb18-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-424"><a href="#cb18-424" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-425"><a href="#cb18-425" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(banyakbuah)</span>
+<span id="cb18-426"><a href="#cb18-426" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-427"><a href="#cb18-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-428"><a href="#cb18-428" aria-hidden="true" tabindex="-1"></a>untuk menghapus semua variabel gunakan</span>
+<span id="cb18-429"><a href="#cb18-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-432"><a href="#cb18-432" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-433"><a href="#cb18-433" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb18-434"><a href="#cb18-434" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-435"><a href="#cb18-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-436"><a href="#cb18-436" aria-hidden="true" tabindex="-1"></a><span class="fu">### Latihan</span></span>
+<span id="cb18-437"><a href="#cb18-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-438"><a href="#cb18-438" aria-hidden="true" tabindex="-1"></a>Coba jalankan perintah-perintah berikut di *console* RStudio Anda dan amati hasilnya:</span>
+<span id="cb18-439"><a href="#cb18-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-440"><a href="#cb18-440" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Hitung luas lingkaran dengan jari-jari 7 menggunakan rumus $\pi r^2$. Buatlah variabel <span class="in">`r`</span> untuk menyimpan nilai jari-jari dan <span class="in">`luas`</span> untuk menyimpan hasilnya. (Gunakan <span class="in">`pi`</span> untuk nilai $\pi$).</span>
+<span id="cb18-441"><a href="#cb18-441" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Tentukan apakah <span class="in">`(5 + 3) * 2`</span> lebih besar dari <span class="in">`4^2`</span>.</span>
+<span id="cb18-442"><a href="#cb18-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-443"><a href="#cb18-443" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb18-444"><a href="#cb18-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-445"><a href="#cb18-445" aria-hidden="true" tabindex="-1"></a>&lt;a href="../psd2025.qmd" class="btn btn-outline-primary mb-4"&gt;</span>
+<span id="cb18-446"><a href="#cb18-446" aria-hidden="true" tabindex="-1"></a>&lt;i class="fa-solid fa-arrow-left"&gt;&lt;/i&gt; Kembali ke Arsip Praktikum PSD 2025</span>
+<span id="cb18-447"><a href="#cb18-447" aria-hidden="true" tabindex="-1"></a>&lt;/a&gt;</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Departemen Matematika FMIPA UI</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:aslab.math@sci.ui.ac.id">
+      <i class="bi bi-envelope" role="img" aria-label="Email kami">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
