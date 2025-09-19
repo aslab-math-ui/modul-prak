@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-10-01">
+<meta name="description" content="Offline di Departemen Matematika">
+
+<title>Pertemuan 2: Uji Binomial, Kuantil, Chi Square, Kolmogorov Smirnov &amp; Sign – Lab Matematika UI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-dark-7f58be9322db19727817c30b5814e754.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="icon" type="image/png" href="../../../../../ico/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="../../../../../ico/favicon.svg">
+<link rel="shortcut icon" href="../../../../../ico/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../../../../ico/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="MyWebSite">
+<link rel="manifest" href="../../../../../ico/site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Lab Matematika UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../index.html"> <i class="bi bi-house" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/about.html"> 
+<span class="menu-text">Tentang Kami</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../blog.html"> 
+<span class="menu-text">Berita</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-informasi-praktikum" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-circle" role="img">
+</i> 
+ <span class="menu-text">Informasi Praktikum</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-informasi-praktikum">    
+        <li>
+    <a class="dropdown-item" href="../../../../../semuahalaman/praktikum.html">
+ <span class="dropdown-text">Arsip Modul Praktikum</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../semuahalaman/Jadwal.html">
+ <span class="dropdown-text">Jadwal Asistensi</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aslab-math-ui/modul-prak"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tabel-guide-uji-nonparametrik" id="toc-tabel-guide-uji-nonparametrik" class="nav-link active" data-scroll-target="#tabel-guide-uji-nonparametrik">Tabel Guide Uji Nonparametrik</a></li>
+  <li><a href="#uji-binomial" id="toc-uji-binomial" class="nav-link" data-scroll-target="#uji-binomial">Uji Binomial</a>
+  <ul class="collapse">
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#asumsi" id="toc-asumsi" class="nav-link" data-scroll-target="#asumsi">Asumsi</a></li>
+  <li><a href="#statistik-uji" id="toc-statistik-uji" class="nav-link" data-scroll-target="#statistik-uji">Statistik Uji</a></li>
+  <li><a href="#aturan-penolakan" id="toc-aturan-penolakan" class="nav-link" data-scroll-target="#aturan-penolakan">Aturan Penolakan</a>
+  <ul class="collapse">
+  <li><a href="#two-tailed" id="toc-two-tailed" class="nav-link" data-scroll-target="#two-tailed">Two Tailed</a></li>
+  <li><a href="#upper-tailed" id="toc-upper-tailed" class="nav-link" data-scroll-target="#upper-tailed">Upper Tailed</a></li>
+  <li><a href="#lower-tailed" id="toc-lower-tailed" class="nav-link" data-scroll-target="#lower-tailed">Lower Tailed</a></li>
+  </ul></li>
+  <li><a href="#soal-1" id="toc-soal-1" class="nav-link" data-scroll-target="#soal-1">Soal 1</a></li>
+  <li><a href="#soal-2" id="toc-soal-2" class="nav-link" data-scroll-target="#soal-2">Soal 2</a></li>
+  <li><a href="#soal-3" id="toc-soal-3" class="nav-link" data-scroll-target="#soal-3">Soal 3</a></li>
+  </ul></li>
+  <li><a href="#uji-kuantil" id="toc-uji-kuantil" class="nav-link" data-scroll-target="#uji-kuantil">Uji Kuantil</a>
+  <ul class="collapse">
+  <li><a href="#data-1" id="toc-data-1" class="nav-link" data-scroll-target="#data-1">Data</a></li>
+  <li><a href="#asumsi-1" id="toc-asumsi-1" class="nav-link" data-scroll-target="#asumsi-1">Asumsi</a></li>
+  <li><a href="#statistik-uji-1" id="toc-statistik-uji-1" class="nav-link" data-scroll-target="#statistik-uji-1">Statistik uji</a></li>
+  <li><a href="#aturan-penolakan-1" id="toc-aturan-penolakan-1" class="nav-link" data-scroll-target="#aturan-penolakan-1">Aturan penolakan</a>
+  <ul class="collapse">
+  <li><a href="#two-tailed-1" id="toc-two-tailed-1" class="nav-link" data-scroll-target="#two-tailed-1">Two Tailed</a></li>
+  <li><a href="#upper-tailed-1" id="toc-upper-tailed-1" class="nav-link" data-scroll-target="#upper-tailed-1">Upper Tailed</a></li>
+  <li><a href="#lower-tailed-1" id="toc-lower-tailed-1" class="nav-link" data-scroll-target="#lower-tailed-1">Lower Tailed</a></li>
+  </ul></li>
+  <li><a href="#soal-1-1" id="toc-soal-1-1" class="nav-link" data-scroll-target="#soal-1-1">Soal 1</a></li>
+  </ul></li>
+  <li><a href="#uji-chi-square" id="toc-uji-chi-square" class="nav-link" data-scroll-target="#uji-chi-square">Uji Chi-Square</a>
+  <ul class="collapse">
+  <li><a href="#data-2" id="toc-data-2" class="nav-link" data-scroll-target="#data-2">Data</a></li>
+  <li><a href="#asumsi-2" id="toc-asumsi-2" class="nav-link" data-scroll-target="#asumsi-2">Asumsi</a></li>
+  <li><a href="#statistik-uji-2" id="toc-statistik-uji-2" class="nav-link" data-scroll-target="#statistik-uji-2">Statistik Uji</a></li>
+  <li><a href="#aturan-penolakan-2" id="toc-aturan-penolakan-2" class="nav-link" data-scroll-target="#aturan-penolakan-2">Aturan Penolakan</a></li>
+  <li><a href="#soal-1-2" id="toc-soal-1-2" class="nav-link" data-scroll-target="#soal-1-2">Soal 1</a></li>
+  <li><a href="#soal-2-1" id="toc-soal-2-1" class="nav-link" data-scroll-target="#soal-2-1">Soal 2</a></li>
+  </ul></li>
+  <li><a href="#uji-kolmogorov-smirnov" id="toc-uji-kolmogorov-smirnov" class="nav-link" data-scroll-target="#uji-kolmogorov-smirnov">Uji Kolmogorov-Smirnov</a>
+  <ul class="collapse">
+  <li><a href="#data-3" id="toc-data-3" class="nav-link" data-scroll-target="#data-3">Data</a></li>
+  <li><a href="#asumsi-3" id="toc-asumsi-3" class="nav-link" data-scroll-target="#asumsi-3">Asumsi</a></li>
+  <li><a href="#statistik-uji-3" id="toc-statistik-uji-3" class="nav-link" data-scroll-target="#statistik-uji-3">Statistik Uji</a>
+  <ul class="collapse">
+  <li><a href="#two-tailed-2" id="toc-two-tailed-2" class="nav-link" data-scroll-target="#two-tailed-2">Two Tailed</a></li>
+  <li><a href="#upper-tailed-2" id="toc-upper-tailed-2" class="nav-link" data-scroll-target="#upper-tailed-2">Upper Tailed</a></li>
+  <li><a href="#lower-tailed-2" id="toc-lower-tailed-2" class="nav-link" data-scroll-target="#lower-tailed-2">Lower Tailed</a></li>
+  </ul></li>
+  <li><a href="#aturan-penolakan-3" id="toc-aturan-penolakan-3" class="nav-link" data-scroll-target="#aturan-penolakan-3">Aturan Penolakan</a>
+  <ul class="collapse">
+  <li><a href="#two-tailed-3" id="toc-two-tailed-3" class="nav-link" data-scroll-target="#two-tailed-3">Two Tailed</a></li>
+  <li><a href="#upper-tailed-3" id="toc-upper-tailed-3" class="nav-link" data-scroll-target="#upper-tailed-3">Upper Tailed</a></li>
+  <li><a href="#lower-tailed-3" id="toc-lower-tailed-3" class="nav-link" data-scroll-target="#lower-tailed-3">Lower Tailed</a></li>
+  </ul></li>
+  <li><a href="#soal-1-3" id="toc-soal-1-3" class="nav-link" data-scroll-target="#soal-1-3">Soal 1</a></li>
+  </ul></li>
+  <li><a href="#uji-sign" id="toc-uji-sign" class="nav-link" data-scroll-target="#uji-sign">Uji Sign</a>
+  <ul class="collapse">
+  <li><a href="#soal-1-4" id="toc-soal-1-4" class="nav-link" data-scroll-target="#soal-1-4">Soal 1</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Pertemuan 2: Uji Binomial, Kuantil, Chi Square, Kolmogorov Smirnov &amp; Sign</h1>
+<p class="subtitle lead">Statistika Nonparametrik</p>
+</div>
+
+<div>
+  <div class="description">
+    Offline di Departemen Matematika
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 1, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="tabel-guide-uji-nonparametrik" class="level1">
+<h1>Tabel Guide Uji Nonparametrik</h1>
+<p><img src="static\tabelconover1.png" class="img-fluid"></p>
+<p><img src="static\tabelconover2.png" class="img-fluid"></p>
+</section>
+<section id="uji-binomial" class="level1">
+<h1>Uji Binomial</h1>
+<p>Halaman 124 Buku W.J. Conover</p>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>Sampel terdiri atas <span class="math inline">\(n\)</span> percobaan independen, tiap outcome masuk ke dalam kategori 1 atau 2, tetapi tidak keduanya. Jumlah observasi di kategori 1 sebanyak <span class="math inline">\(O_1\)</span> dan Jumlah observasi di kategori 2 sebanyak <span class="math inline">\(O_2 = n - O_1\)</span></p>
+</section>
+<section id="asumsi" class="level2">
+<h2 class="anchored" data-anchor-id="asumsi">Asumsi</h2>
+<ol type="1">
+<li>n percobaan saling independen</li>
+<li>Tiap percobaan masuk ke dalam kategori 1 dengan probabilitas <span class="math inline">\(p\)</span>, di mana <span class="math inline">\(p\)</span> bernilai sama untuk setiap percobaan</li>
+</ol>
+</section>
+<section id="statistik-uji" class="level2">
+<h2 class="anchored" data-anchor-id="statistik-uji">Statistik Uji</h2>
+<p><span class="math inline">\(T_1 = O_1\)</span></p>
+</section>
+<section id="aturan-penolakan" class="level2">
+<h2 class="anchored" data-anchor-id="aturan-penolakan">Aturan Penolakan</h2>
+<section id="two-tailed" class="level3">
+<h3 class="anchored" data-anchor-id="two-tailed">Two Tailed</h3>
+<p><span class="math inline">\(H_0: p = p*\)</span></p>
+<p><span class="math inline">\(H_1: p ≠ p*\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section id="upper-tailed" class="level3">
+<h3 class="anchored" data-anchor-id="upper-tailed">Upper Tailed</h3>
+<p><span class="math inline">\(H_0: p ≤ p*\)</span></p>
+<p><span class="math inline">\(H_1: p &gt; p*\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section id="lower-tailed" class="level3">
+<h3 class="anchored" data-anchor-id="lower-tailed">Lower Tailed</h3>
+<p><span class="math inline">\(H_0: p ≥ p*\)</span></p>
+<p><span class="math inline">\(H_1: p &lt; p*\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+</section>
+<section id="soal-1" class="level2">
+<h2 class="anchored" data-anchor-id="soal-1">Soal 1</h2>
+<p>Anda ingin menentukan apakah dadu mendarat pada angka “3” selama 1/6 dari semua lemparan. Anda melempar dadu sebanyak 24 kali dan hasilnya dadu mendarat pada angka “3” sebanyak 9 kali. Lakukan uji Binomial untuk menentukan apakah dadu benar-benar mendarat pada angka “3” selama 1/6 dari semua lemparan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="dv">9</span>, <span class="dv">24</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="soal-2" class="level2">
+<h2 class="anchored" data-anchor-id="soal-2">Soal 2</h2>
+<p>Anda ingin menentukan apakah koin lebih kecil kemungkinannya untuk mendarat di kepala dibandingkan ekor. Anda melempar koin 30 kali dan menemukan bahwa koin mendarat di kepala sebanyak 11 kali. Lakukan uji Binomial untuk menentukan apakah koin lebih kecil kemungkinannya untuk mendarat di kepala.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="dv">11</span>, <span class="dv">30</span>, <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">'less'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="soal-3" class="level2">
+<h2 class="anchored" data-anchor-id="soal-3">Soal 3</h2>
+<p>Sebuah toko membuat widget dengan tingkat keberhasilan 80%. Mereka menerapkan sistem baru yang mereka harapkan dapat meningkatkan tingkat keberhasilan. Mereka secara acak memilih 50 widget dari produksi baru dan menemukan bahwa 46 widget berfungsi. Lakukan uji Binomial untuk menentukan apakah sistem baru menghasilkan tingkat keberhasilan yang lebih tinggi.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="dv">46</span>, <span class="dv">50</span>, <span class="fl">0.8</span>, <span class="at">alternative =</span> <span class="st">'greater'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="uji-kuantil" class="level1">
+<h1>Uji Kuantil</h1>
+<p>Halaman 136 Buku W.J. Conover</p>
+<section id="data-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-1">Data</h2>
+<p>Misal <span class="math inline">\(X_1, X_2, ..., X_n\)</span> sampel acak. Data uji kuantil adalah observasi pada <span class="math inline">\(X_i\)</span></p>
+</section>
+<section id="asumsi-1" class="level2">
+<h2 class="anchored" data-anchor-id="asumsi-1">Asumsi</h2>
+<ol type="1">
+<li><span class="math inline">\(X_i\)</span> i.i.d.</li>
+<li>Skala pengukuran <span class="math inline">\(X_i\)</span> minimal ordinal</li>
+</ol>
+</section>
+<section id="statistik-uji-1" class="level2">
+<h2 class="anchored" data-anchor-id="statistik-uji-1">Statistik uji</h2>
+<p><span class="math inline">\(T_1\)</span> = Observasi ≤ <span class="math inline">\(x*\)</span></p>
+<p><span class="math inline">\(T_2\)</span> = Observasi &lt; <span class="math inline">\(x*\)</span></p>
+</section>
+<section id="aturan-penolakan-1" class="level2">
+<h2 class="anchored" data-anchor-id="aturan-penolakan-1">Aturan penolakan</h2>
+<section id="two-tailed-1" class="level3">
+<h3 class="anchored" data-anchor-id="two-tailed-1">Two Tailed</h3>
+<p><span class="math inline">\(H_0: \text{kuantil ke p* populasi adalah x*}\)</span></p>
+<p><span class="math inline">\(H_1: \text{x* bukan kuantil ke p* populasi}\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section id="upper-tailed-1" class="level3">
+<h3 class="anchored" data-anchor-id="upper-tailed-1">Upper Tailed</h3>
+<p><span class="math inline">\(H_0: Pr(X &lt; x*) ≤ p*\)</span></p>
+<p><span class="math inline">\(H_1: Pr(X &lt; x*) &gt; p*\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section id="lower-tailed-1" class="level3">
+<h3 class="anchored" data-anchor-id="lower-tailed-1">Lower Tailed</h3>
+<p><span class="math inline">\(H_0: Pr(X ≤ x*) ≥ p*\)</span></p>
+<p><span class="math inline">\(H_1: Pr(X ≤ x*) &lt; p*\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+</section>
+<section id="soal-1-1" class="level2">
+<h2 class="anchored" data-anchor-id="soal-1-1">Soal 1</h2>
+<p>Sebuah sampel acak siswa laki-laki kelas sepuluh menghasilkan 20 bobot sebagai berikut: 142, 134, 98, 119, 131, 103, 154, 122, 93, 137, 86, 119, 161, 144, 158, 165, 81, 117, 128, 103. Ujilah hipotesis bahwa median bobot tersebut adalah 103!</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">142</span>, <span class="dv">134</span>, <span class="dv">98</span>, <span class="dv">119</span>, <span class="dv">131</span>, <span class="dv">103</span>, <span class="dv">154</span>, <span class="dv">122</span>, <span class="dv">93</span>, <span class="dv">137</span>, <span class="dv">86</span>, <span class="dv">119</span>, <span class="dv">161</span>, <span class="dv">144</span>, <span class="dv">158</span>, <span class="dv">165</span>, <span class="dv">81</span>, <span class="dv">117</span>, <span class="dv">128</span>, <span class="dv">103</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>quantile.test <span class="ot">&lt;-</span> <span class="cf">function</span>(x, xstar, <span class="at">quantile =</span> .<span class="dv">5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> quantile</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  T1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">&lt;=</span> xstar)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  T2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">&lt;</span> xstar)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">"quantile.less"</span>) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    p.value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(T2 <span class="sc">-</span> <span class="dv">1</span>, n, p)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">"quantile.greater"</span>) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    p.value <span class="ot">&lt;-</span> <span class="fu">pbinom</span>(T1, n, p)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (alternative <span class="sc">==</span> <span class="st">"two.sided"</span>) {</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    p.value <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(T2 <span class="sc">-</span> <span class="dv">1</span>, n, p), <span class="fu">pbinom</span>(T1, n, p))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">xstar =</span> xstar, <span class="at">alternative =</span> alternative, <span class="at">T1 =</span> T1, <span class="at">T2 =</span> T2, <span class="at">p.value =</span> p.value)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile.test</span>(x, <span class="dv">103</span>, <span class="at">quantile =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">'two.sided'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="uji-chi-square" class="level1">
+<h1>Uji Chi-Square</h1>
+<section id="data-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-2">Data</h2>
+<p><img src="static\chisqdata.png" class="img-fluid"></p>
+</section>
+<section id="asumsi-2" class="level2">
+<h2 class="anchored" data-anchor-id="asumsi-2">Asumsi</h2>
+<ol type="1">
+<li>Sampel adalah sampel acak</li>
+<li>Skala pengukuran minimal nominal</li>
+</ol>
+</section>
+<section id="statistik-uji-2" class="level2">
+<h2 class="anchored" data-anchor-id="statistik-uji-2">Statistik Uji</h2>
+<p><img src="static\chisqstat.png" class="img-fluid"></p>
+<p>dengan</p>
+<p><span class="math inline">\(E_j = p_j^*N\)</span></p>
+<p>di mana <span class="math inline">\(p_j^*\)</span> adalah probabilitas observasi acak <span class="math inline">\(X\)</span> berada pada kategori <span class="math inline">\(j\)</span>.</p>
+</section>
+<section id="aturan-penolakan-2" class="level2">
+<h2 class="anchored" data-anchor-id="aturan-penolakan-2">Aturan Penolakan</h2>
+<p><span class="math inline">\(H_0: Pr(\text{X is in class j}) = p_j^* \text{for j = 1, ..., c}\)</span></p>
+<p><span class="math inline">\(H_1: Pr(\text{X is in class j}) \neq p_j^* \text{for at least 1 class}\)</span></p>
+</section>
+<section id="soal-1-2" class="level2">
+<h2 class="anchored" data-anchor-id="soal-1-2">Soal 1</h2>
+<p>Misalkan kita ingin mengetahui apakah gender berhubungan dengan preferensi partai politik. Kita mengambil sampel acak dari 500 pemilih dan survei preferensi partai politik mereka.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Gender</th>
+<th>Republican</th>
+<th>Democrat</th>
+<th>Independent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Male</td>
+<td>120</td>
+<td>90</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>Female</td>
+<td>110</td>
+<td>95</td>
+<td>45</td>
+</tr>
+</tbody>
+</table>
+<p>Tentukan apakah gender berhubungan dengan preferensi partai politik.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">120</span>, <span class="dv">90</span>, <span class="dv">40</span>, <span class="dv">110</span>, <span class="dv">95</span>, <span class="dv">45</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Rep"</span>, <span class="st">"Dem"</span>, <span class="st">"Ind"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">as.table</span>(data)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="soal-2-1" class="level2">
+<h2 class="anchored" data-anchor-id="soal-2-1">Soal 2</h2>
+<p>Untuk menguji klaim pemasok bahwa probabilitas kehidupan bagian mesin yang memuaskan adalah 0.7, lakukan uji chi-square dengan data berikut:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Number of Surviving Parts</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Number of Machines</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>24</td>
+<td>69</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>observed_frequency <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">24</span>, <span class="dv">69</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>probin <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">prob =</span> <span class="fl">0.7</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_frequency, <span class="at">p =</span> probin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="uji-kolmogorov-smirnov" class="level1">
+<h1>Uji Kolmogorov-Smirnov</h1>
+<section id="data-3" class="level2">
+<h2 class="anchored" data-anchor-id="data-3">Data</h2>
+<p>Data terdiri atas sampel acak <span class="math inline">\(X_1, X_2, ..., X_n\)</span> yang berukuran n dan berasosiasi dengan suatu fungsi distribusi yang tidak dikenahui <span class="math inline">\(F(x)\)</span></p>
+</section>
+<section id="asumsi-3" class="level2">
+<h2 class="anchored" data-anchor-id="asumsi-3">Asumsi</h2>
+<ol type="1">
+<li>Sampel adalah sampel acak</li>
+</ol>
+</section>
+<section id="statistik-uji-3" class="level2">
+<h2 class="anchored" data-anchor-id="statistik-uji-3">Statistik Uji</h2>
+<p>Misal <span class="math inline">\(S(x)\)</span> adalah fungsi distribusi empirik dari sampel acak <span class="math inline">\(X_1, X_2, ..., X_n\)</span>.</p>
+<section id="two-tailed-2" class="level3">
+<h3 class="anchored" data-anchor-id="two-tailed-2">Two Tailed</h3>
+<p><span class="math inline">\(T = \sup_{x} |F^*(x)-S(x)|\)</span></p>
+</section>
+<section id="upper-tailed-2" class="level3">
+<h3 class="anchored" data-anchor-id="upper-tailed-2">Upper Tailed</h3>
+<p><span class="math inline">\(T^+ = \sup_{x} [F^*(x)-S(x)]\)</span></p>
+</section>
+<section id="lower-tailed-2" class="level3">
+<h3 class="anchored" data-anchor-id="lower-tailed-2">Lower Tailed</h3>
+<p><span class="math inline">\(T^- = \sup_{x} [S(x)-F^*(x)]\)</span></p>
+</section>
+</section>
+<section id="aturan-penolakan-3" class="level2">
+<h2 class="anchored" data-anchor-id="aturan-penolakan-3">Aturan Penolakan</h2>
+<section id="two-tailed-3" class="level3">
+<h3 class="anchored" data-anchor-id="two-tailed-3">Two Tailed</h3>
+<p><span class="math inline">\(H_0: F(x) = F^*(x),\text{for all x from} -\infty \text{ to } +\infty\)</span></p>
+<p><span class="math inline">\(H_1: F(x) \neq F^*(x),\text{for at least one value of x}\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section id="upper-tailed-3" class="level3">
+<h3 class="anchored" data-anchor-id="upper-tailed-3">Upper Tailed</h3>
+<p><span class="math inline">\(H_0: F(x) \geq F^*(x),\text{for all x from} -\infty \text{ to } +\infty\)</span></p>
+<p><span class="math inline">\(H_1: F(x) &lt; F^*(x),\text{for at least one value of x}\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section id="lower-tailed-3" class="level3">
+<h3 class="anchored" data-anchor-id="lower-tailed-3">Lower Tailed</h3>
+<p><span class="math inline">\(H_0: F(x) \leq F^*(x),\text{for all x from} -\infty \text{ to } +\infty\)</span></p>
+<p><span class="math inline">\(H_1: F(x) &gt; F^*(x),\text{for at least one value of x}\)</span></p>
+<p>Tolak <span class="math inline">\(H_0\)</span> ketika p-value &lt; <span class="math inline">\(\alpha\)</span></p>
+</section>
+</section>
+<section id="soal-1-3" class="level2">
+<h2 class="anchored" data-anchor-id="soal-1-3">Soal 1</h2>
+<p>Contoh acak berukuran 10 diperoleh dengan hasil sebagai berikut: 0.203, 0.329, 0.382, 0.477, 0.48, 0.503, 0.554, 0.581, 0.621, 0.71. Apakah data tersebut berasal dari distribusi uniform?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.203</span>, <span class="fl">0.329</span>, <span class="fl">0.382</span>, <span class="fl">0.477</span>, <span class="fl">0.48</span>, <span class="fl">0.503</span>, <span class="fl">0.554</span>, <span class="fl">0.581</span>, <span class="fl">0.621</span>, <span class="fl">0.71</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(x, <span class="st">"punif"</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="uji-sign" class="level1">
+<h1>Uji Sign</h1>
+<section id="soal-1-4" class="level2">
+<h2 class="anchored" data-anchor-id="soal-1-4">Soal 1</h2>
+<p>Sebuah restoran ingin membandingkan rasa masakan berdasarkan resep lama dan baru. Untuk itu, dilakukan pengujian pada 30 orang. Berikut hasil perbandingannya:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>before <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>after <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">10</span>, <span class="dv">6</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sign.test <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">Alternative =</span> <span class="st">"two.sided"</span>) {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">sum</span>((x <span class="sc">-</span> y) <span class="sc">!=</span> <span class="dv">0</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  T <span class="ot">&lt;-</span> <span class="fu">sum</span>(x <span class="sc">&lt;</span> y)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (Alternative <span class="sc">==</span> <span class="st">"less"</span>) {</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    p.value <span class="ot">&lt;-</span> <span class="fu">pbinom</span>(T, n, <span class="fl">0.5</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (Alternative <span class="sc">==</span> <span class="st">"greater"</span>) {</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    p.value <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(T <span class="sc">-</span> <span class="dv">1</span>, n, <span class="fl">0.5</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (Alternative <span class="sc">==</span> <span class="st">"two.sided"</span>) {</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    p.value <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(T <span class="sc">-</span> <span class="dv">1</span>, n, <span class="fl">0.5</span>), <span class="fu">pbinom</span>(T, n, <span class="fl">0.5</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">n =</span> n, <span class="at">Alternative =</span> Alternative, <span class="at">T =</span> T, <span class="at">p.value =</span> p.value)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">sign.test</span>(before, after, <span class="at">Alternative =</span> <span class="st">'greater'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Departemen Matematika FMIPA UI</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:aslab.math@sci.ui.ac.id">
+      <i class="bi bi-envelope" role="img" aria-label="Email kami">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

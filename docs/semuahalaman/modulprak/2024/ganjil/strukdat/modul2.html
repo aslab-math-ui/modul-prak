@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-10-01">
+<meta name="description" content="Offline di Departemen Matematika">
+
+<title>Modul 2 Struktur Data: Pengantar OOP – Lab Matematika UI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-dark-7f58be9322db19727817c30b5814e754.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="icon" type="image/png" href="../../../../../ico/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="../../../../../ico/favicon.svg">
+<link rel="shortcut icon" href="../../../../../ico/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../../../../ico/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="MyWebSite">
+<link rel="manifest" href="../../../../../ico/site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Lab Matematika UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../index.html"> <i class="bi bi-house" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/about.html"> 
+<span class="menu-text">Tentang Kami</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../blog.html"> 
+<span class="menu-text">Berita</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-informasi-praktikum" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-circle" role="img">
+</i> 
+ <span class="menu-text">Informasi Praktikum</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-informasi-praktikum">    
+        <li>
+    <a class="dropdown-item" href="../../../../../semuahalaman/praktikum.html">
+ <span class="dropdown-text">Arsip Modul Praktikum</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../semuahalaman/Jadwal.html">
+ <span class="dropdown-text">Jadwal Asistensi</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aslab-math-ui/modul-prak"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#apa-itu-class-apa-itu-oop" id="toc-apa-itu-class-apa-itu-oop" class="nav-link active" data-scroll-target="#apa-itu-class-apa-itu-oop">Apa itu <code>class</code>? Apa itu OOP?</a></li>
+  <li><a href="#empat-pilar-oop" id="toc-empat-pilar-oop" class="nav-link" data-scroll-target="#empat-pilar-oop">Empat pilar OOP</a>
+  <ul class="collapse">
+  <li><a href="#encapsulation-dan-abstraction" id="toc-encapsulation-dan-abstraction" class="nav-link" data-scroll-target="#encapsulation-dan-abstraction"><em>Encapsulation</em> dan <em>Abstraction</em></a></li>
+  <li><a href="#inheritance-pewarisan-sifat" id="toc-inheritance-pewarisan-sifat" class="nav-link" data-scroll-target="#inheritance-pewarisan-sifat"><em>Inheritance</em> (pewarisan sifat)</a></li>
+  <li><a href="#polymorphism-banyak-bentuk" id="toc-polymorphism-banyak-bentuk" class="nav-link" data-scroll-target="#polymorphism-banyak-bentuk"><em>Polymorphism</em> (“banyak bentuk”)</a></li>
+  </ul></li>
+  <li><a href="#operator-overloading" id="toc-operator-overloading" class="nav-link" data-scroll-target="#operator-overloading"><em>Operator overloading</em></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Modul 2 Struktur Data: Pengantar OOP</h1>
+<p class="subtitle lead">Introduction to OOP (object-oriented programming)</p>
+</div>
+
+<div>
+  <div class="description">
+    Offline di Departemen Matematika
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 1, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Kembali ke <a href="../../../../../semuahalaman/modulprak/2024/ganjil/strukdat/strukdat2024.html">Struktur Data</a></p>
+<p>Pada praktikum kali ini, kita akan membahas tentang <code>class</code>, yang nantinya akan kita gunakan untuk membuat berbagai jenis struktur data. Sekaligus, kita juga akan membahas tentang <em>object-oriented programming</em> atau OOP (pemrograman berorientasi objek atau PBO), yaitu semacam “paradigma pemrograman” (gaya pemrograman) di mana kita sering berurusan dengan <code>class</code>.</p>
+<p>Intinya, hari ini kita akan membahas tentang <code>class</code> dan serba-serbi (filosofi) penggunaannya.</p>
+<section id="apa-itu-class-apa-itu-oop" class="level2">
+<h2 class="anchored" data-anchor-id="apa-itu-class-apa-itu-oop">Apa itu <code>class</code>? Apa itu OOP?</h2>
+<p>Perhatikan kode berikut, yang memeriksa tipe data:</p>
+<div id="cell-5" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(angka))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'int'&gt;</code></pre>
+</div>
+</div>
+<p>Tipe data dari <code>angka</code> jelas adalah bilangan bulat atau <em>integer</em>, dilambangkan <code>int</code>. Namun, Python memberikan keterangan <code>class</code>.</p>
+<p>Mencoba lagi untuk data lain:</p>
+<div id="cell-8" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>angka_lain <span class="op">=</span> <span class="op">-</span><span class="fl">7.54</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(angka_lain))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'float'&gt;</code></pre>
+</div>
+</div>
+<p>Nilai <code>angka_lain</code> berupa desimal, sehingga tergolong tipe data <code>float</code>. Lagi-lagi, daripada mengatakan “tipe data” atau <em>data type</em>, Python malah memberi keterangan <code>class</code>.</p>
+<p>Apa itu <code>class</code>?</p>
+<p>Ketika mengeksplorasi tipe data di Python, kita sering menjumpai nama tipe data disertai istilah <code>class</code>. Sebelum memahami apa itu <code>class</code>, kita bisa paham dulu tentang konsep “objek”.</p>
+<p>Di Python (dan banyak bahasa pemrograman lainnya yang “mendukung OOP”), sebuah “objek” adalah sesuatu yang bisa memiliki variabel-variabel tersendiri (disebut atribut) serta fungsi-fungsi tersendiri (disebut <em>method</em>) di bawah satu nama yang sama (yaitu objek tersebut).</p>
+<p>Kemudian, sebuah <code>class</code> adalah semacam <em>blueprint</em> untuk membuat objek. Ketika kita ingin membuat objek, kita harus membuat definisi <code>class</code> nya terlebih dahulu sebagai <em>blueprint</em> untuk objek tersebut. Barulah, setelah definisi <code>class</code> nya ada, kita bisa membuat objek sebanyak-banyaknya dari <code>class</code> yang sama.</p>
+<p>Sebagai <em>blueprint</em> untuk membuat objek, suatu definisi <code>class</code> mencakupi atribut serta <em>method</em> yang akan terdefinisi untuk objek yang akan dibuat. Artinya, semua objek yang dibuat dari <code>class</code> yang sama itu akan memiliki “struktur” yang sama, baik variabel-variabel maupun fungsi-fungsi yang terkandung di dalam tiap objek.</p>
+<p>Itulah mengapa tipe data dianggap sebagai <code>class</code> di Python. Misalnya, untuk tipe data <code>str</code>, yaitu <code>&lt;class 'str'&gt;</code>, semua <em>string</em> di Python tentunya “memiliki sifat yang sama”, seperti bisa di-<em>format</em> dengan <em>method</em> <code>.format</code>, contohnya seperti berikut:</p>
+<div id="cell-16" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kalimat1 <span class="op">=</span> <span class="st">"Nama saya </span><span class="sc">{0}</span><span class="st">"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(kalimat1))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'str'&gt;</code></pre>
+</div>
+</div>
+<div id="cell-17" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kalimat1.<span class="bu">format</span>(<span class="st">"Pandu"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kalimat1.<span class="bu">format</span>(<span class="st">"Fasya"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nama saya Pandu
+Nama saya Fasya</code></pre>
+</div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>kalimat2 <span class="op">=</span> <span class="st">"Hari ini praktikum </span><span class="sc">{0}</span><span class="st">"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kalimat2.<span class="bu">format</span>(<span class="st">"Struktur Data"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hari ini praktikum Struktur Data</code></pre>
+</div>
+</div>
+<p>Agar lebih paham dengan konsep-konsep di atas, mari kita coba membuat <code>class</code> pertama kita, yaitu <code>class Orang</code>, untuk menyimpan data orang yang terdiri dari nama dan umur. Kemudian, kita akan membuat beberapa objek, yaitu beberapa <code>Orang</code>, yang masing-masing bisa memiliki data nama dan umur tersendiri.</p>
+<div id="cell-20" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Orang:</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Pada definisi <code>class Orang</code> di atas, kita baru merancang atribut apa saja yang akan terkandung dalam objek, yaitu <code>nama</code> dan <code>umur</code>.</p>
+<ul>
+<li>Pada baris pertama, kita menuliskan kata <code>class</code> untuk memulai suatu definisi <code>class</code> baru, diikuti dengan nama <code>class</code> nya (di sini namanya <code>Orang</code>).</li>
+<li>Pada baris kedua, kita memulai definisi suatu <em>method</em> istimewa yang bernama <code>__init__</code> yang dimulai dan diakhiri dengan dua garis bawah. <em>Method</em> yang satu ini harus selalu ada di tiap definisi <code>class</code>, dan istilahnya adalah <em>constructor</em>. Argumen yang masuk ke dalam <em>method</em> ini adalah <code>self</code> yang merujuk ke “diri sendiri” (objek yang bersangkutan), kemudian dua atribut yang bisa ditentukan ketika objek dibuat, yaitu <code>nama</code> dan <code>umur</code></li>
+<li>Di dalam definisi <code>__init__</code> di atas (baris ketiga dan keempat), nilai <code>self.nama</code> dan <code>self.umur</code> akan dipasangkan menjadi <code>nama</code> dan <code>umur</code> yang “masuk ke dalam <em>method</em>” (yaitu ditentukan ketika objek dibuat).</li>
+</ul>
+<p>Kalau baru pertama kali lihat, mungkin <em>syntax</em> definisi <code>class</code> rasanya sangat aneh dan asing. Tidak masalah, itu normal. Ketiknya pelan-pelan saja. Kalau belum begitu paham, juga tidak masalah, ikuti saja. Perlahan, kita akan terus-menerus memberi tambahan ke definisi <code>class Orang</code> tersebut agar lebih paham.</p>
+<p>Semoga menjadi lebih jelas setelah melihat <em>syntax</em> pembuatan objek:</p>
+<div id="cell-24" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>orang1 <span class="op">=</span> Orang(<span class="st">"Pandu"</span>, <span class="dv">20</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>orang2 <span class="op">=</span> Orang(<span class="st">"Fasya"</span>, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kemudian, kita bisa melihat atribut objek seperti berikut:</p>
+<div id="cell-26" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.nama)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pandu
+20</code></pre>
+</div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang2.nama)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang2.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fasya
+20</code></pre>
+</div>
+</div>
+<p>Perhatikan bahwa masing-masing atribut diakses melalui objek yang bersangkutan. Terlihat kegunaan objek sebagai penampung beberapa variabel (atribut) di bawah satu nama yang sama.</p>
+<p>Selain melihat, tentunya kita juga bisa melakukan <em>assignment</em>:</p>
+<div id="cell-30" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>orang1.umur <span class="op">=</span> <span class="dv">21</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21</code></pre>
+</div>
+</div>
+<p>Bahkan, kita bisa melakukan variasi <em>assignment</em> lainnya seperti biasa, misalnya <code>+=</code></p>
+<div id="cell-32" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>orang1.umur <span class="op">+=</span> <span class="dv">3</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>24</code></pre>
+</div>
+</div>
+<p>Kalau dirasa perlu, kita dapat membuat fungsi yang akan menerima suatu objek <code>Orang</code> lalu akan mengubah data <code>umur</code>.`</p>
+<div id="cell-34" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ulangtahun(orang):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    orang.umur <span class="op">+=</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Sehingga, bisa digunakan seperti berikut:</p>
+<div id="cell-36" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ulangtahun(orang1)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>25</code></pre>
+</div>
+</div>
+<p>Perhatikan bahwa objek di Python bersifat <em>pass-by-reference</em>! Artinya, apabila suatu objek dimasukkan ke dalam fungsi, kemudian dimodifikasi di dalam fungsi tersebut, maka modifikasi tersebut juga berdampak hingga di luar fungsi.</p>
+<p>Definisi fungsi <code>ulangtahun</code> yang telah kita buat di atas sebenarnya bisa dimasukkan ke dalam definisi <code>class Orang</code> sebagai suatu <em>method</em>.</p>
+<div id="cell-39" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Orang:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur):</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ulangtahun(<span class="va">self</span>):</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">+=</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Perhatikan, ini adalah pendefinisian ulang! Ini adalah definisi baru untuk <code>class Orang</code>. Sedangkan, objek-objek yang sudah kita buat sebelumnya masih menganut definisi yang lama. Sehingga, setelah ini, kita harus membuat ulang objek agar mengikuti definisi <code>class Orang</code> yang baru.</p>
+<p>Perhatikan juga, ada sedikit perbedaan istilah pada fungsi <code>ulangtahun</code>: tadinya, objek yang masuk itu kita sebut <code>orang</code>, sekarang kita sebut <code>self</code>. Istilah <code>self</code> ini memang sudah menjadi kebiasaan di Python untuk merujuk ke diri sendiri, yaitu objek yang bersangkutan. Tiap definisi <em>method</em> selalu harus diawali dengan masuknya objek yang bersangkutan (yang biasa disebut <code>self</code>), sudah menjadi formalitas di Python.</p>
+<p>Itulah mengapa, di definisi <code>__init__</code> seolah-olah ada tiga variabel yang masuk yaitu <code>self</code>, <code>nama</code>, dan <code>umur</code>, meskipun yang diperlukan ketika membuat objeknya hanyalah <code>nama</code> dan <code>umur</code>.</p>
+<p>Mari kita buat ulang <code>orang1</code>:</p>
+<div id="cell-43" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>orang1 <span class="op">=</span> Orang(<span class="st">"Pandu"</span>, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kita bisa melihat atributnya:</p>
+<div id="cell-45" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.nama)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pandu
+20</code></pre>
+</div>
+</div>
+<p>Kemudian, kita bisa menggunakan <em>method</em> <code>ulangtahun</code> yang telah kita buat, lalu melihat data umur terbaru:</p>
+<div id="cell-47" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>orang1.ulangtahun()</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21</code></pre>
+</div>
+</div>
+<p>Penggunaan <em>method</em> memang seperti itu, sangat mirip dengan mengakses atribut, bedanya adalah bahwa <em>method</em> berupa fungsi. Di sini, kita bisa melihat, baik atribut maupun <em>method</em> suatu objek itu sama-sama berada di bawah satu nama yang sama, yaitu objek yang bersangkutan (di sini, baik atribut <code>umur</code> maupun <em>method</em> <code>ulangtahun</code> diakses melalui <code>orang1</code>).</p>
+<p>Kalau mau, kita bisa melakukannya lagi:</p>
+<div id="cell-50" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>orang1.ulangtahun()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>22</code></pre>
+</div>
+</div>
+<p>Tentu saja, kegunaan <code>class</code> tidak sebatas itu. Bahkan, ada semacam “paradigma pemrograman” (gaya pemrograman) di mana kita sering berurusan dengan <code>class</code>, yang disebut OOP. Agar lebih paham juga tentang <code>class</code> dan kegunaannya, kita akan mempelajari dasar-dasar OOP, yang tercakup oleh empat pilar (tiang) OOP.</p>
+</section>
+<section id="empat-pilar-oop" class="level2">
+<h2 class="anchored" data-anchor-id="empat-pilar-oop">Empat pilar OOP</h2>
+<p>Empat pilar OOP adalah:</p>
+<ol type="1">
+<li><em>Encapsulation</em> (pembungkusan)</li>
+<li><em>Abstraction</em> (abstraksi; kebalikan dari “mendetail”)</li>
+<li><em>Inheritance</em> (pewarisan sifat)</li>
+<li><em>Polymorphism</em> (“banyak bentuk”)</li>
+</ol>
+<p>Istilah prinsip <em>polymorphism</em> memang sulit diterjemahkan. Kita akan membahas masing-masing keempat prinsip OOP tersebut.</p>
+<section id="encapsulation-dan-abstraction" class="level3">
+<h3 class="anchored" data-anchor-id="encapsulation-dan-abstraction"><em>Encapsulation</em> dan <em>Abstraction</em></h3>
+<p>Sejauh ini, kita sudah merasakan bagaimana variabel (atribut) dan fungsi (<em>method</em>) sama-sama berada di bawah satu nama yang sama, yaitu objek yang bersangkutan. Seolah-olah, atribut dan <em>method</em> tersebut dibungkus ke dalam objek tersebut. Inilah yang dinamakan prinsip <strong><em>encapsulation</em></strong> atau pembungkusan.</p>
+<p>Namun, ada juga konsep <em>data hiding</em>, di mana atribut objek sebaiknya diakses dan dimodifikasi melalui <em>method</em> saja. <em>Method</em> untuk memperoleh (mengakses) nilai atribut tertentu disebut <em>getter</em>, dan <em>method</em> untuk memasang nilai baru untuk atribut tertentu disebut <em>setter</em>.</p>
+<p>Prinsip <em>data hiding</em> seringkali dianggap bagian dari prinsip <em>encapsulation</em> (tetapi terkadang dianggap bagian dari <em>abstraction</em> yang akan kita bahas selanjutnya).</p>
+<p>Kita akan mendefinisikan ulang <code>class Orang</code> agar memiliki <em>getter</em> dan <em>setter</em> untuk atribut <code>umur</code>.</p>
+<div id="cell-58" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Orang:</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur):</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ulangtahun(<span class="va">self</span>):</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_umur(<span class="va">self</span>):</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.umur</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_umur(<span class="va">self</span>, baru):</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> baru</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Perhatikan bahwa <em>method</em> <code>get_umur</code> melakukan <code>return</code>. Penggunaannya akan mirip dengan fungsi seperti biasanya. Kemudian, <em>method</em> <code>set_umur</code> akan menerima satu input di dalam kurungnya (sedangkan <code>self</code> hanya untuk formalitas).</p>
+<p>Kita bisa membuat objek seperti biasa…</p>
+<div id="cell-61" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>orang1 <span class="op">=</span> Orang(<span class="st">"Pandu"</span>, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Lalu kita bisa melihat umurnya seperti ini:</p>
+<div id="cell-63" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.get_umur())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>20</code></pre>
+</div>
+</div>
+<p>Atau bahkan kita bisa membuat variabel baru yang menyimpan umur yang diperoleh:</p>
+<div id="cell-65" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>berapa_tahun <span class="op">=</span> orang1.get_umur()</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(berapa_tahun)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>20</code></pre>
+</div>
+</div>
+<p>Kemudian, kita bisa memasang nilai baru untuk atribut umur:</p>
+<div id="cell-67" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>orang1.set_umur(<span class="dv">30</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Lalu memperoleh kembali umur yang baru:</p>
+<div id="cell-69" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>orang1.get_umur()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>30</code></pre>
+</div>
+</div>
+<p>Sebenarnya, tujuan <em>getter</em> dan <em>setter</em> adalah untuk berjaga-jaga agar tidak terjadi hal yang aneh. Misalnya, saat ini, kita masih bisa memasang umur menjadi negatif:</p>
+<div id="cell-71" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>orang1.umur <span class="op">=</span> <span class="op">-</span><span class="dv">5</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.umur)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-5</code></pre>
+</div>
+</div>
+<p>Kita dapat menambahkan <em>if statement</em> pada definisi <em>method</em> <code>set_umur</code> di definisi <code>class Orang</code> untuk mencegah umur dipasang menjadi negatif:</p>
+<div id="cell-73" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Orang:</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur):</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ulangtahun(<span class="va">self</span>):</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_umur(<span class="va">self</span>):</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.umur</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_umur(<span class="va">self</span>, baru):</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> baru <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.umur <span class="op">=</span> baru</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"error: umur tidak bisa negatif"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Sehingga, setelah membuat objek, kita bisa mencoba:</p>
+<div id="cell-75" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>orang1 <span class="op">=</span> Orang(<span class="st">"Pandu"</span>, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-76" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>orang1.set_umur(<span class="op">-</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>error: umur tidak bisa negatif</code></pre>
+</div>
+</div>
+<p>Dengan begitu, data <code>umur</code> masih aman:</p>
+<div id="cell-78" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>orang1.get_umur()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>20</code></pre>
+</div>
+</div>
+<p>Sedangkan, pemasangan umur menjadi bilangan yang tidak negatif tetap berjalan dengan lancar:</p>
+<div id="cell-80" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>orang1.set_umur(<span class="dv">25</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.get_umur())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>25</code></pre>
+</div>
+</div>
+<p>Apakah kemudian kita masih bisa menuliskan misalnya <code>orang1.umur = -5</code>? Masih bisa, tetapi setidaknya, sekarang dengan adanya <em>getter</em> dan <em>setter</em> untuk atribut <code>umur</code>, kita bisa menjadikan kebiasaan agar selalu menggunakan <code>get_umur</code> dan <code>set_umur</code> ketika ingin berurusan dengan data umur, tidak lagi melalui <code>self.umur</code>, agar terjamin tidak akan terjadi keanehan seperti itu. Biasanya, istilahnya, atribut <code>umur</code> disebut <em>private</em>, karena diharapkan tidak bisa diakses dari luar secara langsung, hanya boleh melalui <em>method</em>.</p>
+<p>Bahkan, kita dapat menggunakan <em>getter</em> dan <em>setter</em> di dalam definisi <em>method</em> lainnya. Contohnya, yang tadinya <em>method</em> <code>ulangtahun</code> didefinisikan sebagai <code>self.umur += 1</code>, kita bisa menggantikannya dengan <code>get_umur</code> dan <code>set_umur</code>:</p>
+<div id="cell-83" class="cell" data-execution_count="38">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Orang:</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur):</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ulangtahun(<span class="va">self</span>):</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.set_umur(<span class="va">self</span>.get_umur() <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_umur(<span class="va">self</span>):</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.umur</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_umur(<span class="va">self</span>, baru):</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> baru <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.umur <span class="op">=</span> baru</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"error: umur tidak bisa negatif"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Pada definisi baru di atas untuk <em>method</em> <code>ulangtahun</code>, konsepnya sebagai berikut:</p>
+<ol type="1">
+<li>Peroleh umur saat ini dengan <code>self.get_umur</code></li>
+<li>Tambah satu</li>
+<li>Hasil yang baru itu dijadikan umur yang baru menggunakan <code>self.set_umur</code></li>
+</ol>
+<p>Saat ini, <code>orang1</code> masih menggunakan definisi <em>method</em> <code>ulangtahun</code> yang lama. Mari kita buat objek baru dari definisi <code>class Orang</code> yang baru bernama <code>orang3</code>, agar bisa dibandingkan:</p>
+<div id="cell-86" class="cell" data-execution_count="39">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>orang3 <span class="op">=</span> Orang(<span class="st">"Pandu"</span>, <span class="dv">20</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>orang1.set_umur(<span class="dv">20</span>) <span class="co"># kita samakan dulu umurnya</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kemudian, kita gunakan <em>method</em> <code>ulangtahun</code> pada keduanya:</p>
+<div id="cell-88" class="cell" data-execution_count="40">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>orang1.ulangtahun()</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>orang3.ulangtahun()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kita bisa melihat umur baru masing-masing:</p>
+<div id="cell-90" class="cell" data-execution_count="41">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang1.get_umur())</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(orang3.get_umur())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21
+21</code></pre>
+</div>
+</div>
+<p>Ternyata hasilnya sama. Artinya, kedua cara mendefinisikan <em>method</em> <code>ulangtahun</code> itu memberikan hasil yang sama.</p>
+<p>Perhatikan bahwa, dari segi penggunaan, untuk menambahkan satu ke data <code>umur</code>, kita tinggal memanggil <em>method</em> <code>ulangtahun</code>. Kita tidak perlu memikirkan internalnya seperti apa. Bahkan, kita bisa mengubah definisinya secara internal, tetapi cara penggunaannya dari luar tetap sama.</p>
+<p>Selain itu, untuk memasang data umur baru tanpa pusing, kita bisa langsung menggunakan <code>set_umur</code>. Bahkan, kita tidak perlu mengkhawatirkan kasus umur negatif; <em>method</em> tersebut bisa langsung menanganinya. Sehingga, kapanpun kita ingin memasang data umur yang baru, kita tidak perlu lagi membuat <em>if statement</em> untuk memastikan umurnya tidak negatif, karena sudah ditangani oleh <code>set_umur</code>.</p>
+<p>Kedua contoh <em>method</em> di atas menggambarkan bagaimana <em>method</em> bisa sangat mempermudah proses pemrograman kita dengan objek. Prinsip <strong><em>abstraction</em></strong> menekankan penggunaan <em>method</em> dengan cara seperti itu agar kita tidak perlu terlalu memusingkan detailnya. Misalnya, kita tidak perlu memusingkan cara mendefinisikan <em>method</em> <code>ulangtahun</code>, dan kita tidak perlu memusingkan kasus umur negatif berkat adanya <em>method</em> <code>set_umur</code>, pokoknya tinggal pakai. Lagipula, maksudnya “abstraksi” adalah kebalikan dari “mendetail”.</p>
+<p>Selain tidak pusing, manfaat lain dari <em>abstraction</em> adalah, kapanpun kita mau, kita bisa memodifikasi definisi <em>method</em> di definisi <code>class</code> nya saja, tanpa harus mengubah kode yang menggunakan <em>method</em> tersebut.</p>
+<p>Bayangkan apabila tidak ada <em>method</em> <code>ulangtahun</code>, sehingga kita menjadi harus mengubah <code>self.umur += 1</code> menjadi <code>self.set_umur(self.get_umur() + 1)</code> di mana-mana. Betapa ribetnya.</p>
+</section>
+<section id="inheritance-pewarisan-sifat" class="level3">
+<h3 class="anchored" data-anchor-id="inheritance-pewarisan-sifat"><em>Inheritance</em> (pewarisan sifat)</h3>
+<p>Sebelum belajar tentang <em>inheritance</em>, mari kita buat satu <em>method</em> lagi yaitu <code>perkenalan</code>:</p>
+<div id="cell-96" class="cell" data-execution_count="42">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Orang:</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur):</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> ulangtahun(<span class="va">self</span>):</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.set_umur(<span class="va">self</span>.get_umur() <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_umur(<span class="va">self</span>):</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.umur</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_umur(<span class="va">self</span>, baru):</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> baru <span class="op">&gt;=</span> <span class="dv">0</span>:</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.umur <span class="op">=</span> baru</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"error: umur tidak bisa negatif"</span>)</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> perkenalan(<span class="va">self</span>):</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Halo, nama saya "</span> <span class="op">+</span> <span class="va">self</span>.nama <span class="op">+</span> <span class="st">" dan umur saya "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="va">self</span>.umur) <span class="op">+</span> <span class="st">" tahun."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Seperti biasa, kita bisa membuat objek:</p>
+<div id="cell-98" class="cell" data-execution_count="43">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>orang1 <span class="op">=</span> Orang(<span class="st">"Pandu"</span>, <span class="dv">20</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>orang2 <span class="op">=</span> Orang(<span class="st">"Fasya"</span>, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kemudian, kita bisa memanggil <em>method</em> <code>perkenalan</code></p>
+<div id="cell-100" class="cell" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>orang1.perkenalan()</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>orang2.perkenalan()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Halo, nama saya Pandu dan umur saya 20 tahun.
+Halo, nama saya Fasya dan umur saya 20 tahun.</code></pre>
+</div>
+</div>
+<p>Lalu, misalnya, kita ingin membuat <code>class</code> baru yaitu <code>class Mahasiswa</code>, yang akan memiliki atribut tambahan yaitu NPM.</p>
+<p>Tentunya, mahasiswa adalah orang, sehingga kita harapkan bahwa semua yang bisa dilakukan oleh objek dari <code>class Orang</code> juga bisa dilakukan oleh objek dari <code>class Mahasiswa</code>.</p>
+<p>Untungnya, daripada harus <em>copy-paste</em> semua <em>method</em> yang ada di <code>class Orang</code> ke dalam definisi <code>class Mahasiswa</code>, kita tinggal memanfaatkan <strong><em>inheritance</em></strong> (pewarisan sifat), dengan <em>syntax</em> yang bisa dilihat di baris pertama di kode berikut:</p>
+<div id="cell-102" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mahasiswa(Orang):</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur, NPM):</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.NPM <span class="op">=</span> NPM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Sesingkat itu! Kita tinggal menyediakan <em>constructor</em> <code>__init__</code> yang baru yang lebih sesuai untuk <code>class Mahasiswa</code>, karena adanya atribut baru yaitu NPM. Semua <em>method</em> lainnya akan tetap dimiliki oleh objek dari <code>class Mahasiswa</code> karena sudah diwariskan dari <code>class Orang</code>, hanya dengan menuliskan <code>class Mahasiswa(Orang)</code> pada baris pertama definisi <code>class Mahasiswa</code>.</p>
+<p><code>class</code> yang asli (di sini <code>class Orang</code>) biasa disebut <em>parent class</em>, <em>base class</em>, atau <em>superclass</em>, sedangkan <code>class</code> yang mewariskan (di sini <code>class Mahasiswa</code>) biasa disebut <em>child class</em>, <em>derived class</em>, atau <em>subclass</em>.</p>
+<p>Kemudian, pembuatan objek dari <code>class Mahasiswa</code> dilakukan seperti biasa (jangan lupa, kali ini ada tiga atribut):</p>
+<div id="cell-106" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>mhs1 <span class="op">=</span> Mahasiswa(<span class="st">"Pandu"</span>, <span class="dv">20</span>, <span class="dv">2206026826</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Seperti biasa, kita bisa lihat isi atributnya satu per satu:</p>
+<div id="cell-108" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mhs1.nama)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mhs1.umur)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mhs1.NPM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pandu
+20
+2206026826</code></pre>
+</div>
+</div>
+<p>Semua <em>method</em> yang dimiliki oleh objek <code>Orang</code> itu juga dimiliki oleh objek <code>Mahasiswa</code>. Misalnya, kita bisa menggunakan <em>method</em> <code>ulangtahun</code> dan <code>get_umur</code>:</p>
+<div id="cell-110" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>mhs1.ulangtahun()</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mhs1.get_umur())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21</code></pre>
+</div>
+</div>
+<p>Kita juga bisa melakukan <code>perkenalan</code></p>
+<div id="cell-112" class="cell" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>mhs1.perkenalan()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Halo, nama saya Pandu dan umur saya 21 tahun.</code></pre>
+</div>
+</div>
+<p>Namun, isi perkenalannya sama persis seperti objek <code>Orang</code>, bahkan tidak ada keterangan NPM. Bagaimana kalau kita mau mahasiswa melakukan perkenalan dengan NPM juga? Apakah kita bisa memodifikasi <em>method</em> ini khusus untuk <code>class Mahasiswa</code>? Jawabannya adalah bisa, berkat prinsip <em>polymorphism</em>.</p>
+</section>
+<section id="polymorphism-banyak-bentuk" class="level3">
+<h3 class="anchored" data-anchor-id="polymorphism-banyak-bentuk"><em>Polymorphism</em> (“banyak bentuk”)</h3>
+<p>Setelah melakukan <em>inheritance</em>, seandainya ada <em>method</em> yang diwaris yang dirasa perlu diubah atau dibedakan dari <em>parent class</em>, kita tinggal mendefinisikan ulang <em>method</em> tersebut di dalam definisi <em>child class</em> yang bersangkutan.</p>
+<p>Misalnya, kita bisa mendefinisikan ulang <em>method</em> <code>perkenalan</code> di dalam definisi <code>class Mahasiswa</code> agar berbeda dengan <code>perkenalan</code> di <code>class Orang</code>:</p>
+<div id="cell-117" class="cell" data-execution_count="50">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mahasiswa(Orang):</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, nama, umur, NPM):</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.nama <span class="op">=</span> nama</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.umur <span class="op">=</span> umur</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.NPM <span class="op">=</span> NPM</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> perkenalan(<span class="va">self</span>):</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Perkenalkan, saya "</span> <span class="op">+</span> <span class="va">self</span>.nama <span class="op">+</span> <span class="st">" dengan NPM "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="va">self</span>.NPM) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kita sudah memiliki <code>orang1</code> sebagai objek dari <code>class Orang</code>, sehingga bisa kita bandingkan dengan objek dari <code>class Mahasiswa</code> yang perlu kita buat ulang:</p>
+<div id="cell-119" class="cell" data-execution_count="51">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>mhs1 <span class="op">=</span> Mahasiswa(<span class="st">"Pandu"</span>, <span class="dv">20</span>, <span class="dv">2206026826</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Sekarang kita lakukan <code>perkenalan</code> untuk masing-masing:</p>
+<div id="cell-121" class="cell" data-execution_count="52">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>orang1.perkenalan()</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>mhs1.perkenalan()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Halo, nama saya Pandu dan umur saya 20 tahun.
+Perkenalkan, saya Pandu dengan NPM 2206026826</code></pre>
+</div>
+</div>
+<p>Hasilnya berbeda, sesuai harapan. Namun, nama <em>method</em> nya tetap sama, yaitu <code>perkenalan</code>. Seolah-olah, <em>method</em> <code>perkenalan</code> ini adalah “<em>method</em> yang sama” tetapi “memiliki bentuk yang berbeda-beda”, yaitu berbeda antara di <code>class Orang</code> dengan <code>class Mahasiswa</code>.</p>
+<p>Bahkan, kalau mau, kita bisa membuat <em>child class</em> yang baru lagi dari <code>class Orang</code>, dan mendefinisikan ulang atau “menimpa” lagi <em>method</em> <code>perkenalan</code> untuk <em>child class</em> tersebut. Sehingga, <em>method</em> <code>perkenalan</code> ini seperti memiliki banyak bentuk.</p>
+<p>“Banyak bentuk” itulah yang dimaksud dengan <strong><em>polymorphism</em></strong>. Kita bisa melakukan <em>inheritance</em> berkali-kali, kemudian “menimpa” suatu <em>method</em> pada <em>child class</em> dengan definisi yang berbeda daripada di <em>parent class</em>.</p>
+<p>Penerapan lain dari prinsip <em>polymorphism</em> adalah fitur yang bernama <em>operator overloading</em>, yang kebetulan dimiliki oleh Python dan sejumlah “bahasa OOP” lainnya (bahasa yang “mendukung OOP”, yaitu memiliki fitur <code>class</code>, <em>inheritance</em> dan sebagainya sesuai dengan empat pilar OOP).</p>
+</section>
+</section>
+<section id="operator-overloading" class="level2">
+<h2 class="anchored" data-anchor-id="operator-overloading"><em>Operator overloading</em></h2>
+<p>Misalnya kita membuat <code>class Pecahan</code> yang terdiri dari atribut <code>pembilang</code> dan <code>penyebut</code>:</p>
+<div id="cell-126" class="cell" data-execution_count="53">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pecahan:</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, pembilang, penyebut):</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pembilang <span class="op">=</span> pembilang</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.penyebut <span class="op">=</span> penyebut</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kita bisa membuat pecahan setengah seperti berikut:</p>
+<div id="cell-128" class="cell" data-execution_count="54">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>frac1 <span class="op">=</span> Pecahan(<span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kita bisa melihat isi atribut <code>pembilang</code> dan <code>penyebut</code>:</p>
+<div id="cell-130" class="cell" data-execution_count="55">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frac1.pembilang)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frac1.penyebut)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1
+2</code></pre>
+</div>
+</div>
+<p>Misalnya kita ada pecahan lain…</p>
+<div id="cell-132" class="cell" data-execution_count="56">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>frac2 <span class="op">=</span> Pecahan(<span class="dv">3</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>… alangkah indahnya kalau kita bisa menjumlahkannya begitu saja…</p>
+<div id="cell-134" class="cell" data-execution_count="57">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>frac1 <span class="op">+</span> frac2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[57], line 1</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">frac1</span><span class="ansi-yellow-bg"> </span><span style="color:rgb(98,98,98)" class="ansi-yellow-bg">+</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">frac2</span>
+
+<span class="ansi-red-fg">TypeError</span>: unsupported operand type(s) for +: 'Pecahan' and 'Pecahan'</pre>
+</div>
+</div>
+</div>
+<p>Terjadi <em>error</em>, karena saat ini, operator + belum ada artinya untuk objek <code>Pecahan</code>.</p>
+<p>Akan tetapi, ada <em>method</em> istimewa yang bisa kita definisikan agar operator + menjadi terdefinisi, lho! Namanya adalah <code>__add__</code>.</p>
+<p>Secara matematis, penjumlahan pecahan bisa dituliskan seperti berikut:</p>
+<p><span class="math display">\[\frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd}\]</span></p>
+<p>Sehingga, kita bisa mendefinisikan <em>method</em> <code>__add__</code> sebagai berikut:</p>
+<div id="cell-140" class="cell" data-execution_count="58">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pecahan:</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, pembilang, penyebut):</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pembilang <span class="op">=</span> pembilang</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.penyebut <span class="op">=</span> penyebut</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__add__</span>(<span class="va">self</span>, pecahan2):</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> <span class="va">self</span>.pembilang</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> <span class="va">self</span>.penyebut</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> pecahan2.pembilang</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>        d <span class="op">=</span> pecahan2.penyebut</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>        atas <span class="op">=</span> a<span class="op">*</span>d <span class="op">+</span> b<span class="op">*</span>c</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>        bawah <span class="op">=</span> b<span class="op">*</span>d</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a>        hasil <span class="op">=</span> Pecahan(atas, bawah)</span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> hasil</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Lalu, kita bisa membuat ulang kedua pecahan yang tadi, mencoba menjumlahkannya, dan melihat data atribut <code>pembilang</code> dan <code>penyebut</code> di hasil jumlahannya:</p>
+<div id="cell-142" class="cell" data-execution_count="59">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>frac1 <span class="op">=</span> Pecahan(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>frac2 <span class="op">=</span> Pecahan(<span class="dv">3</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-143" class="cell" data-execution_count="60">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>frac3 <span class="op">=</span> frac1 <span class="op">+</span> frac2</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frac3.pembilang)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frac3.penyebut)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>11
+10</code></pre>
+</div>
+</div>
+<p>Wow, keren! Hasilnya benar ya!</p>
+<p>Selain penjumlahan, kita bisa mendefinisikan banyak operator lainnya untuk <code>class</code>. Pendefinisian operator untuk <code>class</code> disebut <em>operator overloading</em> (“menimpa operator”), dan selalu melibatkan <em>method</em> istimewa atau <strong><em>magic methods</em></strong> (juga disebut <em>dunder methods</em> atau <em>double underscore methods</em>) yang sudah memiliki nama tertentu. Kebetulan, <em>constructor</em> yang dinamakan <code>__init__</code> juga termasuk <em>magic method</em>.</p>
+<p>Kalian bisa membaca lebih lanjut tentang <em>operator overloading</em> dan <em>magic method</em> lainnya di link berikut:</p>
+<p><a href="https://www.geeksforgeeks.org/operator-overloading-in-python/">https://www.geeksforgeeks.org/operator-overloading-in-python/</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Departemen Matematika FMIPA UI</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:aslab.math@sci.ui.ac.id">
+      <i class="bi bi-envelope" role="img" aria-label="Email kami">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

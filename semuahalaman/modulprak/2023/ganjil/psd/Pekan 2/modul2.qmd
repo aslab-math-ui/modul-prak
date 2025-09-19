@@ -1,0 +1,275 @@
+---
+title: "Modul 2 Praktikum PSD 2023/2024 Semester Ganjil"
+page-navigation: true
+format: html
+---
+
+Kembali ke [Pengantar Sains Data](../psd2023.qmd)
+
+Versi *file* `.R` dari modul ini bisa diunduh: [Modul 2 (REV).R](./Modul%202%20(REV).R)
+
+# Visualisasi Tambahan
+
+## STEM AND LEAF PLOT
+
+Untuk ngeliat persebaran data (min,max,distribusi), mirip kaya histogram
+
+```{r}
+?stem
+View(ChickWeight) #data dari r
+stem(ChickWeight$weight)
+hist(ChickWeight$weight) #buat perbandingan
+```
+
+```{r}
+min(ChickWeight$weight) #cek nilai minimumnya
+max(ChickWeight$weight) #cek maxnya
+```
+
+Kalau ternyata min sama maxnya kurang tepat, ganti scalenya
+
+```{r}
+stem(ChickWeight$weight, scale = 5) 
+stem(ChickWeight$weight, width = 100) 
+```
+
+## DOT DIAGRAM
+
+```{r}
+?dotchart
+View(mtcars)
+```
+
+Paling Sederhana
+
+```{r}
+dotchart(mtcars$mpg)
+```
+
+Tambah Judul dan Label
+
+```{r}
+dotchart(mtcars$mpg, labels = row.names(mtcars),
+         cex = 0.9, xlab = "mpg",
+         main = "Persebaran Jarak Yang Dapat Ditempuh Per Galon")
+```
+
+Berdasarkan Grup
+
+```{r}
+grps <- as.factor(mtcars$cyl)
+my_cols <- c("blue", "darkgreen", "orange")
+dotchart(mtcars$mpg, labels = row.names(mtcars),
+         groups = grps, gcolor = my_cols,
+         color = my_cols[grps],
+         cex = 0.9,  pch = 22, xlab = "mpg",
+         main = "Persebaran Jarak Yang Dapat Ditempuh Per Galon Berdasarkan Jumlah Silinder")
+legend("bottomright", legend = c("4","6", "6"),
+       fill = my_cols, cex = 0.8)
+```
+
+# Distribusi Diskirt
+
+plot pdf, cdf, dan data yang dibangkitkan dari distribusi tersebut
+
+Distribusi Diskrit: domainnya (dalam hal ini ruang sampel) hanya bisa diskrit
+
+`pdf -> Pr(X=x)`
+
+`cdf -> Pr(X <= k)`
+
+```{r}
+library("Rlab")
+```
+
+## Bernoulli
+
+### PDF
+
+```{r}
+dbern(0, prob = 0.3) #0 adalah domain, atau bisa dikatakan akan dihitung f(0)
+#parameter prob adalah probabilitas sukses atau f(1)
+```
+
+```{r}
+dbern(1, prob = 0.6)
+```
+
+plot pdf
+
+```{r}
+x <- seq(0, 1, by = 1)
+plot(dbern(x, prob = 0.6))
+```
+
+visualisasi masih jelek,
+
+improve plotnya coba (terutama perhatiin sumbu x nya) -> bukan domain tapi index doang
+
+```{r}
+plot(x,
+     dbern(x, prob = 0.6),
+     main = "PDF Distribusi Bernoulli dengan p = 0.6",
+     xlab = "x",
+     ylab = "f(x)",
+     ylim = c(0, 1),
+     pch = 20,
+     cex = 2)
+```
+
+```{r}
+plot(x,
+     dbern(x, prob = 0.6),
+     main = "PDF Distribusi Bernoulli dengan p = 0.6",
+     xlab = "x",
+     ylab = "f(x)",
+     ylim = c(0, 1),
+     pch = 20,
+     cex = 2,
+     type = "o")
+```
+
+hindari plot seperti ini dalam distribusi diskrit, kenapa?
+
+balik lagi, domainnya diskrit jadi harusnya ga terdefinisi untuk 0 < x < 1 sehingga harusnya tidak boleh dihubungkan oleh garis lurus
+
+kalo pake garis putus2 masih oke lah, tapi kurang recommend untuk distribusi diskrit:
+
+```{r}
+plot(x,
+     dbern(x, prob = 0.6),
+     main = "PDF Distribusi Bernoulli dengan p = 0.4",
+     xlab = "x",
+     ylab = "f(x)",
+     ylim = c(0, 1),
+     pch = 20,
+     cex = 2,
+     type = "o", 
+     lty = 2)
+```
+
+```{r}
+x2 <- seq(0, 10, by = 1)
+```
+
+```{r}
+plot(x2,
+     dbern(x2, prob = 0.6),
+     pch = 20,
+     cex = 2,
+     xaxp = c(0,10,10))
+```
+
+apa kesimpulannya? untuk x = 2,3,4,... f(x) = 0
+
+### CDF
+
+```{r}
+pbern(0, prob = 0.6)
+pbern(1, prob = 0.6)
+plot(x2,
+     pbern(x2, prob = 0.6),
+     pch = 20,
+     cex = 2,
+     xaxp = c(0,10,10))
+```
+
+apa kesimpulannya? untuk `x = 1,2,3,... F(x) = 1 else F(x) = 1-p`
+
+### Random
+
+bangkitkan n data dari distribusi bernoulli
+
+```{r}
+set.seed(122)
+n <- 100
+random_bern <- rbern(n, prob = 0.6)
+```
+
+```{r}
+table(random_bern)/sum(table(random_bern))
+```
+
+```{r}
+random_bern_plot <- barplot(table(random_bern),
+                            ylim = c(0,100))
+text(x = random_bern_plot,
+     y = table(random_bern),
+     labels = table(random_bern),
+     pos = 3)
+```
+
+## Distribusi Binomial
+
+### PDF
+
+```{r}
+dbinom(2,
+       size = 10,
+       prob = 0.6) #artinya adalah Pr(X=2) dimana X ~ binom(10, 0.6)
+```
+
+```{r}
+plot(x2,
+     dbinom(x2,10,0.4),
+     xaxp = c(0,10,10),
+     pch = 20,
+     ylim = c(0, 0.3)) #plot pdf
+```
+
+### CDF
+
+```{r}
+pbinom(2, size = 10, prob = 0.6)
+```
+
+```{r}
+plot(x2,
+     pbinom(x2,10,0.4),
+     xaxp = c(0,10,10),
+     pch = 20,
+     ylim = c(0, 1))
+```
+
+### Random
+
+bangkitkan n data dari distribusi binomial
+
+```{r}
+set.seed(122)
+n <- 100
+random_binom <- rbinom(n, size = 10, prob = 0.6)
+```
+
+```{r}
+table(random_binom)/sum(table(random_binom))
+```
+
+```{r}
+random_binom_plot <- barplot(table(random_binom),
+                             ylim = c(0,40))
+text(x = random_binom_plot,
+     y = table(random_binom),
+     labels = table(random_binom),
+     pos = 3)
+```
+
+## Distribusi lain
+
+untuk distribusi lain, intinya tetap sama hanya sesuaikan parameternya saja
+
+format:
+
+- pdf -> d+nama distribusi()
+
+    misal pdf poisson berarti `dpois()`
+
+- cdf poisson: `ppois()`
+
+- data random dari distribusi poisson `rpois()`
+
+selengkapnya bisa cek di dokumentasi 
+
+```{r}
+?Distributions
+```

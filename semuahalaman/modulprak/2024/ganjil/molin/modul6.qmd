@@ -1,0 +1,504 @@
+---
+title: "Logistic Regression"
+subtitle: "Pembelajaran regresi logistic"
+image: static\bg_modul6.jpg
+description: "Offline di Departemen Matematika"
+date: 11/25/2024
+page-navigation: true
+format:
+  html:
+    code-overflow: wrap
+knitr:
+  opts_chunk:
+    comment: ''
+format-links: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+# Struktur Pembelajaran
+Halo, selamat sejahtera semua. Kali ini kita akan masuk pembelajaran regresi logistik. Pembelajaran kali ini akan memiliki bertujuan untuk mengetahui secara sederhana  untuk kalian dapat menentukan kapan kalian menggunakan regresi linear sederhana & regresi logistik sederhana.
+
+Akan tetapi, bagi kalian yang ingin memahami secara penuh, kita tetap menyediakan penjelasan pada link halaman lainnya.
+
+## Mempersiapkan code
+### Attach Data
+Kita akan mendapatkan koleksi data *real* dari [repositori pembelajaran mesin UCI](http://archive.ics.uci.edu/) khususnya kita akan mengambil data [penyakit jantung](http://archive.ics.uci.edu/ml/datasets/Heart+Disease) 
+```{r}
+#| echo: false
+#| include: false
+
+
+library(ggplot2)
+library(cowplot)
+```
+
+Kita mulai dengan membuat variabel bernama URL dan menyetelnya ke lokasi data yang kita inginkan 
+
+```{r}
+url <- "https://raw.githubusercontent.com/StatQuest/logistic_regression_demo/master/processed.cleveland.data"
+ 
+data <- read.csv(url, header=FALSE)
+```
+beginilah cara `R` membaca `collection` data dari URL.
+
+Fungsi `head` menunjukkan kepada kita 6 baris data pertama, sayangnya tidak ada kolom yang diberi **label**
+```{r}
+head(data)
+```
+**Oh no!**
+
+Data nya tidak rapih. Kalau begitu, sekarang ...
+
+### Pre-Processing Data
+
+Kita menamai kolom tersebut dengan nama yang terdaftar di situs web UCI.
+
+Mari kita format ulang data nya agar:
+
+1. **Mudah digunakan**
+2. **Ditafsirkan** *( interpreted )* dengan benar oleh `glm()`.
+
+
+```{r}
+colnames(data) <- c(
+  "age",
+  "sex",# 0 = female, 1 = male
+  "cp", # chest pain
+  # 1 = typical angina,
+  # 2 = atypical angina,
+  # 3 = non-anginal pain,
+  # 4 = asymptomatic
+  "trestbps", # resting blood pressure (in mm Hg)
+  "chol", # serum cholestoral in mg/dl
+  "fbs",  # fasting blood sugar if less than 120 mg/dl, 1 = TRUE, 0 = FALSE
+  "restecg", # resting electrocardiographic results
+  # 1 = normal
+  # 2 = having ST-T wave abnormality
+  # 3 = showing probable or definite left ventricular hypertrophy
+  "thalach", # maximum heart rate achieved
+  "exang",   # exercise induced angina, 1 = yes, 0 = no
+  "oldpeak", # ST depression induced by exercise relative to rest
+  "slope", # the slope of the peak exercise ST segment
+  # 1 = upsloping
+  # 2 = flat
+  # 3 = downsloping
+  "ca", # number of major vessels (0-3) colored by fluoroscopy
+  "thal", # this is short of thalium heart scan
+  # 3 = normal (no cold spots)
+  # 6 = fixed defect (cold spots during rest and exercise)
+  # 7 = reversible defect (when cold spots only appear during exercise)
+  "hd" # (the predicted attribute) - diagnosis of heart disease
+  # 0 if less than or equal to 50% diameter narrowing
+  # 1 if greater than 50% diameter narrowing
+)
+```
+
+Hoorayy 🥰 sekarang ketika kita melihat 6 baris pertama dengan fungsi `head` segalanya terlihat jauh lebih baik🎉
+
+```{r}
+head(data)
+```
+
+Namun, fungsi `str` yang menjelaskan struktur data memberi tahu kita bahwa beberapa kolom sedang kacau saat ini.
+```{r}
+str(data) # this shows that we need to tell R which columns contain factors
+# it also shows us that there are some missing values. There are "?"s
+# in the dataset. These are in the "ca" and "thal" columns...
+```
+kekacauannya adalah sebagai berikut:
+
+1. `sex` adalah angka (**number**) tetapi seharusnya menjadi **factor** di mana nol mewakili perempuan dan satu mewakili laki laki 
+2. `CP` alias nyeri dada juga seharusnya menjadi **factor** di mana level 1 hingga 3 mewakili berbagai jenis nyeri dan 4 tidak mewakili nyeri dada 
+3. `CA` dan `Thal` disebut dengan benar sebagai **faktor** tetapi salah satu levelnya adalah *tanda tanya* saat kita membutuhkannya
+
+Jadi kita harus melakukan **pembersihan**
+
+### Cleaning Data
+
+Hal pertama yang kita lakukan adalah 
+
+- mengubah *tanda tanya* menjadi `NA` 
+
+```{r}
+## First, convert "?"s to NAs...
+data[data == "?"] <- NA
+```
+
+- lalu hanya untuk mempermudah melihat data kita mengubah angka nol dalam `sex` menjadi F untuk perempuan dan yang menjadi M untuk laki laki 
+```{r}
+## Now add factors for variables that are factors and clean up the factors
+## that had missing data...
+data[data$sex == 0,]$sex <- "F"
+data[data$sex == 1,]$sex <- "M"
+data$sex <- as.factor(data$sex)
+```
+
+- terakhir kita mengubah kolom yang seharusnya menjadi **factor** karena memang seharusnya demikian lihat situs web UCI
+
+```{r}
+data$cp <- as.factor(data$cp)
+data$fbs <- as.factor(data$fbs)
+data$restecg <- as.factor(data$restecg)
+data$exang <- as.factor(data$exang)
+data$slope <- as.factor(data$slope)
+```
+
+Oh no! Coba perhatikan yang lain sekarang.
+Karena kolom `CA` awalnya memiliki *tanda tanya* di dalamnya alih-alih menganggap itu kolom `string`, kita mengoreksi asumsi itu dengan memberi tahu bahwa itu adalah kolom `integer` dan kemudian kita mengubahnya menjadi **factor**, lalu kita melakukan hal yang sama untuk `Thal`.
+
+```{r}
+data$ca <- as.integer(data$ca) # since this column had "?"s in it
+# R thinks that the levels for the factor are strings, but
+# we know they are integers, so first convert the strings to integers...
+data$ca <- as.factor(data$ca)  # ...then convert the integers to factor levels
+
+data$thal <- as.integer(data$thal) # "thal" also had "?"s in it.
+data$thal <- as.factor(data$thal)
+```
+
+- hal lain yang perlu kita lakukan pada data adalah menjadikan `HD` alias penyakit jantung sebagai **factor** yang mudah dilihat.
+
+```{r}
+## This next line replaces 0 and 1 with "Healthy" and "Unhealthy"
+data$hd <- ifelse(test=data$hd == 0, yes="Healthy", no="Unhealthy")
+data$hd <- as.factor(data$hd) # Now convert to a factor
+```
+
+Di sini saya menggunakan trik *fancy* dengan fungsi `if-else` untuk mengubah angka nol menjadi sehat dan yang menjadi tidak sehat. 
+
+Kita bisa saja melakukan trik serupa untuk `sex` tapi saya ingin menunjukkan kepada Anda, kedua cara ini untuk mengubah angka menjadi `string`.
+
+Setelah selesai memperbaiki data, kita periksa bahwa kita telah membuat perubahan yang sesuai kita harapkan dengan fungsi `str` 
+
+```{r}
+str(data) ## this shows that the correct columns are factors
+```
+hoooraaayy berhasil 🎉🎉🎉
+
+
+### Handling Missing Value
+
+Sekarang kita melihat berapa banyak baris sampel data yang memiliki nilai `na`. nanti kita akan memutuskan apakah kita bisa membuang sampel ini atau apakah kita harus memasukkan nilai untuk `NA`. 
+
+```{r}
+## Now determine how many rows have "NA" (aka "Missing data"). If it's just
+## a few, we can remove them from the dataset, otherwise we should consider
+## imputing the values with a Random Forest or some other imputation method.
+nrow(data[is.na(data$ca) | is.na(data$thal),])
+data[is.na(data$ca) | is.na(data$thal),]
+## so 6 of the 303 rows of data have missing values. This isn't a large
+## percentage (2%), so we can just remove them from the dataset
+nrow(data)
+```
+
+6 baris sampel data memiliki `NA` di dalamnya. 
+
+kita dapat melihat sampel di dalamnya dengan memilih baris tersebut dari `dataframe` dan di sanalah mereka di sini adalah nilai `NA` lima dari enam sampel adalah laki-laki dan dua dari enam memiliki penyakit jantung. 
+
+```{r}
+data[is.na(data$ca) | is.na(data$thal),]
+```
+
+jika kita mau, kita dapat mengaitkan nilai untuk `NA` menggunakan `random forest` atau metode lain. namun untuk contoh ini kita hanya akan menghapus sampel ini termasuk enam sampel dalam `NA`.
+
+```{r}
+nrow(data)
+data <- data[!(is.na(data$ca) | is.na(data$thal)),]
+nrow(data)
+```
+ada tiga ratus tiga sampel kemudian kita menghapus enam sampel yang memiliki `NA`, dan setelah menghapus sampel tersebut ada dua ratus sembilan puluh tujuh sampel yang tersisa.
+
+Sekarang kita perlu memastikan bahwa sampel yang sehat dan berpenyakit berasal dari setiap jenis kelamin perempuan dan laki-laki.
+
+jika hanya sampel laki-laki yang memiliki penyakit jantung, kita mungkin harus menghapus semua perempuan dari model tersebut. 
+
+kita melakukan ini dengan fungsi `xtabs` kita meneruskan `xtabs` data dan menggunakan sintaks model untuk memilih kolom dalam data yang ingin kita buat tabelnya. Dalam hal ini kita menginginkan tabel dengan penyakit jantung dan `sex`.
+
+```{r}
+xtabs(~ hd + sex, data=data)
+
+## Most of the females are healthy and most of the males are unhealthy.
+## Being female is likely to decrease the odds in being unhealthy.
+##    In other words, if a sample is female, the odds are against it that it
+##    will be unhealthy
+## Being male is likely to increase the odds in being unhealthy...
+##    In other words, if a sample is male, the odds are for it being unhealthy
+```
+
+pasien sehat dan tidak sehat sama-sama diwakili oleh banyak sampel wanita dan pria singkatnya dilaporkan oleh sekelompok pasien.
+
+```{shell}
+## Most of the females are healthy and most of the males are unhealthy.
+## Being female is likely to decrease the odds in being unhealthy.
+##    In other words, if a sample is female, the odds are against it that it
+##    will be unhealthy
+## Being male is likely to increase the odds in being unhealthy...
+##    In other words, if a sample is male, the odds are for it being unhealthy
+```
+
+sekarang mari kita verifikasi bahwa keempat tingkat nyeri dada `CP`.
+```{r}
+## Now we can do some quality control by making sure all of the factor
+## levels are represented by people with and without heart disease (hd)
+##
+## NOTE: We also want to exclude variables that only have 1 or 2 samples in
+## a category since +/- one or two samples can have a large effect on the
+## odds/log(odds)
+
+xtabs(~ hd + cp, data=data)
+```
+
+Kemudian kita melakukan hal yang sama untuk semua variabel `boolean` dan `categoric` yang kita gunakan untuk memprediksi penyakit jantung.
+
+```{r}
+xtabs(~ hd + fbs, data=data)
+xtabs(~ hd + restecg, data=data)
+```
+
+Inilah sesuatu yang dapat menyebabkan masalah pada hasil istirahat elektrokardiografi.  Hanya 4 pasien yang mewakili level 1, hal ini berpotensi menghalangi pencarian jalur yang paling pas (*fit*). Namun untuk saat ini kita hanya akan membiarkannya dan melihat apa yang terjadi dan kemudian kita terus melihat variabel yang tersisa untuk memastikan bahwa semuanya diwakili oleh sejumlah pasien. 
+
+```{r}
+xtabs(~ hd + exang, data=data)
+xtabs(~ hd + slope, data=data)
+xtabs(~ hd + ca, data=data)
+xtabs(~ hd + thal, data=data)
+```
+
+oke kita sudah melakukan semua hal yang membosankan sekarang mari kita lakukan regresi logistik mari kita mulai dengan model yang sangat sederhana.
+
+kita akan mencoba memprediksi penyakit jantung hanya dengan menggunakan jenis kelamin setiap pasien. inilah `code call` kita ke fungsi GLM fungsi yang menjalankan **G**eneralized **L**inear **M**odels.
+
+```{r}
+logistic <- glm(hd ~ sex, data=data, family="binomial")
+```
+
+pertama kita menggunakan rumus sintaks untuk menentukan bahwa kita ingin menggunakan jenis kelamin untuk memprediksi penyakit jantung. Kita ingin menggunakan jenis kelamin untuk memprediksi penyakit jantung kemudian kita menentukan data yang kita gunakan untuk model tersebut. Terakhir kita menetapkan bahwa kita menginginkan keluarga binomial dari model linier umum, hal ini membuat fungsi GLM melakukan regresi logistik dibandingkan dengan beberapa jenis model linier umum lainnya.
+
+Oh, saya hampir lupa menyebutkan bahwa kita menyimpan output dari fungsi GLM dalam variabel yang disebut logistic. kita kemudian menggunakan fungsi ringkasan untuk mendapatkan detail tentang regresi logistik.
+```{r}
+summary(logistic)
+
+## The intercept is the log(odds) a female will be unhealthy. This is because
+## female is the first factor in "sex" (the factors are ordered,
+## alphabetically by default,"female", "male")
+```
+
+1. baris pertama memiliki panggilan asli ke fungsi GLM 
+2. baris kedua memberi ringkasan `deviance residuals`.
+mereka terlihat bagus karena hampir berpusat pada nol dan kira-kira simetris .
+
+jika Anda ingin tahu lebih banyak tentang `deviance residuals`, lihat modul [deviance residuals](devianceresidual.qmd) yang dijelaskan dengan jelas.
+
+- kemudian kita memiliki koefisien. Mereka bersesuaiaian dengan model. 
+
+$$
+\text{heart disease} = -1.0438 + 1.2737 \times \text{pasien laki-laki}
+$$
+Variabel pasien laki-laki sama dengan nol ketika pasien perempuan dan satu ketika pasien laki-laki.
+
+- jadi jika kita memprediksi penyakit jantung untuk pasien wanita kita. kita mendapatkan persamaan berikut.
+
+$$
+\text{heart disease} = -1.0438 + 1.2737 \times 0 = -1.0438
+$$
+Oleh karena itu, kemungkinan log (odds) bahwa seorang wanita memiliki penyakit jantung $ = -1.0438 $.
+
+jika kita memprediksi penyakit jantung untuk pasien laki-laki, kita mendapatkan persamaan berikut
+$$
+\text{heart disease} = -1.0438 + 1.2737 \times 1 = -1.0438 + 1.2737
+$$
+karena persamaan pertama adalah log(odds) seorang wanita terkena penyakit jantung, 
+persamaan kedua menunjukkan peningkatan log(odds) seorang pria terkena penyakit jantung.
+
+Dengan kata lain, suku persamaan kedua adalah log **rasio** peluang seorang **pria** terkena penyakit jantung terhadap kemungkinan seorang **wanita** terkena penyakit jantung. 
+
+```{r}
+female.log.odds <- log(25 / 71)
+female.log.odds
+```
+
+```{r}
+female.log.odds <- log(25 / 71)
+female.log.odds
+```
+
+```{r}
+## sexM is the log(odds ratio) that tells us that if a sample has sex=M, the
+## odds of being unhealthy are, on a log scale, 1.27 times greater than if
+## a sample has sex=F.
+male.log.odds.ratio <- log((112 / 89) / (25/71))
+male.log.odds.ratio
+```
+
+```{r}
+summary(logistic)
+```
+
+3. Bagian `Std. Error` dan `z Value` dari keluaran regresi logistik ini menunjukkan bagaimana **Wald** dihitung untuk kedua koefisien dan ini adalah `P-Value`.
+
+kedua `P-Value` jauh di bawah 0,05 dan dengan demikian `log(odds)` dan `log(odds_ratio)` keduanya **signifikan secara statistik** tetapi ingat `P-Value` yang kecil saja tidak *menentukan*.
+
+kita juga menginginkan ukuran **efek** yang besar dan itulah yang dikatakan oleh `log(odds)` dan `log(odds_ratio)`.
+
+Jika Anda ingin mengetahui detail lebih lanjut tentang 
+
+- `koefisien` dan `uji Wald`, lihat [modul](regresilogistic.qmd) berikut dan 
+- `log(odds)` dijelaskan dengan jelas - [`odds_ratio`](regresilogistic.qmd) dan 
+- `log(odds_ratio)` dijelaskan dengan jelas dalam detail [regresi logistik bagian 1](regresilogistic.qmd).
+
+4. selanjutnya kita melihat parameter dispersi default yang digunakan untuk regresi logistik ini. 
+
+Ketika kita melakukan regresi linier sederhana, kita memperkirakan mean dan varians dari data yang berbeda. 
+
+Secara kontras, ketika regresi logistik kita memperkirakan rata-rata data sedangkan varians diturunkan dari mean. 
+Karena kita tidak memperkirakan varians dari data dan sebaliknya hanya menurunkannya dari mean ada kemungkinan varians tersebut `underestimated`. 
+Kalau begitu, Anda dapat menyesuaikan dispersi kita di dalam `summary` command.
+
+5. Kita memiliki `Null deviance` dan `Residual Deviance`. Ini dapat digunakan untuk membandingkan model yang menghitung `$R^2$` dan keseluruhan `p-value`.
+
+untuk detail lebih lanjut, lihat detail [regresi logistik](regresilogistic.qmd) `$R^2$` dan `p-value`-nya dan [Saturated Models dan Deviance Statistics](regresilogistic.qmd) dijelaskan dengan jelas.
+
+6. kemudian kita memiliki AIC (Akaike Information Criterion) yang dalam konteks ini hanyalah `Residual Deviance` yang **disesuaikan** dengan jumlah parameter dalam model. **AIC** dapat digunakan untuk membandingkan satu model dengan model lainnya.
+
+7. terakhir, kita memiliki `Number of Fisher Scoring Iteration` yang hanya memberi tahu kita seberapa cepat fungsi `GLM` *coverge* pada **Maximum Likelihood Estimates** untuk koefisien.
+
+jika Anda ingin detail lebih lanjut tentang bagaimana koefisien diestimasi, lihat detail [regresi logistik bagian kedua](logisticregression.qmd) **...menyesuaikan garis dengan kemungkinan maksimum**.
+
+sekarang kita telah melakukan regresi logistik sederhana hanya dengan menggunakan salah satu variabel
+(**`sex`**) untuk memprediksi penyakit jantung, kita dapat membuat model *fancy* yang menggunakan semua variabel untuk memprediksi penyakit jantung sintaks dengan rumus ini.
+
+```{r}
+#####################################
+##
+## Now we will use all of the data available to predict heart disease
+##
+#####################################
+ 
+logistic <- glm(hd ~ ., data=data, family="binomial")
+```
+**`.`** berarti kita ingin memodelkan HD penyakit jantung menggunakan semua variabel dalam data frame kita yang disebut data, kita kemudian dapat melihat seperti apa model kita dengan fungsi `summary`.
+
+```{r}
+summary(logistic)
+```
+
+kita melihat bahwa usia bukanlah prediktor yang berguna karena memiliki `p-value` yang **besar**. Namun `rata-rata` usia dalam dataframe kita adalah $56$ tahun. Jadi sebagian besar orang sudah cukup tua dan itu menjelaskan mengapa usia tidak terlalu **berguna**.
+
+`Gender` masih merupakan prediktor yang **baik**. Meskipun begitu, kita melihat bahwa `residual deviance` dan `AIC` keduanya jauh lebih **kecil** untuk model *fancy* ini daripada fungsi untuk model sederhana yakni ketika kita hanya menggunakan **jenis kelamin** untuk memprediksi **penyakit jantung**.
+
+jika kita ingin menghitung **pseudo r-squared McFadden**, kita dapat mengambil **log-likelihood null model** dari variabel **logistik**, dengan mendapatkan nilai **null deviance** dan membaginya dengan $-2$,
+```{r}
+## Now calculate the overall "Pseudo R-squared" and its p-value
+ 
+## NOTE: Since we are doing logistic regression...
+## Null devaince = 2*(0 - LogLikelihood(null model))
+##               = -2*LogLikihood(null model)
+## Residual deviacne = 2*(0 - LogLikelihood(proposed model))
+##                   = -2*LogLikelihood(proposed model)
+ll.null <- logistic$null.deviance/-2
+```
+
+dan kita dapat mengambil **log-likelihood null model** untuk model *fancy* dari variabel **logistik** dengan mendapatkan nilai **residual deviance** dan membaginya dengan $-2$.
+
+```{r}
+## Now calculate the overall "Pseudo R-squared" and its p-value
+ 
+## NOTE: Since we are doing logistic regression...
+## Null devaince = 2*(0 - LogLikelihood(null model))
+##               = -2*LogLikihood(null model)
+## Residual deviacne = 2*(0 - LogLikelihood(proposed model))
+##                   = -2*LogLikelihood(proposed model)
+ll.proposed <- logistic$deviance/-2
+```
+
+kemudian kita hanya menghitung dan kita mendapatkan **pseudo r-squared McFadden** $= 0,55$. 
+
+```{r}
+## McFadden's Pseudo R^2 = [ LL(Null) - LL(Proposed) ] / LL(Null)
+(ll.null - ll.proposed) / ll.null
+```
+
+ini dapat diartikan sebagai ukuran **`efek` keseluruhan** dan kita dapat menggunakan **log-likelihood** yang sama untuk menghitung `p-value` untuk `$R^2$` tersebut menggunakan distribusi **Chi-Square** dalam hal ini `p-value` kecil sehingga nilai `$R^2$` bukan karena keberuntungan yang bodoh.
+
+```{r}
+## chi-square value = 2*(LL(Proposed) - LL(Null))
+## The p-value for the R^2
+1 - pchisq(2*(ll.proposed - ll.null), df=(length(logistic$coefficients)-1))
+1 - pchisq((logistic$null.deviance - logistic$deviance), df=(length(logistic$coefficients)-1))
+## p-value = 1 - pchisq(chi-square value, df = 2-1)
+#1 - pchisq(2*(ll.proposed - ll.null), df=1)
+#1 - pchisq((logistic$null.deviance - logistic$deviance), df=1)
+
+## Lastly, let's  see what this logistic regression predicts, given
+## that a patient is either female or male (and no other data about them).
+predicted.data <- data.frame(
+  probability.of.hd=logistic$fitted.values,
+  sex=data$sex)
+```
+
+Detail lebih lanjut tentang `$R^2$` dan `p-value` dapat ditemukan di [logistic regression details](regresilogistic.qmd) bagian `$R^2$` dan `p-value`.
+
+Terakhir kita dapat menggambar grafik yang menunjukkan probabilitas yang diprediksi bahwa setiap pasien memiliki penyakit jantung seiring dengan status penyakit jantung yang mereka miliki.
+
+```{r}
+## We can plot the data...
+ggplot(data=predicted.data, aes(x=sex, y=probability.of.hd)) +
+  geom_point(aes(color=sex), size=5) +
+  xlab("Sex") +
+  ylab("Predicted probability of getting heart disease")
+
+## Since there are only two probabilities (one for females and one for males),
+## we can use a table to summarize the predicted probabilities.
+xtabs(~ probability.of.hd + sex, data=predicted.data)
+```
+
+Sebagian besar pasien dengan penyakit jantung yang ada di warna **Turqoise** diprediksi memiliki kemungkinan Tinggi terkena penyakit jantung & Sebagian besar pasien tanpa penyakit jantung yang ada di **salmon** diprediksi memiliki kemungkinan rendah terkena penyakit jantung sehingga regresi logistik kita telah melakukan pekerjaan yang cukup baik.
+
+Namun, kita dapat menggunakan **cross validation** untuk mendapatkan ide yang lebih baik tentang seberapa baik kinerjanya dengan data baru. Tetapi kita akan menyimpannya untuk kesempatan lain.
+
+- Untuk menggambar grafik kita mulai dengan membuat data frame baru yang berisi probabilitas terkena penyakit jantung bersama dengan status penyakit jantung yang sebenarnya.
+
+```{r}
+## now we can plot the data
+predicted.data <- data.frame(
+  probability.of.hd=logistic$fitted.values,
+  hd=data$hd)
+```
+
+- kemudian kita mengurutkan data frame dari probabilitas rendah ke tinggi probabilitas 
+
+```{r}
+predicted.data <- predicted.data[
+  order(predicted.data$probability.of.hd, decreasing=FALSE),]
+```
+
+- kemudian kita tambahkan kolom baru ke data frame yang memiliki **rank** masing-masing sampel, dari probabilitas rendah ke probabilitas tinggi
+```{r}
+predicted.data$rank <- 1:nrow(predicted.data)
+```
+
+- kemudian kita memuat library `**ggplot2**` sehingga kita dapat menggambar grafik yang bagus 
+```{r}
+library(ggplot2)
+```
+- kemudian kita memuat library `**cowplot**` sehingga`**ggplot2**` memiliki tampilan yang bagus secara defaults
+```{r}
+library(cowplot)
+```
+- kemudian kita memanggil `ggplot()` dan menggunakan `geom_point()` untuk menggambar data dan
+
+```{r}
+## Lastly, we can plot the predicted probabilities for each sample having
+## heart disease and color by whether or not they actually had heart disease
+ggplot(data=predicted.data, aes(x=rank, y=probability.of.hd)) +
+  geom_point(aes(color=hd), alpha=1, shape=4, stroke=2) +
+  xlab("Index") +
+  ylab("Predicted probability of getting heart disease")
+```
+
+- terakhir kita memanggil `ggsave()` untuk menyimpan grafik sebagai file PDF triple.
+```{r}
+#| eval: false
+ggsave("heart_disease_probabilities.pdf")
+```

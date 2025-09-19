@@ -1,0 +1,348 @@
+---
+title: "Pertemuan 5: Uji Beda Mean Data Multivariat"
+subtitle: "Pengantar Multivariat"
+image: static\soal1_bedamean.png
+description: "Offline di Departemen Matematika"
+date: 11/12/2024
+page-navigation: true
+format: html
+---
+
+# Review Uji Beda Mean 1 Sampel Univariat
+
+Dalam uji beda mean 1 sampel univariat, hipotesis yang ingin kita uji adalah
+
+| $H_0: \mu = \mu_0$
+| $H_1: \mu \neq \mu_0$
+
+dengan $\mu_0$ adalah nilai mean yang ditentukan.
+
+## Ketika Variansi Diketahui
+
+Asumsi n observasi sampel acak $y_1, y_2, ..., y_n$ berdistribusi $N(\mu,\sigma^2)$ dengan $\sigma^2$ diketahui, maka digunakan statistik uji $z$ yaitu
+
+![](static\z_univ_known.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $|z| \geq z_{\alpha/2}$
+
+Atau dengan distribusi chi-square
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $z^2 \geq \chi^2_{\alpha, 1}$
+
+### Implementasi Program
+
+Uji $z$ dapat dilakukan dengan memanggil fungsi `z.test()` pada r dari library `BSDA`
+
+```{r}
+#| output: false
+library(BSDA)
+```
+
+```{r}
+data <- c(88, 92, 94, 94, 96, 97, 97, 97, 99, 99, 105, 109, 109, 109, 110, 112, 112, 113, 114, 115)
+z.test(data, mu = 100, sigma.x = 15)
+```
+
+## Ketika Variansi Tidak Diketahui
+
+Ketika variansi tidak diketahui, gunakan estimasi sampel dari $\sigma^2$ yaitu $s^2$, di mana
+
+![](static\sample_var_univ.png)
+
+Uji yang digunakan adalah uji $t$, dengan statistik uji:
+
+![](static\t_univ_unknown.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $|t| \geq t_{\alpha/2, n-1}$
+
+### Implementasi Program
+
+```{r}
+data <- c(88, 92, 94, 94, 96, 97, 97, 97, 99, 99, 105, 109, 109, 109, 110, 112, 112, 113, 114, 115)
+
+t.test(data, mu=100)
+```
+
+# Uji Beda Mean 1 Sampel Multivariat
+
+Dalam uji beda mean 1 sampel multivariat, hipotesis yang ingin kita uji adalah
+
+| $H_0: \pmb{\mu} = \pmb{\mu_0}$
+| $H_1: \pmb{\mu} \neq \pmb{\mu_0}$
+
+dengan $\pmb{\mu_0}$ adalah vektor mean yang ditentukan.
+
+## Ketika Variansi Diketahui
+
+Asumsi n vektor observasi sampel acak $\pmb{y}_1, \pmb{y}_2, ..., \pmb{y}_n$ berdistribusi $N_p(\pmb{\mu},\pmb{\Sigma})$ dengan $\pmb{\Sigma}$ diketahui, maka digunakan statistik uji $Z^2$ yaitu
+
+![](static\z_multiv_known.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $Z^2 > \chi^2_{\alpha, p}$
+
+### Implementasi Program
+
+Digunakan data dari tabel 3.7 (Ramus Bone) dari buku *Methods of Multivariate Analysis by Alvin C. Rencher, William F. Christensen. 3rd Edition*
+
+Misalkan ingin diuji apakah $(\mu_1, \mu_2, \mu_3, \mu_4) = (48, 49, 50, 51)$
+
+```{r}
+data <- read.csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/refs/heads/main/Analisis%20Multivariat/Tabel%203.7%20(Ramus%20Bone%20Length%20at%20Four%20Ages%20).csv', sep=';')[2:5]
+
+head(data)
+```
+
+Misalkan diketahui $\pmb{\Sigma}$ adalah matrix diagonal dengan entri-entri diagonalnya bernilai 3.
+
+```{r}
+mu <- c(48, 49, 50, 51)
+n <- nrow(data)
+p <- length(mu)
+
+ybar <- colMeans(data)
+Sigma <- diag(3, ncol=4, nrow=4)
+```
+
+Maka hitung statistik uji:
+
+```{r}
+Z_sq <- n * t(ybar-mu) %*% solve(Sigma) %*% (ybar-mu)
+Z_sq
+qchisq(p=0.05, df=p, lower.tail = FALSE)
+```
+
+Apa kesimpulannya?
+
+## Ketika Variansi Tidak Diketahui
+
+Ketika variansi tidak diketahui, gunakan estimasi sampel dari $\pmb{\Sigma}$ yaitu $\textbf{S}$, di mana
+
+![](static\sample_var_multiv1.png)
+![](static\sample_var_multiv2.png)
+
+Uji yang digunakan adalah uji *Hotelling's* $T^2$, dengan statistik uji:
+
+![](static\t_multiv_unknown.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $T^2 > T^2_{\alpha, p, n-1}$
+
+Statistik uji $T^2$ dapat dibawa ke distribusi $F$ dengan hubungan:
+
+![](static\tsq_f.png)
+
+Dalam uji beda mean 1 sampel, nilai $v$ adalah $n-1$
+
+### Implementasi Program
+
+```{r}
+S <- cov(data)
+
+T2 <- n * t(ybar - mu) %*% solve(S) %*% (ybar - mu)
+T2
+```
+
+Cek nilai tabel $T^2_{\alpha, p, n-1}$ di buku
+
+Atau dengan Pendekatan distribusi F
+
+```{r}
+F <- (n - p)/(n*p - p)*T2
+F
+
+# Titik kritis f
+qf(0.05, p, n-p, lower.tail = FALSE)
+
+# Pvalue f
+pf(F, p, n - p, lower.tail = FALSE)
+
+# Titik kritis T^2
+((n*p - p)/(n - p))*qf(0.05, p, n-p, lower.tail = FALSE)
+
+```
+
+Apa kesimpulannya?
+
+::: {.callout-tip}
+## Hotelling's $T^2$ Dengan Library
+
+Penggunaan library kurang disarankan untuk pengerjaan karena proses penghitungan tidak terlihat, tetapi penggunaan library ini bagus untuk crosschecking jawaban kalian.
+
+```{r}
+ICSNP::HotellingsT2(data, mu = mu, test = "f")
+```
+
+(Pastikan install library `ICSNP`)
+
+:::
+
+# Uji Beda Mean 2 Sampel Multivariat Independen
+
+Dalam uji beda mean 2 sampel multivariat saling independen, hipotesis yang ingin kita uji adalah
+
+| $H_0: \pmb{\mu_1} = \pmb{\mu_2}$
+| $H_1: \pmb{\mu_1} \neq \pmb{\mu_2}$
+
+dengan $\pmb{\mu_1}$, $\pmb{\mu_2}$ adalah vektor mean dari variabel-variabel sampel acak yang ingin diuji.
+
+Statistik uji yang digunakan adalah:
+
+![](static\Tsq_2sample.png)
+
+dengan
+
+![](static\spl.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $T^2 \geq T^2_{\alpha, p, n_1+n_2-2}$
+
+atau dengan pendekatan distribusi $F$
+
+![](static\tsq_to_f_2sample.png)
+
+### Implementasi Program
+
+Gunakan tabel 5.9
+
+```{r}
+data <- read.csv('https://raw.githubusercontent.com/farhanage/dataset-for-study/refs/heads/main/Analisis%20Multivariat/Tabel%205.9%20(Number%20of%20Words%20and%20Number%20of%20Verbs).csv', sep=';')
+
+data
+```
+
+Akan diuji
+
+| $H_0: \pmb{\mu_y} = \pmb{\mu_x}$
+| $H_1: \pmb{\mu_y} \neq \pmb{\mu_x}$
+
+```{r}
+y <- data[, 2:3]
+y
+
+x <- data[, 4:5]
+x
+
+n1 <- nrow(y)
+n2 <- nrow(x)
+p <- length(y)
+
+# Vektor xbar ybar
+ybar <- colMeans(y)
+ybar
+
+xbar <- colMeans(x)
+xbar
+
+# Matriks Sx dan Sy
+Sy <- cov(y)
+Sy
+
+Sx <- cov(x)
+Sx
+
+# Hitung Spl
+Spl <- 1/(n1 + n2 - 2) * ((n1 - 1) * Sy + (n2 - 1) * Sx)
+Spl
+
+# Hitung T^2
+T2 <- (n1 * n2)/(n1 + n2) * t(ybar - xbar) %*% solve(Spl) %*% (ybar - xbar)
+T2
+```
+
+Atau dengan bantuan library `DescTools`
+
+```{r}
+#| output: False
+library(DescTools)
+```
+
+```{r}
+HotellingsT2Test(y, x, test='chi')
+```
+
+## Uji t 2 Sampel Univariat Ketika H0 Ditolak
+
+Ketika $H_0$ ditolak, gunakan uji t 2 sampel pada masing-masing variabel
+
+| $H_0: \mu_1 = \mu_2$
+| $H_1: \mu_1 \neq \mu_2$
+
+dengan statistik uji
+
+![](static\t_sample_univ.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $|t| > t_{\alpha/2, n_1+n_2-2}$
+
+### Implementasi Kode
+
+```{r}
+t_values <- c()
+p_values <- c()
+
+for (i in 1:ncol(y)){
+  test <- t.test(y[, i], x[, i], mu=0, var.equal=TRUE)
+  t_values[i] <- test$statistic
+  p_values[i] <- test$p.value
+}
+
+t_values
+
+# t penolakan
+qt(0.025, n1+n2-2, lower.tail = FALSE)
+
+p_values
+```
+
+Kesimpulannya?
+
+# Uji Beda Mean 2 Sampel Berpasangan Multivariat
+
+Tinjau data tabel 5.9 sebagai data berpasangan $(\pmb{y}, \pmb{x})$ di mana y dan x saling berkorelasi (dependen)
+
+dapat dihitung selisih dari tiap variabel yang diukur ($d$):
+
+```{r}
+data$d1 <- data$y1 - data$x1
+data$d2 <- data$y2 - data$x2
+data
+```
+
+Untuk menguji
+
+| $H_0: \pmb{\mu_y} = \pmb{\mu_x}$
+| $H_1: \pmb{\mu_y} \neq \pmb{\mu_x}$
+
+ekivalen dengan menguji
+
+| $H_0: \pmb{\mu_d} = \pmb{0}$
+| $H_1: \pmb{\mu_d} \neq \pmb{0}$
+
+Menggunakan statistik uji
+
+![](static/tsq_paired.png)
+
+Tolak $H_0$ pada taraf signifikansi $\alpha$ jika $T^2 > T^2_{\alpha, p, n-1}$
+
+### Implementasi Kode
+
+```{r}
+d <- y - x
+d
+
+dbar <- colMeans(d)
+dbar
+
+Sd <- cov(d)
+Sd
+
+n <- nrow(d)
+p <- length(d)
+
+# Hitung T^2
+T2 <- n * t(dbar) %*% solve(Sd) %*% dbar
+T2
+```
+
+# Latihan Soal
+
+![](static\soal1_bedamean.png)
+
+![](static\soal2_bedamean.png)

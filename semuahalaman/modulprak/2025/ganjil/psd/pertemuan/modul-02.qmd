@@ -1,0 +1,142 @@
+---
+title: "Modul 2: Excel"
+subtitle: "Table Creation, Pivot Table, dan Visualisasi"
+description: "Offline di Departemen Matematika"
+date: "today"
+author: "Tim Asisten Lab Matematika UI"
+image: "https://res.cloudinary.com/tahun2025/image/upload/f_auto,q_auto,w_800/v1757568633/2024/psd/excel_pivot_viz.png"
+page-navigation: true
+format: html
+---
+
+<a href="../psd2025.qmd" class="btn btn-outline-primary mb-4">
+<i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum PSD 2025
+</a>
+
+## Tujuan Pembelajaran
+
+Setelah menyelesaikan modul ini, mahasiswa diharapkan mampu:
+
+* **1. Menyiapkan Data dengan Benar**
+    * Memahami pentingnya struktur data yang baik untuk analisis.
+    * Mengonversi rentang data mentah menjadi *Excel Table* yang dinamis dan terstruktur.
+
+* **2. Meringkas Data Secara Cepat**
+    * Menjelaskan kegunaan *Pivot Table* untuk agregasi data.
+    * Membuat *Pivot Table* untuk menjawab pertanyaan bisnis sederhana (misalnya, total penjualan per kategori).
+
+* **3. Membuat Visualisasi Data yang Tepat Guna**
+    * Membedakan kegunaan dari berbagai jenis *chart* dasar (Pie, Line, Bar, Scatter).
+    * Membuat berbagai jenis *chart* di Excel, termasuk *Pivot Chart* yang terhubung langsung dengan *Pivot Table*.
+
+---
+
+## 1. Fondasi Analisis: Excel Table
+
+Selamat datang di modul kedua! Kali ini kita akan fokus pada *software* yang mungkin sudah tidak asing lagi: Microsoft Excel. Sebelum kita bisa membuat grafik yang canggih atau ringkasan data yang kompleks, langkah pertama dan paling penting adalah memastikan data kita tersusun dengan baik. Di sinilah fitur **Excel Table** berperan.
+
+:::{.callout-note}
+### Apa itu Excel Table?
+Ini bukan sekadar memberi border pada sel. Menggunakan fitur "Format as Table" (Ctrl+T) akan mengubah rentang data statis Anda menjadi sebuah "objek" dinamis. Ini memberikan banyak keuntungan, seperti rentang data yang otomatis meluas saat ada data baru, pemfilteran yang mudah, dan formula yang lebih mudah dibaca.
+:::
+
+### 1.1. Kegunaan dan Manfaat Table
+
+* **Dinamis**: Jika Anda menambah baris data baru, semua formula dan *chart* yang terhubung ke *Table* ini akan otomatis ikut ter-update.
+* **Filter & Sortir**: Header kolom secara otomatis memiliki tombol *dropdown* untuk memfilter dan mengurutkan data.
+* **Total Row**: Anda bisa dengan mudah menambahkan baris total di bawah untuk menghitung `SUM`, `AVERAGE`, `COUNT`, dll., hanya dengan satu klik.
+
+### 1.2. Cara Membuat Table
+
+Misalkan kita memiliki data penjualan sederhana seperti ini:
+
+![](https://res.cloudinary.com/tahun2025/image/upload/f_auto,q_auto/v1/2024/psd/excel_raw_data.png)
+
+1.  **Klik di mana saja** di dalam rentang data Anda.
+2.  Pergi ke *tab* **Insert**, lalu klik **Table**. Alternatifnya, cukup tekan `Ctrl` + `T`.
+3.  Pastikan Excel sudah benar menebak rentang data Anda dan centang "My table has headers". Klik OK.
+
+Selesai! Data Anda sekarang sudah menjadi *Table* resmi, ditandai dengan perubahan warna dan munculnya *tab* "Table Design".
+
+![](https://res.cloudinary.com/tahun2025/image/upload/f_auto,q_auto/v1/2024/psd/excel_formatted_table.png)
+
+---
+
+## 2. Meringkas Data: Pivot Table
+
+Setelah data kita rapi dalam sebuah *Table*, kita bisa mulai menganalisisnya. *Pivot Table* adalah alat paling ampuh di Excel untuk meringkas ribuan baris data menjadi tabel ringkasan yang informatif dalam hitungan detik.
+
+### 2.1. Cara Membuat Pivot Table
+
+1.  **Klik di mana saja** di dalam *Table* yang sudah kita buat.
+2.  Pergi ke *tab* **Insert**, lalu klik **PivotTable**.
+3.  Di jendela yang muncul, Excel biasanya sudah benar memilih *Table* Anda dan akan menempatkan *Pivot Table* di lembar kerja (*worksheet*) baru. Cukup klik **OK**.
+
+Anda akan melihat area *Pivot Table* kosong di sebelah kiri dan panel "PivotTable Fields" di sebelah kanan. Panel inilah "ruang kendali" kita.
+
+![](https://res.cloudinary.com/tahun2025/image/upload/f_auto,q_auto/v1/2024/psd/excel_pivot_fields.png)
+
+### 2.2. Contoh Penggunaan
+
+**Pertanyaan**: "Berapa total penjualan (dalam Rupiah) untuk setiap Kategori Produk?"
+
+1.  Dari daftar *field*, seret (*drag*) **Kategori** ke area **Rows**.
+2.  Kita perlu membuat kolom total penjualan. Seret **Jumlah** dan **Harga Satuan** ke area **Values**.
+3.  Secara *default*, Excel akan menampilkan "Sum of Jumlah" dan "Sum of Harga Satuan". Ini belum benar. Kita perlu mengalikan keduanya.
+4.  Di *tab* "PivotTable Analyze", klik "Fields, Items, & Sets" > "Calculated Field".
+5.  Beri nama *field* baru, misalnya `Total Penjualan`, dan masukkan formula `=Jumlah* 'Harga Satuan'`. Klik OK.
+6.  Hapus *field* "Sum of Jumlah" dan "Sum of Harga Satuan" dari area Values.
+
+Hasilnya, Anda akan mendapatkan ringkasan total penjualan per kategori secara instan!
+
+![](https://res.cloudinary.com/tahun2025/image/upload/f_auto,q_auto/v1/2024/psd/excel_pivot_result.png)
+
+---
+
+## 3. Macam-Macam Chart dan Penggunaannya
+
+Data yang sudah diringkas akan lebih mudah dipahami jika disajikan dalam bentuk visual. Mari kita pelajari beberapa jenis *chart* dasar dan kapan waktu yang tepat untuk menggunakannya.
+
+### 3.1. Pie Chart (Diagram Pai)
+* **Kegunaan**: Menunjukkan **proporsi** atau persentase dari sebuah keseluruhan. Terbaik jika hanya memiliki 2-5 kategori.
+* **Contoh**: "Berapa persen kontribusi penjualan setiap kategori terhadap total penjualan?"
+* **Cara Membuat**: Pilih data ringkasan Anda (misalnya, Kategori dan Total Penjualan dari *Pivot Table*), lalu pergi ke *tab* **Insert** > **Pie Chart**.
+
+### 3.2. Line Chart (Grafik Garis)
+* **Kegunaan**: Menampilkan **tren data dari waktu ke waktu**. Sangat baik untuk melihat naik-turunnya suatu nilai.
+* **Contoh**: "Bagaimana tren penjualan harian selama sebulan terakhir?"
+* **Cara Membuat**: Siapkan data dengan satu kolom berisi tanggal dan kolom lain berisi nilai (misalnya, Total Penjualan). Pilih kedua kolom tersebut, lalu **Insert** > **Line Chart**.
+
+### 3.3. Bar Chart (Diagram Batang)
+* **Kegunaan**: **Membandingkan nilai** antar kategori yang berbeda. Ini adalah salah satu *chart* yang paling umum dan mudah dibaca.
+* **Contoh**: "Produk mana yang penjualannya paling tinggi?"
+* **Cara Membuat**: Pilih data kategori (misalnya, Produk) dan nilainya (misalnya, Total Penjualan), lalu **Insert** > **Bar Chart**.
+
+### 3.4. Stacked Bar Chart (Diagram Batang Tumpuk)
+* **Kegunaan**: Mirip dengan *Bar Chart*, tetapi juga menunjukkan **komposisi** dari setiap batang.
+* **Contoh**: "Membandingkan total penjualan antar bulan, sambil melihat kontribusi setiap kategori produk di setiap bulannya."
+
+### 3.5. Scatter Plot (Diagram Pencar)
+* **Kegunaan**: Menunjukkan **hubungan atau korelasi** antara dua variabel numerik.
+* **Contoh**: "Apakah ada hubungan antara jumlah barang yang terjual dengan harga satuannya?"
+
+### 3.6. People Graph
+* **Kegunaan**: Ini adalah *chart* infografis yang lebih bersifat **ilustratif** daripada analitis. Berguna untuk presentasi agar lebih menarik.
+* **Cara Membuat**: Ini adalah *Add-in*. Pergi ke *tab* **Insert** > **Add-ins** > **Get Add-ins**, lalu cari "People Graph". Setelah ditambahkan, Anda bisa memasukkannya ke lembar kerja Anda.
+
+### 3.7. Pivot Chart
+* **Kegunaan**: Ini adalah *chart* yang **terhubung langsung** ke *Pivot Table* Anda. Keunggulan utamanya adalah sifatnya yang **dinamis**. Jika Anda memfilter data di *Pivot Table*, *Pivot Chart* akan otomatis ikut berubah.
+* **Cara Membuat**: Klik di mana saja di dalam *Pivot Table* Anda. Pergi ke *tab* **PivotTable Analyze**, lalu klik **PivotChart**. Pilih jenis *chart* yang Anda inginkan.
+
+![](https://res.cloudinary.com/tahun2025/image/upload/f_auto,q_auto/v1/2024/psd/excel_pivot_chart.png)
+
+### Latihan
+1.  Gunakan data penjualan yang ada, buatlah sebuah *Pivot Table* baru untuk menjawab pertanyaan: "Produk mana yang paling banyak terjual (berdasarkan jumlah unit)?"
+2.  Dari *Pivot Table* tersebut, buatlah sebuah **Pivot Chart** dalam bentuk **Bar Chart** untuk memvisualisasikan hasilnya.
+3.  Buatlah **Pie Chart** untuk menunjukkan persentase total penjualan (dalam Rupiah) dari setiap kategori produk.
+
+---
+
+<a href="../psd2025.qmd" class="btn btn-outline-primary mb-4">
+<i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum 2025
+</a>

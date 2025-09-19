@@ -1,0 +1,604 @@
+---
+title: "(Pertemuan 08) Pengujian Hipotesis Menggunakan R"
+subtitle: "Hypothesis Testing in R"
+description: "Offline di Departemen Matematika"
+date: 11/18/2024
+page-navigation: true
+format: html
+---
+
+Kembali ke [Pengantar Sains Data](./psd2024.qmd)
+
+## Pengantar Statistika Inferensia
+
+Dalam statistika, terdapat dua cabang utama yang sering menjadi dasar dalam penerapan dan pengembangan ilmu ini, yaitu statistika deskriptif dan statistika inferensia. Pada pertemuan-pertemuan sebelumnya, kita sudah membahas banyak hal mulai dari menghitung statistik-statistik dasar seperti mean dan variansi, visualisasi data, dan distribusi-distribusi diskrit dan kontinu. Semua hal itu termasuk ke dalam cabang statistika yang dinamakan statistika deskriptif.
+
+Berbeda dengan statistika deskriptif, statistika inferensia digunakan untuk membuat prediksi mengenai populasi berdasarkan data sampel. Dalam melakukan prediksi ini, digunakanlah metode-metode seperti pengujian hipotesis, taksiran titik, dan taksiran interval, yang semuanya didasari oleh teori probabilitas dan teori distribusi statistika.
+
+Pada pertemuan hari ini, kita akan membahas bagaimana cara melakukan taksiran titik, taksiran interval, dan pengujian hipotesis pada data sampel menggunakan R. Dengan menggunakan software seperti R, kita bisa mempersingkat waktu yang diperlukan untuk melakukan inferensia.
+
+## Taksiran Titik
+
+Dalam ilmu statistika, seringkali kita ingin mengetahui mean atau variansi dari populasi. Misalnya, ingin mengetahui rata-rata pendapatan per tahun semua orang dewasa di Indonesia, atau ingin mengetahui persebaran tinggi badan semua siswa SMA di Indonesia. Tentu saja, tidak mungkin jika kita menanyakan pendapatan tahunan ke semua orang dewasa di Indonesia, bukan? Oleh karena itu, sulit untuk mengetahui secara pasti rata-rata pendapatan tahunan orang dewasa di Indonesia. Hal yang sama juga terjadi dalam kasus persebaran tinggi badan siswa SMA.
+
+Meskipun demikian, menggunakan distribusi sampling yang sudah kita bahas pada pertemuan sebelumnya, kita tahu bahwa sampling dari suatu populasi akan berdistribusi normal untuk ukuran sampel yang cukup besar, apapun distribusi populasinya. Teori ini (disebut Teorema Limit Pusat) menjadi sangat bermanfaat dalam melakukan prediksi pada populasi, karena kita hanya perlu mengambil beberapa sampel dari populasi dan bisa melakukan prediksi pada populasi. Sebagai contoh, untuk kasus pendapatan tahunan sebelumnya, itu berarti kita cukup mengambil sampel yang cukup besar (misalnya $50$ atau $100$ orang) yang acak dan tak bias, dan menggunakan data ini saja kita sudah bisa melakukan prediksi mengenai rata-rata pendapatan tahunan semua orang dewasa di Indonesia.
+
+Untuk melakukan taksiran titik di R, pertama kita akan membutuhkan datanya terlebih dahulu. Misalkan kita ingin menaksir mean dan variansi untuk kolom `mpg` (miles per gallon) pada data `mtcars`. Pertama, kita masukkan data `mtcars` terlebih dahulu.
+
+```{r}
+data(mtcars)
+head(mtcars)
+```
+
+Untuk menghitung taksiran mean dan variansi pada data `mpg`, kita gunakan fungsi `mean` dan fungsi `var` sebagai berikut.
+
+```{r}
+mpg_mean <- mean(mtcars$mpg)
+mpg_var <- var(mtcars$mpg)
+print(mpg_mean)
+print(mpg_var)
+```
+
+Dengan demikian, kita bisa menyimpulkan bahwa taksiran mean untuk miles per gallon mobil adalah $20.09062$ dan taksiran variansi untuk miles per gallon mobil adalah $36.3241$.
+
+Selain melakukan prediksi pada mean dan variansi, kita juga bisa melakukan prediksi pada proporsi. Prediksi untuk proporsi ini sangat bermanfaat jika kita sudah mengetahui terlebih dahulu bahwa distribusi yang kita miliki berdistribusi binomial. Contohnya, pada kolom `am` (`0` = mobil matic, `1` = mobil manual) kita bisa menaksir proporsi mobil matic dan proporsi mobil manual di antara semua mobil.
+
+```{r}
+matic_prop <- sum(mtcars$am == 0)/nrow(mtcars)
+manual_prop <- sum(mtcars$am == 1)/nrow(mtcars)
+print(matic_prop)
+print(manual_prop)
+```
+
+Jadi, taksiran proporsi mobil matic adalah $0.59375$ dan taksiran proporsi mobil manual adalah $0.40625$.
+
+## Taksiran Interval
+
+Meskipun kita bisa menaksir mean, variansi, atau proporsi untuk suatu populasi, kita masih tidak bisa $100\%$ yakin bahwa memang mean, variansi, atau proporsinya benar-benar persis sama dengan taksiran kita. Bahkan, kemungkinan besar, taksiran titik kita akan berbeda dengan nilai sebenarnya. Untuk itu, kita memerlukan suatu pendekatan yang memberikan rentang nilai di mana parameter populasi kemungkinan besar berada. Pendekatan ini disebut taksiran interval atau lebih dikenal dengan **confidence intervals (CI)**. Taksiran interval memberikan estimasi dalam bentuk suatu interval, yang dikaitkan dengan tingkat kepercayaan tertentu, misalnya $95\%$ atau $99\%$.
+
+Dengan menggunakan taksiran interval, kita bisa memprediksi dengan suatu tingkat kepercayaan tertentu (seperti $95\%$ atau $99\%$) bahwa mean dari populasi yang kita inginkan berada di antara suatu interval (sebenarnya, interpretasi seperti ini kurang tepat, tetapi untuk intuisi dasar mengenai interval kepercayaan, untuk sementara akan kita gunakan). Bahkan, menggunakan taksiran interval, kita juga bisa melakukan prediksi mengenai beda mean atau beda proporsi untuk dua populasi.
+
+Untuk menentukan interval kepercayaan untuk mean jika variansi populasi diketahui, kita gunakan rumus berikut.
+
+$$
+\text{CI} = \bar{x} \pm z_{1-\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}
+$$
+
+Menggunakan R, kita bisa menggunakan rumus tersebut untuk menentukan interval kepercayaan. Misalnya menggunakan contoh `mtcars` tadi, kita bisa membuat interval kepercayaan $95\%$ ($\alpha = 0.05$) untuk mean dari miles per gallon mobil. Misalkan pula kita mengetahui bahwa variansi mpg pada populasi adalah $36$.
+
+```{r}
+mpg_mean_1 <- mean(mtcars$mpg)
+mpg_var_1 <- 36
+mpg_sd_1 <- sqrt(mpg_var)
+mpg_count_1 <- nrow(mtcars)
+alpha <- 0.05 #alpha = 100% - 95%
+lower_bound_1 <- mpg_mean_1 - qnorm(1-alpha/2) * mpg_sd_1 / sqrt(mpg_count_1)
+upper_bound_1 <- mpg_mean_1 + qnorm(1-alpha/2) * mpg_sd_1 / sqrt(mpg_count_1)
+cat(sprintf("CI 95%% untuk mean mpg adalah (%.4f, %.4f).", lower_bound_1, upper_bound_1))
+```
+
+Namun, pada kasus ini, sebenarnya kita tidak mengetahui variansi mpg pada populasi. Oleh karena itu, kita akan menggunakan rumus berikut untuk menentukan interval kepercayaan untuk mean jika variansi populasi tidak diketahui.
+
+$$
+\text{CI} = \bar{x} \pm t_{1-\alpha/2;n-1} \cdot \frac{s}{\sqrt{n}}
+$$
+
+Menggunakan R, interval kepercayaan $95\%$ nya didapat sebagai berikut.
+
+```{r}
+mpg_mean_2 <- mean(mtcars$mpg)
+mpg_var_2 <- var(mtcars$mpg)
+mpg_sd_2 <- sqrt(mpg_var)
+mpg_count_2 <- nrow(mtcars)
+alpha <- 0.05 #alpha = 100% - 95%
+lower_bound_2 <- mpg_mean_2 - qt(1-alpha/2, df = mpg_count_2 - 1) * mpg_sd_2 / sqrt(mpg_count_2)
+upper_bound_2 <- mpg_mean_2 + qt(1-alpha/2, df = mpg_count_2 - 1) * mpg_sd_2 / sqrt(mpg_count_2)
+cat(sprintf("CI 95%% untuk mean mpg adalah (%.4f, %.4f).", lower_bound_2, upper_bound_2))
+```
+
+Perhatikan bahwa panjang dari interval kepercayaan saat variansi tidak diketahui lebih panjang dibandingkan dengan saat variansinya diketahui. Hal ini karena kita menghilangkan informasi mengenai variansi pada kasus variansi tidak diketahui. Karena informasinya berkurang, maka ketidakpastian untuk mean juga tentu semakin bertambah. Hal ini mengakibatkan meningkatnya panjang dari interval kepercayaan, padahal tingkat kepercayaannya sama, yaitu $95\%$.
+
+Selain untuk mean 1 populasi, kita juga bisa membuat interval kepercayaan untuk perbedaan mean untuk 2 populasi independen. Misalnya, kita ingin menghitung beda mean antara Sepal Length pada iris spesies setosa dengan iris spesies versicolor. Untuk itu, kita bisa menggunakan dataset bawaan R yaitu `iris`.
+
+```{r}
+data(iris)
+head(iris)
+```
+
+Ada beberapa kasus dalam menentukan interval kepercayaan untuk perbedaan mean antara 2 populasi independen. Pertama, untuk kasus variansi kedua populasi diketahui, rumusnya yaitu sebagai berikut.
+
+$$
+\text{CI} = (\bar{x}_1 - \bar{x}_2) \pm z_{1-\alpha/2} \cdot \sqrt {\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}
+$$
+
+Sebagai contoh, misalkan telah diketahui sebelumnya bahwa variansi dari Sepal Length pada spesies setosa adalah $0.15$ dan pada spesies versicolor adalah $0.25$. Maka interval kepercayaan $95\%$ untuk perbedaan mean antara Sepal Length setosa dengan versicolor dapat dihitung menggunakan R sebagai berikut.
+
+```{r}
+mean_s_1 <- mean(iris$Sepal.Length[iris$Species == "setosa"])
+mean_v_1 <- mean(iris$Sepal.Length[iris$Species == "versicolor"])
+var_s_1 <- 0.15
+var_v_1 <- 0.25
+count_s_1 <- sum(iris$Species == "setosa")
+count_v_1 <- sum(iris$Species == "versicolor")
+alpha <- 0.05 #alpha = 100% - 95%
+lower_bound_3 <- (mean_v_1 - mean_s_1) - qnorm(1-alpha/2) * sqrt(var_v_1/count_v_1 + var_s_1/count_s_1)
+upper_bound_3 <- (mean_v_1 - mean_s_1) + qnorm(1-alpha/2) * sqrt(var_v_1/count_v_1 + var_s_1/count_s_1)
+cat(sprintf("CI 95%% untuk beda mean Sepal Length setosa dengan versicolor adalah (%.4f, %.4f).", lower_bound_3, upper_bound_3))
+```
+
+Untuk kasus variansi kedua populasi tidak diketahui, tetapi diketahui sama, pertama hitung variansi poolednya, yaitu
+
+$$
+s_{p}^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}
+$$
+
+Kemudian barulah menghitung interval kepercayaannya, yaitu
+
+$$
+\text{CI} = (\bar{x}_1 - \bar{x}_2) \pm t_{1-\alpha/2;n_1 + n_2 - 2} \cdot s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}
+$$
+
+Sebagai contoh, misalkan kali ini kita belum mengetahui variansi dari Sepal Length pada spesies setosa dan spesies versicolor, tetapi kita tahu bahwa variansi keduanya sama. Maka interval kepercayaan 95% untuk perbedaan mean antara Sepal Length setosa dengan versicolor dapat dihitung menggunakan R sebagai berikut.
+
+```{r}
+mean_s_2 <- mean(iris$Sepal.Length[iris$Species == "setosa"])
+mean_v_2 <- mean(iris$Sepal.Length[iris$Species == "versicolor"])
+var_s_2 <- var(iris$Sepal.Length[iris$Species == "setosa"])
+var_v_2 <- var(iris$Sepal.Length[iris$Species == "versicolor"])
+count_s_2 <- sum(iris$Species == "setosa")
+count_v_2 <- sum(iris$Species == "versicolor")
+var_pooled <- ((count_s_2 - 1) * var_s_2 + (count_v_2 - 1) * var_v_2) / (count_s_2 + count_v_2 - 2)
+sd_pooled <- sqrt(var_pooled)
+alpha <- 0.05 #alpha = 100% - 95%
+lower_bound_4 <- (mean_v_2 - mean_s_2) - qt(1-alpha/2, df = count_v_2 + count_s_2 - 2) * sd_pooled * sqrt(1/count_v_2 + 1/count_s_2)
+upper_bound_4 <- (mean_v_2 - mean_s_2) + qt(1-alpha/2, df = count_v_2 + count_s_2 - 2) * sd_pooled * sqrt(1/count_v_2 + 1/count_s_2)
+cat(sprintf("CI 95%% untuk beda mean Sepal Length setosa dengan versicolor adalah (%.4f, %.4f).", lower_bound_4, upper_bound_4))
+```
+
+Untuk kasus terakhir yaitu saat variansi kedua populasi tidak diketahui dan belum tentu sama, maka pertama hitung derajat bebas yang perlu digunakan terlebih dahulu.
+
+$$
+v = \frac{(s_1^2/n_1 + s_2^2/n_2)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-2}}
+$$
+
+Biasanya, derajat bebas yang didapat menggunakan rumus ini hampir selalu bukan bilangan bulat. Keuntungan dari menggunakan R adalah bahwa R bisa menangani kasus saat derajat bebas ini berupa desimal dan bukan bilangan bulat. Berbeda dengan saat menghitung manual, dimana derajat bebas ini harus dibulatkan ke bawah.
+
+Setelah derajat bebas ini diperoleh, barulah kita hitung interval kepercayaannya, yaitu
+
+$$
+\text{CI} = (\bar{x}_1 - \bar{x}_2) \pm t_{1-\alpha/2;v} \cdot \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+$$
+
+Sebagai contoh, misalkan kali ini kita tidak mengetahui variansi dari Sepal Length spesies setosa maupun spesies versicolor, dan kita juga tidak mengetahui apakah kedua spesies ini memiliki variansi yang sama. Maka, interval kepercayaan $95\%$ untuk perbedaan mean antara Sepal Length setosa dengan versicolor dapat dihitung menggunakan R sebagai berikut.
+
+```{r}
+mean_s_3 <- mean(iris$Sepal.Length[iris$Species == "setosa"])
+mean_v_3 <- mean(iris$Sepal.Length[iris$Species == "versicolor"])
+var_s_3 <- var(iris$Sepal.Length[iris$Species == "setosa"])
+var_v_3 <- var(iris$Sepal.Length[iris$Species == "versicolor"])
+count_s_3 <- sum(iris$Species == "setosa")
+count_v_3 <- sum(iris$Species == "versicolor")
+df <- (var_s_3/count_s_3 + var_v_3/count_v_3)^2 / ((var_s_3/count_s_3)^2/(count_s_3 - 1) + (var_v_3/count_v_3)^2/(count_v_3 - 1))
+alpha <- 0.05 #alpha = 100% - 95%
+lower_bound_5 <- (mean_v_3 - mean_s_3) - qt(1-alpha/2, df = df) * sqrt(var_v_3/count_v_3 + var_s_3/count_s_3)
+upper_bound_5 <- (mean_v_3 - mean_s_3) + qt(1-alpha/2, df = df) * sqrt(var_v_3/count_v_3 + var_s_3/count_s_3)
+cat(sprintf("CI 95%% untuk beda mean Sepal Length setosa dengan versicolor adalah (%.4f, %.4f).", lower_bound_5, upper_bound_5))
+```
+
+Pada ketiga kasus beda mean di atas, populasi yang digunakan adalah populasi yang independen (populasi yang tidak ada korelasinya sama sekali). Bagaimana dengan populasi yang dependen? Terkadang, ada kasus dimana kita ingin menentukan beda mean antar populasi yang saling berpasangan. Misalnya, dalam dataset `sleep` bawaan R, terdapat $10$ partisipan yang diberikan dua jenis obat tidur yang berbeda, dan kemudian penambahan waktu tidur setiap subjek didata pada setiap obat. Data seperti ini merupakan jenis data sampel berpasangan, dan akibatnya metode sebelumnya yang mengasumsikan sampelnya independen tidak dapat digunakan (bisa dilakukan, tetapi tidak akan akurat).
+
+```{r}
+data(sleep)
+head(sleep)
+```
+
+Untuk menangani masalah ini, kita bisa menggunakan taksiran interval untuk sampel berpasangan. Pertama, kita buat kolom baru yang berisi data perbedaan antara kedua sampel, yaitu
+
+$$
+d_i = x_{2i} - x_{1i}
+$$
+
+Kemudian baru menghitung mean dan variansi pada sampel berpasangan ini, yaitu dihitung dengan
+
+$$
+\bar{d} = \frac{1}{n} \sum_{i = 1}^{n}{d_i}
+$$
+
+$$
+s_d^2 = \frac{1}{n - 1} \sum_{i = 1}^{n}{(d_i - \bar{d})^2}
+$$
+
+Dan terakhir, interval kepercayaannya yaitu
+
+$$
+\text{CI} = \bar{d} \pm t_{1-\alpha/2;n - 1} \cdot \frac{s_d}{\sqrt{n}}
+$$
+
+Sebagai contoh, misalkan kita ingin mengetahui interval kepercayaan $95\%$ untuk perbedaan penambahan waktu tidur untuk kedua jenis obat tidur (1 dan 2) dari data `sleep`. Menggunakan R, interval kepercayaan $95\%$ nya dapat dihitung sebagai berikut.
+
+```{r}
+diff <- with(sleep, extra[group == 2] - extra[group == 1])
+mean_diff <- mean(diff)
+var_diff <- var(diff)
+sd_diff <- sqrt(var_diff)
+count_diff <- length(diff)
+alpha <- 0.05 #alpha = 100% - 95%
+lower_bound_6 <- mean_diff - qt(1-alpha/2, df = count_diff - 1) * sd_diff / sqrt(count_diff)
+upper_bound_6 <- mean_diff + qt(1-alpha/2, df = count_diff - 1) * sd_diff / sqrt(count_diff)
+cat(sprintf("CI 95%% untuk beda mean kedua obat tidur adalah (%.4f, %.4f).", lower_bound_6, upper_bound_6))
+```
+
+Selain untuk mean dan perbedaan mean, kita juga bisa menentukan interval kepercayaan untuk perbedaan dua proporsi. Contohnya adalah menentukan interval kepercayaan perbedaan proporsi mahasiswa pria pada dua universitas yang berbeda. Contoh lain adalah menentukan interval kepercayaan perbedaan proporsi mobil dengan miles per gallon lebih dari $20$ pada mobil matic dengan mobil manual, yang dapat dilakukan menggunakan data `mtcars`.
+
+Interval kepercayaan untuk perbedaan proporsi antara dua populasi independen yaitu
+
+$$
+\text{CI} = (\hat{p}_1 - \hat{p}_2) \pm z_{1-\alpha/2} \cdot \sqrt{\frac{\hat{p}_1\hat{q}_1}{n_1} + \frac{\hat{p}_2\hat{q}_2}{n_2}}
+$$
+
+dengan $\hat{p}_1$ dan $\hat{p}_2$ adalah taksiran untuk proporsi pada kedua populasi secara berurutan, $\hat{q}_1 = 1 - \hat{p}_1$, dan $\hat{q}_2 = 1 - \hat{p}_2$.
+
+Sebagai contoh, kita gunakan kembali data `mtcars` untuk menentukan interval kepercayaan $95\%$ perbedaan proporsi mobil dengan `mpg` lebih dari $20$ pada mobil matic (`am` = 0) dengan mobil manual (`am` = 1). Menggunakan R, interval kepercayaannya dapat ditentukan sebagai berikut.
+
+```{r}
+mtcars$high_mpg <- ifelse(mtcars$mpg > 20, 1, 0)
+count_matic <- sum(mtcars$am == 0)
+count_manual <- sum(mtcars$am == 1)
+p_matic <- sum(mtcars$high_mpg[mtcars$am == 0])/sum(mtcars$am == 0)
+q_matic <- 1 - p_matic
+p_manual <- sum(mtcars$high_mpg[mtcars$am == 1])/sum(mtcars$am == 1)
+q_manual <- 1 - p_manual
+alpha = 0.05 #alpha = 100% - 95%
+lower_bound_7 <- (p_manual - p_matic) - qnorm(1-alpha/2) * sqrt(p_manual * q_manual / count_manual + p_matic * q_matic / count_matic)
+upper_bound_7 <- (p_manual - p_matic) + qnorm(1-alpha/2) * sqrt(p_manual * q_manual / count_manual + p_matic * q_matic / count_matic)
+cat(sprintf("CI 95%% untuk beda proporsi mpg > 20 mobil manual dengan matic adalah (%.4f, %.4f).", lower_bound_7, upper_bound_7))
+```
+
+## Pengujian Hipotesis
+
+Selain taksiran titik dan taksiran interval, terdapat cara lain untuk melakukan inferensia, yaitu melakukan pengujian hipotesis. Pengujian hipotesis biasanya lebih disukai dan lebih sering digunakan dibandingkan dengan taksiran interval, karena kesimpulannya lebih jelas dan interpretasinya sederhana, dan aplikasinya jauh lebih banyak dibandingkan dengan interval kepercayaan. Meskipun demikian, teori statistika dibalik pengujian hipotesis juga lebih sulit dibandingkan dengan teori pada taksiran titik dan interval.
+
+Pada mata kuliah Pengantar Sains Data, kita hanya akan membahas uji-uji hipotesis yang paling sederhana, yaitu uji-z dan uji-t. Secara umum, langkah-langkah yang perlu dilakukan dalam melakukan pengujian hipotesis adalah:
+
+1.  Medefinisikan variabel acak dan menentukan tujuan uji hipotesis,
+2.  Menentukan hipotesis null ($H_0$) dan hipotesis alternatif ($H_1$),
+3.  Menentukan taraf signifikansi $\alpha$,
+4.  Menghitung statistik uji,
+5.  Menentukan aturan penolakan,
+6.  Mengambil kesimpulan.
+
+Sebagai contoh pertama, misalkan pada data `mtcars` kita ingin menguji apakah variabel `disp` memiliki mean $\mu = 250$. Untuk menguji hipotesis mean seperti ini, biasanya kita akan menggunakan uji-z jika ukuran sampel lebih dari $30$ atau variansi populasi diketahui, dan menggunakan uji-t jika ukuran sampel berukuran 30 ke bawah dan variansi populasi tidak diketahui.
+
+Statistik uji untuk uji-z yaitu
+
+$$
+Z = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}
+$$
+
+Dalam kasus variansi populasi tidak diketahui tetapi ukuran sampel masih cukup besar, $\sigma$ bisa diganti dengan $s$.
+
+Statistik uji untuk uji-t yaitu
+
+$$
+T = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}
+$$
+
+Berikut adalah pengujian hipotesis dua ekor:
+
+```{r}
+# Definisikan variabel acak D yang menyatakan displacement mobil.
+# Akan dilakukan uji hipotesis dua ekor.
+# H0 : mu = 250
+# H1 : mu /= 250
+mu_0 <- 250
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+disp_mean <- mean(mtcars$disp)
+disp_sd <- sd(mtcars$disp)
+disp_count <- nrow(mtcars)
+Z <- (disp_mean - mu_0) / (disp_sd / sqrt(disp_count))
+# Akan ditentukan aturan penolakannya
+Z_lower <- qnorm(alpha/2)
+Z_upper <- qnorm(1-alpha/2)
+# H0 ditolak jika Z < Z_lower atau Z > Z_upper.
+print(ifelse(Z < Z_lower | Z > Z_upper,
+             "H0 ditolak. Jadi, mean dari displacement mobil tidak sama dengan 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil sama dengan 250."))
+# Aturan penolakan bisa juga dengan p-value
+p_value <- 2 * (1 - pnorm(abs(Z)))
+# H0 ditolak jika p-value < alpha.
+print(ifelse(p_value < alpha,
+             "H0 ditolak. Jadi, mean dari displacement mobil tidak sama dengan 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil sama dengan 250."))
+cat(sprintf("Statistik uji Z = %.4f\nDaerah penolakannya yaitu Z < %.4f atau Z > %.4f\nP-value = %.6f", Z, Z_lower, Z_upper, p_value))
+```
+
+Berikut adalah pengujian hipotesis ekor kiri:
+
+```{r}
+# Definisikan variabel acak D yang menyatakan displacement mobil.
+# Akan dilakukan uji hipotesis ekor kiri.
+# H0 : mu >= 250
+# H1 : mu < 250
+mu_0 <- 250
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+disp_mean <- mean(mtcars$disp)
+disp_sd <- sd(mtcars$disp)
+disp_count <- nrow(mtcars)
+Z <- (disp_mean - mu_0) / (disp_sd / sqrt(disp_count))
+# Akan ditentukan aturan penolakannya
+Z_lower <- qnorm(alpha)
+# H0 ditolak jika Z < Z_lower.
+print(ifelse(Z < Z_lower,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih kecil dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih dari atau sama dengan 250."))
+# Aturan penolakan bisa juga dengan p-value
+p_value <- pnorm(Z)
+# H0 ditolak jika p-value < alpha.
+print(ifelse(p_value < alpha,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih kecil dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih dari atau sama dengan 250."))
+cat(sprintf("Statistik uji Z = %.4f\nDaerah penolakannya yaitu Z < %.4f\nP-value = %.6f", Z, Z_lower, p_value))
+```
+
+Berikut adalah pengujian hipotesis ekor kanan:
+
+```{r}
+# Definisikan variabel acak D yang menyatakan displacement mobil.
+# Akan dilakukan uji hipotesis ekor kanan.
+# H0 : mu <= 250
+# H1 : mu > 250
+mu_0 <- 250
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+disp_mean <- mean(mtcars$disp)
+disp_sd <- sd(mtcars$disp)
+disp_count <- nrow(mtcars)
+Z <- (disp_mean - mu_0) / (disp_sd / sqrt(disp_count))
+# Akan ditentukan aturan penolakannya
+Z_upper <- qnorm(1 - alpha)
+# H0 ditolak jika Z > Z_upper.
+print(ifelse(Z > Z_upper,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih besar dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih kecil dari atau sama dengan 250."))
+# Aturan penolakan bisa juga dengan p-value
+p_value <- 1 - pnorm(Z)
+# H0 ditolak jika p-value < alpha.
+print(ifelse(p_value < alpha,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih besar dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih besar dari atau sama dengan 250."))
+cat(sprintf("Statistik uji Z = %.4f\nDaerah penolakannya yaitu Z > %.4f\nP-value = %.6f", Z, Z_upper, p_value))
+```
+
+Pada contoh ini, uji-z dilakukan karena ukuran sampelnya lebih dari 30. Meskipun demikian, sebagai demonstrasi, akan dilakukan uji-t pada data yang sama. Kode untuk uji-t lebih sederhana karena ada fungsi bawaan untuk uji-t pada R, yaitu `t.test`.
+
+Berikut adalah pengujian hipotesis dua ekor:
+
+```{r}
+# Definisikan variabel acak D yang menyatakan displacement mobil.
+# Akan dilakukan uji hipotesis dua ekor.
+# H0 : mu = 250
+# H1 : mu /= 250
+mu_0 <- 250
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+result <- t.test(mtcars$disp, mu = mu_0, alternative = "two.sided")
+T_ <- as.numeric(result$statistic)
+# Akan ditentukan aturan penolakannya
+df <- result$parameter
+T_lower <- qt(alpha/2, df = df)
+T_upper <- qt(1-alpha/2, df = df)
+# H0 ditolak jika T_ < T_lower atau T_ > T_upper.
+print(ifelse(T_ < T_lower | T_ > T_upper,
+             "H0 ditolak. Jadi, mean dari displacement mobil tidak sama dengan 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil sama dengan 250."))
+# Aturan penolakan juga bisa dengan p-value
+p_value <- result$p.value
+# H0 ditolak jika p-value < alpha.
+print(ifelse(p_value < alpha,
+             "H0 ditolak. Jadi, mean dari displacement mobil tidak sama dengan 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil sama dengan 250."))
+cat(sprintf("Statistik uji T = %.4f\nDaerah penolakannya yaitu T < %.4f atau T > %.4f\nP-value = %.6f", T_, T_lower, T_upper, p_value))
+```
+
+Berikut adalah pengujian hipotesis ekor kiri:
+
+```{r}
+# Definisikan variabel acak D yang menyatakan displacement mobil.
+# Akan dilakukan uji hipotesis ekor kiri.
+# H0 : mu >= 250
+# H1 : mu < 250
+mu_0 <- 250
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+result <- t.test(mtcars$disp, mu = mu_0, alternative = "less")
+T_ <- as.numeric(result$statistic)
+# Akan ditentukan aturan penolakannya
+df <- result$parameter
+T_lower <- qt(alpha, df = df)
+# H0 ditolak jika T_ < T_lower.
+print(ifelse(T_ < T_lower,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih kecil dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih dari atau sama dengan 250."))
+# Aturan penolakan juga bisa dengan p-value
+p_value <- result$p.value
+# H0 ditolak jika p-value < alpha.
+print(ifelse(p_value < alpha,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih kecil dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih dari atau sama dengan 250."))
+cat(sprintf("Statistik uji T = %.4f\nDaerah penolakannya yaitu T < %.4f\nP-value = %.6f", T_, T_lower, p_value))
+```
+
+Berikut adalah pengujian hipotesis ekor kanan:
+
+```{r}
+# Definisikan variabel acak D yang menyatakan displacement mobil.
+# Akan dilakukan uji hipotesis ekor kanan.
+# H0 : mu <= 250
+# H1 : mu > 250
+mu_0 <- 250
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+result <- t.test(mtcars$disp, mu = mu_0, alternative = "greater")
+T_ <- as.numeric(result$statistic)
+# Akan ditentukan aturan penolakannya
+df <- result$parameter
+T_upper <- qt(1 - alpha, df = df)
+# H0 ditolak jika T_ > T_upper.
+print(ifelse(T_ > T_upper,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih kecil dari atau sama dengan 250."))
+# Aturan penolakan juga bisa dengan p-value
+p_value <- result$p.value
+# H0 ditolak jika p-value < alpha.
+print(ifelse(p_value < alpha,
+             "H0 ditolak. Jadi, mean dari displacement mobil lebih dari 250.",
+             "H0 diterima. Jadi, mean dari displacement mobil lebih kecil dari atau sama dengan 250."))
+cat(sprintf("Statistik uji T = %.4f\nDaerah penolakannya yaitu T > %.4f\nP-value = %.6f", T_, T_upper, p_value))
+```
+
+Untuk uji-uji hipotesis selanjutnya, hanya pengujian dua hipotesis dua ekor yang akan ditampilkan, karena kodenya tidak berbeda jauh antara uji dua ekor, ekor kiri, dan ekor kanan.
+
+Selain untuk menguji mean 1 populasi, uji-z dan uji-t juga dapat dilakukan untuk menguji beda mean antara 2 populasi. Sama seperti pada interval kepercayaan, untuk populasi independen, terdapat 3 kasus yaitu saat variansi kedua populasi diketahui, saat variansi kedua populasi tidak diketahui tetapi sama, dan saat variansi kedua populasi tidak diketahui dan tidak sama.
+
+Sebagai contoh, misalkan kita ingin menguji hipotesis bahwa mean displacement pada mobil matic tidak sama dengan mean displacement pada mobil manual.
+
+Untuk kasus variansi kedua populasi diketahui, statistik ujinya adalah
+
+$$
+Z = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+$$
+
+Untuk kasus pertama, misalkan kita mengetahui standar deviasi displacement pada mobil matic yaitu $\sigma_1 = 100$ dan standar deviasi displacement pada mobil manual yaitu $\sigma_2 = 90$. Menggunakan R, pengujian hipotesisnya yaitu sebagai berikut.
+
+```{r}
+# Definisikan variabel acak D_1 yang menyatakan displacement mobil matic dan variabel acak D_2 yang menyatakan displacement mobil manual.
+# Akan dilakukan uji hipotesis dua ekor.
+# H0 : mu_1 - mu_2 = 0
+# H1 : mu_1 - mu_2 /= 0
+diff_0 <- 0
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+matic_disp_mean_1 <- mean(mtcars$disp[mtcars$am == 0])
+manual_disp_mean_1 <- mean(mtcars$disp[mtcars$am == 1])
+diff_disp_1 <- matic_disp_mean_1 - manual_disp_mean_1
+matic_disp_var_1 <- 100^2
+manual_disp_var_1 <- 90^2
+matic_count_1 <- sum(mtcars$am == 0)
+manual_count_1 <- sum(mtcars$am == 1)
+Z <- (diff_disp_1 - diff_0) / sqrt(matic_disp_var_1/matic_count_1 + manual_disp_var_1/manual_count_1)
+# Akan ditentukan aturan penolakannya
+Z_lower <- qnorm(alpha/2)
+Z_upper <- qnorm(1 - alpha/2)
+# H0 ditolak jika Z < Z_lower atau Z > Z_upper
+print(ifelse(Z < Z_lower | Z > Z_upper,
+             "H0 ditolak. Jadi, mean displacement antara mobil matic dengan mobil manual berbeda.",
+             "H0 diterima. Jadi, mean displacement antara mobil matic dengan mobil manual sama."))
+# Aturan penolakan juga bisa menggunakan p-value
+p_value_1 <- 2 * (1 - pnorm(abs(Z)))
+# H0 ditolak jika p-value < alpha
+print(ifelse(p_value_1 < alpha,
+             "H0 ditolak. Jadi, mean displacement antara mobil matic dengan mobil manual berbeda.",
+             "H0 diterima. Jadi, mean displacement antara mobil matic dengan mobil manual sama."))
+cat(sprintf("Statistik uji Z = %.4f\nDaerah penolakannya yaitu Z < %.4f atau Z > %.4f\nP-value = %.6f", Z, Z_lower, Z_upper, p_value_1))
+```
+
+Untuk kasus variansi kedua populasi tidak diketahui, tetapi sama, statistik ujinya adalah
+
+$$
+T = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}
+$$
+
+dengan variansi pooled $s_p^2$ nya adalah
+
+$$
+s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
+$$
+
+Kita akan menggunakan kasus displacement mobil matic dan mobil manual pada data `mtcars` lagi sebagai contoh, kali ini dengan variansi yang tidak diketahui tapi dianggap sama.
+
+```{r}
+# Definisikan variabel acak D_1 yang menyatakan displacement mobil matic dan variabel acak D_2 yang menyatakan displacement mobil manual.
+# Akan dilakukan uji hipotesis dua ekor.
+# H0 : mu_1 - mu_2 = 0
+# H1 : mu_1 - mu_2 /= 0
+diff_0 <- 0
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+result_1 <- t.test(mtcars$disp[mtcars$am == 0], mtcars$disp[mtcars$am == 1], alternative = "two.sided", mu = mu_0, var.equal = TRUE)
+T_1 <- as.numeric(result_1$statistic)
+# Akan ditentukan aturan penolakannya
+df_1 <- result_1$parameter
+T_lower <- qt(alpha/2, df = df_1)
+T_upper <- qt(1 - alpha/2, df = df_1)
+# H0 ditolak jika T_1 < T_lower atau T_1 > T_upper
+print(ifelse(T_1 < T_lower | T_1 > T_upper,
+             "H0 ditolak. Jadi, mean displacement antara mobil matic dengan mobil manual berbeda.",
+             "H0 diterima. Jadi, mean displacement antara mobil matic dengan mobil manual sama."))
+# Aturan penolakan juga bisa menggunakan p-value
+p_value_2 <- result_1$p.value
+# H0 ditolak jika p-value < alpha
+print(ifelse(p_value_2 < alpha,
+             "H0 ditolak. Jadi, mean displacement antara mobil matic dengan mobil manual berbeda.",
+             "H0 diterima. Jadi, mean displacement antara mobil matic dengan mobil manual sama."))
+cat(sprintf("Statistik uji T = %.4f\nDaerah penolakannya yaitu T < %.4f atau T > %.4f\nP-value = %.6f", T_1, T_lower, T_upper, p_value_2))
+```
+
+Untuk kasus variansi kedua populasi tidak diketahui dan belum tentu sama, statistik ujinya adalah
+
+$$
+T = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+$$
+
+Statistik uji ini akan berdistribusi t dengan derajat bebas yaitu
+
+$$
+v = \frac{(s_1^2/n_1 + s_2^2/n_2)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-2}}
+$$
+
+Sekali lagi, kita akan menggunakan kasus displacement mobil matic dan mobil manual pada data `mtcars` sebagai contoh, dan kali ini dengan variansi yang tidak diketahui dan tidak dianggap sama.
+
+```{r}
+# Definisikan variabel acak D_1 yang menyatakan displacement mobil matic dan variabel acak D_2 yang menyatakan displacement mobil manual.
+# Akan dilakukan uji hipotesis dua ekor.
+# H0 : mu_1 - mu_2 = 0
+# H1 : mu_1 - mu_2 /= 0
+diff_0 <- 0
+# Akan digunakan taraf signifikansi alpha = 0.05.
+alpha <- 0.05
+# Perhitungan statistik ujinya yaitu
+result_2 <- t.test(mtcars$disp[mtcars$am == 0], mtcars$disp[mtcars$am == 1], alternative = "two.sided", mu = mu_0, var.equal = FALSE)
+T_2 <- as.numeric(result_2$statistic)
+# Akan ditentukan aturan penolakannya
+df_2 <- result_2$parameter
+T_lower <- qt(alpha/2, df = df_2)
+T_upper <- qt(1 - alpha/2, df = df_2)
+# H0 ditolak jika T_2 < T_lower atau T_2 > T_upper
+print(ifelse(T_2 < T_lower | T_2 > T_upper,
+             "H0 ditolak. Jadi, mean displacement antara mobil matic dengan mobil manual berbeda.",
+             "H0 diterima. Jadi, mean displacement antara mobil matic dengan mobil manual sama."))
+# Aturan penolakan juga bisa menggunakan p-value
+p_value_3 <- result_2$p.value
+# H0 ditolak jika p-value < alpha
+print(ifelse(p_value_3 < alpha,
+             "H0 ditolak. Jadi, mean displacement antara mobil matic dengan mobil manual berbeda.",
+             "H0 diterima. Jadi, mean displacement antara mobil matic dengan mobil manual sama."))
+cat(sprintf("Statistik uji T = %.4f\nDaerah penolakannya yaitu T < %.4f atau T > %.4f\nP-value = %.6f", T_2, T_lower, T_upper, p_value_3))
+```
+
+## (Pengayaan) Perhitungan Probabilitas Terjadinya Galat Menggunakan R
+
+*(work in progress)*
+
+## (Pengayaan) Pengujian Hipotesis untuk Sampel Berpasangan
+
+*(work in progress)*

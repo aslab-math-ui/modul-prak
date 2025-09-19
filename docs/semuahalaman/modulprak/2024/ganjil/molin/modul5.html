@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-11-18">
+<meta name="description" content="Offline di Departemen Matematika">
+
+<title>Studi Kasus dplyr – Lab Matematika UI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap-926a63e701ac4db0197fb72e96ef5285.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-dark-61df9c47dbd6cb3a9d51bea95b1effe8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../../site_libs/bootstrap/bootstrap-926a63e701ac4db0197fb72e96ef5285.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="icon" type="image/png" href="../../../../../ico/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="../../../../../ico/favicon.svg">
+<link rel="shortcut icon" href="../../../../../ico/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../../../../ico/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="MyWebSite">
+<link rel="manifest" href="../../../../../ico/site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../../../../index.html">
+    <span class="navbar-title">Lab Matematika UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../index.html"> <i class="bi bi-house" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../semuahalaman/about.html"> 
+<span class="menu-text">Tentang Kami</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../../blog.html"> 
+<span class="menu-text">Berita</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-informasi-praktikum" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-circle" role="img">
+</i> 
+ <span class="menu-text">Informasi Praktikum</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-informasi-praktikum">    
+        <li>
+    <a class="dropdown-item" href="../../../../../semuahalaman/praktikum.html">
+ <span class="dropdown-text">Arsip Modul Praktikum</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../../semuahalaman/Jadwal.html">
+ <span class="dropdown-text">Jadwal Asistensi</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aslab-math-ui/modul-prak"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#pendahuluan" id="toc-pendahuluan" class="nav-link active" data-scroll-target="#pendahuluan">Pendahuluan</a>
+  <ul class="collapse">
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#nycflights13" id="toc-nycflights13" class="nav-link" data-scroll-target="#nycflights13">nycflights13</a></li>
+  <li><a href="#dplyr-basics" id="toc-dplyr-basics" class="nav-link" data-scroll-target="#dplyr-basics">dplyr basics</a></li>
+  </ul></li>
+  <li><a href="#rows---baris" id="toc-rows---baris" class="nav-link" data-scroll-target="#rows---baris">Rows - Baris</a>
+  <ul class="collapse">
+  <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter">filter()</a></li>
+  <li><a href="#common-mistakes" id="toc-common-mistakes" class="nav-link" data-scroll-target="#common-mistakes">common mistakes</a></li>
+  <li><a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange">arrange()</a></li>
+  <li><a href="#distinct" id="toc-distinct" class="nav-link" data-scroll-target="#distinct">distinct()</a>
+  <ul class="collapse">
+  <li><a href="#latihan-1" id="toc-latihan-1" class="nav-link" data-scroll-target="#latihan-1">Latihan 1</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#columns---kolom" id="toc-columns---kolom" class="nav-link" data-scroll-target="#columns---kolom">Columns - Kolom</a>
+  <ul class="collapse">
+  <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate">mutate()</a></li>
+  <li><a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select">select()</a></li>
+  <li><a href="#rename" id="toc-rename" class="nav-link" data-scroll-target="#rename">rename()</a></li>
+  <li><a href="#relocate" id="toc-relocate" class="nav-link" data-scroll-target="#relocate">relocate()</a></li>
+  <li><a href="#the-pipe" id="toc-the-pipe" class="nav-link" data-scroll-target="#the-pipe">The pipe</a></li>
+  <li><a href="#groups" id="toc-groups" class="nav-link" data-scroll-target="#groups">Groups</a></li>
+  <li><a href="#group_by" id="toc-group_by" class="nav-link" data-scroll-target="#group_by">group_by()</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize">summarize()</a></li>
+  <li><a href="#the-sclice-function" id="toc-the-sclice-function" class="nav-link" data-scroll-target="#the-sclice-function">The sclice function</a></li>
+  <li><a href="#grouping-by-multiple-variables" id="toc-grouping-by-multiple-variables" class="nav-link" data-scroll-target="#grouping-by-multiple-variables">Grouping by multiple variables</a></li>
+  <li><a href="#ungrouping" id="toc-ungrouping" class="nav-link" data-scroll-target="#ungrouping">Ungrouping</a></li>
+  <li><a href="#by" id="toc-by" class="nav-link" data-scroll-target="#by">.by</a></li>
+  <li><a href="#latihan-3" id="toc-latihan-3" class="nav-link" data-scroll-target="#latihan-3">Latihan 3</a></li>
+  </ul></li>
+  <li><a href="#studi-kasus---dataset-information" id="toc-studi-kasus---dataset-information" class="nav-link" data-scroll-target="#studi-kasus---dataset-information">Studi kasus - Dataset Information</a>
+  <ul class="collapse">
+  <li><a href="#pendahuluan-1" id="toc-pendahuluan-1" class="nav-link" data-scroll-target="#pendahuluan-1">Pendahuluan</a></li>
+  <li><a href="#evaluation" id="toc-evaluation" class="nav-link" data-scroll-target="#evaluation">Evaluation</a></li>
+  <li><a href="#scoring-system" id="toc-scoring-system" class="nav-link" data-scroll-target="#scoring-system">Scoring System</a></li>
+  <li><a href="#penjelasan-dataset" id="toc-penjelasan-dataset" class="nav-link" data-scroll-target="#penjelasan-dataset">Penjelasan Dataset</a></li>
+  </ul></li>
+  <li><a href="#main-notebook" id="toc-main-notebook" class="nav-link" data-scroll-target="#main-notebook">Main Notebook</a>
+  <ul class="collapse">
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">Import Data</a></li>
+  <li><a href="#collecting-data-information" id="toc-collecting-data-information" class="nav-link" data-scroll-target="#collecting-data-information">Collecting Data Information</a></li>
+  <li><a href="#missing-value-checking-and-handling" id="toc-missing-value-checking-and-handling" class="nav-link" data-scroll-target="#missing-value-checking-and-handling">Missing Value Checking and Handling</a></li>
+  <li><a href="#duplicated-data-detection" id="toc-duplicated-data-detection" class="nav-link" data-scroll-target="#duplicated-data-detection">Duplicated Data Detection</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Studi Kasus dplyr</h1>
+<p class="subtitle lead">Pre-processing dengan dplyr</p>
+</div>
+
+<div>
+  <div class="description">
+    Offline di Departemen Matematika
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 18, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="pendahuluan" class="level1">
+<h1>Pendahuluan</h1>
+<p>Visualisasi adalah alat penting untuk mendapatkan wawasan, tetapi jarang sekali data yang kita miliki sudah dalam bentuk yang pas untuk membuat grafik yang kita inginkan. Sering kali, kita perlu membuat variabel baru atau meringkas data untuk menjawab pertanyaan yang ada. Kadang-kadang, kita juga mungkin ingin mengganti nama variabel atau mengatur ulang urutan data supaya lebih mudah digunakan.</p>
+<p>Pada Bagian ini, kamu akan belajar cara melakukan semua itu (dan lebih banyak lagi!) dengan menggunakan package <code>dplyr</code> serta dataset baru tentang penerbangan yang berangkat dari New York City pada tahun 2013.</p>
+<p>Tujuan dari bab ini adalah memberikan gambaran umum tentang alat-alat penting untuk mentransformasi data frame. Kita akan mulai dengan fungsi yang bekerja pada baris dan kolom data frame, lalu beralih membahas tentang <code>pipe</code>, alat penting untuk menggabungkan berbagai fungsi. Setelah itu, kita akan mengenalkan cara bekerja dengan kelompok data (grouping). Bagian ini akan ditutup dengan sebuah studi kasus yang menunjukkan bagaimana semua fungsi ini digunakan.</p>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>Di bab ini, kita akan fokus pada package <code>dplyr</code>, salah satu anggota inti dari ekosistem <code>tidyverse</code>. Kita akan menjelaskan konsep-konsep utama dengan menggunakan data dari package <code>nycflights13</code> dan memanfaatkan <code>ggplot2</code> untuk membantu memahami data tersebut.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Perhatikan dengan baik pesan conflicts yang muncul saat kamu memuat tidyverse. Pesan ini memberitahukan bahwa <code>dplyr</code> menggantikan beberapa fungsi bawaan dari base R. Jika kamu ingin menggunakan versi fungsi bawaan setelah memuat <code>dplyr</code>, kamu perlu menuliskan nama lengkapnya, seperti <code>stats::filter()</code> dan <code>stats::lag()</code>.</p>
+<p>Selama ini, kita cenderung mengabaikan asal paket suatu fungsi karena biasanya tidak terlalu penting. Namun, mengetahui asal paket dapat membantu kamu mencari dokumentasi atau menemukan fungsi-fungsi terkait. Oleh karena itu, saat kita perlu menyebutkan asal fungsi dengan jelas, kita akan menggunakan sintaks R seperti ini: <code>packagename::functionname()</code>.</p>
+</section>
+<section id="nycflights13" class="level2">
+<h2 class="anchored" data-anchor-id="nycflights13">nycflights13</h2>
+<p>Untuk mempelajari dasar-dasar verbs dalam dplyr, kita akan menggunakan dataset <code>nycflights13::flights</code>. Dataset ini mencakup semua 336.776 penerbangan yang berangkat dari New York City pada tahun 2013. Data ini berasal dari <a href="https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&amp;QO_fu146_anzr=b0-gvzr">US Bureau of Transportation Statistics</a> dan dapat didokumentasikan lebih lanjut dengan menggunakan perintah <code>?flights</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>flights</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>flights</strong> adalah sebuah <em>tibble</em>, yaitu tipe khusus dari data frame yang digunakan dalam <code>tidyverse</code> untuk menghindari beberapa masalah umum. Perbedaan utama antara <strong>tibble</strong> dan <strong>data frame</strong> terletak pada cara <em>tibble</em> ditampilkan. <em>Tibble</em> dirancang untuk menangani dataset besar, sehingga hanya menampilkan beberapa baris pertama dan kolom-kolom yang muat di layar.</p>
+<p>Ada beberapa cara untuk melihat keseluruhan data:</p>
+<ul>
+<li>Jika kamu menggunakan <strong>RStudio</strong> (kita memang pakai RStudio), cara paling nyaman adalah dengan menjalankan <code>View(flights)</code>, yang membuka tampilan interaktif, dapat digulir, dan dapat difilter.</li>
+<li>Kamu juga bisa menggunakan <code>print(flights, width = Inf)</code> untuk menampilkan semua kolom.</li>
+<li>Atau gunakan <code>glimpse()</code> untuk melihat ringkasan struktur data secara keseluruhan.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(flights)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Dalam kedua tampilan tersebut, nama variabel diikuti oleh singkatan yang menunjukkan tipe setiap variabel:</p>
+<ul>
+<li><code>&lt;int&gt;</code> berarti integer (bilangan bulat),</li>
+<li><code>&lt;dbl&gt;</code> berarti double (alias bilangan real),</li>
+<li><code>&lt;chr&gt;</code> berarti character (alias string atau teks),</li>
+<li><code>&lt;dttm&gt;</code> berarti date-time (tanggal dan waktu).</li>
+</ul>
+<p>Informasi ini penting karena operasi yang dapat dilakukan pada sebuah kolom sangat bergantung pada tipe datanya.</p>
+</section>
+<section id="dplyr-basics" class="level2">
+<h2 class="anchored" data-anchor-id="dplyr-basics">dplyr basics</h2>
+<p>Kamu akan mempelajari verbs utama dalam <code>dplyr</code> (fungsi-fungsi), yang dapat membantu menyelesaikan sebagian besar tantangan manipulasi data. Namun, sebelum membahas perbedaan masing-masing fungsi, ada baiknya memahami kesamaan mereka:</p>
+<ol type="1">
+<li>Argumen pertama selalu berupa sebuah data frame.</li>
+<li>Argumen selanjutnya biasanya mendeskripsikan kolom yang akan dioperasikan, menggunakan nama variabel (tanpa tanda kutip).</li>
+<li>Hasil keluaran selalu berupa data frame baru.</li>
+</ol>
+<p>Karena setiap verb hanya melakukan satu tugas dengan baik, menyelesaikan masalah kompleks biasanya memerlukan kombinasi beberapa verb. Kombinasi ini dilakukan dengan menggunakan <em>pipe</em> <code>(|&gt;)</code>.</p>
+<p>Kita akan membahas pipe lebih lanjut di Bagian Asinkronus, tetapi secara singkat, pipe mengambil nilai di sebelah kirinya dan meneruskannya ke fungsi di sebelah kanannya. Contohnya:</p>
+<ul>
+<li>x |&gt; f(y) setara dengan f(x, y).</li>
+<li>x |&gt; f(y) |&gt; g(z) setara dengan g(f(x, y), z). Cara termudah untuk membaca pipe adalah dengan mengartikannya sebagai “then” Ini memungkinkanmu memahami maksud kode berikut meskipun belum mempelajari detailnya.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dest <span class="sc">==</span> <span class="st">"IAH"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month, day) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">arr_delay =</span> <span class="fu">mean</span>(arr_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Verbs dalam <strong>dplyr</strong> dikelompokkan menjadi empat kategori berdasarkan apa yang mereka operasikan: <strong>baris</strong>, <strong>kolom</strong>, <strong>grup</strong>, atau <strong>tabel</strong>. Pada bagian berikut, kamu akan mempelajari verbs paling penting untuk mengoperasikan baris, kolom, dan grup. Kemudian, kita akan kembali membahas join verbs yang bekerja pada tabel di Bagian Asinkronus.</p>
+<p>Mari kita mulai! 🚀</p>
+</section>
+</section>
+<section id="rows---baris" class="level1">
+<h1>Rows - Baris</h1>
+<p><em>Verbs</em> paling penting yang bekerja pada baris dalam sebuah dataset adalah:</p>
+<ol type="1">
+<li><code>filter()</code> – Memilih baris yang akan ditampilkan tanpa mengubah urutannya.</li>
+<li><code>arrange()</code> – Mengubah urutan baris tanpa memengaruhi baris yang ditampilkan. Kedua fungsi ini hanya memengaruhi baris, <strong>sementara</strong> kolom tetap tidak berubah.</li>
+</ol>
+<p>Selain itu, ada juga:</p>
+<ol start="3" type="1">
+<li><code>distinct()</code>, yang digunakan untuk mencari baris dengan nilai yang unik.</li>
+</ol>
+<p>Berbeda dengan <code>arrange()</code> dan <code>filter()</code>, fungsi ini juga dapat, jika diperlukan, mengubah kolom.</p>
+<section id="filter" class="level2">
+<h2 class="anchored" data-anchor-id="filter">filter()</h2>
+<p>Fungsi <strong>filter()</strong> memungkinkan kamu memilih baris berdasarkan nilai kolom tertentu.</p>
+<ul>
+<li>Argumen pertama adalah data frame.</li>
+<li>Argumen kedua dan seterusnya adalah kondisi yang harus terpenuhi agar baris tersebut dipilih. Sebagai contoh, untuk menemukan semua penerbangan yang berangkat lebih dari 120 menit (dua jam) terlambat, kamu bisa menggunakan:</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dep_delay <span class="sc">&gt;</span> <span class="dv">120</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Selain operator &gt; (lebih besar dari), kamu juga bisa menggunakan operator lain seperti:</p>
+<ul>
+<li><code>&gt;=</code> (lebih besar atau sama dengan),</li>
+<li><code>&lt;</code> (lebih kecil dari),</li>
+<li><code>&lt;=</code> (lebih kecil atau sama dengan),</li>
+<li><code>==</code> (sama dengan),</li>
+<li><code>!=</code> (tidak sama dengan). Kamu juga bisa menggabungkan beberapa kondisi:</li>
+</ul>
+<p>Gunakan <code>&amp;</code> atau tanda koma (<code>,</code>) untuk menunjukkan and (kedua kondisi harus terpenuhi). Gunakan <code>|</code> untuk menunjukkan <code>or</code> (salah satu kondisi cukup terpenuhi).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flights that departed on January 1</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> day <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Flights that departed in January or February</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> month <span class="sc">==</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ada sebuah shortcut yang berguna saat kamu menggabungkan <code>|</code> dengan <code>==</code>, yaitu operator <code>%in%</code>. Operator ini akan memilih baris di mana sebuah variabel sama dengan salah satu nilai yang ada di sebelah kanan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A shorter way to select flights that departed in January or February</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Saat kamu menjalankan <strong>filter(), dplyr</strong> melakukan operasi pemfilteran, membuat <em>data frame</em> baru, lalu mencetak hasilnya. Namun, fungsi <strong>dplyr</strong> <em>tidak pernah</em> mengubah dataset yang ada, termasuk dataset <strong>flights.</strong></p>
+<p>Jika kamu ingin menyimpan hasilnya, kamu harus menggunakan operator penugasan <code>&lt;-</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>jan1 <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> day <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="common-mistakes" class="level2">
+<h2 class="anchored" data-anchor-id="common-mistakes">common mistakes</h2>
+<p>Ketika baru mulai belajar R, salah satu kesalahan paling umum adalah menggunakan = alih-alih == untuk menguji kesetaraan.</p>
+<ul>
+<li><code>=</code> digunakan untuk penugasan, bukan untuk membandingkan nilai.</li>
+<li><code>==</code> digunakan untuk memeriksa apakah dua nilai sama. Jika kamu secara tidak sengaja menggunakan <code>=</code> di dalam <code>filter()</code>, R akan memberikan pesan kesalahan yang membantu kamu mengenali kesalahan ini.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kesalahan umum lainnya adalah menulis pernyataan <em>“or”</em> seperti dalam bahasa Inggris, alih-alih mengikuti sintaks R.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Kode tersebut tidak akan menghasilkan kesalahan tetapi juga tidak akan melakukan apa yang kamu inginkan. Masalahnya adalah operator <code>|</code> pertama-tama akan memeriksa kondisi <code>month == 1</code> dan kemudian memeriksa nilai 2 sebagai kondisi, yang sebenarnya tidak masuk akal untuk diperiksa.</p>
+<p>Kenapa tidak masuk akal? Karena R mencoba memeriksa apakah nilai 2 itu benar atau salah (logical value), dan ini tidak relevan dengan kolom month.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Bagi yang belum mengerti
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Secara <strong>intuisi</strong> kita ingin mengambil bulan Januari atau (<code>|</code>) bulan Februari (Keduanya boleh). Tetapi, Perhatikan kalau konjungsi dan disjungsi dalam bahasa R ini proposisi atomik-nya harus berupa syntax <code>callable</code>.</p>
+<p>Perhatikan perbedaan kedua hal ini.</p>
+<ul>
+<li><code>filter(month == 1 | 2)</code></li>
+<li><code>filter(month == 1 | day == 2)</code></li>
+</ul>
+<p>Nanti, ketika syntax di atas dicompile, maka ia akan mengecek conditional_value dari kedua proposisi atomik di atas.</p>
+<ul>
+<li>Yang pertama ia akan mengecek apakah <code>row</code> ke-i memiliki nilai <code>month</code> adalah <code>1</code> atau tidak. Jika <code>month == 1</code> maka proposisi atomik ruas kiri akan bernilai <code>TRUE</code>. Lalu, ia akan cek proposisi kanan operator <code>or</code> yakni 2. Ia akan menentukan apakan 2 ini <code>TRUE</code> atau <code>FALSE</code>. Akan tetapi, karena ia tidak merupakan coditional, ia tidak dapat ditentukan apakah 2 ini <code>TRUE</code> atau <code>FALSE</code>.</li>
+<li>Yang kedua sama, kecuali pada proposisi atomik yang sebelah kanan, dapat ditentukan conditional_value miliknya.</li>
+</ul>
+<p>Perhatikan hal ini juga berlaku (bahkan lebih <strong>worst</strong> logika-nya [tidak masuk akal]) pada kasus konjungsi.</p>
+<ul>
+<li><code>filter(month == 1 &amp; 2)</code></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="arrange" class="level2">
+<h2 class="anchored" data-anchor-id="arrange">arrange()</h2>
+<p>Fungsi <code>arrange()</code> digunakan untuk mengubah urutan baris dalam dataset berdasarkan nilai-nilai pada kolom-kolom yang diberikan. Fungsi ini menerima sebuah data frame dan satu set nama kolom (atau ekspresi yang lebih rumit) yang akan digunakan untuk menentukan urutan.</p>
+<p>Jika kamu memberikan lebih dari satu nama kolom, kolom tambahan akan digunakan untuk memecahkan <em>tie</em> (nilai yang sama) pada kolom sebelumnya. Dengan kata lain, jika dua baris memiliki nilai yang sama di kolom pertama, <code>arrange()</code> akan memeriksa kolom kedua untuk menentukan urutan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, month, day, dep_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Apa yang terjadi di sini?</p>
+<ul>
+<li>Penerbangan akan diurutkan pertama berdasarkan tahun.</li>
+<li>Jika ada penerbangan di tahun yang sama, maka urutan dilanjutkan berdasarkan bulan.</li>
+<li>Kemudian berdasarkan hari dalam bulan tersebut.</li>
+<li>Terakhir, penerbangan yang terjadi pada hari yang sama akan diurutkan berdasarkan waktu keberangkatan (dep_time). Dengan cara ini, kita mendapatkan urutan penerbangan dari yang paling awal hingga yang paling terlambat, dimulai dari tahun yang paling awal.</li>
+</ul>
+<p>Untuk mengurutkan data berdasarkan kolom dalam urutan menurun (dari yang besar ke kecil), kamu dapat menggunakan fungsi <code>desc()</code> di dalam <code>arrange()</code>. Fungsi <code>desc()</code> mengubah urutan kolom yang kamu tentukan sehingga data akan diurutkan dari nilai terbesar ke terkecil.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(dep_delay))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Perhatikan bahwa jumlah baris tidak berubah – kami hanya mengatur data, kami tidak memfilternya.</p>
+</section>
+<section id="distinct" class="level2">
+<h2 class="anchored" data-anchor-id="distinct">distinct()</h2>
+<p>Fungsi <code>distinct()</code> di <em>dplyr</em> digunakan untuk mencari dan mengembalikan baris-baris unik dalam sebuah dataset. Secara teknis, fungsi ini bekerja pada baris (<strong>rows</strong>) karena akan menghapus baris yang duplikat. Namun, lebih sering daripada itu, kamu mungkin ingin mencari kombinasi unik dari beberapa kolom tertentu dalam dataset, bukan seluruh baris.</p>
+<p>Kamu bisa memberikan satu atau lebih nama kolom ke dalam <code>distinct()</code> untuk mendapatkan kombinasi unik dari kolom-kolom tersebut. Berikut adalah contoh penggunaannya:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicate rows, if any</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all unique origin and destination pairs</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(origin, dest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Jika kamu ingin menjaga kolom-kolom lain saat mencari baris unik, kamu dapat menggunakan opsi <code>.keep_all = TRUE</code> dalam fungsi <code>distinct()</code>. Opsi ini memungkinkan kamu untuk mengembalikan seluruh kolom dalam dataset, bukan hanya kolom yang digunakan untuk menentukan keunikan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(origin, dest, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Penjelasan:</p>
+<ul>
+<li>origin dan dest adalah kolom yang digunakan untuk menentukan keunikan.</li>
+<li>Dengan menambahkan <code>.keep_all = TRUE</code>, fungsi <strong>distinct()</strong> akan mengembalikan seluruh baris yang unik berdasarkan kombinasi origin dan dest, tetapi tetap menyertakan semua kolom lainnya dalam dataset (seperti <strong>dep_delay, arr_delay,</strong> dll.).</li>
+</ul>
+<p>Bukan kebetulan bahwa semua penerbangan berbeda ini terjadi pada 1 Januari: <code>distinct()</code> akan menemukan kemunculan pertama dari baris unik dalam kumpulan data dan membuang sisanya.</p>
+<p>Jika Anda ingin menemukan jumlah kemunculan, Anda lebih baik menukar <code>distinct()</code> dengan <code>count()</code>. Dengan argumen <code>sort = TRUE</code>, Anda dapat mengaturnya dalam urutan menurun dari jumlah kemunculan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(origin, dest, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="latihan-1" class="level3">
+<h3 class="anchored" data-anchor-id="latihan-1">Latihan 1</h3>
+<ol type="1">
+<li>Dalam satu alur(in a single pipeline) untuk setiap kondisi, temukan semua penerbangan yang memenuhi kondisi tersebut:</li>
+</ol>
+<ul>
+<li>Memiliki penundaan kedatangan dua jam atau lebih</li>
+<li>Terbang ke Houston (IAH atau HOU)</li>
+<li>Dioperasikan oleh United, American, atau Delta</li>
+<li>Berangkat pada musim panas (Juli, Agustus, dan September)</li>
+<li>Tiba lebih dari dua jam terlambat tetapi tidak pulang terlambat</li>
+<li>Ditunda setidaknya satu jam, tetapi dibuat lebih dari 30 menit dalam penerbangan</li>
+</ul>
+<ol start="2" type="1">
+<li><p>Urutkan penerbangan untuk menemukan penerbangan dengan penundaan keberangkatan terlama. Temukan penerbangan yang berangkat paling awal di pagi hari.</p></li>
+<li><p>Urutkan penerbangan untuk menemukan penerbangan tercepat. (Petunjuk: Coba sertakan perhitungan matematika di dalam fungsi Anda.)</p></li>
+<li><p>Apakah ada penerbangan setiap hari di tahun 2013?</p></li>
+<li><p>Penerbangan mana yang menempuh jarak terjauh? Mana yang menempuh jarak paling sedikit?</p></li>
+<li><p>Apakah penting urutan apa yang Anda gunakan <code>filter()</code> dan <code>arrange()</code> jika Anda menggunakan keduanya? Mengapa tidak? Pikirkan tentang hasil dan berapa banyak pekerjaan yang harus dilakukan oleh fungsi tersebut.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coba kerjakan dahulu sendiri. Jawaban tersedia <a href="../../../../../semuahalaman/modulprak/2024/ganjil/molin/jawabanLatihanModul5-1.html">disini</a></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="columns---kolom" class="level1">
+<h1>Columns - Kolom</h1>
+<p>Ada empat kata kerja penting yang memengaruhi kolom tanpa mengubah baris: <code>mutate()</code> membuat kolom baru yang diturunkan dari kolom yang ada, <code>select()</code> mengubah kolom mana yang ada, <code>rename()</code> mengubah nama kolom, dan <code>relocate()</code> mengubah posisi kolom.</p>
+<section id="mutate" class="level2">
+<h2 class="anchored" data-anchor-id="mutate">mutate()</h2>
+<p>Tugas <code>mutate()</code> adalah menambahkan kolom baru yang dihitung dari kolom yang ada. Dalam bab transform, Anda akan mempelajari sekumpulan besar fungsi yang dapat Anda gunakan untuk memanipulasi berbagai jenis variabel. Untuk saat ini, kita akan tetap menggunakan aljabar dasar, yang memungkinkan kita menghitung perolehan, berapa lama waktu penerbangan yang tertunda di udara, dan kecepatan dalam mil per jam:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gain =</span> dep_delay <span class="sc">-</span> arr_delay,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Secara default, <code>mutate()</code> menambahkan kolom baru di sisi kanan kumpulan data Anda, yang menyulitkan untuk melihat apa yang terjadi di sini. Kita bisa menggunakan <code>.</code> sebelum argumen untuk menambahkan variabel ke sisi kiri 2:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gain =</span> dep_delay <span class="sc">-</span> arr_delay,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.before =</span> <span class="dv">1</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>.</code> menunjukkan bahwa <code>.before</code> adalah argumen untuk fungsi tersebut, bukan nama variabel baru ketiga yang sedang kita buat. Anda juga dapat menggunakan <code>.after</code> menambahkan setelah variabel, dan di keduanya <code>.before</code> dan <code>.after</code> Anda dapat menggunakan nama variabel alih-alih posisi. Misalnya, kita dapat menambahkan variabel baru setelah <code>day</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gain =</span> dep_delay <span class="sc">-</span> arr_delay,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.after =</span> day</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Sebagai alternatif, kamu bisa mengontrol variabel mana saja yang ingin disimpan menggunakan argumen <code>.keep</code>. Salah satu nilai yang berguna untuk <code>.keep</code> adalah <code>"used"</code>, yang artinya kita hanya menyimpan kolom-kolom yang terlibat atau dibuat dalam langkah <code>mutate()</code>. Misalnya, pada kode berikut, hasilnya hanya akan berisi variabel-variabel: <code>dep_delay</code>, <code>arr_delay</code>, <code>air_time</code>, <code>gain</code>, <code>hours</code>, dan <code>gain_per_hour</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">gain =</span> dep_delay <span class="sc">-</span> arr_delay,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">hours =</span> air_time <span class="sc">/</span> <span class="dv">60</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gain_per_hour =</span> gain <span class="sc">/</span> hours,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.keep =</span> <span class="st">"used"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>kita belum menetapkan hasil perhitungan di atas kembali ke <code>flights</code>, variabel baru <code>gain</code>, <code>hours</code>, dan <code>gain_per_hour</code> hanya akan dicetak tetapi tidak akan disimpan dalam <code>data frame</code>.</p>
+<p>Dan jika kita ingin hasilnya tersedia dalam <code>data frame</code> untuk penggunaan di masa mendatang, kita harus memikirkan dengan cermat apakah kita ingin hasilnya ditetapkan kembali ke <code>flights</code>, menimpa <code>data frame</code> asli dengan lebih banyak variabel, atau ke objek baru.</p>
+<p>Seringkali, jawaban yang benar adalah objek baru yang diberi nama secara informatif untuk menunjukkan isinya, mis., <code>delay_gain</code>, tetapi Anda mungkin juga memiliki alasan bagus untuk menimpa <code>flights</code>.</p>
+</div>
+</div>
+</section>
+<section id="select" class="level2">
+<h2 class="anchored" data-anchor-id="select">select()</h2>
+<p>Tidak jarang mendapatkan kumpulan data dengan ratusan atau bahkan ribuan variabel. Dalam situasi ini, tantangan pertama seringkali hanya berfokus pada variabel yang Anda minati. <code>select()</code> memungkinkan Anda memperbesar subset yang berguna dengan cepat menggunakan operasi berdasarkan nama variabel:</p>
+<ul>
+<li>Select columns by name:</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, month, day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>Select all columns between year and day (inclusive):</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>Select all columns except those from year to day (inclusive):</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>year<span class="sc">:</span>day)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Secara historis, operasi ini dilakukan dengan <code>-</code> alih-alih <code>!</code>, jadi kemungkinan besar Anda akan melihatnya di luar sana (<em>wild</em>). Kedua operator ini memiliki tujuan yang sama tetapi dengan perbedaan perilaku yang tidak kentara.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Rekomendasi
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kami merekomendasikan penggunaan <code>!</code> karena terbaca sebagai “no” dan berpadu dengan baik dengan <code>&amp;</code> dan <code>|</code>.</p>
+</div>
+</div>
+<ul>
+<li>Select all columns that are characters:</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.character))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ada beberapa fungsi bantu (helper functions) yang dapat kamu gunakan di dalam <code>select()</code> untuk memilih kolom berdasarkan pola nama tertentu:</p>
+<ul>
+<li><p>starts_with(“abc”): Memilih nama kolom yang diawali dengan “abc”. Contoh: Kolom bernama abc_data atau abc_result.</p></li>
+<li><p>ends_with(“xyz”): Memilih nama kolom yang diakhiri dengan “xyz”. Contoh: Kolom bernama value_xyz atau output_xyz.</p></li>
+<li><p>contains(“ijk”): Memilih nama kolom yang mengandung “ijk”. Contoh: Kolom bernama data_ijk atau ijk_value.</p></li>
+<li><p>num_range(“x”, 1:3): Memilih nama kolom dengan pola x1, x2, dan x3. Cocok untuk kolom yang diberi nama dengan format angka berurutan.</p></li>
+</ul>
+<p>Lihat dokumentasi <code>?select</code> untuk informasi lebih lanjut. Setelah kamu memahami ekspresi reguler (yang akan dibahas di Bagian asinkronus), kamu juga bisa menggunakan fungsi <code>matches()</code> untuk memilih variabel yang sesuai dengan pola tertentu.</p>
+<p>Anda dapat mengganti nama variabel saat Anda <code>select()</code> dengan menggunakan <code>=</code>. Nama baru muncul di sisi kiri <code>=</code>, dan variabel lama muncul di sisi kanan:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">tail_num =</span> tailnum)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="rename" class="level2">
+<h2 class="anchored" data-anchor-id="rename">rename()</h2>
+<p>Jika Anda ingin menyimpan semua variabel yang ada dan hanya ingin mengganti nama beberapa variabel, Anda dapat menggunakan <code>rename()</code> alih-alih <code>select()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">tail_num =</span> tailnum)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Jika kamu memiliki banyak kolom dengan nama yang tidak konsisten dan memperbaikinya satu per satu akan memakan waktu, coba gunakan <a href="https://sfirke.github.io/janitor/reference/clean_names.html"><code>janitor::clean_names()</code></a>, yang dapat membersihkan nama-nama kolom secara otomatis dengan cara yang berguna.</p>
+</section>
+<section id="relocate" class="level2">
+<h2 class="anchored" data-anchor-id="relocate">relocate()</h2>
+<p>Gunakan <code>relocate()</code> untuk memindahkan variabel di dalam dataset. Kamu mungkin ingin mengumpulkan variabel-variabel yang berhubungan bersama atau memindahkan variabel penting ke depan. Secara default, <code>relocate()</code> akan memindahkan variabel ke bagian depan dataset.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(time_hour, air_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Anda juga dapat menentukan di mana harus meletakkannya menggunakan <code>.before</code> dan <code>.after</code> argumen, seperti di <code>mutate()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(year<span class="sc">:</span>dep_time, <span class="at">.after =</span> time_hour)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(<span class="fu">starts_with</span>(<span class="st">"arr"</span>), <span class="at">.before =</span> dep_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>##Latihan 2 1. Bandingkan <code>dep_time</code>, <code>sched_dep_time</code>, dan <code>dep_delay.</code> Bagaimana Anda mengharapkan ketiga angka itu terkait?</p>
+<ol start="2" type="1">
+<li><p>Lakukan brainstorming sebanyak mungkin cara untuk memilih <code>dep_time</code>, <code>dep_delay</code>, <code>arr_time</code>, dan <code>arr_delay</code> dari <code>flights</code>.</p></li>
+<li><p>Apa yang terjadi jika Anda menentukan nama variabel yang sama beberapa kali dalam panggilan <code>select()</code>?</p></li>
+<li><p>Apa yang dilakukan fungsi <code>any_of()</code>? Mengapa ini bisa membantu dalam hubungannya dengan vektor ini?</p></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>, <span class="st">"dep_delay"</span>, <span class="st">"arr_delay"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="5" type="1">
+<li>Apakah hasil menjalankan kode berikut mengejutkan Anda? Bagaimana pembantu select menangani huruf besar dan kecil secara default? Bagaimana Anda bisa mengubah default itu?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">"TIME"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="6" type="1">
+<li>Ganti nama <code>air_time</code> menjadi <code>air_time_min</code> untuk menunjukkan satuan pengukuran dan memindahkannya ke awal bingkai data.</li>
+</ol>
+<p>Mengapa hal berikut tidak berhasil, dan apa arti kesalahannya?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tailnum) <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(arr_delay)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coba kerjakan dahulu sendiri. Jawaban tersedia <a href="../../../../../semuahalaman/modulprak/2024/ganjil/molin/jawabanLatihanModul5-2.html">disini</a></p>
+</div>
+</div>
+</section>
+<section id="the-pipe" class="level2">
+<h2 class="anchored" data-anchor-id="the-pipe">The pipe</h2>
+<p>Kami telah menunjukkan contoh sederhana dari penggunaan pipe di atas, namun kekuatan sebenarnya dari pipe muncul saat kamu mulai menggabungkan beberapa fungsi (verbs). Misalnya, bayangkan kamu ingin mencari penerbangan tercepat ke bandara IAH di Houston. Untuk melakukan ini, kamu perlu menggabungkan fungsi <code>filter()</code>, <code>mutate()</code>, <code>select()</code>, dan <code>arrange()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dest <span class="sc">==</span> <span class="st">"IAH"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year<span class="sc">:</span>day, dep_time, carrier, flight, speed) <span class="sc">|&gt;</span> </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(speed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Meskipun alur ini memiliki empat langkah, mudah untuk membaca sekilas karena kata kerja muncul di awal setiap baris: mulai dengan data <code>flights</code>, lalu filter, lalu mutate, lalu select, lalu arrange.</p>
+<p>Apa yang akan terjadi jika kita tidak memiliki <code>pipe</code>? Kita dapat menyarangkan setiap pemanggilan fungsi di dalam pemanggilan sebelumnya:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        flights, </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        dest <span class="sc">==</span> <span class="st">"IAH"</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    year<span class="sc">:</span>day, dep_time, carrier, flight, speed</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">desc</span>(speed)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Atau kita bisa menggunakan banyak objek perantara:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>flights1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(flights, dest <span class="sc">==</span> <span class="st">"IAH"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>flights2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(flights1, <span class="at">speed =</span> distance <span class="sc">/</span> air_time <span class="sc">*</span> <span class="dv">60</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>flights3 <span class="ot">&lt;-</span> <span class="fu">select</span>(flights2, year<span class="sc">:</span>day, dep_time, carrier, flight, speed)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">arrange</span>(flights3, <span class="fu">desc</span>(speed))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Meskipun kedua bentuk (menggunakan <code>pipe</code> atau tanpa <code>pipe</code>) memiliki kelebihan dan kekurangannya masing-masing, penggunaan <code>pipe</code> umumnya menghasilkan kode analisis data yang lebih mudah ditulis dan dibaca.</p>
+<section id="kenapa-pipe-lebih-baik" class="level4">
+<h4 class="anchored" data-anchor-id="kenapa-pipe-lebih-baik">Kenapa Pipe Lebih Baik?</h4>
+<ul>
+<li>Kemudahan Membaca: Kode yang menggunakan pip lebih mudah dibaca karena setiap langkah dalam proses analisis data dipecah menjadi bagian yang terpisah, dan urutannya jelas. Ini membuat alur logika lebih transparan.</li>
+<li>Kemudahan Menulis: Dengan pipe, kita tidak perlu menulis fungsi-fungsi bersarang yang dapat membingungkan. Kode lebih ringkas dan mudah dimodifikasi.</li>
+</ul>
+</section>
+<section id="menambahkan-pipe-ke-kode" class="level4">
+<h4 class="anchored" data-anchor-id="menambahkan-pipe-ke-kode">Menambahkan Pipe ke Kode:</h4>
+<p>Di RStudio, kamu bisa menambahkan pipe dengan menggunakan shortcut keyboard bawaan Ctrl/Cmd + Shift + M. Ini akan menyisipkan simbol pipe (|&gt;) secara otomatis ke dalam kode kamu.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./static/shortcut-pipe.png" class="img-fluid figure-img"></p>
+<figcaption>Gambar 1. Untuk memasukkan |&gt;, pastikan “Use native pipe operator” option is checked.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Perbedaan Antara <code>%&gt;%</code> dan <code>|&gt;</code>:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>%&gt;%: Ini adalah operator pipe yang umum digunakan di <code>dplyr</code> dan berbagai paket <code>tidyverse</code> lainnya. Ini juga berfungsi dalam banyak situasi di luar <code>tidyverse</code>.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|eval: FALSE</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cyl) <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>|&gt;: Operator pipe ini adalah bagian dari bahasa R itu sendiri, mulai diperkenalkan di R versi 4.1.0. Fungsinya mirip dengan <code>%&gt;%</code>, tetapi memiliki beberapa perbedaan kecil dalam cara menangani argumen dan kedalaman fungsi.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="groups" class="level2">
+<h2 class="anchored" data-anchor-id="groups">Groups</h2>
+<p>Sejauh ini Anda telah mempelajari tentang fungsi yang berfungsi dengan baris dan kolom. dplyr menjadi lebih kuat saat Anda menambahkan kemampuan untuk bekerja dengan grup. Di bagian ini, kita akan fokus pada fungsi yang paling penting: <code>group_by()</code>, <code>summarize()</code> dan keluarga fungsi slice.</p>
+</section>
+<section id="group_by" class="level2">
+<h2 class="anchored" data-anchor-id="group_by">group_by()</h2>
+<p>Gunakan <code>group_by()</code> untuk membagi kumpulan data Anda menjadi beberapa grup yang bermakna untuk analisis Anda:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>group_by()</code> tidak mengubah data tetapi, jika Anda melihat lebih dekat pada outputnya, Anda akan melihat bahwa outputnya menunjukkan bahwa itu “dikelompokkan berdasarkan” bulan (<code>Groups: month [12]</code>). Ini berarti operasi selanjutnya sekarang akan berfungsi “berdasarkan bulan”. <code>group_by()</code> menambahkan fitur yang dikelompokkan ini (disebut sebagai kelas <em>class</em>) ke <code>data frame</code>, yang mengubah perilaku kata kerja berikutnya yang diterapkan ke data.</p>
+</section>
+<section id="summarize" class="level2">
+<h2 class="anchored" data-anchor-id="summarize">summarize()</h2>
+<p>Operasi pengelompokan yang paling penting adalah ringkasan, yang mana jika digunakan untuk menghitung statistik ringkasan tunggal, mengurangi data frame menjadi satu baris untuk setiap grup. Di <code>dplyr</code>, operasi ini dilakukan dengan <code>summarize()</code>, seperti yang ditunjukkan oleh contoh berikut, yang menghitung penundaan keberangkatan rata-rata menurut bulan:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Uh-oh! Ada yang tidak beres, dan semua hasil kami adalah <code>NAs</code> (diucapkan “NA”), simbol R untuk nilai yang hilang. Ini terjadi karena beberapa penerbangan yang diamati memiliki data yang hilang di kolom penundaan, jadi ketika kami menghitung rata-rata termasuk nilai tersebut, kami mendapatkan hasil <code>NA</code>. Kita akan kembali membahas nilai yang hilang secara detail di Bagian Asinkronus, tetapi untuk saat ini, kita akan memberi tahu fungsi <code>mean()</code> untuk mengabaikan semua nilai yang hilang dengan menyetel argumen <code>na.rm</code> menjadi <code>TRUE</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Anda dapat membuat sejumlah ringkasan dalam satu panggilan ke summarize(). Anda akan mempelajari berbagai ringkasan berguna di bab-bab mendatang, tetapi satu ringkasan yang sangat berguna adalah n(), yang mengembalikan jumlah baris di setiap grup:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>()</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Means dan counts bisa ditemukan lebih lanjut dalam ilmu data!</p>
+</section>
+<section id="the-sclice-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-sclice-function">The sclice function</h2>
+<p>Berikut adalah lima fungsi berguna dalam <code>dplyr</code> yang memungkinkan kamu untuk mengekstrak baris tertentu dalam setiap grup:</p>
+<ul>
+<li>slice_head(n = 1): Mengambil baris pertama dari setiap grup.</li>
+<li>slice_tail(n = 1): Mengambil baris terakhir dari setiap grup.</li>
+<li>slice_min(x, n = 1): Mengambil baris dengan nilai terkecil di kolom x.</li>
+<li>slice_max(x, n = 1): Mengambil baris dengan nilai terbesar di kolom x.</li>
+<li>slice_sample(n = 1): Mengambil satu baris secara acak.</li>
+</ul>
+<p>Kamu dapat menyesuaikan n untuk memilih lebih dari satu baris, atau kamu bisa menggunakan argumen prop untuk memilih proporsi tertentu dari baris. Misalnya, <code>prop = 0.1</code> akan memilih 10% dari baris di setiap grup.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dest) <span class="sc">|&gt;</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(arr_delay, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(dest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Perhatikan bahwa meskipun ada 105 tujuan, kita mendapatkan 108 baris di sini. Mengapa bisa begitu?</p>
+<p>Fungsi <code>slice_min()</code> dan <code>slice_max()</code> akan mempertahankan nilai yang terikat (tie), jadi meskipun kita menetapkan <code>n = 1</code>, jika ada beberapa baris dengan nilai yang sama (misalnya, keterlambatan yang sama), maka seluruh baris tersebut akan dimasukkan. Jika kamu hanya ingin satu baris per grup meskipun ada nilai yang terikat, kamu bisa menggunakan argumen <code>with_ties = FALSE</code>.</p>
+<p>Dengan menambahkan <code>with_ties</code> = <code>FALSE</code>, fungsi ini hanya akan mengambil satu baris per grup, bahkan jika ada beberapa baris yang memiliki nilai keterlambatan yang sama.</p>
+<p>Ini mirip dengan perhitungan nilai maksimum menggunakan <code>summarize()</code>, tetapi dengan <code>slice_max()</code> atau <code>slice_min()</code>, kamu mendapatkan seluruh baris yang sesuai dengan nilai tersebut (atau beberapa baris jika ada tie), bukan hanya statistik ringkasan tunggal.</p>
+</section>
+<section id="grouping-by-multiple-variables" class="level2">
+<h2 class="anchored" data-anchor-id="grouping-by-multiple-variables">Grouping by multiple variables</h2>
+<p>Anda dapat membuat grup menggunakan lebih dari satu variabel. Misalnya, kita dapat membuat grup untuk setiap tanggal.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>daily <span class="ot">&lt;-</span> flights <span class="sc">|&gt;</span>  </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month, day)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>daily</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ketika kamu melakukan <em>summary</em> pada sebuah tibble yang dikelompokkan berdasarkan lebih dari satu variabel, setiap <em>summary</em> akan memisahkan grup terakhir. Meskipun ini bukan cara terbaik untuk membuat fungsi ini bekerja, perubahan pada perilaku ini sulit dilakukan tanpa merusak kode yang sudah ada.</p>
+<p>Untuk membuat hal ini lebih jelas, <code>dplyr</code> menampilkan pesan yang memberi tahu kamu bagaimana cara mengubah perilaku ini. Pesan tersebut biasanya berbunyi seperti ini:</p>
+<p>“This is the default behavior of <strong>summarize()</strong> when grouping by multiple variables. To change this behavior, you can use <strong>group_by()</strong> followed by <strong>ungroup()</strong> or adjust the grouping inside <strong>summarize()</strong>.”</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Jika Anda <em>happy</em> dengan perilaku ini, Anda dapat memintanya secara eksplisit untuk menyembunyikan pesan tersebut:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>daily_flights <span class="ot">&lt;-</span> daily <span class="sc">|&gt;</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(), </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop_last"</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Atau, ubah perilaku default dengan menetapkan nilai yang berbeda, mis., “drop” untuk menghapus semua pengelompokan atau “keep” untuk mempertahankan grup yang sama.</p>
+</section>
+<section id="ungrouping" class="level2">
+<h2 class="anchored" data-anchor-id="ungrouping">Ungrouping</h2>
+<p>Anda mungkin juga ingin menghapus pengelompokan dari dataframe tanpa menggunakan <code>summarize()</code>. Anda dapat melakukannya dengan <code>ungroup()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>daily <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Sekarang mari kita lihat apa yang terjadi saat Anda summarize data frame yang tidak dikelompokkan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>daily <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">flights =</span> <span class="fu">n</span>()</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Anda mendapatkan satu baris kembali karena <code>dplyr</code> memperlakukan semua baris dalam data frame yang tidak dikelompokkan sebagai milik satu grup.</p>
+</section>
+<section id="by" class="level2">
+<h2 class="anchored" data-anchor-id="by">.by</h2>
+<p><code>dplyr</code> <code>1.1.0</code> menyertakan sintaks baru, eksperimental, untuk pengelompokan per operasi, argumen <code>.by</code>, <code>group_by()</code>, dan <code>ungroup()</code> tidak akan hilang, tetapi sekarang Anda juga dapat menggunakan argumen <code>.by</code> untuk mengelompokkan dalam satu operasi:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> month</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Atau jika Anda ingin mengelompokkan berdasarkan beberapa variabel:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>flights <span class="sc">|&gt;</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delay =</span> <span class="fu">mean</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(origin, dest)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>.by</code> bekerja dengan semua kata kerja dan memiliki keuntungan bahwa Anda tidak perlu menggunakan argumen <code>.group</code> untuk menekan pesan pengelompokan atau <code>ungroup()</code> setelah selesai.</p>
+</section>
+<section id="latihan-3" class="level2">
+<h2 class="anchored" data-anchor-id="latihan-3">Latihan 3</h2>
+<ol type="1">
+<li><p>Operator mana yang memiliki penundaan rata-rata terburuk? Tantangan: dapatkah Anda menguraikan efek dari bad airport v.s. bad carriers? Mengapa iya / mengapa tidak? (Petunjuk: pikirkan tentang <code>flights</code>|&gt; group_by(carrier, dest)|&gt; summarize(n()))</p></li>
+<li><p>Temukan penerbangan yang paling tertunda saat keberangkatan dari setiap tujuan.</p></li>
+<li><p>Bagaimana penundaan bervariasi sepanjang hari? Ilustrasikan jawaban Anda dengan sebuah plot.</p></li>
+<li><p>Apa yang terjadi jika Anda memberikan n negatif ke <code>slice_min()</code> dan teman-temannya?</p></li>
+<li><p>Jelaskan apa yang dilakukan count() dalam kaitannya dengan kata kerja <code>dplyr</code> yang baru saja Anda pelajari. Apa yang dilakukan argumen <code>sort</code> kepada <code>count()</code>?</p></li>
+<li><p>Misalkan kita memiliki bingkai data kecil berikut:</p></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>),</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">z =</span> <span class="fu">c</span>(<span class="st">"K"</span>, <span class="st">"K"</span>, <span class="st">"L"</span>, <span class="st">"L"</span>, <span class="st">"K"</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan <code>group_by()</code>.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="2" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan <code>arrange()</code>. Juga, beri komentar tentang perbedaannya dari <code>group_by()</code> di bagian (a).</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="3" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y) <span class="sc">|&gt;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="4" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline. Kemudian, komentari apa yang dikatakan pesan tersebut.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="5" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan pipeline. Bagaimana outputnya berbeda dari yang ada di bagian (d)?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="6" type="a">
+<li>Tuliskan seperti apa tampilan outputnya menurut Anda, lalu periksa apakah Anda benar, dan jelaskan apa yang dilakukan setiap pipeline. Bagaimana output dari kedua pipeline berbeda?</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(y, z) <span class="sc">|&gt;</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_x =</span> <span class="fu">mean</span>(x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pay Attention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coba kerjakan dahulu sendiri. Jawaban tersedia <a href="../../../../../semuahalaman/modulprak/2024/ganjil/molin/jawabanLatihanModul5-3.html">disini</a></p>
+</div>
+</div>
+</section>
+</section>
+<section id="studi-kasus---dataset-information" class="level1">
+<h1>Studi kasus - Dataset Information</h1>
+<p>Kita akan memberikan salah satu contoh pemula <em>pre-processing</em> dari data yang dibawah ini.</p>
+<section id="pendahuluan-1" class="level2">
+<h2 class="anchored" data-anchor-id="pendahuluan-1">Pendahuluan</h2>
+<p>Dalam dunia transportasi online, layanan seperti greb telah mengubah cara kita memesan dan menggunakan transportasi. Seiring dengan pertumbuhan pesat teknologi, data yang dihasilkan oleh platform transportasi online semakin berharga. Untuk memanfaatkan potensi data ini, kami mengadakan kompetisi prediksi harga pesanan mobil. Tujuan dari kompetisi ini adalah untuk mengembangkan model prediksi yang akurat dan canggih untuk harga pesanan mobil berdasarkan fitur-fitur yang diberikan.</p>
+</section>
+<section id="evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation">Evaluation</h2>
+<p>Dalam kasus kali ini, kami akan menggunakan Root Mean Square Error (RMSE) sebagai metrik evaluasi utama untuk mengukur kinerja model prediksi harga pesanan mobil. RMSE mengukur sejauh mana prediksi harga yang dihasilkan oleh model mendekati harga aktual.</p>
+<p>RMSE didefinisikan sebagai berikut:</p>
+<p><span class="math display">\[\sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}\]</span> Hasil RMSE yang lebih rendah menunjukkan kinerja model yang lebih baik dalam memprediksi harga pesanan mobil. Peserta yang berhasil menghasilkan model dengan RMSE terendah akan diberi apresiasi.</p>
+</section>
+<section id="scoring-system" class="level2">
+<h2 class="anchored" data-anchor-id="scoring-system">Scoring System</h2>
+<p>Dalam kasus kali ini, penilaian akan dinilai 100% dari metrik, dimana penilaian kalian akan bergantung pada evaluasi metrik. Semakin rendah hasil RMSE kalian, semakin tinggi poin yang akan kalian peroleh.</p>
+</section>
+<section id="penjelasan-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="penjelasan-dataset">Penjelasan Dataset</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>timestamp</td>
+<td>Memberikan informasi berupa waktu atau penanda.</td>
+</tr>
+<tr class="even">
+<td>api_calls</td>
+<td>Mencerminkan jumlah panggilan atau permintaan ke API.</td>
+</tr>
+<tr class="odd">
+<td>clouds</td>
+<td>Memberikan informasi tentang kondisi awan.</td>
+</tr>
+<tr class="even">
+<td>distance_max</td>
+<td>Menggambarkan jarak terkait pesanan (jarak maksimum).</td>
+</tr>
+<tr class="odd">
+<td>distance_mean</td>
+<td>Menggambarkan jarak terkait pesanan (jarak rata-rata).</td>
+</tr>
+<tr class="even">
+<td>distance_min</td>
+<td>Menggambarkan jarak terkait pesanan (jarak minimum).</td>
+</tr>
+<tr class="odd">
+<td>humidity</td>
+<td>Menunjukkan tingkat kelembapan.</td>
+</tr>
+<tr class="even">
+<td>rain</td>
+<td>Data terkait hujan atau curah hujan.</td>
+</tr>
+<tr class="odd">
+<td>surge_max</td>
+<td>Informasi lonjakan harga (lonjakan maksimum).</td>
+</tr>
+<tr class="even">
+<td>surge_mean</td>
+<td>Informasi lonjakan harga (lonjakan rata-rata).</td>
+</tr>
+<tr class="odd">
+<td>surge_min</td>
+<td>Informasi lonjakan harga (lonjakan minimum).</td>
+</tr>
+<tr class="even">
+<td>temp</td>
+<td>Data terkait suhu.</td>
+</tr>
+<tr class="odd">
+<td>price_mean</td>
+<td>Harga pesanan mobil</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="main-notebook" class="level1">
+<h1>Main Notebook</h1>
+<section id="import-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-data">Import Data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/train.csv'</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/zzeiidann/Ristek-UI-Competition/refs/heads/main/Ristek-UI-Data-Competition-2023/Data/test.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><code>train</code> : digunakan untuk melatih model , sekaligus mengevaluasi model.</li>
+<li><code>test</code> : digunakan untuk membuat prediksi menggunakan model setelah selesai dibuat.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="collecting-data-information" class="level2">
+<h2 class="anchored" data-anchor-id="collecting-data-information">Collecting Data Information</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Informasi Data Train'</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Informasi Data Test'</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Dapat dilihat bahwa <code>timestamp</code> masih memiliki data type yang salah. Sehingga kita harus memastikan semua variabel yang kita miliki sesuai data type yang seharusnya. Oleh karena itu , pada bagian ini kita akan memperbaiki data type <code>timestamp</code> tersebut.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>timestamp <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(train<span class="sc">$</span>timestamp, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(train<span class="sc">$</span>timestamp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>test<span class="sc">$</span>timestamp <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(test<span class="sc">$</span>timestamp, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(test<span class="sc">$</span>timestamp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="missing-value-checking-and-handling" class="level2">
+<h2 class="anchored" data-anchor-id="missing-value-checking-and-handling">Missing Value Checking and Handling</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(train))</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(train)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(test))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(test)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Dapat dilihat dari hasil sebelumnya bahwa terdapat missing value pada beberapa kolom. Sehingga kita perlu menentukan apakah kita akan handling missing value ini dengan <code>imputasi</code> atau menghapus observasi / row dari missing value tersebut. Pada kesempatan kali ini kita akan mengimputasi missing value tersebut.</p>
+<p>Tipe Tipe Imputasi :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 30%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Skala Data</th>
+<th>Metode Imputasi</th>
+<th>Contoh</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Categorical</td>
+<td>Buat NA Menjadi class baru.</td>
+<td>Umur (Balita = 1 , Dewasa = 2, Lansia = 3)</td>
+</tr>
+<tr class="even">
+<td>Numerical (continous)</td>
+<td>Mean, Median, Mode.</td>
+<td>Umur (14,16,17,19,20,24,50,60)</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clouds =</span> <span class="fu">replace_na</span>(clouds, <span class="fu">mean</span>(clouds, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(train<span class="sc">$</span>clouds))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">mutate</span>(<span class="at">humidity =</span> <span class="fu">replace_na</span>(humidity, <span class="fu">mean</span>(humidity, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rain =</span> <span class="fu">replace_na</span>(rain, <span class="fu">mean</span>(rain, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temp =</span> <span class="fu">replace_na</span>(temp, <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a> train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wind =</span> <span class="fu">replace_na</span>(wind, <span class="fu">mean</span>(wind, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Setelah semua missing value diisi jangan lupa untuk recheck kembali data yang sudah diimputasi (Tujuannya adalah untuk memastikan kolom yang missing sudah ter isi)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(train))</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah total Missing Value :'</span> , <span class="fu">sum</span>(<span class="fu">is.na</span>(train)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="duplicated-data-detection" class="level2">
+<h2 class="anchored" data-anchor-id="duplicated-data-detection">Duplicated Data Detection</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah Observasi yang duplikat pada data train:'</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(train)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Jumlah Observasi yang duplikat pada data test:'</span>, <span class="fu">sum</span>(<span class="fu">duplicated</span>(test)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Berdasarkan hasil yang diperoleh tidak terdapat data yang duplikat pada data train dan test.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Departemen Matematika FMIPA UI</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:aslab.math@sci.ui.ac.id">
+      <i class="bi bi-envelope" role="img" aria-label="Email kami">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
