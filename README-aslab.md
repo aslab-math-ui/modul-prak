@@ -5,6 +5,7 @@
 - [Local Setup](#local-setup)
 - [Git Basics](#git-basics)
 - [Git Submodules](#git-submodules)
+  - [Connection Error](#connection-error)
 - [Modul]()
   - [Melihat Modul](#melihat-modul)
   - [Membuat Modul](#membuat-modul)
@@ -59,6 +60,27 @@ Projek ini memanfaatkan teknologi ```git submodules``` untuk mengatasi permasala
 1. ```git submodule update --init nama-modul```: Jalankan perintah ini apabila local kalian belum terhubung dengan git repo ```modul``` atau ```assets```
 2. ```git submodule update nama-modul```: Berfungsi serupa dengan ```git pull```, apabila ada perubahan pada submodul (semisal ```modul/2025```), jalankan ini untuk memperoleh update terbaru.
 3. ```git submodule deinit nama-modul```: Berfungsi untuk menghapus submodule (secara lokal).
+
+### Connection Error
+Karena fitur ```git submodules``` masih cukup baru, dapat terjadi kendala 
+dimana setelah berganti ```branch```, ```git submodule update --init nama-modul``` tidak menghubungkan folder ke repo yang seharusnya. Dalam kondisi seperti ini perlu dilakukan hard reset terhadap setingan ```git submodules```
+
+```
+git submodule deinit -f .
+rm -rf modul/* assets
+rm -rf .git/modules/*
+rm .gitmodules
+```
+
+Lalu tambahkan kembali submodules
+```
+git submodule add https://github.com/aslab-math-ui/modul_2025.git modul/2025
+git submodule add https://github.com/aslab-math-ui/modul_2024.git modul/2024
+git submodule add https://github.com/aslab-math-ui/modul_2023.git modul/2023
+git submodule add https://github.com/aslab-math-ui/modul_2022.git modul/2022
+git submodule add https://github.com/aslab-math-ui/modul_spesial.git modul/_spesial
+git submodule add https://github.com/aslab-math-ui/asset.git assets
+```
 
 ## Melihat Modul
 Apabila sudah menjalankan [Local Setup](#local-setup) ada satu folder dalam ```modul```. 
