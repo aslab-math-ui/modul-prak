@@ -425,7 +425,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 <p>dengan <span class="math inline">\(n+1\in \mathbb{N}\)</span> menyatakan banyaknya titik nantinya.</p>
 <p>Solusi kita akan berupa titik yang nantinya dapat menggunakan interpolasi untuk nilai yang tidak dimuat di <span class="math inline">\(w_i\)</span></p>
 <p>Algoritma untuk metode Euler adalah sebagai berikut:</p>
-<div id="4790d9ed" class="cell">
+<div id="02045c20" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> euler(f, a, b, n, alpha)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -446,7 +446,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 \end{aligned}
 \]</span></p>
 <p>maka kita dapat mendefinisikan <code>f=@(t, y)\left(y-t^{\wedge} 2+1\right)</code>, a=0, b=2, dan alpha <span class="math inline">\(=0.5\)</span> (@ disini menyatakan fungsi anonim yang cara kerjanya mirip dengan fungsi lambda pada Python), sehingga untuk <span class="math inline">\(n=10\)</span>, diperoleh kode sebagai berikut:</p>
-<div id="4184624d" class="cell">
+<div id="ae42fbbe" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="op">@</span>(t, y) (y<span class="op">-</span>t<span class="op">^</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
@@ -456,7 +456,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 </div>
 <p>Untuk visualisasinya, kita akan membuat plot dari hasil yang kita peroleh. Sebagai referensi, solusi eksak dari PD tersebut adalah <span class="math inline">\(y(t)=(t+1)^2- 0.5 e^t\)</span></p>
 <p>Kita tambahkan kode berikut pada file:$</p>
-<div id="654b05e3" class="cell">
+<div id="cbbcf0a6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sln <span class="op">=</span> <span class="op">@</span>(t) (t <span class="op">+</span> <span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> exp(t)<span class="op">;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fplot(sln, [<span class="dv">0</span>, <span class="dv">2</span>], <span class="st">'b'</span>)<span class="op">;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>hold on<span class="op">;</span></span>
@@ -467,7 +467,7 @@ w_{i+1}=w_i+h f\left(t_i, w_i\right), \quad i=1,2, \ldots, n
 <p>Saat dijalankan, akan muncul jendela pop-up yang berisi plot yang telah dibuat.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2023-03-04-11-24-15.png" class="img-fluid figure-img"></p>
+<p><img src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/persamaan_diferensial_numerik/static/output_2023_w2_1.png" class="img-fluid figure-img"></p>
 <figcaption>gambar pop up plot</figcaption>
 </figure>
 </div>
@@ -506,7 +506,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 \]</span></li>
 </ol>
 <p>Berikut adalah list algoritmanya.</p>
-<div id="2157e543" class="cell">
+<div id="351be064" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> midpoint(f, a, b, n, alpha)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -521,7 +521,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>endfunction</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="82a029d3" class="cell">
+<div id="b50640a2" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> modeuler(f, a, b, n, alpha)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -536,7 +536,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>endfunction</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9197f86c" class="cell">
+<div id="f417fb02" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> heun(f, a, b, n, alpha)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -553,7 +553,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>endfunction</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a46803f5" class="cell">
+<div id="87752023" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>function [t, w] <span class="op">=</span> rko4(f, a, b, n, alpha)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b <span class="op">-</span> a) <span class="op">/</span> n<span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> zeros(n <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>)<span class="op">;</span></span>
@@ -570,7 +570,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  endfor</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>endfunction</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="98d522ce" class="cell">
+<div id="f278ebf5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="op">@</span>(t, y) (y <span class="op">-</span> t <span class="op">^</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
@@ -595,7 +595,7 @@ w_{i+1}=w_i+\frac{h}{4}\left(f\left(t_i, w_i\right)+3 f\left(t_i+\frac{2 h}{3}, 
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2023-03-04-11-25-33.png" class="img-fluid figure-img"></p>
+<p><img src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/persamaan_diferensial_numerik/static/output_2023_w2_2.png" class="img-fluid figure-img"></p>
 <figcaption>gambar pop up plot</figcaption>
 </figure>
 </div>
