@@ -4,7 +4,35 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       const container = document.getElementsByClassName("kartu_matkul")[0];
 
-      data.forEach(doc => {
+      generateCards(container, data)
+    })
+    .catch(err => console.error("Error loading JSON:", err));
+});
+
+const filterPraktikum = (button) => {
+    const filter = button.getAttribute('data-filter');
+    fetch("../data/modul.json")
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementsByClassName("kartu_matkul")[0];
+      container.innerHTML = ""
+
+      const filtered = data.filter((item) => {
+        if (filter == 'all') {
+          return true
+        } else {
+          return item.tahun_ajaran == filter
+        }
+      })
+      generateCards(container, filtered)
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    })
+    .catch(err => console.error("Error loading JSON:", err));   
+};
+
+const generateCards = (container, data) => {
+    data.forEach(doc => {
         const card = document.createElement("div");
         card.className = "g-col-12 g-col-md-6 g-col-lg-4";
         card.innerHTML = `
@@ -35,36 +63,4 @@ document.addEventListener("DOMContentLoaded", () => {
           .join(" ");
         container.appendChild(card);
       });
-    })
-    .catch(err => console.error("Error loading JSON:", err));
-});
-
-window.document.addEventListener("DOMContentLoaded", function () {
-  if (document.getElementById('arsip-praktikum')) {
-    var options = {
-      valueNames: [ 
-        'nama-praktikum', 
-        'deskripsi', 
-        'tahun',      
-        'semester'    
-      ]
-    };
-
-    var praktikumList = new List('arsip-praktikum', options);
-
-    window.filterPraktikum = function(button) {
-      const filter = button.getAttribute('data-filter');
-      
-      praktikumList.filter(function(item) {
-        if (filter === 'all') {
-          return true;
-        } else {
-          return item.values().tahun.trim() === filter;
-        }
-      });
-
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-    };
-  }
-});
+}
