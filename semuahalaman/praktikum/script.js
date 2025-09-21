@@ -64,3 +64,19 @@ const generateCards = (container, data) => {
         container.appendChild(card);
       });
 }
+
+searchJSON = () => {
+    const query = document.getElementById("search").value;
+    if (query.trim() === "") return;
+    const regex = new RegExp(query, "i");
+
+    fetch("../data/modul.json")
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementsByClassName("kartu_matkul")[0];
+      container.innerHTML = ""
+
+      const matches = data.filter(item => regex.test(item.mata_kuliah));
+      generateCards(container, matches)
+    })
+}
