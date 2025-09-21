@@ -106,6 +106,16 @@ Cara 2:
 1. Buat file baru dengan ekstensi ```.qmd``` pada direktori yang sesuai (didalam ```modul```)
 2. Silahkan menyusun modul dari awal
 
+### Menyisipkan Gambar atau Asset Lainnya.
+Gambar pada projek ini perlu di simpan pada repo ```asset``` terlebih dahulu. Silahkan cek repo ```asset``` untuk memastikan gambar sudah ada disana. Apabila belum, ikut langkah [Upload Gambar atau Dataset ke Repo Asset](#upload-gambar-atau-dataset-ke-repo-asset)
+
+Untuk menyisipkan gambar pada modul, gunakan alamat lengkap dari repo ```asset```. Misalkan ingin menggunakan ```linked_list.png``` dari ```asset/struktur_data/static/linked_list.png```, maka pada modul 
+sisipkan 
+```
+https://raw.githubusercontent.com/aslab-math-ui/asset/struktur_data/static/linked_list.png
+```
+
+
 ## Render Modul
 Misalkan akan dirender modul PSD tahun 2025 yang terletak di 
 ```modul/2025/ganjil/pengantar_sains_data/psd2025.qmd```
