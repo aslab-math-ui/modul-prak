@@ -152,3 +152,6 @@ git reset --soft 2c4218a
 3. Gunakan ```git push --force``` dan bukan ```git push``` yang biasa 
 
 Hal ini perlu dilakukan untuk mencegah memori repo membengkak dan banyaknya commit yang tidak optimal.
+
+# ERRORS
+Baca [Readme untuk Git Manager](README-gitmanager.md)

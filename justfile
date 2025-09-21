@@ -2,6 +2,10 @@
 default:
     @echo "Availbale tasks: see, unsee, render, upload"
 
+init:
+    git submodule update --init --recursive
+    cd modul/2025 && git switch main
+
 see modul tahun:
     git submodule update --init --recursive modul/{{tahun}}
 
@@ -54,3 +58,4 @@ upload modul path file ext:
     @echo "========================================="
     git switch main
     git submodule update --init --recursive
+    cd modul/2025 && git switch main
