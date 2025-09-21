@@ -1,6 +1,31 @@
 
 default:
-    @echo "Availbale tasks: render, test, clean"
+    @echo "Availbale tasks: see, unsee, render, upload"
+
+see modul tahun:
+    git submodule update --init --recursive modul/{{tahun}}
+
+unsee modul tahun:
+    git submodule deinit modul/{{tahun}}
+
+seeAssets:
+    git submodule update --init --recursive assets
+
+unseeAssets:
+    git submodule deinit assets
+
+render path:
+    quarto render {{path}}
+
+uploadAssets:
+    git submodule update --init --recursive assets
+    cd assets
+    git switch main
+    git pull
+    git add .
+    git commit -m "Added new assets"
+    git push
+    cd ..
 
 upload modul path file:
     @echo "=========================================="
@@ -14,7 +39,7 @@ upload modul path file:
     @echo "==========================="
     @echo "===== RENDERING FILES ====="
     @echo "==========================="
-    quarto render {{path}}.qmd
+    quarto render {{path}}.{{modul}}
     cp docs/{{path}}.html ..
 
     @echo "======================================="

@@ -3,9 +3,7 @@
 
 # Table of Contents
 - [Local Setup](#local-setup)
-- [Git Basics](#git-basics)
-- [Git Submodules](#git-submodules)
-  - [Connection Error](#connection-error)
+- [Instalasi Just](#instalasi-just)
 - [Modul]()
   - [Melihat Modul](#melihat-modul)
   - [Membuat Modul](#membuat-modul)
@@ -43,55 +41,26 @@ renv::restore()
 
 ### Python Environment Setup
 
-## Git Basics
-Pemahaman tentang git diperlukan untuk memahami alur penyimpanan projek ini. Berikut beberapa perintah yang perlu diingat.
+## Instalasi Just
+1. Download just dari [Github Repo Just](https://github.com/casey/just/releases) Pilih yang ```x86_64-pc-windows-msvc.zip``` untuk windows
 
-1. ```git clone alamat/repo.git nama_di_local```: Berfungsi untuk menduplikasi project github ke lokal
-2. ```git pull```: Mengambil update terbaru project dari github. Fitur ini sangat disarankan untuk dijalankan setiap kali kalian membuka project secara lokal.
-3. ```git add .```: Menyimpan semua perubahan kedalam tahap "staging" (perubahan lokal yang tidak bisa diupdate ke github)
-4. ```git commit -m "Pesan commit"```: Menyimpan semua perubahan secara resmi (dalam bentuk commit) dan bisa di update ke github
-5. ```git push```: Mendorong perubahan lokal ke github.
+2. Extract folder
+3. Pindahkan ke tempat yang aman dan simpan pathnya
+4. Masuking pathnya kedalam environment variabless
+5. Buka git bash dan ketik ```just version``` untuk memastikan just sudah ada.
 
-WARNING: Konflik yang sering terjadi adalah ketika banyak kontributor ingin melakukan perubahan dengan ```git push``` dalam kurun waktu yang dekat. Hal ini dapat diatasi dengan ```merge branch``` tapi untuk mencegah ini lebih baik melakukan ```git pull``` setiap kali membuka project secara lokal.
-
-## Git Submodules
-Projek ini memanfaatkan teknologi ```git submodules``` untuk mengatasi permasalahan alokasi memori pada github. Berikut beberapa perintah yang perlu diketahui
-
-1. ```git submodule update --init nama-modul```: Jalankan perintah ini apabila local kalian belum terhubung dengan git repo ```modul``` atau ```assets```
-2. ```git submodule update nama-modul```: Berfungsi serupa dengan ```git pull```, apabila ada perubahan pada submodul (semisal ```modul/2025```), jalankan ini untuk memperoleh update terbaru.
-3. ```git submodule deinit nama-modul```: Berfungsi untuk menghapus submodule (secara lokal).
-
-### Connection Error
-Karena fitur ```git submodules``` masih cukup baru, dapat terjadi kendala 
-dimana setelah berganti ```branch```, ```git submodule update --init nama-modul``` tidak menghubungkan folder ke repo yang seharusnya. Dalam kondisi seperti ini perlu dilakukan hard reset terhadap setingan ```git submodules```
-
-```
-git submodule deinit -f .
-rm -rf modul/* assets
-rm -rf .git/modules/*
-rm .gitmodules
-```
-
-Lalu tambahkan kembali submodules
-```
-git submodule add https://github.com/aslab-math-ui/modul_2025.git modul/2025
-git submodule add https://github.com/aslab-math-ui/modul_2024.git modul/2024
-git submodule add https://github.com/aslab-math-ui/modul_2023.git modul/2023
-git submodule add https://github.com/aslab-math-ui/modul_2022.git modul/2022
-git submodule add https://github.com/aslab-math-ui/modul_spesial.git modul/_spesial
-git submodule add https://github.com/aslab-math-ui/asset.git assets
-```
+Dengan ```just```, kalian tidak perlu ribet mengurus ```git``` dan ```submodules```
 
 ## Melihat Modul
 Apabila sudah menjalankan [Local Setup](#local-setup) ada satu folder dalam ```modul```. 
 Untuk melihat modul pada tahun yang lalu (misal 2023) ketik pada terminal bash
 ```
-git submodule update --init modul/2023
+just see modul 2023
 ```
 
 Apabila sudah puas melihat modul tahun lalu dan ingin menghapusnya dari projek lokal, ketik pada terminal bash
 ```
-git submodule deinit modul/2023
+just unsee modul 2023
 ```
 
 ## Membuat Modul
@@ -125,6 +94,10 @@ Misalkan akan dirender modul PSD tahun 2025 yang terletak di
 ```
 quarto render modul/2025/ganjil/pengantar_sains_data/psd2025.qmd
 ```
+atau
+```
+just render modul/2025/ganjil/pengantar_sains_data/psd2025.qmd
+```
 3. Hasil render akan berada di ```docs/modul/2025/ganjil/pengantar_sains_data/psd2025.html```
 4. Hasil ini dapat ditampilkan pada web browser.
 
@@ -144,59 +117,26 @@ Misalkan saya telah menyelesaikan modul stuktur data 2025 di
 1. Buka git bash, pastikan berada di direktori ```modul-prak```
 2. Pada terminal git bash jalankan
 ```
-cd modul/2025
-git switch main
-git pull
-git add .
-git commit -m "Upload Modul 1 Struktur Data 2025"
-git push
-cd ../..
+just upload qmd modul/2025/ganjil/struktur_data/modul1 modul1
 ```
-Penjelasan:
-1. ```cd modul/2025``` mengubah direktori terminal ke dalam folder ```modul/2025```
-2. ```git switch main``` memastikan kita berada di branch main pada repo ```modul_2025```
-3. ```cd ../..``` mengembalikan kita kembali ke direktori utama pada terminal
+untuk ```.qmd``` atau
+```
+just upload ipynb modul/2025/ganjil/struktur_data/modul1 modul1
+```
+untuk ```.ipynb```
 
-### Upload Render Module ke Website
-1. Buka git bash, pastikan berada di direktori ```modul-prak```
-2. Pastikan git berada di branch ```main``` dengan mengetik ```git branch``` di terminal git bash
-3. Copy hasil render ke folder lain (karena folder project akan ganti branch)
-4. Pada terminal git bash jalankan
+PERHATIKAN yang penting disini adalah 3 kata setelah ```upload```, 
+kata pertama (```qmd/ipynb```) menyatakan ekstensi file. Kata kedua 
+adalah path modul TANPA ekstensi file. Kata ketiga adalah 
+nama modul yang disimpan.
 
-```
-git submodule deinit -f --all
-git switch website
-```
-Penjelasan: Baris pertama akan menghapus semua dependensi projek ke repo lain, lalu baris kedua akan memindahkan project ke branch ```website```
-
-5. Sekarang project berada di branch website, copy hasil render ke
-```docs/modul/2025/ganjil/struktur_data/```
-6. Upload perubahan ini ke github melalui terminal git bash
-```
-git pull
-git add .
-git commit -m "Upload halaman modul strukur data 2025"
-git push
-```
-
-7. Untuk kembali ke branch awal, jalankan kedua baris ini di terminal git bash
-```
-git switch main
-git submodule update --init --recursive
-```
 ### Upload Gambar atau Dataset ke Repo Asset
 1. Buka git bash, pastikan berada di direktori ```modul-prak```
-2. Jalankan ```git submodule update --init assets``` sehingga folder assets akan terkoneksi dengan repo ```asset```.
+2. Jalankan ```just seeAssets``` sehingga folder assets akan terkoneksi dengan repo ```asset```.
 3. Tambahkan gambar atau dataset pada folder yang sesuai dalam folder ```assets```
 2. Pada terminal git bash jalankan
 ```
-cd assets
-git switch main
-git pull
-git add .
-git commit -m "Added assets for struktur_data"
-git push
-cd ..
+just uploadAssets
 ```
 Penjelasan:
 1. ```cd assets``` mengubah direktori terminal ke dalam folder ```assets```
