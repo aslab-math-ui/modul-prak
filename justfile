@@ -23,16 +23,16 @@ uploadAssets:
 
 
 upload modul path file ext:
-    @echo "========================================="
-    @echo "===== UPLOADING FILES TO MODUL REPO ====="
-    @echo "========================================="
-    cd modul/{{modul}} && git switch main && git pull && git add . && git commit -m "Upload modul baru" && git push
-
     @echo "==========================="
     @echo "===== RENDERING FILES ====="
     @echo "==========================="
     quarto render {{path}}.{{ext}}
     cp docs/{{path}}.html ..
+
+    @echo "========================================="
+    @echo "===== UPLOADING FILES TO MODUL REPO ====="
+    @echo "========================================="
+    cd modul/{{modul}} && git switch main && git pull && git add . && git commit -m "Upload modul baru" && git push
 
     @echo "======================================="
     @echo "===== SWITCHING TO BRANCH WEBSITE ====="
