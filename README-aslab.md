@@ -4,11 +4,13 @@
 # Table of Contents
 - [Local Setup](#local-setup)
 - [Instalasi Just](#instalasi-just)
+- [Inisialisasi](#inisialisasi)
 - [Modul]()
   - [Melihat Modul](#melihat-modul)
   - [Membuat Modul](#membuat-modul)
   - [Render Modul](#render-modul)
   - [Upload Modul](#upload-modul)
+- [Troubleshoot](#troubleshooting)
 
 
 ## Local Setup
@@ -42,6 +44,7 @@ renv::restore()
 ### Python Environment Setup
 
 ## Instalasi Just
+PERINGATAN: Penerapan ```just``` masih dalam tahap pengujian. Apabila sedang melakukan pembuatan modul, pastikan file modul disimpan di lokasi lain sebelum menerapakan command ```just```. Lebih baik lagi, pelajari langsung cara menggunakan git basics dan submodules pada [README Git Manager](README-gitmanager.md)
 1. Download just dari [Github Repo Just](https://github.com/casey/just/releases) Pilih yang ```x86_64-pc-windows-msvc.zip``` untuk windows
 
 2. Extract folder
@@ -50,6 +53,9 @@ renv::restore()
 5. Buka git bash dan ketik ```just version``` untuk memastikan just sudah ada.
 
 Dengan ```just```, kalian tidak perlu ribet mengurus ```git``` dan ```submodules```
+
+## Inisialisasi
+Pastikan untuk menjalankan ```just init``` atau ```cd modul/tahun_ajaran && git switch main && git pull``` sebelum menyusun modul.
 
 ## Melihat Modul
 Apabila sudah menjalankan [Local Setup](#local-setup) ada satu folder dalam ```modul```. 
@@ -152,6 +158,44 @@ git reset --soft 2c4218a
 3. Gunakan ```git push --force``` dan bukan ```git push``` yang biasa 
 
 Hal ini perlu dilakukan untuk mencegah memori repo membengkak dan banyaknya commit yang tidak optimal.
+
+## Troubleshooting
+
+### Saya telah melakukan push ke github tapi ingin dibatalkan.
+1. Pada github, cara nilai hash commit sebelumnya (biasanya dalam 7 digit hex seperti 2c4218a)
+2. Pada terminal jalankan
+```
+git reset --soft 2c4218a
+git push --force
+```
+3. Semua perubahan dari commit setelah 2c4218a disimpan secara lokal.
+
+### Saat menjalankan just, saya mendapati error
+Baca 3 baris terakhir errornya
+
+Kasus 1: Ditemukan hal ini
+```
+Your branch is up to date with 'origin/website'
+```
+Penjelasan: Muncul ketika melakukan ```just upload```, terjadi karena 
+anda ingin mengubah website namun tidak ada yang berubah. Potensi terjadi pada file ```.ipynb``` yang dimana konten didalamnya tidak berubah tapi source code ```.ipynb``` berubah. Saran: Pastikan ada perubahan yang dilakukan pada modul sebelum menjalankan ```just upload```.
+
+Kasus 2: Ditemukan hal ini
+```
+Your branch is up to date with 'origin/main'.
+```
+Penjelasan: Muncul ketika melakukan ```just upload```, terjadi karena 
+anda ingin mengubah repo ```modul``` atau ```modul-prak```, tetapi tidak ada yang berubah. Saran: Lakukan ```git reset --soft``` ke commit sebelumnya pada repo ```modul``` atau ```modul-prak``` dan ```git push --force``` sebelum menjalankan ```just upload``` kembali.
+
+Kasus 3: Ditemukan hal ini
+```
+error: The following untracked working tree files would be overwritten by checkout:
+        ganjil/struktur_data/modul_11.ipynb
+Please move or remove them before you switch branches.
+Aborting
+error: Recipe `upload` failed on line 35 with exit code 1
+```
+Penjelasan: Terjadi ketika kalian melakukan pengubahan pada repo modul, tapi bukan pada branch main. Terjadi karena lupa melakukan [inisialisasi](#inisialisasi)
 
 # ERRORS
 Baca [Readme untuk Git Manager](README-gitmanager.md)

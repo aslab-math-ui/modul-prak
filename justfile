@@ -14,6 +14,7 @@ unsee modul tahun:
 
 seeAssets:
     git submodule update --init --recursive assets
+    cd assets && git switch main
 
 unseeAssets:
     git submodule deinit assets
