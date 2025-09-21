@@ -117,18 +117,18 @@ Misalkan saya telah menyelesaikan modul stuktur data 2025 di
 1. Buka git bash, pastikan berada di direktori ```modul-prak```
 2. Pada terminal git bash jalankan
 ```
-just upload qmd modul/2025/ganjil/struktur_data/modul1 modul1
+just upload 2025 modul/2025/ganjil/struktur_data/modul1 modul1 qmd
 ```
 untuk ```.qmd``` atau
 ```
-just upload ipynb modul/2025/ganjil/struktur_data/modul1 modul1
+just upload 2025 modul/2025/ganjil/struktur_data/modul1 modul1 ipynb
 ```
 untuk ```.ipynb```
 
-PERHATIKAN yang penting disini adalah 3 kata setelah ```upload```, 
-kata pertama (```qmd/ipynb```) menyatakan ekstensi file. Kata kedua 
+PERHATIKAN yang penting disini adalah 4 kata setelah ```upload```, 
+Kata pertama menyatakan tahun modul. Kata kedua 
 adalah path modul TANPA ekstensi file. Kata ketiga adalah 
-nama modul yang disimpan.
+nama modul yang disimpan. Kata terakhir (```qmd/ipynb```) menyatakan ekstensi file.
 
 ### Upload Gambar atau Dataset ke Repo Asset
 1. Buka git bash, pastikan berada di direktori ```modul-prak```
@@ -138,10 +138,6 @@ nama modul yang disimpan.
 ```
 just uploadAssets
 ```
-Penjelasan:
-1. ```cd assets``` mengubah direktori terminal ke dalam folder ```assets```
-2. ```git switch main``` memastikan kita berada di branch main pada repo ```asset```
-3. ```cd ..``` mengembalikan kita kembali ke direktori utama pada terminal
 
 ## Modifikasi Modul
 Apabila sudah melakukan ```git commit``` dan ```git push``` modul ingin 
