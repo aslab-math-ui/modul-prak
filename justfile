@@ -24,6 +24,6 @@ upload modul path file:
     git commit -m "Upload modul baru"
     git push
 
-    @echo"Switching back to main branch"
+    @echo "Switching back to main branch"
     git switch main
     git submodule update --init --recursive
