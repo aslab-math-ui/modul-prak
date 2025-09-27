@@ -45,24 +45,24 @@ renv::restore()
 
 Halo, Asisten Lab. Panduan ini akan membantumu untuk pengelolaan website Laboratorium. Ada beberapa alur kerja mengelola website ini. 
 
-1. *Submodule* langsung dari *super-repo*
-2. *Submodule* tidak langsung atas berbagai repositori yang dibutuhkan.
+1. **Submodule** langsung dari *super-repo*
+2. **Submodule** tidak langsung atas berbagai repositori yang dibutuhkan.
 3. Menggunakan bantuan just.
 4. Deploy ke Website
 
-## Workflow langsung Git Submodule dari *super-repo*
+## Workflow langsung Git Submodule dari **super-repo**
 
-### Konsep Inti: Submodule adalah "Shortcut" Berversi 🎯
+### Konsep Inti: Submodule langsung adalah "Shortcut" Berversi
 
-Bayangkan *super-repo* kamu adalah sebuah folder utama. Di dalamnya, submodule bukanlah salinan dari repo lain, melainkan sebuah *"shortcut" atau penunjuk (pointer)*.
+Bayangkan **super-repo** kamu adalah sebuah folder utama. Di dalamnya, submodule bukanlah salinan dari repo lain, melainkan sebuah **"shortcut" atau penunjuk (pointer)**.
 
-Shortcut ini sangat spesifik: ia tidak menunjuk ke repo-nya secara umum, tapi menunjuk ke satu *commit hash* yang pasti. Sederhananya konsep ini kita sebut *submodule* itu  *"dipaku"* (pinned) ke *super-repo*.
+Shortcut ini sangat spesifik: ia tidak menunjuk ke repo-nya secara umum, tapi menunjuk ke satu **commit hash** yang pasti. Sederhananya konsep ini kita sebut **submodule** itu  **"dipaku"** (pinned) ke **super-repo**.
 
-- *Keuntungan:* Kamu bisa memastikan bahwa proyek utamamu selalu menggunakan versi library atau komponen yang sudah teruji (commit `abc123`), meskipun library tersebut terus di-update oleh pengembangnya.
+- **Keuntungan:** Kamu bisa memastikan bahwa proyek utamamu selalu menggunakan versi library atau komponen yang sudah teruji (commit `abc123`), meskipun library tersebut terus di-update oleh pengembangnya.
 
-- *Konsekuensi:* Super-repo tidak peduli dengan branch, history, atau perubahan lain di dalam submodule. Ia hanya peduli pada satu hal: "Untuk proyek ini, gunakan kode dari submodule tepat di commit `abc123`."
+- **Konsekuensi:** Super-repo tidak peduli dengan branch, history, atau perubahan lain di dalam submodule. Ia hanya peduli pada satu hal: "Untuk proyek ini, gunakan kode dari submodule tepat di commit `abc123`."
 
-### Berikut adalah alur kerja langsung git submodule 🔄
+### Berikut adalah alur kerja langsung git submodule
 
 1. Tentukan bebas direktori local.
 2. Git clone modul-prak utama.
@@ -100,12 +100,15 @@ git submodule --init --recursive --update path/dituju
 
 Tinggal ganti `path/dituju` sesuai kebutuhan.
 
-- Jika butuh assets, maka ganti `path/dituju` dengan `assets`.
-- Jika butuh modul/2025, maka ganti `path/dituju` dengan `modul/2025`. Dan seterusnya.
+Jika butuh assets, maka ganti `path/dituju` dengan `assets`.
+Jika butuh modul/2025, maka ganti `path/dituju` dengan `modul/2025`. Dan seterusnya.
 
 5. Ingin melakukan perubahan: Change Directory ke `path/dituju`.
 
-Misal ingin ubah isi modul/2025, maka `cd modul/2025`. Dan seterusnya
+```bash
+# Misal ingin ubah isi modul/2025
+cd modul/2025
+```
 
 6. Ingin melakukan perubahan: Ganti hash commit ke branch lain.
 
@@ -137,13 +140,13 @@ nanti akan menjadi seperti
 
 7. Ingin melakukan perubahan: Lakukan perubahan. 
 
-Kita bisa lakukan perubahan sesuai dengan keinginan kita. alurnya normal seperti biasa. Siklus kerja Git normal di sini. Perubahan ini di-push ke remote repository *milik submodule*.
+Kita bisa lakukan perubahan sesuai dengan keinginan kita. Siklus kerja Git normal di sini. Perubahan ini di-push ke remote repository **milik submodule**.
 
 Karena sudah ada di brach main. Bisa lakukan seperti biasa.
 
 ```bash
-git fetch
-git pull
+git fetch # pastikan kita berada di pointer paling baru
+git pull # ambil pembaruan
 ```
 Atau jika ingin di branch tertentu dipersilahkan. Lakukan perubahan kalian. Setelah selesai, alurnya normal seperti biasa.
 
@@ -174,7 +177,7 @@ Outputnya akan seperti ini
 modified:   modul/2025 (new commits)
 ```
 
-lalu, bisa kita finishing.
+Terakhir, push ke remote.
 
 ```bash
 git add modul/2025
@@ -182,23 +185,30 @@ git commit -m "feat: Mengintegrasikan fungsi X dari modul 2025 PSD"
 git push # Push ke remote super-repo
 ```
 
-## Workflow tidak langsung Git Submodule dari *super-repo*
+## Workflow tidak langsung Git Submodule dari **super-repo**
 
-### Konsep Inti: Submodule adalah "Shortcut" Berversi 🎯
+### Konsep Inti: Submodule tidak langsung seperti mengganti versi "Shortcut"
 
-Bayangkan *super-repo* kamu adalah sebuah folder utama. Di dalamnya, submodule bukanlah salinan dari repo lain, melainkan sebuah *"shortcut" atau penunjuk (pointer)*.
+Bayangkan **super-repo** kamu adalah sebuah folder utama. Di dalamnya, submodule bukanlah salinan dari repo lain, melainkan sebuah **"shortcut" atau penunjuk (pointer)**.
 
-Shortcut ini sangat spesifik: ia tidak menunjuk ke repo-nya secara umum, tapi menunjuk ke satu *commit hash* yang pasti. Sederhananya konsep ini kita sebut *submodule* itu  *"dipaku"* (pinned) ke *super-repo*.
+Shortcut ini sangat spesifik: ia tidak menunjuk ke repo-nya secara umum, tapi menunjuk ke satu **commit hash** yang pasti. Sederhananya konsep ini kita sebut **submodule** itu  **"dipaku"** (pinned) ke **super-repo**.
 
-Cara kerja *paku* ini membuat kamu bisa clone saja direktori yang dituju. Lakukan segala perubahan direktori itu. Ketika sudah selesai, maka perbarui *"paku"* yang berada di *super-repo*.
+Cara kerja **paku** ini membuat kamu bisa clone saja direktori yang dituju. Lakukan segala perubahan direktori itu. Ketika sudah selesai, maka perbarui **"paku"** yang berada di **super-repo**.
 
-- *Keuntungan:* Kamu tidak perlu khawatir git yang ditambahkan di direktori akan ditambahkan ke *super-repo* atau *submodule*.
-- *Konsekuensi:* Kamu tidak bisa langsung `quarto render`. 
+- **Keuntungan:** Kamu tidak perlu khawatir git yang ditambahkan di direktori akan ditambahkan ke **super-repo** atau **submodule**.
+- **Konsekuensi:** Kamu tidak bisa langsung `quarto render`. 
 
-### Berikut adalah alur kerja tidak langsung git submodule 🔄
+### Berikut adalah alur kerja tidak langsung git submodule
 
 1. Tentukan bebas direktori local.
 2. Git clone modul-prak utama dan modul yang ingin dituju (misal `modul/2025`)
+
+```bash
+git clone https://github.com/aslab-math-ui/modul-prak.git # super-repo
+git clone https://github.com/aslab-math-ui/modul_2025.git # ubah modul/2025
+git clone https://github.com/aslab-math-ui/asset.git # ubah asset
+```
+
 3. Change Directory ke modul yang ingin dituju.
 
 ```
@@ -218,10 +228,10 @@ git pull
 ```bash
 git add <nama_file> # untuk sekaligus gunakan .
 git commit -m "added: tugas 1 PSD"
-git push
+git push # remote modul/2025
 ```
 
-5. Perbarui *hash commit* super-repo (ganti paku terbaru)
+5. Perbarui **hash commit** super-repo (ganti paku terbaru)
 
 Pindah ke modul-prak.
 
@@ -230,6 +240,35 @@ Pindah ke modul-prak.
 cd ../modul-prak
 ```
 
+6. Ambil pembaruan modul/2025
+
+untuk pertama kali clone, daftarkan dahulu
+```bash
+# daftarkan folder pertama kali
+git submodule update --init --recursive modul/2025 # daftarkan modul 2025
+```
+
+lalu, ambil pembaruan yang dibuat
+```bash
+git submodule update --remote modul/2025
+```
+
+7. Tuntaskan pembaruan ke remote
+
+Setelah pembaruan terambil. Maka, tersisa kita paku hash terbaru (push ke remote).
+
+```bash
+# lihat ada yang berubah
+git status
+# nanti ada yang termodifikasi
+```
+
+lalu, tuntaskan publish ke remote
+```bash
+git add .
+git commit -m "chore: modified modul PSD pekan 3"
+git push
+```
 
 ### Python Environment Setup
 
