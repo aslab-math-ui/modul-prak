@@ -4,7 +4,9 @@
 # Table of Contents
 - [Pengantar](#pengantar)
 - [Local Setup](#local-setup)
-- [Instalasi Just](#instalasi-just)
+- [Workflow direct super-repo](#workflow-langsung-git-submodule-dari-super-repo)
+- [Workflow indirect](#workflow-tidak-langsung-git-submodule-dari-super-repo)
+- [Workflow Just](#instalasi-just)
 - [Inisialisasi](#inisialisasi)
 - [Modul]()
   - [Melihat Modul](#melihat-modul)
@@ -45,9 +47,8 @@ Requirements:
 1. R
 2. Rtools
 
-Pada terminal git bash, jalankan kode ini baris per baris
-```
-R
+Pada R console, jalankan kode ini baris per baris
+```r
 install.packages("renv")
 renv::restore()
 ```
