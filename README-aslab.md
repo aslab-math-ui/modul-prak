@@ -1,7 +1,8 @@
 # README Asisten Lab
-27 September 2025
+28 September 2025
 
 # Table of Contents
+- [Pengantar](#pengantar)
 - [Local Setup](#local-setup)
 - [Instalasi Just](#instalasi-just)
 - [Inisialisasi](#inisialisasi)
@@ -12,6 +13,15 @@
   - [Upload Modul](#upload-modul)
 - [Troubleshoot](#troubleshooting)
 
+## Pengantar
+
+Halo, Asisten Lab. Panduan ini akan membantumu untuk pengelolaan website Laboratorium. Ada beberapa alur kerja mengelola website ini. 
+
+1. **Submodule** langsung dari *super-repo*
+2. **Submodule** tidak langsung atas berbagai repositori yang dibutuhkan.
+3. Menggunakan bantuan just.
+4. Deploy ke Website
+
 
 ## Local Setup
 Requirements:
@@ -21,7 +31,8 @@ Requirements:
 
 Pada terminal git bash, pindah ke direktori untuk inisialisasi projek.
 Selanjutnya jalankan kode ini baris per baris
-```
+
+```bash
 git clone https://github.com/aslab-math-ui/modul-prak.git
 cd modul-prak
 git submodule update --init --recursive modul/2025
@@ -40,15 +51,6 @@ R
 install.packages("renv")
 renv::restore()
 ```
-
-## Pengantar
-
-Halo, Asisten Lab. Panduan ini akan membantumu untuk pengelolaan website Laboratorium. Ada beberapa alur kerja mengelola website ini. 
-
-1. **Submodule** langsung dari *super-repo*
-2. **Submodule** tidak langsung atas berbagai repositori yang dibutuhkan.
-3. Menggunakan bantuan just.
-4. Deploy ke Website
 
 ## Workflow langsung Git Submodule dari **super-repo**
 
@@ -101,6 +103,7 @@ git submodule --init --recursive --update path/dituju
 Tinggal ganti `path/dituju` sesuai kebutuhan.
 
 Jika butuh assets, maka ganti `path/dituju` dengan `assets`.
+
 Jika butuh modul/2025, maka ganti `path/dituju` dengan `modul/2025`. Dan seterusnya.
 
 5. Ingin melakukan perubahan: Change Directory ke `path/dituju`.
@@ -151,7 +154,7 @@ git pull # ambil pembaruan
 Atau jika ingin di branch tertentu dipersilahkan. Lakukan perubahan kalian. Setelah selesai, alurnya normal seperti biasa.
 
 ```bash
-git add nama_file # Kalau sekaligus banyak gunakan .
+git add nama_file # Kalau sekaligus banyak, gunakan .
 ```
 Commit message seperti biasa dan push.
 
