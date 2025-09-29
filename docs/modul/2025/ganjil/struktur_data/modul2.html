@@ -395,8 +395,19 @@ Nama saya Dimas</code></pre>
 </div>
 <p>Perhatikan, ini adalah pendefinisian ulang! Ini adalah definisi baru untuk <code>class Orang</code>. Sedangkan, objek-objek yang sudah kita buat sebelumnya masih menganut definisi yang lama. Sehingga, setelah ini, kita harus membuat ulang objek agar mengikuti definisi <code>class Orang</code> yang baru.</p>
 <p>Perhatikan juga, ada sedikit perbedaan istilah pada fungsi <code>ulangtahun</code>: tadinya, objek yang masuk itu kita sebut <code>orang</code>, sekarang kita sebut <code>self</code>. Istilah <code>self</code> ini memang sudah menjadi kebiasaan di Python untuk merujuk ke diri sendiri, yaitu objek yang bersangkutan.</p>
-<p>:::{.callout-tip title=“Tentang self} Setiap pendefinisian <em>method</em> <strong>harus</strong> selalu diawali dengan parameter <code>self</code> yang bisa dibilang sebagai referensi objek yang bersangkutan. Sehingga setiap pemanggilan atribut di dalam <code>class</code> tersebut akan selalu melalui <code>self</code> dengan notasi titik seperti <code>self.&lt;nama_atribut&gt;</code>.</p>
-<p>:::</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tentang self">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tentang self
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Setiap pendefinisian <em>method</em> <strong>harus</strong> selalu diawali dengan parameter <code>self</code> yang bisa dibilang sebagai referensi objek yang bersangkutan. Sehingga setiap pemanggilan atribut di dalam <code>class</code> tersebut akan selalu melalui <code>self</code> dengan notasi titik seperti <code>self.&lt;nama_atribut&gt;</code>.</p>
+</div>
+</div>
 <p>Itulah mengapa, di definisi <code>__init__</code> seolah-olah ada tiga variabel yang masuk yaitu <code>self</code>, <code>nama</code>, dan <code>umur</code>, meskipun yang diperlukan ketika membuat objeknya hanyalah <code>nama</code> dan <code>umur</code>.</p>
 <p>Mari kita buat ulang <code>orang1</code>:</p>
 <div id="cell-43" class="cell" data-execution_count="19">
@@ -811,134 +822,251 @@ duatiga</code></pre>
 </div>
 <p>Wow, keren! Hasilnya benar ya!</p>
 <p>Selain penjumlahan, kita bisa mendefinisikan banyak operator lainnya untuk <code>class</code>. Pendefinisian operator untuk <code>class</code> disebut <em>operator overloading</em> (“menimpa operator”), dan selalu melibatkan <em>method</em> istimewa atau <strong><em>magic methods</em></strong> (juga disebut <em>dunder methods</em> atau <em>double underscore methods</em>) yang sudah memiliki nama tertentu. Kebetulan, <em>constructor</em> yang dinamakan <code>__init__</code> juga termasuk <em>magic method</em>. Berikut beberapa <strong><em>magic methods</em></strong> yang umum digunakan untuk <em>operator overloading</em>:</p>
-<p><em>Binary Operators</em></p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Expression</th>
-<th>Method name</th>
-<th>Description</th>
-</tr>
-</thead>
+<style>
+  /* Menargetkan seluruh tabel */
+  table {
+    font-family: sans-serif;
+    border-collapse: collapse; /* Menggabungkan border sel menjadi satu garis */
+    width: 100%;
+  }
+
+  /* Menargetkan sel header (th) dan sel data (td) */
+  td, th {
+    border: 1px solid #dddddd; /* Membuat garis setebal 1px, solid, warna abu-abu */
+    text-align: left;
+    padding: 8px; /* Memberi jarak antara teks dan garis */
+  }
+
+  /* Memberi warna latar pada baris ganjil agar mudah dibaca */
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+</style>
+<table>
 <tbody>
-<tr class="odd">
-<td><code>x + y</code></td>
-<td><code>__add__()</code></td>
-<td>Addition</td>
+<tr>
+<th colspan="3">
+Math-like Operators
+</th>
 </tr>
-<tr class="even">
-<td><code>x - y</code></td>
-<td><code>__sub__()</code></td>
-<td>Subtraction</td>
+<tr>
+<th>
+Expression
+</th>
+<th>
+Method name
+</th>
+<th>
+Description
+</th>
 </tr>
-<tr class="odd">
-<td><code>x * y</code></td>
-<td><code>__mul__()</code></td>
-<td>Multiplication</td>
+<tr>
+<td>
+<pre><code>x + y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__add__(self, y)</code></pre><code>
+</code></td>
+<td>
+Addition
+</td>
 </tr>
-<tr class="even">
-<td><code>x / y</code></td>
-<td><code>__div__()</code></td>
-<td>Division</td>
+<tr>
+<td>
+<pre><code>x - y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__sub__(self, y)</code></pre><code>
+</code></td>
+<td>
+Subtraction
+</td>
 </tr>
-<tr class="odd">
-<td><code>x == y</code></td>
-<td><code>__eq__()</code></td>
-<td>Equality</td>
+<tr>
+<td>
+<pre><code>x * y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__mul__(self, y)</code></pre><code>
+</code></td>
+<td>
+Multiplication
+</td>
 </tr>
-<tr class="even">
-<td><code>x &gt; y</code></td>
-<td><code>__gt__()</code></td>
-<td>Greater Than</td>
+<tr>
+<td>
+<pre><code>x / y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__div__(self, y)</code></pre><code>
+</code></td>
+<td>
+Division
+</td>
 </tr>
-<tr class="odd">
-<td><code>x &gt;= y</code></td>
-<td><code>__ge__()</code></td>
-<td>Greater Than or Equal</td>
+<tr>
+<td>
+<pre><code>x == y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__eq__(self, y)</code></pre><code>
+</code></td>
+<td>
+Equality
+</td>
 </tr>
-<tr class="even">
-<td><code>x &lt; y</code></td>
-<td><code>__lt__()</code></td>
-<td>Less Than</td>
+<tr>
+<td>
+<pre><code>x &gt; y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__gt__(self, y)</code></pre><code>
+</code></td>
+<td>
+Greater Than
+</td>
 </tr>
-<tr class="odd">
-<td><code>x &lt;= y</code></td>
-<td><code>__le__()</code></td>
-<td>Less Than or Equal</td>
+<tr>
+<td>
+<pre><code>x &gt;= y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__ge__(self, y)</code></pre><code>
+</code></td>
+<td>
+Greater Than or Equal
+</td>
 </tr>
-<tr class="even">
-<td><code>x != y</code></td>
-<td><code>__ne__()</code></td>
-<td>Not Equal</td>
+<tr>
+<td>
+<pre><code>x &lt; y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__lt__(self, y)</code></pre><code>
+</code></td>
+<td>
+Less Than
+</td>
 </tr>
-</tbody>
-</table>
-<p><em>Sequence Operators</em></p>
-<table class="table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Expression</th>
-<th>Method name</th>
-<th>Description</th>
+<tr>
+<td>
+<pre><code>x &lt;= y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__le__(self, y)</code></pre><code>
+</code></td>
+<td>
+Less Than or Equal
+</td>
 </tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>len(x)</code></td>
-<td><code>__len__()</code></td>
-<td>length of the sequence</td>
+<tr>
+<td>
+<pre><code>x != y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__ne__(self, y)</code></pre><code>
+</code></td>
+<td>
+Not Equal
+</td>
 </tr>
-<tr class="even">
-<td><code>x in y</code></td>
-<td><code>__contains__()</code></td>
-<td>does the sequence y contain x</td>
+<tr>
+<th colspan="3">
+Sequence Operators
+</th>
 </tr>
-<tr class="odd">
-<td><code>x[key]</code></td>
-<td><code>__getitem__()</code></td>
-<td>access element <em>key</em> of sequence x</td>
+<tr>
+<td>
+<pre><code>len(x)</code></pre><code>
+</code></td>
+<td>
+<pre><code>__len__(self)</code></pre><code>
+</code></td>
+<td>
+length of the sequence
+</td>
 </tr>
-<tr class="even">
-<td><code>x[key]=y</code></td>
-<td><code>__setitem__()</code></td>
-<td>set element <em>key</em> of sequence x to value y</td>
+<tr>
+<td>
+<pre><code>x in y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__contains__(self, x)</code></pre><code>
+</code></td>
+<td>
+does the sequence y contain x
+</td>
 </tr>
-</tbody>
-</table>
-<p><em>General Class Operations</em></p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Expression</th>
-<th>Method name</th>
-<th>Description</th>
+<tr>
+<td>
+<pre><code>x[key]</code></pre><code>
+</code></td>
+<td>
+<pre><code>__getitem__()self, key</code></pre><code>
+</code></td>
+<td>
+access element <em>key</em> of sequence x
+</td>
 </tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>x=myClass()</code></td>
-<td><code>__init__()</code></td>
-<td>constructor</td>
+<tr>
+<td>
+<pre><code>x[key]=y</code></pre><code>
+</code></td>
+<td>
+<pre><code>__setitem__(self, key, y)</code></pre><code>
+</code></td>
+<td>
+set element <em>key</em> of sequence x to value y
+</td>
 </tr>
-<tr class="even">
-<td><code>print(x), str(x)</code></td>
-<td><code>__str__()</code></td>
-<td>convert to a readable string</td>
+<tr>
+<th colspan="3">
+General Class Operations
+</th>
 </tr>
-<tr class="odd">
-<td>-</td>
-<td><code>__repr__()</code></td>
-<td>print a representation of x</td>
+<tr>
+<td>
+<pre><code>x=myClass()</code></pre><code>
+</code></td>
+<td>
+<pre><code>__init__(self)</code></pre><code>
+</code></td>
+<td>
+constructor
+</td>
 </tr>
-<tr class="even">
-<td>-</td>
-<td><code>__del__()</code></td>
-<td>finalizer, called when x is garbage collected</td>
+<tr>
+<td>
+<pre><code>print (x), str(x)</code></pre><code>
+</code></td>
+<td>
+<pre><code>__str__(self)</code></pre><code>
+</code></td>
+<td>
+convert to a readable string
+</td>
+</tr>
+<tr>
+<td>
+-
+</td>
+<td>
+<pre><code>__repr__(self)</code></pre><code>
+</code></td>
+<td>
+print a representation of x
+</td>
+</tr>
+<tr>
+<td>
+-
+</td>
+<td>
+<pre><code>__del__(self)</code></pre><code>
+</code></td>
+<td>
+finalizer, called when x is garbage collected
+</td>
 </tr>
 </tbody>
 </table>
