@@ -1,5 +1,5 @@
 # README Asisten Lab
-28 September 2025
+2 Oktober 2025
 
 # Table of Contents
 - [Pengantar](#pengantar)
@@ -98,7 +98,7 @@ dan seterusnya
 4. Daftarkan submodule ke direktori yang dituju.
 
 ```bash
-git submodule --init --recursive --update path/dituju
+git submodule --init --recursive --remote path/dituju
 ```
 
 Tinggal ganti `path/dituju` sesuai kebutuhan.
