@@ -287,10 +287,10 @@ PERINGATAN: Penerapan ```just``` masih dalam tahap pengujian. Apabila sedang mel
 
 Dengan ```just```, kalian tidak perlu ribet mengurus ```git``` dan ```submodules```
 
-## Inisialisasi
+### Inisialisasi
 Pastikan untuk menjalankan ```just init``` atau ```cd modul/tahun_ajaran && git switch main && git pull``` sebelum menyusun modul.
 
-## Melihat Modul
+### Melihat Modul
 Apabila sudah menjalankan [Local Setup](#local-setup) ada satu folder dalam ```modul```. 
 Untuk melihat modul pada tahun yang lalu (misal 2023) ketik pada terminal bash
 ```
