@@ -1,11 +1,253 @@
 ---
 title: "Berita & Kegiatan Laboratorium"
-listing:
-  - id: posts
-    contents: posts/**/*.qmd
-    sort: "date desc"
-    type: default
-    categories: true
-    sort-ui: false
-    filter-ui: true
 ---
+<style>
+/* Wadah untuk setiap item data */
+.item-data {
+  background-color: #ffffff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  padding: 20px; 
+  margin-bottom: 20px; 
+  border-left: 5px solid #007bff; 
+  transition: transform 0.2s ease-in-out;
+}
+
+.item-data:hover {
+  transform: translateY(-5px); 
+}
+
+/* Bagian header yang berisi judul dan tanggal */
+.item-header {
+  align-items: center; 
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eeeeee; 
+  padding-bottom: 10px;
+}
+
+/* Styling untuk judul */
+.item-judul {
+  margin: 0;
+  font-size: 1.25em; 
+  color: #333333; 
+}
+
+/* Styling untuk tanggal */
+.item-tanggal {
+  font-size: 0.85em;
+  color: #888888; 
+  font-style: italic;
+  white-space: nowrap; 
+  margin-left: 15px; 
+}
+
+/* Styling untuk isi konten */
+.item-isi {
+  font-size: 1em;
+  color: #555555;
+  line-height: 1.6; 
+  overflow-wrap: break-word;
+}
+
+/* Gaya saat mouse diarahkan (hover) di light mode */
+button:hover:not(:disabled),
+select:hover:not(:disabled) {
+  background-color: #e0e0e0;   
+  border-color: #bbbbbb;
+}
+
+/* Gaya saat elemen dinonaktifkan (disabled) di light mode */
+button:disabled,
+select:disabled {
+  background-color: #f5f5f5;   
+  color: #aaaaaa;             
+  border-color: #e0e0e0;
+  cursor: not-allowed;         
+}
+
+/* --- Gaya untuk Dark Mode Quarto --- */
+/* Tambahkan .quarto-dark di depan setiap selector */
+
+.quarto-dark body {
+  background-color: #121212;
+  color: #e0e0e0; 
+}
+
+.quarto-dark .item-data {
+  background-color: #1e1e1e; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-left: 5px solid #1e90ff; 
+}
+
+.quarto-dark .item-header {
+  border-bottom: 1px solid #333333;
+}
+
+.quarto-dark .item-judul {
+  color: #ffffff;
+}
+
+.quarto-dark .item-tanggal {
+  color: #aaaaaa;
+}
+
+.quarto-dark .item-isi {
+  color: #c0c0c0;
+}
+
+.quarto-dark button {
+  color: #e0e0e0;            
+}
+
+.quarto-dark select {
+  background-color: #3a3a3a; 
+  color: #5e5c5cff;           
+  border: 1px solid #555555;   
+}
+
+.quarto-dark button:hover:not(:disabled) {
+  background-color: #4a4a4a;
+  border-color: #777777;
+}
+
+.quarto-dark button:disabled {
+  background-color: #2a2a2a;
+  color: #666666;
+  border-color: #444444;
+  cursor: not-allowed; 
+}
+</style>
+
+<label for="items-per-page">Tampilkan:</label>
+<select id="items-per-page">
+  <option value="5">5</option>
+  <option value="10" selected>10</option>
+  <option value="20">20</option>
+</select>
+
+<div id="data-container">
+  <p>Memuat pengumuman...</p>
+</div>
+
+:::{#pagination-controls}
+  <button id="prev-button">Previous</button>
+  <span id="page-info"></span>
+  <button id="next-button">Next</button>
+:::
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+marked.setOptions({
+      breaks: true
+    });
+// --- Variabel State ---
+let allData = []; // Untuk menyimpan semua data dari API
+let currentPage = 1; // Halaman yang sedang aktif
+let itemsPerPage = 10; // Jumlah item per halaman (default)
+
+// --- Elemen HTML ---
+const dataContainer = document.getElementById('data-container');
+const pageInfo = document.getElementById('page-info');
+const nextButton = document.getElementById('next-button');
+const prevButton = document.getElementById('prev-button');
+const itemsPerPageSelect = document.getElementById('items-per-page');
+const paginationControls = document.getElementById('pagination-controls');
+
+// --- URL API Anda ---
+const apiUrl = 'https://script.google.com/macros/s/AKfycbymeu-v5n4DPc6WfmG5BbVidFraJha-1q4b3DPIPzUXgn7O7SM_AFKufy_ZJXqxOmKSRA/exec';
+
+// --- Fungsi Utama ---
+// Ambil data saat halaman pertama kali dimuat
+window.addEventListener('load', () => {
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            allData = data; // Simpan semua data ke variabel
+            renderPage();   // Tampilkan halaman pertama
+        })
+        .catch(error => {
+      // Tampilkan pesan error jika API gagal diakses
+      console.error('Error mengambil data:', error);
+      container.innerHTML = '<p>Gagal memuat pengumuman. Silakan coba lagi nanti.</p>';
+    });
+});
+
+function renderPage() {
+    // Hitung data mana yang akan ditampilkan
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentPageData = allData.slice(startIndex, endIndex);
+
+    // Kosongkan kontainer sebelum diisi data baru
+    dataContainer.innerHTML = '';
+
+    // Loop dan tampilkan data untuk halaman ini
+    currentPageData.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.style.border = '1px solid #ddd';
+        itemElement.style.padding = '10px';
+
+        const date = new Date(item.Tanggal)
+        const formattedDateTime = date.toLocaleString('id-ID', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZoneName: 'short' // Menampilkan zona waktu seperti WIB
+          });
+
+        itemElement.innerHTML = `
+          <div class="item-data">
+            <div class="item-header">
+              <h3 class="item-judul">${marked.parse(item.Judul)}</h3>
+              <span class="item-tanggal">${formattedDateTime}</span>
+            </div>
+            <div class="item-isi">
+              <p>${marked.parse(item.Isi)}</p>
+              <p>${marked.parse(item.Narahubung)}</p>
+              <p>${marked.parse(item.Penutup)}</p>
+            </div>
+          </div>
+          
+        `;
+        dataContainer.appendChild(itemElement);
+    });
+
+    // Update info halaman dan status tombol
+    const totalPages = Math.ceil(allData.length / itemsPerPage);
+    pageInfo.innerHTML = `Halaman ${currentPage} dari ${totalPages}`;
+
+    // Nonaktifkan tombol 'prev' jika di halaman pertama
+    prevButton.disabled = currentPage === 1;
+    // Nonaktifkan tombol 'next' jika di halaman terakhir
+    nextButton.disabled = currentPage === totalPages;
+}
+// Ketika tombol 'next' diklik
+nextButton.addEventListener('click', () => {
+    const totalPages = Math.ceil(allData.length / itemsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+        paginationControls.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+});
+
+// Ketika tombol 'prev' diklik
+prevButton.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+        paginationControls.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+});
+
+// Ketika nilai dropdown berubah
+itemsPerPageSelect.addEventListener('change', (event) => {
+    itemsPerPage = parseInt(event.target.value);
+    currentPage = 1; // Kembali ke halaman pertama setiap kali jumlah item diubah
+    renderPage();
+});
+</script>

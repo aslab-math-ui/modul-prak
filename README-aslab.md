@@ -1,9 +1,12 @@
 # README Asisten Lab
-20 September 2025
+2 Oktober 2025
 
 # Table of Contents
+- [Pengantar](#pengantar)
 - [Local Setup](#local-setup)
-- [Instalasi Just](#instalasi-just)
+- [Workflow direct super-repo](#workflow-langsung-git-submodule-dari-super-repo)
+- [Workflow indirect](#workflow-tidak-langsung-git-submodule-dari-super-repo)
+- [Workflow Just](#instalasi-just)
 - [Inisialisasi](#inisialisasi)
 - [Modul]()
   - [Melihat Modul](#melihat-modul)
@@ -11,6 +14,15 @@
   - [Render Modul](#render-modul)
   - [Upload Modul](#upload-modul)
 - [Troubleshoot](#troubleshooting)
+
+## Pengantar
+
+Halo, Asisten Lab. Panduan ini akan membantumu untuk pengelolaan website Laboratorium. Ada beberapa alur kerja mengelola website ini. 
+
+1. **Submodule** langsung dari *super-repo*
+2. **Submodule** tidak langsung atas berbagai repositori yang dibutuhkan.
+3. Menggunakan bantuan just.
+4. Deploy ke Website
 
 
 ## Local Setup
@@ -21,7 +33,8 @@ Requirements:
 
 Pada terminal git bash, pindah ke direktori untuk inisialisasi projek.
 Selanjutnya jalankan kode ini baris per baris
-```
+
+```bash
 git clone https://github.com/aslab-math-ui/modul-prak.git
 cd modul-prak
 git submodule update --init --recursive modul/2025
@@ -34,11 +47,231 @@ Requirements:
 1. R
 2. Rtools
 
-Pada terminal git bash, jalankan kode ini baris per baris
-```
-R
+Pada R console, jalankan kode ini baris per baris
+```r
 install.packages("renv")
 renv::restore()
+```
+
+## Workflow langsung Git Submodule dari **super-repo**
+
+### Konsep Inti: Submodule langsung adalah "Shortcut" Berversi
+
+Bayangkan **super-repo** kamu adalah sebuah folder utama. Di dalamnya, submodule bukanlah salinan dari repo lain, melainkan sebuah **"shortcut" atau penunjuk (pointer)**.
+
+Shortcut ini sangat spesifik: ia tidak menunjuk ke repo-nya secara umum, tapi menunjuk ke satu **commit hash** yang pasti. Sederhananya konsep ini kita sebut **submodule** itu  **"dipaku"** (pinned) ke **super-repo**.
+
+- **Keuntungan:** Kamu bisa memastikan bahwa proyek utamamu selalu menggunakan versi library atau komponen yang sudah teruji (commit `abc123`), meskipun library tersebut terus di-update oleh pengembangnya.
+
+- **Konsekuensi:** Super-repo tidak peduli dengan branch, history, atau perubahan lain di dalam submodule. Ia hanya peduli pada satu hal: "Untuk proyek ini, gunakan kode dari submodule tepat di commit `abc123`."
+
+### Berikut adalah alur kerja langsung git submodule
+
+1. Tentukan bebas direktori local.
+2. Git clone modul-prak utama.
+3. Change Directory ke modul-prak.
+
+```bash
+cd modul-prak
+```
+
+Nah, nanti kita akan melihat direktori dan file ini.
+
+```
+.
+├── .gitmodules
+├── README-aslab.md
+├── README-gitmanager.md
+├── README.md
+├── assets
+├── modul
+│   ├── 2022
+│   ├── 2023
+│   ├── 2024
+│   ├── 2025
+│   └── _spesial
+│   
+
+dan seterusnya
+```
+
+4. Daftarkan submodule ke direktori yang dituju.
+
+```bash
+git submodule --init --recursive --remote path/dituju
+```
+
+Tinggal ganti `path/dituju` sesuai kebutuhan.
+
+Jika butuh assets, maka ganti `path/dituju` dengan `assets`.
+
+Jika butuh modul/2025, maka ganti `path/dituju` dengan `modul/2025`. Dan seterusnya.
+
+5. Ingin melakukan perubahan: Change Directory ke `path/dituju`.
+
+```bash
+# Misal ingin ubah isi modul/2025
+cd modul/2025
+```
+
+6. Ingin melakukan perubahan: Ganti hash commit ke branch lain.
+
+Sebelumnya kita punya tanda.
+
+```
+~/modul-prak (main)
+```
+
+setelah berpindah menjadi
+
+```
+~/modul-prak/modul/2025 ((eaeffb6...))
+```
+
+Perhatikan secara teknis, kamu bisa membuat perubahan dan bahkan commit di sini. Tapi, commit itu akan "mengambang" dan tidak terikat pada branch manapun. Commit ini sangat mudah hilang dan tidak akan tercatat dalam sejarah pengembangan submodule secara benar.
+
+Pindah hash commit.
+
+```bash
+git checkout main
+```
+
+nanti akan menjadi seperti
+
+```
+~/modul-prak/modul/2025 (main)
+```
+
+7. Ingin melakukan perubahan: Lakukan perubahan. 
+
+Kita bisa lakukan perubahan sesuai dengan keinginan kita. Siklus kerja Git normal di sini. Perubahan ini di-push ke remote repository **milik submodule**.
+
+Karena sudah ada di brach main. Bisa lakukan seperti biasa.
+
+```bash
+git fetch # pastikan kita berada di pointer paling baru
+git pull # ambil pembaruan
+```
+Atau jika ingin di branch tertentu dipersilahkan. Lakukan perubahan kalian. Setelah selesai, alurnya normal seperti biasa.
+
+```bash
+git add nama_file # Kalau sekaligus banyak, gunakan .
+```
+Commit message seperti biasa dan push.
+
+```bash
+git commit -m "Pesan Commit kalian"
+git push origin main # Push ke remote submodule.
+```
+
+Sampai sini sudah selesai menambahkan di repositori modul/2025.
+
+8. Perbarui Commit Hash modul-prak.
+
+Sekarang, kembali ke super-repo dan beri tahu bahwa ada versi submodule `modul/2025` yang lebih baru yang harus digunakan.
+
+```bash
+cd ../../ # perhatikan kalau dari assets mundur sekali
+git status
+```
+
+Outputnya akan seperti ini
+
+```
+modified:   modul/2025 (new commits)
+```
+
+Terakhir, push ke remote.
+
+```bash
+git add modul/2025
+git commit -m "feat: Mengintegrasikan fungsi X dari modul 2025 PSD"
+git push # Push ke remote super-repo
+```
+
+## Workflow tidak langsung Git Submodule dari **super-repo**
+
+### Konsep Inti: Submodule tidak langsung seperti mengganti versi "Shortcut"
+
+Bayangkan **super-repo** kamu adalah sebuah folder utama. Di dalamnya, submodule bukanlah salinan dari repo lain, melainkan sebuah **"shortcut" atau penunjuk (pointer)**.
+
+Shortcut ini sangat spesifik: ia tidak menunjuk ke repo-nya secara umum, tapi menunjuk ke satu **commit hash** yang pasti. Sederhananya konsep ini kita sebut **submodule** itu  **"dipaku"** (pinned) ke **super-repo**.
+
+Cara kerja **paku** ini membuat kamu bisa clone saja direktori yang dituju. Lakukan segala perubahan direktori itu. Ketika sudah selesai, maka perbarui **"paku"** yang berada di **super-repo**.
+
+- **Keuntungan:** Kamu tidak perlu khawatir git yang ditambahkan di direktori akan ditambahkan ke **super-repo** atau **submodule**.
+- **Konsekuensi:** Kamu tidak bisa langsung `quarto render`. 
+
+### Berikut adalah alur kerja tidak langsung git submodule
+
+1. Tentukan bebas direktori local.
+2. Git clone modul-prak utama dan modul yang ingin dituju (misal `modul/2025`)
+
+```bash
+git clone https://github.com/aslab-math-ui/modul-prak.git # super-repo
+git clone https://github.com/aslab-math-ui/modul_2025.git # ubah modul/2025
+git clone https://github.com/aslab-math-ui/asset.git # ubah asset
+```
+
+3. Change Directory ke modul yang ingin dituju.
+
+```
+cd modul_2025 # misalkan ingin melakukan perubahan di modul 2025
+```
+
+4. Lakukan siklus kerja Git Normal disini.
+
+- Menarik Pembaruan
+```bash
+git fetch
+git pull
+```
+
+- Lakukan perubahan yang dibutuhkan
+- Push ke remote
+```bash
+git add <nama_file> # untuk sekaligus gunakan .
+git commit -m "added: tugas 1 PSD"
+git push # remote modul/2025
+```
+
+5. Perbarui **hash commit** super-repo (ganti paku terbaru)
+
+Pindah ke modul-prak.
+
+```bash
+# jika masih berasal modul_2025. kita mundur dulu 1, lalu masuk ke modul-prak
+cd ../modul-prak
+```
+
+6. Ambil pembaruan modul/2025
+
+untuk pertama kali clone, daftarkan dahulu
+```bash
+# daftarkan folder pertama kali
+git submodule update --init --recursive modul/2025 # daftarkan modul 2025
+```
+
+lalu, ambil pembaruan yang dibuat
+```bash
+git submodule update --remote modul/2025
+```
+
+7. Tuntaskan pembaruan ke remote
+
+Setelah pembaruan terambil. Maka, tersisa kita paku hash terbaru (push ke remote).
+
+```bash
+# lihat ada yang berubah
+git status
+# nanti ada yang termodifikasi
+```
+
+lalu, tuntaskan publish ke remote
+```bash
+git add .
+git commit -m "chore: modified modul PSD pekan 3"
+git push
 ```
 
 ### Python Environment Setup
@@ -54,10 +287,10 @@ PERINGATAN: Penerapan ```just``` masih dalam tahap pengujian. Apabila sedang mel
 
 Dengan ```just```, kalian tidak perlu ribet mengurus ```git``` dan ```submodules```
 
-## Inisialisasi
+### Inisialisasi
 Pastikan untuk menjalankan ```just init``` atau ```cd modul/tahun_ajaran && git switch main && git pull``` sebelum menyusun modul.
 
-## Melihat Modul
+### Melihat Modul
 Apabila sudah menjalankan [Local Setup](#local-setup) ada satu folder dalam ```modul```. 
 Untuk melihat modul pada tahun yang lalu (misal 2023) ketik pada terminal bash
 ```
