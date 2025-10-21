@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Tim Asisten Lab Matematika UI">
-<meta name="dcterms.date" content="2025-10-02">
+<meta name="dcterms.date" content="2025-10-20">
 
-<title>Modul 5: R - Library and Project Management – Lab Matematika UI</title>
+<title>Modul 5: R - Alur Kontrol, Fungsi, dan Simulasi – Lab Matematika UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,17 +67,21 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../../">
-<script src="../../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../../site_libs/bootstrap/bootstrap-278d1e8669be43b75f739a5a8d678136.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../../../site_libs/bootstrap/bootstrap-dark-6d1cd67ad40a76e4adc3a0ca1068378a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-dark-7f58be9322db19727817c30b5814e754.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -82,13 +121,177 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../../../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../../../index.html">
     <span class="navbar-title">Lab Matematika UI</span>
     </a>
@@ -148,16 +351,47 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tujuan-pembelajaran" id="toc-tujuan-pembelajaran" class="nav-link active" data-scroll-target="#tujuan-pembelajaran">Tujuan Pembelajaran</a></li>
+  <li><a href="#skenario-proyek-simulasi-qc" id="toc-skenario-proyek-simulasi-qc" class="nav-link" data-scroll-target="#skenario-proyek-simulasi-qc">Skenario: Proyek Simulasi QC 🏭</a></li>
+  <li><a href="#blok-bangunan-program-fungsi-kontrol-alur" id="toc-blok-bangunan-program-fungsi-kontrol-alur" class="nav-link" data-scroll-target="#blok-bangunan-program-fungsi-kontrol-alur">1. Blok Bangunan Program: Fungsi &amp; Kontrol Alur</a>
+  <ul class="collapse">
+  <li><a href="#fungsi-pertama-kita-inspect_batch" id="toc-fungsi-pertama-kita-inspect_batch" class="nav-link" data-scroll-target="#fungsi-pertama-kita-inspect_batch">1.1 Fungsi Pertama Kita: <code>inspect_batch()</code></a></li>
+  <li><a href="#fungsi-kedua-dengan-logika-kondisional-evaluate_batch" id="toc-fungsi-kedua-dengan-logika-kondisional-evaluate_batch" class="nav-link" data-scroll-target="#fungsi-kedua-dengan-logika-kondisional-evaluate_batch">1.2 Fungsi Kedua dengan Logika Kondisional: <code>evaluate_batch()</code></a></li>
+  </ul></li>
+  <li><a href="#simulasi-berulang-loops" id="toc-simulasi-berulang-loops" class="nav-link" data-scroll-target="#simulasi-berulang-loops">2. Simulasi Berulang: Loops</a>
+  <ul class="collapse">
+  <li><a href="#for-loop-saat-tujuannya-pasti" id="toc-for-loop-saat-tujuannya-pasti" class="nav-link" data-scroll-target="#for-loop-saat-tujuannya-pasti">2.1 <code>for</code> loop: Saat Tujuannya Pasti</a></li>
+  </ul></li>
+  <li><a href="#while-loop-saat-tujuannya-kondisional" id="toc-while-loop-saat-tujuannya-kondisional" class="nav-link" data-scroll-target="#while-loop-saat-tujuannya-kondisional">2.2 while loop: Saat Tujuannya Kondisional</a></li>
+  <li><a href="#konsep-lain-repeat-loop" id="toc-konsep-lain-repeat-loop" class="nav-link" data-scroll-target="#konsep-lain-repeat-loop">2.3 Konsep Lain: repeat loop</a></li>
+  <li><a href="#konsep-efisiensi-kecepatan" id="toc-konsep-efisiensi-kecepatan" class="nav-link" data-scroll-target="#konsep-efisiensi-kecepatan">3. Konsep Efisiensi: Kecepatan</a>
+  <ul class="collapse">
+  <li><a href="#konsep-vektorisasi" id="toc-konsep-vektorisasi" class="nav-link" data-scroll-target="#konsep-vektorisasi">3.1 Konsep: Vektorisasi</a></li>
+  </ul></li>
+  <li><a href="#konsep-mengukur-waktu-dengan-system.time" id="toc-konsep-mengukur-waktu-dengan-system.time" class="nav-link" data-scroll-target="#konsep-mengukur-waktu-dengan-system.time">3.2 Konsep: Mengukur Waktu dengan system.time()</a></li>
+  <li><a href="#konsep-kerapian-sistem-objek-s3" id="toc-konsep-kerapian-sistem-objek-s3" class="nav-link" data-scroll-target="#konsep-kerapian-sistem-objek-s3">4. Konsep Kerapian: Sistem Objek S3</a>
+  <ul class="collapse">
+  <li><a href="#konsep-apa-itu-s3" id="toc-konsep-apa-itu-s3" class="nav-link" data-scroll-target="#konsep-apa-itu-s3">4.1 Konsep: Apa itu S3?</a></li>
+  <li><a href="#konsep-class-dan-method" id="toc-konsep-class-dan-method" class="nav-link" data-scroll-target="#konsep-class-dan-method">4.2 Konsep: <code>class</code> dan <code>method</code></a></li>
+  <li><a href="#kesimpulan" id="toc-kesimpulan" class="nav-link" data-scroll-target="#kesimpulan">Kesimpulan</a></li>
+  </ul></li>
+  <li><a href="#latihan-mini-project" id="toc-latihan-mini-project" class="nav-link" data-scroll-target="#latihan-mini-project">Latihan Mini-Project</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Modul 5: R - Library and Project Management</h1>
-<p class="subtitle lead">Studi Kasus: Big Project</p>
+<h1 class="title">Modul 5: R - Alur Kontrol, Fungsi, dan Simulasi</h1>
+<p class="subtitle lead">Studi Kasus: Simulasi Kontrol Kualitas (Quality Control)</p>
 </div>
 
 
@@ -174,7 +408,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 2, 2025</p>
+      <p class="date">October 20, 2025</p>
     </div>
   </div>
   
@@ -186,386 +420,647 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>aada</p>
+<p><a href="../../../../../modul/2025/ganjil/pengantar_sains_data/psd2025.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum PSD 2025 </a></p>
+<section id="tujuan-pembelajaran" class="level2">
+<h2 class="anchored" data-anchor-id="tujuan-pembelajaran">Tujuan Pembelajaran</h2>
+<p>Setelah menyelesaikan modul ini, mahasiswa diharapkan mampu:</p>
+<ul>
+<li><strong>1. Merancang dan Menulis Program Fungsional</strong>
+<ul>
+<li>Memahami anatomi dan kegunaan <code>function</code> untuk membuat kode yang reusable.</li>
+<li>Mengimplementasikan logika kondisional (<code>if</code>, <code>else if</code>, <code>else</code>) untuk mengontrol alur program.</li>
+</ul></li>
+<li><strong>2. Mengimplementasikan Alur Kontrol Berulang</strong>
+<ul>
+<li>Menggunakan <code>for</code> loop untuk menjalankan simulasi berulang kali dengan jumlah iterasi yang pasti.</li>
+<li>Memahami kasus penggunaan <code>while</code> loop untuk iterasi yang bergantung pada kondisi.</li>
+</ul></li>
+<li><strong>3. Memahami Konsep Kode yang Efisien</strong>
+<ul>
+<li>Memahami perbedaan fundamental antara loop dan vektorisasi di R.</li>
+<li>Mengenali <code>system.time()</code> sebagai alat untuk mengukur kecepatan eksekusi kode.</li>
+</ul></li>
+<li><strong>4. Memahami Konsep Sistem Objek S3</strong>
+<ul>
+<li>Memahami bahwa S3 adalah sistem R untuk <em>Object-Oriented Programming</em> (OOP).</li>
+<li>Mengenali konsep <code>class</code> (label objek) dan <code>method</code> (fungsi spesifik untuk <code>class</code> tersebut).</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="skenario-proyek-simulasi-qc" class="level2">
+<h2 class="anchored" data-anchor-id="skenario-proyek-simulasi-qc">Skenario: Proyek Simulasi QC 🏭</h2>
+<p>Selamat datang di proyek kedua Anda! Setelah sukses membangun ‘garasi’ kerja yang rapi dengan RStudio Projects di Modul 4, manajer Anda kini memberikan tantangan yang lebih mendalam di bidang probabilitas dan simulasi.</p>
+<p>🚀 Anda ditugaskan untuk membuat prototipe sistem Kontrol Kualitas (QC) virtual. Pabrik kita memproduksi komponen elektronik, dan setiap komponen diperiksa dalam batch (kelompok) berisi 5 item. Tentu saja, ada kemungkinan kecil beberapa item cacat (<em>defect</em>).</p>
+<p>Tujuan Anda adalah menganalisis dan menjawab pertanyaan bisnis penting: “Berdasarkan tingkat kecacatan (defect rate) kita saat ini, seberapa sering satu batch penuh harus ditolak?”</p>
+<p>Kita tidak bisa menguji ribuan batch secara manual. Kita harus mengajarkan R cara “mensimulasikan” proses inspeksi ini secara otomatis. Proyek ini akan memandu Anda membangun logika QC dari nol, menjalankannya ribuan kali, dan memahami konsep untuk membuatnya lebih cepat dan rapi.</p>
+</section>
+<section id="blok-bangunan-program-fungsi-kontrol-alur" class="level2">
+<h2 class="anchored" data-anchor-id="blok-bangunan-program-fungsi-kontrol-alur">1. Blok Bangunan Program: Fungsi &amp; Kontrol Alur</h2>
+<p>Di R, jika Anda ingin melakukan tugas yang sama lebih dari satu kali, Anda sebaiknya “membungkus” kode tersebut ke dalam sebuah <strong>fungsi</strong>. Ini membuat kode Anda rapi, mudah dibaca, dan reusable.</p>
+<section id="fungsi-pertama-kita-inspect_batch" class="level3">
+<h3 class="anchored" data-anchor-id="fungsi-pertama-kita-inspect_batch">1.1 Fungsi Pertama Kita: <code>inspect_batch()</code></h3>
+<p>Langkah pertama adalah membuat fungsi yang mensimulasikan inspeksi satu batch berisi 5 item. Kita asumsikan (berdasarkan data historis) bahwa ada 90% kemungkinan item “Pass” dan 10% kemungkinan “Fail”.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definisikan fungsi untuk menginspeksi 1 batch (isi 5 item)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>inspect_batch <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 1. Definisikan kemungkinan hasil</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  outcomes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pass"</span>, <span class="st">"Fail"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 2. Ambil sampel 5 item</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kita set probabilitasnya: 90% Pass, 10% Fail.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  batch_result <span class="ot">&lt;-</span> <span class="fu">sample</span>(outcomes, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">size =</span> <span class="dv">5</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3. Kembalikan (return) hasilnya</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(batch_result)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><p><code>insinspect_batch &lt;- function() { ... }</code>: Ini adalah sintaks untuk membuat fungsi baru.</p></li>
+<li><p><code>return(batch_result)</code>: Baris ini (atau baris terakhir di fungsi) menentukan output apa yang akan diberikan oleh fungsi tersebut.</p></li>
+</ul>
+<p>Coba jalankan fungsi Anda di konsol beberapa kali:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect_batch</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Pass" "Pass" "Pass" "Fail" "Pass"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect_batch</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Pass" "Pass" "Pass" "Pass" "Pass"</code></pre>
+</div>
+</div>
+<p>Fungsi kita bekerja dengan baik, menghasilkan batch acak setiap saat.</p>
+</section>
+<section id="fungsi-kedua-dengan-logika-kondisional-evaluate_batch" class="level3">
+<h3 class="anchored" data-anchor-id="fungsi-kedua-dengan-logika-kondisional-evaluate_batch">1.2 Fungsi Kedua dengan Logika Kondisional: <code>evaluate_batch()</code></h3>
+<p>Sekarang kita punya hasil inspeksi batch, bagaimana cara menilainya? Kita perlu membuat fungsi evaluate_batch() yang menerima hasil inspeksi sebagai argumen (input) dan mengembalikan status batch tersebut.</p>
+<p>Untuk melakukan ini, kita perlu kontrol alur menggunakan if, else if, dan else.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Aturan QC</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Implementasi</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Aturan status batch kita adalah:</p>
+<ul>
+<li><p>Jika 0 item “Fail”: status “Gold”.</p></li>
+<li><p>Jika 1 item “Fail”: status “Silver” (masih bisa diterima).</p></li>
+<li><p>Jika 2 atau lebih item “Fail”: status “Reject” (batch harus ditarik).</p></li>
+</ul>
+<p><code>if</code>, <code>else if</code>, <code>else</code> * <code>if (kondisi) { ... }</code>: R akan menjalankan kode di dalam <code>{}</code> <strong>HANYA JIKA</strong> kondisi bernilai <code>TRUE</code>.</p>
+<ul>
+<li><p><code>else if (kondisi_lain) { ... }</code>: Jika <code>if</code> pertama <code>FALSE</code>, R akan mengecek <code>kondisi_lain</code> ini.</p></li>
+<li><p><code>else { ... }</code>: Jika tidak ada kondisi di atas yang <code>TRUE</code>, R akan menjalankan blok <code>else</code> ini.</p></li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>evaluate_batch <span class="ot">&lt;-</span> <span class="cf">function</span>(batch_items) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Hitung berapa banyak item "Fail" dalam vector 'batch_items'</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  num_fails <span class="ot">&lt;-</span> <span class="fu">sum</span>(batch_items <span class="sc">==</span> <span class="st">"Fail"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kondisi 1: Sempurna</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (num_fails <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"Gold"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  } </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kondisi 2: 1 Cacat</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">if</span> (num_fails <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"Silver"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  } </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Kondisi 3: 2 atau lebih cacat</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"Reject"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<p>Mari kita uji kedua fungsi kita secara bersamaan:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Langkah 1: Jalankan inspeksi</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>batch_baru <span class="ot">&lt;-</span> <span class="fu">inspect_batch</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Langkah 2: Evaluasi hasilnya</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">evaluate_batch</span>(batch_baru)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Silver"</code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="simulasi-berulang-loops" class="level2">
+<h2 class="anchored" data-anchor-id="simulasi-berulang-loops">2. Simulasi Berulang: Loops</h2>
+<p>Kita sudah bisa mensimulasikan satu batch. Tapi tujuan kita adalah menganalisis ribuan batch. Melakukannya satu per satu tidak mungkin. Di sinilah Loops (Perulangan) berperan.</p>
+<section id="for-loop-saat-tujuannya-pasti" class="level3">
+<h3 class="anchored" data-anchor-id="for-loop-saat-tujuannya-pasti">2.1 <code>for</code> loop: Saat Tujuannya Pasti</h3>
+<p>Kita menggunakan <code>for</code> loop saat kita tahu pasti berapa kali kita ingin mengulang sesuatu (misal: “jalankan simulasi 1000 kali”).</p>
+<p>Kita akan membuat for loop yang berjalan 1000 kali. Alurnya:</p>
+<ol type="1">
+<li><p>Buat “wadah” kosong untuk menampung 1000 hasil.</p></li>
+<li><p>Ulangi dari i = 1 sampai 1000:</p>
+<ul>
+<li>Inspeksi batch baru (inspect_batch()).</li>
+<li>Evaluasi batch tersebut (evaluate_batch()).</li>
+<li>Simpan hasilnya di wadah posisi ke-i.</li>
+</ul></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Buat 'wadah' kosong (vector karakter)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_sims <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>hasil_status <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_sims)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Buat loop dari 1 sampai 1000</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_sims) {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Jalankan 1 simulasi penuh</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  batch_saat_ini <span class="ot">&lt;-</span> <span class="fu">inspect_batch</span>()</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  status_saat_ini <span class="ot">&lt;-</span> <span class="fu">evaluate_batch</span>(batch_saat_ini)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 3. Simpan hasilnya di posisi ke-i</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  hasil_status[i] <span class="ot">&lt;-</span> status_saat_ini</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Analisis hasilnya!</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hasil_status)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hasil_status
+  Gold Reject Silver 
+   567     86    347 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(hasil_status))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hasil_status
+  Gold Reject Silver 
+ 0.567  0.086  0.347 </code></pre>
+</div>
+</div>
+<p>Output <code>prop.table()</code> akan memberi kita persentase “Gold”, “Silver”, dan “Reject” dari 1000 simulasi. Pertanyaan manajer terjawab!</p>
+</section>
+</section>
+<section id="while-loop-saat-tujuannya-kondisional" class="level2">
+<h2 class="anchored" data-anchor-id="while-loop-saat-tujuannya-kondisional">2.2 while loop: Saat Tujuannya Kondisional</h2>
+<p>Berbeda dengan <code>for</code>, kita gunakan <code>while</code> loop saat kita tidak tahu kapan harus berhenti. Loop ini akan terus berjalan selama (while) sebuah kondisi bernilai <code>TRUE</code>.</p>
+<p><strong>Studi Kasus Mini</strong>: Manajer bertanya, “Kira-kira butuh inspeksi berapa batch sampai kita menemukan 10 batch yang ‘Reject’?”</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kita tidak tahu butuh berapa iterasi (i), jadi 'while' adalah pilihan tepat.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>n_rejects_ditemukan <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>n_batch_diinspeksi <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (n_rejects_ditemukan <span class="sc">&lt;</span> <span class="dv">10</span>) {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Inspeksi 1 batch lagi</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  n_batch_diinspeksi <span class="ot">&lt;-</span> n_batch_diinspeksi <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  batch_saat_ini <span class="ot">&lt;-</span> <span class="fu">inspect_batch</span>()</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  status_saat_ini <span class="ot">&lt;-</span> <span class="fu">evaluate_batch</span>(batch_saat_ini)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cek apakah batch ini "Reject"</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (status_saat_ini <span class="sc">==</span> <span class="st">"Reject"</span>) {</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    n_rejects_ditemukan <span class="ot">&lt;-</span> n_rejects_ditemukan <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Cetak hasilnya</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Butuh"</span>, n_batch_diinspeksi, <span class="st">"inspeksi untuk menemukan 10 batch 'Reject'."</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Butuh 82 inspeksi untuk menemukan 10 batch 'Reject'."</code></pre>
+</div>
+</div>
+</section>
+<section id="konsep-lain-repeat-loop" class="level2">
+<h2 class="anchored" data-anchor-id="konsep-lain-repeat-loop">2.3 Konsep Lain: repeat loop</h2>
+<p>Ada satu lagi jenis loop, yaitu repeat { … }. Ini adalah loop “infinite” yang akan berjalan selamanya. Anda wajib menyertakan kondisi break di dalamnya untuk menghentikannya. Ini jarang digunakan, tetapi baik untuk diketahui.</p>
+<hr>
+</section>
+<section id="konsep-efisiensi-kecepatan" class="level2">
+<h2 class="anchored" data-anchor-id="konsep-efisiensi-kecepatan">3. Konsep Efisiensi: Kecepatan</h2>
+<p>Simulasi 1000 batch mungkin cepat. Tapi bagaimana jika manajer meminta 10 juta batch? for loop kita akan menjadi sangat lambat. Di R, loop seringkali tidak efisien.</p>
+<section id="konsep-vektorisasi" class="level3">
+<h3 class="anchored" data-anchor-id="konsep-vektorisasi">3.1 Konsep: Vektorisasi</h3>
+<p>R dirancang untuk bekerja sangat cepat pada vector (seperti yang kita pelajari di Modul 4). Idenya adalah menghindari iterasi satu per satu dan langsung menerapkan operasi pada seluruh kumpulan data.</p>
+<ul>
+<li><p><strong>Cara Loop (Lambat)</strong>: “Ambil item 1, proses. Ambil item 2, proses. Ambil item 3, proses…”</p></li>
+<li><p><strong>Cara Vektorisasi (Cepat)</strong>: “Ambil SEMUA item sekaligus, proses SEMUA sekaligus.”</p></li>
+</ul>
+<p>Fungsi seperti <code>apply()</code>, <code>replicate()</code>, atau bahkan <code>sample()</code> itu sendiri (jika kita memintanya 5000 sampel sekaligus) adalah bentuk vektorisasi yang jauh lebih cepat daripada <code>for</code> loop.</p>
+</section>
+</section>
+<section id="konsep-mengukur-waktu-dengan-system.time" class="level2">
+<h2 class="anchored" data-anchor-id="konsep-mengukur-waktu-dengan-system.time">3.2 Konsep: Mengukur Waktu dengan system.time()</h2>
+<p>Bagaimana kita tahu kode kita lambat? Kita ukur! Fungsi <code>system.time()</code> adalah alat diagnostik bawaan R untuk melakukan ini.</p>
+<p>Anda cukup membungkus kode Anda di dalamnya:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contoh konseptual (tidak perlu dijalankan)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mengukur 'for' loop</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... kode 'for' loop 10 juta simulasi ada di sini ...</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+      0       0       0 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mengukur 'vektorisasi'</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... kode 'apply()' atau 'replicate()' 10 juta simulasi ada di sini ...</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+      0       0       0 </code></pre>
+</div>
+</div>
+<p><code>system.time()</code> akan melaporkan <code>user</code>, <code>system</code>, dan <code>elapsed</code> time. <code>elapsed</code> adalah waktu jam dinding yang paling sering kita pedulikan.</p>
+<hr>
+</section>
+<section id="konsep-kerapian-sistem-objek-s3" class="level2">
+<h2 class="anchored" data-anchor-id="konsep-kerapian-sistem-objek-s3">4. Konsep Kerapian: Sistem Objek S3</h2>
+<p>Saat ini, hasil simulasi kita adalah <code>vector</code> berisi 1000 kata. Jika kita jalankan <code>print(hasil_status)</code>, outputnya memenuhi layar dan tidak informatif.</p>
+<section id="konsep-apa-itu-s3" class="level3">
+<h3 class="anchored" data-anchor-id="konsep-apa-itu-s3">4.1 Konsep: Apa itu S3?</h3>
+<p>S3 adalah sistem Object-Oriented Programming (OOP) bawaan R. Tujuannya adalah agar fungsi generik seperti <code>print()</code> atau <code>summary()</code> bisa bertingkah laku <strong>berbeda</strong> tergantung <code>class</code> (tipe) objek yang Anda berikan.</p>
+<ul>
+<li><p><code>print(data_frame)</code> tampil beda dari <code>print(list)</code>.</p></li>
+<li><p><code>summary(data_frame)</code> tampil beda dari <code>summary(vector_angka)</code>.</p></li>
+</ul>
+<p>Itu semua karena S3!</p>
+</section>
+<section id="konsep-class-dan-method" class="level3">
+<h3 class="anchored" data-anchor-id="konsep-class-dan-method">4.2 Konsep: <code>class</code> dan <code>method</code></h3>
+<p>Kita bisa membuat “cetakan” laporan QC kita sendiri.</p>
+<p><strong>Langkah 1</strong>: Beri <code>class</code> (label) pada hasil kita. Kita bisa buat fungsi yang menjalankan simulasi dan mengembalikan <code>list</code> hasil yang sudah kita beri label khusus, misal <code>class = "qc_sim"</code>.</p>
+<p><strong>Langkah 2</strong>: Buat <code>method</code> (perilaku khusus) untuk <code>print</code>. Kita bisa ajari R: “Hei R, jika ada yang menyuruhmu print() objek dengan class == ‘qc_sim’, JANGAN cetak semua datanya. Alih-alih, jalankan fungsi khusus <code>print.qc_sim</code> ini.”</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Langkah 1: Definisikan fungsi-fungsi dasar dari modul</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>inspect_batch <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  outcomes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pass"</span>, <span class="st">"Fail"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(outcomes, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">size =</span> <span class="dv">5</span>, </span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">replace =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>evaluate_batch <span class="ot">&lt;-</span> <span class="cf">function</span>(batch_items) {</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  num_fails <span class="ot">&lt;-</span> <span class="fu">sum</span>(batch_items <span class="sc">==</span> <span class="st">"Fail"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (num_fails <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"Gold"</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (num_fails <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"Silver"</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"Reject"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Langkah 2: Buat fungsi simulasi yang memberi 'class'</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>run_simulation <span class="ot">&lt;-</span> <span class="cf">function</span>(n_sims) {</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Jalankan loop simulasi seperti biasa</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  hasil_status <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n_sims)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_sims) {</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    hasil_status[i] <span class="ot">&lt;-</span> <span class="fu">evaluate_batch</span>(<span class="fu">inspect_batch</span>())</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Buat 'list' untuk output</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>  output <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_sims =</span> n_sims,</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">raw_data =</span> hasil_status</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Beri 'label' atau 'class' khusus pada list ini</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(output) <span class="ot">&lt;-</span> <span class="st">"qc_sim"</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output)</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Langkah 3: Buat 'method print' khusus untuk class "qc_sim"</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="co"># R akan otomatis memanggil fungsi ini jika kita print objek "qc_sim"</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Nama fungsinya harus: print.[nama_class]</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>print.qc_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'x' adalah list 'output' dari fungsi run_simulation</span></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ambil data ringkasannya</span></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> x<span class="sc">$</span>total_sims</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>  prop_reject <span class="ot">&lt;-</span> <span class="fu">mean</span>(x<span class="sc">$</span>raw_data <span class="sc">==</span> <span class="st">"Reject"</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>  prop_gold <span class="ot">&lt;-</span> <span class="fu">mean</span>(x<span class="sc">$</span>raw_data <span class="sc">==</span> <span class="st">"Gold"</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cetak dengan format rapi!</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"--- Hasil Simulasi QC ---</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">"Total Batch:"</span>, n, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>))</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">"Proporsi Gold:"</span>, <span class="fu">round</span>(prop_gold, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>))</span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste</span>(<span class="st">"Proporsi Reject:"</span>, <span class="fu">round</span>(prop_reject, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>))</span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"---------------------------</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Langkah 4: Jalankan dan Lihat Hasilnya!</span></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Jalankan simulasi 1000 kali</span></span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a>hasil_simulasi <span class="ot">&lt;-</span> <span class="fu">run_simulation</span>(<span class="dv">1000</span>)</span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Sekarang, panggil 'hasil_simulasi'</span></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="co"># R akan otomatis menggunakan method print.qc_sim kita yang rapi,</span></span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a><span class="co"># bukan mencetak list mentahnya.</span></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>hasil_simulasi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Hasil Simulasi QC ---
+Total Batch: 1000 
+Proporsi Gold: 56.4 %
+Proporsi Reject: 9.9 %
+---------------------------</code></pre>
+</div>
+</div>
+<p>Inilah kekuatan S3: membuat output yang kompleks menjadi rapi, informatif, dan profesional.</p>
+<hr>
+</section>
+<section id="kesimpulan" class="level3">
+<h3 class="anchored" data-anchor-id="kesimpulan">Kesimpulan</h3>
+<p>Luar biasa! Anda telah beralih dari pengguna R menjadi programmer R. Dalam modul ini, Anda telah berhasil:</p>
+<ol type="1">
+<li>Membangun program fungsional yang rapi menggunakan <code>function</code> dan <code>if</code>/<code>else</code>.</li>
+<li>Mensimulasikan program tersebut ribuan kali menggunakan <code>for</code> dan <code>while</code> loop.</li>
+<li>Memahami konsep efisiensi (<code>system.time()</code>, Vektorisasi) untuk membuat program Anda lebih cepat.</li>
+<li>Memahami konsep kerapian (Sistem S3) untuk membuat output program Anda lebih profesional.</li>
+</ol>
+<p>Anda kini memiliki semua alat fundamental untuk memecahkan masalah kompleks dengan R.</p>
+</section>
+</section>
+<section id="latihan-mini-project" class="level2">
+<h2 class="anchored" data-anchor-id="latihan-mini-project">Latihan Mini-Project</h2>
+<p>Untuk menguji pemahaman Anda, selesaikan tantangan berikut dalam R Script di dalam RStudio Project Anda:</p>
+<ol type="1">
+<li>Modifikasi Aturan Evaluasi: Salin fungsi <code>evaluate_batch()</code> Anda. Manajer ingin kategori baru: “Review”. Aturannya: 0 “Fail” = “Gold”, 1 “Fail” = “Silver”, 2 “Fail” = “Review”, dan 3 atau lebih “Fail” = “Reject”. Modifikasi fungsi Anda untuk mencerminkan aturan baru ini.</li>
+<li>Simulasi <code>for</code> loop: Gunakan fungsi <code>evaluate_batch()</code> baru Anda. Jalankan simulasi <code>for</code> loop sebanyak 5000 kali. Gunakan <code>prop.table(table(...))</code> untuk melaporkan persentase dari keempat kategori status (“Gold”, “Silver”, “Review”, “Reject”).</li>
+<li>Tantangan <code>while</code> loop: Menggunakan fungsi baru Anda, tulis <code>while</code> loop untuk mencari tahu: “Dibutuhkan berapa total batch yang harus diinspeksi sampai kita menemukan 100 batch yang statusnya bukan ‘Gold’?” Cetak hasilnya ke konsol.</li>
+</ol>
+<hr>
+<p><a href="../../../../../modul/2025/ganjil/pengantar_sains_data/psd2025.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum PSD 2025 </a></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
     }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
       return false;
     }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -573,185 +1068,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
