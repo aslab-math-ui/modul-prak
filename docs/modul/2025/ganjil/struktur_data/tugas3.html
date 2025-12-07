@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-12-07">
+<meta name="description" content="Offline di Departemen Matematika">
 
-<title>Praktikum Struktur Data 2025/2026 Ganjil – Lab Matematika UI</title>
+<title>Tugas 3 Praktikum Struktur Data: Tree – Lab Matematika UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +66,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<script src="../../../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,63 +104,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-modul .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-title','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-modul'] = new List('listing-modul', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-tugas .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-title','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-tugas'] = new List('listing-tugas', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <link rel="icon" type="image/png" href="../../../../ico/favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="../../../../ico/favicon.svg">
 <link rel="shortcut icon" href="../../../../ico/favicon.ico">
@@ -168,7 +145,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -234,20 +211,45 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#petunjuk-umum" id="toc-petunjuk-umum" class="nav-link active" data-scroll-target="#petunjuk-umum">Petunjuk umum:</a></li>
+  <li><a href="#soal" id="toc-soal" class="nav-link" data-scroll-target="#soal">Soal:</a>
+  <ul class="collapse">
+  <li><a href="#bagian-1" id="toc-bagian-1" class="nav-link" data-scroll-target="#bagian-1">Bagian 1</a></li>
+  <li><a href="#bagian-2" id="toc-bagian-2" class="nav-link" data-scroll-target="#bagian-2">Bagian 2</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Praktikum Struktur Data 2025/2026 Ganjil</h1>
+<h1 class="title">Tugas 3 Praktikum Struktur Data: Tree</h1>
+<p class="subtitle lead">Assignment 3: Tree</p>
 </div>
 
+<div>
+  <div class="description">
+    Offline di Departemen Matematika
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 7, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -257,164 +259,84 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../../semuahalaman/praktikum.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum </a></p>
-<div class="justify">
-<p>Selamat datang di praktikum Struktur Data! Sesuai nama mata kuliahnya, kita akan mempelajari cara mengimplementasikan (membuat) berbagai jenis struktur data dengan bahasa pemrograman Python. Sebelumnya, di mata kuliah Algoritma dan Pemrograman, kalian sudah mengenal struktur data <em>array</em>. Untuk ke depannya, kalian akan mempelajari berbagai struktur data lainnya, yang dibentuk “di atas” struktur data <em>array</em> seperti <em>linked list</em>, <em>stack</em>, <em>queue</em>, hingga berbagai macam struktur data <em>tree</em>.</p>
+<p>Kembali ke <a href="../../../../modul/2025/ganjil/struktur_data/strukdat2025.html">Struktur Data</a></p>
+<p>Tugas ini diberikan pada hari dan tanggal: Minggu, 7 Desember 2025</p>
+<section id="petunjuk-umum" class="level2">
+<h2 class="anchored" data-anchor-id="petunjuk-umum">Petunjuk umum:</h2>
+<ol type="1">
+<li><p>Kerjakan secara individu.</p></li>
+<li><p>Kerjakan tugas ini menggunakan bahasa pemrograman Python dengan <em>file format</em> berupa <em>interactive Python notebook</em> (yaitu <em>file</em> berbentuk .ipynb BUKAN .py), yang bisa dibuat misalnya menggunakan Jupyter Notebook atau Google Colaboratory.</p></li>
+<li><p><strong>Harap sertakan penjelasan untuk setiap variabel yang digunakan dan setiap proses secara singkat</strong> di sebelah (atas/bawah/kanan) barisnya (dengan comment, <code>#</code>). Selain itu, <strong>sertakan juga penjelasan kode</strong> (yang bisa mencakupi idenya apa, bagaimana cara eksekusinya, atau tentang algoritma yang digunakan) <strong>pada <em>cell</em> di sebelah (atas/bawah) kode</strong>.</p></li>
+<li><p>Format nama <em>file</em> untuk Tugas 3 ini adalah:</p>
+<p>Kelas SIAK_Tugas3PrakStrukdat_Nama Lengkap_NPM.ipynb</p>
+<p>Contoh penamaan yang benar:</p>
+<p>Kelas C_Tugas3PrakStrukdat_Haikal Fikri Rabani_2206823713.ipynb</p></li>
+<li><p>Pengumpulan Tugas 3 dilakukan ke Google Forms berikut ini:</p>
+<p><a href="https://bit.ly/KumpulTugasPrakStrukdat2025Ganjil">https://bit.ly/KumpulTugasPrakStrukdat2025Ganjil</a></p></li>
+<li><p>Apabila ada yang ingin direvisi setelah pengumpulan, lakukan pengumpulan ulang di Google Forms yang sama, tambahkan keterangan bahwa ada revisi, dan tambahkan kata “revisi” pada bagian akhir nama file, contohnya menjadi</p>
+<p>Kelas C_Tugas3PrakStrukdat_Haikal Fikri Rabani_2206823713_revisi.ipynb</p>
+<p>Kelas C_Tugas3PrakStrukdat_Haikal Fikri Rabani_2206823713_revisi2.ipynb</p>
+<p>Kelas C_Tugas3PrakStrukdat_Haikal Fikri Rabani_2206823713_revisi3.ipynb</p>
+<p>(Revisi boleh dilakukan berkali-kali.)</p></li>
+<li><p>Dengan durasi pengerjaan sekitar <strong>2 (dua) minggu</strong>, tenggat waktu (<em>deadline</em>) pengumpulan Tugas 3 ini (termasuk revisi) adalah <strong>Minggu, 21 Desember 2025, 23.59 WIB</strong>.</p></li>
+<li><p>Sesuai standar Universitas Indonesia, <strong>plagiarisme dilarang keras</strong> dan bisa menyebabkan nilai tugas praktikum <strong>menjadi nol untuk semua pihak yang terlibat, tanpa peringatan apapun.</strong> Namun, Anda boleh langsung menggunakan kode yang ada di <a href="../../../../modul/2025/ganjil/struktur_data/strukdat2025.html">modul praktikum</a>.</p></li>
+<li><p><em>Module</em> atau <em>package</em> Python yang boleh digunakan (di-<em>import</em>) untuk Tugas 3 ini hanyalah numpy dan graphviz. Apabila Anda berniat ingin menggunakan <em>module</em> lain, harap konfirmasikan ke narahubung terlebih dahulu (bisa saja diperbolehkan).</p></li>
+<li><p>Narahubung untuk Tugas 3 Praktikum Struktur Data adalah:</p>
+<p>Pandu Adjie Sukarno (ID LINE: pandyadaffa)</p>
+<p>Dimas Prasetya Utama (ID LINE: dimas.p.u)</p>
+<p>Silakan hubungi narahubung di atas apabila ada yang ingin ditanyakan atau dikonfirmasikan.</p></li>
+</ol>
+</section>
+<section id="soal" class="level2">
+<h2 class="anchored" data-anchor-id="soal">Soal:</h2>
+<p><strong>Tugas ini dibagi menjadi dua yaitu untuk mahasiswa dengan NPM genap dan mahasiswa dengan NPM ganjil. Untuk NPM ganjil harap mengerjakan bagian 1 sedangkan untuk NPM genap harap kerjakan bagian dua</strong></p>
+<p>Buatlah Heap tree yang berisi huruf alfabet dan angka. Heap tree yang digunakan adalah MaxHeap dan MinHeap yang telah diajarkan pada praktikum. Harap masing-masing mahasiswa hanya mengerjakan satu bagian saja seperti pada ketentuan</p>
+<p>Kemudian, gunakan <em>pywidgets</em> untuk memodifikasi tree yang anda punya yaitu menambahkan serta mengeluarkan string dari tree</p>
+<p>Catatan :</p>
+<ol type="1">
+<li><p>Huruf alfabet dapat dapat berupa huruf besar dan kecil</p></li>
+<li><p>Pendefinisian urutan berupa <span class="math display">\[a &lt; b &lt; \cdots &lt; z &lt; A &lt; B &lt; \cdots &lt; Z &lt; 0 &lt; 1 &lt; \cdots &lt; 9\]</span></p></li>
+<li><p>Semua tanda baca pada input diabaikan</p></li>
+<li><p><em>Error-handling</em> dapat anda modifikasi sendiri</p></li>
+</ol>
+<p>Misalkan diberikan input berupa “Halo! Selamat tinggal!”, maka buatlah tree seperti berikut</p>
+<section id="bagian-1" class="level3">
+<h3 class="anchored" data-anchor-id="bagian-1">Bagian 1</h3>
+<div id="f512c9d2" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>urutan_naik()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Masukkan string: Halo! Selamat tinggal! 123
+Berikut adalah tree dari "Halo! Selamat tinggal! 123" :D</code></pre>
 </div>
-<p><br></p>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Modul</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Tugas</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div id="listing-modul" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1757782800000" data-listing-file-modified-sort="1765111090282" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4994">
-<a href="../../../../modul/2025/ganjil/struktur_data/modul1.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/struktur_data/static/array_logical_size_vs_capacity.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 1 Struktur Data: Array, Searching, Sorting
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Sep 14, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1758646800000" data-listing-file-modified-sort="1765111090283" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3014">
-<a href="../../../../modul/2025/ganjil/struktur_data/modul2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/struktur_data/static/oop.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 2 Struktur Data: Pengantar OOP
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Sep 24, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1759078800000" data-listing-file-modified-sort="1765111090286" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2015">
-<a href="../../../../modul/2025/ganjil/struktur_data/modul3.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/struktur_data/static/linked_list.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 3 Struktur Data: Linked List dan Graphviz
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Sep 29, 2025
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+<figure class="figure">
+<p><img src="tugas3_files/figure-html/cell-2-output-2.svg" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
+</section>
+<section id="bagian-2" class="level3">
+<h3 class="anchored" data-anchor-id="bagian-2">Bagian 2</h3>
+<div id="4656f6e7" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>urutan_turun()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Masukkan string: Halo! Selamat tinggal! 123
+Berikut adalah tree dari "Halo! Selamat tinggal! 123" :D</code></pre>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="1760893200000" data-listing-file-modified-sort="1765111090286" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1451">
-<a href="../../../../modul/2025/ganjil/struktur_data/modul4.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/struktur_data/static/txt.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Modul 4 Struktur Data: I/O, CodeChef
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Oct 20, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div id="listing-tugas" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1759251600000" data-listing-file-modified-sort="1765111090297" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1381">
-<a href="../../../../modul/2025/ganjil/struktur_data/tugas1.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tugas 1 Praktikum Struktur Data: Array, Linked List, OOP
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Oct 1, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1765040400000" data-listing-file-modified-sort="1765111407456" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="911">
-<a href="../../../../modul/2025/ganjil/struktur_data/tugas2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tugas 2 Praktikum Struktur Data: <em>Stack</em> dan <em>Queue</em>
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Dec 7, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1765040400000" data-listing-file-modified-sort="1765111090301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="465">
-<a href="../../../../modul/2025/ganjil/struktur_data/tugas3.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="tugas3_files\figure-html\cell-2-output-2.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tugas 3 Praktikum Struktur Data: Tree
-</h5>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Dec 7, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+<figure class="figure">
+<p><img src="tugas3_files/figure-html/cell-3-output-2.svg" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
 
 
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
