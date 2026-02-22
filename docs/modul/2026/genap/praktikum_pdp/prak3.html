@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Tim Asisten Lab Matematika UI">
+<meta name="dcterms.date" content="2026-04-29">
 
-<title>Praktikum PDP (Persamaan Diferensial Parsial) – Lab Matematika UI</title>
+<title>Modul 3 Praktikum Pesamaan Diferensial Parsial: Skema Beda Hingga untuk Persamaan Gelombang dan Panas – Lab Matematika UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -80,11 +117,40 @@ ul.task-list li input[type="checkbox"] {
 <link rel="manifest" href="../../../../ico/site.webmanifest">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -312,22 +378,47 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#skema-diskritisasi" id="toc-skema-diskritisasi" class="nav-link active" data-scroll-target="#skema-diskritisasi">Skema Diskritisasi</a></li>
+  <li><a href="#metode-forward-difference-ftcs" id="toc-metode-forward-difference-ftcs" class="nav-link" data-scroll-target="#metode-forward-difference-ftcs">Metode <em>Forward DIfference</em> (FTCS)</a>
+  <ul class="collapse">
+  <li><a href="#ide-utama" id="toc-ide-utama" class="nav-link" data-scroll-target="#ide-utama">Ide Utama</a></li>
+  <li><a href="#kode-algoritma" id="toc-kode-algoritma" class="nav-link" data-scroll-target="#kode-algoritma">Kode Algoritma</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Praktikum PDP (Persamaan Diferensial Parsial)</h1>
-<p class="subtitle lead">Genap 2026 - Kurikulum 2024</p>
+<h1 class="title">Modul 3 Praktikum Pesamaan Diferensial Parsial: Skema Beda Hingga untuk Persamaan Gelombang dan Panas</h1>
+<p class="subtitle lead">Persamaan Gelombang dan Persamaan Difusi (Panas)</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tim Asisten Lab Matematika UI </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 29, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -337,30 +428,137 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="../../../../semuahalaman/praktikum.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum </a></p>
+<p>Kembali ke <a href="./pdp2025genap.qmd">Praktikum Persamaan Diferensial Parsial</a></p>
+<section id="skema-diskritisasi" class="level1">
+<h1>Skema Diskritisasi</h1>
+<p>Bentuk umum PDP Parabolik (lebih tepatnya persamaan panas atau persamaan difusi) bisa ditulis sebagai berikut</p>
+<p><span class="math display">\[
+\begin{align*}
+    \frac{\partial u}{\partial t}(x, t) = \alpha^2\frac{\partial^2 u}{\partial x^2}(x,t),\\
+    0 &lt; x &lt; l, \hspace{1 cm} t &gt; 0,
+\end{align*}
+\]</span></p>
+<p>dengan syarat batas serta nilai awal <span class="math display">\[
+\begin{gathered}
+    u(0, t) = u(l, t) = 0, \hspace{1 cm} t &gt; 0,\\
+    u(x, 0) = f(x), \hspace{1 cm} 0 &lt; x &lt; l.
+\end{gathered}
+\]</span></p>
+<p>Untuk itu, kita dapat menetapkan masing-masing <em>stepsize</em> untuk waktu dan spasial</p>
+<ul>
+<li><p><em>Stepsize</em> dalam variabel <span class="math inline">\(x\)</span> dapat ditulis <span class="math inline">\(h = \Delta x = l/m\)</span> untuk suatu bilangan bulat positif <span class="math inline">\(m\)</span>.</p></li>
+<li><p><em>Stepsize</em> dalam variabel <span class="math inline">\(t\)</span> dapat ditulis <span class="math inline">\(k = \Delta t = T/N\)</span> untuk suatu bilangan bulat positif <span class="math inline">\(N\)</span> dan waktu akhir <span class="math inline">\(T\)</span>.</p></li>
+</ul>
+<p>Oleh karena itu, jika dirangkum, kita dapat menuliskan bentuk umum persamaan panas sebagai berikut</p>
+<p><span class="math display">\[
+\begin{gathered}
+    \frac{\partial u}{\partial t}(x, t) = \alpha^2\frac{\partial^2 u}{\partial x^2}(x,t), \hspace{1 cm} \text{xb} &lt; x &lt; \text{xu}, \hspace{1 cm} \text{tb} &lt; t &lt; \text{tu}\\
+    u(0, t) = lb(t) = 0, \hspace{1 cm} \text{tb} &lt; t &lt; \text{tu}\\
+    u(l, t) = rb(t) = 0, \hspace{1 cm} \text{tb} &lt; t &lt; \text{tu},\\
+    u(x, 0) = f(x), \hspace{1 cm} \text{xb} &lt; x &lt; \text{xu}
+\end{gathered}
+\]</span></p>
+</section>
+<section id="metode-forward-difference-ftcs" class="level1">
+<h1>Metode <em>Forward DIfference</em> (FTCS)</h1>
+<section id="ide-utama" class="level2">
+<h2 class="anchored" data-anchor-id="ide-utama">Ide Utama</h2>
+<p>Metode <em>forward difference</em> didasari oleh perumusan <em>finite difference</em> berikut,</p>
+<p><span class="math display">\[
+\frac{\partial u}{\partial t}(x_i, t_j) = \frac{u(x_i, t_j + k) - u(x_i, t_j)}{k} + h.o.t.,
+\]</span></p>
+<p>dan</p>
+<p><span class="math display">\[
+\frac{\partial^2 u}{\partial x^2}(x_i, t_j) = \frac{u(x_i + h, t_j) - 2u(x_i, t_j) + u(x_i - h, t_j)}{h^2} + h.o.t.
+\]</span></p>
+<p>Subsitutsi masing-masing suku tersebut ke persamaan difusi, diperoleh</p>
+<p><span class="math display">\[
+\frac{w_{i,j+1} - w_{i,j}}{k} = \alpha^2 \frac{w_{i+1,j} - 2w_{i,j} + w_{i-1,j}}{h^2} ,
+\]</span></p>
+<p>dengan <span class="math inline">\(w_{ij} \sim u(x_i, t_j)\)</span>. Selesaikan persamaan untuk <span class="math inline">\(w_{i, j+1}\)</span> diperoleh persamaan</p>
+<p><span class="math display">\[
+w_{i, j+1} = \left( 1 - \frac{2\alpha^2k}{h^2}\right)w_{ij} + \alpha^2\frac{k}{h^2}(w_{i+1, j} + w_{i-1, j})
+\]</span></p>
+<p>Maka dari itu, untuk setiap <span class="math inline">\(i = 1, 2, \ldots, m - 1\)</span> dan <span class="math inline">\(j = 1, 2, \ldots\)</span> diperoleh</p>
+<p><span class="math display">\[
+w_{0,0} = f(x_0), \quad w_{1,0} = f(x_1), \quad \ldots \quad w_{m,0} = f(x_m).
+\]</span></p>
+<p>dengan <span class="math inline">\(t\)</span> berikutnya diperoleh dari</p>
+<p><span class="math display">\[
+\begin{aligned}
+w_{0,1} &amp;= u(0, t_1) = 0; \\
+w_{1,1} &amp;= \left( 1 - \frac{2\alpha^2 k}{h^2} \right) w_{1,0} + \alpha^2 \frac{k}{h^2} (w_{2,0} + w_{0,0}); \\
+w_{2,1} &amp;= \left( 1 - \frac{2\alpha^2 k}{h^2} \right) w_{2,0} + \alpha^2 \frac{k}{h^2} (w_{3,0} + w_{1,0}); \\
+&amp;\vdots \\
+w_{m-1,1} &amp;= \left( 1 - \frac{2\alpha^2 k}{h^2} \right) w_{m-1,0} + \alpha^2 \frac{k}{h^2} (w_{m,0} + w_{m-2,0}); \\
+w_{m,1} &amp;= u(m, t_1) = 0.
+\end{aligned}
+\]</span></p>
+<p>Sifat eksplisit dari metode beda ini mengimplikasikan bahwa matriks berukuran <span class="math inline">\((m - 1) \times (m - 1)\)</span> yang terkait dengan sistem ini dapat ditulis dalam bentuk tridiagonal</p>
+<p><span class="math display">\[
+A =
+\begin{bmatrix}
+(1 - 2\lambda) &amp; \lambda &amp; 0 &amp; \cdots &amp; \cdots &amp; 0 \\
+\lambda &amp; (1 - 2\lambda) &amp; \lambda &amp; \ddots &amp; &amp; \vdots \\
+0 &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \vdots \\
+\vdots &amp; \ddots &amp; \ddots &amp; \ddots &amp; \ddots &amp; 0 \\
+\vdots &amp; &amp; \ddots &amp; \lambda &amp; (1 - 2\lambda) &amp; \lambda \\
+0 &amp; \cdots &amp; \cdots &amp; 0 &amp; \lambda &amp; (1 - 2\lambda)
+\end{bmatrix},
+\]</span></p>
+<p>dengan <span class="math inline">\(\lambda = \alpha^2 (k/h^2)\)</span>. Jika kita memisalkan</p>
+<p><span class="math display">\[
+\mathbf{w}^{(0)} = (f(x_1), f(x_2), \ldots, f(x_{m-1}))^t
+\]</span></p>
+<p>dan</p>
+<p><span class="math display">\[
+\mathbf{w}^{(j)} = (w_{1j}, w_{2j}, \ldots, w_{m-1,j})^t, \quad \text{untuk setiap } j = 1, 2, \ldots,
+\]</span></p>
+<p>maka solusi hampirannya diberikan oleh</p>
+<p><span class="math display">\[
+\mathbf{w}^{(j)} = A\mathbf{w}^{(j-1)}, \quad \text{untuk setiap } j = 1, 2, \ldots,
+\]</span></p>
+</section>
+<section id="kode-algoritma" class="level2">
+<h2 class="anchored" data-anchor-id="kode-algoritma">Kode Algoritma</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Daftar Modul</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Latihan</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href=""><em>function file</em> <code>parabolik_forward_fd.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<ul>
-<li><p><strong>Modul 1: Metode Beda Hingga untuk PDB Linear</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> 18 Februari 2026 <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak1.html">Buka Modul 1</a></p></li>
-<li><p><strong>Modul 2: Metode Beda Hingga untuk PDB Nonlinear dan Persamaan Transport</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> <strong>TBD</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak2.html">Buka Modul 2</a></p></li>
-<li><p><strong>Modul 3: Metode Beda Hingga untuk Persamaan Gelombang Panas dan Persamaan Panas</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> 29 April 2026 <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak3.html">Buka Modul 3</a></p></li>
-<li><p><strong>Modul 4: Metode Beda Hingga untuk Persamaan Panas (lanjutan) dan Persamaan Laplace</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> 20 Mei 2026 <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak4.html">Buka Modul 4</a></p></li>
-</ul>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<ul>
-<li><p><strong>Latihan 1</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan1.html">Buka Latihan 1</a></p></li>
-<li><p><strong>Latihan 2</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> <strong>TBD</strong> <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan2.html">Buka Latihan 2</a></p></li>
-<li><p><strong>Latihan 3</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan3.html">Buka Latihan 2</a></p></li>
-<li><p><strong>Latihan 4</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan4.html">Buka Latihan 2</a></p></li>
-</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x<span class="op">,</span> t<span class="op">,</span> w] <span class="op">=</span> parabolik_forward_fd(alph2<span class="op">,</span> f<span class="op">,</span> lb<span class="op">,</span> rb<span class="op">,</span> xb<span class="op">,</span> xu<span class="op">,</span> tb<span class="op">,</span> tu<span class="op">,</span> h<span class="op">,</span> k)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> xb <span class="op">:</span> h <span class="op">:</span> xu<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> tb <span class="op">:</span> k <span class="op">:</span> tu<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  m_plus_1 <span class="op">=</span> <span class="fu">length</span>(x)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  N_plus_1 <span class="op">=</span> <span class="fu">length</span>(t)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(m_plus_1<span class="op">,</span> N_plus_1)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  lambd <span class="op">=</span> (alph2 <span class="op">*</span> k) <span class="op">/</span> h<span class="op">^</span><span class="fl">2</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">% memasang nilai awal</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> m_plus_1</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span><span class="op">,</span> <span class="fl">1</span>) <span class="op">=</span> f(x(<span class="fu">i</span>))<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">% memasang syarat batas</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> N_plus_1</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    w(<span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>)         <span class="op">=</span> lb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    w(m_plus_1<span class="op">,</span> <span class="fu">j</span>)  <span class="op">=</span> rb(t(<span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="co">% menggunakan perumusan finite difference untuk mengisi sisanya</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> (N_plus_1 <span class="op">-</span> <span class="fl">1</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> (m_plus_1 <span class="op">-</span> <span class="fl">1</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span><span class="op">+</span><span class="fl">1</span>) <span class="op">=</span> (<span class="fl">1</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> lambd) <span class="op">*</span> w(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+</span> lambd <span class="op">*</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">+</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fu">j</span>))<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

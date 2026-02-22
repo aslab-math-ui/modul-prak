@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Tim Asisten Lab Matematika UI">
+<meta name="dcterms.date" content="2026-03-11">
 
-<title>Praktikum PDP (Persamaan Diferensial Parsial) – Lab Matematika UI</title>
+<title>Modul 2 Praktikum Pesamaan Diferensial Parsial: Beda Hingga pada Persamaan Nonlinear dan Persamaan Transport – Lab Matematika UI</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -80,11 +117,40 @@ ul.task-list li input[type="checkbox"] {
 <link rel="manifest" href="../../../../ico/site.webmanifest">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -312,22 +378,46 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#metode-beda-hingga-untuk-persamaan-nonlinear" id="toc-metode-beda-hingga-untuk-persamaan-nonlinear" class="nav-link active" data-scroll-target="#metode-beda-hingga-untuk-persamaan-nonlinear">Metode Beda Hingga untuk Persamaan Nonlinear</a>
+  <ul class="collapse">
+  <li><a href="#sedikit-perhitungan" id="toc-sedikit-perhitungan" class="nav-link" data-scroll-target="#sedikit-perhitungan">Sedikit Perhitungan</a></li>
+  <li><a href="#kode" id="toc-kode" class="nav-link" data-scroll-target="#kode">Kode</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Praktikum PDP (Persamaan Diferensial Parsial)</h1>
-<p class="subtitle lead">Genap 2026 - Kurikulum 2024</p>
+<h1 class="title">Modul 2 Praktikum Pesamaan Diferensial Parsial: Beda Hingga pada Persamaan Nonlinear dan Persamaan Transport</h1>
+<p class="subtitle lead"><em>Finite Difference</em> untuk PDB Nonlinear dan Persamaan Transport</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tim Asisten Lab Matematika UI </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 11, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -337,30 +427,135 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="../../../../semuahalaman/praktikum.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum </a></p>
+<p>Pada modul ini akan dibahas tentang penggunaan Beda Hingga pada PDB Nonlinear dan Persamaan Transport.</p>
+<section id="metode-beda-hingga-untuk-persamaan-nonlinear" class="level1">
+<h1>Metode Beda Hingga untuk Persamaan Nonlinear</h1>
+<section id="sedikit-perhitungan" class="level2">
+<h2 class="anchored" data-anchor-id="sedikit-perhitungan">Sedikit Perhitungan</h2>
+<p>Pada bagian sebelumnya, kita menggunakan metode beda hingga untuk mengaproksimasi suatu masalah nilai-batas. Sekarang untuk masalah nilai batas yang lebih umum yaitu dalam bentuk</p>
+<p><span class="math display">\[
+\begin{align*}
+    y'' = f(x, y, y''), \text{ untuk } a\leq x\leq b \text{ , dengan } y(a) = \alpha\, , y(b) = \beta,
+\end{align*}
+\]</span> dengan <span class="math inline">\(f\)</span> merupakan suatu fungsi linear maupun linear. Asumsikan sepanjang pengerjaan numerik bahwa <span class="math inline">\(f\)</span> memenuhi kondisi yang diberikan pada buku bab 11.4.</p>
+<p>Pada kasus ini, kita membutuhkan suatu proses yang iteratif untuk mengaproksimasi masalah tersebut. Metode iteratif ini memanfaatkan suatu metode Newton untuk sistem persamaan yang pada sebelumnya sudah pernah dibahas. Untuk itu kita hanya perlu membahas penerapan metode Newton untuk menyelesaikan masalah nilai batas.</p>
+<p>Langkah-langkah tersebut yaitu</p>
+<ol type="1">
+<li><p>Hitung rumus <span class="math inline">\(f_y(x,y,y')\)</span> (yaitu <span class="math inline">\(\frac{\partial f}{\partial y}(x,y,y')\)</span>) dan rumus <span class="math inline">\(f_{y'}(x,y,y')\)</span> (yaitu <span class="math inline">\(\frac{\partial f}{\partial y'}(x,y,y')\)</span>) secara analitik.</p></li>
+<li><p>Tentukan toleransi <span class="math inline">\(\varepsilon\)</span>, dan/atau maksimum banyaknya iterasi <span class="math inline">\(M\)</span>.</p></li>
+<li><p>Pastikan nilai <span class="math inline">\(N\)</span> dan <em>step size</em> <span class="math inline">\(h\)</span> sudah dimiliki. Biasanya hanya salah satu nilai yang diberikan (biasanya <span class="math inline">\(N\)</span>). Hubungan antara keduanya adalah</p>
+<p><span class="math display">\[h = \frac{b-a}{N+1}\]</span></p></li>
+<li><p>Ingat bahwa <span class="math inline">\(w_0 = \alpha\)</span> dan <span class="math inline">\(w_{N+1} = \beta\)</span>. Kita perlu menentukan nilai-nilai <span class="math inline">\(w_1, \dots, w_N\)</span>. Untuk nilai-nilai tersebut, pasang tebakan awal, berupa nilai-nilai di antara <span class="math inline">\(\alpha\)</span> dan <span class="math inline">\(\beta\)</span>, sebagai berikut untuk <span class="math inline">\(i = 1, \dots, N\)</span>:</p>
+<p><span class="math display">\[w_i = \alpha + i\left(\frac{\beta - \alpha}{b-a}\right)h\]</span></p></li>
+<li><p>Susun suatu matriks tridiagonal berukuran <span class="math inline">\(N \times N\)</span> yang dinamakan matriks Jacobian, dengan entri <span class="math display">\[J_{ij} = \begin{cases}
+     -\left(1 + \frac{h}{2} f_{y'} \left(x_i, w_i, \frac{w_{i+1} - w_{i-1}}{2h}\right)\right) &amp; \text{di bawah/kiri diagonal, baris ke-$i$} \\
+     2 + h^2 f_{y} \left(x_i, w_i, \frac{w_{i+1} - w_{i-1}}{2h}\right) &amp; \text{di diagonal, baris ke-$i$} \\
+     -\left(1 - \frac{h}{2} f_{y'} \left(x_i, w_i, \frac{w_{i+1} - w_{i-1}}{2h}\right) \right) &amp; \text{di atas/kanan diagonal, barsi ke-$i$} \\
+     0 &amp; \text{untuk semua elemen lainnya}
+\end{cases}\]</span></p></li>
+<li><p>Susun vektor kolom bernama <span class="math inline">\(d\)</span> dengan <span class="math inline">\(N\)</span> baris, yang isinya sebagai berikut untuk <span class="math inline">\(i = 1, \dots, N\)</span>: <span class="math display">\[d_i = -w_{i-1} + 2w_i - w_{i+1} + h^2 f\left(x_i, w_i, \frac{w_{i+1}-w_{i-1}}{2h}\right)\]</span></p></li>
+<li><p>Selesaikan SPL <span class="math inline">\(Jv = -d\)</span> (iya pakai minus), di mana vektor <span class="math inline">\(v\)</span> berisi nilai-nilai <span class="math inline">\(v_1,\dots,v_N\)</span> yang ingin diperoleh. Metode penyelesaian SPLnya terserah.</p></li>
+<li><p>Perbarui vektor <span class="math inline">\(w\)</span> dengan menambahkan vektor <span class="math inline">\(v\)</span>. Yaitu, nilai <span class="math inline">\(w_1\)</span> ditambahkan <span class="math inline">\(v_1\)</span>, nilai <span class="math inline">\(w_2\)</span> ditambahkan <span class="math inline">\(v_2\)</span>, dan seterusnya.</p></li>
+<li><p>Sampai sini, selesai satu iterasi. Periksa apakah <span class="math inline">\(\left|\left|v\right|\right| \le \varepsilon\)</span> (atau periksa apakah sudah memenuhi banyaknya iterasi yang diminta). Kalau sudah terpenuhi, metode selesai. Kalau belum, masuk ke iterasi selanjutnya, yaitu melanjutkan kembali dari langkah 5, dengan nilai-nilai <span class="math inline">\(w_1, \dots, w_N\)</span> terbaru.</p></li>
+</ol>
+<p>Mungkin di sini anda agak bingung kenapa langkah 7-9 terjadi? Hal itu karena sebenarnya kita ingin menyelesaikan iterasi dalam bentuk</p>
+<p><span class="math display">\[
+\mathbf{y}^{k} = \mathbf{y}^{k} - J^{-1}(\mathbf{y}^{k-1})d(\mathbf{y}^{k-1})
+\]</span> dengan <span class="math inline">\(\mathbf{y}\)</span> adalah solusi aproksimasi kita, <span class="math inline">\(J\)</span> adalah Jacobian tridiagonal dan <span class="math inline">\(d\)</span> adalah vektor kolom dengan entry <span class="math inline">\(d_i\)</span>.</p>
+<p>Alih-alih kita selesaikan secara manual dengan mencari invers <span class="math inline">\(J\)</span> dan substitusi berulang kali nilai <span class="math inline">\(\mathbf{y}^{k+1}\)</span>, kita cari faktor koreksi (vektor kolom) <span class="math inline">\(v\)</span> sehingga <span class="math display">\[
+J(\mathbf{y}^{k-1})v = -d(\mathbf{y}^{k-1})
+\]</span></p>
+</section>
+<section id="kode" class="level2">
+<h2 class="anchored" data-anchor-id="kode">Kode</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Daftar Modul</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Latihan</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href=""><em>Function file</em> <code>nonlinear_fd_langsung_on2.m</code> - nama <em>file</em> harus sama dengan nama fungsi</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<ul>
-<li><p><strong>Modul 1: Metode Beda Hingga untuk PDB Linear</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> 18 Februari 2026 <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak1.html">Buka Modul 1</a></p></li>
-<li><p><strong>Modul 2: Metode Beda Hingga untuk PDB Nonlinear dan Persamaan Transport</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> <strong>TBD</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak2.html">Buka Modul 2</a></p></li>
-<li><p><strong>Modul 3: Metode Beda Hingga untuk Persamaan Gelombang Panas dan Persamaan Panas</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> 29 April 2026 <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak3.html">Buka Modul 3</a></p></li>
-<li><p><strong>Modul 4: Metode Beda Hingga untuk Persamaan Panas (lanjutan) dan Persamaan Laplace</strong> <br> <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <strong>Tanggal:</strong> 20 Mei 2026 <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/prak4.html">Buka Modul 4</a></p></li>
-</ul>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<ul>
-<li><p><strong>Latihan 1</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan1.html">Buka Latihan 1</a></p></li>
-<li><p><strong>Latihan 2</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> <strong>TBD</strong> <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan2.html">Buka Latihan 2</a></p></li>
-<li><p><strong>Latihan 3</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan3.html">Buka Latihan 2</a></p></li>
-<li><p><strong>Latihan 4</strong> <br> <i class="fa-solid fa-location-dot" aria-hidden="true"></i> <strong>Lokasi:</strong> Lab Komputer D.311 <br> <i class="fa-solid fa-book" aria-hidden="true"></i> <strong>Materi:</strong> <a href="../../../../modul/2026/genap/praktikum_pdp/latihan4.html">Buka Latihan 2</a></p></li>
-</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode octave code-with-copy"><code class="sourceCode octave"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> [x_grid<span class="op">,</span> w_grid] <span class="op">=</span> nonlinear_fd_langsung_on2(f<span class="op">,</span> fy<span class="op">,</span> fyp<span class="op">,</span> a<span class="op">,</span> b<span class="op">,</span> N<span class="op">,</span> alph<span class="op">,</span> bet<span class="op">,</span> tol<span class="op">,</span> M)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (b<span class="op">-</span>a) <span class="op">/</span> (N<span class="op">+</span><span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x_grid <span class="op">=</span> (a <span class="op">:</span> h <span class="op">:</span> b)<span class="op">';</span> <span class="co">% transpos juga agar menjadi vektor kolom</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> x_grid(<span class="fl">2</span> <span class="op">:</span> N<span class="op">+</span><span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  w <span class="op">=</span> <span class="fu">zeros</span>(N<span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    w(<span class="fu">i</span>) <span class="op">=</span> alph <span class="op">+</span> <span class="fu">i</span> <span class="op">*</span> ((bet <span class="op">-</span> alph)<span class="op">/</span>(b<span class="op">-</span>a)) <span class="op">*</span> h<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endfor</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">% banyaknya iterasi</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  k <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  err <span class="op">=</span> tol <span class="op">+</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">% selama belum memenuhi toleransi ataupun mencapai batas iterasi</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="op">!</span>(err <span class="op">&lt;=</span> tol) <span class="op">&amp;&amp;</span> k <span class="op">!=</span> M<span class="op">+</span><span class="fl">1</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">% menyusun matriks Jacobian</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    matriks_J <span class="op">=</span> <span class="fu">zeros</span>(N<span class="op">,</span> N)<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> <span class="fu">j</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> N</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">i</span> <span class="op">==</span> <span class="fu">j</span><span class="op">+</span><span class="fl">1</span>) <span class="co">% kiri/bawah diagonal</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (<span class="fu">i</span> <span class="op">==</span> <span class="fl">1</span>) <span class="co">% w(0) = alfa</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="op">-</span>(<span class="fl">1</span> <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> fyp(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> alph)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h)))<span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>          <span class="cf">elseif</span> (<span class="fu">i</span> <span class="op">==</span> N) <span class="co">% w(N+1) = beta</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="op">-</span>(<span class="fl">1</span> <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> fyp(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (bet <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h)))<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="op">-</span>(<span class="fl">1</span> <span class="op">+</span> h<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> fyp(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h)))<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>          <span class="cf">endif</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elseif</span> (<span class="fu">i</span> <span class="op">==</span> <span class="fu">j</span>) <span class="co">% pada diagonal</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (<span class="fu">i</span> <span class="op">==</span> <span class="fl">1</span>) <span class="co">% w(0) = alfa</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> h<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> fy(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> alph)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h))<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>          <span class="cf">elseif</span> (<span class="fu">i</span> <span class="op">==</span> N) <span class="co">% w(N+1) = beta</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> h<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> fy(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (bet <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h))<span class="op">;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">2</span> <span class="op">+</span> h<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> fy(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h))<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>          <span class="cf">endif</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elseif</span> (<span class="fu">i</span> <span class="op">==</span> <span class="fu">j</span><span class="op">-</span><span class="fl">1</span>) <span class="co">% kanan/atas diagonal</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (<span class="fu">i</span> <span class="op">==</span> <span class="fl">1</span>) <span class="co">% w(0) = alfa</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="op">-</span>(<span class="fl">1</span> <span class="op">-</span> h<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> fyp(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> alph)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h)))<span class="op">;</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>          <span class="cf">elseif</span> (<span class="fu">i</span> <span class="op">==</span> N) <span class="co">% w(N+1) = beta</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="op">-</span>(<span class="fl">1</span> <span class="op">-</span> h<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> fyp(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (bet <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h)))<span class="op">;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>            matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="op">-</span>(<span class="fl">1</span> <span class="op">-</span> h<span class="op">/</span><span class="fl">2</span> <span class="op">*</span> fyp(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h)))<span class="op">;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>          <span class="cf">endif</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>          matriks_J(<span class="fu">i</span><span class="op">,</span> <span class="fu">j</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">endif</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>      <span class="cf">endfor</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">% menyusun vektor d</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> <span class="fu">zeros</span>(N<span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="co">% khusus baris pertama</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">i</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    d(<span class="fu">i</span>) <span class="op">=</span> <span class="op">-</span>alph <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> w(<span class="fu">i</span>) <span class="op">-</span> w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">+</span> h<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> f(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> alph)<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h))<span class="op">;</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="fu">i</span> <span class="op">=</span> <span class="fl">2</span> <span class="op">:</span> (N<span class="op">-</span><span class="fl">1</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>      d(<span class="fu">i</span>) <span class="op">=</span> <span class="op">-</span>w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> w(<span class="fu">i</span>) <span class="op">-</span> w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">+</span> h<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> f(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (w(<span class="fu">i</span><span class="op">+</span><span class="fl">1</span>) <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h))<span class="op">;</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">endfor</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">% khusus baris terakhir</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">i</span> <span class="op">=</span> N<span class="op">;</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    d(<span class="fu">i</span>) <span class="op">=</span> <span class="op">-</span>w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>) <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> w(<span class="fu">i</span>) <span class="op">-</span> bet <span class="op">+</span> h<span class="op">^</span><span class="fl">2</span> <span class="op">*</span> f(x(<span class="fu">i</span>)<span class="op">,</span> w(<span class="fu">i</span>)<span class="op">,</span> (bet <span class="op">-</span> w(<span class="fu">i</span><span class="op">-</span><span class="fl">1</span>))<span class="op">/</span>(<span class="fl">2</span><span class="op">*</span>h))<span class="op">;</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">% selesaikan SPL</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> matriks_J <span class="op">\</span> (<span class="op">-</span>d)<span class="op">;</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    <span class="co">% update w</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> w <span class="op">+</span> v<span class="op">;</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    <span class="co">% hitung error dengan norm Euclid</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    err <span class="op">=</span> <span class="fu">sum</span>(v<span class="op">.^</span><span class="fl">2</span>)<span class="op">;</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    k <span class="op">+=</span> <span class="fl">1</span><span class="op">;</span> <span class="co">% lanjut ke iterasi selanjutnya</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">endwhile</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  <span class="co">% gabungkan w_0 (alfa), dengan w_1, ..., w_N, dengan w_{N+1} (beta)</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  w_grid <span class="op">=</span> [alph<span class="op">;</span> w<span class="op">;</span> bet]<span class="op">;</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="cf">endfunction</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
