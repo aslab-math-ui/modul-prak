@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Tim Asisten Lab Departemen Matematika UI">
+<meta name="dcterms.date" content="2026-03-15">
+
+<title>(Pertemuan 3) Inferensi, Analisis Residual, dan Resampling Model – Lab Matematika UI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../site_libs/bootstrap/bootstrap-dark-7f58be9322db19727817c30b5814e754.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-de6bf695b5b8365613440207919da015.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="icon" type="image/png" href="../../../../ico/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="../../../../ico/favicon.svg">
+<link rel="shortcut icon" href="../../../../ico/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../../../../ico/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="MyWebSite">
+<link rel="manifest" href="../../../../ico/site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../../index.html">
+    <span class="navbar-title">Lab Matematika UI</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../index.html"> <i class="bi bi-house" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../semuahalaman/about.html"> 
+<span class="menu-text">Tentang Kami</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../../blog.html"> 
+<span class="menu-text">Berita</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-informasi-praktikum" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-circle" role="img">
+</i> 
+ <span class="menu-text">Informasi Praktikum</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-informasi-praktikum">    
+        <li>
+    <a class="dropdown-item" href="../../../../semuahalaman/praktikum.html">
+ <span class="dropdown-text">Arsip Modul Praktikum</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../../semuahalaman/Jadwal.html">
+ <span class="dropdown-text">Jadwal Asistensi</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/aslab-math-ui/modul-prak"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#pendahuluan" id="toc-pendahuluan" class="nav-link active" data-scroll-target="#pendahuluan">Pendahuluan</a></li>
+  <li><a href="#prediksi-dan-interval" id="toc-prediksi-dan-interval" class="nav-link" data-scroll-target="#prediksi-dan-interval">Prediksi dan Interval</a>
+  <ul class="collapse">
+  <li><a href="#taksiran-nilai-point-estimate" id="toc-taksiran-nilai-point-estimate" class="nav-link" data-scroll-target="#taksiran-nilai-point-estimate">Taksiran Nilai (Point Estimate)</a></li>
+  <li><a href="#interval-prediksi-dan-interval-kepercayaan" id="toc-interval-prediksi-dan-interval-kepercayaan" class="nav-link" data-scroll-target="#interval-prediksi-dan-interval-kepercayaan">Interval Prediksi dan Interval Kepercayaan</a></li>
+  </ul></li>
+  <li><a href="#analisis-hubungan-antar-statistik-uji-f-uji-t-korelasi" id="toc-analisis-hubungan-antar-statistik-uji-f-uji-t-korelasi" class="nav-link" data-scroll-target="#analisis-hubungan-antar-statistik-uji-f-uji-t-korelasi">Analisis Hubungan Antar Statistik (Uji F, Uji t, Korelasi)</a>
+  <ul class="collapse">
+  <li><a href="#kemiringan-dan-korelasi" id="toc-kemiringan-dan-korelasi" class="nav-link" data-scroll-target="#kemiringan-dan-korelasi">Kemiringan dan Korelasi</a></li>
+  <li><a href="#uji-f-dan-koefisien-determinasi-r2" id="toc-uji-f-dan-koefisien-determinasi-r2" class="nav-link" data-scroll-target="#uji-f-dan-koefisien-determinasi-r2">Uji F dan Koefisien Determinasi (<span class="math inline">\(R^2\)</span>)</a></li>
+  <li><a href="#uji-t-dan-uji-f" id="toc-uji-t-dan-uji-f" class="nav-link" data-scroll-target="#uji-t-dan-uji-f">Uji t dan Uji F</a></li>
+  <li><a href="#regression-through-the-origin-rto" id="toc-regression-through-the-origin-rto" class="nav-link" data-scroll-target="#regression-through-the-origin-rto">Regression Through the Origin (RTO)</a></li>
+  </ul></li>
+  <li><a href="#estimasi-variansi-dan-analisis-residual" id="toc-estimasi-variansi-dan-analisis-residual" class="nav-link" data-scroll-target="#estimasi-variansi-dan-analisis-residual">Estimasi Variansi dan Analisis Residual</a>
+  <ul class="collapse">
+  <li><a href="#taksiran-variansi-error-dan-variansi-kemiringan" id="toc-taksiran-variansi-error-dan-variansi-kemiringan" class="nav-link" data-scroll-target="#taksiran-variansi-error-dan-variansi-kemiringan">Taksiran Variansi Error dan Variansi Kemiringan</a></li>
+  <li><a href="#visualisasi-residual" id="toc-visualisasi-residual" class="nav-link" data-scroll-target="#visualisasi-residual">Visualisasi Residual</a></li>
+  </ul></li>
+  <li><a href="#pengaruh-resampling-dan-ukuran-data" id="toc-pengaruh-resampling-dan-ukuran-data" class="nav-link" data-scroll-target="#pengaruh-resampling-dan-ukuran-data">Pengaruh Resampling dan Ukuran Data</a>
+  <ul class="collapse">
+  <li><a href="#resampling-data-80-data-2" id="toc-resampling-data-80-data-2" class="nav-link" data-scroll-target="#resampling-data-80-data-2">Resampling Data 80% (Data 2)</a></li>
+  <li><a href="#fitting-100-data-lengkap" id="toc-fitting-100-data-lengkap" class="nav-link" data-scroll-target="#fitting-100-data-lengkap">Fitting 100% Data Lengkap</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">(Pertemuan 3) Inferensi, Analisis Residual, dan Resampling Model</h1>
+<p class="subtitle lead">Inference, Residual Analysis, and Model Resampling</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Tim Asisten Lab Departemen Matematika UI </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 15, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Kembali ke <a href="https://aslab-math-ui.github.io/modul-prak/modul/2026/genap/model_linier/molin2026genap.html"><strong>Model Linier</strong></a></p>
+<section id="pendahuluan" class="level1">
+<h1>Pendahuluan</h1>
+<p>Pada modul sebelumnya, kita telah mempelajari <em>pre-processing</em>, pembagian data latih dan uji, serta pengolahan awal regresi berganda yang melibatkan variabel prediktor kategorik. Modul ini akan melanjutkan analisis dari pemodelan yang telah dilakukan untuk melakukan inferensi, evaluasi metrik lebih mendalam, analisis residual, serta melihat dampak dari <em>resampling</em> dan ukuran data terhadap kestabilan model.</p>
+<p>Mari kita persiapkan kembali <em>environment</em> R kita dengan me-<em>load</em> <em>library</em>, membagi data 80% (dengan <em>seed</em> yang sama), dan membentuk ulang model dari modul sebelumnya.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.0     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> iris</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>) </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n_total <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>n_train <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fl">0.80</span> <span class="sc">*</span> n_total)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>index_train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n_total, n_train)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>data_1 <span class="ot">&lt;-</span> df[index_train, ]  </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Length <span class="sc">~</span> Petal.Length <span class="sc">+</span> Species, <span class="at">data =</span> data_1)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Petal.Length + Species, data = data_1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.71283 -0.21956 -0.01342  0.21550  1.03781 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)        3.64386    0.11153  32.672  &lt; 2e-16 ***
+Petal.Length       0.93194    0.06614  14.091  &lt; 2e-16 ***
+Speciesversicolor -1.65819    0.19537  -8.487 8.02e-14 ***
+Speciesvirginica  -2.22476    0.27956  -7.958 1.30e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3263 on 116 degrees of freedom
+Multiple R-squared:  0.8553,    Adjusted R-squared:  0.8515 
+F-statistic: 228.5 on 3 and 116 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="prediksi-dan-interval" class="level1">
+<h1>Prediksi dan Interval</h1>
+<p>Dalam analisis regresi, kita seringkali ingin mengestimasi nilai target untuk suatu observasi baru. Langkah pertama adalah menentukan <em>support</em> (domain) dari variabel prediktor numerik kita pada data latih.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>domain_petal <span class="ot">&lt;-</span> <span class="fu">range</span>(data_1<span class="sc">$</span>Petal.Length)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>domain_petal</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.0 6.9</code></pre>
+</div>
+</div>
+<p>Nilai <em>support</em> untuk <code>Petal.Length</code> berada di rentang <span class="math inline">\(1.0\)</span> hingga <span class="math inline">\(6.9\)</span>. Mari kita ambil 1 nilai di dalam rentang tersebut, misalnya <span class="math inline">\(X = 3\)</span>, untuk spesies “versicolor”.</p>
+<section id="taksiran-nilai-point-estimate" class="level2">
+<h2 class="anchored" data-anchor-id="taksiran-nilai-point-estimate">Taksiran Nilai (Point Estimate)</h2>
+<p>Kita dapat menghitung taksiran nilai variabel target (<span class="math inline">\(\hat{Y}\)</span>) untuk prediktor yang telah ditetapkan.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pred_point <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Petal.Length =</span> <span class="dv">3</span>, <span class="at">Species =</span> <span class="st">"versicolor"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred_point</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+4.781485 </code></pre>
+</div>
+</div>
+<p>Interpretasi untuk hasil ini yaitu jika terdapat bunga spesies <em>versicolor</em> dengan <code>Petal.Length</code> sebesar 3, taksiran rata-rata <code>Sepal.Length</code>-nya adalah <span class="math inline">\(4.78148\)</span>.</p>
+</section>
+<section id="interval-prediksi-dan-interval-kepercayaan" class="level2">
+<h2 class="anchored" data-anchor-id="interval-prediksi-dan-interval-kepercayaan">Interval Prediksi dan Interval Kepercayaan</h2>
+<p>Untuk mempertimbangkan ketidakpastian, kita dapat membangun interval prediksi dan interval kepercayaan untuk taksiran nilai di atas.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interval Prediksi</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_1, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Petal.Length =</span> <span class="dv">3</span>, <span class="at">Species =</span> <span class="st">"versicolor"</span>), <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr    upr
+1 4.781485 4.107769 5.4552</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interval Kepercayaan</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_1, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Petal.Length =</span> <span class="dv">3</span>, <span class="at">Species =</span> <span class="st">"versicolor"</span>), <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 4.781485 4.591225 4.971745</code></pre>
+</div>
+</div>
+<p>Secara makna dan penggunaan, kedua interval ini berbeda.</p>
+<ul>
+<li><p><strong>Interval Kepercayaan (Confidence Interval)</strong> digunakan untuk mengestimasi rentang rata-rata sesungguhnya (populasi) dari <span class="math inline">\(Y\)</span> untuk nilai <span class="math inline">\(X\)</span> tertentu. Digunakan ketika kita tertarik pada rata-rata kelompok.</p></li>
+<li><p><strong>Interval Prediksi (Prediction Interval)</strong> digunakan untuk memprediksi rentang nilai <span class="math inline">\(Y\)</span> untuk suatu observasi <em>individu</em> baru pada nilai <span class="math inline">\(X\)</span> tertentu. Interval ini selalu lebih lebar karena menggabungkan variansi dari estimasi rata-rata ditambah dengan variansi acak individu (<span class="math inline">\(\sigma^2\)</span>).</p></li>
+</ul>
+</section>
+</section>
+<section id="analisis-hubungan-antar-statistik-uji-f-uji-t-korelasi" class="level1">
+<h1>Analisis Hubungan Antar Statistik (Uji F, Uji t, Korelasi)</h1>
+<section id="kemiringan-dan-korelasi" class="level2">
+<h2 class="anchored" data-anchor-id="kemiringan-dan-korelasi">Kemiringan dan Korelasi</h2>
+<p>Hubungan antara kemiringan garis regresi (<span class="math inline">\(\hat{\beta}_1\)</span>) dengan koefisien korelasi (<span class="math inline">\(r\)</span>) secara spesifik berlaku hanya pada <strong>Regresi Linear Sederhana</strong>. Hubungannya dirumuskan dengan <span class="math inline">\(\hat{\beta}_1 = r \frac{S_y}{S_x}\)</span>. Mari kita verifikasi dengan memodelkan regresi sederhana <code>Sepal.Length</code> dan <code>Petal.Length</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_slr <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Length <span class="sc">~</span> Petal.Length, <span class="at">data =</span> data_1)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_slr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Petal.Length, data = data_1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.25716 -0.30493 -0.01429  0.26180  1.02090 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   4.27799    0.09101   47.01   &lt;2e-16 ***
+Petal.Length  0.41759    0.02128   19.62   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4119 on 118 degrees of freedom
+Multiple R-squared:  0.7654,    Adjusted R-squared:  0.7634 
+F-statistic:   385 on 1 and 118 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>beta_1_slr <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_slr)[<span class="st">"Petal.Length"</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(data_1<span class="sc">$</span>Petal.Length, data_1<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>Sy <span class="ot">&lt;-</span> <span class="fu">sd</span>(data_1<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Sx <span class="ot">&lt;-</span> <span class="fu">sd</span>(data_1<span class="sc">$</span>Petal.Length)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>beta_1_formula <span class="ot">&lt;-</span> r <span class="sc">*</span> (Sy <span class="sc">/</span> Sx)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">Model_Slope =</span> <span class="fu">unname</span>(beta_1_slr), <span class="at">Formula_Slope =</span> beta_1_formula)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Model_Slope Formula_Slope 
+    0.4175933     0.4175933 </code></pre>
+</div>
+</div>
+<p>Terlihat bahwa perhitungan kemiringan via model dan via rumus korelasi menghasilkan nilai yang identik.</p>
+</section>
+<section id="uji-f-dan-koefisien-determinasi-r2" class="level2">
+<h2 class="anchored" data-anchor-id="uji-f-dan-koefisien-determinasi-r2">Uji F dan Koefisien Determinasi (<span class="math inline">\(R^2\)</span>)</h2>
+<p>Uji F dan <span class="math inline">\(R^2\)</span> memiliki hubungan matematis yang kuat. Statistik F dapat diturunkan langsung dari <span class="math inline">\(R^2\)</span> menggunakan rumus:</p>
+<p><span class="math display">\[F = \frac{R^2 / k}{(1 - R^2) / (n - k - 1)}\]</span></p>
+<p>Mari kita verifikasi pada <code>model_1</code> (Regresi Berganda).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_1)<span class="sc">$</span>r.squared</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># Jumlah prediktor (1 numerik + 2 dummy)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data_1)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>F_calc <span class="ot">&lt;-</span> (R2 <span class="sc">/</span> k) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> R2) <span class="sc">/</span> (n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>F_model <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_1)<span class="sc">$</span>fstatistic[<span class="st">"value"</span>]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">Calculated_F =</span> <span class="fu">unname</span>(F_calc), <span class="at">Model_F =</span> <span class="fu">unname</span>(F_model))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Calculated_F      Model_F 
+    228.5225     228.5225 </code></pre>
+</div>
+</div>
+</section>
+<section id="uji-t-dan-uji-f" class="level2">
+<h2 class="anchored" data-anchor-id="uji-t-dan-uji-f">Uji t dan Uji F</h2>
+<p>Berdasarkan hasil regresi linear sederhana, nilai kuadrat dari statistik uji t untuk kemiringan (<span class="math inline">\(\beta_1\)</span>) akan sama persis dengan nilai statistik uji F untuk keseluruhan model (<span class="math inline">\(t^2 = F\)</span>). Hal ini dikarenakan pada regresi sederhana, menguji signifikansi 1 variabel sama dengan menguji keseluruhan model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>t_val <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_slr)<span class="sc">$</span>coefficients[<span class="st">"Petal.Length"</span>, <span class="st">"t value"</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>F_val <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_slr)<span class="sc">$</span>fstatistic[<span class="st">"value"</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_squared =</span> <span class="fu">unname</span>(t_val<span class="sc">^</span><span class="dv">2</span>), <span class="at">F_stat =</span> <span class="fu">unname</span>(F_val))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>t_squared    F_stat 
+ 384.9848  384.9848 </code></pre>
+</div>
+</div>
+</section>
+<section id="regression-through-the-origin-rto" class="level2">
+<h2 class="anchored" data-anchor-id="regression-through-the-origin-rto">Regression Through the Origin (RTO)</h2>
+<p>Apakah direkomendasikan untuk melakukan fitting regresi yang melalui titik asal (tanpa intersep) pada data ini? Jawabannya adalah <strong>tidak direkomendasikan</strong>. Menghilangkan intersep berarti memaksa model mengasumsikan bahwa ketika <code>Petal.Length</code> bernilai 0, <code>Sepal.Length</code> mutlak bernilai 0. Secara biologi, tidak ada bunga yang memiliki panjang kelopak 0. Intersep diperlukan secara matematis untuk menjamin residu memiliki rata-rata nol dan meminimalkan bias pada garis fit, meskipun intersep tersebut tidak memiliki interpretasi logis pada <span class="math inline">\(X=0\)</span>.</p>
+</section>
+</section>
+<section id="estimasi-variansi-dan-analisis-residual" class="level1">
+<h1>Estimasi Variansi dan Analisis Residual</h1>
+<section id="taksiran-variansi-error-dan-variansi-kemiringan" class="level2">
+<h2 class="anchored" data-anchor-id="taksiran-variansi-error-dan-variansi-kemiringan">Taksiran Variansi Error dan Variansi Kemiringan</h2>
+<p>Taksiran variansi dari error (<span class="math inline">\(\hat{\sigma}^2\)</span>) diestimasi menggunakan <em>Mean Squared Error</em> (MSE), yang merupakan kuadrat dari <em>Residual Standard Error</em> (RSE) pada model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sigma_sq <span class="ot">&lt;-</span> <span class="fu">sigma</span>(model_1)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sigma_sq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1064763</code></pre>
+</div>
+</div>
+<p>Pada regresi linear berganda, hubungan antara variansi error (<span class="math inline">\(\sigma^2\)</span>) dengan variansi taksiran koefisien regresi (<span class="math inline">\(\hat{\sigma}^2_{\beta_j}\)</span>) dirumuskan dalam bentuk matriks sebagai berikut:</p>
+<p><span class="math display">\[Var(\hat{\beta}) = \sigma^2 (X^T X)^{-1}\]</span></p>
+<p>dimana <span class="math inline">\(X\)</span> adalah matriks yang memuat kolom intersep (yang seluruh entrinya akan bernilai 1) beserta nilai-nilai observasi prediktor. Nilai variansi untuk masing-masing taksiran parameter <span class="math inline">\(\hat{\beta}_j\)</span> terletak pada diagonal utama dari matriks hasil perhitungan tersebut.</p>
+<p>Persamaan ini menunjukkan secara jelas bahwa variansi dari kemiringan regresi berbanding lurus dengan variansi error (<span class="math inline">\(\sigma^2\)</span>). Semakin besar variansi error (data semakin menyebar dari garis regresi), ketidakpastian atau variansi dari estimasi kemiringan regresinya juga akan semakin besar.</p>
+<p>Mari kita verifikasi hubungan matematis ini di R dengan menghitungnya secara manual menggunakan operasi matriks, lalu membandingkannya dengan nilai pada diagonal utama fungsi bawaan <code>vcov()</code> dari model, secara spesifik untuk prediktor <code>Petal.Length</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(model_1)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>XtX_inv <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>var_beta_manual <span class="ot">&lt;-</span> sigma_sq <span class="sc">*</span> XtX_inv</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>var_petal_manual <span class="ot">&lt;-</span> var_beta_manual[<span class="st">"Petal.Length"</span>, <span class="st">"Petal.Length"</span>]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>var_petal_model <span class="ot">&lt;-</span> <span class="fu">vcov</span>(model_1)[<span class="st">"Petal.Length"</span>, <span class="st">"Petal.Length"</span>]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">Perhitungan_Manual =</span> var_petal_manual, <span class="at">Fungsi_Bawaan_Model =</span> var_petal_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Perhitungan_Manual Fungsi_Bawaan_Model 
+         0.00437437          0.00437437 </code></pre>
+</div>
+</div>
+</section>
+<section id="visualisasi-residual" class="level2">
+<h2 class="anchored" data-anchor-id="visualisasi-residual">Visualisasi Residual</h2>
+<p>Analisis residual penting untuk mengecek asumsi klasik regresi.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(model_1), <span class="fu">resid</span>(model_1), </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Scatterplot Fitted vs Residuals"</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted Values"</span>, <span class="at">ylab =</span> <span class="st">"Residuals"</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul3_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Scatterplot residual menunjukkan sebaran acak di sekitar garis nol membentuk pola yang lebih tersebar di awal dibandingkan dengan di akhir. Hal ini mengindikasikan bahwa asumsi homoskedastisitas (variansi konstan) sedikit dilanggar.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">resid</span>(model_1), </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Histogram of Residuals"</span>, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Residuals"</span>, </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">border =</span> <span class="st">"black"</span>, <span class="at">breaks =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul3_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Histogram residual berbentuk cukup simetris menyerupai lonceng, yang mengindikasikan bahwa asumsi error berdistribusi normal cukup terpenuhi.</p>
+</section>
+</section>
+<section id="pengaruh-resampling-dan-ukuran-data" class="level1">
+<h1>Pengaruh Resampling dan Ukuran Data</h1>
+<section id="resampling-data-80-data-2" class="level2">
+<h2 class="anchored" data-anchor-id="resampling-data-80-data-2">Resampling Data 80% (Data 2)</h2>
+<p>Mari kita lakukan pemilihan sampel secara acak untuk 80% data lagi menggunakan <em>seed</em> yang berbeda, menyimpannya di <code>Data_2</code>, lalu melakukan fit ulang.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">999</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>index_train_2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n_total, n_train)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>data_2 <span class="ot">&lt;-</span> df[index_train_2, ]</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Length <span class="sc">~</span> Petal.Length <span class="sc">+</span> Species, <span class="at">data =</span> data_2)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Petal.Length + Species, data = data_2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.72337 -0.22863  0.00957  0.21818  0.72831 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)        3.61101    0.10724  33.672  &lt; 2e-16 ***
+Petal.Length       0.91387    0.06565  13.920  &lt; 2e-16 ***
+Speciesversicolor -1.57519    0.20014  -7.870 2.06e-12 ***
+Speciesvirginica  -2.10006    0.27947  -7.515 1.30e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3161 on 116 degrees of freedom
+Multiple R-squared:  0.8727,    Adjusted R-squared:  0.8694 
+F-statistic: 265.2 on 3 and 116 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Perbandingan persamaan regresi model 1 dan model 2:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      (Intercept)      Petal.Length Speciesversicolor  Speciesvirginica 
+        3.6438640         0.9319384        -1.6581945        -2.2247555 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      (Intercept)      Petal.Length Speciesversicolor  Speciesvirginica 
+        3.6110122         0.9138705        -1.5751871        -2.1000568 </code></pre>
+</div>
+</div>
+<p>Taksiran koefisien pada model yang di-fit pada <code>data_2</code> sedikit berbeda dengan <code>data_1</code>. Hal ini menunjukkan adanya <em>variabilitas sampling</em>. Namun, karena modelnya stabil, perubahan koefisien tersebut tidak terlalu ekstrem.</p>
+<p>Uji Kesesuaian Model 2:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)<span class="sc">$</span>fstatistic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  value   numdf   dendf 
+265.158   3.000 116.000 </code></pre>
+</div>
+</div>
+<p>Statistik F pada <code>model_2</code> tetap sangat besar dan <em>p-value</em> sangat kecil, menunjukkan kesimpulan yang sama dengan model pada <code>data_1</code>: bahwa model secara signifikan berguna (<em>fit</em>) pada data.</p>
+</section>
+<section id="fitting-100-data-lengkap" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-100-data-lengkap">Fitting 100% Data Lengkap</h2>
+<p>Bagaimana jika kita menggunakan keseluruhan 100% data untuk <em>fitting</em>?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>model_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(Sepal.Length <span class="sc">~</span> Petal.Length <span class="sc">+</span> Species, <span class="at">data =</span> df)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Sepal.Length ~ Petal.Length + Species, data = df)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.75310 -0.23142 -0.00081  0.23085  1.03100 
+
+Coefficients:
+                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)        3.68353    0.10610  34.719  &lt; 2e-16 ***
+Petal.Length       0.90456    0.06479  13.962  &lt; 2e-16 ***
+Speciesversicolor -1.60097    0.19347  -8.275 7.37e-14 ***
+Speciesvirginica  -2.11767    0.27346  -7.744 1.48e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.338 on 146 degrees of freedom
+Multiple R-squared:  0.8367,    Adjusted R-squared:  0.8334 
+F-statistic: 249.4 on 3 and 146 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model_full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      (Intercept)      Petal.Length Speciesversicolor  Speciesvirginica 
+        3.6835266         0.9045646        -1.6009717        -2.1176692 </code></pre>
+</div>
+</div>
+<p>Taksiran koefisien dari <code>model_full</code> berada di antara atau sedikit bergeser dari taksiran <code>model_1</code> dan <code>model_2</code>. Estimasi menggunakan data penuh (100%) merepresentasikan taksiran terbaik (<em>best fit</em>) terhadap populasi semu dari dataset yang kita miliki karena menggunakan informasi maksimal.</p>
+<p>Uji Kesesuaian Model Penuh:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)<span class="sc">$</span>fstatistic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   value    numdf    dendf 
+249.3968   3.0000 146.0000 </code></pre>
+</div>
+</div>
+<p>Kesimpulan kesesuaian model tetap sama, di mana model secara signifikan berguna. Nilai F-statistik pada data penuh sangat tinggi dengan keyakinan (p-value) yang stabil.</p>
+<p>Derajat Bebas (Degrees of Freedom):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_full)<span class="sc">$</span>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   4 146   4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)<span class="sc">$</span>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   4 116   4</code></pre>
+</div>
+</div>
+<p>Pada <code>model_full</code>, derajat bebas residual adalah <span class="math inline">\(150 - 3 - 1 = 146\)</span>. Sedangkan pada <code>model_1</code> dan <code>model_2</code>, derajat bebasnya adalah <span class="math inline">\(120 - 3 - 1 = 116\)</span>. Penambahan jumlah data (<span class="math inline">\(n\)</span>) langsung meningkatkan derajat bebas residual. Semakin besar derajat bebas residual, estimasi variansi akan lebih akurat dan uji t/F akan lebih “mudah” menolak <span class="math inline">\(H_0\)</span> jika memang terdapat efek (meningkatkan <em>statistical power</em>).</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Departemen Matematika FMIPA UI</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="mailto:aslab.math@sci.ui.ac.id">
+      <i class="bi bi-envelope" role="img" aria-label="Email kami">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
