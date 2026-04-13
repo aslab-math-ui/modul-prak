@@ -392,9 +392,11 @@ window.Quarto = {
   <li><a href="#cek-grafik-sebelum-modeling" id="toc-cek-grafik-sebelum-modeling" class="nav-link" data-scroll-target="#cek-grafik-sebelum-modeling">Cek Grafik Sebelum Modeling</a>
   <ul class="collapse">
   <li><a href="#scatterplot-prediktor-vs-respon" id="toc-scatterplot-prediktor-vs-respon" class="nav-link" data-scroll-target="#scatterplot-prediktor-vs-respon">Scatterplot: Prediktor vs Respon</a></li>
-  <li><a href="#cek-interaksi-numerik-x-kategorikal" id="toc-cek-interaksi-numerik-x-kategorikal" class="nav-link" data-scroll-target="#cek-interaksi-numerik-x-kategorikal">Cek Interaksi: Numerik x Kategorikal</a></li>
-  <li><a href="#cek-interaksi-numerik-x-numerik" id="toc-cek-interaksi-numerik-x-numerik" class="nav-link" data-scroll-target="#cek-interaksi-numerik-x-numerik">Cek Interaksi: Numerik x Numerik</a></li>
-  <li><a href="#ringkasan-baca-grafik-tentukan-model" id="toc-ringkasan-baca-grafik-tentukan-model" class="nav-link" data-scroll-target="#ringkasan-baca-grafik-tentukan-model">Ringkasan: Baca Grafik, Tentukan Model</a></li>
+  <li><a href="#distribusi-respon-perlu-log-atau-tidak" id="toc-distribusi-respon-perlu-log-atau-tidak" class="nav-link" data-scroll-target="#distribusi-respon-perlu-log-atau-tidak">Distribusi Respon: Perlu Log atau Tidak?</a></li>
+  <li><a href="#residual-plot-model-awal" id="toc-residual-plot-model-awal" class="nav-link" data-scroll-target="#residual-plot-model-awal">Residual Plot: Model Awal</a></li>
+  <li><a href="#scale-location-plot-variansi-konstan-atau-tidak" id="toc-scale-location-plot-variansi-konstan-atau-tidak" class="nav-link" data-scroll-target="#scale-location-plot-variansi-konstan-atau-tidak">Scale-Location Plot: Variansi Konstan atau Tidak?</a></li>
+  <li><a href="#ringkasan-diagnostik" id="toc-ringkasan-diagnostik" class="nav-link" data-scroll-target="#ringkasan-diagnostik">Ringkasan Diagnostik</a></li>
+  <li><a href="#cek-interaksi-apakah-pengaruh-prediktor-bergantung-pada-variabel-lain" id="toc-cek-interaksi-apakah-pengaruh-prediktor-bergantung-pada-variabel-lain" class="nav-link" data-scroll-target="#cek-interaksi-apakah-pengaruh-prediktor-bergantung-pada-variabel-lain">Cek Interaksi: Apakah Pengaruh Prediktor Bergantung pada Variabel Lain?</a></li>
   </ul></li>
   <li><a href="#membangun-model" id="toc-membangun-model" class="nav-link" data-scroll-target="#membangun-model">Membangun Model</a>
   <ul class="collapse">
@@ -405,7 +407,12 @@ window.Quarto = {
   <li><a href="#transformasi-log-pada-respon-multiplicative-model" id="toc-transformasi-log-pada-respon-multiplicative-model" class="nav-link" data-scroll-target="#transformasi-log-pada-respon-multiplicative-model">5. Transformasi Log pada Respon (Multiplicative Model)</a></li>
   <li><a href="#complete-second-order-model" id="toc-complete-second-order-model" class="nav-link" data-scroll-target="#complete-second-order-model">6. Complete Second-Order Model</a></li>
   </ul></li>
-  <li><a href="#membandingkan-model-dengan-nested-f-test" id="toc-membandingkan-model-dengan-nested-f-test" class="nav-link" data-scroll-target="#membandingkan-model-dengan-nested-f-test">Membandingkan Model dengan Nested F-Test</a></li>
+  <li><a href="#membandingkan-model" id="toc-membandingkan-model" class="nav-link" data-scroll-target="#membandingkan-model">Membandingkan Model</a>
+  <ul class="collapse">
+  <li><a href="#nested-model-f-test" id="toc-nested-model-f-test" class="nav-link" data-scroll-target="#nested-model-f-test">Nested Model F-Test</a></li>
+  <li><a href="#aic-dan-bic" id="toc-aic-dan-bic" class="nav-link" data-scroll-target="#aic-dan-bic">AIC dan BIC</a></li>
+  </ul></li>
+  <li><a href="#evaluasi-pada-data-test" id="toc-evaluasi-pada-data-test" class="nav-link" data-scroll-target="#evaluasi-pada-data-test">Evaluasi pada Data Test</a></li>
   <li><a href="#referensi-sintaks" id="toc-referensi-sintaks" class="nav-link" data-scroll-target="#referensi-sintaks">Referensi Sintaks</a></li>
   <li><a href="#referensi" id="toc-referensi" class="nav-link" data-scroll-target="#referensi">Referensi</a></li>
   </ul>
@@ -451,14 +458,13 @@ window.Quarto = {
 <section id="pendahuluan" class="level2">
 <h2 class="anchored" data-anchor-id="pendahuluan">Pendahuluan</h2>
 <p>Hubungan antar variabel di dunia nyata jarang berbentuk garis lurus. Kadang ada lengkungan, kadang pengaruh satu variabel bergantung pada variabel lain, kadang variabelnya perlu ditransformasi dulu. Proses memilih dan membentuk variabel supaya model makin akurat inilah yang disebut <strong>model building</strong> (Mendenhall et al., 2011, Ch. 5).</p>
-<p>Di modul ini kita fokus ke: kapan perlu suku kuadratik, kapan perlu interaksi, kapan perlu transformasi log, dan bagaimana membandingkan model-model yang sudah dibuat.</p>
+<p>Di modul ini kita akan belajar: menambahkan prediktor baru, suku interaksi, suku kuadratik, transformasi logaritma, dan membandingkan model.</p>
 <section id="package-yang-dipakai" class="level3">
 <h3 class="anchored" data-anchor-id="package-yang-dipakai">Package yang Dipakai</h3>
 <p>Sebelum mulai, kita load dulu package yang dibutuhkan:</p>
 <ul>
-<li><code>tidyverse</code>: kumpulan package untuk data wrangling dan visualisasi. Di dalamnya ada <code>ggplot2</code> (bikin grafik), <code>dplyr</code> (manipulasi data), <code>tidyr</code> (reshape data), dan lain-lain. Kita pakai terutama untuk <code>ggplot2</code>.</li>
-<li><code>patchwork</code>: package untuk menggabungkan beberapa plot <code>ggplot2</code> jadi satu tampilan berdampingan. Tanpa ini, kita harus pakai <code>par(mfrow=...)</code> yang lebih ribet dan tidak kompatibel dengan <code>ggplot2</code>.</li>
-<li><code>knitr</code>: package untuk rendering dokumen R Markdown/Quarto. Kita pakai fungsi <code>kable()</code> dari sini untuk bikin tabel yang rapi.</li>
+<li><p><code>tidyverse</code>: kumpulan package untuk data wrangling dan visualisasi. Di dalamnya ada <code>ggplot2</code> (bikin grafik), <code>dplyr</code> (manipulasi data), <code>tidyr</code> (reshape data), dan lain-lain. Kita pakai terutama untuk <code>ggplot2</code>.</p></li>
+<li><p><code>patchwork</code>: package untuk menggabungkan beberapa plot <code>ggplot2</code> jadi satu tampilan berdampingan. Tanpa ini, kita harus pakai <code>par(mfrow=...)</code> yang lebih ribet dan tidak kompatibel dengan <code>ggplot2</code>.</p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -505,15 +511,14 @@ window.Quarto = {
 </section>
 <section id="cek-grafik-sebelum-modeling" class="level2">
 <h2 class="anchored" data-anchor-id="cek-grafik-sebelum-modeling">Cek Grafik Sebelum Modeling</h2>
-<p>Sebelum langsung bikin model macem-macem, intip dulu datanya lewat grafik. Tujuannya: <strong>tahu bentuk model seperti apa yang cocok</strong>.</p>
-<p>Dua hal yang perlu dicek:</p>
+<p>Sebelum langsung bikin model macem-macem, intip dulu datanya lewat grafik. Tujuannya: <strong>tahu transformasi apa yang dibutuhkan</strong>.</p>
+<p>Dua pertanyaan utama:</p>
 <ol type="1">
-<li>Hubungan prediktor ke respon itu linear atau melengkung?</li>
-<li>Apakah ada interaksi antar prediktor?</li>
+<li>Hubungan prediktor ke respon itu linear atau melengkung? Kalau melengkung, coba suku kuadratik atau log prediktor.</li>
+<li>Distribusi respon/residu bermasalah (skewed, variansi tidak merata)? Kalau iya, coba log pada respon.</li>
 </ol>
 <section id="scatterplot-prediktor-vs-respon" class="level3">
 <h3 class="anchored" data-anchor-id="scatterplot-prediktor-vs-respon">Scatterplot: Prediktor vs Respon</h3>
-<p>Plot tiap prediktor numerik terhadap respon. Kita overlay dua garis: garis linear (hitam putus-putus) dan garis LOESS (merah). LOESS itu semacam garis “fleksibel” yang mengikuti pola data tanpa dipaksa lurus.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
@@ -546,23 +551,28 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Kalau garis LOESS jauh melenceng dari garis linear, hubungannya tidak linear. Itu tanda kita perlu suku kuadratik atau transformasi log pada prediktor.</p>
+<p>Kalau garis LOESS (merah) jauh melenceng dari garis linear (hitam putus-putus), hubungannya tidak linear. Pertimbangkan suku kuadratik atau log pada prediktor.</p>
 </section>
-<section id="cek-interaksi-numerik-x-kategorikal" class="level3">
-<h3 class="anchored" data-anchor-id="cek-interaksi-numerik-x-kategorikal">Cek Interaksi: Numerik x Kategorikal</h3>
-<p>Sekarang kita cek apakah pengaruh satu prediktor terhadap respon berubah tergantung variabel lain. Caranya: plot prediktor numerik vs respon, pisahkan warnanya per kategori. Tiap kelompok di-fit garis linear sederhana.</p>
+<section id="distribusi-respon-perlu-log-atau-tidak" class="level3">
+<h3 class="anchored" data-anchor-id="distribusi-respon-perlu-log-atau-tidak">Distribusi Respon: Perlu Log atau Tidak?</h3>
+<p>Scatterplot di atas menjawab pertanyaan soal prediktor. Sekarang kita cek variabel responnya (<code>mpg</code>): apakah distribusinya normal atau condong ke satu sisi (skewed)? Kalau condong ke kanan, itu sinyal bahwa transformasi <code>log(y)</code> bisa membantu (Mendenhall et al., 2011, Sec. 8.4).</p>
+<p>Kita bandingkan distribusi <code>mpg</code> asli vs <code>log(mpg)</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> am)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Automatic"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Manual"</span> <span class="ot">=</span> <span class="st">"tomato"</span>)) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cek Interaksi: wt x am"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Sejajar = tidak ada interaksi, beda slope = ada interaksi"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Berat (1000 lbs)"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Transmisi"</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribusi mpg (skala asli)"</span>, <span class="at">x =</span> <span class="st">"mpg"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(mpg))) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">10</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"darkgreen"</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribusi log(mpg)"</span>, <span class="at">x =</span> <span class="st">"log(mpg)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>p3 <span class="sc">+</span> p4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -571,26 +581,22 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Kalau garisnya kira-kira sejajar, pengaruh <code>wt</code> terhadap <code>mpg</code> sama untuk kedua jenis transmisi, jadi interaksi tidak perlu. Kalau slopenya jelas beda (atau bahkan menyilang), itu tanda kita perlu suku interaksi <code>wt:am</code> di model.</p>
-</section>
-<section id="cek-interaksi-numerik-x-numerik" class="level3">
-<h3 class="anchored" data-anchor-id="cek-interaksi-numerik-x-numerik">Cek Interaksi: Numerik x Numerik</h3>
-<p>Kalau dua-duanya numerik, kita tidak bisa langsung pakai warna karena bukan kategori. Triknya: potong salah satu variabel jadi beberapa kelompok pakai <code>cut()</code>, lalu perlakukan kelompok itu seperti kategori.</p>
+<p>Kalau distribusi asli jelas condong ke kanan tapi versi log-nya lebih simetris (bentuk bel), itu petunjuk kuat untuk pakai <code>log(y)</code> sebagai respon.</p>
+<p>Bisa juga dicek lewat Q-Q plot. Prinsipnya: kalau titik-titik mengikuti garis diagonal, distribusinya mendekati normal.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_train<span class="sc">$</span>hp_group <span class="ot">&lt;-</span> <span class="fu">cut</span>(data_train<span class="sc">$</span>hp,</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">breaks =</span> <span class="dv">3</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"HP Rendah"</span>, <span class="st">"HP Sedang"</span>, <span class="st">"HP Tinggi"</span>))</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> hp_group)) <span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cek Interaksi: wt x hp"</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Sejajar = tidak ada interaksi, beda slope = ada interaksi"</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Berat (1000 lbs)"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Kelompok HP"</span>) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">sample =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Q-Q Plot: mpg (skala asli)"</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">sample =</span> <span class="fu">log</span>(mpg))) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Q-Q Plot: log(mpg)"</span>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>p5 <span class="sc">+</span> p6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -599,10 +605,81 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Cara bacanya sama: kalau garis per kelompok HP sejajar, interaksi <code>wt:hp</code> tidak diperlukan. Kalau slopenya beda (misalnya di HP tinggi garisnya lebih curam), masukkan suku interaksi <code>wt:hp</code> ke model.</p>
+<p>Bandingkan kedua Q-Q plot: pakai skala yang titik-titiknya lebih rapat ke garis diagonal. Kalau <code>log(mpg)</code> lebih rapat, berarti transformasi log layak dicoba.</p>
 </section>
-<section id="ringkasan-baca-grafik-tentukan-model" class="level3">
-<h3 class="anchored" data-anchor-id="ringkasan-baca-grafik-tentukan-model">Ringkasan: Baca Grafik, Tentukan Model</h3>
+<section id="residual-plot-model-awal" class="level3">
+<h3 class="anchored" data-anchor-id="residual-plot-model-awal">Residual Plot: Model Awal</h3>
+<p>Setelah fit model pertama, cek residunya. Ini grafik paling penting karena bisa menangkap masalah yang tidak terlihat di scatterplot biasa.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>model_cek <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp, <span class="at">data =</span> data_train)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>data_cek <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fitted   =</span> <span class="fu">fitted</span>(model_cek),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="fu">residuals</span>(model_cek)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_cek, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Residual vs Fitted"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Idealnya: titik tersebar acak di sekitar garis nol"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Fitted values"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>) <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>p8 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_cek, <span class="fu">aes</span>(<span class="at">sample =</span> residual)) <span class="sc">+</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Q-Q Plot Residu"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Idealnya: titik mengikuti garis diagonal"</span>) <span class="sc">+</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>p7 <span class="sc">+</span> p8</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul4_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Cara baca:</p>
+<ul>
+<li><strong>Residual vs Fitted</strong>: Pola melengkung berarti ada non-linearitas yang belum tertangkap. Bentuk “corong” (makin menyebar) menandakan heteroskedastisitas.</li>
+<li><strong>Q-Q Plot residu</strong>: Titik melenceng dari garis berarti residu tidak normal.</li>
+</ul>
+</section>
+<section id="scale-location-plot-variansi-konstan-atau-tidak" class="level3">
+<h3 class="anchored" data-anchor-id="scale-location-plot-variansi-konstan-atau-tidak">Scale-Location Plot: Variansi Konstan atau Tidak?</h3>
+<p>Plot ini lebih fokus untuk mendeteksi heteroskedastisitas. Sumbu-y-nya adalah <span class="math inline">\(\sqrt{|\text{residual}|}\)</span>, jadi kita bisa lihat apakah “sebaran” residu berubah-ubah seiring nilai prediksi naik.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_cek<span class="sc">$</span>sqrt_abs_resid <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">abs</span>(<span class="fu">residuals</span>(model_cek)))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_cek, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> sqrt_abs_resid)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"tomato"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scale-Location Plot"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Idealnya: garis merah datar (variansi konstan)"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Fitted values"</span>, <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">sqrt</span>(<span class="st">"|Residual|"</span>))) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul4_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Kalau garis merah naik atau turun, variansi tidak konstan. Ini sinyal kuat untuk coba <code>log(y)</code> sebagai respon (Mendenhall et al., 2011, Sec. 8.4, Table 8.3).</p>
+</section>
+<section id="ringkasan-diagnostik" class="level3">
+<h3 class="anchored" data-anchor-id="ringkasan-diagnostik">Ringkasan Diagnostik</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -611,21 +688,84 @@ window.Quarto = {
 <thead>
 <tr class="header">
 <th>Yang terlihat di grafik</th>
-<th>Apa yang perlu dilakukan</th>
+<th>Solusi</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Scatterplot melengkung (LOESS jauh dari linear)</td>
+<td>Scatterplot melengkung</td>
 <td>Tambah suku kuadratik <span class="math inline">\(x^2\)</span> atau pakai <span class="math inline">\(\log(x)\)</span></td>
 </tr>
 <tr class="even">
+<td>Distribusi respon skewed ke kanan</td>
+<td>Coba <span class="math inline">\(\log(y)\)</span> sebagai respon</td>
+</tr>
+<tr class="odd">
+<td>Residual vs Fitted berpola</td>
+<td>Tambah suku kuadratik atau transformasi prediktor</td>
+</tr>
+<tr class="even">
+<td>Variansi residu tidak konstan</td>
+<td>Coba <span class="math inline">\(\log(y)\)</span> sebagai respon</td>
+</tr>
+<tr class="odd">
 <td>Garis per kategori tidak sejajar</td>
 <td>Tambah suku interaksi <span class="math inline">\(x_1 \cdot x_2\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>Diagnostik lain seperti residual plot, Q-Q plot residu, dan scale-location plot akan dibahas lebih dalam di praktikum 8 (Residual Analysis).</p>
+</section>
+<section id="cek-interaksi-apakah-pengaruh-prediktor-bergantung-pada-variabel-lain" class="level3">
+<h3 class="anchored" data-anchor-id="cek-interaksi-apakah-pengaruh-prediktor-bergantung-pada-variabel-lain">Cek Interaksi: Apakah Pengaruh Prediktor Bergantung pada Variabel Lain?</h3>
+<p>Grafik-grafik di atas fokus ke bentuk hubungan (linear/melengkung) dan distribusi respon. Tapi ada satu hal lagi yang perlu dicek: <strong>apakah ada interaksi antar prediktor?</strong></p>
+<p>Cara paling gampang: plot prediktor numerik vs respon, lalu pisahkan warnanya berdasarkan variabel kategorikal. Kalau garisnya kira-kira sejajar, interaksi kemungkinan tidak ada. Kalau garisnya menyilang atau kemiringannya jelas beda, itu tanda ada interaksi.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> am)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Automatic"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Manual"</span> <span class="ot">=</span> <span class="st">"tomato"</span>)) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cek Interaksi: wt x am"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Sejajar = tidak ada interaksi, menyilang/beda slope = ada interaksi"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Berat (1000 lbs)"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Transmisi"</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul4_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Plot ini belum pakai model apapun, murni dari data mentah. Kita cuma fit garis linear sederhana per kategori <code>am</code> untuk melihat polanya. Kalau dari sini slopenya sudah kelihatan beda, itu alasan untuk memasukkan suku interaksi <code>wt:am</code> ke dalam model nanti.</p>
+<p><strong>Kalau dua-duanya numerik bagaimana?</strong></p>
+<p>Untuk cek interaksi antara dua variabel numerik (misalnya <code>wt</code> dan <code>hp</code>), caranya agak beda. Kita tidak bisa langsung pakai warna karena <code>hp</code> bukan kategori. Triknya: potong salah satu variabel jadi beberapa kelompok pakai <code>cut()</code>, lalu perlakukan kelompok itu seperti kategori.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_train<span class="sc">$</span>hp_group <span class="ot">&lt;-</span> <span class="fu">cut</span>(data_train<span class="sc">$</span>hp,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">breaks =</span> <span class="dv">3</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"HP Rendah"</span>, <span class="st">"HP Sedang"</span>, <span class="st">"HP Tinggi"</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> hp_group)) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Cek Interaksi: wt x hp"</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Sejajar = tidak ada interaksi, beda slope = ada interaksi"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Berat (1000 lbs)"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Kelompok HP"</span>) <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modul4_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Logikanya sama: kalau garis per kelompok HP kira-kira sejajar, pengaruh <code>wt</code> terhadap <code>mpg</code> tidak tergantung level <code>hp</code>. Kalau slopenya beda (misalnya di HP tinggi garisnya lebih curam), itu tanda ada interaksi <code>wt:hp</code> yang perlu dimasukkan ke model.</p>
 </section>
 </section>
 <section id="membangun-model" class="level2">
@@ -635,8 +775,8 @@ window.Quarto = {
 <p>Mulai dari yang paling sederhana: semua prediktor masuk secara linear, tanpa interaksi dan tanpa transformasi. Model ini jadi patokan (Mendenhall et al., 2011, Sec. 4.3).</p>
 <p><span class="math display">\[E(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -668,8 +808,8 @@ F-statistic:    37 on 3 and 22 DF,  p-value: 9.048e-09</code></pre>
 <p>Koefisien interaksi <span class="math inline">\(\beta_3\)</span> artinya: perubahan slope <span class="math inline">\(x_1\)</span> untuk setiap perubahan satu unit <span class="math inline">\(x_2\)</span>.</p>
 <p>Di R, interaksi ditulis pakai <code>:</code> (interaksi saja) atau <code>*</code> (efek utama + interaksi).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">*</span> am <span class="sc">+</span> hp, <span class="at">data =</span> data_train)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">*</span> am <span class="sc">+</span> hp, <span class="at">data =</span> data_train)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -695,19 +835,19 @@ F-statistic: 44.35 on 4 and 21 DF,  p-value: 5.964e-10</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_train<span class="sc">$</span>pred_m2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_2)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">color =</span> am)) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> mpg), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> pred_m2), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Automatic"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Manual"</span> <span class="ot">=</span> <span class="st">"tomato"</span>)) <span class="sc">+</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Model dengan Interaksi wt x am"</span>,</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Berat (1000 lbs)"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Transmisi"</span>) <span class="sc">+</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data_train<span class="sc">$</span>pred_m2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_2)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">color =</span> am)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> mpg), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> pred_m2), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Automatic"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Manual"</span> <span class="ot">=</span> <span class="st">"tomato"</span>)) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Model dengan Interaksi wt x am"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Berat (1000 lbs)"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Transmisi"</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="modul4_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="modul4_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -722,8 +862,8 @@ F-statistic: 44.35 on 4 and 21 DF,  p-value: 5.964e-10</code></pre>
 <p><span class="math display">\[E(y) = \beta_0 + \beta_1 x + \beta_2 x^2\]</span></p>
 <p>Di R, suku kuadratik <strong>wajib</strong> dibungkus <code>I()</code>. Tanpa <code>I()</code>, operator <code>^</code> punya arti lain dalam sintaks formula R.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model_3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>model_3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -750,27 +890,27 @@ F-statistic: 31.95 on 4 and 21 DF,  p-value: 1.179e-08</code></pre>
 </div>
 <p>Visualisasi linear vs kuadratik:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>hp_seq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">hp =</span> <span class="fu">seq</span>(<span class="fu">min</span>(data_train<span class="sc">$</span>hp), <span class="fu">max</span>(data_train<span class="sc">$</span>hp), <span class="at">length.out =</span> <span class="dv">200</span>),</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">wt =</span> <span class="fu">mean</span>(data_train<span class="sc">$</span>wt),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">am =</span> <span class="fu">factor</span>(<span class="st">"Automatic"</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Automatic"</span>, <span class="st">"Manual"</span>))</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>hp_seq<span class="sc">$</span>pred_linear    <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> hp_seq)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>hp_seq<span class="sc">$</span>pred_quadratic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_3, <span class="at">newdata =</span> hp_seq)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> hp_seq, <span class="fu">aes</span>(<span class="at">y =</span> pred_linear,    <span class="at">color =</span> <span class="st">"Linear"</span>),    <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> hp_seq, <span class="fu">aes</span>(<span class="at">y =</span> pred_quadratic, <span class="at">color =</span> <span class="st">"Kuadratik"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Linear"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Kuadratik"</span> <span class="ot">=</span> <span class="st">"tomato"</span>)) <span class="sc">+</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear vs Kuadratik untuk HP"</span>,</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Horsepower"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Model"</span>) <span class="sc">+</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>hp_seq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">hp =</span> <span class="fu">seq</span>(<span class="fu">min</span>(data_train<span class="sc">$</span>hp), <span class="fu">max</span>(data_train<span class="sc">$</span>hp), <span class="at">length.out =</span> <span class="dv">200</span>),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">wt =</span> <span class="fu">mean</span>(data_train<span class="sc">$</span>wt),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">am =</span> <span class="fu">factor</span>(<span class="st">"Automatic"</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Automatic"</span>, <span class="st">"Manual"</span>))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>hp_seq<span class="sc">$</span>pred_linear    <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_1, <span class="at">newdata =</span> hp_seq)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>hp_seq<span class="sc">$</span>pred_quadratic <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_3, <span class="at">newdata =</span> hp_seq)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_train, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> mpg)) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> hp_seq, <span class="fu">aes</span>(<span class="at">y =</span> pred_linear,    <span class="at">color =</span> <span class="st">"Linear"</span>),    <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> hp_seq, <span class="fu">aes</span>(<span class="at">y =</span> pred_quadratic, <span class="at">color =</span> <span class="st">"Kuadratik"</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Linear"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>, <span class="st">"Kuadratik"</span> <span class="ot">=</span> <span class="st">"tomato"</span>)) <span class="sc">+</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear vs Kuadratik untuk HP"</span>,</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Horsepower"</span>, <span class="at">y =</span> <span class="st">"MPG"</span>, <span class="at">color =</span> <span class="st">"Model"</span>) <span class="sc">+</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="modul4_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="modul4_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -780,8 +920,8 @@ F-statistic: 31.95 on 4 and 21 DF,  p-value: 1.179e-08</code></pre>
 <h3 class="anchored" data-anchor-id="transformasi-log-pada-prediktor">4. Transformasi Log pada Prediktor</h3>
 <p>Kalau prediktor sangat condong ke kanan (right-skewed), atau hubungannya dengan respon lebih “masuk akal” dalam skala log, langsung tulis <code>log()</code> di formula.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">log</span>(hp) <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>model_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">log</span>(hp) <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -809,11 +949,11 @@ F-statistic: 44.13 on 3 and 22 DF,  p-value: 1.774e-09</code></pre>
 </section>
 <section id="transformasi-log-pada-respon-multiplicative-model" class="level3">
 <h3 class="anchored" data-anchor-id="transformasi-log-pada-respon-multiplicative-model">5. Transformasi Log pada Respon (Multiplicative Model)</h3>
-<p>Kadang yang bermasalah bukan prediktornya, tapi responnya. Kalau data punya sifat di mana perubahan respon lebih masuk akal dalam bentuk persentase daripada angka absolut (misalnya gaji, harga), model multiplikatif lebih tepat. Mendenhall et al.&nbsp;(2011, Sec. 4.12, 8.4) menjelaskan bahwa model ini ditulis:</p>
+<p>Kalau residu punya variansi tidak merata (heteroskedastik), biasanya terlihat sebagai pola “corong” di residual plot, coba transformasi log pada respon. Mendenhall et al.&nbsp;(2011, Sec. 4.12, 8.4) menjelaskan bahwa ini ekuivalen dengan model multiplikatif:</p>
 <p><span class="math display">\[y = [E(y)] \cdot \varepsilon \quad \Longrightarrow \quad \ln(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>model_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mpg) <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mpg) <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_5)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -839,25 +979,25 @@ F-statistic: 48.12 on 3 and 22 DF,  p-value: 7.852e-10</code></pre>
 </div>
 <p>Interpretasi koefisien: kenaikan 1 satuan <span class="math inline">\(x_j\)</span> mengubah <span class="math inline">\(y\)</span> sebesar faktor <span class="math inline">\(e^{\hat\beta_j}\)</span>, atau dalam persen: <span class="math inline">\((e^{\hat\beta_j} - 1) \times 100\%\)</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>beta_wt <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_5)[<span class="st">"wt"</span>]</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Koefisien wt:"</span>, <span class="fu">round</span>(beta_wt, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>beta_wt <span class="ot">&lt;-</span> <span class="fu">coef</span>(model_5)[<span class="st">"wt"</span>]</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Koefisien wt:"</span>, <span class="fu">round</span>(beta_wt, <span class="dv">4</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Koefisien wt: -0.1906 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Artinya: +1 unit wt -&gt; mpg berubah"</span>, <span class="fu">round</span>((<span class="fu">exp</span>(beta_wt) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Artinya: +1 unit wt -&gt; mpg berubah"</span>, <span class="fu">round</span>((<span class="fu">exp</span>(beta_wt) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>), <span class="st">"%</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Artinya: +1 unit wt -&gt; mpg berubah -17.35 %</code></pre>
 </div>
 </div>
-<p><strong>Penting:</strong> <span class="math inline">\(R^2\)</span> model ini tidak bisa langsung dibandingkan dengan model 1-4 karena responnya beda skala. Kalau mau prediksi ke skala <code>mpg</code> asli, balikkan pakai <code>exp()</code>. Kapan sebaiknya pakai transformasi log pada respon akan dibahas lebih lanjut di praktikum 8 (Residual Analysis), di mana kita akan belajar mendeteksi heteroskedastisitas dari residual plot.</p>
+<p><strong>Penting:</strong> <span class="math inline">\(R^2\)</span> model ini tidak bisa langsung dibandingkan dengan model 1–4 karena responnya beda skala. Kalau mau prediksi ke skala <code>mpg</code> asli, balikkan pakai <code>exp()</code>.</p>
 </section>
 <section id="complete-second-order-model" class="level3">
 <h3 class="anchored" data-anchor-id="complete-second-order-model">6. Complete Second-Order Model</h3>
 <p>Versi paling lengkap: semua suku linear, kuadratik, dan interaksi antar prediktor numerik digabung jadi satu (Mendenhall et al., 2011, Sec. 5.5):</p>
 <p><span class="math display">\[E(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2 + \beta_4 x_1^2 + \beta_5 x_2^2\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> (wt <span class="sc">+</span> hp)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_6)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>model_6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> (wt <span class="sc">+</span> hp)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> am, <span class="at">data =</span> data_train)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_6)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -886,14 +1026,15 @@ F-statistic: 27.38 on 6 and 19 DF,  p-value: 2.209e-08</code></pre>
 </div>
 </section>
 </section>
-<section id="membandingkan-model-dengan-nested-f-test" class="level2">
-<h2 class="anchored" data-anchor-id="membandingkan-model-dengan-nested-f-test">Membandingkan Model dengan Nested F-Test</h2>
-<p>Setelah punya beberapa model, kita perlu cara formal untuk menentukan mana yang lebih baik. Kalau dua model bersifat <em>nested</em> (satu model merupakan versi lebih kecil dari yang lain), pakai <code>anova()</code> untuk menguji apakah suku tambahan signifikan (Mendenhall et al., 2011, Sec. 4.13).</p>
+<section id="membandingkan-model" class="level2">
+<h2 class="anchored" data-anchor-id="membandingkan-model">Membandingkan Model</h2>
+<section id="nested-model-f-test" class="level3">
+<h3 class="anchored" data-anchor-id="nested-model-f-test">Nested Model F-Test</h3>
+<p>Kalau dua model bersifat <em>nested</em> (satu model merupakan versi lebih kecil dari yang lain), pakai <code>anova()</code> untuk menguji apakah suku tambahan signifikan (Mendenhall et al., 2011, Sec. 4.13).</p>
 <p><span class="math display">\[H_0: \beta_{g+1} = \beta_{g+2} = \cdots = \beta_k = 0\]</span></p>
 <p><span class="math display">\[F = \frac{(SSE_R - SSE_C) / (k - g)}{MSE_C}\]</span></p>
-<p>Contoh: apakah suku kuadratik <code>I(hp^2)</code> yang ditambahkan di model 3 benar-benar membantu dibanding model 1?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_1, model_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_1, model_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -906,9 +1047,8 @@ Model 2: mpg ~ wt + hp + I(hp^2) + am
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Dan apakah suku interaksi <code>wt:am</code> di model 2 signifikan?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_1, model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_1, model_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -922,39 +1062,136 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>Kalau p-value <span class="math inline">\(&lt; 0.05\)</span>, suku tambahannya berguna, pakai model yang lebih kompleks. Kalau tidak signifikan, pilih model yang lebih sederhana (prinsip <em>parsimony</em>; Mendenhall et al., 2011, Sec. 4.13).</p>
-<p>Metode perbandingan model lainnya seperti AIC, BIC, dan adjusted <span class="math inline">\(R^2\)</span> akan dibahas di praktikum 6 (Variable Selection).</p>
+</section>
+<section id="aic-dan-bic" class="level3">
+<h3 class="anchored" data-anchor-id="aic-dan-bic">AIC dan BIC</h3>
+<p>Untuk membandingkan banyak model sekaligus (termasuk yang tidak nested), pakai AIC/BIC. Semakin kecil nilainya, semakin baik modelnya.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model_1, model_2, model_3, model_4, model_6)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        df      AIC
+model_1  5 128.0088
+model_2  6 118.3976
+model_3  6 125.8776
+model_4  5 124.1286
+model_6  8 121.8585</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model_1, model_2, model_3, model_4, model_6)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        df      BIC
+model_1  5 134.2993
+model_2  6 125.9462
+model_3  6 133.4262
+model_4  5 130.4191
+model_6  8 131.9233</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="evaluasi-pada-data-test" class="level2">
+<h2 class="anchored" data-anchor-id="evaluasi-pada-data-test">Evaluasi pada Data Test</h2>
+<p>Terakhir, cek performa semua model di data yang belum pernah dilihat.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>hitung_metrik <span class="ot">&lt;-</span> <span class="cf">function</span>(model, data_uji, <span class="at">log_respon =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  pred   <span class="ot">&lt;-</span> <span class="cf">if</span> (log_respon) <span class="fu">exp</span>(<span class="fu">predict</span>(model, <span class="at">newdata =</span> data_uji)) <span class="cf">else</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> data_uji)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  aktual <span class="ot">&lt;-</span> data_uji<span class="sc">$</span>mpg</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  rmse   <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((aktual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  r2     <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>((aktual <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">sum</span>((aktual <span class="sc">-</span> <span class="fu">mean</span>(aktual))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">RMSE =</span> <span class="fu">round</span>(rmse, <span class="dv">4</span>), <span class="at">R2_test =</span> <span class="fu">round</span>(r2, <span class="dv">4</span>))</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>hasil <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Model 1: First-order"</span>   <span class="ot">=</span> <span class="fu">hitung_metrik</span>(model_1, data_test),</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Model 2: +Interaksi"</span>    <span class="ot">=</span> <span class="fu">hitung_metrik</span>(model_2, data_test),</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Model 3: +Kuadratik hp"</span> <span class="ot">=</span> <span class="fu">hitung_metrik</span>(model_3, data_test),</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Model 4: log(hp)"</span>       <span class="ot">=</span> <span class="fu">hitung_metrik</span>(model_4, data_test),</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Model 5: log(mpg)*"</span>     <span class="ot">=</span> <span class="fu">hitung_metrik</span>(model_5, data_test, <span class="at">log_respon =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Model 6: Second-order"</span>  <span class="ot">=</span> <span class="fu">hitung_metrik</span>(model_6, data_test)</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(hasil, <span class="at">caption =</span> <span class="st">"* prediksi ditransformasi balik dengan exp()"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>* prediksi ditransformasi balik dengan exp()</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">RMSE</th>
+<th style="text-align: right;">R2_test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Model 1: First-order</td>
+<td style="text-align: right;">2.6251</td>
+<td style="text-align: right;">0.8428</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Model 2: +Interaksi</td>
+<td style="text-align: right;">3.4167</td>
+<td style="text-align: right;">0.7337</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Model 3: +Kuadratik hp</td>
+<td style="text-align: right;">3.7593</td>
+<td style="text-align: right;">0.6776</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Model 4: log(hp)</td>
+<td style="text-align: right;">2.2275</td>
+<td style="text-align: right;">0.8868</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Model 5: log(mpg)*</td>
+<td style="text-align: right;">2.7552</td>
+<td style="text-align: right;">0.8268</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Model 6: Second-order</td>
+<td style="text-align: right;">2.9679</td>
+<td style="text-align: right;">0.7991</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>RMSE yang lebih kecil dan R² test yang lebih besar menandakan model yang lebih baik di data baru. Kalau RMSE test jauh lebih besar dari train, kemungkinan overfitting.</p>
 </section>
 <section id="referensi-sintaks" class="level2">
 <h2 class="anchored" data-anchor-id="referensi-sintaks">Referensi Sintaks</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First-order</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> df)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaksi</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">*</span> x2, <span class="at">data =</span> df)             <span class="co"># efek utama + interaksi</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> (x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3)<span class="sc">^</span><span class="dv">2</span>, <span class="at">data =</span> df)    <span class="co"># semua interaksi dua arah</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Kuadratik (WAJIB pakai I())</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> df)</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">data =</span> df)           <span class="co"># alternatif polinomial</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Log prediktor</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">log</span>(x), <span class="at">data =</span> df)</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Log respon</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="fu">log</span>(y) <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> df)        <span class="co"># prediksi balik: exp(predict(...))</span></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete second-order</span></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> (x1 <span class="sc">+</span> x2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">I</span>(x1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(x2<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> df)</span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Nested F-test</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_reduced, model_complete)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First-order</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> df)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaksi</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">*</span> x2, <span class="at">data =</span> df)             <span class="co"># efek utama + interaksi</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> (x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3)<span class="sc">^</span><span class="dv">2</span>, <span class="at">data =</span> df)    <span class="co"># semua interaksi dua arah</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Kuadratik (WAJIB pakai I())</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> df)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">3</span>), <span class="at">data =</span> df)           <span class="co"># alternatif polinomial</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Log prediktor</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">log</span>(x), <span class="at">data =</span> df)</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Log respon</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="fu">log</span>(y) <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> df)        <span class="co"># prediksi balik: exp(predict(...))</span></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete second-order</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> (x1 <span class="sc">+</span> x2)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">I</span>(x1<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(x2<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> df)</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Perbandingan model</span></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_reduced, model_complete)     <span class="co"># nested F-test</span></span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model_a, model_b)</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model_a, model_b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="referensi" class="level2">
 <h2 class="anchored" data-anchor-id="referensi">Referensi</h2>
 <p>Mendenhall, W., Sincich, T. (2011). <em>A Second Course in Statistics: Regression Analysis</em> (7th ed.). Prentice Hall.</p>
-<p>Materi modul ini mengacu pada beberapa bagian dari buku di atas: interaction model (Sec. 4.10), multiplicative model (Sec. 4.12), nested model F-test dan prinsip parsimony (Sec. 4.13), polynomial models (Sec. 5.3), complete second-order model (Sec. 5.5), serta models with quantitative &amp; qualitative variables (Sec. 5.7).</p>
+<p>Materi modul ini mengacu pada beberapa bagian dari buku di atas: interaction model dan multiplicative model (Sec. 4.10 dan 4.12), nested model F-test dan prinsip parsimony (Sec. 4.13), polynomial models dan complete second-order model (Sec. 5.3 dan 5.5), models with quantitative &amp; qualitative variables (Sec. 5.7), serta variance-stabilizing transformations seperti log dan sqrt (Sec. 8.4).</p>
 
 
 </section>
