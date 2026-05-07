@@ -42,6 +42,13 @@ git submodule update --init --recursive --remote modul/2026
 Penjelasan:
 git clone berfungsi untuk melakukan cloning project dari repo modul-prak ke local. ```git submodule update```
 
+Detached:
+Detached atau disconnect submodule kalian dapat melakukan ini.
+
+```bash
+git submodule deinit -f path/to/submodule
+```
+
 ### R Environment Setup
 Requirements:
 1. R
