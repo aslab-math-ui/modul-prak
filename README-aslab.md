@@ -37,7 +37,7 @@ Selanjutnya jalankan kode ini baris per baris
 ```bash
 git clone https://github.com/aslab-math-ui/modul-prak.git
 cd modul-prak
-git submodule update --init --recursive modul/2025
+git submodule update --init --recursive --remote modul/2026
 ```
 Penjelasan:
 git clone berfungsi untuk melakukan cloning project dari repo modul-prak ke local. ```git submodule update```
