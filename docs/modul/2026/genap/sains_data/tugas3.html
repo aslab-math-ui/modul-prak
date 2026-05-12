@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2026-05-12">
-<meta name="description" content="Deadline: Minggu, 7 Juni 2026">
+<meta name="description" content="Deadline: Sabtu, 13 Juni 2026">
 
 <title>Tugas 3 Praktikum Sains Data: Klasifikasi Gambar – Lab Matematika UI</title>
 <style>
@@ -168,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Deadline: Minggu, 7 Juni 2026
+    Deadline: Sabtu, 13 Juni 2026
   </div>
 </div>
 
@@ -244,25 +244,24 @@ ul.task-list li input[type="checkbox"] {
 <p>Format: Gambar tersimpan dalam format standar (kemungkinan besar .jpg atau .png) di dalam folder masing-masing kelas.</p>
 <p>Gunakan kode berikut untuk load gambar ke dalam python</p>
 <p><a href="../../../../modul/2026/genap/sains_data/tugas3_manual.html" class="btn">Load Dataset</a></p>
-<p>Tujuan Anda adalah membangun model klasifikasi untuk memprediksi kelas dari gambar-gambar ini (multi-class classification). Lakukan <em>end-to-end Deep Learning</em>, atau lebih tepatnya <em>end-to-end CNN Image Classification</em>, yang meliputi:</p>
+<p>Tujuan Anda adalah membangun model klasifikasi untuk memprediksi kelas dari gambar-gambar yang diberikan. Lakukan <em>end-to-end Deep Learning</em>, atau lebih tepatnya <em>end-to-end CNN Image Classification</em>, yang meliputi:</p>
 <ol type="a">
 <li><p>Langkah <strong><em>preprocessing</em></strong> yang sekiranya diperlukan.</p></li>
 <li><p><strong>EDA:</strong> Lakukan eksplorasi data dengan membuat visualisasi dari sebagian gambar dan distribusi kelas</p></li>
 <li><p><strong><em>Modelling:</em></strong> Buatlah kedua model ini:</p>
 <ul>
 <li><p>Model CNN sederhana</p></li>
-<li><p>Gunakan model berbasis transfer learning, seperti ResNet, VGGNet, EfficientNet, dsb., yaitu model yang sebelumnya sudah dilatih (pretrained) di dataset besar seperti ImageNet, lalu kalian adaptasikan untuk tugas klasifikasi pada CIFAR-10.</p></li>
+<li><p>Gunakan model berbasis transfer learning, seperti ResNet, VGGNet, EfficientNet, dsb., yaitu model yang sebelumnya sudah dilatih (pretrained) di dataset besar seperti ImageNet, lalu kalian adaptasikan untuk tugas klasifikasi data yang diberikan.</p></li>
 </ul></li>
 <li><p><strong>Evaluasi model klasifikasi:</strong> Untuk kedua model klasifikasi yang telah Anda bangun, lakukan evaluasi dengan:</p>
 <ul>
-<li>Menampilkan atau menghitung metrik evaluasi untuk klasifikasi multi-kelas (misalnya akurasi, precision, recall, F1-score, dsb).</li>
+<li>Menampilkan atau menghitung metrik evaluasi untuk klasifikasi (misalnya akurasi, precision, recall, F1-score, dsb).</li>
 <li>Menampilkan grafik garis (line plot) yang membandingkan train accuracy vs validation accuracy selama proses pelatihan.</li>
 <li>Berdasarkan hasil evaluasi tersebut, bandingkan performa kedua model dari sisi metrik evaluasi, jumlah total parameter, dan waktu komputasi (running time). Tentukan model mana yang menurut Anda paling baik secara keseluruhan, disertai dengan alasannya</li>
 </ul></li>
 </ol>
 
 
-<p>{ “cells”: [ { “cell_type”: “markdown”, “metadata”: {}, “source”: [ “File <code>.zip</code> yang di download cukup di <em>extract</em> dan disarankan tidak dilakukan perubahan pada folder ataupun file manapun” ] }, { “cell_type”: “code”, “execution_count”: null, “metadata”: { “id”: “xDiYnYQYa_xb” }, “outputs”: [], “source”: [ “root_file = ‘/content/Gender_Final’ # kalian nanti sesuaikan saja file path pada notebook kalian”, “”, “# untuk mengetahui path root kalian bagaimana cukup klik kanan pada file Gender_Final, kemudian klik ‘copy path’, terakhir tinggal copy paste pada root_file.” ] }, { “cell_type”: “code”, “execution_count”: null, “metadata”: { “id”: “mQUPUJSeVcVe” }, “outputs”: [], “source”: [ “import tensorflow as tf”, “import numpy as np”, “import os”, “”, “def load_data(image_root = root_file, img_size=(64, 64), batch_size=32, as_numpy=True):”, ” train_dir = os.path.join(image_root, ‘train’)“,” test_dir = os.path.join(image_root, ‘val’)“,”“,” train_ds = tf.keras.utils.image_dataset_from_directory(“,” train_dir,“,” labels=‘inferred’,“,” label_mode=‘binary’,“,” image_size=img_size,“,” batch_size=batch_size,“,” shuffle=True“,” )“,”“,” test_ds = tf.keras.utils.image_dataset_from_directory(“,” test_dir,“,” labels=‘inferred’,“,” label_mode=‘binary’,“,” image_size=img_size,“,” batch_size=batch_size,“,” shuffle=False“,” )“,”“,” if as_numpy:“,” def to_numpy(dataset):“,” x, y = [], []“,” for imgs, labels in dataset:“,” x.append(imgs.numpy())“,” y.append(labels.numpy())“,” x = np.concatenate(x, axis=0)“,” y = np.concatenate(y, axis=0).reshape(-1, 1)“,” return x.astype(np.uint8), y.astype(np.uint8)“,”“,” train_data = to_numpy(train_ds)“,” test_data = to_numpy(test_ds)“,” return train_data, test_data“,”“,” return train_ds, test_ds” ] }, { “cell_type”: “code”, “execution_count”: null, “metadata”: { “colab”: { “base_uri”: “https://localhost:8080/” }, “id”: “TqXnxNOfbe2q”, “outputId”: “01192f90-8fb2-459b-d4d2-fd0b9b13a68b” }, “outputs”: [ { “name”: “stdout”, “output_type”: “stream”, “text”: [ “Found 1845 files belonging to 2 classes.”, “Found 462 files belonging to 2 classes.” ] } ], “source”: [ “(X_train, y_train), (X_test, y_test) = load_data()” ] } ], “metadata”: { “colab”: { “provenance”: [] }, “kernelspec”: { “display_name”: “Python 3”, “name”: “python3” }, “language_info”: { “name”: “python” } }, “nbformat”: 4, “nbformat_minor”: 0 }</p>
 </section>
 
 </main> <!-- /main -->
