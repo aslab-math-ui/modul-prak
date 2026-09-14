@@ -1,0 +1,263 @@
+---
+title: "(Pertemuan 1) Review R dan Regresi Linear Sederhana"
+subtitle: "R Review and Simple Linear Regression"
+author: "Tim Asisten Lab Departemen Matematika UI"
+image: "image1.jpg"
+format: 
+  html:
+    toc: true
+editor: visual
+date: 2026-09-12
+---
+
+Kembali ke [**Model Linier**](https://aslab-math-ui.github.io/modul-prak/modul/2026/ganjil/model_linier/molin2026ganjil.html)
+
+# Review R
+
+Sebelum masuk ke materi, mari kita review kembali mengenai R dan RStudio. Pastikan Anda sudah menginstall keduanya. Jika belum, maka sebaiknya diinstall terlebih dahulu di website berikut:
+
+1.  [**R**](https://cran.rstudio.com)
+2.  [**RStudio**](https://posit.co/download/rstudio-desktop/)
+
+## Instalasi Library
+
+Salah satu alasan kenapa R sangat bermanfaat dan sering dipakai untuk melakukan analisis data adalah karena kemudahan pengguna dalam menginstall package/library. R memiliki repository besar yang bernama CRAN (Comprehensive R Archive Network) yang menyimpan sangat banyak library yang dapat digunakan untuk mengaplikasikan metode-metode statistika, dimulai dari yang paling sederhana sampai yang paling kompleks. Dan untuk menginstall library di dalam CRAN ini, cukup menggunakan fungsi
+
+``` r
+install.packages()
+```
+
+untuk melakukan pengunduhan, diikuti dengan
+
+``` r
+library()
+```
+
+untuk load library yang diinginkan. Setelah itu, fungsi-fungsi yang terdapat pada library yang diunduh dapat langsung digunakan.
+
+Untuk permulaan, silakan unduh terlebih dahulu package `tidyverse`, karena package ini memiliki banyak library-library penting yang diperlukan ke depannya.
+
+``` r
+install.packages("tidyverse")
+```
+
+## Membuka Data
+
+Untuk menganalisis data, tentu suatu program harus bisa membuka data yang ingin dianalisis terlebih dahulu. Pada R, pembacaan data ini bisa dilakukan dengan menggunakan library `readr` untuk file `.csv` dan library `readxl` untuk file `.xlsx` atau `.xls`. Kedua library ini sudah terinstall otomatis saat mengunduh package `tidyverse`.
+
+```{r}
+library(readr)
+library(readxl)
+```
+
+Berikutnya, untuk membuka file, silakan run
+
+``` r
+data1 <- read_csv("path/menuju/ke/file.csv")     # untuk csv
+data2 <- read_excel("path/menuju/ke/file.xlsx")  # untuk xlsx
+```
+
+Pada pertemuan ini, akan digunakan file `iris` yang sudah terdapat langsung di R sebagai contoh penggunaan data.
+
+```{r}
+data(iris)
+df <- iris
+```
+
+Untuk melihat keseluruhan data:
+
+``` r
+View(df)
+```
+
+Untuk melihat beberapa entri pertama dan beberapa entri terakhir pada data:
+
+```{r}
+head(df, 10)
+tail(df, 10)
+```
+
+Untuk melihat rangkuman five-point summary, gunakan:
+
+```{r}
+summary(df)
+```
+
+dan untuk melihat statistik-statistik deskriptif, gunakan library `psych`:
+
+``` r
+install.packages("psych")
+```
+
+diikuti dengan
+
+```{r}
+library(psych)
+describe(df)
+```
+
+# Regresi Linear Sederhana
+
+Regresi linear sederhana adalah metode statistika yang digunakan untuk memodelkan hubungan antara dua variabel $X$ dan $Y$, dengan asumsi bahwa hubungannya berupa linear, yaitu
+
+$$
+Y = \beta_0+\beta_1X + \varepsilon
+$$
+
+dimana $\varepsilon$ adalah variabel error yang bersifat acak, $X$ adalah variabel independen atau variabel bebas, $Y$ adalah variabel dependen atau variabel respon.
+
+Dalam melakukan pemodelan tersebut, tentu kita dapat menggunakan sembarang distribusi untuk variabel error $\varepsilon$ dan sembarang angka $\beta_0$ dan $\beta_1$ pada persamaan. Meskipun demikian, melakukan hal ini belum tentu sesuai dengan data yang dimiliki. Oleh karena itu, tugas sebenarnya adalah menentukan berapa angka atau distribusi yang paling tepat untuk menggantikan $\beta_0$, $\beta_1$, dan $\varepsilon$.
+
+Estimasi untuk distribusi dari suatu variabel acak dapat menjadi kesulitan tersendiri, terutama jika terdapat parameter lain. Oleh karena itu, biasanya distribusi dari $\varepsilon$ diasumsikan mengikuti distribusi tertentu. Pada regresi linear sederhana, diasumsikan bahwa
+
+$$
+\varepsilon_i \sim N(0,\sigma^2)
+$$
+
+dimana $\sigma^2$ adalah bilangan positif yang berhingga dan konstan, yang menyatakan variansi dari error. Dengan asumsi demikian, maka tugas kita sekarang adalah menentukan angka terbaik untuk $\beta_0$, $\beta_1$, dan $\sigma^2$. Dengan kata lain, tugas kita adalah melakukan **estimasi** pada **parameter-parameter** tersebut.
+
+Karena sudah diasumsikan bahwa $\varepsilon$ mengikuti distribusi normal, maka metode-metode parametrik tentu dapat dilakukan, dan bisa diperoleh estimator untuk $\beta_0$ dan $\beta_1$, yaitu $\hat{\beta}_0$ dan $\hat{\beta}_1$. Dari estimator-estimator yang digunakan, terdapat estimator OLS (Ordinary Least Squares) yang paling sering digunakan, karena sifat BLUE (Best Linear Unbiased Estimator) yang dimilikinya.
+
+Untuk memperoleh estimator ini, tentu metode manual dapat dilakukan. Meskipun demikian, dengan data yang besar, proses perhitungan ini akan memakan waktu yang lama. Oleh karena itu, dapat digunakan R untuk melakukan ini.
+
+Kita akan mengambil contoh data `iris` yang kita miliki. Misal, kita ingin memodelkan hubungan linear antara `Petal.Length` sebagai variabel respon dengan `Petal.Width` sebagai variabel bebas. Maka dapat digunakan fungsi `lm` sebagai berikut:
+
+```{r}
+model <- lm(df$Petal.Length ~ df$Petal.Width)
+# ATAU
+model <- lm(Petal.Length ~ Petal.Width, data = df)
+```
+
+Kemudian gunakan fungsi `summary` untuk memperoleh hasil pemodelan.
+
+```{r}
+summary(model)
+```
+
+Terdapat beberapa hal yang bisa disimpulkan dari output yang didapatkan:
+
+1.  Diperoleh hasil estimasi untuk $\beta_0$ dan $\beta_1$ yang bisa dilihat dari bagian `Coefficients` pada output. Untuk $\beta_0$ estimasinya terdapat pada baris `(Intercept)`, yaitu $\hat{\beta}_0=1.08356$, dan untuk $\beta_1$ estimasinya terdapat pada baris `Petal.Width`, yaitu $\hat{\beta}_1=2.22994$. Akibatnya, persamaan modelnya adalah $Y = 1.08356 + 2.22994X + \varepsilon$.
+2.  Kedua parameter yang diestimasi signifikan berbeda dari nol, karena p-value (terletak di kolom `Pr(>|t|)`) untuk keduanya sangat kecil (lebih kecil dari 0.05). Selain itu, untuk mempermudah observasi, bisa juga dilihat dari simbol `***` yang terdapat di samping p-value.
+3.  Estimasi untuk standar deviasi dari error, yaitu $\sigma$, terdapat pada bagian `Residual standard error`, yaitu $s=0.4782$. Estimasi ini didapat menggunakan derajat bebas 148, yang berarti $n-k-1=148 \rightarrow n = 149+k$. Karena hanya terdapat 1 variabel independen, berarti $k=1$, sehingga banyaknya data yang digunakan pada regresi adalah $n=150$.
+4.  Koefisien determinasi $R^2$ model yaitu $0.9271$, yang berarti model dapat menjelaskan $92.71%$ variasi pada data. Ini mengindikasikan goodness-of-fit model. Selain itu, koefisien korelasi $r$ juga dapat dihitung dengan mengambil akar dari $R^2$.
+5.  Goodness-of-fit pada poin sebelumnya didukung oleh sangat kecilnya p-value dari F-statistic.
+6.  SSR dapat dihitung lewat F-statistic dan RSE, atau lewat $R^2$ dan RSE. Ingat kembali rumus-rumus kedua statistik tersebut dan juga hubungan keduanya.
+
+## Koefisien Variasi
+
+Untuk menghitung koefisien variasi, ingat rumus
+
+$$
+CV = 100\cdot\frac{s}{\bar{y}}
+$$
+
+dimana $\bar{y}$ adalah mean dari variabel respon. Untuk regresi yang kita miliki, koefisien variasinya dapat dihitung dengan
+
+```{r}
+s <- sigma(model)
+ybar <- mean(df$Petal.Length)
+CV <- 100*(s/ybar)
+CV
+```
+
+## Interval Kepercayaan
+
+Selanjutnya, interval kepercayaan untuk mean dari variabel dependen $Y$ untuk suatu observasi $X=x$ dapat dihitung dengan rumus
+
+$$
+\hat{y} \pm t_{\alpha/2}s\sqrt{\frac{1}{n}+\frac{(x-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}
+$$
+
+Untuk menghitung ini dengan R, misal secara khusus untuk observasi $X = 2$ dengan signifikansi $\alpha = 0.05$, boleh dihitung secara manual sebagai berikut:
+
+```{r}
+x <- 2
+yhat <- unname(coef(model)[1] + coef(model)[2]*x)
+dof = df.residual(model)
+t <- qt(1 - 0.05 / 2, df = dof)
+s <- sigma(model)
+n <- dof + 2
+xbar <- mean(df$Petal.Width)
+SSxx <- sum((df$Petal.Width - xbar)^2)
+upper_bound <- yhat + t*s*sqrt(1/n + (x-xbar)^2/SSxx)
+lower_bound <- yhat - t*s*sqrt(1/n + (x-xbar)^2/SSxx)
+```
+
+```{r}
+lower_bound
+```
+
+```{r}
+upper_bound
+```
+
+atau langsung dari fungsi `predict` sebagai berikut:
+
+```{r}
+predict(model,
+        newdata = data.frame(Petal.Width = 2),
+        interval = "confidence")
+```
+
+## Interval Prediksi
+
+Jika sebelumnya merupakan interval kepercayaan untuk mean, selanjutnya interval prediksi untuk seorang individu yang memiliki data $X=2$ dapat dihitung dengan rumus
+
+$$
+\hat{y} \pm t_{\alpha/2}s\sqrt{1+\frac{1}{n}+\frac{(x-\bar{x})^2}{\sum_{i=1}^{n}(x_i-\bar{x})^2}}
+$$
+
+Secara manual pada R:
+
+```{r}
+x <- 2
+yhat <- unname(coef(model)[1] + coef(model)[2]*x)
+dof = df.residual(model)
+t <- qt(1 - 0.05 / 2, df = dof)
+s <- sigma(model)
+n <- dof + 2
+xbar <- mean(df$Petal.Width)
+SSxx <- sum((df$Petal.Width - xbar)^2)
+upper_bound <- yhat + t*s*sqrt(1+1/n + (x-xbar)^2/SSxx)
+lower_bound <- yhat - t*s*sqrt(1+1/n + (x-xbar)^2/SSxx)
+```
+
+```{r}
+lower_bound
+```
+
+```{r}
+upper_bound
+```
+
+dan langsung dengan `predict`:
+
+```{r}
+predict(model,
+        newdata = data.frame(Petal.Width = 2),
+        interval = "prediction")
+```
+
+## Visualisasi Garis Regresi
+
+Untuk melihat hasil model yang diperoleh, dapat divisualisasikan menggunakan scatterplot. Pastikan bahwa variabel yang dijadikan sebagai sumbu-$x$ adalah variabel bebas dan variabel yang dijadikan sebagai sumbu-$y$ adalah variabel respon.
+
+```{r}
+plot(
+  df$Petal.Width,
+  df$Petal.Length,
+  xlab = "Petal Width",
+  ylab = "Petal Length",
+  main = "Scatter Plot Petal Length terhadap Petal Width dengan Garis Regresi",
+  pch = 21,
+  cex = 0.5,
+  col = "black",
+  bg = "black"
+)
+
+abline(
+  model,
+  col = "blue",
+  lwd = 1
+)
+```
