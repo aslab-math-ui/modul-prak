@@ -78,6 +78,35 @@ ul.task-list li input[type="checkbox"] {
 <link rel="manifest" href="../../../../ico/site.webmanifest">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../../styles.css">
 </head>
@@ -148,8 +177,20 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#visualisasi" id="toc-visualisasi" class="nav-link active" data-scroll-target="#visualisasi">Visualisasi</a></li>
+  <li><a href="#statistik-deskriptif" id="toc-statistik-deskriptif" class="nav-link" data-scroll-target="#statistik-deskriptif">Statistik Deskriptif</a>
+  <ul class="collapse">
+  <li><a href="#aktivasi-analysis-toolpak" id="toc-aktivasi-analysis-toolpak" class="nav-link" data-scroll-target="#aktivasi-analysis-toolpak">Aktivasi <em>Analysis ToolPak</em></a></li>
+  <li><a href="#analisa" id="toc-analisa" class="nav-link" data-scroll-target="#analisa">Analisa</a></li>
+  </ul></li>
+  <li><a href="#membangkitkan-distribusi-materi-sebelum-uts" id="toc-membangkitkan-distribusi-materi-sebelum-uts" class="nav-link" data-scroll-target="#membangkitkan-distribusi-materi-sebelum-uts">Membangkitkan Distribusi (materi sebelum UTS)</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -186,10 +227,87 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p><a href="../../../../modul/2026/ganjil/pengantar_sains_data/psd2026ganjil.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke arsip PSD </a></p>
-<p>Silakan unduh <em>worksheet</em> berikut: <a href="https://raw.githubusercontent.com/aslab-math-ui/asset/main/pengantar_sains_data/datasets/worksheet_pertemuan2.xlsx">Worksheet Pertemuan 2</a></p>
-<p>Penjelasan menyusul :)</p>
+<p>Pada modul ini, kita akan membahas mengenai penggunaan Microsoft Excel dalam praktikum Pengantar Sains Data. Sebelum memulai praktikum, silahkan undur <em>worksheet</em> berikut:</p>
+<p><a href="https://raw.githubusercontent.com/aslab-math-ui/asset/main/pengantar_sains_data/datasets/worksheet_modul2.xlsx" class="btn btn-primary" target="_blank" role="button"> <i class="fa-solid fa-download"></i> Worksheet modul 2 </a></p>
+<p>Kita akan mempelajari terlebih dahulu cara menyajikan dan memvisualisasikan data dengan Microsoft Excel.</p>
+<section id="visualisasi" class="level1">
+<h1>Visualisasi</h1>
+<p>Microsoft Excel menyediakan berbagai jenis grafik yang dapat digunakan untuk memvisualisasikan data, seperti <em>bar chart, column chart, line chart, pie chart, scatter plot</em>, dan histogram. Pada modul ini kita akan menggunakan 2 cara untuk melakukan visualisasi, yakni dengan fitur <em>chart</em> pada bagian <strong>Insert</strong> serta dengan <em>pivot chart</em>. Untuk detail terkait pivoting, kalian bisa melihat ke <a href="../../../../modul/2026/ganjil/pengantar_sains_data/tambahan1.html">Tambahan 1</a> untuk dasarnya.</p>
+<p>Jika data kalian cukup sederhana, misalkan seperti pada tabel data yang ada di <em>sheets</em> dengan nama plotnya (seperti pie chart, dll) sangat disarankan untuk menggunakan langsung fitur <em>chart</em> pada bagian <strong>Insert</strong> dan kalian bisa tinggal pilih visualisasi apa yang kalian inginkan.</p>
+<p><img src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/pengantar_sains_data/static/chart.png" class="img-fluid"></p>
+<p>Untuk <em>pivot chart</em>, kalian cukup membuat tabel pivot lalu pilih salah satu entri dari tabel tersebut dan pilih <em>pivot chart</em> pada bagian <strong>PivotTable Analyze</strong>. Jika kalian ingin membuat seperti pada <em>sheet pivot chart</em> yang ada di <em>worksheet</em> kita, yang mana bisa secara otomatis mengganti tabel yang ada dengan memilih region yang ada, kalian bisa gunakan <em>insert slicer</em> pada bagian <strong>PivotTable Analyze</strong>.</p>
+</section>
+<section id="statistik-deskriptif" class="level1">
+<h1>Statistik Deskriptif</h1>
+<p>Microsoft Excel tidak hanya digunakan untuk mengolah dan menyajikan data, tetapi juga menyediakan berbagai fitur untuk melakukan analisis data secara lebih sistematis. Salah satu fitur tersebut adalah <em>Analysis ToolPak</em>, yaitu <em>add-in</em> yang menyediakan berbagai alat analisis statistik, seperti statistik deskriptif, distribusi, visualis korelasi, regresi, dan analisis varians (ANOVA).</p>
+<p>Dalam praktikum ini, kita akan mempelajari cara mengaktifkan dan menggunakan Analysis ToolPak untuk membantu proses analisis data.</p>
+<section id="aktivasi-analysis-toolpak" class="level2">
+<h2 class="anchored" data-anchor-id="aktivasi-analysis-toolpak">Aktivasi <em>Analysis ToolPak</em></h2>
+<p>Apakah kalian tahu kalau <em>Analysis ToolPak</em> sebenarnya sudah ada sedari awal kalian instalasi Micorosft Excel? Akan tetapi, <em>add-in</em> ini tidak secara bawaan sudah aktif untuk kalian pakai! <em>Add-in</em> ini dapat kalian aktifkan dengan cara berikut:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Windows</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Mac</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li><p>Pilih menu <em>file</em> dan masuk ke menu <strong>Opsi</strong> (<em>option</em>).</p></li>
+<li><p>Pilih bagian <strong>Add-in</strong>.</p></li>
+<li><p>Pada kotak <em>dropdown</em> di bagian bawah terdapat <strong>Kelola</strong> (<em>Manage</em>), pilih <strong>Add-in Excel</strong> dan pilih <strong>Pergi</strong> (<em>Go</em>).</p></li>
+<li><p>Centangi kotak <strong>Analysis ToolPak</strong> dan pilih <strong>OK</strong>.</p></li>
+<li><p><em>Analysis ToolPak</em> berhasil diaktifkan.</p></li>
+</ol>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ol type="1">
+<li><p>Pilih menu <em>file</em> dan cari bagian <strong>Alat</strong> (<em>tools</em>).</p></li>
+<li><p>Pilih bagian <strong>Add-in</strong>.</p></li>
+<li><p>Centangi kotak <strong>Analysis ToolPak</strong> dan pilih <strong>OK</strong>.</p></li>
+<li><p><em>Analysis ToolPak</em> berhasil diaktifkan.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p>Untuk melihat apakah <em>Analysis ToolPak</em> sudah aktif, pilih bagian <strong>Data</strong> dan seharusnya sudah ada <em>Data Analysis</em>.</p>
+<p><img src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/pengantar_sains_data/static/aktifasi_toolpak.png" class="img-fluid"></p>
+</section>
+<section id="analisa" class="level2">
+<h2 class="anchored" data-anchor-id="analisa">Analisa</h2>
+<p>Dalam Microsoft Excel, analisis statistik deskriptif dapat dengan mudah dengan <em>Analysis ToolPak</em> tanpa harus menghitung manual. Statistik deskriptif yang diberikan oleh <em>add-in</em> ini adalah sebagai berikut:</p>
+<ul>
+<li><p>Mean (rata-rata seluruh data).</p></li>
+<li><p>Median (nilai tengah).</p></li>
+<li><p>Modus (nilai paling sering muncul).</p></li>
+<li><p>Standard Error (tingkat ketelitian estimasi rata-rata sampel terhadap rata-rata populasi).</p></li>
+<li><p>Standard Deviation sampel (persebaran data sampel terhadap rata-rata).</p></li>
+<li><p>Variansi Sampel (tingkat keragaman data).</p></li>
+<li><p>Kurtosis (karakteristik ekor distribusi data).</p></li>
+<li><p>Skewness (kemencengan distribusi).</p></li>
+<li><p>Range (rentang data).</p></li>
+<li><p>Minimum.</p></li>
+<li><p>Maximum.</p></li>
+<li><p>Sum.</p></li>
+<li><p>Count.</p></li>
+<li><p>Confidence Level 95%, nilai yang ditampilkan adalah lebar interval estimasi mean populasi (mean sampel <span class="math inline">\(\pm\)</span> nilai diperoleh).</p></li>
+</ul>
+<p>Tentunya kalian juga bisa menghitung semua ini secara manual, kalian bisa melihat formula nya di <em>worksheet</em> yang ada.</p>
+</section>
+</section>
+<section id="membangkitkan-distribusi-materi-sebelum-uts" class="level1">
+<h1>Membangkitkan Distribusi (materi sebelum UTS)</h1>
+<p>Pada Microsoft Excel, kita bisa dengan mudah membangkitkan nilai variabel acak menggunakan <em>Analysis Toolpak</em>. Kalian cukup pilih <strong>Random Number Generation</strong>, dan kalian tentukan distribusi dan nilai dari parameternya. Berikut penjelasan lebih lanjutnya:</p>
+<ul>
+<li><p>Number of Variables : Banyaknya kolom yang ingin dimunculkan angka random</p></li>
+<li><p>Number of Random Numbers : Banyaknya baris yang ingin dimunculkan angka random</p></li>
+<li><p>Distribution : (kalian pilih)</p></li>
+<li><p>Parameters : (kalian sesuaikan)</p></li>
+<li><p>Untuk output, kalian bisa pilih kotak/kolom yang kalian inginkan (misal di kolom A) atau simpan pada <em>sheets</em> baru</p></li>
+</ul>
+<p>Jika kalian ingin melakukan visualisasi dari outputnya, <em>Select</em> seluruh angka yang dihasilkan dan lakukan langkah serupa dengan data-data sebelumnya.</p>
+<p>Untuk distribusi diskrit, kalian harus membuat tabel PMF nya terlebih dahulu, dengan kolom 1 nya nilai <span class="math inline">\(x\)</span> dan kolom 2 nya <span class="math inline">\(P(X = x)\)</span>.</p>
+<hr>
+<p><a href="../../../../modul/2026/ganjil/pengantar_sains_data/psd2026ganjil.html" class="btn btn-outline-primary mb-4"> <i class="fa-solid fa-arrow-left"></i> Kembali ke Arsip Praktikum PSD </a></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
