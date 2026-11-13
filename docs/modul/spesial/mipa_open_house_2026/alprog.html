@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Departemen Matematika FMIPA UI">
+<meta name="dcterms.date" content="2026-11-14">
 
 <title>Praktikum Algoritma dan Pemrograman – Lab Matematika UI</title>
 <style>
@@ -110,6 +112,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="manifest" href="../../../ico/site.webmanifest">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -185,10 +216,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#praktikum-algoritma-dan-pemrograman" id="toc-praktikum-algoritma-dan-pemrograman" class="nav-link active" data-scroll-target="#praktikum-algoritma-dan-pemrograman">Praktikum Algoritma dan Pemrograman</a>
-  <ul class="collapse">
-  <li><a href="#pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung" id="toc-pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung" class="nav-link" data-scroll-target="#pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung">Pembuka: matematika ternyata bisa lebih dari sekadar menghitung</a></li>
-  <li><a href="#sebelum-menulis-kode-apa-itu-algoritma" id="toc-sebelum-menulis-kode-apa-itu-algoritma" class="nav-link" data-scroll-target="#sebelum-menulis-kode-apa-itu-algoritma">1. Sebelum menulis kode: apa itu algoritma?</a>
+  <li><a href="#pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung" id="toc-pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung" class="nav-link active" data-scroll-target="#pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung">Pembuka: matematika ternyata bisa lebih dari sekadar menghitung</a></li>
+  <li><a href="#kenalan-dulu-dengan-algoritma" id="toc-kenalan-dulu-dengan-algoritma" class="nav-link" data-scroll-target="#kenalan-dulu-dengan-algoritma">1. Kenalan dulu dengan Algoritma</a>
   <ul class="collapse">
   <li><a href="#memahami-input-process-output-ipo" id="toc-memahami-input-process-output-ipo" class="nav-link" data-scroll-target="#memahami-input-process-output-ipo">Memahami Input – Process – Output (IPO)</a></li>
   <li><a href="#menuliskan-algoritma-sebelum-coding" id="toc-menuliskan-algoritma-sebelum-coding" class="nav-link" data-scroll-target="#menuliskan-algoritma-sebelum-coding">Menuliskan algoritma sebelum coding</a></li>
@@ -217,7 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#menguji-beberapa-kemungkinan" id="toc-menguji-beberapa-kemungkinan" class="nav-link" data-scroll-target="#menguji-beberapa-kemungkinan">Menguji beberapa kemungkinan</a></li>
   </ul></li>
-  <li><a href="#bonus-eksplorasi-fungsi-rekursif" id="toc-bonus-eksplorasi-fungsi-rekursif" class="nav-link" data-scroll-target="#bonus-eksplorasi-fungsi-rekursif">10. Bonus eksplorasi: fungsi rekursif</a></li>
+  <li><a href="#fungsi-rekursif" id="toc-fungsi-rekursif" class="nav-link" data-scroll-target="#fungsi-rekursif">10. Fungsi Rekursif</a></li>
   <li><a href="#rangkuman-apa-yang-sudah-kita-pelajari" id="toc-rangkuman-apa-yang-sudah-kita-pelajari" class="nav-link" data-scroll-target="#rangkuman-apa-yang-sudah-kita-pelajari">11. Rangkuman: apa yang sudah kita pelajari?</a></li>
   <li><a href="#latihan-akhir" id="toc-latihan-akhir" class="nav-link" data-scroll-target="#latihan-akhir">12. Latihan akhir</a>
   <ul class="collapse">
@@ -226,14 +255,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#latihan-3-percabangan" id="toc-latihan-3-percabangan" class="nav-link" data-scroll-target="#latihan-3-percabangan">Latihan 3 — Percabangan</a></li>
   <li><a href="#latihan-4-perulangan" id="toc-latihan-4-perulangan" class="nav-link" data-scroll-target="#latihan-4-perulangan">Latihan 4 — Perulangan</a></li>
   <li><a href="#tantangan-program-daftar-belanja" id="toc-tantangan-program-daftar-belanja" class="nav-link" data-scroll-target="#tantangan-program-daftar-belanja">Tantangan — Program daftar belanja</a></li>
-  </ul></li>
-  <li><a href="#catatan-singkat-untuk-pemateri" id="toc-catatan-singkat-untuk-pemateri" class="nav-link" data-scroll-target="#catatan-singkat-untuk-pemateri">Catatan singkat untuk pemateri</a>
-  <ul class="collapse">
-  <li><a href="#rencana-waktu-sekitar-50-menit" id="toc-rencana-waktu-sekitar-50-menit" class="nav-link" data-scroll-target="#rencana-waktu-sekitar-50-menit">Rencana waktu sekitar 50 menit</a></li>
-  <li><a href="#strategi-agar-sesi-lebih-interaktif" id="toc-strategi-agar-sesi-lebih-interaktif" class="nav-link" data-scroll-target="#strategi-agar-sesi-lebih-interaktif">Strategi agar sesi lebih interaktif</a></li>
-  <li><a href="#hal-yang-perlu-diperhatikan-saat-mengajar" id="toc-hal-yang-perlu-diperhatikan-saat-mengajar" class="nav-link" data-scroll-target="#hal-yang-perlu-diperhatikan-saat-mengajar">Hal yang perlu diperhatikan saat mengajar</a></li>
-  <li><a href="#cakupan-materi-sudah-cukup-atau-belum" id="toc-cakupan-materi-sudah-cukup-atau-belum" class="nav-link" data-scroll-target="#cakupan-materi-sudah-cukup-atau-belum">Cakupan materi: sudah cukup atau belum?</a></li>
-  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -251,7 +272,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Departemen Matematika FMIPA UI </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 14, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -261,20 +294,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="praktikum-algoritma-dan-pemrograman" class="level1">
-<h1>Praktikum Algoritma dan Pemrograman</h1>
-<p><strong>Belajar Berpikir Logis dengan Python</strong></p>
 <section id="pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung" class="level2">
 <h2 class="anchored" data-anchor-id="pembuka-matematika-ternyata-bisa-lebih-dari-sekadar-menghitung">Pembuka: matematika ternyata bisa lebih dari sekadar menghitung</h2>
-<p>Belajar matematika kalau hanya berkutat dengan rumus dan angka saja, sepertinya kurang seru.</p>
+<p>Selama masa sekolah, kita belajar matematika sering sekali hanya berfokus dengan rumus dan angka saja, sepertinya kurang seru yah matematika.</p>
 <p><strong>EITSS!</strong></p>
 <p>Sebenarnya, penerapan matematika dalam kehidupan sehari-hari itu banyak sekali. Salah satunya adalah <strong>pemrograman</strong>. Di balik aplikasi pemesanan makanan, permainan, dan situs web yang kita gunakan, ada instruksi yang disusun agar komputer tahu apa yang harus dilakukan.</p>
 <p>Bayangkan ketika kamu memesan minuman lewat aplikasi. Kamu memilih menu, memasukkan jumlah pesanan, aplikasi menghitung harga, lalu menampilkan total pembayaran. Komputer tidak menebak-nebak langkah tersebut. Semua sudah diatur melalui instruksi yang disebut <strong>algoritma</strong>.</p>
 <p>Pada sesi ini, kita akan belajar menyusun langkah penyelesaian masalah, lalu menerjemahkannya menjadi program sederhana menggunakan Python. Tidak harus langsung jago mengetik kode. Yang paling penting adalah memahami alur berpikirnya.</p>
-<p><strong>Setelah sesi ini, kamu diharapkan bisa:</strong> - menjelaskan apa itu algoritma dan alur input–proses–output; - mengenali dasar Python seperti variabel, tipe data, dan operator; - membuat program sederhana yang menggunakan percabangan, perulangan, list, dan fungsi.</p>
+<p><strong>Setelah sesi ini, kamu diharapkan bisa:</strong></p>
+<ul>
+<li><p>menjelaskan apa itu algoritma dan alur input–proses–output;</p></li>
+<li><p>mengenali dasar Python seperti variabel, tipe data, dan operator;</p></li>
+<li><p>membuat program sederhana yang menggunakan percabangan, perulangan, list, dan fungsi.</p></li>
+</ul>
 </section>
-<section id="sebelum-menulis-kode-apa-itu-algoritma" class="level2">
-<h2 class="anchored" data-anchor-id="sebelum-menulis-kode-apa-itu-algoritma">1. Sebelum menulis kode: apa itu algoritma?</h2>
+<section id="kenalan-dulu-dengan-algoritma" class="level2">
+<h2 class="anchored" data-anchor-id="kenalan-dulu-dengan-algoritma">1. Kenalan dulu dengan Algoritma</h2>
 <p>Pernah mengikuti resep memasak, petunjuk merakit sesuatu, atau langkah-langkah mengerjakan soal matematika? Semua itu memiliki urutan instruksi.</p>
 <p><strong>Algoritma</strong> adalah serangkaian langkah yang disusun secara <strong>jelas, logis, dan berurutan</strong> untuk menyelesaikan suatu masalah. Setiap langkah harus dapat dipahami, dan prosesnya harus memiliki titik akhir. Algoritma tidak harus berupa kode. Resep membuat mi, misalnya, sudah termasuk algoritma karena memiliki langkah yang perlu dilakukan secara berurutan.</p>
 <p>Contoh: kita ingin menghitung total harga belanja.</p>
@@ -340,6 +375,7 @@ SELESAI</code></pre>
     total = harga * jumlah
     OUTPUT total
 SELESAI</code></pre>
+<p>Berikut algoritma tersebut dalam flowchart <img src="https://raw.githubusercontent.com/aslab-math-ui/asset/main/algoritma_dan_pemrograman/mipa_open_house/flowchart.jpg" class="img-fluid"></p>
 <p>Perhatikan bahwa kita belum menggunakan Python. Kita sedang merancang solusi terlebih dahulu. Setelah langkahnya jelas, barulah kita menerjemahkannya menjadi kode.</p>
 </section>
 <section id="tiga-pola-dasar-dalam-algoritma" class="level3">
@@ -357,28 +393,40 @@ SELESAI</code></pre>
 <h2 class="anchored" data-anchor-id="kenalan-dengan-python-bahasa-untuk-memberi-instruksi">2. Kenalan dengan Python: bahasa untuk memberi instruksi</h2>
 <p><strong>Python</strong> adalah salah satu bahasa pemrograman yang sintaksnya relatif mudah dibaca. Kita akan menggunakannya untuk menerjemahkan algoritma menjadi instruksi yang dapat dijalankan komputer.</p>
 <p>Perintah paling sederhana adalah <code>print()</code>, yaitu untuk menampilkan sesuatu ke layar.</p>
-<div id="51bdd9be" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Halo, calon programmer!"</span>)</span>
+<div id="51bdd9be" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Halo!"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Selamat belajar Python!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Halo!
+Selamat belajar Python!</code></pre>
+</div>
 </div>
 <p>Program di atas menampilkan dua kalimat. Teks yang ingin ditampilkan ditulis di antara tanda kutip.</p>
 <p>Dalam Python, tanda <code>#</code> digunakan untuk menulis <strong>komentar</strong>. Komentar berfungsi sebagai catatan untuk manusia dan tidak dijalankan sebagai instruksi program.</p>
-<div id="99ae5062" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ini adalah komentar. Python akan mengabaikan baris ini.</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kita sedang belajar algoritma dan pemrograman."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="99ae5062" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ini adalah komentar. Python akan mengabaikan baris ini.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kita sedang belajar algoritma dan pemrograman."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kita sedang belajar algoritma dan pemrograman.</code></pre>
+</div>
 </div>
 <section id="variabel-tempat-menyimpan-informasi" class="level3">
 <h3 class="anchored" data-anchor-id="variabel-tempat-menyimpan-informasi">Variabel: tempat menyimpan informasi</h3>
 <p>Ketika program menjadi lebih kompleks, kita tidak mungkin menulis semua nilai secara langsung berulang kali. Kita dapat menyimpan nilai ke dalam <strong>variabel</strong>.</p>
 <p>Bayangkan variabel sebagai kotak berlabel. Nama kotaknya menunjukkan informasi apa yang disimpan di dalamnya.</p>
-<div id="251f34d7" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="st">"Alya"</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>harga_roti <span class="op">=</span> <span class="dv">5000</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>jumlah_roti <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nama)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(harga_roti)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jumlah_roti)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="251f34d7" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="st">"Alya"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>harga_roti <span class="op">=</span> <span class="dv">5000</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>jumlah_roti <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nama)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(harga_roti)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jumlah_roti)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Alya
+5000
+3</code></pre>
+</div>
 </div>
 <p>Pada contoh tersebut:</p>
 <ul>
@@ -387,33 +435,44 @@ SELESAI</code></pre>
 <li><code>jumlah_roti</code> menyimpan angka <code>3</code>.</li>
 </ul>
 <p>Tanda <code>=</code> berarti <strong>memberikan atau menyimpan nilai ke variabel</strong>, bukan membandingkan dua nilai. Nilai variabel juga dapat diperbarui.</p>
-<div id="f6e60575" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>jumlah_roti <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jumlah_roti)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>jumlah_roti <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jumlah_roti)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f6e60575" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>jumlah_roti <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jumlah_roti)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>jumlah_roti <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(jumlah_roti)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1
+3</code></pre>
+</div>
 </div>
 </section>
 <section id="menerima-masukan-dengan-input" class="level3">
 <h3 class="anchored" data-anchor-id="menerima-masukan-dengan-input">Menerima masukan dengan <code>input()</code></h3>
 <p>Sejauh ini, nilai yang digunakan sudah ditentukan di dalam kode. Bagaimana jika kita ingin pengguna memasukkan namanya sendiri?</p>
 <p>Gunakan <code>input()</code> untuk menerima masukan dari pengguna.</p>
-<div id="e7b12feb" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Siapa nama kamu? "</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Halo, "</span> <span class="op">+</span> nama <span class="op">+</span> <span class="st">"! Selamat datang."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e7b12feb" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Siapa nama kamu? "</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Halo, "</span> <span class="op">+</span> nama <span class="op">+</span> <span class="st">"! Selamat datang."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Halo, Dimas! Selamat datang.</code></pre>
+</div>
 </div>
 <p>Dengan <code>input()</code>, program dapat menerima informasi yang berbeda dari setiap pengguna. Ingat satu hal penting: <strong>hasil <code>input()</code> secara otomatis berupa teks (<code>str</code>)</strong>, meskipun pengguna mengetik angka.</p>
 <p>Jika masukan akan digunakan untuk perhitungan, kita perlu mengubah tipenya. Gunakan <code>int()</code> untuk bilangan bulat dan <code>float()</code> untuk bilangan desimal.</p>
-<div id="ebc11aa2" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Masukan awal dibaca sebagai teks</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>angka_teks <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan jumlah buku: "</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ubah teks menjadi bilangan bulat</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>jumlah_buku <span class="op">=</span> <span class="bu">int</span>(angka_teks)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Tipe sebelum diubah:"</span>, <span class="bu">type</span>(angka_teks))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Tipe setelah diubah:"</span>, <span class="bu">type</span>(jumlah_buku))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ebc11aa2" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Masukan awal dibaca sebagai teks</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>angka_teks <span class="op">=</span> <span class="bu">input</span>(<span class="st">"Masukkan jumlah buku: "</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ubah teks menjadi bilangan bulat</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>jumlah_buku <span class="op">=</span> <span class="bu">int</span>(angka_teks)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Tipe sebelum diubah:"</span>, <span class="bu">type</span>(angka_teks))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Tipe setelah diubah:"</span>, <span class="bu">type</span>(jumlah_buku))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tipe sebelum diubah: &lt;class 'str'&gt;
+Tipe setelah diubah: &lt;class 'int'&gt;</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -453,16 +512,22 @@ SELESAI</code></pre>
 </table>
 <p>Python tidak memiliki tipe data <code>character</code> yang terpisah seperti beberapa bahasa lain. Satu huruf, misalnya <code>"A"</code>, tetap bertipe <code>str</code>.</p>
 <p>Kita dapat memeriksa tipe data menggunakan fungsi <code>type()</code>.</p>
-<div id="3146b57c" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>umur <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>suhu <span class="op">=</span> <span class="fl">36.5</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="st">"Alya"</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sudah_bayar <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(umur))</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(suhu))</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(nama))</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(sudah_bayar))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3146b57c" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>umur <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>suhu <span class="op">=</span> <span class="fl">36.5</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="st">"Alya"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>sudah_bayar <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(umur))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(suhu))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(nama))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(sudah_bayar))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'str'&gt;
+&lt;class 'bool'&gt;</code></pre>
+</div>
 </div>
 <p>Perhatikan perbedaan <code>25000</code> dan <code>"25000"</code>. Yang pertama adalah angka sehingga dapat langsung digunakan dalam operasi matematika. Yang kedua adalah teks yang kebetulan berisi karakter angka.</p>
 <p>Inilah alasan kita perlu memahami tipe data dan konversi tipe data sebelum mengolah masukan pengguna.</p>
@@ -510,37 +575,50 @@ SELESAI</code></pre>
 <td><code>5 % 2</code></td>
 </tr>
 <tr class="odd">
-<td>Pemangkatan</td>
+<td>Pangkat</td>
 <td><code>**</code></td>
 <td><code>5 ** 2</code></td>
 </tr>
 </tbody>
 </table>
 <p>Operator <code>%</code> menghasilkan <strong>sisa pembagian</strong>, bukan hasil bagi. Operator ini sering digunakan untuk memeriksa apakah bilangan genap atau ganjil.</p>
-<div id="46f3127a" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span> <span class="op">+</span> <span class="dv">5</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">10</span> <span class="op">-</span> <span class="dv">5</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> <span class="dv">3</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">21</span> <span class="op">/</span> <span class="dv">4</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> <span class="dv">21</span> <span class="op">//</span> <span class="dv">4</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="dv">10</span> <span class="op">%</span> <span class="dv">3</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="dv">2</span> <span class="op">**</span> <span class="dv">3</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Tambah:"</span>, a)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kurang:"</span>, b)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kali:"</span>, c)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bagi:"</span>, d)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bagi bulat:"</span>, e)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sisa bagi:"</span>, f)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pangkat:"</span>, g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="46f3127a" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span> <span class="op">+</span> <span class="dv">5</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">10</span> <span class="op">-</span> <span class="dv">5</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> <span class="dv">3</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">21</span> <span class="op">/</span> <span class="dv">4</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> <span class="dv">21</span> <span class="op">//</span> <span class="dv">4</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="dv">10</span> <span class="op">%</span> <span class="dv">3</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="dv">2</span> <span class="op">**</span> <span class="dv">3</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Tambah:"</span>, a)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kurang:"</span>, b)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kali:"</span>, c)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bagi:"</span>, d)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Bagi bulat:"</span>, e)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sisa bagi:"</span>, f)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pangkat:"</span>, g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tambah: 15
+Kurang: 5
+Kali: 12
+Bagi: 5.25
+Bagi bulat: 5
+Sisa bagi: 1
+Pangkat: 8</code></pre>
+</div>
 </div>
 <p>Python juga mengenal operasi pada teks. Operator <code>+</code> dapat menggabungkan teks, sedangkan <code>*</code> dapat mengulang teks.</p>
-<div id="66c52f45" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nama_depan <span class="op">=</span> <span class="st">"Raka"</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>nama_belakang <span class="op">=</span> <span class="st">"Putra"</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nama_depan <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> nama_belakang)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Semangat! "</span> <span class="op">*</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="66c52f45" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nama_depan <span class="op">=</span> <span class="st">"Raka"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>nama_belakang <span class="op">=</span> <span class="st">"Putra"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nama_depan <span class="op">+</span> <span class="st">" "</span> <span class="op">+</span> nama_belakang)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Semangat! "</span> <span class="op">*</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Raka Putra
+Semangat! Semangat! Semangat! </code></pre>
+</div>
 </div>
 <section id="operasi-perbandingan" class="level3">
 <h3 class="anchored" data-anchor-id="operasi-perbandingan">Operasi perbandingan</h3>
@@ -580,15 +658,23 @@ SELESAI</code></pre>
 </tbody>
 </table>
 <p>Hasil perbandingan selalu berupa nilai <strong>boolean</strong>, yaitu <code>True</code> atau <code>False</code>. Jangan tertukar: <code>=</code> untuk memberikan nilai, sedangkan <code>==</code> untuk membandingkan.</p>
-<div id="38dd1524" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nilai <span class="op">=</span> <span class="dv">85</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">==</span> <span class="dv">85</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">!=</span> <span class="dv">70</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&gt;</span> <span class="dv">80</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&lt;</span> <span class="dv">70</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&gt;=</span> <span class="dv">85</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&lt;=</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="38dd1524" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nilai <span class="op">=</span> <span class="dv">85</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">==</span> <span class="dv">85</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">!=</span> <span class="dv">70</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&gt;</span> <span class="dv">80</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&lt;</span> <span class="dv">70</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&gt;=</span> <span class="dv">85</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nilai <span class="op">&lt;=</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True
+True
+True
+False
+True
+True</code></pre>
+</div>
 </div>
 </section>
 <section id="menggabungkan-kondisi-and-or-dan-not" class="level3">
@@ -600,20 +686,25 @@ SELESAI</code></pre>
 <li><code>not</code>: membalik nilai kebenaran.</li>
 </ul>
 <p>Misalnya, seseorang boleh mengikuti kegiatan jika usianya minimal 15 tahun <strong>dan</strong> sudah mendaftar.</p>
-<div id="f3efb2bb" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>umur <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sudah_mendaftar <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Kedua syarat harus benar</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>boleh_ikut <span class="op">=</span> umur <span class="op">&gt;=</span> <span class="dv">15</span> <span class="kw">and</span> sudah_mendaftar</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Boleh ikut?"</span>, boleh_ikut)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimal satu kondisi benar</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>perlu_dicek <span class="op">=</span> umur <span class="op">&lt;</span> <span class="dv">15</span> <span class="kw">or</span> <span class="kw">not</span> sudah_mendaftar</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Perlu dicek?"</span>, perlu_dicek)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Membalik nilai True menjadi False, atau sebaliknya</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Belum mendaftar?"</span>, <span class="kw">not</span> sudah_mendaftar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f3efb2bb" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>umur <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sudah_mendaftar <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Kedua syarat harus benar</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>boleh_ikut <span class="op">=</span> umur <span class="op">&gt;=</span> <span class="dv">15</span> <span class="kw">and</span> sudah_mendaftar</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Boleh ikut?"</span>, boleh_ikut)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimal satu kondisi benar</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>perlu_dicek <span class="op">=</span> umur <span class="op">&lt;</span> <span class="dv">15</span> <span class="kw">or</span> <span class="kw">not</span> sudah_mendaftar</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Perlu dicek?"</span>, perlu_dicek)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Membalik nilai True menjadi False, atau sebaliknya</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Belum mendaftar?"</span>, <span class="kw">not</span> sudah_mendaftar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Boleh ikut? True
+Perlu dicek? False
+Belum mendaftar? False</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -627,27 +718,33 @@ SELESAI</code></pre>
 <li><code>else</code>: menjalankan instruksi jika tidak ada kondisi sebelumnya yang terpenuhi.</li>
 </ul>
 <p>Perhatikan bahwa Python menggunakan <strong>indentasi</strong> (spasi di awal baris) untuk menunjukkan instruksi mana yang termasuk ke dalam suatu blok.</p>
-<div id="2708d8cf" class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>nilai <span class="op">=</span> <span class="dv">85</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> nilai <span class="op">&gt;=</span> <span class="dv">90</span>:</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Kategori A"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> nilai <span class="op">&gt;=</span> <span class="dv">80</span>:</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Kategori B"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> nilai <span class="op">&gt;=</span> <span class="dv">70</span>:</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Kategori C"</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Perlu belajar lagi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2708d8cf" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>nilai <span class="op">=</span> <span class="dv">85</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> nilai <span class="op">&gt;=</span> <span class="dv">90</span>:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Kategori A"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> nilai <span class="op">&gt;=</span> <span class="dv">80</span>:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Kategori B"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> nilai <span class="op">&gt;=</span> <span class="dv">70</span>:</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Kategori C"</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Perlu belajar lagi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kategori B</code></pre>
+</div>
 </div>
 <p>Alur percabangan dibaca dari atas ke bawah. Ketika satu kondisi terpenuhi, blok yang sesuai dijalankan dan sisa percabangan dilewati.</p>
 <p>Karena itu, urutan kondisi penting. Pada contoh kategori nilai, batas tertinggi diperiksa lebih dahulu agar nilai 95 tidak langsung masuk ke kategori B.</p>
-<div id="04147251" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">17</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> angka <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Bilangan genap"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Bilangan ganjil"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="04147251" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">17</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> angka <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Bilangan genap"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Bilangan ganjil"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bilangan ganjil</code></pre>
+</div>
 </div>
 </section>
 <section id="mengulang-instruksi-for-dan-while" class="level2">
@@ -658,9 +755,16 @@ SELESAI</code></pre>
 <h3 class="anchored" data-anchor-id="for-loop"><code>for</code> loop</h3>
 <p><code>for</code> cocok digunakan ketika kita mengetahui urutan data atau jumlah pengulangan yang ingin dilakukan. Salah satu alat yang sering dipakai bersama <code>for</code> adalah <code>range()</code>.</p>
 <p>Contoh: <code>range(5)</code> menghasilkan urutan <code>0, 1, 2, 3, 4</code>. Angka batas akhir, yaitu <code>5</code>, <strong>tidak ikut dimasukkan</strong>.</p>
-<div id="c9d0ee06" class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Halo! Pengulangan ke-"</span>, i <span class="op">+</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c9d0ee06" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Halo! Pengulangan ke-"</span>, i <span class="op">+</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Halo! Pengulangan ke- 1
+Halo! Pengulangan ke- 2
+Halo! Pengulangan ke- 3
+Halo! Pengulangan ke- 4
+Halo! Pengulangan ke- 5</code></pre>
+</div>
 </div>
 <p><code>range()</code> juga bisa memiliki nilai awal dan langkah.</p>
 <ul>
@@ -668,14 +772,22 @@ SELESAI</code></pre>
 <li><code>range(2, 11, 2)</code> menghasilkan 2, 4, 6, 8, 10.</li>
 </ul>
 <p>Contoh berikut menjumlahkan tabungan harian sebesar Rp2.000 selama lima hari.</p>
-<div id="badd0609" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>total_tabungan <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> hari <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">6</span>):</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    total_tabungan <span class="op">=</span> total_tabungan <span class="op">+</span> <span class="dv">2000</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Hari"</span>, hari, <span class="st">"| Total sementara: Rp"</span>, total_tabungan)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total tabungan: Rp"</span>, total_tabungan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="badd0609" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>total_tabungan <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> hari <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">6</span>):</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    total_tabungan <span class="op">=</span> total_tabungan <span class="op">+</span> <span class="dv">2000</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Hari"</span>, hari, <span class="st">"| Total sementara: Rp"</span>, total_tabungan)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total tabungan: Rp"</span>, total_tabungan)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hari 1 | Total sementara: Rp 2000
+Hari 2 | Total sementara: Rp 4000
+Hari 3 | Total sementara: Rp 6000
+Hari 4 | Total sementara: Rp 8000
+Hari 5 | Total sementara: Rp 10000
+Total tabungan: Rp 10000</code></pre>
+</div>
 </div>
 <p>Variabel <code>total_tabungan</code> menyimpan hasil sementara yang terus diperbarui. Pola seperti ini disebut <strong>akumulator</strong>. Akumulator sering digunakan untuk menghitung jumlah, total harga, atau nilai rata-rata.</p>
 </section>
@@ -683,17 +795,28 @@ SELESAI</code></pre>
 <h3 class="anchored" data-anchor-id="while-loop"><code>while</code> loop</h3>
 <p>Berbeda dari <code>for</code>, <code>while</code> mengulang selama kondisi bernilai <code>True</code>. Perulangan ini cocok ketika kita belum mengetahui dengan pasti berapa kali instruksi perlu diulang.</p>
 <p>Contoh: sebuah angka dimulai dari 1 dan terus dikalikan 2 sampai nilainya mencapai atau melewati 100.</p>
-<div id="c9a90591" class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>jumlah_pengalian <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> angka <span class="op">&lt;</span> <span class="dv">100</span>:</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    angka <span class="op">=</span> angka <span class="op">*</span> <span class="dv">2</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    jumlah_pengalian <span class="op">=</span> jumlah_pengalian <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Nilai sekarang:"</span>, angka)</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Jumlah pengalian:"</span>, jumlah_pengalian)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hasil akhir:"</span>, angka)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c9a90591" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>jumlah_pengalian <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> angka <span class="op">&lt;</span> <span class="dv">100</span>:</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    angka <span class="op">=</span> angka <span class="op">*</span> <span class="dv">2</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    jumlah_pengalian <span class="op">=</span> jumlah_pengalian <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Nilai sekarang:"</span>, angka)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Jumlah pengalian:"</span>, jumlah_pengalian)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hasil akhir:"</span>, angka)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Nilai sekarang: 2
+Nilai sekarang: 4
+Nilai sekarang: 8
+Nilai sekarang: 16
+Nilai sekarang: 32
+Nilai sekarang: 64
+Nilai sekarang: 128
+Jumlah pengalian: 7
+Hasil akhir: 128</code></pre>
+</div>
 </div>
 <p><strong>Waspada infinite loop!</strong> Jika kondisi <code>while</code> selalu benar karena variabel yang diperiksa tidak pernah berubah, program dapat terus berjalan tanpa berhenti.</p>
 <p>Saat menulis <code>while</code>, periksa tiga hal:</p>
@@ -709,28 +832,41 @@ SELESAI</code></pre>
 <p>Satu variabel biasanya menyimpan satu nilai. Bagaimana jika kita ingin menyimpan banyak nama menu sekaligus?</p>
 <p><strong>List</strong> adalah struktur data untuk menyimpan beberapa item dalam satu urutan. Bayangkan sebuah rak dengan banyak kotak. Setiap kotak memiliki posisi yang disebut <strong>indeks</strong>.</p>
 <p>Hal penting: indeks list di Python dimulai dari <strong>0</strong>, bukan 1.</p>
-<div id="908b7a03" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> [<span class="st">"Nasi goreng"</span>, <span class="st">"Mie ayam"</span>, <span class="st">"Soto"</span>, <span class="st">"Es teh"</span>]</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(menu)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(menu[<span class="dv">0</span>])  <span class="co"># Item pertama</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(menu[<span class="dv">2</span>])  <span class="co"># Item ketiga</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(menu))  <span class="co"># Banyak item dalam list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="908b7a03" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> [<span class="st">"Nasi goreng"</span>, <span class="st">"Mie ayam"</span>, <span class="st">"Soto"</span>, <span class="st">"Es teh"</span>]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(menu)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(menu[<span class="dv">0</span>])  <span class="co"># Item pertama</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(menu[<span class="dv">2</span>])  <span class="co"># Item ketiga</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(menu))  <span class="co"># Banyak item dalam list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Nasi goreng', 'Mie ayam', 'Soto', 'Es teh']
+Nasi goreng
+Soto
+4</code></pre>
+</div>
 </div>
 <p>Kita dapat menggunakan <code>for</code> untuk membaca seluruh isi list tanpa menuliskan setiap item secara manual. Kita juga dapat mengganti atau menambahkan item.</p>
-<div id="c4df85a2" class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> [<span class="st">"Nasi goreng"</span>, <span class="st">"Mie ayam"</span>, <span class="st">"Soto"</span>, <span class="st">"Es teh"</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> makanan <span class="kw">in</span> menu:</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Menu tersedia:"</span>, makanan)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Mengganti item pada indeks ke-3</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>menu[<span class="dv">3</span>] <span class="op">=</span> <span class="st">"Jus jeruk"</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Menambahkan item baru di bagian akhir</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>menu.append(<span class="st">"Air mineral"</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Menu terbaru:"</span>, menu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c4df85a2" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> [<span class="st">"Nasi goreng"</span>, <span class="st">"Mie ayam"</span>, <span class="st">"Soto"</span>, <span class="st">"Es teh"</span>]</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> makanan <span class="kw">in</span> menu:</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Menu tersedia:"</span>, makanan)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Mengganti item pada indeks ke-3</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>menu[<span class="dv">3</span>] <span class="op">=</span> <span class="st">"Jus jeruk"</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Menambahkan item baru di bagian akhir</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>menu.append(<span class="st">"Air mineral"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Menu terbaru:"</span>, menu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Menu tersedia: Nasi goreng
+Menu tersedia: Mie ayam
+Menu tersedia: Soto
+Menu tersedia: Es teh
+Menu terbaru: ['Nasi goreng', 'Mie ayam', 'Soto', 'Jus jeruk', 'Air mineral']</code></pre>
+</div>
 </div>
 <p>Fungsi <code>len()</code> berguna untuk mengetahui banyaknya item dalam list. Sementara itu, <code>append()</code> menambahkan item baru di bagian akhir list.</p>
 <p>List berguna ketika data memiliki banyak nilai yang sejenis atau perlu diolah secara berurutan, misalnya daftar nilai siswa, nama teman, atau menu kantin.</p>
@@ -745,23 +881,30 @@ SELESAI</code></pre>
 <li><strong>Parameter</strong> adalah nama masukan yang diterima fungsi.</li>
 <li><code>return</code> mengembalikan hasil dari fungsi kepada bagian program yang memanggilnya.</li>
 </ul>
-<div id="8b175021" class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kuadrat(x):</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> x <span class="op">**</span> <span class="dv">2</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kuadrat(<span class="dv">4</span>))</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kuadrat(<span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8b175021" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kuadrat(x):</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> x <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kuadrat(<span class="dv">4</span>))</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kuadrat(<span class="dv">7</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>16
+49</code></pre>
+</div>
 </div>
 <p>Pada contoh tersebut, <code>x</code> adalah parameter. Ketika kita menulis <code>kuadrat(4)</code>, angka <code>4</code> menjadi nilai yang diterima oleh parameter <code>x</code>.</p>
 <p>Fungsi juga dapat menerima lebih dari satu parameter. Contohnya, menghitung luas persegi panjang.</p>
-<div id="c4cd43ba" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> luas_persegi_panjang(panjang, lebar):</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    luas <span class="op">=</span> panjang <span class="op">*</span> lebar</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> luas</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>hasil_luas <span class="op">=</span> luas_persegi_panjang(<span class="dv">8</span>, <span class="dv">5</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Luas:"</span>, hasil_luas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c4cd43ba" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> luas_persegi_panjang(panjang, lebar):</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    luas <span class="op">=</span> panjang <span class="op">*</span> lebar</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> luas</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>hasil_luas <span class="op">=</span> luas_persegi_panjang(<span class="dv">8</span>, <span class="dv">5</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Luas:"</span>, hasil_luas)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Luas: 40</code></pre>
+</div>
 </div>
 <p><strong>Perbedaan <code>print()</code> dan <code>return</code>:</strong> <code>print()</code> menampilkan sesuatu ke layar, sedangkan <code>return</code> mengirimkan hasil dari fungsi agar dapat digunakan kembali dalam perhitungan atau bagian program lain.</p>
 <p>Membuat fungsi membantu program menjadi lebih rapi, menghindari penulisan kode yang sama berulang kali, dan memudahkan perbaikan.</p>
@@ -777,42 +920,55 @@ SELESAI</code></pre>
 </ul>
 <p>Kita menggunakan list untuk menyimpan menu dan harga, <code>input()</code> untuk menerima masukan, <code>if</code> untuk mengambil keputusan, serta fungsi untuk menghitung subtotal.</p>
 <p>Untuk menjaga contoh tetap mudah diikuti, program ini hanya memproses <strong>satu jenis menu dalam satu transaksi</strong> dan mengasumsikan input angka ditulis dengan benar. Validasi input yang lebih lengkap dapat dipelajari setelah memahami dasar-dasar ini.</p>
-<div id="a3f74bbe" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data menu dan harga</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Masukkan nomor menu dan jumlah sebagai bilangan bulat.</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> [<span class="st">"Roti"</span>, <span class="st">"Susu"</span>, <span class="st">"Jus"</span>]</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>harga <span class="op">=</span> [<span class="dv">5000</span>, <span class="dv">8000</span>, <span class="dv">7000</span>]</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== KASIR KANTIN ==="</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(menu)):</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="st">"."</span>, menu[i], <span class="st">"- Rp"</span>, harga[i])</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>pilihan <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>(<span class="st">"Pilih nomor menu (1-3): "</span>))</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>jumlah <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>(<span class="st">"Jumlah yang dibeli: "</span>))</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fungsi untuk menghitung subtotal</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung_total(harga_satuan, jumlah_barang):</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> harga_satuan <span class="op">*</span> jumlah_barang</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="dv">1</span> <span class="op">&lt;=</span> pilihan <span class="op">&lt;=</span> <span class="bu">len</span>(menu) <span class="kw">and</span> jumlah <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    indeks <span class="op">=</span> pilihan <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    subtotal <span class="op">=</span> hitung_total(harga[indeks], jumlah)</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> subtotal <span class="op">&gt;=</span> <span class="dv">25000</span>:</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>        diskon <span class="op">=</span> subtotal <span class="op">*</span> <span class="dv">10</span> <span class="op">//</span> <span class="dv">100</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>        diskon <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    total_bayar <span class="op">=</span> subtotal <span class="op">-</span> diskon</span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">=== RINGKASAN PEMBELIAN ==="</span>)</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Menu:"</span>, menu[indeks])</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Jumlah:"</span>, jumlah)</span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Subtotal: Rp"</span>, subtotal)</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Diskon: Rp"</span>, diskon)</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Total bayar: Rp"</span>, total_bayar)</span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Pilihan menu atau jumlah barang tidak valid."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a3f74bbe" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data menu dan harga</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Masukkan nomor menu dan jumlah sebagai bilangan bulat.</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> [<span class="st">"Roti"</span>, <span class="st">"Susu"</span>, <span class="st">"Jus"</span>]</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>harga <span class="op">=</span> [<span class="dv">5000</span>, <span class="dv">8000</span>, <span class="dv">7000</span>]</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== KASIR KANTIN ==="</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(menu)):</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="st">"."</span>, menu[i], <span class="st">"- Rp"</span>, harga[i])</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>pilihan <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>(<span class="st">"Pilih nomor menu (1-3): "</span>))</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>jumlah <span class="op">=</span> <span class="bu">int</span>(<span class="bu">input</span>(<span class="st">"Jumlah yang dibeli: "</span>))</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Fungsi untuk menghitung subtotal</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung_total(harga_satuan, jumlah_barang):</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> harga_satuan <span class="op">*</span> jumlah_barang</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="dv">1</span> <span class="op">&lt;=</span> pilihan <span class="op">&lt;=</span> <span class="bu">len</span>(menu) <span class="kw">and</span> jumlah <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>    indeks <span class="op">=</span> pilihan <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>    subtotal <span class="op">=</span> hitung_total(harga[indeks], jumlah)</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> subtotal <span class="op">&gt;=</span> <span class="dv">25000</span>:</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>        diskon <span class="op">=</span> subtotal <span class="op">*</span> <span class="dv">10</span> <span class="op">//</span> <span class="dv">100</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>        diskon <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>    total_bayar <span class="op">=</span> subtotal <span class="op">-</span> diskon</span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">=== RINGKASAN PEMBELIAN ==="</span>)</span>
+<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Menu:"</span>, menu[indeks])</span>
+<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Jumlah:"</span>, jumlah)</span>
+<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Subtotal: Rp"</span>, subtotal)</span>
+<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Diskon: Rp"</span>, diskon)</span>
+<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Total bayar: Rp"</span>, total_bayar)</span>
+<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Pilihan menu atau jumlah barang tidak valid."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>=== KASIR KANTIN ===
+1 . Roti - Rp 5000
+2 . Susu - Rp 8000
+3 . Jus - Rp 7000
+
+=== RINGKASAN PEMBELIAN ===
+Menu: Jus
+Jumlah: 4
+Subtotal: Rp 28000
+Diskon: Rp 2800
+Total bayar: Rp 25200</code></pre>
+</div>
 </div>
 <p>Program kasir ini masih sederhana. Program belum menyimpan riwayat transaksi dan belum dapat memproses beberapa jenis barang dalam satu transaksi. Namun, program tersebut sudah menunjukkan bagaimana beberapa konsep dasar dapat bekerja bersama untuk menyelesaikan satu masalah.</p>
 <p>Saat menguji program, jangan hanya mencoba satu masukan. Coba pilihan menu yang berbeda, jumlah barang yang berbeda, dan pilihan yang tidak tersedia. Program yang baik bukan hanya berhasil pada satu contoh, tetapi juga memberikan hasil yang masuk akal pada berbagai masukan.</p>
@@ -848,23 +1004,29 @@ SELESAI</code></pre>
 <p>Ini contoh sederhana dari <strong>pengujian program</strong>: kita membandingkan hasil yang diberikan komputer dengan hasil yang seharusnya.</p>
 </section>
 </section>
-<section id="bonus-eksplorasi-fungsi-rekursif" class="level2">
-<h2 class="anchored" data-anchor-id="bonus-eksplorasi-fungsi-rekursif">10. Bonus eksplorasi: fungsi rekursif</h2>
-<p>Bagian ini <strong>opsional</strong> jika waktu presentasi masih tersedia atau ingin dipelajari setelah sesi.</p>
+<section id="fungsi-rekursif" class="level2">
+<h2 class="anchored" data-anchor-id="fungsi-rekursif">10. Fungsi Rekursif</h2>
 <p><strong>Rekursi</strong> adalah teknik ketika sebuah fungsi memanggil dirinya sendiri untuk menyelesaikan masalah yang lebih kecil. Fungsi rekursif harus memiliki <strong>base case</strong> atau kondisi dasar sebagai titik berhenti.</p>
 <p>Contoh barisan Fibonacci:</p>
-<p>[ F_0 = 0, F_1 = 1 ] [ F_n = F_{n-1} + F_{n-2} ]</p>
+<p><span class="math display">\[
+F_0 = 0, \quad F_1 = 1
+\]</span> <span class="math display">\[
+F_n = F_{n-1} + F_{n-2}
+\]</span></p>
 <p>Urutannya dimulai dari 0, 1, 1, 2, 3, 5, 8, dan seterusnya.</p>
-<div id="4ad06f13" class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fibonacci(n):</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:       <span class="co"># Kondisi dasar</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> n <span class="op">==</span> <span class="dv">1</span>:     <span class="co"># Kondisi dasar</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fibonacci(n <span class="op">-</span> <span class="dv">1</span>) <span class="op">+</span> fibonacci(n <span class="op">-</span> <span class="dv">2</span>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fibonacci(<span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4ad06f13" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fibonacci(n):</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:       <span class="co"># Kondisi dasar</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> n <span class="op">==</span> <span class="dv">1</span>:     <span class="co"># Kondisi dasar</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fibonacci(n <span class="op">-</span> <span class="dv">1</span>) <span class="op">+</span> fibonacci(n <span class="op">-</span> <span class="dv">2</span>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fibonacci(<span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>8</code></pre>
+</div>
 </div>
 <p>Pada <code>fibonacci(6)</code>, fungsi membutuhkan hasil dari <code>fibonacci(5)</code> dan <code>fibonacci(4)</code>. Pemanggilan tersebut terus berlanjut sampai mencapai kondisi dasar <code>n == 0</code> atau <code>n == 1</code>.</p>
 <p>Tanpa kondisi dasar, fungsi rekursif tidak memiliki aturan untuk berhenti. Akibatnya, pemanggilan fungsi dapat terus berlanjut sampai Python menghasilkan error.</p>
@@ -947,7 +1109,7 @@ SELESAI</code></pre>
 </section>
 <section id="latihan-akhir" class="level2">
 <h2 class="anchored" data-anchor-id="latihan-akhir">12. Latihan akhir</h2>
-<p>Sekarang waktunya mencoba sendiri. Seluruh latihan dikumpulkan di bagian akhir agar kamu bisa mempelajari contoh dan konsep terlebih dahulu. Kerjakan secara berurutan, dan jelaskan proses berpikirmu, bukan hanya hasil akhirnya.</p>
+<p>Sekarang waktunya kalian mencoba sendiri untuk menguji seberapa paham kalian dengan materi yang ada. Coba kerjakan secara berurutan, dan jelaskan proses berpikirmu, bukan hanya hasil akhirnya.</p>
 <section id="latihan-1-algoritma-dan-pseudocode" class="level3">
 <h3 class="anchored" data-anchor-id="latihan-1-algoritma-dan-pseudocode">Latihan 1 — Algoritma dan pseudocode</h3>
 <p>Kamu ingin menghitung biaya membeli beberapa tiket dengan harga yang sama.</p>
@@ -960,10 +1122,10 @@ SELESAI</code></pre>
 <section id="latihan-2-memahami-output" class="level3">
 <h3 class="anchored" data-anchor-id="latihan-2-memahami-output">Latihan 2 — Memahami output</h3>
 <p>Tanpa menjalankan kode terlebih dahulu, tentukan hasil yang akan ditampilkan program berikut. Jelaskan alasanmu.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">9</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(angka <span class="op">%</span> <span class="dv">2</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(angka <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(angka <span class="op">&gt;=</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>angka <span class="op">=</span> <span class="dv">9</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(angka <span class="op">%</span> <span class="dv">2</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(angka <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(angka <span class="op">&gt;=</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="latihan-3-percabangan" class="level3">
 <h3 class="anchored" data-anchor-id="latihan-3-percabangan">Latihan 3 — Percabangan</h3>
@@ -994,118 +1156,8 @@ SELESAI</code></pre>
 <hr>
 <p><strong>Terima kasih sudah belajar bersama!</strong></p>
 <p>Teruslah bereksperimen. Kode pertama tidak harus langsung sempurna. Kesalahan adalah bagian dari proses belajar, selama kita mau membaca pesan error, mencari penyebabnya, dan mencoba memperbaikinya.</p>
-</section>
-</section>
-<section id="catatan-singkat-untuk-pemateri" class="level2">
-<h2 class="anchored" data-anchor-id="catatan-singkat-untuk-pemateri">Catatan singkat untuk pemateri</h2>
-<p>Bagian ini merupakan pegangan presentasi, bukan materi yang harus dibacakan seluruhnya.</p>
-<section id="rencana-waktu-sekitar-50-menit" class="level3">
-<h3 class="anchored" data-anchor-id="rencana-waktu-sekitar-50-menit">Rencana waktu sekitar 50 menit</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Waktu</th>
-<th>Materi</th>
-<th>Fokus penyampaian</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0–4 menit</td>
-<td>Pembuka</td>
-<td>Kaitkan matematika, aplikasi sehari-hari, dan pemrograman</td>
-</tr>
-<tr class="even">
-<td>4–9 menit</td>
-<td>Algoritma, IPO, pseudocode</td>
-<td>Tegaskan bahwa solusi dirancang sebelum menulis kode</td>
-</tr>
-<tr class="odd">
-<td>9–16 menit</td>
-<td>Dasar Python</td>
-<td>Demo <code>print()</code>, komentar, variabel, dan <code>input()</code></td>
-</tr>
-<tr class="even">
-<td>16–21 menit</td>
-<td>Tipe data dan operator</td>
-<td>Bedakan angka dan teks; tunjukkan operator penting</td>
-</tr>
-<tr class="odd">
-<td>21–28 menit</td>
-<td>Percabangan</td>
-<td>Jelaskan perbandingan, logika, <code>if</code>, <code>elif</code>, <code>else</code>, dan indentasi</td>
-</tr>
-<tr class="even">
-<td>28–35 menit</td>
-<td>Perulangan</td>
-<td>Bandingkan <code>for</code> dan <code>while</code>; bahas <code>range()</code> dan kondisi berhenti</td>
-</tr>
-<tr class="odd">
-<td>35–39 menit</td>
-<td>List</td>
-<td>Tekankan indeks mulai dari 0, <code>len()</code>, dan <code>append()</code></td>
-</tr>
-<tr class="even">
-<td>39–43 menit</td>
-<td>Fungsi</td>
-<td>Jelaskan parameter, argumen, dan perbedaan <code>print()</code> dengan <code>return</code></td>
-</tr>
-<tr class="odd">
-<td>43–47 menit</td>
-<td>Demo program kasir</td>
-<td>Tunjukkan bagaimana beberapa konsep bekerja bersama</td>
-</tr>
-<tr class="even">
-<td>47–50 menit</td>
-<td>Latihan kilat dan penutup</td>
-<td>Pilih satu soal sesuai waktu dan respons peserta</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="strategi-agar-sesi-lebih-interaktif" class="level3">
-<h3 class="anchored" data-anchor-id="strategi-agar-sesi-lebih-interaktif">Strategi agar sesi lebih interaktif</h3>
-<ul>
-<li>Sebelum menjalankan contoh kode, minta peserta menebak apa yang akan muncul di layar.</li>
-<li>Gunakan contoh dekat dengan keseharian: belanja di kantin, nilai ujian, daftar menu, dan tabungan.</li>
-<li>Minta peserta mengubah satu nilai, lalu amati bagaimana hasil program berubah.</li>
-<li>Ketika membahas percabangan dan perulangan, ajak peserta menjelaskan alur program dengan kata-kata mereka sendiri.</li>
-<li>Jangan memaksakan semua latihan selesai saat presentasi. Latihan akhir dapat dikerjakan setelah sesi atau sebagai diskusi kelompok.</li>
-</ul>
-</section>
-<section id="hal-yang-perlu-diperhatikan-saat-mengajar" class="level3">
-<h3 class="anchored" data-anchor-id="hal-yang-perlu-diperhatikan-saat-mengajar">Hal yang perlu diperhatikan saat mengajar</h3>
-<ol type="1">
-<li><code>input()</code> menghasilkan <code>str</code>; ubah dengan <code>int()</code> atau <code>float()</code> sebelum melakukan perhitungan numerik.</li>
-<li><code>=</code> digunakan untuk memberikan nilai, sedangkan <code>==</code> digunakan untuk membandingkan.</li>
-<li>Operator <code>%</code> menghasilkan sisa pembagian.</li>
-<li>Batas akhir pada <code>range()</code> tidak ikut dihasilkan.</li>
-<li>Indeks list Python dimulai dari 0.</li>
-<li><code>print()</code> menampilkan nilai, sedangkan <code>return</code> mengembalikan nilai dari fungsi.</li>
-<li><code>while</code> harus memiliki kondisi yang pada akhirnya dapat menjadi <code>False</code>.</li>
-<li>Python menggunakan indentasi untuk menandai blok kode. Baris yang salah indentasi dapat menyebabkan error.</li>
-</ol>
-</section>
-<section id="cakupan-materi-sudah-cukup-atau-belum" class="level3">
-<h3 class="anchored" data-anchor-id="cakupan-materi-sudah-cukup-atau-belum">Cakupan materi: sudah cukup atau belum?</h3>
-<p>Untuk <strong>pengantar algoritma dan pemrograman bagi pemula tingkat SMA</strong>, materi inti dalam modul ini sudah mencakup fondasi yang tepat:</p>
-<ul>
-<li><strong>Cara berpikir algoritmik:</strong> memecah masalah, IPO, pseudocode, dan tiga struktur dasar (urutan, percabangan, perulangan).</li>
-<li><strong>Dasar bahasa pemrograman:</strong> output, input, komentar, variabel, tipe data, konversi tipe data, dan operator.</li>
-<li><strong>Pengendali alur program:</strong> percabangan dan perulangan.</li>
-<li><strong>Pengelolaan data sederhana:</strong> list dan operasi dasarnya.</li>
-<li><strong>Penyusunan program:</strong> fungsi, parameter, dan <code>return</code>.</li>
-<li><strong>Penerapan:</strong> program kasir sederhana yang menggabungkan beberapa konsep.</li>
-</ul>
-<p>Rekursi tetap disediakan sebagai <strong>materi bonus</strong>, bukan target utama presentasi 50 menit. Materi kuliah lanjutan seperti analisis kompleksitas, algoritma pencarian dan pengurutan, struktur data lanjutan, pemrograman berorientasi objek, serta pengelolaan berkas sengaja tidak dimasukkan. Topik-topik tersebut penting dalam pembelajaran lebih lanjut, tetapi terlalu padat untuk sesi pengantar singkat bagi siswa SMA.</p>
 
 
-</section>
 </section>
 </section>
 
